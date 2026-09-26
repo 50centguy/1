@@ -1,0 +1,19 @@
+﻿工人义手 v2 · 工具动画 batchmode 截图附带的数值（1920×1080，游戏镜头自动取景）
+GPU: NVIDIA GeForce RTX 3070 / Direct3D11
+
+渲染统计（接收，Unity ProfilerRecorder，连续 8 帧取最大）：Batches 1330，Draw Calls 1330，SetPass 46，三角形 260700
+场景可见渲染器 114 个，其中义手 79 个；投影的灯 1 盏
+渲染统计（对照：隐藏义手，Unity ProfilerRecorder，连续 8 帧取最大）：Batches 191，Draw Calls 191，SetPass 23，三角形 9834
+02c_screwdriver_contact_unscrewing：线索 lease_seal 屏幕区域 162×61 像素，被工具 / 手套遮挡 2.9%
+渲染统计（卸螺丝（接触中，含螺丝刀 + 手套），Unity ProfilerRecorder，连续 8 帧取最大）：Batches 2027，Draw Calls 2030，SetPass 60，三角形 402218
+03_screwdriver_contact_fastener_b：线索 lease_seal 屏幕区域 156×54 像素，被工具 / 手套遮挡 0.0%
+04b_pry_lever_cover_pops：线索 lease_seal 屏幕区域 250×95 像素，被工具 / 手套遮挡 0.0%
+渲染统计（开盖（接触中），Unity ProfilerRecorder，连续 8 帧取最大）：Batches 2049，Draw Calls 2049，SetPass 60，三角形 399914
+05_probe_contact_limiter_red：线索 force_limiter 屏幕区域 81×105 像素，被工具 / 手套遮挡 4.6%
+05_probe_contact_limiter_red：Hand_LimiterBypassTag（红灯 / 旁路标签）被遮挡 0.0%
+05_probe_contact_limiter_red：Hand_LimiterLedRed（红灯 / 旁路标签）被遮挡 0.0%
+渲染统计（探测（接触中），Unity ProfilerRecorder，连续 8 帧取最大）：Batches 2090，Draw Calls 2093，SetPass 93，三角形 415796
+06_plug_inserted_reading_log：线索 data_port 屏幕区域 90×113 像素，被工具 / 手套遮挡 63.9%
+06_plug_inserted_reading_log：Hand_LimiterBypassTag（红灯 / 旁路标签）被遮挡 0.0%
+06_plug_inserted_reading_log：Hand_LimiterLedRed（红灯 / 旁路标签）被遮挡 0.0%
+渲染统计（读日志（插头接入），Unity ProfilerRecorder，连续 8 帧取最大）：Batches 2081，Draw Calls 2084，SetPass 93，三角形 414096

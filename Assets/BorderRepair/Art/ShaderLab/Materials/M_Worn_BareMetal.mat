@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_Worn_BareMetal
+  m_Shader: {fileID: 4800000, guid: 622e16b8ad222424790ff0687757714e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WearMask:
+        m_Texture: {fileID: 2800000, guid: 844b2262c02bb274e9aef5f04d8590d0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _GrimeAmount: 0.4
+    - _Metallic: 1
+    - _Roughness: 0.38
+    - _UseEmission: 0
+    - _WearAmount: 0.45
+    - _WearMetallic: 1
+    - _WearRoughness: 0.14
+    - _WearSoftness: 0.03
+    m_Colors:
+    - _BaseColor: {r: 0.54509807, g: 0.5686275, b: 0.5882353, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GrimeColor: {r: 0.3529412, g: 0.32941177, b: 0.2901961, a: 1}
+    - _WearColor: {r: 0.78039217, g: 0.8, b: 0.8156863, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

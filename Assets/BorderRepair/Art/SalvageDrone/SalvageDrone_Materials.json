@@ -1,0 +1,84 @@
+{
+  "materials": [
+    {
+      "name": "M_Drone_Shell",
+      "baseColor": "#BFC3BD",
+      "metallic": 0.0,
+      "smoothness": 0.45,
+      "baseMap": "T_Drone_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Drone_Dark",
+      "baseColor": "#26292C",
+      "metallic": 0.0,
+      "smoothness": 0.4,
+      "baseMap": "T_Drone_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Drone_Metal",
+      "baseColor": "#9AA1A6",
+      "metallic": 0.8,
+      "smoothness": 0.65,
+      "baseMap": "T_Drone_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Drone_Board",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "T_Drone_Board.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Drone_Damage",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.2,
+      "baseMap": "T_Drone_Damage.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Drone_Copper",
+      "baseColor": "#C8844A",
+      "metallic": 0.7,
+      "smoothness": 0.65,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Drone_Lens",
+      "baseColor": "#15222E",
+      "metallic": 0.2,
+      "smoothness": 0.95,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Drone_Accent",
+      "baseColor": "#E0561B",
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "T_Drone_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    }
+  ]
+}

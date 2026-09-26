@@ -1,0 +1,224 @@
+{
+  "anchors": [
+    {
+      "id": "fastener_a",
+      "kind": "Screwdriver",
+      "pos": [
+        -0.12,
+        -0.0357,
+        0.016
+      ],
+      "out": [
+        0,
+        -1,
+        0
+      ],
+      "arm": [
+        0.45,
+        0,
+        -1
+      ],
+      "lever": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "fastener_b",
+      "kind": "Screwdriver",
+      "pos": [
+        0.004,
+        -0.0357,
+        -0.016
+      ],
+      "out": [
+        0,
+        -1,
+        0
+      ],
+      "arm": [
+        0.6,
+        0,
+        -1
+      ],
+      "lever": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "shell",
+      "kind": "Pry",
+      "pos": [
+        0.0236,
+        -0.0312,
+        0.0
+      ],
+      "out": [
+        0.55,
+        -1,
+        0
+      ],
+      "arm": [
+        0,
+        0,
+        -1
+      ],
+      "lever": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "force_limiter",
+      "kind": "Probe",
+      "pos": [
+        0.0045,
+        -0.017550000000000003,
+        -0.0012
+      ],
+      "out": [
+        0.45,
+        -1,
+        -0.4
+      ],
+      "arm": [
+        1,
+        0,
+        -0.3
+      ],
+      "lever": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "drive",
+      "kind": "Probe",
+      "pos": [
+        -0.062,
+        -0.018500000000000003,
+        0.006
+      ],
+      "out": [
+        0.35,
+        -1,
+        -0.4
+      ],
+      "arm": [
+        1,
+        0,
+        -0.8
+      ],
+      "lever": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "control_board",
+      "kind": "Probe",
+      "pos": [
+        -0.0975,
+        -0.012199999999999999,
+        -0.0045
+      ],
+      "out": [
+        0.35,
+        -1,
+        -0.4
+      ],
+      "arm": [
+        1,
+        0,
+        -0.8
+      ],
+      "lever": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "data_port",
+      "kind": "Plug",
+      "pos": [
+        0.068,
+        -0.001,
+        0.0353
+      ],
+      "out": [
+        0,
+        0,
+        1
+      ],
+      "arm": [
+        -0.45,
+        1,
+        0
+      ],
+      "lever": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "snaps": [
+    {
+      "name": "Snap_ShellOnTray",
+      "pos": [
+        -0.0385,
+        -0.03,
+        -0.0725
+      ]
+    },
+    {
+      "name": "Snap_FastenerA_OnTray",
+      "pos": [
+        -0.14,
+        -0.062,
+        -0.0705
+      ]
+    },
+    {
+      "name": "Snap_FastenerB_OnTray",
+      "pos": [
+        -0.14,
+        -0.04,
+        -0.0705
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "kind": "Screwdriver",
+      "group": "Tool_Screwdriver",
+      "glove": "Glove",
+      "grip": 0.12
+    },
+    {
+      "kind": "Pry",
+      "group": "Tool_Pry",
+      "glove": "Glove",
+      "grip": 0.1
+    },
+    {
+      "kind": "Probe",
+      "group": "Tool_Probe",
+      "glove": "GlovePinch",
+      "grip": 0.07
+    },
+    {
+      "kind": "Plug",
+      "group": "Tool_Plug",
+      "glove": "GlovePinch",
+      "grip": 0.045
+    }
+  ]
+}

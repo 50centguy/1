@@ -1,0 +1,84 @@
+{
+  "materials": [
+    {
+      "name": "M_Beacon_Housing",
+      "baseColor": "#E8B21E",
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "T_Beacon_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Beacon_Dark",
+      "baseColor": "#23272B",
+      "metallic": 0.0,
+      "smoothness": 0.28,
+      "baseMap": "T_Beacon_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Beacon_Metal",
+      "baseColor": "#8E959A",
+      "metallic": 1.0,
+      "smoothness": 0.58,
+      "baseMap": "T_Beacon_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Beacon_Lens",
+      "baseColor": "#FFB23F",
+      "metallic": 0.0,
+      "smoothness": 0.92,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#FFA12E",
+      "emissionStrength": 2.0
+    },
+    {
+      "name": "M_Beacon_Seal",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.4,
+      "baseMap": "T_Beacon_Seal.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Beacon_PCB",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.55,
+      "baseMap": "T_Beacon_PCB.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Beacon_Wire",
+      "baseColor": "#C81E1E",
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Beacon_Solder",
+      "baseColor": "#F2F4F6",
+      "metallic": 0.6,
+      "smoothness": 0.82,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    }
+  ]
+}

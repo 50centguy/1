@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8513712a02de36409a8e6a9ce009e75, type: 3}
+  m_Name: Case_03_SalvageDrone
+  m_EditorClassIdentifier: 
+  caseId: case_03_salvage_drone
+  itemName: "\u56DE\u6536\u65E0\u4EBA\u673A"
+  itemPrefab: {fileID: 5609685176832750096, guid: b5a738b7efe26b042b0c8d46dc395162, type: 3}
+  customerName: "\u56DE\u6536\u7AD9 \u5C0F\u6885"
+  customerStatement: "\u8FD9\u662F\u4ECE\u6CB3\u6EE9\u4E0A\u6361\u56DE\u6765\u7684\u65E0\u4EBA\u673A\u3002\u8001\u677F\u8BF4\u80FD\u4FEE\u5C31\u4FEE\uFF0C\u4F46\u4FEE\u7406\u8D39\u8D85\u8FC7
+    1200 \u5C31\u4E0D\u503C\u4E86\uFF0C\u4ED6\u8981\u62FF\u53BB\u5F53\u4E8C\u624B\u5356\u3002"
+  intakeNote: "\u987E\u5BA2\u53EF\u63A5\u53D7\u7EF4\u4FEE\u8D39\u4E0A\u9650 1200\u3002"
+  inspectionPoints:
+  - pointId: motor_fl
+    displayName: "\u5DE6\u524D\u7535\u673A"
+    finding: "\u7535\u673A\u7EBF\u5708\u70E7\u6BC1\uFF0C\u9700\u8981\u8FDE\u540C\u7535\u8C03\u4E00\u8D77\u66F4\u6362\u3002"
+    requiredForDiagnosis: 1
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: mainboard
+    displayName: "\u4E3B\u63A7\u677F\u8231"
+    finding: "\u4E3B\u63A7\u677F\u5927\u9762\u79EF\u8FDB\u6C34\u8150\u8680\uFF0C\u591A\u5904\u710A\u70B9\u6C27\u5316\uFF0C\u9700\u8981\u6574\u677F\u66F4\u6362\u3002"
+    requiredForDiagnosis: 1
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: rotor
+    displayName: "\u6868\u53F6"
+    finding: "\u6868\u53F6\u6709\u8F7B\u5FAE\u78E8\u635F\uFF0C\u8FD8\u80FD\u7EE7\u7EED\u7528\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: camera
+    displayName: "\u4E91\u53F0\u76F8\u673A"
+    finding: "\u4E91\u53F0\u548C\u955C\u5934\u6B63\u5E38\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  diagnosisOptions:
+  - optionId: single_motor
+    label: "\u53EA\u6709\u5355\u4E2A\u7535\u673A\u6545\u969C\uFF0C\u6362\u7535\u673A\u5C31\u884C"
+    wrongFeedback: "\u7535\u673A\u53EA\u662F\u5176\u4E2D\u4E00\u5904\u3002\u4E3B\u63A7\u677F\u8150\u8680\u540C\u6837\u5FC5\u987B\u5904\u7406\u3002"
+  - optionId: multi_damage
+    label: "\u4E3B\u63A7\u677F\u8150\u8680 + \u7535\u673A\u70E7\u6BC1\uFF0C\u591A\u5904\u91CD\u5927\u635F\u574F"
+    wrongFeedback: 
+  - optionId: bent_rotor
+    label: "\u53EA\u662F\u6868\u53F6\u5F2F\u66F2"
+    wrongFeedback: "\u6868\u53F6\u53EA\u6709\u8F7B\u5FAE\u78E8\u635F\uFF0C\u4E0D\u662F\u4E3B\u8981\u6545\u969C\u3002"
+  correctDiagnosisId: multi_damage
+  diagnosisConfirmedText: "\u8BCA\u65AD\u786E\u8BA4\uFF1A\u9700\u8981\u66F4\u6362\u4E3B\u63A7\u677F\u548C\u7535\u673A\uFF0C\u6280\u672F\u4E0A\u53EF\u4EE5\u4FEE\u3002"
+  estimatedRepairCost: 1850
+  repairCostLimit: 1200
+  outcomes:
+  - decision: 1
+    isCorrect: 1
+    resultTitle: "\u5EFA\u8BAE\u66F4\u6362\u6216\u62C6\u4EF6\u56DE\u6536"
+    reason: "\u6280\u672F\u4E0A\u53EF\u4EE5\u4FEE\uFF1A\u6362\u6389\u4E3B\u63A7\u677F\u548C\u7535\u673A\u5C31\u80FD\u6062\u590D\u3002\u4F46\u9884\u4F30\u8D39\u7528
+      1850\uFF0C\u8D85\u8FC7\u4E86\u987E\u5BA2\u7684\u4E0A\u9650 1200\u3002\u4FEE\u4E86\u4E0D\u5212\u7B97\uFF0C\u5E94\u5F53\u5EFA\u8BAE\u66F4\u6362\u6216\u62C6\u4EF6\u56DE\u6536\u3002"
+    performsPartReplacement: 0
+  - decision: 0
+    isCorrect: 0
+    resultTitle: "\u4FEE\u597D\u4E86\uFF0C\u4F46\u8D26\u5355\u8D85\u4E86"
+    reason: "\u7EF4\u4FEE\u8D39 1850 \u8D85\u8FC7\u4E86\u987E\u5BA2\u7ED9\u7684\u4E0A\u9650
+      1200\uFF0C\u987E\u5BA2\u4E0D\u4F1A\u63A5\u53D7\u8FD9\u5F20\u8D26\u5355\u3002"
+    performsPartReplacement: 0
+  - decision: 2
+    isCorrect: 0
+    resultTitle: "\u62D2\u7EDD\u7684\u7406\u7531\u4E0D\u6210\u7ACB"
+    reason: "\u8BBE\u5907\u6765\u6E90\u6B63\u5E38\uFF0C\u6545\u969C\u4E5F\u80FD\u4FEE\uFF0C\u53EA\u662F\u4E0D\u5212\u7B97\u3002\u5E94\u8BE5\u7ED9\u51FA\u66F4\u6362\u5EFA\u8BAE\uFF0C\u800C\u4E0D\u662F\u76F4\u63A5\u62D2\u7EDD\u3002"
+    performsPartReplacement: 0
+  replacementPointId: 
+  scoring: 0
+  clues: []
+  repairSteps: []
+  endings: []

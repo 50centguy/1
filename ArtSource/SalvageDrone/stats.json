@@ -1,0 +1,78 @@
+{
+  "groups": {
+    "Body": {
+      "triangles": 3752,
+      "objects": 44,
+      "materials": [
+        "M_Drone_Accent",
+        "M_Drone_Copper",
+        "M_Drone_Damage",
+        "M_Drone_Dark",
+        "M_Drone_Metal",
+        "M_Drone_Shell"
+      ]
+    },
+    "MotorFL": {
+      "triangles": 768,
+      "objects": 10,
+      "materials": [
+        "M_Drone_Damage",
+        "M_Drone_Dark",
+        "M_Drone_Metal"
+      ]
+    },
+    "Mainboard": {
+      "triangles": 1018,
+      "objects": 9,
+      "materials": [
+        "M_Drone_Board",
+        "M_Drone_Damage",
+        "M_Drone_Dark",
+        "M_Drone_Metal"
+      ]
+    },
+    "Rotor": {
+      "triangles": 204,
+      "objects": 2,
+      "materials": [
+        "M_Drone_Accent",
+        "M_Drone_Dark"
+      ]
+    },
+    "Camera": {
+      "triangles": 684,
+      "objects": 6,
+      "materials": [
+        "M_Drone_Dark",
+        "M_Drone_Lens",
+        "M_Drone_Metal",
+        "M_Drone_Shell"
+      ]
+    }
+  },
+  "materials": [
+    "M_Drone_Accent",
+    "M_Drone_Board",
+    "M_Drone_Copper",
+    "M_Drone_Damage",
+    "M_Drone_Dark",
+    "M_Drone_Lens",
+    "M_Drone_Metal",
+    "M_Drone_Shell"
+  ],
+  "textures": {
+    "T_Drone_Grime.png": [
+      1024,
+      1024
+    ],
+    "T_Drone_Board.png": [
+      512,
+      512
+    ],
+    "T_Drone_Damage.png": [
+      512,
+      256
+    ]
+  },
+  "total_triangles": 6426
+}

@@ -1,0 +1,64 @@
+{
+  "materials": [
+    {
+      "name": "M_Comm_Housing",
+      "baseColor": "#3A4750",
+      "metallic": 0.0,
+      "smoothness": 0.45,
+      "baseMap": "T_Comm_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Comm_Rubber",
+      "baseColor": "#1D2023",
+      "metallic": 0.0,
+      "smoothness": 0.15,
+      "baseMap": "T_Comm_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Comm_Accent",
+      "baseColor": "#E0561B",
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "T_Comm_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Comm_Metal",
+      "baseColor": "#9AA1A6",
+      "metallic": 1.0,
+      "smoothness": 0.62,
+      "baseMap": "T_Comm_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Comm_Screen",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.85,
+      "baseMap": "T_Comm_Screen.png",
+      "emissionMap": "T_Comm_Screen.png",
+      "emissionColor": "#FFFFFF",
+      "emissionStrength": 1.3
+    },
+    {
+      "name": "M_Comm_Copper",
+      "baseColor": "#D98A4E",
+      "metallic": 1.0,
+      "smoothness": 0.7,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    }
+  ]
+}

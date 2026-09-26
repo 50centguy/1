@@ -1,0 +1,134 @@
+{
+  "clinic_closed.seal": {
+    "rect_px": [
+      259,
+      458,
+      388,
+      493
+    ],
+    "mean_luma": 170.6,
+    "contrast_std": 56.2,
+    "surround_luma": 147.6,
+    "diff_vs_surround": 23.1
+  },
+  "clinic_closed.fastener_a": {
+    "rect_px": [
+      308,
+      472,
+      343,
+      503
+    ],
+    "mean_luma": 150.2,
+    "contrast_std": 51.1,
+    "surround_luma": 160.2,
+    "diff_vs_surround": -10.0
+  },
+  "clinic_closed.lease_strip": {
+    "rect_px": [
+      319,
+      563,
+      553,
+      601
+    ],
+    "mean_luma": 159.9,
+    "contrast_std": 30.0,
+    "surround_luma": 100.1,
+    "diff_vs_surround": 59.8
+  },
+  "clinic_closed.cover_wear": {
+    "rect_px": [
+      276,
+      435,
+      773,
+      615
+    ],
+    "mean_luma": 122.8,
+    "contrast_std": 43.0,
+    "surround_luma": 91.3,
+    "diff_vs_surround": 31.5
+  },
+  "clinic_open.limiter_body": {
+    "rect_px": [
+      690,
+      457,
+      762,
+      518
+    ],
+    "mean_luma": 74.1,
+    "contrast_std": 43.7,
+    "surround_luma": 55.8,
+    "diff_vs_surround": 18.3
+  },
+  "clinic_open.limiter_red_led": {
+    "rect_px": [
+      739,
+      476,
+      755,
+      495
+    ],
+    "mean_luma": 122.8,
+    "contrast_std": 41.4,
+    "surround_luma": 56.0,
+    "diff_vs_surround": 66.8
+  },
+  "clinic_open.bypass_tag": {
+    "rect_px": [
+      698,
+      500,
+      733,
+      514
+    ],
+    "mean_luma": 152.0,
+    "contrast_std": 45.9,
+    "surround_luma": 64.6,
+    "diff_vs_surround": 87.4
+  },
+  "clinic_open.power_splice": {
+    "rect_px": [
+      558,
+      546,
+      624,
+      568
+    ],
+    "mean_luma": 82.1,
+    "contrast_std": 41.6,
+    "surround_luma": 78.1,
+    "diff_vs_surround": 4.0
+  },
+  "clinic_open.worn_gears": {
+    "rect_px": [
+      484,
+      441,
+      611,
+      520
+    ],
+    "mean_luma": 74.5,
+    "contrast_std": 38.4,
+    "surround_luma": 98.2,
+    "diff_vs_surround": -23.6
+  },
+  "clinic_open.grease": {
+    "rect_px": [
+      486,
+      443,
+      588,
+      527
+    ],
+    "mean_luma": 72.8,
+    "contrast_std": 36.6,
+    "surround_luma": 99.1,
+    "diff_vs_surround": -26.2
+  },
+  "clinic_open.board": {
+    "rect_px": [
+      296,
+      465,
+      459,
+      564
+    ],
+    "mean_luma": 100.7,
+    "contrast_std": 49.4,
+    "surround_luma": 91.9,
+    "diff_vs_surround": 8.9
+  }
+}

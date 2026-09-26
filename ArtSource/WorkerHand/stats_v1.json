@@ -1,0 +1,275 @@
+{
+  "groups": {
+    "Body": {
+      "triangles": 11982,
+      "objects": 34,
+      "materials": [
+        "M_Hand_Brass",
+        "M_Hand_Cable",
+        "M_Hand_Cream",
+        "M_Hand_Dark",
+        "M_Hand_Decal",
+        "M_Hand_Enamel",
+        "M_Hand_Rubber",
+        "M_Hand_Steel"
+      ]
+    },
+    "Shell": {
+      "triangles": 720,
+      "objects": 4,
+      "materials": [
+        "M_Hand_Dark",
+        "M_Hand_Decal",
+        "M_Hand_Enamel",
+        "M_Hand_Steel"
+      ]
+    },
+    "SealIntact": {
+      "triangles": 12,
+      "objects": 1,
+      "materials": [
+        "M_Hand_Decal"
+      ]
+    },
+    "SealTorn": {
+      "triangles": 64,
+      "objects": 2,
+      "materials": [
+        "M_Hand_Decal"
+      ]
+    },
+    "FastenerA": {
+      "triangles": 844,
+      "objects": 3,
+      "materials": [
+        "M_Hand_Dark",
+        "M_Hand_Steel"
+      ]
+    },
+    "FastenerB": {
+      "triangles": 844,
+      "objects": 3,
+      "materials": [
+        "M_Hand_Dark",
+        "M_Hand_Steel"
+      ]
+    },
+    "DriveStatic": {
+      "triangles": 788,
+      "objects": 3,
+      "materials": [
+        "M_Hand_Brass",
+        "M_Hand_Dark",
+        "M_Hand_Steel"
+      ]
+    },
+    "DriveWorn": {
+      "triangles": 592,
+      "objects": 1,
+      "materials": [
+        "M_Hand_WornSteel"
+      ]
+    },
+    "DriveNew": {
+      "triangles": 604,
+      "objects": 2,
+      "materials": [
+        "M_Hand_Decal",
+        "M_Hand_Steel"
+      ]
+    },
+    "DriveTestClip": {
+      "triangles": 44,
+      "objects": 1,
+      "materials": [
+        "M_Hand_Accent"
+      ]
+    },
+    "Limiter": {
+      "triangles": 796,
+      "objects": 6,
+      "materials": [
+        "M_Hand_Brass",
+        "M_Hand_Dark",
+        "M_Hand_LensOff",
+        "M_Hand_Steel",
+        "M_Tool_Red"
+      ]
+    },
+    "LimiterLedRed": {
+      "triangles": 208,
+      "objects": 2,
+      "materials": [
+        "M_Hand_Decal",
+        "M_Hand_LedRed"
+      ]
+    },
+    "Board": {
+      "triangles": 740,
+      "objects": 5,
+      "materials": [
+        "M_Hand_Board",
+        "M_Hand_Brass",
+        "M_Hand_Dark",
+        "M_Hand_Rubber"
+      ]
+    },
+    "BoardLedGreen": {
+      "triangles": 120,
+      "objects": 1,
+      "materials": [
+        "M_Hand_LedGreen"
+      ]
+    },
+    "DataPort": {
+      "triangles": 608,
+      "objects": 4,
+      "materials": [
+        "M_Hand_Brass",
+        "M_Hand_Dark",
+        "M_Hand_Rubber"
+      ]
+    },
+    "Tray": {
+      "triangles": 740,
+      "objects": 3,
+      "materials": [
+        "M_Hand_Accent",
+        "M_Hand_Dark",
+        "M_Hand_Rubber"
+      ]
+    },
+    "Tool_Screwdriver": {
+      "triangles": 1056,
+      "objects": 5,
+      "materials": [
+        "M_Hand_Brass",
+        "M_Hand_Dark",
+        "M_Hand_Steel",
+        "M_Tool_Orange"
+      ]
+    },
+    "Tool_Pry": {
+      "triangles": 488,
+      "objects": 3,
+      "materials": [
+        "M_Hand_Brass",
+        "M_Hand_Steel",
+        "M_Tool_Bakelite"
+      ]
+    },
+    "Tool_TesterBody": {
+      "triangles": 560,
+      "objects": 6,
+      "materials": [
+        "M_Hand_Brass",
+        "M_Hand_Dark",
+        "M_Hand_Decal",
+        "M_Tool_Case",
+        "M_Tool_Red"
+      ]
+    },
+    "Tool_Probe": {
+      "triangles": 732,
+      "objects": 4,
+      "materials": [
+        "M_Hand_Rubber",
+        "M_Hand_Steel",
+        "M_Tool_Red"
+      ]
+    },
+    "Tool_Plug": {
+      "triangles": 376,
+      "objects": 5,
+      "materials": [
+        "M_Hand_Brass",
+        "M_Hand_Dark",
+        "M_Hand_Rubber"
+      ]
+    },
+    "Glove": {
+      "triangles": 4172,
+      "objects": 8,
+      "materials": [
+        "M_Glove",
+        "M_Glove_Palm",
+        "M_Tool_Orange"
+      ]
+    },
+    "GlovePinch": {
+      "triangles": 4172,
+      "objects": 8,
+      "materials": [
+        "M_Glove",
+        "M_Glove_Palm",
+        "M_Tool_Orange"
+      ]
+    }
+  },
+  "materials": [
+    "M_Glove",
+    "M_Glove_Palm",
+    "M_Hand_Accent",
+    "M_Hand_Board",
+    "M_Hand_Brass",
+    "M_Hand_Cable",
+    "M_Hand_Cream",
+    "M_Hand_Dark",
+    "M_Hand_Decal",
+    "M_Hand_Enamel",
+    "M_Hand_LedGreen",
+    "M_Hand_LedRed",
+    "M_Hand_LensOff",
+    "M_Hand_Rubber",
+    "M_Hand_Steel",
+    "M_Hand_WornSteel",
+    "M_Tool_Bakelite",
+    "M_Tool_Case",
+    "M_Tool_Orange",
+    "M_Tool_Red"
+  ],
+  "textures": {
+    "T_Hand_Grime.png": [
+      1024,
+      1024
+    ],
+    "T_Hand_Decals.png": [
+      1024,
+      1024
+    ],
+    "T_Hand_Board.png": [
+      640,
+      416
+    ]
+  },
+  "total_triangles": 31262,
+  "look": "v1",
+  "hand_max_on_screen_triangles": 18666,
+  "tools_triangles": {
+    "Tool_Screwdriver": 1056,
+    "Tool_Pry": 488,
+    "Tool_TesterBody": 560,
+    "Tool_Probe": 732,
+    "Tool_Plug": 376,
+    "Glove": 4172,
+    "GlovePinch": 4172
+  },
+  "snap_targets": {
+    "Snap_ShellOnTray": [
+      -0.039999999999999994,
+      -0.027,
+      -0.072
+    ],
+    "Snap_FastenerA_OnTray": [
+      -0.14500000000000002,
+      -0.062,
+      -0.072
+    ],
+    "Snap_FastenerB_OnTray": [
+      -0.14500000000000002,
+      -0.042,
+      -0.072
+    ]
+  },
+  "tool_frames": "每件工具的作用点在原点，轴线沿 +Z；手套握持中心在原点，握持轴线沿 +Z，前臂朝 -X"
+}

@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_TesterScreen_Bypass
+  m_Shader: {fileID: 4800000, guid: 292dae56979a18b40931540d68eb7972, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: dc85602b3ec0a8a4eab868a96546dc1e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _InkThreshold: 0.28
+    - _SwitchTime: -100
+    m_Colors:
+    - _BackColor: {r: 0.13, g: 0.04, b: 0.02, a: 1}
+    - _Backlight: {r: 0.35, g: 0.12, b: 1.25, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Grid: {r: 96, g: 72, b: 0.16, a: 0.14}
+    - _InkColor: {r: 0.9, g: 0.13, b: 0.03, a: 1}
+    - _Scan: {r: 72, g: 0.08, b: 0, a: 0}
+    - _ScreenRect: {r: 0, g: 0.25, b: 0.3333333, a: 0.25}
+    - _Switch: {r: 0.2, g: 0.5, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

@@ -1,0 +1,68 @@
+{
+  "groups": {
+    "Body": {
+      "triangles": 5240,
+      "objects": 20,
+      "materials": [
+        "M_Comm_Accent",
+        "M_Comm_Housing",
+        "M_Comm_Metal",
+        "M_Comm_Rubber"
+      ]
+    },
+    "Screen": {
+      "triangles": 2,
+      "objects": 1,
+      "materials": [
+        "M_Comm_Screen"
+      ]
+    },
+    "Battery": {
+      "triangles": 1536,
+      "objects": 5,
+      "materials": [
+        "M_Comm_Accent",
+        "M_Comm_Housing",
+        "M_Comm_Rubber"
+      ]
+    },
+    "AntennaBroken": {
+      "triangles": 520,
+      "objects": 6,
+      "materials": [
+        "M_Comm_Copper",
+        "M_Comm_Metal",
+        "M_Comm_Rubber"
+      ]
+    },
+    "AntennaRepaired": {
+      "triangles": 724,
+      "objects": 4,
+      "materials": [
+        "M_Comm_Accent",
+        "M_Comm_Metal",
+        "M_Comm_Rubber"
+      ]
+    }
+  },
+  "materials": [
+    "M_Comm_Accent",
+    "M_Comm_Copper",
+    "M_Comm_Housing",
+    "M_Comm_Metal",
+    "M_Comm_Rubber",
+    "M_Comm_Screen"
+  ],
+  "textures": {
+    "T_Comm_Grime.png": [
+      1024,
+      1024
+    ],
+    "T_Comm_Screen.png": [
+      512,
+      256
+    ]
+  },
+  "body_screen_battery_triangles": 6778,
+  "max_on_screen_triangles": 7502
+}

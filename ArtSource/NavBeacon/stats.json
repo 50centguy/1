@@ -1,0 +1,77 @@
+{
+  "groups": {
+    "Body": {
+      "triangles": 1964,
+      "objects": 10,
+      "materials": [
+        "M_Beacon_Dark",
+        "M_Beacon_Housing",
+        "M_Beacon_Metal"
+      ]
+    },
+    "Seal": {
+      "triangles": 500,
+      "objects": 7,
+      "materials": [
+        "M_Beacon_Dark",
+        "M_Beacon_Metal",
+        "M_Beacon_Seal",
+        "M_Beacon_Solder"
+      ]
+    },
+    "Port": {
+      "triangles": 1350,
+      "objects": 12,
+      "materials": [
+        "M_Beacon_Dark",
+        "M_Beacon_Metal",
+        "M_Beacon_PCB",
+        "M_Beacon_Seal",
+        "M_Beacon_Solder",
+        "M_Beacon_Wire"
+      ]
+    },
+    "Lamp": {
+      "triangles": 1608,
+      "objects": 7,
+      "materials": [
+        "M_Beacon_Dark",
+        "M_Beacon_Lens",
+        "M_Beacon_Metal"
+      ]
+    },
+    "Mast": {
+      "triangles": 720,
+      "objects": 5,
+      "materials": [
+        "M_Beacon_Dark",
+        "M_Beacon_Metal"
+      ]
+    }
+  },
+  "materials": [
+    "M_Beacon_Dark",
+    "M_Beacon_Housing",
+    "M_Beacon_Lens",
+    "M_Beacon_Metal",
+    "M_Beacon_PCB",
+    "M_Beacon_Seal",
+    "M_Beacon_Solder",
+    "M_Beacon_Wire"
+  ],
+  "textures": {
+    "T_Beacon_Grime.png": [
+      1024,
+      1024
+    ],
+    "T_Beacon_Seal.png": [
+      512,
+      256
+    ],
+    "T_Beacon_PCB.png": [
+      512,
+      512
+    ]
+  },
+  "total_triangles": 6142
+}

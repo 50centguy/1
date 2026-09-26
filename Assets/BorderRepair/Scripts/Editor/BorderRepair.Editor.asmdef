@@ -1,0 +1,20 @@
+{
+    "name": "BorderRepair.Editor",
+    "rootNamespace": "BorderRepair.EditorTools",
+    "references": [
+        "BorderRepair.Runtime",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,284 @@
+{
+  "materials": [
+    {
+      "name": "M_Glove",
+      "baseColor": "#6A6450",
+      "metallic": 0.0,
+      "smoothness": 0.08,
+      "baseMap": "T_Glove_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Glove_Palm",
+      "baseColor": "#34302A",
+      "metallic": 0.0,
+      "smoothness": 0.1,
+      "baseMap": "T_Glove_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Glove_Patch",
+      "baseColor": "#5C4A33",
+      "metallic": 0.0,
+      "smoothness": 0.2,
+      "baseMap": "T_Glove_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Accent",
+      "baseColor": "#A57D22",
+      "metallic": 0.0,
+      "smoothness": 0.35,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_BayLiner",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.3,
+      "smoothness": 0.38,
+      "baseMap": "T_Hand_Bay.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Board",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "T_Hand_Board.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Brass",
+      "baseColor": "#8A7046",
+      "metallic": 0.7,
+      "smoothness": 0.45,
+      "baseMap": "T_Tool_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Cable",
+      "baseColor": "#4A3829",
+      "metallic": 0.0,
+      "smoothness": 0.1,
+      "baseMap": "T_Glove_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Cream",
+      "baseColor": "#A9A28E",
+      "metallic": 0.0,
+      "smoothness": 0.26,
+      "baseMap": "T_Hand_EnamelGrime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Dark",
+      "baseColor": "#2A2D2E",
+      "metallic": 0.25,
+      "smoothness": 0.38,
+      "baseMap": "T_Hand_EnamelGrime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Decal",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.45,
+      "baseMap": "T_Hand_Decals.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Enamel",
+      "baseColor": "#56655F",
+      "metallic": 0.05,
+      "smoothness": 0.28,
+      "baseMap": "T_Hand_EnamelGrime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Grease",
+      "baseColor": "#15120F",
+      "metallic": 0.0,
+      "smoothness": 0.72,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Heat",
+      "baseColor": "#4A3C37",
+      "metallic": 0.55,
+      "smoothness": 0.5,
+      "baseMap": "T_Tool_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_LedGreen",
+      "baseColor": "#44FF66",
+      "metallic": 0.0,
+      "smoothness": 0.7,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#33FF55",
+      "emissionStrength": 4.0
+    },
+    {
+      "name": "M_Hand_LedRed",
+      "baseColor": "#FF3322",
+      "metallic": 0.0,
+      "smoothness": 0.7,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#FF2A1A",
+      "emissionStrength": 6.0
+    },
+    {
+      "name": "M_Hand_LensOff",
+      "baseColor": "#3A1512",
+      "metallic": 0.1,
+      "smoothness": 0.85,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Rubber",
+      "baseColor": "#1F2021",
+      "metallic": 0.0,
+      "smoothness": 0.12,
+      "baseMap": "T_Hand_EnamelGrime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Steel",
+      "baseColor": "#8C8E8B",
+      "metallic": 0.75,
+      "smoothness": 0.54,
+      "baseMap": "T_Tool_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_TamperPaint",
+      "baseColor": "#C2561E",
+      "metallic": 0.0,
+      "smoothness": 0.55,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_Tape",
+      "baseColor": "#161616",
+      "metallic": 0.0,
+      "smoothness": 0.45,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_WireYellow",
+      "baseColor": "#9C8428",
+      "metallic": 0.0,
+      "smoothness": 0.45,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_WornSteel",
+      "baseColor": "#5C554C",
+      "metallic": 0.55,
+      "smoothness": 0.28,
+      "baseMap": "T_Tool_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Hand_ZipTie",
+      "baseColor": "#B7B0A0",
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Tool_Bakelite",
+      "baseColor": "#35241A",
+      "metallic": 0.0,
+      "smoothness": 0.45,
+      "baseMap": "T_Tool_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Tool_Case",
+      "baseColor": "#6A6656",
+      "metallic": 0.0,
+      "smoothness": 0.28,
+      "baseMap": "T_Tool_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Tool_Orange",
+      "baseColor": "#86502F",
+      "metallic": 0.0,
+      "smoothness": 0.32,
+      "baseMap": "T_Tool_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Tool_Red",
+      "baseColor": "#7A2B24",
+      "metallic": 0.0,
+      "smoothness": 0.38,
+      "baseMap": "T_Tool_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    }
+  ]
+}

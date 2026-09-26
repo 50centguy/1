@@ -1,0 +1,234 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8513712a02de36409a8e6a9ce009e75, type: 3}
+  m_Name: Case_N01_WorkerProsthetic
+  m_EditorClassIdentifier: 
+  caseId: case_n01_worker_prosthetic
+  itemName: "\u5DE5\u4EBA\u4E49\u624B"
+  itemPrefab: {fileID: 8469617122729157185, guid: 685c766a9e83d4149a1fa69166253f6c, type: 3}
+  customerName: "\u6E2F\u533A\u88C5\u5378\u5DE5 \u7F57\u4E9A"
+  customerStatement: "\u8FD9\u53EA\u624B\u5E72\u6D3B\u65F6\u4F1A\u7A81\u7136\u6525\u7D27\uFF0C\u6525\u4F4F\u4E86\u5C31\u4E0D\u677E\u5F00\u3002\u524D\u5929\u5DEE\u70B9\u628A\u642D\u6863\u7684\u624B\u8155\u634F\u4F24\u3002\u4F60\u5E2E\u6211\u4FEE\u597D\u5C31\u884C\uFF0C\u522B\u58F0\u5F20\u3002"
+  intakeNote: "\u79DF\u8D41\u4E49\u4F53\u3002\u5916\u58F3\u4E0A\u8D34\u7740\u79DF\u8D41\u65B9\u7684\u5C01\u6761\uFF0C\u62C6\u5F00\u5916\u58F3\u4F1A\u6495\u6BC1\u5C01\u6761\u3002"
+  inspectionPoints:
+  - pointId: shell
+    displayName: "\u5916\u58F3\uFF08\u80CC\u4FA7\u76D6\u677F\uFF09"
+    finding: "\u76D6\u677F\u8FB9\u7F18\u548C\u6307\u8282\u62A4\u677F\u78E8\u5F97\u53D1\u4EAE\uFF0C\u78E8\u635F\u91CF\u5927\u7EA6\u76F8\u5F53\u4E8E\u6807\u79F0\u5BFF\u547D\u7684\u4E09\u500D\u5DE5\u65F6\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: overwork_wear
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: lease_seal
+    displayName: "\u79DF\u8D41\u5C01\u6761"
+    finding: "\u201C\u5317\u5761\u6E2F\u52A1 \xB7 \u79DF\u8D41\u4E49\u4F53\u201D\u5C01\u6761\uFF0C\u538B\u4F4F\u4E86\u4E00\u9897\u56FA\u5B9A\u87BA\u4E1D\u7684\u4E0A\u534A\u8FB9\u3002\u5378\u4E0B\u8FD9\u9897\u87BA\u4E1D\u5C31\u4F1A\u6495\u5F00\u5C01\u6761\uFF0C\u79DF\u8D41\u65B9\u4F1A\u77E5\u9053\u5916\u58F3\u88AB\u7B2C\u4E09\u65B9\u6253\u5F00\u8FC7\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: fastener_a
+    displayName: "\u56FA\u5B9A\u87BA\u4E1D A\uFF08\u5C01\u6761\u4E0B\uFF09"
+    finding: "\u5185\u516D\u89D2\u87BA\u4E1D\uFF0C\u4E0B\u534A\u8FB9\u9732\u5728\u5C01\u6761\u5916\u9762\uFF0C\u53EF\u4EE5\u7528\u87BA\u4E1D\u5200\u5378\u4E0B\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: fastener_b
+    displayName: "\u56FA\u5B9A\u87BA\u4E1D B"
+    finding: "\u5185\u516D\u89D2\u87BA\u4E1D\uFF0C\u53EF\u4EE5\u7528\u87BA\u4E1D\u5200\u5378\u4E0B\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: drive
+    displayName: "\u4F20\u52A8\u673A\u6784"
+    finding: "\u6307\u8282\u4F20\u52A8\u9F7F\u8F6E\u78E8\u635F\u660E\u663E\uFF0C\u9F7F\u9762\u53D1\u4EAE\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: open_housing
+    blockedFinding: "\u5916\u58F3\u8FD8\u6CA1\u6253\u5F00\uFF0C\u770B\u4E0D\u5230\u91CC\u9762\u3002"
+  - pointId: force_limiter
+    displayName: "\u9650\u529B\u4F20\u611F\u5668"
+    finding: "\u4F20\u611F\u5668\u5916\u89C2\u5B8C\u597D\uFF0C\u6307\u793A\u706F\u4E0D\u4EAE\u3002\u8981\u77E5\u9053\u5B83\u662F\u5426\u5728\u5DE5\u4F5C\uFF0C\u5F97\u7528\u68C0\u6D4B\u4EEA\u6D4B\u4E00\u4E0B\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: open_housing
+    blockedFinding: "\u5916\u58F3\u8FD8\u6CA1\u6253\u5F00\uFF0C\u770B\u4E0D\u5230\u91CC\u9762\u3002"
+  - pointId: control_board
+    displayName: "\u63A7\u5236\u677F"
+    finding: "\u539F\u5382\u63A7\u5236\u677F\uFF0C\u6CA1\u6709\u52A0\u88C5\u5143\u4EF6\u6216\u6539\u7EBF\u7684\u75D5\u8FF9\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: open_housing
+    blockedFinding: "\u5916\u58F3\u8FD8\u6CA1\u6253\u5F00\uFF0C\u770B\u4E0D\u5230\u91CC\u9762\u3002"
+  - pointId: data_port
+    displayName: "\u6570\u636E\u63A5\u53E3"
+    finding: "\u624B\u8155\u4FA7\u7684\u7EF4\u62A4\u63A5\u53E3\uFF0C\u53EF\u4EE5\u7528\u68C0\u6D4B\u4EEA\u8BFB\u53D6\u63A7\u5236\u65E5\u5FD7\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  diagnosisOptions: []
+  correctDiagnosisId: 
+  diagnosisConfirmedText: 
+  estimatedRepairCost: 320
+  repairCostLimit: 0
+  outcomes: []
+  replacementPointId: 
+  scoring: 1
+  clues:
+  - clueId: overwork_wear
+    title: "\u5916\u58F3\u8FC7\u5EA6\u78E8\u635F"
+    text: "\u78E8\u635F\u7EA6\u4E3A\u6807\u79F0\u5BFF\u547D\u7684\u4E09\u500D\u5DE5\u65F6\u3002"
+    requiredForDecision: 1
+  - clueId: limiter_disabled
+    title: "\u9650\u529B\u5668\u88AB\u5173\u95ED"
+    text: "\u9650\u529B\u88AB\u8F6F\u4EF6\u5173\u95ED\uFF0C\u9608\u503C\u8C03\u5230\u6700\u5927\uFF0C\u6525\u7D27\u540E\u4E0D\u4F1A\u677E\u5F00\u3002"
+    requiredForDecision: 1
+  - clueId: remote_params
+    title: "\u53C2\u6570\u7531\u96C7\u4E3B\u8FDC\u7A0B\u4FEE\u6539"
+    text: "\u6BCF\u73ED\u5F00\u5DE5\u524D\uFF0C\u6E2F\u52A1\u8FD0\u7EF4\u7EC8\u7AEF\u8FDC\u7A0B\u5199\u5165\uFF1A\u5173\u95ED\u9650\u529B\uFF0C\u589E\u76CA
+      140%\u3002"
+    requiredForDecision: 1
+  repairSteps:
+  - stepId: remove_fastener_a
+    action: 0
+    targetPointId: fastener_a
+    label: "\u5378\u4E0B\u56FA\u5B9A\u87BA\u4E1D A"
+    requiredSteps: []
+    requiredClues: []
+    resultState: 1
+    sideEffectPointId: lease_seal
+    sideEffectState: 5
+    resultText: "\u87BA\u4E1D A \u5378\u4E0B\uFF0C\u653E\u8FDB\u96F6\u4EF6\u76D8\u3002\u5C01\u6761\u8DDF\u7740\u6495\u5F00\u4E86\u2014\u2014\u8FD9\u4EF6\u4E8B\u7792\u4E0D\u4F4F\u79DF\u8D41\u65B9\u3002"
+    blockedText: 
+    unlocksClueId: 
+  - stepId: remove_fastener_b
+    action: 0
+    targetPointId: fastener_b
+    label: "\u5378\u4E0B\u56FA\u5B9A\u87BA\u4E1D B"
+    requiredSteps: []
+    requiredClues: []
+    resultState: 1
+    sideEffectPointId: 
+    sideEffectState: 0
+    resultText: "\u87BA\u4E1D B \u5378\u4E0B\uFF0C\u653E\u8FDB\u96F6\u4EF6\u76D8\u3002"
+    blockedText: 
+    unlocksClueId: 
+  - stepId: open_housing
+    action: 1
+    targetPointId: shell
+    label: "\u64AC\u5F00\u80CC\u4FA7\u76D6\u677F"
+    requiredSteps:
+    - remove_fastener_a
+    - remove_fastener_b
+    requiredClues: []
+    resultState: 2
+    sideEffectPointId: 
+    sideEffectState: 0
+    resultText: "\u76D6\u677F\u64AC\u5F00\uFF0C\u653E\u5230\u96F6\u4EF6\u76D8\u4E0A\u3002\u4F20\u52A8\u673A\u6784\u3001\u9650\u529B\u4F20\u611F\u5668\u548C\u63A7\u5236\u677F\u9732\u51FA\u6765\u4E86\u3002"
+    blockedText: "\u76D6\u677F\u8FD8\u88AB\u87BA\u4E1D\u56FA\u5B9A\u7740\u3002\u5148\u7528\u87BA\u4E1D\u5200\u5378\u4E0B\u4E24\u9897\u56FA\u5B9A\u87BA\u4E1D\u3002"
+    unlocksClueId: 
+  - stepId: test_drive
+    action: 2
+    targetPointId: drive
+    label: "\u68C0\u6D4B\u4F20\u52A8\u673A\u6784"
+    requiredSteps:
+    - open_housing
+    requiredClues: []
+    resultState: 3
+    sideEffectPointId: 
+    sideEffectState: 0
+    resultText: "\u68C0\u6D4B\uFF1A\u9F7F\u8F6E\u7EC4\u78E8\u635F 62%\uFF0C\u8FD8\u5728\u516C\u5DEE\u5185\uFF0C\u4F46\u8FD9\u662F\u957F\u671F\u8D85\u8D1F\u8377\u7684\u7ED3\u679C\u3002\u53EF\u4EE5\u518D\u7528\u68C0\u6D4B\u4EEA\u6362\u4E0A\u65B0\u9F7F\u8F6E\u7EC4\u3002"
+    blockedText: "\u5916\u58F3\u8FD8\u6CA1\u6253\u5F00\u3002"
+    unlocksClueId: 
+  - stepId: replace_drive
+    action: 2
+    targetPointId: drive
+    label: "\u66F4\u6362\u4F20\u52A8\u9F7F\u8F6E\u7EC4"
+    requiredSteps:
+    - test_drive
+    requiredClues: []
+    resultState: 4
+    sideEffectPointId: 
+    sideEffectState: 0
+    resultText: "\u6362\u4E0A\u65B0\u7684\u4F20\u52A8\u9F7F\u8F6E\u7EC4\u3002\u78E8\u635F\u7684\u95EE\u9898\u89E3\u51B3\u4E86\uFF0C\u4F46\u5B83\u4E3A\u4EC0\u4E48\u4F1A\u78E8\u6210\u8FD9\u6837\uFF0C\u8FD8\u6CA1\u89E3\u51B3\u3002"
+    blockedText: 
+    unlocksClueId: 
+  - stepId: test_limiter
+    action: 2
+    targetPointId: force_limiter
+    label: "\u68C0\u6D4B\u9650\u529B\u4F20\u611F\u5668"
+    requiredSteps:
+    - open_housing
+    requiredClues: []
+    resultState: 3
+    sideEffectPointId: 
+    sideEffectState: 0
+    resultText: "\u68C0\u6D4B\uFF1A\u4F20\u611F\u5668\u6B63\u5E38\uFF0C\u4F46\u9650\u529B\u529F\u80FD\u88AB\u8F6F\u4EF6\u5173\u95ED\u4E86\u2014\u2014\u9608\u503C\u88AB\u8BBE\u6210\u4E86\u6700\u5927\u503C\u3002\u6307\u793A\u706F\u4EAE\u8D77\u7EA2\u8272\uFF1A\u65C1\u8DEF\u3002"
+    blockedText: "\u5916\u58F3\u8FD8\u6CA1\u6253\u5F00\u3002"
+    unlocksClueId: limiter_disabled
+  - stepId: test_board
+    action: 2
+    targetPointId: control_board
+    label: "\u68C0\u6D4B\u63A7\u5236\u677F"
+    requiredSteps:
+    - open_housing
+    requiredClues: []
+    resultState: 3
+    sideEffectPointId: 
+    sideEffectState: 0
+    resultText: "\u68C0\u6D4B\uFF1A\u56FA\u4EF6\u662F\u539F\u5382\u7B7E\u540D\uFF0C\u6CA1\u6709\u88AB\u5237\u673A\u3002\u53C2\u6570\u7684\u6BCF\u4E00\u6B21\u6539\u52A8\u90FD\u8BB0\u5728\u65E5\u5FD7\u533A\uFF0C\u53EF\u4EE5\u4ECE\u6570\u636E\u63A5\u53E3\u5BFC\u51FA\u3002"
+    blockedText: "\u5916\u58F3\u8FD8\u6CA1\u6253\u5F00\u3002"
+    unlocksClueId: 
+  - stepId: read_log
+    action: 2
+    targetPointId: data_port
+    label: "\u8BFB\u53D6\u63A7\u5236\u65E5\u5FD7"
+    requiredSteps:
+    - test_limiter
+    requiredClues: []
+    resultState: 3
+    sideEffectPointId: 
+    sideEffectState: 0
+    resultText: "\u5BFC\u51FA\u65E5\u5FD7\uFF0C\u6309\u201C\u9650\u529B\u201D\u7B5B\u9009\uFF1A\u6BCF\u4E2A\u73ED\u6B21\u5F00\u5DE5\u524D\u90FD\u6709\u4E00\u6761\u8FDC\u7A0B\u5199\u5165\uFF0C\u6765\u6E90\u201C\u6E2F\u52A1\u8FD0\u7EF4\u7EC8\u7AEF\u201D\uFF0C\u5907\u6CE8\u201C\u4E09\u7EC4\u88C5\u5378\u8282\u62CD\u63D0\u5347\u201D\u3002"
+    blockedText: "\u63A5\u53E3\u80FD\u8FDE\u4E0A\uFF0C\u4F46\u65E5\u5FD7\u6709\u51E0\u5343\u6761\u3002\u5148\u5F04\u6E05\u695A\u662F\u54EA\u4E2A\u529F\u80FD\u51FA\u4E86\u95EE\u9898\uFF0C\u518D\u53BB\u67E5\u5BF9\u5E94\u7684\u8BB0\u5F55\u3002"
+    unlocksClueId: remote_params
+  endings:
+  - endingId: restore_limits
+    label: "\u6062\u590D\u51FA\u5382\u9650\u529B\uFF0C\u9501\u5B9A\u8FDC\u7A0B\u5199\u5165"
+    resultTitle: "\u6062\u590D\u51FA\u5382\u9650\u529B"
+    narrative: "\u4F60\u628A\u9650\u529B\u9608\u503C\u6539\u56DE\u51FA\u5382\u503C\uFF0C\u5173\u95ED\u4E86\u8FDC\u7A0B\u5199\u5165\u3002\u8FD9\u53EA\u624B\u4E0D\u4F1A\u518D\u628A\u4EBA\u6525\u4F24\u4E86\u3002"
+    costs:
+    - "\u7F57\u4E9A\uFF1A\u624B\u5B89\u5168\u4E86\uFF0C\u4F46\u8DDF\u4E0D\u4E0A 140%
+      \u7684\u8282\u62CD\uFF0C\u53EF\u80FD\u88AB\u8C03\u5C97\u6216\u6263\u5DE5\u5206\u3002"
+    - "\u7EF4\u4FEE\u7AD9\uFF1A\u5C01\u6761\u7834\u4E86\u3001\u8FDC\u7A0B\u5199\u5165\u88AB\u5173\uFF0C\u79DF\u8D41\u65B9\u4F1A\u8FFD\u67E5\u662F\u8C01\u52A8\u7684\u624B\u3002"
+    - "\u6E2F\u52A1\uFF1A\u8FD9\u53EA\u624B\u4E0D\u518D\u6267\u884C\u8FD0\u7EF4\u7EC8\u7AEF\u7684\u6307\u4EE4\u3002"
+    requiredClues:
+    - limiter_disabled
+  - endingId: keep_params
+    label: "\u53EA\u4FEE\u78E8\u635F\u4EF6\uFF0C\u4FDD\u7559\u516C\u53F8\u53C2\u6570"
+    resultTitle: "\u6309\u539F\u6837\u4FEE\u597D"
+    narrative: "\u4F60\u53EA\u5904\u7406\u78E8\u635F\uFF0C\u53C2\u6570\u539F\u6837\u4FDD\u7559\u3002\u7F57\u4E9A\u660E\u5929\u80FD\u7167\u5E38\u4E0A\u73ED\uFF0C\u4F60\u4E5F\u6536\u5230\u4E86\u4FEE\u7406\u8D39\u3002"
+    costs:
+    - "\u7F57\u4E9A\uFF1A\u4FDD\u4F4F\u4E86\u5DE5\u4F5C\uFF0C\u4F46\u9650\u529B\u4ECD\u7136\u5173\u7740\uFF0C\u4E0B\u4E00\u6B21\u6525\u7D27\u4ECD\u53EF\u80FD\u4F24\u4EBA\u3002"
+    - "\u7EF4\u4FEE\u7AD9\uFF1A\u4F60\u77E5\u9053\u95EE\u9898\u5728\u54EA\u91CC\uFF0C\u5374\u628A\u5B83\u539F\u6837\u4EA4\u4E86\u56DE\u53BB\u3002"
+    - "\u6E2F\u52A1\uFF1A\u6CA1\u4EBA\u77E5\u9053\u8FD9\u53EA\u624B\u88AB\u67E5\u8FC7\u2014\u2014\u9664\u4E86\u90A3\u5F20\u6495\u5F00\u7684\u5C01\u6761\u3002"
+    requiredClues: []
+  - endingId: give_log
+    label: "\u4E0D\u6539\u53C2\u6570\uFF0C\u628A\u65E5\u5FD7\u526F\u672C\u4EA4\u7ED9\u7F57\u4E9A"
+    resultTitle: "\u628A\u9009\u62E9\u4EA4\u8FD8\u7ED9\u987E\u5BA2"
+    narrative: "\u4F60\u6CA1\u6709\u6539\u53C2\u6570\uFF0C\u53EA\u628A\u5BFC\u51FA\u7684\u65E5\u5FD7\u526F\u672C\u548C\u4E00\u4EFD\u68C0\u6D4B\u8BB0\u5F55\u4EA4\u7ED9\u7F57\u4E9A\u3002\u8981\u4E0D\u8981\u62FF\u53BB\u627E\u5DE5\u4F1A\u6216\u52B3\u52A8\u76D1\u5BDF\uFF0C\u7531\u7F57\u4E9A\u51B3\u5B9A\u3002"
+    costs:
+    - "\u7F57\u4E9A\uFF1A\u624B\u91CC\u6709\u4E86\u8BC1\u636E\uFF0C\u4F46\u505A\u51B3\u5B9A\u4E4B\u524D\uFF0C\u8FD9\u53EA\u624B\u4F9D\u7136\u5371\u9669\u3002"
+    - "\u7EF4\u4FEE\u7AD9\uFF1A\u4EA4\u51FA\u8BBE\u5907\u6570\u636E\u53EF\u80FD\u8FDD\u53CD\u79DF\u8D41\u5408\u540C\uFF0C\u6E2F\u52A1\u53EF\u80FD\u4E0D\u518D\u9001\u4FEE\u3002"
+    - "\u6E2F\u52A1\uFF1A\u4F1A\u4E0D\u4F1A\u88AB\u8FFD\u8D23\uFF0C\u53D6\u51B3\u4E8E\u7F57\u4E9A\u4E0B\u4E00\u6B65\u600E\u4E48\u505A\u3002"
+    requiredClues:
+    - remote_params
