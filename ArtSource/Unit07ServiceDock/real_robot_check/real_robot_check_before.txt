@@ -1,0 +1,16 @@
+[setup] robot meshes 234 rig at (0.0, 0.0, 0.72) dock meshes 48
+[check] PASS A_static_working_no_interference {'interferences': [], 'pad_contact_pairs': [], 'pad_top_z': 0.913, 'hardpoint_bottom_z': 0.913, 'contact_offset_mm': -0.0}
+[gaps] {'Chassis_MountRail_L ~ Dock_RailGuide_L': 2.1, 'Chassis_MountRail_L ~ Dock_Clamp_L': 3.4, 'Chassis_MountRail_R ~ Dock_RailGuide_R': 2.1, 'Chassis_MountRail_R ~ Dock_Clamp_R': 3.4, 'Body_RearBolt_2 ~ Dock_Clamp_L': 12.3, 'Body_RearBolt_1 ~ Dock_Clamp_R': 12.3, 'Body_RearBolt_2 ~ Dock_Clamp_L_JawPad': 22.3, 'Body_RearBolt_1 ~ Dock_Clamp_R_JawPad': 22.3}
+[check] PASS A_static_stowed_no_interference {'interferences': [], 'pad_contact_pairs': [], 'pad_top_z': 0.913, 'hardpoint_bottom_z': 0.913, 'contact_offset_mm': -0.0}
+[check] PASS B_power_tray_drop_and_front_exit_working_vs_dock {'min_gap_mm': 9.0, 'hit_offsets': []}
+[check] PASS B_power_tray_drop_and_front_exit_working_vs_robot {'min_gap_mm': 2.0, 'hit_offsets': [], 'note': 'robot = all robot meshes except the tray group, its 4 fixing screws, its connector and the unplugged power plug'}
+[check] PASS B_power_tray_drop_and_front_exit_stowed_vs_dock {'min_gap_mm': 9.0, 'hit_offsets': []}
+[check] PASS B_power_tray_drop_and_front_exit_stowed_vs_robot {'min_gap_mm': 2.0, 'hit_offsets': [], 'note': 'robot = all robot meshes except the tray group, its 4 fixing screws, its connector and the unplugged power plug'}
+[check] PASS C_clamp_L_sweep_vs_real_robot {'hits': [], 'min_gap_to_robot_mm': 1.9, 'min_gap_to_rear_bolt_mm': 1.9}
+[check] PASS C_clamp_R_sweep_vs_real_robot {'hits': [], 'min_gap_to_robot_mm': 1.9, 'min_gap_to_rear_bolt_mm': 1.9}
+[check] PASS D_engine_L_pull_out_400mm_clamps_closed {'hit_at_m': [], 'min_gap_to_dock_mm': 188.8, 'meshes': 33}
+[check] PASS D_engine_L_pull_out_400mm_clamps_open {'hit_at_m': [], 'min_gap_to_dock_mm': 167.8, 'meshes': 33}
+[check] PASS D_engine_R_pull_out_400mm_clamps_closed {'hit_at_m': [], 'min_gap_to_dock_mm': 170.4, 'meshes': 33}
+[check] PASS D_engine_R_pull_out_400mm_clamps_open {'hit_at_m': [], 'min_gap_to_dock_mm': 165.2, 'meshes': 33}
+[check] PASS E_docking_descent_120mm_clamps_open {'hits': []}
+[done] all_passed True

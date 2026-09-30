@@ -1,0 +1,8 @@
+anchor=(0.0000, 0.7200, 0.0000) robot root=(0.0000, 0.7200, 0.0000) robotEuler=(0.0, 0.0, 0.0)
+contact: pad top y=0.9130, hardpoint bottom y=0.9130, offset=0.00 mm
+pad L centre x=-0.1570 within hardpoint L x range [-0.1757,-0.1243]: True
+pad R centre x=0.1570 within hardpoint R x range [0.1243,0.1757]: True
+clamp L: guide~rail 2.1 mm; closed jaw pad~rail 0.3 mm (point-triangle distance)
+clamp L: rotate unity_open_deg=-30 -> jaw pad~rail 20.8 mm (opens: True); wrong sign (30) -> pad inner face |x|=0.1091 vs rail outer face |x|=0.1437 (pad pushed into the rail: True); sweep min distance to rear bolt 12.9 mm at -16.25 deg (point-triangle distance, 1.25 deg steps)
+clamp R: guide~rail 2.1 mm; closed jaw pad~rail 0.3 mm (point-triangle distance)
+clamp R: rotate unity_open_deg=30 -> jaw pad~rail 20.8 mm (opens: True); wrong sign (-30) -> pad inner face |x|=0.1091 vs rail outer face |x|=0.1437 (pad pushed into the rail: True); sweep min distance to rear bolt 12.9 mm at 16.25 deg (point-triangle distance, 1.25 deg steps)

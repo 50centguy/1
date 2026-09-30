@@ -1,0 +1,20 @@
+[setup] robot meshes 234 rig at (0.0, 0.0, 0.72) dock meshes 48
+[check] PASS A_static_working_no_interference {'interferences': [], 'pad_contact_pairs': [], 'pad_top_z': 0.913, 'hardpoint_bottom_z': 0.913, 'contact_offset_mm': -0.0}
+[gaps] {'Chassis_MountRail_L ~ Dock_RailGuide_L': 2.1, 'Chassis_MountRail_L ~ Dock_Clamp_L': 3.5, 'Chassis_MountRail_R ~ Dock_RailGuide_R': 2.1, 'Chassis_MountRail_R ~ Dock_Clamp_R': 3.5, 'Body_RearBolt_2 ~ Dock_Clamp_L': 22.4, 'Body_RearBolt_1 ~ Dock_Clamp_R': 22.4, 'Body_RearBolt_2 ~ Dock_Clamp_L_JawPad': 31.1, 'Body_RearBolt_1 ~ Dock_Clamp_R_JawPad': 31.1}
+[check] PASS A_static_stowed_no_interference {'interferences': [], 'pad_contact_pairs': [], 'pad_top_z': 0.913, 'hardpoint_bottom_z': 0.913, 'contact_offset_mm': -0.0}
+[check] PASS B_power_tray_drop_and_front_exit_working_vs_dock {'min_gap_mm': 16.7, 'required_min_gap_mm': 15.0, 'hit_offsets': []}
+[check] PASS B_power_tray_drop_and_front_exit_working_vs_robot {'min_gap_mm': 2.0, 'hit_offsets': [], 'note': 'REPORT ONLY (V4 model fit, not a dock criterion): robot = all robot meshes except the tray group, its 4 fixing screws, its connector and the unplugged power plug; the ~2 mm minimum is the tray-to-lower-module fit inside the V4 model'}
+[check] PASS B_power_tray_drop_and_front_exit_stowed_vs_dock {'min_gap_mm': 16.7, 'required_min_gap_mm': 15.0, 'hit_offsets': []}
+[check] PASS B_power_tray_drop_and_front_exit_stowed_vs_robot {'min_gap_mm': 2.0, 'hit_offsets': [], 'note': 'REPORT ONLY (V4 model fit, not a dock criterion): robot = all robot meshes except the tray group, its 4 fixing screws, its connector and the unplugged power plug; the ~2 mm minimum is the tray-to-lower-module fit inside the V4 model'}
+[check] PASS C_clamp_L_sweep_vs_real_robot {'hits': [], 'min_gap_to_robot_mm': 0.3, 'min_gap_to_rear_bolt_mm': 12.9, 'at_deg': 16.25, 'required_min_gap_to_rear_bolt_mm': 5.0}
+[check] PASS C_clamp_R_sweep_vs_real_robot {'hits': [], 'min_gap_to_robot_mm': 0.3, 'min_gap_to_rear_bolt_mm': 12.9, 'at_deg': -16.25, 'required_min_gap_to_rear_bolt_mm': 5.0}
+[check] PASS D_engine_L_pull_out_400mm_clamps_closed {'hit_at_m': [], 'min_gap_to_dock_mm': 193.0, 'meshes': 33}
+[check] PASS D_engine_L_pull_out_400mm_clamps_open {'hit_at_m': [], 'min_gap_to_dock_mm': 173.9, 'meshes': 33}
+[check] PASS D_engine_R_pull_out_400mm_clamps_closed {'hit_at_m': [], 'min_gap_to_dock_mm': 170.4, 'meshes': 33}
+[check] PASS D_engine_R_pull_out_400mm_clamps_open {'hit_at_m': [], 'min_gap_to_dock_mm': 170.4, 'meshes': 33}
+[check] PASS E_docking_descent_120mm_clamps_open {'hits': []}
+[check] PASS F_clamp_L_effective_rail_contact {'jaw_pad_to_rail_gap_mm': 0.3, 'facing_height_mm': 48.0, 'facing_depth_mm': 7.0, 'criteria': 'closed jaw pad touches the rail face (gap <= 0.5 mm, no interference), facing it over >= 40 mm height and >= 5 mm depth'}
+[check] PASS F_clamp_R_effective_rail_contact {'jaw_pad_to_rail_gap_mm': 0.3, 'facing_height_mm': 48.0, 'facing_depth_mm': 7.0, 'criteria': 'closed jaw pad touches the rail face (gap <= 0.5 mm, no interference), facing it over >= 40 mm height and >= 5 mm depth'}
+[check] PASS G_contact_pad_L_on_hardpoint {'footprint_inside_hardpoint': True, 'contact_offset_mm': -0.0, 'pad_footprint_mm': [34.0, 72.0]}
+[check] PASS G_contact_pad_R_on_hardpoint {'footprint_inside_hardpoint': True, 'contact_offset_mm': -0.0, 'pad_footprint_mm': [34.0, 72.0]}
+[done] all_passed True

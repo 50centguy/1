@@ -1,0 +1,74 @@
+{
+  "materials": [
+    {
+      "name": "M_Dock_Ivory",
+      "baseColor": "#D6CCB2",
+      "metallic": 0.0,
+      "smoothness": 0.45,
+      "baseMap": "T_Dock_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Dock_Gray",
+      "baseColor": "#5B6066",
+      "metallic": 0.35,
+      "smoothness": 0.5,
+      "baseMap": "T_Dock_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Dock_Steel",
+      "baseColor": "#A2A6AA",
+      "metallic": 1.0,
+      "smoothness": 0.64,
+      "baseMap": "T_Dock_Grime.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Dock_Rubber",
+      "baseColor": "#1D1E20",
+      "metallic": 0.0,
+      "smoothness": 0.14,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Dock_Warning",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.45,
+      "baseMap": "T_Dock_Warning.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Dock_Label",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.55,
+      "baseMap": "T_Dock_Labels.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0
+    },
+    {
+      "name": "M_Dock_Lamp",
+      "baseColor": "#FFB23A",
+      "metallic": 0.0,
+      "smoothness": 0.7,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#FFB23A",
+      "emissionStrength": 4.0
+    }
+  ]
+}
