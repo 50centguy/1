@@ -1,0 +1,924 @@
+{
+  "groups": {
+    "Frame": {
+      "triangles": 4144,
+      "objects": 31,
+      "materials": [
+        "M_Dock_Gray",
+        "M_Dock_Ivory",
+        "M_Dock_Label",
+        "M_Dock_Rubber",
+        "M_Dock_Steel",
+        "M_Dock_Warning"
+      ]
+    },
+    "ContactPads": {
+      "triangles": 216,
+      "objects": 2,
+      "materials": [
+        "M_Dock_Rubber"
+      ]
+    },
+    "Clamps": {
+      "triangles": 1360,
+      "objects": 6,
+      "materials": [
+        "M_Dock_Rubber",
+        "M_Dock_Steel",
+        "M_Dock_Warning"
+      ]
+    },
+    "PowerSwitch": {
+      "triangles": 872,
+      "objects": 5,
+      "materials": [
+        "M_Dock_Gray",
+        "M_Dock_Label",
+        "M_Dock_Lamp",
+        "M_Dock_Steel",
+        "M_Dock_Warning"
+      ]
+    },
+    "PartsTray": {
+      "triangles": 1440,
+      "objects": 1,
+      "materials": [
+        "M_Dock_Ivory"
+      ]
+    },
+    "MagneticBox": {
+      "triangles": 660,
+      "objects": 3,
+      "materials": [
+        "M_Dock_Gray",
+        "M_Dock_Label",
+        "M_Dock_Rubber"
+      ]
+    }
+  },
+  "materials": [
+    "M_Dock_Gray",
+    "M_Dock_Ivory",
+    "M_Dock_Label",
+    "M_Dock_Lamp",
+    "M_Dock_Rubber",
+    "M_Dock_Steel",
+    "M_Dock_Warning"
+  ],
+  "textures": {
+    "T_Dock_Grime.png": [
+      1024,
+      1024
+    ],
+    "T_Dock_Warning.png": [
+      512,
+      128
+    ],
+    "T_Dock_Labels.png": [
+      512,
+      512
+    ]
+  },
+  "total_triangles": 8692,
+  "objects": {
+    "Dock_Base": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.0,
+        0.32,
+        0.0
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_ClampEar_L_196": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.182,
+        0.198,
+        0.88
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Steel"
+    },
+    "Dock_ClampEar_L_228": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.182,
+        0.23,
+        0.88
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Steel"
+    },
+    "Dock_ClampEar_R_196": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.182,
+        0.198,
+        0.88
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Steel"
+    },
+    "Dock_ClampEar_R_228": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.182,
+        0.23,
+        0.88
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Steel"
+    },
+    "Dock_Clamp_L": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.182,
+        0.214,
+        0.91
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 616,
+      "material": "M_Dock_Steel",
+      "dock_role": "side_clamp",
+      "rot_axis_local": "Y",
+      "closed_deg": 0.0,
+      "open_deg": 30.0,
+      "unity_open_deg": -30.0
+    },
+    "Dock_Clamp_L_Grip": {
+      "type": "MESH",
+      "parent": "Dock_Clamp_L",
+      "origin_world": [
+        0.2945,
+        0.214,
+        0.8075
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 52,
+      "material": "M_Dock_Warning"
+    },
+    "Dock_Clamp_L_JawPad": {
+      "type": "MESH",
+      "parent": "Dock_Clamp_L",
+      "origin_world": [
+        0.146,
+        0.205,
+        0.97
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 12,
+      "material": "M_Dock_Rubber"
+    },
+    "Dock_Clamp_R": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.182,
+        0.214,
+        0.91
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 616,
+      "material": "M_Dock_Steel",
+      "dock_role": "side_clamp",
+      "rot_axis_local": "Y",
+      "closed_deg": 0.0,
+      "open_deg": -30.0,
+      "unity_open_deg": 30.0
+    },
+    "Dock_Clamp_R_Grip": {
+      "type": "MESH",
+      "parent": "Dock_Clamp_R",
+      "origin_world": [
+        -0.2945,
+        0.214,
+        0.8075
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 52,
+      "material": "M_Dock_Warning"
+    },
+    "Dock_Clamp_R_JawPad": {
+      "type": "MESH",
+      "parent": "Dock_Clamp_R",
+      "origin_world": [
+        -0.146,
+        0.205,
+        0.97
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 12,
+      "material": "M_Dock_Rubber"
+    },
+    "Dock_Column": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.0,
+        0.33,
+        0.05
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_Column_Panel": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.0,
+        0.257,
+        0.47
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Ivory"
+    },
+    "Dock_Conduit": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.44,
+        0.02,
+        0.07
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 116,
+      "material": "M_Dock_Rubber"
+    },
+    "Dock_ContactPad_L": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.157,
+        0.143,
+        0.913
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Rubber",
+      "dock_role": "contact_pad"
+    },
+    "Dock_ContactPad_R": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.157,
+        0.143,
+        0.913
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Rubber",
+      "dock_role": "contact_pad"
+    },
+    "Dock_Foot_L_B": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.44,
+        0.3,
+        -0.01
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 236,
+      "material": "M_Dock_Rubber"
+    },
+    "Dock_Foot_L_F": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.44,
+        -0.26,
+        -0.01
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 236,
+      "material": "M_Dock_Rubber"
+    },
+    "Dock_Foot_R_B": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.44,
+        0.3,
+        -0.01
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 236,
+      "material": "M_Dock_Rubber"
+    },
+    "Dock_Foot_R_F": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.44,
+        -0.26,
+        -0.01
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 236,
+      "material": "M_Dock_Rubber"
+    },
+    "Dock_Label_Unit07": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.0,
+        0.2505,
+        0.72
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 12,
+      "material": "M_Dock_Label"
+    },
+    "Dock_MagneticBox": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.3625,
+        -0.22,
+        0.785
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 540,
+      "material": "M_Dock_Gray",
+      "dock_role": "magnetic_parts_box"
+    },
+    "Dock_MagneticBox_Label": {
+      "type": "MESH",
+      "parent": "Dock_MagneticBox",
+      "origin_world": [
+        -0.3625,
+        -0.2506,
+        0.8085
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 12,
+      "material": "M_Dock_Label"
+    },
+    "Dock_MagneticBox_Magnet": {
+      "type": "MESH",
+      "parent": "Dock_MagneticBox",
+      "origin_world": [
+        -0.3625,
+        -0.22,
+        0.785
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Rubber"
+    },
+    "Dock_Outrigger_L": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.44,
+        0.02,
+        0.0
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 216,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_Outrigger_R": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.44,
+        0.02,
+        0.0
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 216,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_PartsTray": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.57,
+        -0.19,
+        0.785
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 1440,
+      "material": "M_Dock_Ivory",
+      "dock_role": "parts_tray"
+    },
+    "Dock_PowerSwitch": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.44,
+        -0.21,
+        0.66
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Gray",
+      "dock_role": "power_switch_housing"
+    },
+    "Dock_PowerSwitch_Label": {
+      "type": "MESH",
+      "parent": "Dock_PowerSwitch",
+      "origin_world": [
+        0.44,
+        -0.2615,
+        0.74
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 12,
+      "material": "M_Dock_Label"
+    },
+    "Dock_PowerSwitch_Lamp": {
+      "type": "MESH",
+      "parent": "Dock_PowerSwitch",
+      "origin_world": [
+        0.475,
+        -0.235,
+        0.82
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 188,
+      "material": "M_Dock_Lamp",
+      "dock_role": "status_lamp"
+    },
+    "Dock_PowerSwitch_Lever": {
+      "type": "MESH",
+      "parent": "Dock_PowerSwitch",
+      "origin_world": [
+        0.465,
+        -0.27,
+        0.74
+      ],
+      "rotation_euler_deg": [
+        35.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 376,
+      "material": "M_Dock_Steel",
+      "dock_role": "power_switch_lever",
+      "rot_axis_local": "X",
+      "on_deg": -35.0,
+      "off_deg": 35.0,
+      "unity_on_deg": -35.0,
+      "unity_off_deg": 35.0,
+      "default_state": "OFF"
+    },
+    "Dock_PowerSwitch_LeverGrip": {
+      "type": "MESH",
+      "parent": "Dock_PowerSwitch_Lever",
+      "origin_world": [
+        0.465,
+        -0.3208,
+        0.7044
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 188,
+      "material": "M_Dock_Warning"
+    },
+    "Dock_RailGuide_L": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.125,
+        0.214,
+        0.88
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 216,
+      "material": "M_Dock_Steel"
+    },
+    "Dock_RailGuide_R": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.125,
+        0.214,
+        0.88
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 216,
+      "material": "M_Dock_Steel"
+    },
+    "Dock_RailMount_L": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.145,
+        0.253,
+        0.83
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_RailMount_R": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.145,
+        0.253,
+        0.83
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_RobotAnchor": {
+      "type": "EMPTY",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.0,
+        0.0,
+        0.72
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dock_role": "robot_anchor"
+    },
+    "Dock_Saddle_L": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.157,
+        0.143,
+        0.88
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Steel"
+    },
+    "Dock_Saddle_R": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.157,
+        0.143,
+        0.88
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Steel"
+    },
+    "Dock_ShelfPost": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.44,
+        -0.2,
+        0.05
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_SwitchPost": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.44,
+        -0.2,
+        0.05
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_TrayShelf": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.52,
+        -0.18,
+        0.785
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 432,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_Warning_BaseFront": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.0,
+        0.141,
+        0.051
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 12,
+      "material": "M_Dock_Warning"
+    },
+    "Dock_Warning_Outrigger_L": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.44,
+        -0.23,
+        0.051
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 12,
+      "material": "M_Dock_Warning"
+    },
+    "Dock_Warning_Outrigger_R": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.44,
+        -0.23,
+        0.051
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 12,
+      "material": "M_Dock_Warning"
+    },
+    "Dock_Warning_Shelf": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.52,
+        -0.301,
+        0.7925
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 12,
+      "material": "M_Dock_Warning"
+    },
+    "Dock_Yoke_Beam_L": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.165,
+        0.2275,
+        0.83
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_Yoke_Beam_R": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        -0.165,
+        0.2275,
+        0.83
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Gray"
+    },
+    "Dock_Yoke_Cross": {
+      "type": "MESH",
+      "parent": "UNIT07_ServiceDock",
+      "origin_world": [
+        0.0,
+        0.33,
+        0.83
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 108,
+      "material": "M_Dock_Gray"
+    },
+    "UNIT07_ServiceDock": {
+      "type": "EMPTY",
+      "parent": "",
+      "origin_world": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "robot_placeholder_overall_m": [
+    1.0196,
+    0.4775,
+    0.6429
+  ],
+  "robot_root_world_z": 0.72,
+  "dock_bounds_world": [
+    [
+      -0.7268,
+      -0.3336,
+      -0.01
+    ],
+    [
+      0.5,
+      0.52,
+      1.03
+    ]
+  ],
+  "dock_mesh_objects": 48
+}

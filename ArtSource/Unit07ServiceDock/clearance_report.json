@@ -1,0 +1,408 @@
+{
+  "units": "mm (gaps) / m (volumes)",
+  "robot_root_world_z": 0.72,
+  "checks": [
+    {
+      "name": "robot_placeholder_vs_dock_working",
+      "passed": true,
+      "intersections": []
+    },
+    {
+      "name": "robot_placeholder_vs_dock_stowed",
+      "passed": true,
+      "intersections": []
+    },
+    {
+      "name": "contact_pad_L_touches_hardpoint",
+      "passed": true,
+      "pad_top": 0.913,
+      "hardpoint_bottom": 0.913
+    },
+    {
+      "name": "contact_pad_R_touches_hardpoint",
+      "passed": true,
+      "pad_top": 0.913,
+      "hardpoint_bottom": 0.913
+    },
+    {
+      "name": "rail_guides_and_clamps_close_to_mount_rails",
+      "passed": true,
+      "gaps_mm": {
+        "Dock_RailGuide_L": 2.0,
+        "Dock_Clamp_L": 2.0,
+        "Dock_RailGuide_R": 2.0,
+        "Dock_Clamp_R": 2.0
+      }
+    },
+    {
+      "name": "corridor_top_cover_up_clamps_closed",
+      "passed": true,
+      "min_gap_mm": 355.8,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_front_parts_forward_clamps_closed",
+      "passed": true,
+      "min_gap_mm": 179.6,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_front_bezel_lift_clamps_closed",
+      "passed": true,
+      "min_gap_mm": 502.9,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_power_tray_drop_clamps_closed",
+      "passed": true,
+      "min_gap_mm": 9.0,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_power_tray_out_front_clamps_closed",
+      "passed": true,
+      "min_gap_mm": 15.9,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_rear_cassette_back_clamps_closed",
+      "passed": true,
+      "min_gap_mm": 80.1,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_engine_L_out_clamps_closed",
+      "passed": true,
+      "min_gap_mm": 81.9,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_engine_R_out_clamps_closed",
+      "passed": true,
+      "min_gap_mm": 81.9,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_top_cover_up_clamps_open",
+      "passed": true,
+      "min_gap_mm": 355.8,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_front_parts_forward_clamps_open",
+      "passed": true,
+      "min_gap_mm": 179.6,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_front_bezel_lift_clamps_open",
+      "passed": true,
+      "min_gap_mm": 502.9,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_power_tray_drop_clamps_open",
+      "passed": true,
+      "min_gap_mm": 9.0,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_power_tray_out_front_clamps_open",
+      "passed": true,
+      "min_gap_mm": 15.9,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_rear_cassette_back_clamps_open",
+      "passed": true,
+      "min_gap_mm": 80.1,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_engine_L_out_clamps_open",
+      "passed": true,
+      "min_gap_mm": 75.2,
+      "blocked_by": []
+    },
+    {
+      "name": "corridor_engine_R_out_clamps_open",
+      "passed": true,
+      "min_gap_mm": 75.2,
+      "blocked_by": []
+    },
+    {
+      "name": "docking_descent_120mm_clamps_open",
+      "passed": true,
+      "intersections": []
+    },
+    {
+      "name": "clamp_and_lever_sweeps_free",
+      "passed": true,
+      "hits": []
+    },
+    {
+      "name": "hand_zone_engine_L_front_face_clear",
+      "passed": true,
+      "dock_hits": [],
+      "robot_hits": []
+    },
+    {
+      "name": "hand_zone_engine_R_front_face_clear",
+      "passed": true,
+      "dock_hits": [],
+      "robot_hits": []
+    },
+    {
+      "name": "hand_zone_engine_L_outer_side_clear",
+      "passed": true,
+      "dock_hits": [],
+      "robot_hits": []
+    },
+    {
+      "name": "hand_zone_engine_R_outer_side_clear",
+      "passed": true,
+      "dock_hits": [],
+      "robot_hits": []
+    },
+    {
+      "name": "hand_zone_switch_lever_front_clear",
+      "passed": true,
+      "dock_hits": [],
+      "robot_hits": []
+    },
+    {
+      "name": "hand_zone_tray_lift_above_clear",
+      "passed": true,
+      "dock_hits": [],
+      "robot_hits": []
+    },
+    {
+      "name": "hand_zone_magnetic_box_above_clear",
+      "passed": true,
+      "dock_hits": [],
+      "robot_hits": []
+    },
+    {
+      "name": "hand_zone_clamp_L_grip_reach_clear",
+      "passed": true,
+      "dock_hits": [],
+      "robot_hits": []
+    },
+    {
+      "name": "hand_zone_clamp_R_grip_reach_clear",
+      "passed": true,
+      "dock_hits": [],
+      "robot_hits": []
+    }
+  ],
+  "support_note": "Contact pads span robot y 0.100..0.186; estimated COM y = -0.034 lies forward of the pads, so forward tipping is resisted by the rail backstops and side clamps gripping the rear mount rails.",
+  "corridors_robot_coords": {
+    "top_cover_up": [
+      [
+        -0.175,
+        -0.18,
+        0.6
+      ],
+      [
+        0.175,
+        -0.012,
+        0.95
+      ]
+    ],
+    "front_parts_forward": [
+      [
+        -0.23,
+        -0.65,
+        0.26
+      ],
+      [
+        0.23,
+        -0.19,
+        0.64
+      ]
+    ],
+    "front_bezel_lift": [
+      [
+        -0.2166,
+        -0.2195,
+        0.635
+      ],
+      [
+        0.2166,
+        -0.1902,
+        0.66
+      ]
+    ],
+    "power_tray_drop": [
+      [
+        -0.126,
+        -0.103,
+        0.05
+      ],
+      [
+        0.126,
+        0.103,
+        0.207
+      ]
+    ],
+    "power_tray_out_front": [
+      [
+        -0.126,
+        -0.45,
+        0.05
+      ],
+      [
+        0.126,
+        0.103,
+        0.1
+      ]
+    ],
+    "rear_cassette_back": [
+      [
+        -0.085,
+        0.13,
+        0.39
+      ],
+      [
+        0.085,
+        0.5,
+        0.57
+      ]
+    ],
+    "engine_L_out": [
+      [
+        0.219,
+        -0.14,
+        0.26
+      ],
+      [
+        0.92,
+        0.12,
+        0.575
+      ]
+    ],
+    "engine_R_out": [
+      [
+        -0.92,
+        -0.14,
+        0.26
+      ],
+      [
+        -0.219,
+        0.12,
+        0.575
+      ]
+    ]
+  },
+  "hand_zones_robot_coords": {
+    "engine_L_front_face": [
+      [
+        0.222,
+        -0.36,
+        0.26
+      ],
+      [
+        0.52,
+        -0.137,
+        0.575
+      ]
+    ],
+    "engine_R_front_face": [
+      [
+        -0.52,
+        -0.36,
+        0.26
+      ],
+      [
+        -0.222,
+        -0.137,
+        0.575
+      ]
+    ],
+    "engine_L_outer_side": [
+      [
+        0.511,
+        -0.14,
+        0.26
+      ],
+      [
+        0.7,
+        0.12,
+        0.575
+      ]
+    ],
+    "engine_R_outer_side": [
+      [
+        -0.7,
+        -0.14,
+        0.26
+      ],
+      [
+        -0.511,
+        0.12,
+        0.575
+      ]
+    ],
+    "switch_lever_front": [
+      [
+        0.37,
+        -0.52,
+        -0.07
+      ],
+      [
+        0.51,
+        -0.37,
+        0.13
+      ]
+    ],
+    "tray_lift_above": [
+      [
+        -0.7,
+        -0.28,
+        0.105
+      ],
+      [
+        -0.44,
+        -0.1,
+        0.25
+      ]
+    ],
+    "magnetic_box_above": [
+      [
+        -0.405,
+        -0.25,
+        0.106
+      ],
+      [
+        -0.32,
+        -0.19,
+        0.25
+      ]
+    ],
+    "clamp_L_grip_reach": [
+      [
+        0.33,
+        0.16,
+        0.0
+      ],
+      [
+        0.42,
+        0.27,
+        0.12
+      ]
+    ],
+    "clamp_R_grip_reach": [
+      [
+        -0.42,
+        0.16,
+        0.0
+      ],
+      [
+        -0.33,
+        0.27,
+        0.12
+      ]
+    ]
+  },
+  "all_passed": true
+}
