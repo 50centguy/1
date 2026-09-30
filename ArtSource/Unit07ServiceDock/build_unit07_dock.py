@@ -56,8 +56,11 @@ ROBOT_BLOCKS = {
     "Chin":            ((-0.1680, -0.2258, 0.1882), (0.1680, -0.1180, 0.2634)),
     "Hardpoint_L":     ((0.1240, -0.0210, 0.1930), (0.1760, 0.1910, 0.2050)),
     "Hardpoint_R":     ((-0.1760, -0.0210, 0.1930), (-0.1240, 0.1910, 0.2050)),
-    "MountRail_L":     ((0.0980, 0.1690, 0.1950), (0.1440, 0.2020, 0.4300)),
-    "MountRail_R":     ((-0.1440, 0.1690, 0.1950), (-0.0980, 0.2020, 0.4300)),
+    # 背部安装轨按高度分两段：外侧面位置用真实 RobotV4 网格射线实测（夹具夹面所在的下段外侧 |x| ≤ 0.1427）
+    "MountRail_L_Lower": ((0.0980, 0.1690, 0.1950), (0.1427, 0.2020, 0.3000)),
+    "MountRail_L_Upper": ((0.0980, 0.1690, 0.3000), (0.1437, 0.2020, 0.4300)),
+    "MountRail_R_Lower": ((-0.1427, 0.1690, 0.1950), (-0.0980, 0.2020, 0.3000)),
+    "MountRail_R_Upper": ((-0.1437, 0.1690, 0.3000), (-0.0980, 0.2020, 0.4300)),
     "Rear_Grille":     ((-0.0800, 0.1690, 0.2150), (0.0800, 0.1750, 0.2590)),
     "Rear_Cassette":   ((-0.0810, 0.1300, 0.3950), (0.0810, 0.2075, 0.5675)),   # 含面板上的螺栓、状态条、警示牌
     "Rear_Bolt_Low_L": ((0.1616, 0.1890, 0.2910), (0.1797, 0.1970, 0.3090)),   # 机背螺栓（下）：紧挨夹具夹面上方
@@ -78,6 +81,17 @@ ROBOT_STOWED_ARMS = {
 }
 ROBOT_OVERALL = ((-0.5098, -0.2700, 0.0036), (0.5098, 0.2075, 0.6465))
 ROBOT_COM = (-0.002, -0.034, 0.427)   # 均匀密度粗估，仅用于判断支撑是否跨过重心
+
+# 维修座可调尺寸（机器人坐标 y / z）。2026-10-01 按真实 RobotV4 复测调整：
+#   托架纵梁、鞍座、接触垫前端后移，使电源托盘完整拆卸路径与维修座 ≥ 15 mm；
+#   夹面顶端降低，使夹具开合全程与机背螺栓 ≥ 5 mm。可用环境变量覆盖以便迭代实测。
+YOKE_FRONT_Y = float(os.environ.get("DOCK_YOKE_FRONT_Y", 0.118))    # 原 0.095
+SADDLE_FRONT_Y = float(os.environ.get("DOCK_SADDLE_FRONT_Y", 0.112))  # 原 0.098
+PAD_FRONT_Y = float(os.environ.get("DOCK_PAD_FRONT_Y", 0.114))        # 原 0.100
+PAD_REAR_Y = 0.186
+JAW_TOP_Z = float(os.environ.get("DOCK_JAW_TOP_Z", 0.272))            # 原 0.284
+TRAY_DOCK_MIN_GAP_MM = 15.0
+CLAMP_BOLT_MIN_GAP_MM = 5.0
 
 
 def rw(p):
@@ -274,12 +288,12 @@ def build_dock(G):
     # --- 托架：两条纵梁 + 后横梁 + 导轨座（全部在机身底面以下、手臂和电源托盘下放区之外） ---
     for s, sx in (("L", 1), ("R", -1)):
         lo_x, hi_x = sorted((sx * 0.135, sx * 0.195))
-        objs[f"Dock_Yoke_Beam_{s}"] = make(f"Dock_Yoke_Beam_{s}", box((lo_x, 0.095, Z + 0.11), (hi_x, 0.36, Z + 0.16)), G["Frame"], "M_Dock_Gray",
-                                           (sx * 0.165, 0.2275, Z + 0.11), bevel=0.006)
+        objs[f"Dock_Yoke_Beam_{s}"] = make(f"Dock_Yoke_Beam_{s}", box((lo_x, YOKE_FRONT_Y, Z + 0.11), (hi_x, 0.36, Z + 0.16)), G["Frame"], "M_Dock_Gray",
+                                           (sx * 0.165, (YOKE_FRONT_Y + 0.36) / 2, Z + 0.11), bevel=0.006)
         # 鞍座钢板（静态）
         lo_x, hi_x = sorted((sx * 0.138, sx * 0.176))
-        objs[f"Dock_Saddle_{s}"] = make(f"Dock_Saddle_{s}", box((lo_x, 0.098, Z + 0.16), (hi_x, 0.188, pad_top - 0.012)), G["Frame"], "M_Dock_Steel",
-                                        (sx * 0.157, 0.143, Z + 0.16), bevel=0.003)
+        objs[f"Dock_Saddle_{s}"] = make(f"Dock_Saddle_{s}", box((lo_x, SADDLE_FRONT_Y, Z + 0.16), (hi_x, 0.188, pad_top - 0.012)), G["Frame"], "M_Dock_Steel",
+                                        (sx * 0.157, (SADDLE_FRONT_Y + 0.188) / 2, Z + 0.16), bevel=0.003)
         # 导轨座：从横梁向前伸到安装轨正后方
         lo_x, hi_x = sorted((sx * 0.09, sx * 0.20))
         objs[f"Dock_RailMount_{s}"] = make(f"Dock_RailMount_{s}", box((lo_x, 0.206, Z + 0.11), (hi_x, 0.30, Z + 0.16)), G["Frame"], "M_Dock_Gray",
@@ -301,8 +315,8 @@ def build_dock(G):
     pads = {}
     for s, sx in (("L", 1), ("R", -1)):
         lo_x, hi_x = sorted((sx * 0.140, sx * 0.174))
-        pads[s] = make(f"Dock_ContactPad_{s}", box((lo_x, 0.10, pad_top - 0.012), (hi_x, 0.186, pad_top)), G["ContactPads"], "M_Dock_Rubber",
-                       (sx * 0.157, 0.143, pad_top), bevel=0.003)
+        pads[s] = make(f"Dock_ContactPad_{s}", box((lo_x, PAD_FRONT_Y, pad_top - 0.012), (hi_x, PAD_REAR_Y, pad_top)), G["ContactPads"], "M_Dock_Rubber",
+                       (sx * 0.157, (PAD_FRONT_Y + PAD_REAR_Y) / 2, pad_top), bevel=0.003)
         tag(pads[s], dock_role="contact_pad", contact="robot Chassis_ArmHardpoint underside", contact_normal_local="+Z")
     objs.update({p.name: p for p in pads.values()})
 
@@ -312,7 +326,7 @@ def build_dock(G):
         piv = Vector((sx * 0.182, 0.214, Z + 0.19))
         hub = cyl("Y", piv, 0.014, 0.028, 20)
         lo_x, hi_x = sorted((sx * 0.146, sx * 0.158))
-        jaw = box((lo_x, 0.194, Z + 0.215), (hi_x, 0.216, Z + 0.284))   # 顶端低于机背下螺栓（z 0.291）
+        jaw = box((lo_x, 0.194, Z + 0.215), (hi_x, 0.216, Z + JAW_TOP_Z))   # 顶端低于机背下螺栓（z 0.291），并留出开合扫掠余量
         web_lo, web_hi = sorted((sx * 0.150, sx * 0.182))
         web = box((web_lo, 0.200, Z + 0.185), (web_hi, 0.212, Z + 0.225))
         handle = hs.bm_tube([piv, piv + Vector((sx * 0.06, 0, -0.05)), piv + Vector((sx * 0.13, 0, -0.12))], [0.009, 0.009, 0.009], segs=12)
@@ -324,9 +338,9 @@ def build_dock(G):
         grip = hs.bm_tube([piv + Vector((sx * 0.095, 0, -0.085)), piv + Vector((sx * 0.13, 0, -0.12))], [0.013, 0.013], segs=14)
         g = make(f"Dock_Clamp_{s}_Grip", grip, G["Clamps"], "M_Dock_Warning", piv + Vector((sx * 0.1125, 0, -0.1025)))
         parent_keep(g, clamps[s])
-        lo_x, hi_x = sorted((sx * 0.1455, sx * 0.1465))
-        jp = make(f"Dock_Clamp_{s}_JawPad", box((lo_x, 0.195, Z + 0.22), (hi_x, 0.215, Z + 0.28)), G["Clamps"], "M_Dock_Rubber",
-                  (sx * 0.146, 0.205, Z + 0.25), smooth=False)
+        lo_x, hi_x = sorted((sx * 0.1428, sx * 0.1465))   # 夹面内侧 0.1428：夹紧时贴住安装轨下段（真实网格实测间隙约 0.3 mm）
+        jp = make(f"Dock_Clamp_{s}_JawPad", box((lo_x, 0.195, Z + 0.22), (hi_x, 0.215, Z + JAW_TOP_Z - 0.004)), G["Clamps"], "M_Dock_Rubber",
+                  (sx * 0.14465, 0.205, Z + (0.22 + JAW_TOP_Z - 0.004) / 2), smooth=False)
         parent_keep(jp, clamps[s])
     objs.update({c.name: c for c in clamps.values()})
 
@@ -486,12 +500,17 @@ def run_checks(dock_meshes, pads, clamps, lever, tray, mbox):
         add(f"contact_pad_{s}_touches_hardpoint", abs(top - hp_bottom) < 0.0005, pad_top=round(top, 4), hardpoint_bottom=round(hp_bottom, 4))
     rail_gaps = {}
     for s in ("L", "R"):
-        lo, hi = ROBOT_BLOCKS[f"MountRail_{s}"]
+        lo, hi = ROBOT_BLOCKS[f"MountRail_{s}_Lower"]
         for nm in (f"Dock_RailGuide_{s}", f"Dock_Clamp_{s}"):
             o = bpy.data.objects[nm]
             _, gap, _ = check_box([o], rw(lo), rw(hi))
             rail_gaps[nm] = gap
     add("rail_guides_and_clamps_close_to_mount_rails", all(0 < g <= 5 for g in rail_gaps.values()), gaps_mm=rail_gaps)
+    for s in ("L", "R"):
+        lo, hi = ROBOT_BLOCKS[f"MountRail_{s}_Lower"]
+        hit, gap, _ = check_box([bpy.data.objects[f"Dock_Clamp_{s}_JawPad"]], rw(lo), rw(hi))
+        add(f"clamp_{s}_jaw_pad_contacts_mount_rail", not hit and gap <= 0.5, gap_mm=gap,
+            note="closed jaw pad touches the lower rail face (about 0.1 mm to the placeholder box, about 0.3 mm to the real mesh)")
 
     # 支撑是否跨过重心：接触垫在后，前后倾由背部导轨与夹具承担（只作说明，不判失败）
     rep["support_note"] = ("Contact pads span robot y 0.100..0.186; estimated COM y = %.3f lies forward of the pads, "
@@ -514,7 +533,8 @@ def run_checks(dock_meshes, pads, clamps, lever, tray, mbox):
         bpy.context.view_layer.update()
         for cn, (lo, hi) in corridors.items():
             hit, gap, who = check_box(dock_meshes, rw(lo), rw(hi))
-            add(f"corridor_{cn}_clamps_{state}", not hit, min_gap_mm=gap, blocked_by=who)
+            need = TRAY_DOCK_MIN_GAP_MM if cn.startswith("power_tray") else 0.0
+            add(f"corridor_{cn}_clamps_{state}", not hit and gap >= need, min_gap_mm=gap, required_min_gap_mm=need, blocked_by=who)
     for c in clamps.values():
         c.rotation_euler = (0, 0, 0)
 
@@ -538,18 +558,26 @@ def run_checks(dock_meshes, pads, clamps, lever, tray, mbox):
     robot_all = {**ROBOT_BLOCKS, **ROBOT_STOWED_ARMS}
     others = lambda excl: [o for o in dock_meshes if o.name not in excl and not (o.parent and o.parent.name in excl)]
     sweep_hits = []
+    bolt_gap = {}   # 夹具开合全程到机背下螺栓的最小间隙（顶点估算；真实网格精确值见隔离复测）
     for s, c in clamps.items():
         excl = {c.name} | {ch.name for ch in c.children}
-        for k in range(0, 7):
-            ang = c["open_deg"] * k / 6
+        bolt = ROBOT_BLOCKS[f"Rear_Bolt_Low_{s}"]
+        for k in range(0, 25):
+            ang = c["open_deg"] * k / 24
             c.rotation_euler = (0, math.radians(ang), 0)
             bpy.context.view_layer.update()
             parts = [c] + list(c.children)
             for bn, (lo, hi) in robot_all.items():
                 hit, _, _ = check_box(parts, rw(lo), rw(hi))
                 if hit:
-                    sweep_hits.append(f"{c.name}@{ang:.0f}deg vs PH_{bn}")
+                    sweep_hits.append(f"{c.name}@{ang:.1f}deg vs PH_{bn}")
+            _, g, _ = check_box(parts, rw(bolt[0]), rw(bolt[1]))
+            if g < bolt_gap.get(s, (1e9, 0))[0]:
+                bolt_gap[s] = (g, round(ang, 2))
         c.rotation_euler = (0, 0, 0)
+    for s, (g, ang) in bolt_gap.items():
+        add(f"clamp_{s}_sweep_rear_bolt_gap", g >= CLAMP_BOLT_MIN_GAP_MM, min_gap_mm=g, at_deg=ang, required_min_gap_mm=CLAMP_BOLT_MIN_GAP_MM,
+            note="vertex estimate against the placeholder bolt box; exact value from the real-mesh check")
     for k in range(0, 9):
         ang = 35 - 70 * k / 8
         lever.rotation_euler = (math.radians(ang), 0, 0)

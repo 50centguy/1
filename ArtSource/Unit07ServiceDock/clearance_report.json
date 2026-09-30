@@ -29,111 +29,155 @@
       "passed": true,
       "gaps_mm": {
         "Dock_RailGuide_L": 2.0,
-        "Dock_Clamp_L": 2.0,
+        "Dock_Clamp_L": 3.3,
         "Dock_RailGuide_R": 2.0,
-        "Dock_Clamp_R": 2.0
+        "Dock_Clamp_R": 3.3
       }
+    },
+    {
+      "name": "clamp_L_jaw_pad_contacts_mount_rail",
+      "passed": true,
+      "gap_mm": 0.1,
+      "note": "closed jaw pad touches the lower rail face (about 0.1 mm to the placeholder box, about 0.3 mm to the real mesh)"
+    },
+    {
+      "name": "clamp_R_jaw_pad_contacts_mount_rail",
+      "passed": true,
+      "gap_mm": 0.1,
+      "note": "closed jaw pad touches the lower rail face (about 0.1 mm to the placeholder box, about 0.3 mm to the real mesh)"
     },
     {
       "name": "corridor_top_cover_up_clamps_closed",
       "passed": true,
       "min_gap_mm": 355.8,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_front_parts_forward_clamps_closed",
       "passed": true,
       "min_gap_mm": 179.6,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_front_bezel_lift_clamps_closed",
       "passed": true,
       "min_gap_mm": 502.9,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_power_tray_drop_clamps_closed",
       "passed": true,
-      "min_gap_mm": 9.0,
+      "min_gap_mm": 16.2,
+      "required_min_gap_mm": 15.0,
       "blocked_by": []
     },
     {
       "name": "corridor_power_tray_out_front_clamps_closed",
       "passed": true,
-      "min_gap_mm": 15.9,
+      "min_gap_mm": 24.4,
+      "required_min_gap_mm": 15.0,
       "blocked_by": []
     },
     {
       "name": "corridor_rear_cassette_back_clamps_closed",
       "passed": true,
       "min_gap_mm": 80.1,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_engine_L_out_clamps_closed",
       "passed": true,
       "min_gap_mm": 81.9,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_engine_R_out_clamps_closed",
       "passed": true,
       "min_gap_mm": 81.9,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_top_cover_up_clamps_open",
       "passed": true,
       "min_gap_mm": 355.8,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_front_parts_forward_clamps_open",
       "passed": true,
       "min_gap_mm": 179.6,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_front_bezel_lift_clamps_open",
       "passed": true,
       "min_gap_mm": 502.9,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_power_tray_drop_clamps_open",
       "passed": true,
-      "min_gap_mm": 9.0,
+      "min_gap_mm": 16.2,
+      "required_min_gap_mm": 15.0,
       "blocked_by": []
     },
     {
       "name": "corridor_power_tray_out_front_clamps_open",
       "passed": true,
-      "min_gap_mm": 15.9,
+      "min_gap_mm": 24.4,
+      "required_min_gap_mm": 15.0,
       "blocked_by": []
     },
     {
       "name": "corridor_rear_cassette_back_clamps_open",
       "passed": true,
       "min_gap_mm": 80.1,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_engine_L_out_clamps_open",
       "passed": true,
-      "min_gap_mm": 75.2,
+      "min_gap_mm": 76.5,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "corridor_engine_R_out_clamps_open",
       "passed": true,
-      "min_gap_mm": 75.2,
+      "min_gap_mm": 76.5,
+      "required_min_gap_mm": 0.0,
       "blocked_by": []
     },
     {
       "name": "docking_descent_120mm_clamps_open",
       "passed": true,
       "intersections": []
+    },
+    {
+      "name": "clamp_L_sweep_rear_bolt_gap",
+      "passed": true,
+      "min_gap_mm": 12.3,
+      "at_deg": 20.0,
+      "required_min_gap_mm": 5.0,
+      "note": "vertex estimate against the placeholder bolt box; exact value from the real-mesh check"
+    },
+    {
+      "name": "clamp_R_sweep_rear_bolt_gap",
+      "passed": true,
+      "min_gap_mm": 12.3,
+      "at_deg": -20.0,
+      "required_min_gap_mm": 5.0,
+      "note": "vertex estimate against the placeholder bolt box; exact value from the real-mesh check"
     },
     {
       "name": "clamp_and_lever_sweeps_free",

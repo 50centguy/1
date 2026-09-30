@@ -1,0 +1,179 @@
+{
+  "robot_source": "C:\\Users\\Administrator\\Documents\\Codex\\2026-09-29\\border-repair-station-art\\outputs\\claude-tripo-rig-handoff\\output\\robot-final.blend",
+  "anchor_world": [
+    0.0,
+    0.0,
+    0.7200000286102295
+  ],
+  "checks": [
+    {
+      "name": "A_static_working_no_interference",
+      "passed": true,
+      "interferences": [],
+      "pad_contact_pairs": [],
+      "pad_top_z": 0.913,
+      "hardpoint_bottom_z": 0.913,
+      "contact_offset_mm": -0.0
+    },
+    {
+      "name": "A_static_stowed_no_interference",
+      "passed": true,
+      "interferences": [],
+      "pad_contact_pairs": [],
+      "pad_top_z": 0.913,
+      "hardpoint_bottom_z": 0.913,
+      "contact_offset_mm": -0.0
+    },
+    {
+      "name": "B_power_tray_drop_and_front_exit_working_vs_dock",
+      "passed": true,
+      "min_gap_mm": 16.7,
+      "required_min_gap_mm": 15.0,
+      "hit_offsets": []
+    },
+    {
+      "name": "B_power_tray_drop_and_front_exit_working_vs_robot",
+      "passed": true,
+      "min_gap_mm": 2.0,
+      "hit_offsets": [],
+      "note": "REPORT ONLY (V4 model fit, not a dock criterion): robot = all robot meshes except the tray group, its 4 fixing screws, its connector and the unplugged power plug; the ~2 mm minimum is the tray-to-lower-module fit inside the V4 model"
+    },
+    {
+      "name": "B_power_tray_drop_and_front_exit_stowed_vs_dock",
+      "passed": true,
+      "min_gap_mm": 16.7,
+      "required_min_gap_mm": 15.0,
+      "hit_offsets": []
+    },
+    {
+      "name": "B_power_tray_drop_and_front_exit_stowed_vs_robot",
+      "passed": true,
+      "min_gap_mm": 2.0,
+      "hit_offsets": [],
+      "note": "REPORT ONLY (V4 model fit, not a dock criterion): robot = all robot meshes except the tray group, its 4 fixing screws, its connector and the unplugged power plug; the ~2 mm minimum is the tray-to-lower-module fit inside the V4 model"
+    },
+    {
+      "name": "C_clamp_L_sweep_vs_real_robot",
+      "passed": true,
+      "hits": [],
+      "min_gap_to_robot_mm": 0.3,
+      "min_gap_to_rear_bolt_mm": 12.9,
+      "at_deg": 16.25,
+      "required_min_gap_to_rear_bolt_mm": 5.0
+    },
+    {
+      "name": "C_clamp_R_sweep_vs_real_robot",
+      "passed": true,
+      "hits": [],
+      "min_gap_to_robot_mm": 0.3,
+      "min_gap_to_rear_bolt_mm": 12.9,
+      "at_deg": -16.25,
+      "required_min_gap_to_rear_bolt_mm": 5.0
+    },
+    {
+      "name": "D_engine_L_pull_out_400mm_clamps_closed",
+      "passed": true,
+      "hit_at_m": [],
+      "min_gap_to_dock_mm": 193.0,
+      "meshes": 33
+    },
+    {
+      "name": "D_engine_L_pull_out_400mm_clamps_open",
+      "passed": true,
+      "hit_at_m": [],
+      "min_gap_to_dock_mm": 173.9,
+      "meshes": 33
+    },
+    {
+      "name": "D_engine_R_pull_out_400mm_clamps_closed",
+      "passed": true,
+      "hit_at_m": [],
+      "min_gap_to_dock_mm": 170.4,
+      "meshes": 33
+    },
+    {
+      "name": "D_engine_R_pull_out_400mm_clamps_open",
+      "passed": true,
+      "hit_at_m": [],
+      "min_gap_to_dock_mm": 170.4,
+      "meshes": 33
+    },
+    {
+      "name": "E_docking_descent_120mm_clamps_open",
+      "passed": true,
+      "hits": []
+    },
+    {
+      "name": "F_clamp_L_effective_rail_contact",
+      "passed": true,
+      "jaw_pad_to_rail_gap_mm": 0.3,
+      "facing_height_mm": 48.0,
+      "facing_depth_mm": 7.0,
+      "criteria": "closed jaw pad touches the rail face (gap <= 0.5 mm, no interference), facing it over >= 40 mm height and >= 5 mm depth"
+    },
+    {
+      "name": "F_clamp_R_effective_rail_contact",
+      "passed": true,
+      "jaw_pad_to_rail_gap_mm": 0.3,
+      "facing_height_mm": 48.0,
+      "facing_depth_mm": 7.0,
+      "criteria": "closed jaw pad touches the rail face (gap <= 0.5 mm, no interference), facing it over >= 40 mm height and >= 5 mm depth"
+    },
+    {
+      "name": "G_contact_pad_L_on_hardpoint",
+      "passed": true,
+      "footprint_inside_hardpoint": true,
+      "contact_offset_mm": -0.0,
+      "pad_footprint_mm": [
+        34.0,
+        72.0
+      ]
+    },
+    {
+      "name": "G_contact_pad_R_on_hardpoint",
+      "passed": true,
+      "footprint_inside_hardpoint": true,
+      "contact_offset_mm": -0.0,
+      "pad_footprint_mm": [
+        34.0,
+        72.0
+      ]
+    }
+  ],
+  "key_gaps_mm_working_clamps_closed": {
+    "Chassis_MountRail_L ~ Dock_RailGuide_L": 2.1,
+    "Chassis_MountRail_L ~ Dock_Clamp_L": 3.5,
+    "Chassis_MountRail_R ~ Dock_RailGuide_R": 2.1,
+    "Chassis_MountRail_R ~ Dock_Clamp_R": 3.5,
+    "Body_RearBolt_2 ~ Dock_Clamp_L": 22.4,
+    "Body_RearBolt_1 ~ Dock_Clamp_R": 22.4,
+    "Body_RearBolt_2 ~ Dock_Clamp_L_JawPad": 31.1,
+    "Body_RearBolt_1 ~ Dock_Clamp_R_JawPad": 31.1
+  },
+  "power_tray_group": [
+    "PowerTray",
+    "PowerTray_Capacitors",
+    "PowerTray_CoverScrew_1",
+    "PowerTray_CoverScrew_2",
+    "PowerTray_PSU",
+    "PowerTray_PSUScrew_1",
+    "PowerTray_PSUScrew_2",
+    "PowerTray_Regulator",
+    "PowerTray_RegulatorScrew_1",
+    "PowerTray_RegulatorScrew_2",
+    "PowerTray_WarningCover"
+  ],
+  "power_tray_side_margin_working": {
+    "tray_half_width_m": 0.126,
+    "yoke_beam_inner_x_m": 0.135,
+    "lateral_margin_mm": 9.0
+  },
+  "power_tray_side_margin_stowed": {
+    "tray_half_width_m": 0.126,
+    "yoke_beam_inner_x_m": 0.135,
+    "lateral_margin_mm": 9.0
+  },
+  "engine_L_group_count": 33,
+  "engine_R_group_count": 33,
+  "all_passed": true
+}
