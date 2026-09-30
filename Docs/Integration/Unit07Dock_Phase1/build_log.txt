@@ -1,0 +1,10 @@
+UNIT 07 维修座第一阶段接入 · 构建记录
+Unity 6000.0.84f1
+复制源文件：Assets/BorderRepair/Art/Unit07ServiceDock/UNIT07_ServiceDock.fbx 与 3 张贴图（占位体 UNIT07_RobotPlaceholder.fbx 不导入）
+URP/Lit 材质 7 个：M_Dock_Ivory, M_Dock_Gray, M_Dock_Steel, M_Dock_Rubber, M_Dock_Warning, M_Dock_Label, M_Dock_Lamp
+维修座模型：48 个网格，8692 个三角面，材质 7 个 [M_Dock_Gray, M_Dock_Ivory, M_Dock_Label, M_Dock_Lamp, M_Dock_Rubber, M_Dock_Steel, M_Dock_Warning]，带自定义属性的对象 10 个
+维修座预制体：Assets/BorderRepair/Prefabs/Unit07Dock/Unit07ServiceDock.prefab；碰撞 / 点击代理 10 个（只加在接触垫、夹面、夹具握把、开关握把与铭牌、零件盘、磁性盒上）
+转子转轴（本地）：L (-1.000, 0.000, 0.000)，R (1.000, 0.000, 0.000)；悬停转速 360°/s（Idle_Hover 实测）
+七号停靠预制体：Assets/BorderRepair/Prefabs/Unit07Dock/UNIT07_RobotV4_DockReady.prefab（基于 Assets/RobotV4/Model/robot-final.fbx，FBX 未改动）；动画控制器 Assets/BorderRepair/Prefabs/Unit07Dock/UNIT07_RobotV4_Dock.controller：9 个原有片段，默认 Idle_Hover
+测试场景：Assets/BorderRepair/Scenes/Unit07Dock_Test.unity；七号根对齐 Dock_RobotAnchor (0.000, 0.720, 0.000)，缩放 1，正面 +Z
+构建期间控制台警告 / 错误：0

@@ -1,0 +1,22 @@
+进入 Play 模式：Unity 6000.0.84f1，Game 视图 1471×886，图形 API Direct3D11，GPU NVIDIA GeForce RTX 3070
+C_empty_scene: draw calls 中位 17，batches 17，SetPass 17，渲染三角面 954，帧时间中位 1.74 ms / P95 4.48 ms，主线程中位 1.74 ms（120 帧，预热 45 帧）
+A_before_robot_only: draw calls 中位 717，batches 717，SetPass 20，渲染三角面 602277，帧时间中位 2.27 ms / P95 2.80 ms，主线程中位 2.27 ms（120 帧，预热 45 帧）
+B_after_robot_plus_dock: draw calls 中位 846，batches 846，SetPass 29，渲染三角面 626157，帧时间中位 2.41 ms / P95 2.75 ms，主线程中位 2.38 ms（120 帧，预热 45 帧）
+转子 · 悬停通电：接管=False，供电=True，转速 360.0°/s，停稳=False，叶轮可操作=False
+操作 Clamps：执行 — 夹具张开，七号准备落座。（状态 ClampsOpening）
+转子 · 落座通电：接管=True，供电=True，转速 360.0°/s，停稳=False，叶轮可操作=False
+操作 Clamps：执行 — 夹具合拢。（状态 Clamping）
+操作 EngineLeft：拒绝 — 七号仍在通电，涡轮在转动。先落座、夹紧并断电。（状态 Clamped）
+操作 PowerSwitch：执行 — 断电。涡轮减速中，等叶轮停稳。（状态 SpinningDown）
+转子 · 断电 0.5 s：接管=True，供电=False，转速 288.0°/s，停稳=False，叶轮可操作=False
+操作 EngineLeft：拒绝 — 叶轮还在减速转动，禁止操作。（状态 SpinningDown）
+转子 · 断电 1.5 s：接管=True，供电=False，转速 144.1°/s，停稳=False，叶轮可操作=False
+转子 · 断电 3.5 s：接管=True，供电=False，转速 0.0°/s，停稳=True，叶轮可操作=True
+状态：RotorsStopped
+操作 EngineLeft：执行 — 叶轮已停稳。可以检查左引擎（本阶段不做拆卸）。（状态 RotorsStopped）
+取下了零件盘。
+断电状态下播放 Gripper_OpenClose_R
+转子 · 断电播放夹爪动作：接管=True，供电=False，转速 0.0°/s，停稳=True，叶轮可操作=True
+操作 PowerSwitch：执行 — 恢复供电，涡轮重新转动。叶轮禁止操作。（状态 Clamped）
+转子 · 恢复供电 1.3 s：接管=True，供电=True，转速 360.0°/s，停稳=False，叶轮可操作=False
+控制台警告 / 错误 0 条
