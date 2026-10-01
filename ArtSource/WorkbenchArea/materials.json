@@ -2,7 +2,7 @@
   "materials": [
     {
       "name": "M_WB_WallGreen",
-      "baseColor": "#5E6B60",
+      "baseColor": "#5C6358",
       "metallic": 0.0,
       "smoothness": 0.08,
       "baseMap": "T_WB_Grain.png",
@@ -13,7 +13,7 @@
     },
     {
       "name": "M_WB_PaintGreen",
-      "baseColor": "#4C5C50",
+      "baseColor": "#4A5649",
       "metallic": 0.0,
       "smoothness": 0.12,
       "baseMap": "T_WB_Grain.png",
@@ -156,9 +156,53 @@
     },
     {
       "name": "M_WB_Placeholder",
-      "baseColor": "#7D93A6",
+      "baseColor": "#5E7183",
       "metallic": 0.0,
       "smoothness": 0.15,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Pegboard",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.1,
+      "baseMap": "T_WB_Pegboard.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_ShellOld",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.15,
+      "baseMap": "T_WB_ShellWear.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Wire",
+      "baseColor": "#3F566E",
+      "metallic": 0.0,
+      "smoothness": 0.2,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_DarkSteel",
+      "baseColor": "#3B3F3C",
+      "metallic": 0.0,
+      "smoothness": 0.3,
       "baseMap": "T_WB_Grain.png",
       "emissionMap": "",
       "emissionColor": "#000000",

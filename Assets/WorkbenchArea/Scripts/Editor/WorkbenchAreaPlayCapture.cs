@@ -66,6 +66,7 @@ namespace WorkbenchArea.EditorTools
             static bool measuring;
             static string measureLabel;
             static int measureWarm;
+            static float measureStart;
             static readonly List<float> frameMs = new List<float>(), mainMs = new List<float>();
             static readonly List<long> draws = new List<long>(), batches = new List<long>(), setpass = new List<long>(), tris = new List<long>();
             static ProfilerRecorder rDraw, rBatch, rSetPass, rTris, rMain;
@@ -96,6 +97,7 @@ namespace WorkbenchArea.EditorTools
                 rMain = ProfilerRecorder.StartNew(ProfilerCategory.Internal, "Main Thread", 15);
                 cap = new GameObject("CaptureCam").AddComponent<Camera>();
                 cap.CopyFrom(cam);
+                UnityEngine.Rendering.Universal.CameraExtensions.GetUniversalAdditionalCameraData(cap).renderPostProcessing = true;   // CopyFrom 不复制 URP 的后处理开关；截图要和游戏画面一致
                 cap.enabled = false;
                 rt = new RenderTexture(1600, 900, 24) { antiAliasing = 4 };
                 cap.targetTexture = rt;
@@ -137,6 +139,12 @@ namespace WorkbenchArea.EditorTools
                     Shot("U08_placeholder_tray_taken_game", WorkbenchAreaBuilder.GameCamPos, WorkbenchAreaBuilder.GameCamTarget, WorkbenchAreaBuilder.GameFov);
                     Shot("U09_placeholder_tray_taken_side", B2U(1.5f, -1.0f, 1.45f), B2U(0.3f, 0.3f, 0.95f), 45f);
                 });
+                At(0.3f, () => { demo.StartCoroutine(demo.ToggleUpperTier()); Note("【占位】移开工具箱上层"); });
+                At(1.0f, () =>
+                {
+                    Note($"【占位】上层已移开：{demo.UpperTierMoved}，下层被挡住：{demo.ToolboxLower.IsBlocked}");
+                    Shot("U10_placeholder_toolbox_upper_moved", B2U(0.45f, -0.35f, 1.55f), B2U(0.73f, 0.70f, 1.0f), 45f);
+                });
                 At(0.5f, Finish);
                 t0 = Time.realtimeSinceStartup;
                 next = 0;
@@ -145,7 +153,7 @@ namespace WorkbenchArea.EditorTools
 
             static void Measure(string label)
             {
-                measuring = true; measureLabel = label; measureWarm = 45;
+                measuring = true; measureLabel = label; measureWarm = 45; measureStart = Time.realtimeSinceStartup;
                 frameMs.Clear(); mainMs.Clear(); draws.Clear(); batches.Clear(); setpass.Clear(); tris.Clear();
             }
 
@@ -155,15 +163,19 @@ namespace WorkbenchArea.EditorTools
                 if (measuring)
                 {
                     if (measureWarm-- > 0) return;
-                    if (rDraw.LastValue == 0 || Time.unscaledDeltaTime > 0.25f) return;   // 编辑器未真正渲染的帧（失焦节流、启动卡顿）不计入
-                    frameMs.Add(Time.unscaledDeltaTime * 1000f);
-                    mainMs.Add(rMain.LastValue * 1e-6f);
-                    draws.Add(rDraw.LastValue); batches.Add(rBatch.LastValue); setpass.Add(rSetPass.LastValue); tris.Add(rTris.LastValue);
-                    if (frameMs.Count >= 120)
+                    bool timedOut = Time.realtimeSinceStartup - measureStart > 20f;   // 编辑器失焦被节流时不无限等待
+                    if (!timedOut && (rDraw.LastValue == 0 || Time.unscaledDeltaTime > 0.25f)) return;   // 编辑器未真正渲染的帧（失焦节流、启动卡顿）不计入
+                    if (!timedOut)
+                    {
+                        frameMs.Add(Time.unscaledDeltaTime * 1000f);
+                        mainMs.Add(rMain.LastValue * 1e-6f);
+                        draws.Add(rDraw.LastValue); batches.Add(rBatch.LastValue); setpass.Add(rSetPass.LastValue); tris.Add(rTris.LastValue);
+                    }
+                    if (frameMs.Count >= 120 || timedOut)
                     {
                         measuring = false;
                         Note($"{measureLabel}: draw calls 中位 {Med(draws)}，batches {Med(batches)}，SetPass {Med(setpass)}，渲染三角面 {Med(tris)}，" +
-                             $"帧时间中位 {Med(frameMs):F2} ms / P95 {P95(frameMs):F2} ms，主线程中位 {Med(mainMs):F2} ms（120 帧，预热 45 帧）");
+                             $"帧时间中位 {Med(frameMs):F2} ms / P95 {P95(frameMs):F2} ms，主线程中位 {Med(mainMs):F2} ms（{frameMs.Count} 帧{(frameMs.Count < 120 ? "，编辑器被节流，样本不足" : "")}，预热 45 帧）");
                     }
                     return;
                 }

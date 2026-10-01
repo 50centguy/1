@@ -7,14 +7,15 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using Object = UnityEngine.Object;
 
 namespace WorkbenchArea.EditorTools
 {
     /// <summary>
     /// 地下义体医生维修工作台区域 · Unity 独立测试场景构建。
-    /// 从 ArtSource/WorkbenchArea 复制 FBX 与 5 张贴图 → 按 materials.json 建 URP Simple Lit 材质（漫反射、无金属、点采样）→
-    /// 预制体（静态碰撞 + 可检查对象的占位触发区）→ 测试场景（暖色工作灯、冷色顶灯、绿灰环境光、两台固定镜头、占位交互）。
+    /// 从 ArtSource/WorkbenchArea 复制 FBX 与 materials.json 用到的贴图 → 按 materials.json 建 URP Simple Lit 材质（漫反射、无金属、点采样）→
+    /// 预制体（静态碰撞 + 可检查对象的占位触发区 + 被挡对象说明）→ 测试场景（暖色主光与反弹、冷色顶灯、三色渐变环境光、色调映射、两台固定镜头、占位交互、鼠标记录）。
     /// 只写 Assets/WorkbenchArea/ 与 ArtSource/WorkbenchArea/Reports/，不碰正式维修场景、工单代码或 RobotV4。
     /// 菜单：Workbench Area > Build Test Scene；命令行：-executeMethod WorkbenchArea.EditorTools.WorkbenchAreaBuilder.BuildAll
     /// </summary>
@@ -29,14 +30,19 @@ namespace WorkbenchArea.EditorTools
         public const string Prefab = Root + "/Prefabs/WorkbenchArea.prefab";
         public const string ScenePath = Root + "/Scenes/WorkbenchArea_Test.unity";
         public const string ReportDir = SourceDir + "/Reports/Unity";
-        public static readonly string[] Textures = { "T_WB_Grain.png", "T_WB_Floor.png", "T_WB_Paper.png", "T_WB_Screen.png", "T_WB_Mat.png" };
+        public const string PostProfile = ArtDir + "/WB_PostProfile.asset";
+
+        /// <summary>materials.json 里用到的全部贴图（底色与自发光），不再手写清单。</summary>
+        public static string[] Textures => JsonUtility.FromJson<MatFile>(File.ReadAllText(Path.Combine(SourceDir, "materials.json"))).materials
+            .SelectMany(m => new[] { m.baseMap, m.emissionMap }).Where(s => !string.IsNullOrEmpty(s)).Distinct().OrderBy(s => s).ToArray();
 
         // 与 build_workbench_area.py 中的 CAMERAS 一致（Blender (x, y, z) → Unity (-x, z, -y)）
         public static readonly Vector3 GameCamPos = B2U(0.0f, -0.80f, 1.62f), GameCamTarget = B2U(0.0f, 0.48f, 0.92f);
-        public static readonly Vector3 CloseCamPos = B2U(0.05f, -0.12f, 1.36f), CloseCamTarget = B2U(-0.02f, 0.44f, 0.976f);
-        public const float GameFov = 50f, CloseFov = 38f;
+        public static readonly Vector3 CloseCamPos = B2U(0.06f, -0.20f, 1.42f), CloseCamTarget = B2U(0.03f, 0.42f, 0.95f);
+        public const float GameFov = 50f, CloseFov = 44f;
         public static readonly Vector3 ScrewTraySlot = B2U(0.47f, 0.30f, 0.912f);
-        public static readonly Vector3 CoverPark = B2U(0.26f, 0.30f, 0.904f);
+        // 盖板停放框：Blender (0.125, 0.235)–(0.375, 0.365)，250 × 130 mm；盖板 220 × 68 mm 落在中心，四周至少 15 mm 余量
+        public static readonly Vector3 CoverPark = B2U(0.25f, 0.30f, 0.904f);
         public static readonly Vector3 LampTarget = B2U(-0.04f, 0.44f, 0.904f);
 
         public static Vector3 B2U(float x, float y, float z) => new Vector3(-x, z, -y);
@@ -50,6 +56,12 @@ namespace WorkbenchArea.EditorTools
               "fault_indicator", "indicator", "record" };
         public static readonly HashSet<string> StaticRoles = new HashSet<string> { "static", "storage", "clutter", "record", "label" };
         public const float ZonePad = 0.006f, ZoneMin = 0.022f;
+        /// <summary>挡板 → （被挡对象要先做什么，怎样移开挡板）。</summary>
+        static readonly Dictionary<string, (string action, string how)> BlockedText = new Dictionary<string, (string, string)>
+        {
+            ["Toolbox_Tier2"] = ("先移开上层才能取用", "点击工具箱上层或按 U 先移开它"),
+            ["Placeholder_Prosthetic_Cover"] = ("先拆下盖板才能检查", "按 D 演示拆下螺钉和盖板"),
+        };
 
         [Serializable] class MatEntry { public string name, baseColor, baseMap, emissionMap, emissionColor, filterMode; public float metallic, smoothness, emissionStrength; }
         [Serializable] class MatFile { public MatEntry[] materials; }
@@ -91,10 +103,11 @@ namespace WorkbenchArea.EditorTools
         {
             foreach (var d in new[] { TexDir, MatDir, Root + "/Prefabs", Root + "/Scenes" }) Directory.CreateDirectory(d);
             CopyIfChanged(Path.Combine(SourceDir, "Export/WorkbenchArea.fbx"), Fbx);
-            foreach (var t in Textures) CopyIfChanged(Path.Combine(SourceDir, "Textures", t), $"{TexDir}/{t}");
+            var textures = Textures;
+            foreach (var t in textures) CopyIfChanged(Path.Combine(SourceDir, "Textures", t), $"{TexDir}/{t}");
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
-            foreach (var t in Textures) AssetDatabase.ImportAsset($"{TexDir}/{t}", ImportAssetOptions.ForceUpdate);   // 让后处理的点采样设置生效
-            Note($"复制源文件：{Fbx} 与 {Textures.Length} 张贴图");
+            foreach (var t in textures) AssetDatabase.ImportAsset($"{TexDir}/{t}", ImportAssetOptions.ForceUpdate);   // 让后处理的点采样设置生效
+            Note($"复制源文件：{Fbx} 与 {textures.Length} 张贴图（{string.Join(", ", textures)}）");
         }
 
         static void CopyIfChanged(string src, string dst)
@@ -180,9 +193,13 @@ namespace WorkbenchArea.EditorTools
             PrefabUtility.UnpackPrefabInstance(inst, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
             inst.name = "WorkbenchArea";
 
-            // 托盘里的内容跟着托盘走（Blender 里是同组兄弟对象）
-            foreach (var tray in new[] { "Tray_Screws", "Tray_OldParts" })
-                Find(inst.transform, tray + "_Contents").SetParent(Find(inst.transform, tray), true);
+            // 托盘 / 工具箱各层里的内容跟着本体走（Blender 里是同组兄弟对象）
+            var all = inst.GetComponentsInChildren<Transform>(true).ToList();
+            foreach (var host in new[] { "Tray_Screws", "Tray_OldParts", "Toolbox_Tier1", "Toolbox_Tier2" })
+            {
+                var h = Find(inst.transform, host);
+                foreach (var c in all.Where(x => x != h && x.name.StartsWith(host + "_"))) c.SetParent(h, true);
+            }
 
             int solid = 0, zones = 0, statics = 0;
             foreach (var mf in inst.GetComponentsInChildren<MeshFilter>(true))
@@ -210,7 +227,8 @@ namespace WorkbenchArea.EditorTools
                         box.size = new Vector3(Mathf.Max(s.x, ZoneMin), Mathf.Max(s.y, ZoneMin), Mathf.Max(s.z, ZoneMin));
                     }
                     var wi = z.AddComponent<WbInspectable>();
-                    wi.target = t; wi.role = role; wi.displayName = t.name;
+                    wi.target = t; wi.role = role;
+                    wi.displayName = role.StartsWith("placeholder") || t.name.StartsWith("Placeholder_") ? "【占位】" + t.name : t.name;
                     zones++;
                 }
                 if (StaticRoles.Contains(role) && !t.name.EndsWith("_Contents"))
@@ -219,8 +237,23 @@ namespace WorkbenchArea.EditorTools
                     statics++;
                 }
             }
+            // 被挡住的部件（Blender 属性 blocked_by）：保留检查区，悬停时明确提示要先做什么，点击不执行动作
+            var blocked = new List<string>();
+            foreach (var wi in inst.GetComponentsInChildren<WbInspectable>(true))
+            {
+                var by = wi.target.GetComponent<WbPartProperties>()?.Get("blocked_by");
+                if (string.IsNullOrEmpty(by)) continue;
+                var blocker = Find(inst.transform, by).GetComponentsInChildren<WbInspectable>(true).First(w => w.target.name == by);
+                var (action, how) = BlockedText.TryGetValue(by, out var t) ? t : ("先移开挡住它的部件", "");
+                wi.blockedBy = blocker;
+                wi.blockedAction = action;
+                wi.hint = $"被 {by} 挡住：{action}（{how}，占位）";
+                blocker.hint = $"下面的 {wi.target.name} 被它挡住：{how}（占位）";
+                blocked.Add($"{wi.target.name} ← {by}");
+            }
             PrefabUtility.SaveAsPrefabAsset(inst, Prefab);
             Object.DestroyImmediate(inst);
+            Note($"被挡住、须先移开挡板的对象 {blocked.Count} 个：{string.Join("；", blocked)}");
             Note($"预制体 {Prefab}：静态 MeshCollider {solid} 个（墙地、台体、抽屉、柜门、货架、洞洞板、诊断仪机身、工具箱底座）；" +
                  $"可检查对象 {zones} 个（无实体碰撞的配占位触发盒，补 {ZonePad * 1000:F0} mm、最小边 {ZoneMin * 1000:F0} mm；有实体碰撞的直接用实体表面）；静态批处理对象 {statics} 个（托盘、螺钉、盖板等会动的对象不设静态）");
         }
@@ -229,28 +262,42 @@ namespace WorkbenchArea.EditorTools
         static void BuildScene()
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            RenderSettings.ambientMode = AmbientMode.Flat;
-            RenderSettings.ambientLight = new Color(0.25f, 0.30f, 0.27f);      // 绿灰环境光
+            // 环境光：三色渐变、压暗、降低饱和（上一版平光绿灰把整幅画面吞成均匀暗绿）
+            RenderSettings.ambientMode = AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = new Color(0.19f, 0.21f, 0.20f);
+            RenderSettings.ambientEquatorColor = new Color(0.14f, 0.15f, 0.14f);
+            RenderSettings.ambientGroundColor = new Color(0.07f, 0.07f, 0.065f);
             RenderSettings.fog = false;
 
             var area = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Prefab));
             area.transform.position = Vector3.zero;
 
-            // 暖色工作灯：放在灯泡处，照向操作垫中心
+            // 暖色工作灯：放在灯泡处，照向操作垫中心 —— 画面的主光和焦点
             var bulb = Find(area.transform, "Lamp_Bulb").GetComponent<Renderer>().bounds.center;
-            var lamp = new GameObject("WorkLamp_Spot (warm)").AddComponent<Light>();
-            lamp.type = LightType.Spot; lamp.color = new Color(1.0f, 0.80f, 0.55f); lamp.intensity = 1.6f;
-            lamp.range = 1.6f; lamp.spotAngle = 75f; lamp.innerSpotAngle = 40f; lamp.shadows = LightShadows.Soft; lamp.shadowNormalBias = 0.2f;
+            var lamp = new GameObject("WorkLamp_Spot (warm key)").AddComponent<Light>();
+            lamp.type = LightType.Spot; lamp.color = new Color(1.0f, 0.74f, 0.46f); lamp.intensity = LampIntensity;
+            lamp.range = 1.7f; lamp.spotAngle = 82f; lamp.innerSpotAngle = 34f; lamp.shadows = LightShadows.Soft; lamp.shadowNormalBias = 0.2f;
             lamp.transform.SetPositionAndRotation(bulb, Quaternion.LookRotation(LampTarget - bulb));
             lamp.transform.SetParent(Find(area.transform, "Lamp_Head"), true);
+            // 暖色反弹：模拟灯光打在垫子 / 台面上反上来的暖光，只照操作区附近（无阴影）
+            var bounce = new GameObject("WorkArea_Bounce (warm, no shadow)").AddComponent<Light>();
+            bounce.type = LightType.Point; bounce.color = new Color(1.0f, 0.70f, 0.42f); bounce.intensity = BounceIntensity; bounce.range = 0.95f;
+            bounce.shadows = LightShadows.None;
+            bounce.transform.position = B2U(-0.02f, 0.36f, 1.10f);
 
-            // 冷色顶灯（日光管）与正面补光
+            // 冷色顶灯（日光管）与正面补光：只负责让环境不全黑
             var ceil = new GameObject("Ceiling_Fluo (cool)").AddComponent<Light>();
-            ceil.type = LightType.Point; ceil.color = new Color(0.80f, 0.92f, 0.85f); ceil.intensity = 1.1f; ceil.range = 3.6f; ceil.shadows = LightShadows.None;
+            ceil.type = LightType.Point; ceil.color = new Color(0.80f, 0.90f, 0.86f); ceil.intensity = CeilingIntensity; ceil.range = 3.4f; ceil.shadows = LightShadows.None;
             ceil.transform.position = B2U(0f, 0.25f, 2.30f);
             var fill = new GameObject("Room_Fill (cool, no shadow)").AddComponent<Light>();
-            fill.type = LightType.Directional; fill.color = new Color(0.70f, 0.82f, 0.75f); fill.intensity = 0.18f; fill.shadows = LightShadows.None;
+            fill.type = LightType.Directional; fill.color = new Color(0.72f, 0.80f, 0.78f); fill.intensity = FillIntensity; fill.shadows = LightShadows.None;
             fill.transform.rotation = Quaternion.LookRotation(B2U(0f, 0.6f, 1.0f) - B2U(0.2f, -1.4f, 1.9f));
+
+            // 后处理：中性色调映射（暖光焦点再亮也不截成白）+ 轻对比 + 轻暗角把视线收向操作区。不加 Bloom / 色差 / 故障类全屏效果。
+            var volGo = new GameObject("PostProcess (tonemap + vignette)");
+            var vol = volGo.AddComponent<Volume>();
+            vol.isGlobal = true;
+            vol.sharedProfile = BuildPostProfile();
 
             // 镜头：一台摄像机，两个固定位姿
             var rigGo = new GameObject("CameraRig");
@@ -270,6 +317,7 @@ namespace WorkbenchArea.EditorTools
             cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = new Color(0.05f, 0.06f, 0.055f);
             cam.fieldOfView = GameFov;
             camGo.transform.SetPositionAndRotation(gamePose.position, gamePose.rotation);
+            cam.GetUniversalAdditionalCameraData().renderPostProcessing = true;
             var rig = rigGo.AddComponent<WbCameraRig>();
             rig.Configure(cam, gamePose, closePose, GameFov, CloseFov);
             EditorUtility.SetDirty(rig);
@@ -277,15 +325,49 @@ namespace WorkbenchArea.EditorTools
             // 占位交互（仅展示与路径验证）
             var demoGo = new GameObject("PLACEHOLDER_Demo (占位交互，非正式维修流程)");
             var demo = demoGo.AddComponent<WbPlaceholderDemo>();
+            var tier1 = Find(area.transform, "Toolbox_Tier1").GetComponentsInChildren<WbInspectable>(true).First(w => w.target.name == "Toolbox_Tier1");
             demo.Configure(Find(area.transform, "Tray_Screws"), Find(area.transform, "Tray_OldParts"),
                            Find(area.transform, "Placeholder_Prosthetic_Cover"),
                            Enumerable.Range(1, 4).Select(i => Find(area.transform, $"Placeholder_Prosthetic_Screw_{i}")).ToArray(),
-                           ScrewTraySlot, CoverPark);
+                           ScrewTraySlot, CoverPark, Find(area.transform, "Toolbox_Tier2"), tier1);
             EditorUtility.SetDirty(demo);
+            // 鼠标操作记录（真人鼠标检查用；只记录，不改行为）
+            var logGo = new GameObject("MouseSessionLog");
+            logGo.AddComponent<WbInteractionLog>().Configure(rig);
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             Note($"测试场景 {ScenePath}：游戏镜头 {GameCamPos:F2} 竖直视场 {GameFov}°，近距维修镜头 {CloseCamPos:F2} 竖直视场 {CloseFov}°；" +
-                 "暖色聚光工作灯（软阴影）+ 冷色顶灯 + 弱补光 + 绿灰环境光");
+                 $"暖色聚光工作灯 {LampIntensity}（软阴影）+ 暖色反弹 {BounceIntensity} + 冷色顶灯 {CeilingIntensity} + 补光 {FillIntensity} + 三色渐变暗环境光；" +
+                 "后处理：中性色调映射、对比 +12、暗角 0.22");
+        }
+
+        // 灯光强度（URP 实时光，单位同 Light.intensity）
+        public const float LampIntensity = 2.3f, BounceIntensity = 0.40f, CeilingIntensity = 0.85f, FillIntensity = 0.12f;
+
+        static VolumeProfile BuildPostProfile()
+        {
+            if (AssetDatabase.LoadAssetAtPath<VolumeProfile>(PostProfile) != null) AssetDatabase.DeleteAsset(PostProfile);
+            var profile = ScriptableObject.CreateInstance<VolumeProfile>();
+            AssetDatabase.CreateAsset(profile, PostProfile);
+            T Add<T>() where T : VolumeComponent
+            {
+                var c = profile.Add<T>(true);
+                c.name = typeof(T).Name;
+                AssetDatabase.AddObjectToAsset(c, profile);
+                return c;
+            }
+            Add<Tonemapping>().mode.Override(TonemappingMode.Neutral);
+            var ca = Add<ColorAdjustments>();
+            ca.postExposure.Override(0.25f);
+            ca.contrast.Override(12f);
+            ca.saturation.Override(4f);
+            var vg = Add<Vignette>();
+            vg.intensity.Override(0.22f);
+            vg.smoothness.Override(0.45f);
+            vg.color.Override(new Color(0.02f, 0.02f, 0.015f));
+            EditorUtility.SetDirty(profile);
+            AssetDatabase.SaveAssets();
+            return profile;
         }
 
         // ------------------------------------------------------------------ 报告

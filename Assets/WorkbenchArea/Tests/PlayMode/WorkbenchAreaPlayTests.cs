@@ -134,7 +134,7 @@ namespace WorkbenchArea.Tests
             rig.SetView(WbCameraRig.View.CloseUp);
             yield return null;
             Assert.Less(Vector3.Distance(rig.Cam.transform.position, GameObject.Find("CamPose_CloseUp").transform.position), 1e-4f);
-            Assert.AreEqual(38f, rig.Cam.fieldOfView, 0.01f);
+            Assert.AreEqual(44f, rig.Cam.fieldOfView, 0.01f);
             rig.SetView(WbCameraRig.View.Game);
             yield return null;
             Assert.Less(Vector3.Distance(rig.Cam.transform.position, GameObject.Find("CamPose_Game").transform.position), 1e-4f);
@@ -242,23 +242,200 @@ namespace WorkbenchArea.Tests
             }
             yield return co;
             Assert.IsTrue(demo.Disassembled);
+            var bay = T("Placeholder_Prosthetic_BayMotor").GetComponentsInChildren<WbInspectable>(true).First(w => w.target == T("Placeholder_Prosthetic_BayMotor"));
+            Assert.IsFalse(bay.IsBlocked, "盖板拆下后检修口电机可以检查");
             var tray = T("Tray_Screws").GetComponent<Renderer>().bounds;
             foreach (var s in screws)
                 Assert.IsTrue(s.position.x > tray.min.x && s.position.x < tray.max.x && s.position.z > tray.min.z && s.position.z < tray.max.z, $"{s.name} 落在螺钉托盘内");
             var cb = demo.Cover.GetComponent<Renderer>().bounds;
             Assert.AreEqual(0.904f, cb.min.y, 0.002f, "盖板平放在操作垫上");
-            // 停放框（Blender x 0.15–0.37, y 0.24–0.36 → Unity x -0.37..-0.15, z -0.36..-0.24）
-            Assert.IsTrue(cb.min.x > -0.372f && cb.max.x < -0.148f && cb.min.z > -0.362f && cb.max.z < -0.238f, $"盖板在 COVER 停放框内：{cb.min:F3}–{cb.max:F3}");
+            // 停放框（Blender x 0.125–0.375, y 0.235–0.365 → Unity x -0.375..-0.125, z -0.365..-0.235），四周至少 12 mm 余量
+            float mx0 = cb.min.x - (-0.375f), mx1 = -0.125f - cb.max.x, mz0 = cb.min.z - (-0.365f), mz1 = -0.235f - cb.max.z;
+            float minMargin = Mathf.Min(Mathf.Min(mx0, mx1), Mathf.Min(mz0, mz1));
+            Assert.GreaterOrEqual(minMargin, 0.012f, $"盖板落位后四周余量（mm）：{mx0 * 1000:F1} / {mx1 * 1000:F1} / {mz0 * 1000:F1} / {mz1 * 1000:F1}");
             Assert.IsEmpty(hitsScrew, string.Join(", ", hitsScrew));
             Assert.IsEmpty(hitsCover, string.Join(", ", hitsCover));
             Write($"占位拆装：4 颗螺钉 → 螺钉托盘、盖板 → COVER 停放框，途中碰撞 {(hitsScrew.Count + hitsCover.Count == 0 ? "无" : string.Join(", ", hitsScrew.Concat(hitsCover)))}；" +
-                  $"盖板停放包围盒 {cb.min:F3}–{cb.max:F3}");
+                  $"盖板停放包围盒 {cb.min:F3}–{cb.max:F3}，距停放框四边 {mx0 * 1000:F1} / {mx1 * 1000:F1} / {mz0 * 1000:F1} / {mz1 * 1000:F1} mm");
             // 装回
             yield return demo.StartCoroutine(demo.Reassemble());
             Assert.IsFalse(demo.Disassembled);
+            Assert.IsTrue(bay.IsBlocked, "盖板装回后检修口电机又被挡住");
             var now = screws.Select(s => s.position).Append(demo.Cover.position).ToArray();
             for (int i = 0; i < now.Length; i++) Assert.Less(Vector3.Distance(now[i], homes[i]), 1e-4f, "装回原位");
             Write("占位装回：全部回到原位（误差 < 0.1 mm）");
+        }
+
+        // ---------------------------------------------------------------- “看得见就点得到”：不留看似可点却点不到的目标
+        /// <summary>
+        /// 两台镜头下，对每个可检查对象的 9 个瞄准点：先用真实点选规则记下选中谁，再给所有网格加精确碰撞（单独一层），
+        /// 看这条射线第一眼看到的是不是这个对象。看到了却选不中 = 看似可点却点不到 → 失败。被挡住的工具箱下层选中自己并带“先移开上层”说明，算通过。
+        /// </summary>
+        [UnityTest]
+        public IEnumerator Cameras_EveryVisibleTargetIsPickable()
+        {
+            var zones = area.GetComponentsInChildren<WbInspectable>(true);
+            var picks = new List<(WbInspectable z, WbCameraRig.View v, Ray ray, WbInspectable picked)>();
+            foreach (var view in new[] { WbCameraRig.View.Game, WbCameraRig.View.CloseUp })
+            {
+                rig.SetView(view);
+                Physics.SyncTransforms();
+                var cam = rig.Cam;
+                foreach (var z in zones)
+                {
+                    var r = z.target.GetComponent<Renderer>();
+                    var rb = r.bounds;
+                    for (int i = -1; i < 8; i++)
+                    {
+                        var aim = i < 0 ? rb.center : rb.center + Vector3.Scale(rb.extents * 0.7f, new Vector3((i & 1) * 2 - 1, ((i >> 1) & 1) * 2 - 1, ((i >> 2) & 1) * 2 - 1));
+                        var vp = cam.WorldToViewportPoint(aim);
+                        if (vp.z <= 0 || vp.x < 0 || vp.x > 1 || vp.y < 0 || vp.y > 1) continue;
+                        var ray = new Ray(cam.transform.position, aim - cam.transform.position);
+                        picks.Add((z, view, ray, WbCameraRig.Pick(ray)));
+                    }
+                }
+            }
+            // 第二阶段：精确可见性（所有网格 → 第 31 层的 MeshCollider）
+            const int probeLayer = 31;
+#if UNITY_EDITOR
+            var src = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/WorkbenchArea/Art/WorkbenchArea.fbx").OfType<Mesh>()
+                .GroupBy(m => m.name).ToDictionary(g => g.Key, g => g.First());
+            foreach (var mf in area.GetComponentsInChildren<MeshFilter>(true))
+            {
+                var go = new GameObject("VisProbe_" + mf.name) { layer = probeLayer };
+                go.transform.SetParent(mf.transform, false);
+                go.AddComponent<MeshCollider>().sharedMesh = src[mf.name];
+            }
+#endif
+            Physics.SyncTransforms();
+            // 按“对象 × 镜头”统计：看得见的瞄准点里至少有一个能选中它（被挡住的下层选中挡板也算——挡板的悬停说明会告诉玩家先移开它）
+            var perTarget = new Dictionary<(WbInspectable, WbCameraRig.View), (int visible, int ok)>();
+            var edgeCases = new List<string>();
+            int visibleSamples = 0;
+            foreach (var p in picks)
+            {
+                if (!Physics.Raycast(p.ray, out var hit, 5f, 1 << probeLayer, QueryTriggerInteraction.Ignore)) continue;
+                if (hit.collider.transform.parent != p.z.target) continue;   // 这条射线第一眼看到的不是它：本来就看不见，不要求能点
+                visibleSamples++;
+                bool ok = p.picked == p.z || (p.z.blockedBy != null && p.picked == p.z.blockedBy);
+                if (!ok) edgeCases.Add($"{p.v}:{p.z.target.name}→{(p.picked ? p.picked.target.name : "无")}");
+                var key = (p.z, p.v);
+                perTarget.TryGetValue(key, out var c);
+                perTarget[key] = (c.visible + 1, c.ok + (ok ? 1 : 0));
+            }
+            var unreachable = perTarget.Where(kv => kv.Value.ok == 0).Select(kv => $"{kv.Key.Item2}:{kv.Key.Item1.target.name}（可见 {kv.Value.visible} 点）").ToList();
+            Write($"看得见就点得到：两台镜头共 {perTarget.Count} 个“对象 × 镜头”组合看得见（{visibleSamples} 个可见瞄准点）；看得见却完全点不中的组合 {unreachable.Count} 个" +
+                  (unreachable.Count > 0 ? "：" + string.Join(", ", unreachable) : "") +
+                  $"。边缘点被相邻小件 / 包围盒较松的部件抢走 {edgeCases.Count} 处（同一对象换个位置仍能选中）：{string.Join(", ", edgeCases.Distinct().Take(12))}");
+            Assert.IsEmpty(unreachable, string.Join(", ", unreachable));
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator Toolbox_LowerTierOnlyAfterUpperTierMoved()
+        {
+            var lower = demo.ToolboxLower;
+            Assert.IsTrue(lower.IsBlocked, "上层在原位：下层被挡住");
+            StringAssert.Contains("先移开上层才能取用", lower.HudText);
+            AddGeometryProbes();
+            var hits = new HashSet<string>();
+            var upper = demo.ToolboxUpper;
+            var allowed = new HashSet<string> { "Toolbox_Arms", "Toolbox_Tier1", "Toolbox_Base" };   // 上层原本就搁在支臂上、贴着下层
+            yield return Watch(demo.ToggleUpperTier(), new[] { upper }, allowed, hits);
+            Assert.IsTrue(demo.UpperTierMoved);
+            Assert.IsFalse(lower.IsBlocked, "移开上层后下层可以取用");
+            // 移开后从游戏镜头看下层：可见的瞄准点必须能选中下层
+            rig.SetView(WbCameraRig.View.Game);
+            Physics.SyncTransforms();
+            int ok = 0;
+            var rb = lower.target.GetComponent<Renderer>().bounds;
+            for (int i = 0; i < 8; i++)
+            {
+                var aim = rb.center + Vector3.Scale(rb.extents * 0.6f, new Vector3((i & 1) * 2 - 1, 0.5f, ((i >> 2) & 1) * 2 - 1));
+                if (WbCameraRig.Pick(new Ray(rig.Cam.transform.position, aim - rig.Cam.transform.position)) == lower) ok++;
+            }
+            Assert.Greater(ok, 0, "移开上层后，游戏镜头能点到下层");
+            yield return Watch(demo.ToggleUpperTier(), new[] { upper }, allowed, hits);
+            Assert.IsTrue(lower.IsBlocked, "放回上层后下层又被挡住");
+            Assert.IsEmpty(hits, string.Join(", ", hits));
+            Write($"工具箱上层移开 / 放回（占位）：上层抬起 {(demo.UpperTierPath()[1].y - demo.UpperTierPath()[0].y) * 100:F0} cm，途中碰撞 {(hits.Count == 0 ? "无" : string.Join(", ", hits))}；" +
+                  $"移开后游戏镜头 {ok}/8 个瞄准点能选中下层；上层在原位时下层悬停提示：“{lower.HudText}”");
+        }
+
+        // ---------------------------------------------------------------- 模拟鼠标：经 Input System 走完整的 悬停 → HUD → 点击 → 占位动作 链路
+        [UnityTest]
+        public IEnumerator Mouse_SimulatedHoverAndClickThroughInputSystem()
+        {
+            var settings = UnityEngine.InputSystem.InputSystem.settings;
+            var prevBg = settings.backgroundBehavior;
+#if UNITY_EDITOR
+            var prevEd = settings.editorInputBehaviorInPlayMode;
+            settings.editorInputBehaviorInPlayMode = UnityEngine.InputSystem.InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+#endif
+            settings.backgroundBehavior = UnityEngine.InputSystem.InputSettings.BackgroundBehavior.IgnoreFocus;   // 批处理模式下编辑器没有焦点
+            var mouse = UnityEngine.InputSystem.InputSystem.AddDevice<UnityEngine.InputSystem.Mouse>("WbTestMouse");
+            try
+            {
+                mouse.MakeCurrent();
+                rig.enabled = true;
+                demo.enabled = true;
+                rig.SetView(WbCameraRig.View.Game);
+                yield return null;
+                var cam = rig.Cam;
+                var log = new StringBuilder();
+                IEnumerator MoveTo(Vector3 world)
+                {
+                    var sp = (Vector2)cam.WorldToScreenPoint(world);
+                    UnityEngine.InputSystem.InputSystem.QueueStateEvent(mouse, new UnityEngine.InputSystem.LowLevel.MouseState { position = sp });
+                    yield return null;
+                    yield return null;
+                }
+                IEnumerator Click(Vector3 world)
+                {
+                    var sp = (Vector2)cam.WorldToScreenPoint(world);
+                    UnityEngine.InputSystem.InputSystem.QueueStateEvent(mouse, new UnityEngine.InputSystem.LowLevel.MouseState { position = sp }.WithButton(UnityEngine.InputSystem.LowLevel.MouseButton.Left, true));
+                    yield return null;
+                    UnityEngine.InputSystem.InputSystem.QueueStateEvent(mouse, new UnityEngine.InputSystem.LowLevel.MouseState { position = sp });
+                    yield return null;
+                }
+                // 1. 悬停托盘 → HUD 指向托盘
+                var trayZone = demo.TrayScrews.GetComponentsInChildren<WbInspectable>(true).First(w => w.target == demo.TrayScrews);
+                yield return MoveTo(trayZone.GetComponent<BoxCollider>().bounds.center);
+                Assert.AreEqual(trayZone, rig.Hovered,
+                    $"悬停螺钉托盘：current={UnityEngine.InputSystem.Mouse.current?.name} pos={UnityEngine.InputSystem.Mouse.current?.position.ReadValue()} " +
+                    $"目标屏幕点={(Vector2)cam.WorldToScreenPoint(trayZone.GetComponent<BoxCollider>().bounds.center)} 屏幕={Screen.width}×{Screen.height} 实际悬停={rig.Hovered?.target.name}");
+                log.Append($"悬停托盘 → HUD“{rig.Hovered.HudText}”；");
+                // 2. 点击托盘 → 占位取出
+                yield return Click(trayZone.GetComponent<BoxCollider>().bounds.center);
+                float until = Time.realtimeSinceStartup + 20f;
+                while (demo.Busy && Time.realtimeSinceStartup < until) yield return null;
+                Assert.IsTrue(demo.IsTaken(demo.TrayScrews), "点击托盘 → 取出（占位）");
+                log.Append($"点击托盘 → {demo.LastMessage}；");
+                // 3. 悬停被挡住的工具箱下层（若有可见点）/ 上层 → 说明文字
+                var upperZone = demo.ToolboxUpper.GetComponentsInChildren<WbInspectable>(true).First(w => w.target == demo.ToolboxUpper);
+                yield return MoveTo(upperZone.GetComponent<BoxCollider>().bounds.center);
+                Assert.AreEqual(upperZone, rig.Hovered, "悬停工具箱上层");
+                StringAssert.Contains("先移开", rig.Hovered.hint);
+                log.Append($"悬停工具箱上层 → 提示“{rig.Hovered.hint}”；");
+                // 4. Tab 切近距镜头后悬停一颗螺钉
+                rig.SetView(WbCameraRig.View.CloseUp);
+                yield return null;
+                var screw = demo.Screws[0];
+                var screwZone = screw.GetComponentsInChildren<WbInspectable>(true).First(w => w.target == screw);
+                yield return MoveTo(screw.position);
+                Assert.AreEqual(screwZone, rig.Hovered, "近距镜头悬停螺钉");
+                StringAssert.StartsWith("【占位】", rig.Hovered.displayName);
+                log.Append($"近距镜头悬停螺钉 → “{rig.Hovered.HudText}”");
+                Write("模拟鼠标（Input System 虚拟鼠标，非真人）：" + log);
+            }
+            finally
+            {
+                UnityEngine.InputSystem.InputSystem.RemoveDevice(mouse);
+                settings.backgroundBehavior = prevBg;
+#if UNITY_EDITOR
+                settings.editorInputBehaviorInPlayMode = prevEd;
+#endif
+            }
         }
 
         [UnityTest]

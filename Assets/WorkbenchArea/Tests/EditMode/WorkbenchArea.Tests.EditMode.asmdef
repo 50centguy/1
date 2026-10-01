@@ -1,7 +1,7 @@
 {
     "name": "WorkbenchArea.Tests.EditMode",
     "rootNamespace": "WorkbenchArea.Tests",
-    "references": [ "WorkbenchArea.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner" ],
+    "references": [ "WorkbenchArea.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner", "Unity.RenderPipelines.Core.Runtime", "Unity.InputSystem" ],
     "includePlatforms": [ "Editor" ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

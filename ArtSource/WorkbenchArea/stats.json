@@ -13,12 +13,12 @@
       "triangles": 84
     },
     "Placeholder": {
-      "objects": 11,
-      "triangles": 416
+      "objects": 12,
+      "triangles": 600
     },
     "Trays": {
-      "objects": 5,
-      "triangles": 876
+      "objects": 6,
+      "triangles": 912
     },
     "Toolbox": {
       "objects": 5,
@@ -33,19 +33,20 @@
       "triangles": 224
     },
     "Storage": {
-      "objects": 10,
-      "triangles": 504
+      "objects": 13,
+      "triangles": 732
     },
     "Records": {
-      "objects": 14,
-      "triangles": 180
+      "objects": 20,
+      "triangles": 252
     },
     "Clutter": {
-      "objects": 20,
-      "triangles": 1708
+      "objects": 37,
+      "triangles": 3498
     }
   },
   "materials": [
+    "M_WB_DarkSteel",
     "M_WB_FaultRed",
     "M_WB_Floor",
     "M_WB_Ivory",
@@ -54,11 +55,14 @@
     "M_WB_Mat",
     "M_WB_PaintGreen",
     "M_WB_Paper",
+    "M_WB_Pegboard",
     "M_WB_Placeholder",
     "M_WB_Rubber",
     "M_WB_Screen",
+    "M_WB_ShellOld",
     "M_WB_Steel",
     "M_WB_WallGreen",
+    "M_WB_Wire",
     "M_WB_Wood",
     "M_WB_Yellow"
   ],
@@ -82,26 +86,34 @@
     "T_WB_Mat.png": [
       320,
       184
+    ],
+    "T_WB_Pegboard.png": [
+      128,
+      128
+    ],
+    "T_WB_ShellWear.png": [
+      128,
+      128
     ]
   },
-  "total_triangles": 7140,
-  "mesh_objects": 102,
+  "total_triangles": 9450,
+  "mesh_objects": 130,
   "roles": {
     "cable": 1,
-    "clutter": 20,
+    "clutter": 37,
     "fault_indicator": 2,
     "indicator": 1,
-    "inspectable": 20,
-    "inspectable_record": 4,
+    "inspectable": 22,
+    "inspectable_record": 5,
     "label": 6,
     "light_fixture": 2,
-    "placeholder": 4,
+    "placeholder": 5,
     "placeholder_inspectable": 1,
     "placeholder_removable": 5,
-    "record": 10,
+    "record": 15,
     "removable": 3,
     "static": 19,
-    "storage": 2,
-    "tray_contents": 2
+    "storage": 3,
+    "tray_contents": 3
   }
 }

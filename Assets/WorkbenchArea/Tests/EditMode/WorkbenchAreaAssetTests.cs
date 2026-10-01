@@ -57,20 +57,24 @@ namespace WorkbenchArea.Tests
         ISet<string> Allowed() => new HashSet<string>(area.GetComponentsInChildren<Transform>(true).Select(t => t.name)
             .Where(n => n.StartsWith("Placeholder_")).Concat(new[] { "Bench_Mat", "Bench_ArmCradles" }));
 
+        [System.Serializable] class Stats { public int total_triangles, mesh_objects; public string[] materials; }
+        static Stats BlenderStats => JsonUtility.FromJson<Stats>(System.IO.File.ReadAllText("ArtSource/WorkbenchArea/stats.json"));
+
         [Test]
         public void Import_CountsMatchBlenderStats()
         {
+            var st = BlenderStats;
             var model = AssetDatabase.LoadAssetAtPath<GameObject>(Fbx);
             var mfs = model.GetComponentsInChildren<MeshFilter>(true);
-            Assert.AreEqual(102, mfs.Length, "网格数");
-            Assert.AreEqual(7140, mfs.Sum(m => m.sharedMesh.triangles.Length / 3), "三角面");
+            Assert.AreEqual(st.mesh_objects, mfs.Length, "网格数（与 Blender stats.json 一致）");
+            Assert.AreEqual(st.total_triangles, mfs.Sum(m => m.sharedMesh.triangles.Length / 3), "三角面（与 Blender stats.json 一致）");
             var mats = model.GetComponentsInChildren<Renderer>(true).SelectMany(r => r.sharedMaterials).Distinct().ToArray();
-            Assert.AreEqual(15, mats.Length, "材质数");
+            Assert.AreEqual(st.materials.Length, mats.Length, "材质数");
             Assert.IsTrue(mats.All(m => m != null && m.shader.name == "Universal Render Pipeline/Simple Lit"), "全部为重映射后的 URP Simple Lit 材质");
             Assert.IsTrue(mats.All(m => !m.IsKeywordEnabled("_SPECULAR_COLOR")), "不开高光（非写实 PBR）");
             Assert.IsTrue(mats.All(m => { var c = m.GetColor("_SpecColor"); return c.r + c.g + c.b < 1e-4f; }), "高光色为黑：即使关键字被重新打开也没有高光");
             var texs = mats.Select(m => m.GetTexture("_BaseMap")).Where(t => t != null).Distinct().ToArray();
-            Assert.AreEqual(5, texs.Length, "贴图数");
+            Assert.AreEqual(System.IO.Directory.GetFiles("ArtSource/WorkbenchArea/Textures", "*.png").Length, texs.Length, "贴图数（全部 Blender 贴图都被用到）");
             Assert.IsTrue(texs.All(t => t.filterMode == FilterMode.Point), "贴图点采样");
             Assert.IsTrue(texs.All(t => t.width <= 512 && t.height <= 512), "低分辨率贴图");
         }
@@ -79,7 +83,7 @@ namespace WorkbenchArea.Tests
         public void Import_EveryObjectHasRoleAndKeyPropsSurvive()
         {
             var props = area.GetComponentsInChildren<WbPartProperties>(true);
-            Assert.AreEqual(102, props.Count(p => p.Role.Length > 0));
+            Assert.AreEqual(BlenderStats.mesh_objects, props.Count(p => p.Role.Length > 0));
             Assert.AreEqual("placeholder_removable", T("Placeholder_Prosthetic_Cover").GetComponent<WbPartProperties>().Role);
             Assert.IsNotNull(T("Bench_Drawer_1_Probes").GetComponent<WbPartProperties>().Get("slide_axis_local"));
             Assert.IsNotNull(T("Bench_CabinetDoor").GetComponent<WbPartProperties>().Get("hinge_axis_local"));
@@ -171,6 +175,71 @@ namespace WorkbenchArea.Tests
             var demo = Object.FindFirstObjectByType<WbPlaceholderDemo>();
             Assert.IsNotNull(demo);
             StringAssert.Contains("占位", demo.gameObject.name, "占位交互必须明确标注");
+            Assert.IsNotNull(Object.FindFirstObjectByType<WbInteractionLog>(), "鼠标操作记录");
+        }
+
+        [Test]
+        public void Scene_WarmKeyLightDominatesAndTonemapped()
+        {
+            EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            var lights = Object.FindObjectsByType<Light>(FindObjectsSortMode.None);
+            var key = lights.Single(l => l.type == LightType.Spot);
+            var cool = lights.Where(l => l.color.b > l.color.r).ToArray();
+            Assert.IsTrue(key.shadows != LightShadows.None, "工作灯带阴影");
+            // 操作垫中心收到的光：点光 / 聚光按 强度 / 距离²，平行光按强度
+            var matCenter = new Vector3(0.04f, MatZ, -0.44f);
+            float At(Light l) => l.type == LightType.Directional ? l.intensity : l.intensity / Mathf.Max(0.01f, (l.transform.position - matCenter).sqrMagnitude);
+            float keyAt = At(key), coolAt = cool.Sum(At);
+            Assert.Greater(keyAt, 6f * coolAt, $"暖色工作灯是操作区主光（垫中心：暖 {keyAt:F2}，冷 {coolAt:F2}）");
+            Assert.IsTrue(lights.Any(l => l.type == LightType.Point && l.color.r > l.color.b && l.range < 1.2f), "操作区暖色反弹光");
+            Assert.AreEqual(UnityEngine.Rendering.AmbientMode.Trilight, RenderSettings.ambientMode);
+            var amb = RenderSettings.ambientEquatorColor;
+            Assert.Less(amb.g - Mathf.Min(amb.r, amb.b), 0.03f, "环境光不再偏成一片暗绿");
+            var vol = Object.FindFirstObjectByType<UnityEngine.Rendering.Volume>();
+            Assert.IsNotNull(vol, "后处理 Volume");
+            Assert.IsTrue(vol.sharedProfile.components.Any(c => c.GetType().Name == "Tonemapping"), "色调映射：暖光焦点不截成白");
+            Assert.IsFalse(vol.sharedProfile.components.Any(c => c.GetType().Name is "Bloom" or "ChromaticAberration" or "FilmGrain" or "LensDistortion"),
+                "不用 Bloom / 色差 / 颗粒 / 畸变这类全屏特效");
+        }
+
+        [Test]
+        public void Toolbox_LowerTierExplicitlyBlockedByUpperTier()
+        {
+            var lower = T("Toolbox_Tier1").GetComponentsInChildren<WbInspectable>(true).First(w => w.target == T("Toolbox_Tier1"));
+            var upper = T("Toolbox_Tier2").GetComponentsInChildren<WbInspectable>(true).First(w => w.target == T("Toolbox_Tier2"));
+            Assert.AreEqual(upper, lower.blockedBy, "下层的挡板是上层");
+            StringAssert.Contains("先移开上层才能取用", lower.hint);
+            StringAssert.Contains("先移开", upper.hint, "上层悬停时也说明下层被它挡住");
+            Assert.IsTrue(lower.GetComponent<BoxCollider>().enabled, "下层保留检查区：悬停能看到“被挡住”的说明，而不是一个看似可点却毫无反应的目标");
+            Assert.AreEqual(T("Toolbox_Tier2"), T("Toolbox_Tier2_Contents").parent, "上层里的工具跟着上层移动");
+            var blocked = area.GetComponentsInChildren<WbInspectable>(true).Where(w => w.blockedBy != null)
+                .Select(w => $"{w.target.name}<-{w.blockedBy.target.name}").OrderBy(s => s).ToArray();
+            CollectionAssert.AreEqual(new[] { "Placeholder_Prosthetic_BayMotor<-Placeholder_Prosthetic_Cover", "Toolbox_Tier1<-Toolbox_Tier2" }, blocked,
+                "被挡住的对象只有：工具箱下层（挡板：上层）、义肢检修口电机（挡板：盖板）");
+            var bay = T("Placeholder_Prosthetic_BayMotor").GetComponentsInChildren<WbInspectable>(true).First(w => w.target == T("Placeholder_Prosthetic_BayMotor"));
+            StringAssert.Contains("先拆下盖板才能检查", bay.hint);
+        }
+
+        [Test]
+        public void Placeholder_AllPartsClearlyLabelled()
+        {
+            var ph = area.GetComponentsInChildren<WbInspectable>(true).Where(w => w.target.name.StartsWith("Placeholder_")).ToArray();
+            Assert.IsNotEmpty(ph);
+            foreach (var w in ph) StringAssert.StartsWith("【占位】", w.displayName, w.target.name);
+            Assert.IsNotNull(T("Placeholder_Prosthetic_Tag"), "垫子上的 PH 占位标签");
+            Assert.IsFalse(area.GetComponentsInChildren<Transform>(true).Any(t => t.name.Contains("RobotV4") || t.name.StartsWith("robot")), "不含 RobotV4");
+        }
+
+        [Test]
+        public void CoverParkingBox_HasPlacementMargin()
+        {
+            // Blender 检查结果（checks.json）里记录的停放余量；Unity 里落位后的实测在 PlayMode 拆装测试中
+            var text = System.IO.File.ReadAllText("ArtSource/WorkbenchArea/checks.json");
+            var m = System.Text.RegularExpressions.Regex.Match(text, "\"cover_parking_box_has_margin\",\\s*\"passed\":\\s*(true|false)");
+            Assert.IsTrue(m.Success && m.Groups[1].Value == "true", "Blender 停放框余量检查通过");
+            var cover = T("Placeholder_Prosthetic_Cover").GetComponent<Renderer>().bounds.size;
+            Assert.Less(cover.x, 0.250f - 2 * 0.012f, "停放框长 250 mm，比盖板每端至少宽 12 mm");
+            Assert.Less(cover.z, 0.130f - 2 * 0.012f, "停放框宽 130 mm，比盖板每侧至少宽 12 mm");
         }
     }
 }

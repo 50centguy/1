@@ -95,6 +95,38 @@ def floor_texture(size=128, seed=5):
     return np.clip(img, 0, 1)
 
 
+PEG_TILE_M = 0.2032    # 洞洞板贴图一格 = 8 个孔 × 25.4 mm
+
+
+def pegboard_texture(size=128, seed=9):
+    """暖褐色纤维板洞洞板：25.4 mm 孔距（贴图 16 px 一孔），给绿灰墙面一块暖色背板。"""
+    rng = np.random.default_rng(seed)
+    g = grain_texture(size, seed)[..., 0]
+    img = np.ones((size, size, 3)) * hexc("#77664A")   # 压暗一档：背板不抢操作区
+    img *= (0.80 + 0.25 * (g - 0.8) + 0.2)[..., None]
+    stain = hs.periodic_noise(size, 12, rng)
+    img *= (0.88 + 0.14 * stain)[..., None]
+    for cy in range(8, size, 16):
+        for cx in range(8, size, 16):
+            hs.disc(img, cx, cy, 2, hexc("#2A241B"))
+    return np.clip(img, 0, 1)
+
+
+def shell_wear_texture(size=128, seed=13):
+    """旧义体外壳：象牙白底 + 大块磨旧的橄榄绿涂装残片 + 掉漆点。新外壳用干净的象牙白材质，两者并排就是新旧混用。"""
+    rng = np.random.default_rng(seed)
+    g = grain_texture(size, seed)[..., 0]
+    img = np.ones((size, size, 3)) * hexc("#CBC2A5")
+    patch = hs.periodic_noise(size, 9, rng)
+    block = np.kron(hs.periodic_noise(size // 4, 3, rng), np.ones((4, 4)))[:size, :size]
+    green = (patch * 0.7 + block * 0.3) > 0.55
+    img[green] = hexc("#6E7A55")
+    chips = rng.random((size, size)) > 0.985
+    img[chips] = hexc("#4E4A40")
+    img *= (0.85 + 0.6 * (g - 0.8) + 0.15)[..., None]
+    return np.clip(img, 0, 1)
+
+
 PAPER_W = PAPER_H = 512
 # 贴图集区域（像素，行 0 在顶部）
 R_WO = [(0, 0, 128, 176), (128, 0, 256, 176), (256, 0, 384, 176)]          # 维修工单 ×3
@@ -235,6 +267,9 @@ def screen_texture():
 
 MAT_X0, MAT_X1, MAT_Y0, MAT_Y1 = -0.42, 0.38, 0.22, 0.68
 MAT_PX = 400   # 贴图像素 / 米
+# 盖板停放框（台面坐标 x0, y0）–（x1, y1）：250 × 130 mm，盖板 220 × 68 mm → 长边每端 15 mm、短边每侧 31 mm 余量
+COVER_PARK_BOX = ((0.125, 0.235), (0.375, 0.365))
+COVER_PARK_MIN_MARGIN_M = 0.012   # 检查：盖板落位后四周至少 12 mm
 
 
 def mat_texture():
@@ -253,12 +288,13 @@ def mat_texture():
         return int((xm - MAT_X0) * MAT_PX), int((MAT_Y1 - ym) * MAT_PX)
 
     pale = hexc("#B9B79E")
-    # 盖板停放区（右前）与螺钉落点圆
-    ax, ay = px(0.15, 0.36); bx, by = px(0.37, 0.24)
+    # 盖板停放区（右前）：比盖板（220 × 68 mm）每边宽出放置余量
+    (ax0, ay0), (bx1, by1) = COVER_PARK_BOX
+    ax, ay = px(ax0, by1); bx, by = px(bx1, ay0)
     hs.rect_outline(img, ax, ay, bx, by, 2, pale)
     hs.draw_text(img, "COVER", ax + 6, ay + 6, 2, pale)
-    # 中央操作区四角标记（保持中心空）
-    for (cx, cy) in ((-0.32, 0.30), (0.12, 0.30), (-0.32, 0.60), (0.12, 0.60)):
+    # 中央操作区四角标记（保持中心空；右侧两枚让开停放框）
+    for (cx, cy) in ((-0.32, 0.30), (0.08, 0.30), (-0.32, 0.60), (0.08, 0.60)):
         x, y = px(cx, cy)
         hs.rect(img, x - 8, y - 1, x + 8, y + 1, pale)
         hs.rect(img, x - 1, y - 8, x + 1, y + 8, pale)
@@ -276,8 +312,8 @@ def mat_texture():
 # 2. 材质（漫反射为主：金属度 0、粗糙度高；贴图最近邻采样）
 # ===========================================================================
 MAT_SPECS = {
-    "M_WB_WallGreen":   dict(color="#5E6B60", base_map="T_WB_Grain.png", roughness=0.92),
-    "M_WB_PaintGreen":  dict(color="#4C5C50", base_map="T_WB_Grain.png", roughness=0.88),
+    "M_WB_WallGreen":   dict(color="#5C6358", base_map="T_WB_Grain.png", roughness=0.92),   # 略降饱和，避免整幅画面被暗绿吞没
+    "M_WB_PaintGreen":  dict(color="#4A5649", base_map="T_WB_Grain.png", roughness=0.88),
     "M_WB_Ivory":       dict(color="#CFC6AA", base_map="T_WB_Grain.png", roughness=0.85),
     "M_WB_Steel":       dict(color="#8C928D", base_map="T_WB_Grain.png", roughness=0.80),
     "M_WB_Rubber":      dict(color="#2C312D", base_map="T_WB_Grain.png", roughness=0.95),
@@ -290,10 +326,15 @@ MAT_SPECS = {
     "M_WB_LampWarm":    dict(color="#FFD9A0", roughness=0.5, emission_color="#FFCF8A", emission_strength=6.0),
     "M_WB_FaultRed":    dict(color="#7A1A14", roughness=0.5, emission_color="#FF3A22", emission_strength=4.0),
     "M_WB_LampCool":    dict(color="#D8E8DC", roughness=0.5, emission_color="#CFE8D8", emission_strength=3.0),
-    "M_WB_Placeholder": dict(color="#7D93A6", base_map="T_WB_Grain.png", roughness=0.85),
+    "M_WB_Placeholder": dict(color="#5E7183", base_map="T_WB_Grain.png", roughness=0.85),   # 压暗：工作灯正下方不再发白
+    "M_WB_Pegboard":    dict(color="#FFFFFF", base_map="T_WB_Pegboard.png", roughness=0.90),
+    "M_WB_ShellOld":    dict(color="#FFFFFF", base_map="T_WB_ShellWear.png", roughness=0.85),
+    "M_WB_Wire":        dict(color="#3F566E", base_map="T_WB_Grain.png", roughness=0.80),   # 线皮：蓝灰（红色只留给故障）
+    "M_WB_DarkSteel":   dict(color="#3B3F3C", base_map="T_WB_Grain.png", roughness=0.70),   # 发黑螺钉：在亮盖板上读得出
 }
 UV_SCALE = {"M_WB_WallGreen": 0.5, "M_WB_PaintGreen": 0.35, "M_WB_Ivory": 0.25, "M_WB_Steel": 0.25, "M_WB_Rubber": 0.25,
-            "M_WB_Wood": 0.4, "M_WB_Yellow": 0.2, "M_WB_Placeholder": 0.25, "M_WB_Floor": 1.0}
+            "M_WB_Wood": 0.4, "M_WB_Yellow": 0.2, "M_WB_Placeholder": 0.25, "M_WB_Floor": 1.0,
+            "M_WB_Pegboard": PEG_TILE_M, "M_WB_ShellOld": 0.16, "M_WB_Wire": 0.2, "M_WB_DarkSteel": 0.25}
 MATS = {}
 
 
@@ -514,7 +555,7 @@ def build_bench(C):
          hinge_axis_local="Z", open_deg=-15.0, note="hinge on the left edge; currently ajar 15 deg")
     # 背板：洞洞板（工具墙），安装面贴墙
     holes = box((-0.95, 1.02, T + 0.02), (0.95, 1.035, 1.75))
-    part("Wall_Pegboard", holes, C["Storage"], "M_WB_PaintGreen", origin=(0, 1.035, T + 0.02), role="static")
+    part("Wall_Pegboard", holes, C["Storage"], "M_WB_Pegboard", origin=(0, 1.035, T + 0.02), role="static")
     # 上层搁板与支架
     part("Wall_ShelfUpper", merge(box((-0.95, 0.78, 1.80), (0.95, 1.035, 1.825)),
                                   box((-0.80, 1.0, 1.70), (-0.78, 1.035, 1.80)), box((0.78, 1.0, 1.70), (0.80, 1.035, 1.80))),
@@ -534,7 +575,7 @@ ARM_Y = 0.45
 ARM_Z = MAT_Z + 0.026 + 0.046      # 托架高 26 mm，半径 46 mm 的中心高度
 COVER = dict(x0=-0.12, x1=0.10, half_w=0.034)
 SCREWS = [(-0.11, -0.027), (-0.11, 0.027), (0.09, -0.027), (0.09, 0.027)]
-COVER_PARK = Vector((0.26, 0.30, MAT_Z))   # 操作垫右前印有 COVER 停放框（x 0.15–0.37）
+COVER_PARK = Vector(((COVER_PARK_BOX[0][0] + COVER_PARK_BOX[1][0]) / 2, (COVER_PARK_BOX[0][1] + COVER_PARK_BOX[1][1]) / 2, MAT_Z))   # 停放框中心
 SCREW_TRAY_SLOT = Vector((0.47, 0.30, BENCH_TOP + 0.012))
 
 
@@ -555,7 +596,8 @@ def build_placeholder(C):
     # 检修口内部（盖板拿开后可见）
     bay = merge(box((COVER["x0"] + 0.01, ARM_Y - 0.026, ARM_Z + 0.006), (COVER["x1"] - 0.01, ARM_Y + 0.026, ARM_Z + 0.040)),
                 cyl("X", (-0.02, ARM_Y, ARM_Z + 0.03), 0.018, 0.09, 8))
-    part("Placeholder_Prosthetic_BayMotor", bay, ph, "M_WB_Steel", origin=(-0.01, ARM_Y, ARM_Z + 0.04), role="placeholder")
+    part("Placeholder_Prosthetic_BayMotor", bay, ph, "M_WB_Steel", origin=(-0.01, ARM_Y, ARM_Z + 0.04), role="placeholder",
+         blocked_by="Placeholder_Prosthetic_Cover", access="remove the cover first")
     # 盖板：顶部弧形板，原点 = 抓取点（盖板顶面中心）
     cv = box((COVER["x0"], ARM_Y - COVER["half_w"], ARM_Z + 0.040), (COVER["x1"], ARM_Y + COVER["half_w"], ARM_Z + 0.047))
     part("Placeholder_Prosthetic_Cover", cv, ph, "M_WB_Placeholder", origin=((COVER["x0"] + COVER["x1"]) / 2, ARM_Y, ARM_Z + 0.047),
@@ -563,24 +605,36 @@ def build_placeholder(C):
          park_point=list(COVER_PARK))
     for i, (sx, sy) in enumerate(SCREWS):
         s = merge(cyl("Z", (sx, ARM_Y + sy, ARM_Z + 0.0485), 0.0035, 0.003, 8), cyl("Z", (sx, ARM_Y + sy, ARM_Z + 0.040), 0.0016, 0.014, 6))
-        part(f"Placeholder_Prosthetic_Screw_{i + 1}", s, ph, "M_WB_Steel", origin=(sx, ARM_Y + sy, ARM_Z + 0.050), role="placeholder_removable",
+        part(f"Placeholder_Prosthetic_Screw_{i + 1}", s, ph, "M_WB_DarkSteel", origin=(sx, ARM_Y + sy, ARM_Z + 0.050), role="placeholder_removable",
              grab_point="screw head top (tool point)", tool_axis_local="Z", removal="unscrew +Z, then to Tray_Screws slot")
-    # 腕部与手（合并：块状手掌 + 指段）
-    hand = [box((-0.31, ARM_Y - 0.040, ARM_Z - 0.030), (-0.22, ARM_Y + 0.040, ARM_Z + 0.025))]
+    # 腕关节 + 手掌 + 分节手指（轻微弯曲）+ 拇指：只给出义肢 / 手腕轮廓，仍是占位材质、占位标签
+    hand = [cyl("X", (-0.232, ARM_Y, ARM_Z), 0.031, 0.026, 10),                                   # 腕关节环
+            box((-0.255, ARM_Y - 0.020, ARM_Z - 0.030), (-0.243, ARM_Y + 0.020, ARM_Z + 0.022)),     # 腕关节过渡块
+            box((-0.335, ARM_Y - 0.042, ARM_Z - 0.026), (-0.255, ARM_Y + 0.042, ARM_Z + 0.018))]     # 手掌
     for i in range(4):
-        y = ARM_Y - 0.030 + i * 0.02
-        hand.append(box((-0.39, y - 0.008, ARM_Z - 0.012), (-0.31, y + 0.008, ARM_Z + 0.006)))
-    hand.append(box((-0.30, ARM_Y + 0.040, ARM_Z - 0.02), (-0.25, ARM_Y + 0.060, ARM_Z + 0.0)))
-    part("Placeholder_Prosthetic_Hand", merge(*hand), ph, "M_WB_Placeholder", origin=(-0.265, ARM_Y, ARM_Z - 0.03), role="placeholder")
+        y = ARM_Y - 0.0315 + i * 0.021
+        L = (0.030, 0.024, 0.020) if i in (1, 2) else (0.026, 0.020, 0.017)
+        x, z = -0.338, ARM_Z - 0.004
+        for k, seg in enumerate(L):                       # 三节，每节向下弯一点；节间留 2 mm 缝显出关节
+            dz = -0.006 * (k + 1)
+            hand.append(box((x - seg, y - 0.0075, z + dz - 0.007), (x, y + 0.0075, z + dz + 0.007)))
+            x -= seg + 0.002
+    hand += [box((-0.300, ARM_Y + 0.042, ARM_Z - 0.020), (-0.272, ARM_Y + 0.060, ARM_Z + 0.002)),   # 拇指根
+             box((-0.326, ARM_Y + 0.048, ARM_Z - 0.022), (-0.302, ARM_Y + 0.064, ARM_Z - 0.004))]   # 拇指尖
+    part("Placeholder_Prosthetic_Hand", merge(*hand), ph, "M_WB_Placeholder", origin=(-0.265, ARM_Y, ARM_Z - 0.03), role="placeholder",
+         note="PLACEHOLDER silhouette only: wrist, palm, segmented fingers")
+    # 肘端护圈（占位轮廓）
+    part("Placeholder_Prosthetic_ElbowCuff", cyl("X", (0.192, ARM_Y, ARM_Z), 0.050, 0.018, 8), ph, "M_WB_Placeholder",
+         origin=(0.192, ARM_Y, ARM_Z), role="placeholder")
     # 肘端接口（检查点）与故障指示（唯一的红色之一）
     conn = merge(cyl("X", (0.215, ARM_Y, ARM_Z), 0.034, 0.03, 8), box((0.228, ARM_Y - 0.016, ARM_Z - 0.008), (0.236, ARM_Y + 0.016, ARM_Z + 0.008)))
     part("Placeholder_Prosthetic_Connector", conn, ph, "M_WB_Steel", origin=(0.236, ARM_Y, ARM_Z), role="placeholder_inspectable",
          grab_point="interface face center", note="probe target")
     part("Placeholder_Prosthetic_FaultLED", cyl("Y", (0.215, ARM_Y - 0.0335, ARM_Z + 0.014), 0.0045, 0.006, 6), ph, "M_WB_FaultRed",   # 接口朝玩家的一面
          origin=(0.215, ARM_Y - 0.0365, ARM_Z + 0.014), role="fault_indicator", note="red = real fault only")
-    # 占位标签
-    paper_part("Placeholder_Prosthetic_Tag", (-0.20, ARM_Y + 0.047, ARM_Z - 0.01), (-0.15, ARM_Y + 0.049, ARM_Z + 0.012), R_PH_TAG, ph,
-               role="placeholder", axis="-Y")
+    # 占位标签：平放在义肢前方的垫子上，两台镜头都看得到（原先贴在背面，看不到）
+    paper_part("Placeholder_Prosthetic_Tag", (-0.30, ARM_Y - 0.110, MAT_Z), (-0.21, ARM_Y - 0.070, MAT_Z + 0.001), R_PH_TAG, ph,
+               role="placeholder", note="PLACEHOLDER tag (PH)")
 
 
 def build_trays(C):
@@ -606,6 +660,9 @@ def build_trays(C):
     stuff = [cyl("Z", (0.40, 0.47, T + 0.010), 0.016, 0.010, 10), cyl("Z", (0.44, 0.52, T + 0.012), 0.020, 0.012, 10),
              box((0.47, 0.45, T + 0.004), (0.52, 0.48, T + 0.020)), tube([(0.39, 0.56, T + 0.008), (0.45, 0.57, T + 0.010), (0.50, 0.55, T + 0.008)], 0.004)]
     part("Tray_OldParts_Contents", merge(*stuff), C["Trays"], "M_WB_Steel", origin=((x0 + x1) / 2, (y0 + y1) / 2, T + 0.004), role="tray_contents")
+    # 换下来的旧指节（磨旧外壳），也跟托盘一起走
+    knuckles = [box((0.475 + 0.016 * k, 0.515, T + 0.004), (0.488 + 0.016 * k, 0.545, T + 0.016 + 0.002 * k)) for k in range(3)]
+    part("Tray_OldParts_Shells", merge(*knuckles), C["Trays"], "M_WB_ShellOld", origin=((x0 + x1) / 2, (y0 + y1) / 2, T + 0.004), role="tray_contents")
 
 
 def build_toolbox(C):
@@ -624,8 +681,9 @@ def build_toolbox(C):
                    box((x1 - 0.014, ty0, tz), (x1 - 0.01, ty1, tz + th)),
                    box((x0 + 0.01 + (x1 - x0 - 0.02) / 3, ty0, tz), (x0 + 0.014 + (x1 - x0 - 0.02) / 3, ty1, tz + th * 0.8)),
                    box((x0 + 0.01 + 2 * (x1 - x0 - 0.02) / 3, ty0, tz), (x0 + 0.014 + 2 * (x1 - x0 - 0.02) / 3, ty1, tz + th * 0.8)))
+        extra = dict(blocked_by="Toolbox_Tier2", access="move the upper tier first") if nm == "Toolbox_Tier1" else {}
         part(nm, tb, C["Toolbox"], "M_WB_PaintGreen", origin=((x0 + x1) / 2, ty0, tz + th), role="inspectable",
-             grab_point="front lip center", note="cantilever tier, shown extended", bevel=0.001)
+             grab_point="front lip center", note="cantilever tier, shown extended", bevel=0.001, **extra)
         # 层内工具（合并）
         stuff = [tube([(x0 + 0.03 + 0.03 * k, ty0 + 0.02, tz + 0.012), (x0 + 0.03 + 0.03 * k, ty1 - 0.02, tz + 0.012)], 0.005, 6) for k in range(3)]
         stuff += [cyl("Z", (x1 - 0.06 + 0.02 * (k % 2), ty0 + 0.04 + 0.04 * (k // 2), tz + 0.01), 0.008, 0.01, 8) for k in range(4)]
@@ -762,7 +820,7 @@ def build_storage_and_clutter(C):
         w = 0.14 if r in R_WO else 0.07
         h = 0.19 if r in R_WO else 0.07
         paper_part(f"Records_WallNote_{i + 1}", (-1.6, y - w / 2, z - h / 2), (-1.598, y + w / 2, z + h / 2), r, C["Records"], role="record", axis="X")
-    for i, (x, z, r) in enumerate([(-0.70, 1.62, R_NOTE[3]), (0.70, 1.55, R_WO[2]), (-0.05, 1.66, R_NOTE[0])]):
+    for i, (x, z, r) in enumerate([(-0.70, 1.62, R_NOTE[3]), (0.86, 1.62, R_WO[2]), (-0.05, 1.66, R_NOTE[0])]):
         w = 0.14 if r in R_WO else 0.07
         h = 0.19 if r in R_WO else 0.07
         paper_part(f"Records_PegNote_{i + 1}", (x - w / 2, 1.018, z - h / 2), (x + w / 2, 1.019, z + h / 2), r, C["Records"], role="record", axis="-Y")
@@ -798,12 +856,109 @@ def build_storage_and_clutter(C):
     part("Clutter_FloorPartsBox", box((0.05, 0.55, 0.14), (0.42, 0.90, 0.40)), cl, "M_WB_Wood", origin=(0.235, 0.725, 0.14), role="clutter")
 
 
+def build_lived_in(C):
+    """美术复核后补的生活痕迹：只放在台面后沿、右侧、左侧边缘、墙面和收纳里；中央拆装区、双手路径、托盘 / 盖板路径、诊断仪读数视线都由检查脚本确认不受影响。"""
+    T = BENCH_TOP
+    cl = C["Clutter"]
+    # 1. 台面后沿：新旧混用的伺服模块堆（旧件 = 磨旧涂装外壳，新件 = 干净象牙白）+ 裸电机罐
+    old = [box((-0.145, 0.73, T), (-0.075, 0.79, T + 0.050)), box((-0.060, 0.76, T), (0.010, 0.83, T + 0.060)),
+           box((-0.130, 0.82, T), (-0.050, 0.90, T + 0.055)), box((-0.120, 0.75, T + 0.050), (-0.080, 0.785, T + 0.090))]
+    part("Clutter_ServoPile_Old", merge(*old), cl, "M_WB_ShellOld", origin=(-0.07, 0.81, T), role="clutter", note="worn old servo modules")
+    new = [box((0.020, 0.73, T), (0.085, 0.79, T + 0.050)), box((-0.040, 0.84, T), (0.030, 0.92, T + 0.060)),
+           box((-0.050, 0.77, T + 0.060), (0.000, 0.82, T + 0.100))]
+    part("Clutter_ServoPile_New", merge(*new), cl, "M_WB_Ivory", origin=(0.0, 0.81, T), role="clutter", note="new replacement servo modules")
+    cans = [cyl("X", (0.050, 0.81, T + 0.022), 0.022, 0.060, 10), cyl("X", (-0.090, 0.86, T + 0.073), 0.018, 0.050, 10),
+            cyl("Y", (0.062, 0.88, T + 0.020), 0.020, 0.050, 10), cyl("Z", (-0.100, 0.76, T + 0.100), 0.010, 0.020, 8)]
+    part("Clutter_ServoPile_Motors", merge(*cans), cl, "M_WB_Steel", origin=(0.0, 0.83, T), role="clutter", smooth=True)
+    # 补过的线束：从伺服堆沿后沿走到插线板；另有一卷散线
+    harness = [tube([(-0.07, 0.79, T + 0.030), (-0.03, 0.86, T + 0.012), (0.05, 0.93, T + 0.010), (0.20, 0.952, T + 0.010),
+                     (0.34, 0.946, T + 0.012), (0.40, 0.925, T + 0.015)], 0.0045, 6),
+               tube([(0.01, 0.80, T + 0.030), (0.06, 0.90, T + 0.008), (0.22, 0.94, T + 0.008), (0.40, 0.915, T + 0.012)], 0.0035, 6),
+               tube([(0.15 + 0.04 * math.cos(a), 0.75 + 0.04 * math.sin(a), T + 0.005) for a in np.linspace(0, 2 * math.pi, 13)], 0.0035, 5)]
+    part("Clutter_ServoHarness", merge(*harness), cl, "M_WB_Wire", origin=(0.15, 0.90, T), role="clutter", note="patched harness + loose coil")
+    tapes = [cyl("X", (x, y, T + z), 0.0075, 0.016, 6) for x, y, z in ((0.12, 0.945, 0.010), (0.28, 0.950, 0.011), (0.13, 0.92, 0.008))]
+    part("Clutter_HarnessTape", merge(*tapes), cl, "M_WB_Yellow", origin=(0.2, 0.94, T), role="clutter")
+    part("Clutter_PowerStrip", merge(box((0.40, 0.900, T), (0.54, 0.945, T + 0.030)),
+                                     *[box((0.415 + 0.03 * k, 0.905, T + 0.030), (0.430 + 0.03 * k, 0.920, T + 0.034)) for k in range(4)]),
+         cl, "M_WB_PaintGreen", origin=(0.47, 0.92, T), role="clutter")
+    # 2. 个人痕迹：饭盒、记录本上的老花镜、洞洞板上的第二张私人照片
+    part("Clutter_LunchTin", merge(box((0.42, 0.72, T), (0.54, 0.83, T + 0.060)),
+                                   tube([(0.45, 0.775, T + 0.060), (0.46, 0.775, T + 0.085), (0.50, 0.775, T + 0.085), (0.51, 0.775, T + 0.060)], 0.003, 5)),
+         cl, "M_WB_Yellow", origin=(0.48, 0.775, T), role="clutter", note="personal lunch tin")
+    glasses = [tube([(cx + 0.018 * math.cos(a), 0.24 + 0.013 * math.sin(a), T + 0.015) for a in np.linspace(0, 2 * math.pi, 11)], 0.0013, 4)
+               for cx in (-0.605, -0.560)]
+    glasses += [tube([(-0.587, 0.24, T + 0.015), (-0.578, 0.243, T + 0.016)], 0.0013, 4),
+                tube([(-0.623, 0.24, T + 0.015), (-0.640, 0.29, T + 0.014)], 0.0013, 4), tube([(-0.542, 0.24, T + 0.015), (-0.530, 0.29, T + 0.014)], 0.0013, 4)]
+    part("Clutter_ReadingGlasses", merge(*glasses), cl, "M_WB_Steel", origin=(-0.58, 0.25, T + 0.012), role="clutter")
+    paper_part("Records_PegPhoto", (-0.895, 1.0175, 1.425), (-0.825, 1.0185, 1.475), R_PHOTO, C["Records"], role="record", axis="-Y")
+    # 3. 积压工单：洞洞板上夹成一排 + 台面左侧一摞
+    part("Clutter_BacklogLine", merge(tube([(0.03, 1.010, 1.725), (0.52, 1.010, 1.725)], 0.0015, 4),
+                                      *[box((x - 0.008, 1.006, 1.705), (x + 0.008, 1.012, 1.730)) for x in (0.09, 0.20, 0.31, 0.42)]),
+         cl, "M_WB_Steel", origin=(0.27, 1.01, 1.725), role="clutter")
+    for i, (x, r) in enumerate(((0.09, R_WO[0]), (0.20, R_WO[1]), (0.31, R_WO[2]), (0.42, R_WO[0]))):
+        paper_part(f"Records_BacklogOrder_{i + 1}", (x - 0.045, 1.0125, 1.585 - 0.01 * (i % 2)), (x + 0.045, 1.0135, 1.715), r, C["Records"],
+                   role="record", axis="-Y", note="backlog work order clipped on the line")
+    paper_part("Records_BacklogStack", (-0.93, 0.45, T), (-0.79, 0.60, T + 0.060), R_WO[2], C["Records"], role="inspectable_record",
+               note="second backlog stack")
+    # 4. 右侧小零件柜：3 列 × 3 层小抽屉，两只半开（零件盒）
+    ox0, ox1, oy0, oy1, oz1 = 0.60, 0.90, 0.36, 0.50, T + 0.13
+    case = [box((ox0, oy0, T), (ox1, oy1, T + 0.005)), box((ox0, oy0, oz1 - 0.005), (ox1, oy1, oz1)), box((ox0, oy1 - 0.005, T), (ox1, oy1, oz1)),
+            box((ox0, oy0, T), (ox0 + 0.005, oy1, oz1)), box((ox1 - 0.005, oy0, T), (ox1, oy1, oz1))]
+    case += [box((ox0, oy0, T + 0.005 + 0.04 * r - 0.0015), (ox1, oy1, T + 0.005 + 0.04 * r + 0.0015)) for r in (1, 2)]
+    case += [box((ox0 + 0.1 * c - 0.0015, oy0, T), (ox0 + 0.1 * c + 0.0015, oy1, oz1)) for c in (1, 2)]
+    part("Storage_PartsOrganizer", merge(*case), C["Storage"], "M_WB_Steel", origin=((ox0 + ox1) / 2, oy1, T), role="storage",
+         note="small-parts organizer, 3 x 3 drawers")
+    opened = {(2, 2): 0.05, (2, 0): 0.08}       # (列, 层) → 拉出距离；放在最右一列，免得被轴承盒的开盖挡住
+    fronts = []
+    for c in range(3):
+        for r in range(3):
+            if (c, r) in opened:
+                continue
+            x0 = ox0 + 0.1 * c + 0.004; z0 = T + 0.007 + 0.04 * r
+            fronts.append(box((x0, oy0 - 0.004, z0), (x0 + 0.092, oy0 + 0.002, z0 + 0.035)))
+            fronts.append(box((x0 + 0.036, oy0 - 0.009, z0 + 0.014), (x0 + 0.056, oy0 - 0.004, z0 + 0.020)))
+    part("Clutter_OrganizerFronts", merge(*fronts), cl, "M_WB_Ivory", origin=((ox0 + ox1) / 2, oy0, T), role="clutter")
+    bits = []
+    for k, ((c, r), d) in enumerate(opened.items()):
+        x0 = ox0 + 0.1 * c + 0.006; x1 = x0 + 0.088; z0 = T + 0.007 + 0.04 * r; yf = oy0 - d
+        dr = merge(box((x0, yf - 0.004, z0), (x1, yf + 0.002, z0 + 0.035)), box((x0 + 0.03, yf - 0.009, z0 + 0.014), (x0 + 0.058, yf - 0.004, z0 + 0.020)),
+                   box((x0, yf, z0), (x1, yf + 0.12, z0 + 0.003)), box((x0, yf, z0), (x0 + 0.003, yf + 0.12, z0 + 0.03)),
+                   box((x1 - 0.003, yf, z0), (x1, yf + 0.12, z0 + 0.03)))
+        part(f"Storage_OrganizerDrawer_Open{k + 1}", dr, C["Storage"], "M_WB_Ivory", origin=((x0 + x1) / 2, yf - 0.009, z0 + 0.017), role="inspectable",
+             slide_axis_local="-Y", open_m=d, grab_point="drawer pull", note="half-open parts drawer")
+        bits += [cyl("Z", (x0 + 0.012 + 0.016 * (j % 5), yf + 0.012 + 0.012 * (j // 5), z0 + 0.006), 0.004, 0.005, 6) for j in range(8)]
+    part("Clutter_OrganizerParts", merge(*bits), cl, "M_WB_Steel", origin=(0.80, 0.33, T), role="clutter")
+    # 5. 洞洞板右侧：挂着的备用外壳（新：象牙白前臂壳；旧：磨旧的手掌壳）
+    part("Clutter_HangingShell_New", merge(cyl("Z", (0.66, 0.975, 1.42), 0.040, 0.26, 8), cyl("Z", (0.66, 0.975, 1.30), 0.044, 0.02, 8)),
+         cl, "M_WB_Ivory", origin=(0.66, 0.975, 1.56), role="clutter", note="new forearm shell, hanging")
+    hand_shell = [box((0.745, 0.985, 1.36), (0.835, 1.012, 1.46))]
+    hand_shell += [box((0.749 + 0.022 * k, 0.988, 1.29 + 0.008 * (k % 2)), (0.767 + 0.022 * k, 1.008, 1.355)) for k in range(4)]
+    hand_shell += [box((0.835, 0.990, 1.38), (0.855, 1.008, 1.43))]
+    part("Clutter_HangingShell_Old", merge(*hand_shell), cl, "M_WB_ShellOld", origin=(0.79, 1.0, 1.47), role="clutter", note="worn old hand shell, hanging")
+    # 6. 台下底层搁板（站立 / 膝部空间之后）：装旧外壳的板条箱、备用伺服、一卷备用线
+    crate = [box((-0.46, 0.45, 0.14), (-0.06, 0.47, 0.34)), box((-0.46, 0.88, 0.14), (-0.06, 0.90, 0.34)),
+             box((-0.46, 0.45, 0.14), (-0.44, 0.90, 0.34)), box((-0.08, 0.45, 0.14), (-0.06, 0.90, 0.34)),
+             box((-0.46, 0.45, 0.14), (-0.06, 0.90, 0.16))]
+    part("Clutter_UnderBenchCrate", merge(*crate), cl, "M_WB_Wood", origin=(-0.26, 0.675, 0.14), role="clutter", note="crate of old shells under the bench")
+    shells = [rot(cyl("X", (-0.30, 0.58, 0.33), 0.045, 0.30, 8), "Y", -12, (-0.30, 0, 0.33)),
+              rot(cyl("X", (-0.22, 0.72, 0.36), 0.040, 0.26, 8), "Y", 8, (-0.22, 0, 0.36))]
+    part("Clutter_UnderBenchShells", merge(*shells, box((-0.40, 0.78, 0.16), (-0.30, 0.86, 0.26))), cl, "M_WB_ShellOld",
+         origin=(-0.26, 0.65, 0.16), role="clutter", note="old forearm shells sticking out of the crate")
+    part("Clutter_UnderBenchSpares", merge(box((-0.16, 0.55, 0.16), (-0.09, 0.62, 0.22)), box((-0.17, 0.66, 0.16), (-0.10, 0.73, 0.23)),
+                                           cyl("Z", (0.0, 0.32, 0.155), 0.08, 0.03, 12), cyl("Z", (0.0, 0.32, 0.17), 0.045, 0.03, 10)),
+         cl, "M_WB_Ivory", origin=(-0.06, 0.55, 0.14), role="clutter", note="spare servos + wire spool on the bottom shelf")
+    part("Clutter_PegHooks", merge(tube([(0.66, 1.02, 1.565), (0.66, 0.975, 1.565), (0.66, 0.975, 1.55)], 0.003, 5),
+                                   tube([(0.79, 1.02, 1.475), (0.79, 0.995, 1.475), (0.79, 0.995, 1.46)], 0.003, 5)),
+         cl, "M_WB_Steel", origin=(0.72, 1.02, 1.5), role="clutter")
+
+
 # ===========================================================================
 # 5. 检查：台面高度、镜头遮挡、小零件屏幕尺寸、手部接近、托盘取放、拆装路径
 # ===========================================================================
 CAMERAS = {
     "Game":     dict(loc=(0.0, -0.80, 1.62), target=(0.0, 0.48, 0.92), fov_v=50.0),
-    "CloseUp":  dict(loc=(0.05, -0.12, 1.36), target=(-0.02, 0.44, ARM_Z), fov_v=38.0),
+    # 近距维修镜头：比第一版稍高稍后、视场 38° → 44°，让螺钉托盘、旧件托盘和左侧探针都进画面；螺钉头仍须 ≥ 10 px
+    "CloseUp":  dict(loc=(0.06, -0.20, 1.42), target=(0.03, 0.42, 0.95), fov_v=44.0),
 }
 SCREEN = (1920, 1080)
 
@@ -869,9 +1024,21 @@ def run_checks(objs_by_name):
         "fault_led": ["Placeholder_Prosthetic_FaultLED"], "tray_screws": ["Tray_Screws"], "tray_oldparts": ["Tray_OldParts"],
         "probe": ["Diag_Probe"], "diag_screen": ["Diag_Screen"], "diag_knobs": ["Diag_Knob_Gain", "Diag_Knob_Time", "Diag_Knob_Offset"],
         "mat_center": ["Bench_Mat"],
+        "toolbox_upper": ["Toolbox_Tier2"], "organizer_drawers": ["Storage_OrganizerDrawer_Open1", "Storage_OrganizerDrawer_Open2"],
     }
+    OFF = "<outside frame>"
+    TARGET_CONTAINERS = {"organizer_drawers": ("Storage_PartsOrganizer",)}   # 抽屉藏在自己柜体里的那一段不算被杂物挡住
     for cname, cam in CAMERAS.items():
         eye = Vector(cam["loc"])
+        fwd = (Vector(cam["target"]) - eye).normalized()
+        right = fwd.cross(Vector((0, 0, 1))).normalized()
+        upv = right.cross(fwd)
+        tv = math.tan(math.radians(cam["fov_v"] / 2)); th = tv * SCREEN[0] / SCREEN[1]
+
+        def in_frame(p):   # 画面内（16:9）才算看得到
+            d = p - eye
+            z = d.dot(fwd)
+            return z > 0 and abs(d.dot(right) / z) <= th and abs(d.dot(upv) / z) <= tv
         crep = {}
         for tname, names in targets.items():
             vis = tot = 0
@@ -897,6 +1064,10 @@ def run_checks(objs_by_name):
                 for p in pts:
                     d = p - eye
                     dist = d.length
+                    if not in_frame(p):
+                        tot += 1
+                        blockers[OFF] = blockers.get(OFF, 0) + 1
+                        continue
                     loc, nrm, idx, hd = tree_all.ray_cast(eye, d.normalized(), dist + 0.01)
                     if loc is None:
                         continue
@@ -913,7 +1084,8 @@ def run_checks(objs_by_name):
                 px = 2 * r / (2 * dist * math.tan(math.radians(cam["fov_v"] / 2))) * SCREEN[1]
                 px_sizes.append(px)
             crep_block = dict(sorted(blockers.items(), key=lambda kv: -kv[1]))
-            non_ph = sum(v for k, v in blockers.items() if not k.startswith("Placeholder_") and k not in names and not k.startswith(tuple(n + "_" for n in names)) and k != "Bench_Mat")
+            non_ph = sum(v for k, v in blockers.items() if not k.startswith("Placeholder_") and k not in names and not k.startswith(tuple(n + "_" for n in names))
+                         and k not in ("Bench_Mat", OFF) and k not in TARGET_CONTAINERS.get(tname, ()))
             crep[tname] = {"visible_fraction": round(vis / tot, 3) if tot else None, "samples": tot,
                            "min_screen_px": round(min(px_sizes), 1) if px_sizes else None, "occluded_by": crep_block,
                            "occluded_by_clutter_or_props": non_ph}
@@ -932,8 +1104,14 @@ def run_checks(objs_by_name):
     add("game_cam_sees_trays_and_probe", gm["tray_screws"]["visible_fraction"] >= 0.5 and gm["probe"]["visible_fraction"] >= 0.5,
         tray_screws=gm["tray_screws"]["visible_fraction"], probe=gm["probe"]["visible_fraction"],
         mat_center_visible=gm["mat_center"]["visible_fraction"], mat_center_note="the rest is behind the placeholder arm itself")
-    add("closeup_screw_heads_at_least_8px", cu["screws"]["min_screen_px"] >= 8, screw_px=cu["screws"]["min_screen_px"],
+    add("closeup_screw_heads_at_least_10px", cu["screws"]["min_screen_px"] >= 10, screw_px=cu["screws"]["min_screen_px"],
         note="screw head 7 mm diameter at 1920x1080")
+    add("closeup_shows_trays_and_probe", all(cu[t]["visible_fraction"] >= 0.5 for t in ("tray_screws", "tray_oldparts", "probe")),
+        tray_screws=cu["tray_screws"]["visible_fraction"], tray_oldparts=cu["tray_oldparts"]["visible_fraction"], probe=cu["probe"]["visible_fraction"],
+        note="player must see where the tools and part trays are without leaving the repair view")
+    add("game_cam_diagnostic_readout_clear", gm["diag_screen"]["visible_fraction"] >= 0.9 and gm["diag_screen"]["occluded_by_clutter_or_props"] == 0
+        and gm["diag_knobs"]["occluded_by_clutter_or_props"] == 0,
+        diag_screen=gm["diag_screen"]["visible_fraction"], occluders=gm["diag_screen"]["occluded_by"])
 
     # 3. 中央操作区不放杂物；双手接近空间（未来 VR）
     ph = {n for n in objs_by_name if n.startswith("Placeholder_")}
@@ -953,7 +1131,7 @@ def run_checks(objs_by_name):
     # 4. 托盘取放：抬起 8 cm，再朝玩家拉到台前 25 cm 外
     for tn in ("Tray_Screws", "Tray_OldParts"):
         t = objs_by_name[tn]
-        parts = [t] + [objs_by_name[n] for n in objs_by_name if n == tn + "_Contents"]
+        parts = [t] + [objs_by_name[n] for n in objs_by_name if n.startswith(tn + "_")]
         tv, tp, _ = world_geo(parts)
         lo = Vector((min(p.x for p in tv), min(p.y for p in tv), min(p.z for p in tv)))
         hi = Vector((max(p.x for p in tv), max(p.y for p in tv), max(p.z for p in tv)))
@@ -987,6 +1165,14 @@ def run_checks(objs_by_name):
     for lo, hi in (lift_box, (over_lo, over_hi), down):
         hits |= set(hits_in_box(geo_all, lo, hi, exclude=ph | {"Bench_Mat"}))
     add("placeholder_cover_to_parking_path_clear", not hits, hits=sorted(hits))
+    (bx0, by0), (bx1, by1) = COVER_PARK_BOX
+    margins = {"x_min": COVER_PARK.x - size.x / 2 - bx0, "x_max": bx1 - (COVER_PARK.x + size.x / 2),
+               "y_min": COVER_PARK.y - size.y / 2 - by0, "y_max": by1 - (COVER_PARK.y + size.y / 2)}
+    add("cover_parking_box_has_margin", min(margins.values()) >= COVER_PARK_MIN_MARGIN_M,
+        margins_mm={k: round(v * 1000, 1) for k, v in margins.items()}, cover_mm=[round(size.x * 1000, 1), round(size.y * 1000, 1)],
+        box_mm=[round((bx1 - bx0) * 1000, 1), round((by1 - by0) * 1000, 1)], min_required_mm=COVER_PARK_MIN_MARGIN_M * 1000)
+    rep["cover_park"] = {"center": list(COVER_PARK), "box": [list(COVER_PARK_BOX[0]), list(COVER_PARK_BOX[1])],
+                         "margins_mm": {k: round(v * 1000, 1) for k, v in margins.items()}}
     rep["all_passed"] = all(c["passed"] for c in rep["checks"])
     return rep
 
@@ -1041,9 +1227,10 @@ def setup_render(scene):
         return o
     head = bpy.data.objects["Lamp_Head"].matrix_world.translation
     bulb = bpy.data.objects["Lamp_Bulb"].matrix_world.translation
-    light("WorkLamp_Spot", "SPOT", bulb, 90, (1.0, 0.80, 0.55), spot=70, target=(-0.04, 0.44, MAT_Z))
-    light("Ceiling_Fluo", "AREA", (0, 0.25, 2.33), 85, (0.80, 0.92, 0.85), size=1.0, target=(0, 0.25, 0.0))
-    light("Room_Fill", "AREA", (0.2, -1.4, 1.9), 40, (0.70, 0.82, 0.75), size=1.5, target=(0, 0.6, 1.0))
+    bpy.data.objects["Lamp_Bulb"].visible_shadow = False   # 聚光灯放在灯泡网格里：灯泡本身不能挡住它（否则 Cycles 里没有暖光焦点）
+    light("WorkLamp_Spot", "SPOT", bulb, 170, (1.0, 0.76, 0.48), spot=75, target=(-0.04, 0.44, MAT_Z))   # 暖光焦点：操作区明显比环境亮
+    light("Ceiling_Fluo", "AREA", (0, 0.25, 2.33), 32, (0.80, 0.90, 0.86), size=1.0, target=(0, 0.25, 0.0))
+    light("Room_Fill", "AREA", (0.2, -1.4, 1.9), 14, (0.72, 0.80, 0.78), size=1.5, target=(0, 0.6, 1.0))
     scene.cycles.samples = 96
     scene.render.resolution_x, scene.render.resolution_y = 1600, 900
     try:
@@ -1066,6 +1253,8 @@ def main():
         "T_WB_Paper.png": hs.save_image("T_WB_Paper.png", paper_texture(), TEX_DIR),
         "T_WB_Screen.png": hs.save_image("T_WB_Screen.png", screen_texture(), TEX_DIR),
         "T_WB_Mat.png": hs.save_image("T_WB_Mat.png", mat_texture(), TEX_DIR),
+        "T_WB_Pegboard.png": hs.save_image("T_WB_Pegboard.png", pegboard_texture(), TEX_DIR),
+        "T_WB_ShellWear.png": hs.save_image("T_WB_ShellWear.png", shell_wear_texture(), TEX_DIR),
     }
     for img in images.values():
         img.colorspace_settings.name = "sRGB"
@@ -1080,6 +1269,7 @@ def main():
     build_diagnostic(C)
     build_lamp(C)
     build_storage_and_clutter(C)
+    build_lived_in(C)
 
     # 根对象与分组空物体（导出层级）
     root = bpy.data.objects.new("WorkbenchArea", None)

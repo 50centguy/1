@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_WB_DarkSteel
+    second: {fileID: 2100000, guid: 5fc5aaa7320a8fc489294dd98bf544e2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_WB_FaultRed
     second: {fileID: 2100000, guid: 8c74157fe6fb8a24bada2081bf19c928, type: 2}
   - first:
@@ -47,6 +52,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_WB_Pegboard
+    second: {fileID: 2100000, guid: 3ae90e3d946f9954a96fa7d5c522642a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_WB_Placeholder
     second: {fileID: 2100000, guid: 0e50b5a020c21dd46a30e1c43e6f70bf, type: 2}
   - first:
@@ -62,6 +72,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_WB_ShellOld
+    second: {fileID: 2100000, guid: 24eeb7b2f3712ac4c8af74ca62f3ce2d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_WB_Steel
     second: {fileID: 2100000, guid: 2033c4a8413a6954490b58e48866c909, type: 2}
   - first:
@@ -69,6 +84,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: M_WB_WallGreen
     second: {fileID: 2100000, guid: a5a36816d17776a4ea46ea807164ce2c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_WB_Wire
+    second: {fileID: 2100000, guid: 07c57d3359b852841a84b1776924e735, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
