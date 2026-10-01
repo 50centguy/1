@@ -1,0 +1,11 @@
+# 工作台预制体：Assets/WorkbenchArea/Prefabs/WorkbenchArea.prefab
+整体包围盒：中心 (0.000, 1.275, 0.275)，尺寸 (3.400, 2.650, 2.850) m
+   WB_Bench/Bench_Top  pos=(0.000, 0.900, -0.550)  MeshRenderer mesh=Bench_Top tris=12 mats=[M_WB_Wood] boundsC=(0.000, 0.880, -0.550) size=(1900, 40, 800)mm
+   WB_Mat/Bench_Mat  pos=(0.020, 0.900, -0.450)  MeshRenderer mesh=Bench_Mat tris=12 mats=[M_WB_Mat] boundsC=(0.020, 0.902, -0.450) size=(800, 4, 460)mm
+   WB_Trays/Tray_Screws  pos=(-0.470, 0.918, -0.200)  MeshRenderer mesh=Tray_Screws tris=352 mats=[M_WB_Steel] boundsC=(-0.470, 0.911, -0.280) size=(140, 22, 160)mm
+   WB_Trays/Tray_OldParts  pos=(-0.450, 0.932, -0.402)  MeshRenderer mesh=Tray_OldParts tris=264 mats=[M_WB_Rubber] boundsC=(-0.450, 0.917, -0.501) size=(180, 35, 198)mm
+   WB_Trays/Box_Bearings  pos=(-0.650, 0.950, -0.220)  MeshRenderer mesh=Box_Bearings tris=24 mats=[M_WB_PaintGreen] boundsC=(-0.650, 0.955, -0.270) size=(100, 110, 100)mm
+   WB_Toolbox/Toolbox_Tier2  pos=(-0.730, 1.135, -0.500)  MeshRenderer mesh=Toolbox_Tier2 tris=308 mats=[M_WB_PaintGreen] boundsC=(-0.730, 1.118, -0.600) size=(320, 35, 200)mm
+   WB_Placeholder/Placeholder_Prosthetic_Forearm  pos=(0.010, 0.976, -0.450)  MeshRenderer mesh=Placeholder_Prosthetic_Forearm tris=28 mats=[M_WB_Placeholder] boundsC=(0.010, 0.976, -0.450) size=(420, 85, 85)mm
+   WB_Storage/Storage_PartsOrganizer  pos=(-0.750, 0.900, -0.500)  MeshRenderer mesh=Storage_PartsOrganizer tris=108 mats=[M_WB_Steel] boundsC=(-0.750, 0.965, -0.430) size=(300, 130, 140)mm
+可检查对象（WbInspectable）：59 个

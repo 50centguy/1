@@ -1,0 +1,7 @@
+七号首单原型 · 场景构建记录（Unity 6000.0.84f1，2026-10-01 16:47）
+工作台 Assets/WorkbenchArea/Prefabs/WorkbenchArea.prefab 在原点（关掉 WB_Placeholder）；维修座 Assets/BorderRepair/Prefabs/Unit07Dock/Unit07ServiceDock.prefab 在 (0.00, 0.00, 1.15)，转 180° 正面朝工作台；七号 Assets/BorderRepair/Prefabs/Unit07Dock/UNIT07_RobotV4_DockReady.prefab 对齐 Dock_RobotAnchor (0.000, 0.720, 1.150)
+遮挡碰撞：给七号和维修座的 268 个网格加 MeshCollider（射线被机身挡住时，后面的部件点不到）
+首单部件（真实网格）：engine_l_latch_outer = Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_CoverLatch_Outer_L；engine_l_latch_rear = Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_CoverLatch_Rear_L；engine_l_cover = Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_UpperCover_L；engine_l_bearing = Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingTop_L；engine_r = Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_R_Hinge/Engine_UpperCover_R
+新轴承占位：直径 53 mm、高 19 mm 的圆柱（照旧轴承包围盒），放在 WB_Trays/Box_Bearings 上，名字带“占位”
+落点：上盖总成 → WorkbenchArea/WB_Mat/Bench_Mat (0.029, 0.904, -0.449)；旧轴承 → WorkbenchArea/WB_Trays/Tray_Screws 里的空位 (-0.506, 0.904, -0.251)（旧件托盘 没有放得下 53 mm 轴承的空位（被 Tray_OldParts_Contents、Tray_OldParts_Shells 占满）；所以放到螺钉托盘前格）
+测试场景：Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity

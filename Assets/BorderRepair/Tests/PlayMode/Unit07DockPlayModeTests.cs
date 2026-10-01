@@ -156,11 +156,12 @@ namespace BorderRepair.Tests
             yield return WaitFor(() => dock.State == DockState.RotorsStopped, dock.Rotors.SpinDownSeconds + 2f, "转子停转");
             var jaw = Find("Arm_R_JawUpper");
             var rotorL = dock.Rotors.Rotors[0];
-            var q0 = jaw.localRotation;
+            // 模型里有两个 Arm_R_JawUpper（骨骼和它下面的同名网格），不排序的查找可能拿到任一个；比较世界旋转，两者在落座时都随夹爪动画转动
+            var q0 = jaw.rotation;
             var r0 = rotorL.localRotation;
             dock.RobotAnimator.Play("Gripper_OpenClose_R", 0, 0f);
             yield return Seconds(0.8f);   // 第 24 帧附近：全开 36°
-            Assert.Greater(Quaternion.Angle(q0, jaw.localRotation), 25f, "断电后夹爪动作应照常播放");
+            Assert.Greater(Quaternion.Angle(q0, jaw.rotation), 25f, "断电后夹爪动作应照常播放");
             Assert.Less(Quaternion.Angle(r0, rotorL.localRotation), 0.01f, "播放夹爪动作时转子应保持静止");
             var hp = Rend("Chassis_ArmHardpoint_L").bounds;
             var pad = Find("Dock_ContactPad_L").GetComponent<Collider>().bounds;
