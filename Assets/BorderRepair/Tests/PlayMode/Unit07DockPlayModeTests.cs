@@ -129,12 +129,17 @@ namespace BorderRepair.Tests
             Assert.IsTrue(dock.CanOperateImpeller);
             Assert.IsTrue(dock.InspectLeftEngine(), dock.LastMessage);
 
-            // 恢复供电：手柄 ON、灯变回、转子重新加速，叶轮再次禁止操作
-            Assert.IsTrue(dock.Interact(DockAction.PowerSwitch));
+            // 恢复供电（第二阶段起须先“允许结束维修”）：未确认时被拒绝；确认后手柄 ON、灯变回、转子重新加速，叶轮再次禁止操作
+            Assert.IsFalse(dock.Interact(DockAction.PowerSwitch), "未确认维修结束时不应允许恢复供电");
+            Assert.IsFalse(dock.PowerOn);
+            AssertLamp(false);
+            ((ManualServiceCompletionGate)dock.ServiceGate).Confirm();
+            Assert.IsTrue(dock.Interact(DockAction.PowerSwitch), dock.LastMessage);
             AssertLamp(true);
-            Assert.AreEqual(DockState.Clamped, dock.State);
+            Assert.AreEqual(DockState.SpinningUp, dock.State);
             Assert.IsFalse(dock.InspectLeftEngine());
             yield return Seconds(1.2f);
+            Assert.AreEqual(DockState.Clamped, dock.State, "转子回到悬停转速后回到“已夹紧、通电”");
             Assert.AreEqual(dock.Rotors.IdleSpeedDegPerSec, dock.Rotors.SpeedDegPerSec, 1f);
             Assert.AreEqual(0f, dock.LeverOffFraction, 1e-4f, "手柄应回到 ON 位置");
         }
@@ -156,15 +161,107 @@ namespace BorderRepair.Tests
             yield return WaitFor(() => dock.State == DockState.RotorsStopped, dock.Rotors.SpinDownSeconds + 2f, "转子停转");
             var jaw = Find("Arm_R_JawUpper");
             var rotorL = dock.Rotors.Rotors[0];
-            var q0 = jaw.localRotation;
+            // 模型里有两个 Arm_R_JawUpper（骨骼和它下面的同名网格），不排序的查找可能拿到任一个；比较世界旋转，两者在落座时都随夹爪动画转动
+            var q0 = jaw.rotation;
             var r0 = rotorL.localRotation;
             dock.RobotAnimator.Play("Gripper_OpenClose_R", 0, 0f);
             yield return Seconds(0.8f);   // 第 24 帧附近：全开 36°
-            Assert.Greater(Quaternion.Angle(q0, jaw.localRotation), 25f, "断电后夹爪动作应照常播放");
+            Assert.Greater(Quaternion.Angle(q0, jaw.rotation), 25f, "断电后夹爪动作应照常播放");
             Assert.Less(Quaternion.Angle(r0, rotorL.localRotation), 0.01f, "播放夹爪动作时转子应保持静止");
             var hp = Rend("Chassis_ArmHardpoint_L").bounds;
             var pad = Find("Dock_ContactPad_L").GetComponent<Collider>().bounds;
             Assert.AreEqual(hp.min.y, pad.max.y, 0.001f, "播放夹爪动作时机身应保持落座");
+        }
+
+        /// <summary>
+        /// 第二阶段场景测试：断电维修 → 确认结束 → 恢复供电、转子回到悬停转速 → 松开夹具 → 升起离座 → 转子交还 Animator。
+        /// 交还后：RotorPowerDriver 不再覆盖转子；Animator 进入 Idle_Hover；转子由动画以悬停转速转动、姿态与 Idle_Hover 当前帧一致；
+        /// 机身随 Idle_Hover 浮动、离开接触垫；手柄 ON、状态灯绿色、夹具张开。
+        /// </summary>
+        [UnityTest]
+        public IEnumerator UndockAfterService_HandsRotorsBackToAnimator()
+        {
+            yield return DockAndClamp();
+            var rotorL = dock.Rotors.Rotors[0];
+            var rotorR = dock.Rotors.Rotors[1];
+            Assert.IsTrue(dock.SetPower(false));
+            yield return WaitFor(() => dock.State == DockState.RotorsStopped, dock.Rotors.SpinDownSeconds + 2f, "转子停转");
+            Assert.IsFalse(dock.Interact(DockAction.LiftOff), "断电维修中不能离座");
+            Assert.IsFalse(dock.Interact(DockAction.Clamps), "断电维修中不能松开夹具");
+
+            ((ManualServiceCompletionGate)dock.ServiceGate).Confirm();
+            Assert.IsTrue(dock.Interact(DockAction.PowerSwitch), dock.LastMessage);
+            Assert.AreEqual(DockState.SpinningUp, dock.State);
+            Assert.IsFalse(dock.Interact(DockAction.Clamps), "转子加速中不能松开夹具");
+            yield return WaitFor(() => dock.State == DockState.Clamped, dock.Rotors.SpinUpSeconds + 2f, "转子回到悬停转速");
+            AssertLamp(true);
+
+            Assert.IsTrue(dock.Interact(DockAction.Clamps), dock.LastMessage);
+            yield return WaitFor(() => dock.State == DockState.SeatedOpen, 3f, "夹具张开");
+            var hp = Rend("Chassis_ArmHardpoint_L");
+            var pad = Find("Dock_ContactPad_L").GetComponent<Collider>().bounds;
+            Assert.AreEqual(hp.bounds.min.y, pad.max.y, 0.001f, "夹具松开后、升起前机身仍落座");
+
+            Assert.IsTrue(dock.Interact(DockAction.LiftOff), dock.LastMessage);
+            yield return Seconds(0.5f);
+            Assert.AreEqual(DockState.LiftingOff, dock.State);
+            Assert.IsTrue(dock.Rotors.Driven, "升起途中转子仍由维修座按悬停转速驱动");
+            var qMid = rotorL.localRotation;
+            yield return Seconds(0.1f);
+            Assert.Greater(RotorDelta(rotorL, qMid), 5f, "升起途中转子在转");
+            yield return WaitFor(() => dock.State == DockState.Undocked, 3f, "离座");
+
+            // 交还给 Animator
+            Assert.IsFalse(dock.Rotors.Driven, "离座后 RotorPowerDriver 不再覆盖转子");
+            yield return Seconds(0.4f);                                   // 等过渡（0.2 s）结束
+            var info = dock.RobotAnimator.GetCurrentAnimatorStateInfo(0);
+            Assert.IsTrue(info.IsName(dock.HoverStateName), "离座后 Animator 应在 Idle_Hover");
+            Assert.IsFalse(dock.RobotAnimator.IsInTransition(0));
+            // 转子由动画以悬停转速转动：按约 1/30 s 的窗口累计角度，换算成转速。
+            // 不能逐帧累计：批处理模式下一帧只有 0.5 ms，每帧转 0.2°，低于 Quaternion.Angle 的判等阈值（约 0.16°）会被算成 0。
+            float total = 0f, totalR = 0f, time = 0f, window = 0f;
+            var prev = rotorL.localRotation;
+            var prevR = rotorR.localRotation;
+            while (time < 0.5f)
+            {
+                yield return null;
+                window += Time.deltaTime;
+                if (window < 1f / 30f) continue;                     // 每个窗口约 12°，远小于 180°，不会因回绕少算
+                total += Quaternion.Angle(prev, rotorL.localRotation);
+                totalR += Quaternion.Angle(prevR, rotorR.localRotation);
+                prev = rotorL.localRotation; prevR = rotorR.localRotation;
+                time += window;
+                window = 0f;
+            }
+            float speedL = total / time, speedR = totalR / time;
+            Assert.AreEqual(dock.Rotors.IdleSpeedDegPerSec, speedL, dock.Rotors.IdleSpeedDegPerSec * 0.15f, $"左转子由动画驱动的转速 {speedL:F0}°/s");
+            Assert.AreEqual(dock.Rotors.IdleSpeedDegPerSec, speedR, dock.Rotors.IdleSpeedDegPerSec * 0.15f, $"右转子由动画驱动的转速 {speedR:F0}°/s");
+            // 转子姿态就是 Idle_Hover 当前帧的姿态（不是 RotorPowerDriver 写的）
+            var clip = dock.RobotAnimator.runtimeAnimatorController.animationClips.First(c => c.name == dock.HoverStateName);
+            var probe = UnityEngine.Object.Instantiate(dock.RobotRoot.gameObject);
+            foreach (var mb in probe.GetComponentsInChildren<MonoBehaviour>()) mb.enabled = false;
+            probe.GetComponent<Animator>().enabled = false;
+            var st = dock.RobotAnimator.GetCurrentAnimatorStateInfo(0);
+            clip.SampleAnimation(probe, Mathf.Repeat(st.normalizedTime, 1f) * clip.length);
+            var probeRotor = probe.GetComponentsInChildren<Transform>().First(t => t.name == rotorL.name);
+            Assert.Less(Quaternion.Angle(probeRotor.localRotation, rotorL.localRotation), 8f, "转子姿态应与 Idle_Hover 当前帧一致（允许约 1 帧误差）");
+            UnityEngine.Object.Destroy(probe);
+            // 机身：悬停高度，随 Idle_Hover 上下浮动，离开接触垫；夹具张开；手柄 ON、灯绿色
+            Assert.AreEqual(dock.RobotAnchor.position.y + dock.HoverHeight, dock.RobotRoot.position.y, 1e-4f);
+            Assert.Greater(hp.bounds.min.y, pad.max.y + 0.05f, "离座后硬点板离开接触垫");
+            var body = dock.RobotRoot.Find("Robot_Rig/Root/Body");          // 用完整路径，避免同名对象
+            Assert.IsNotNull(body);
+            float yMin = float.MaxValue, yMax = float.MinValue;
+            for (float t = 0f; t < 1.0f; t += Time.deltaTime)
+            {
+                yMin = Mathf.Min(yMin, body.position.y); yMax = Mathf.Max(yMax, body.position.y);
+                yield return null;
+            }
+            Assert.Greater(yMax - yMin, 0.002f, "离座后机身随 Idle_Hover 浮动");
+            Assert.AreEqual(1f, dock.ClampOpenFraction, 1e-4f);
+            Assert.AreEqual(0f, dock.LeverOffFraction, 1e-4f);
+            AssertLamp(true);
+            Assert.IsFalse(dock.Interact(DockAction.PowerSwitch), "离座后不能断电");
         }
 
         [UnityTest]

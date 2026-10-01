@@ -30,6 +30,9 @@ namespace BorderRepair.Dock
         public bool Powered => powered;
         public float SpeedDegPerSec => Driven ? speed : (powered ? idleSpeedDegPerSec : 0f);
         public bool IsStopped => Driven && !powered && speed <= 0f;
+        /// <summary>通电且已回到悬停转速（未接管时由 Animator 的 Idle_Hover 驱动，也算正常转速）。</summary>
+        public bool IsAtIdleSpeed => powered && (!Driven || speed >= idleSpeedDegPerSec - 0.01f);
+        public float SpinUpSeconds => spinUpSeconds;
         public float IdleSpeedDegPerSec => idleSpeedDegPerSec;
         public float SpinDownSeconds => spinDownSeconds;
         public Transform[] Rotors => rotors;
@@ -54,7 +57,7 @@ namespace BorderRepair.Dock
             Driven = true;
         }
 
-        /// <summary>交还给 Animator（重新悬停时使用）。</summary>
+        /// <summary>交还给 Animator（离座后重新悬停时使用）：之后不再覆盖转子骨骼，由当前动画片段驱动。</summary>
         public void Release()
         {
             Driven = false;
@@ -65,10 +68,12 @@ namespace BorderRepair.Dock
             powered = on;
         }
 
-        void LateUpdate()
+        void LateUpdate() => Step(Time.deltaTime);
+
+        /// <summary>推进一帧（LateUpdate 调用；编辑模式测试也直接调用它，按固定步长推进）。</summary>
+        public void Step(float dt)
         {
             if (!Driven) return;
-            float dt = Time.deltaTime;
             float target = powered ? idleSpeedDegPerSec : 0f;
             float rate = powered ? idleSpeedDegPerSec / Mathf.Max(spinUpSeconds, 0.01f) : idleSpeedDegPerSec / Mathf.Max(spinDownSeconds, 0.01f);
             speed = Mathf.MoveTowards(speed, target, rate * dt);

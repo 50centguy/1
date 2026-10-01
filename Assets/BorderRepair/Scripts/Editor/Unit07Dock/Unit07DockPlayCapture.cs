@@ -15,14 +15,16 @@ namespace BorderRepair.EditorTools
     /// <summary>
     /// 带界面的编辑器 Play 模式采集：接入前后的渲染统计与帧时间、停靠流程截图、断电前后转子转速、控制台错误。
     /// 命令行（不要 -batchmode）：Unity.exe -projectPath &lt;项目&gt; -executeMethod BorderRepair.EditorTools.Unit07DockPlayCapture.Begin
-    /// 结果写到 Docs/Integration/Unit07Dock_Phase1/。只读取场景，不保存场景、不改资源。
+    /// 第二阶段起还采集维修结束后的离座流程（确认结束 → 恢复供电 → 松开夹具 → 升起离座 → 转子交还 Animator）。
+    /// 结果写到 Docs/Integration/Unit07Dock_Phase2/（第一阶段的记录保留在 Unit07Dock_Phase1/，不覆盖）。只读取场景，不保存场景、不改资源。
     /// </summary>
     [InitializeOnLoad]
     public static class Unit07DockPlayCapture
     {
         const string KeyActive = "Unit07DockPlayCapture.Active";
         const string KeyExit = "Unit07DockPlayCapture.Exit";
-        static string OutDir => Path.GetFullPath(Unit07DockBuilder.ReportDir);
+        public const string Phase2ReportDir = "Docs/Integration/Unit07Dock_Phase2";
+        static string OutDir => Path.GetFullPath(Phase2ReportDir);
 
         static Unit07DockPlayCapture() { EditorApplication.playModeStateChanged += OnPlayMode; }
 
@@ -53,6 +55,8 @@ namespace BorderRepair.EditorTools
             static readonly List<(float at, Action act)> steps = new List<(float, Action)>();
             static int next;
             static float t0;
+            static Quaternion measureRotor;
+            static float measureT;
             static Unit07DockController dock;
             static GameObject dockRoot, robotRoot;
             static Camera cam;
@@ -116,8 +120,19 @@ namespace BorderRepair.EditorTools
                 At(0.3f, () => { dock.RobotAnimator.Play("Gripper_OpenClose_R", 0, 0f); Note("断电状态下播放 Gripper_OpenClose_R"); });
                 At(0.8f, () => { Shot("P08_power_off_gripper_animation_still_plays", new Vector3(0.9f, 0.95f, 1.1f), new Vector3(0.2f, 0.85f, 0.15f)); Rotor("断电播放夹爪动作"); });
                 At(0.3f, () => Shot("P09_underside_tray_corridor", new Vector3(0.55f, 0.35f, 1.05f), new Vector3(0f, 0.88f, 0f)));
-                At(0.3f, () => Act(DockAction.PowerSwitch));
-                At(1.3f, () => { Rotor("恢复供电 1.3 s"); Shot("P10_power_on_again"); });
+                // 第二阶段：维修结束后离座
+                At(0.3f, () => Act(DockAction.PowerSwitch));    // 未确认维修结束：应被拒绝
+                At(0.3f, () => { ((ManualServiceCompletionGate)dock.ServiceGate).Confirm(); Note("【占位】测试场景手动确认：维修已结束（未接工单）"); Act(DockAction.PowerSwitch); });
+                At(0.4f, () => { Rotor("恢复供电 0.4 s（加速中）"); Shot("P10_power_on_spinning_up"); Act(DockAction.Clamps); });   // 加速中松夹具：应被拒绝
+                At(1.0f, () => { Rotor("恢复供电 1.4 s"); Note($"状态：{dock.State}"); Act(DockAction.LiftOff); });              // 还夹着就离座：应被拒绝
+                At(0.3f, () => Act(DockAction.Clamps));
+                At(0.9f, () => { Shot("P11_clamps_released_still_seated"); Note($"状态：{dock.State}"); Act(DockAction.LiftOff); });
+                At(0.6f, () => { Rotor("升起中"); Shot("P12_lifting_off"); });
+                At(1.0f, () => { Rotor("离座后"); Note($"状态：{dock.State}，Animator 当前片段 Idle_Hover：{dock.RobotAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_Hover")}");
+                                 Shot("P13_undocked_animator_drives_rotors"); ScreenCapture.CaptureScreenshot(Path.Combine(outDir, "Screenshots", "P13b_game_view_hud_undocked.png")); });
+                At(0.5f, () => { measureRotor = dock.Rotors.Rotors[0].localRotation; measureT = Time.time; });
+                At(0.1f, () => Note($"离座后转子实测转速（Animator 驱动，按骨骼实际旋转换算）：{Quaternion.Angle(measureRotor, dock.Rotors.Rotors[0].localRotation) / Mathf.Max(1e-4f, Time.time - measureT):F0}°/s"));
+                At(0.3f, () => Act(DockAction.PowerSwitch));    // 离座后断电：应被拒绝
                 At(0.5f, Finish);
                 t0 = Time.realtimeSinceStartup;
                 next = 0;

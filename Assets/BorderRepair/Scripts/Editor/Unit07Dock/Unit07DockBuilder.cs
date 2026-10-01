@@ -307,11 +307,24 @@ namespace BorderRepair.EditorTools
             ctrl.Configure(robot.transform, robot.GetComponent<Animator>(), robot.GetComponent<RotorPowerDriver>(), anchor,
                            Find(dock.transform, "Dock_Clamp_L"), Find(dock.transform, "Dock_Clamp_R"),
                            Find(dock.transform, "Dock_PowerSwitch_Lever"), Find(dock.transform, "Dock_PowerSwitch_Lamp").GetComponent<Renderer>());
+            // 第二阶段：“允许结束维修”接口。测试场景接的是手动占位实现，不是工单
+            var gate = new GameObject("ServiceCompletionGate (占位：手动确认，未接工单)").AddComponent<ManualServiceCompletionGate>();
+            ctrl.SetServiceCompletionGate(gate);
             flow.AddComponent<Unit07DockInput>().Configure(cam, ctrl);
             EditorUtility.SetDirty(ctrl);
 
             EditorSceneManager.SaveScene(scene, ScenePath);
-            Note($"测试场景：{ScenePath}；七号根对齐 Dock_RobotAnchor {anchor.position:F3}，缩放 1，正面 +Z");
+            Note($"测试场景：{ScenePath}；七号根对齐 Dock_RobotAnchor {anchor.position:F3}，缩放 1，正面 +Z；“允许结束维修”接手动占位实现 {gate.name}");
+        }
+
+        /// <summary>只重建测试场景（预制体、材质、FBX 不动），第二阶段改场景时用，避免重新生成资源带来的无关改动。</summary>
+        [MenuItem("Border Repair/Unit07 Dock/Rebuild Test Scene Only")]
+        public static void RebuildSceneOnly()
+        {
+            Log.Clear();
+            BuildScene();
+            Debug.Log("[Unit07Dock] " + Log);
+            if (Application.isBatchMode) EditorApplication.Exit(0);
         }
 
         // ------------------------------------------------------------------ 报告
