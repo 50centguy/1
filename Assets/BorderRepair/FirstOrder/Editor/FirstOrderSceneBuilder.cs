@@ -31,9 +31,38 @@ namespace BorderRepair.FirstOrder.EditorTools
         static readonly StringBuilder Log = new StringBuilder();
         static void Note(string s) { Log.AppendLine(s); Debug.Log("[FirstOrderBuild] " + s); }
 
+        /// <summary>
+        /// 布局（A/B 实测用）：维修架 + 七号的世界位姿，以及随维修架一起变的镜头 / 灯。A＝原来的写死值，默认就是 A，构建结果与原来一致。
+        /// 场景构建里只有这几处依赖写死的世界坐标：维修架位置朝向、维修座镜头、总览镜头、左右引擎和近看镜头的偏移方向、维修座检修灯；
+        /// 其余（落点、托盘、轴承盒、标记、对比镜头、搬运路线）都从实际对象算。
+        /// </summary>
+        public class Layout
+        {
+            public string id = "A";
+            public string scenePath = ScenePath;
+            public string buildLog = "build_log.txt";
+            public Vector3 dockPosition = DockPosition;
+            public Quaternion dockRotation = DockRotation;
+            public Vector3? overviewPos, overviewTarget;      // 不给就把 A 的总览镜头随维修架一起变换
+            public string note = "A：原布局（维修架在玩家身后，正面朝工作台）";
+            /// <summary>A 世界 → 本布局世界（只作用于跟维修架一起走的东西；A 是恒等变换）。</summary>
+            public Matrix4x4 FromA => Matrix4x4.TRS(dockPosition, dockRotation, Vector3.one) * Matrix4x4.TRS(DockPosition, DockRotation, Vector3.one).inverse;
+            public Vector3 P(Vector3 aWorldPoint) => FromA.MultiplyPoint3x4(aWorldPoint);
+            public Vector3 D(Vector3 aWorldDir) => FromA.MultiplyVector(aWorldDir);
+        }
+
+        static Layout L = new Layout();
+
         [MenuItem("Border Repair/Unit07 First Order/Build Test Scene")]
         public static void Build()
         {
+            BuildWith(new Layout());
+            if (Application.isBatchMode) EditorApplication.Exit(0);
+        }
+
+        public static void BuildWith(Layout layout)
+        {
+            L = layout;
             Log.Clear();
             Directory.CreateDirectory(ArtDir);
             Directory.CreateDirectory(Root + "/Scenes");
@@ -45,11 +74,11 @@ namespace BorderRepair.FirstOrder.EditorTools
             Find(bench.transform, "WB_Placeholder").gameObject.SetActive(false);
             var dockGo = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(FirstOrderAudit.DockPrefab));
             // 预制体根节点自带 FBX 轴向换算的旋转：在它外面再转 180°，不能直接覆盖
-            dockGo.transform.SetPositionAndRotation(DockPosition, DockRotation * dockGo.transform.rotation);
+            dockGo.transform.SetPositionAndRotation(L.dockPosition, L.dockRotation * dockGo.transform.rotation);
             var anchor = Find(dockGo.transform, "Dock_RobotAnchor");
             var robot = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(FirstOrderAudit.RobotPrefab));
-            robot.transform.SetPositionAndRotation(anchor.position, DockRotation * robot.transform.rotation);
-            Note($"工作台 {FirstOrderAudit.BenchPrefab} 在原点（关掉 WB_Placeholder）；维修座 {FirstOrderAudit.DockPrefab} 在 {DockPosition}，转 180° 正面朝工作台；" +
+            robot.transform.SetPositionAndRotation(anchor.position, L.dockRotation * robot.transform.rotation);
+            Note($"布局 {L.id}：{L.note}。工作台 {FirstOrderAudit.BenchPrefab} 在原点（关掉 WB_Placeholder）；维修座 {FirstOrderAudit.DockPrefab} 在 {L.dockPosition:F3}，朝向 {L.dockRotation.eulerAngles.y:F0}°；" +
                  $"七号 {FirstOrderAudit.RobotPrefab} 对齐 Dock_RobotAnchor {anchor.position:F3}");
 
             // ---------------------------------------------------------------- 2. 维修座流程（现有 Unit07DockController，不改）
@@ -205,12 +234,12 @@ namespace BorderRepair.FirstOrder.EditorTools
             var engRC = rightEngine.WorldBounds().center;
             var shots = new List<FirstOrderCameraRig.Shot>
             {
-                Shot(rigGo, FirstOrderCameraRig.Dock, new Vector3(0.95f, 1.35f, 0.55f), new Vector3(0.12f, 0.88f, 1.22f), 55f),   // 侧前方：七号落座后仍看得到夹具握把和断电开关
-                Shot(rigGo, FirstOrderCameraRig.EngineL, engC + new Vector3(0.42f, 0.36f, -0.42f), engC + new Vector3(0f, -0.03f, 0f), 42f),
-                Shot(rigGo, FirstOrderCameraRig.EngineRear, engC + new Vector3(0.40f, 0.34f, 0.52f), engC + new Vector3(0f, -0.04f, 0.05f), 42f),
+                Shot(rigGo, FirstOrderCameraRig.Dock, L.P(new Vector3(0.95f, 1.35f, 0.55f)), L.P(new Vector3(0.12f, 0.88f, 1.22f)), 55f),   // 侧前方：七号落座后仍看得到夹具握把和断电开关
+                Shot(rigGo, FirstOrderCameraRig.EngineL, engC + L.D(new Vector3(0.42f, 0.36f, -0.42f)), engC + new Vector3(0f, -0.03f, 0f), 42f),
+                Shot(rigGo, FirstOrderCameraRig.EngineRear, engC + L.D(new Vector3(0.40f, 0.34f, 0.52f)), engC + L.D(new Vector3(0f, -0.04f, 0.05f)), 42f),
                 Shot(rigGo, FirstOrderCameraRig.Bench, new Vector3(0.0f, 1.62f, 0.62f), new Vector3(-0.15f, 0.92f, -0.42f), 52f),
-                Shot(rigGo, FirstOrderCameraRig.Overview, new Vector3(1.40f, 2.05f, 0.30f), new Vector3(0.05f, 0.95f, 0.30f), 62f),
-                Shot(rigGo, FirstOrderCameraRig.EngineR, engRC + new Vector3(-0.42f, 0.36f, -0.42f), engRC + new Vector3(0f, -0.03f, 0f), 42f),
+                Shot(rigGo, FirstOrderCameraRig.Overview, L.overviewPos ?? L.P(new Vector3(1.40f, 2.05f, 0.30f)), L.overviewTarget ?? L.P(new Vector3(0.05f, 0.95f, 0.30f)), 62f),
+                Shot(rigGo, FirstOrderCameraRig.EngineR, engRC + L.D(new Vector3(-0.42f, 0.36f, -0.42f)), engRC + new Vector3(0f, -0.03f, 0f), 42f),
             };
             // 保养记录：上盖翻面落到操作垫后，标记所在的位置（按落点位姿算）；新旧轴承对比：托盘落点和轴承盒之间
             var labelOnMat = matZone.landing.position + matZone.landingOffset + coverFlat * (Quaternion.Inverse(coverT.rotation) * (labelR.bounds.center - coverT.position));
@@ -221,7 +250,7 @@ namespace BorderRepair.FirstOrder.EditorTools
             shots.Add(Shot(rigGo, FirstOrderCameraRig.Compare, mid + new Vector3(0f, 0.16f + span * 0.55f, 0.12f + span * 0.45f), mid, 38f));
             // 左引擎近看：从斜上方看进气口（上盖装着时）和轴承位（上盖拆下后）
             var closeFocus = Vector3.Lerp(clogLayers.Last().bounds.center, wornMf.GetComponent<Renderer>().bounds.center, 0.5f);
-            shots.Add(Shot(rigGo, FirstOrderCameraRig.EngineClose, closeFocus + new Vector3(0.11f, 0.25f, -0.11f), closeFocus, 36f));
+            shots.Add(Shot(rigGo, FirstOrderCameraRig.EngineClose, closeFocus + L.D(new Vector3(0.11f, 0.25f, -0.11f)), closeFocus, 36f));
             Note($"镜头：保养记录对准操作垫上翻面后的标记 {labelOnMat:F3}；新旧轴承对比对准托盘落点和轴承盒之间 {mid:F3}（两者相距 {span * 1000:F0} mm）");
             var rig = rigGo.AddComponent<FirstOrderCameraRig>();
             rig.Configure(cam, shots);
@@ -256,11 +285,11 @@ namespace BorderRepair.FirstOrder.EditorTools
             Note($"故障美术包网格三角面（静态统计，Unity 导入后的索引数 / 3）：{string.Join("；", perKit.Select(k => $"{k.Item1} {k.tris}（{k.detail}）"))}；合计 {perKit.Sum(k => k.tris)}。" +
                  $"关掉的原轴承渲染器 {Tris(oldR.GetComponent<MeshFilter>().sharedMesh)} 面；去掉的占位圆柱（Unity 内置 Cylinder）{Tris(Resources.GetBuiltinResource<UnityEngine.Mesh>("Cylinder.fbx"))} 面");
 
-            EditorSceneManager.SaveScene(scene, ScenePath);
-            Note($"测试场景：{ScenePath}");
+            Directory.CreateDirectory(Path.GetDirectoryName(L.scenePath));
+            EditorSceneManager.SaveScene(scene, L.scenePath);
+            Note($"测试场景：{L.scenePath}");
             Directory.CreateDirectory(ReportDir);
-            File.WriteAllText(Path.Combine(ReportDir, "build_log.txt"), $"七号首单原型 · 场景构建记录（Unity {Application.unityVersion}，{DateTime.Now:yyyy-MM-dd HH:mm}）\n" + Log, new UTF8Encoding(false));
-            if (Application.isBatchMode) EditorApplication.Exit(0);
+            File.WriteAllText(Path.Combine(ReportDir, L.buildLog), $"七号首单原型 · 场景构建记录（布局 {L.id}）（Unity {Application.unityVersion}，{DateTime.Now:yyyy-MM-dd HH:mm}）\n" + Log, new UTF8Encoding(false));
         }
 
         // ------------------------------------------------------------------ 工具
@@ -611,7 +640,7 @@ namespace BorderRepair.FirstOrder.EditorTools
             var dockLamp = new GameObject("Dock_ServiceLight (warm-neutral)").AddComponent<Light>();
             dockLamp.type = LightType.Spot; dockLamp.color = new Color(1.0f, 0.86f, 0.70f); dockLamp.intensity = 3.0f; dockLamp.range = 2.6f;
             dockLamp.spotAngle = 70f; dockLamp.innerSpotAngle = 35f; dockLamp.shadows = LightShadows.Soft;
-            dockLamp.transform.SetPositionAndRotation(new Vector3(0.35f, 2.30f, 0.75f), Quaternion.LookRotation(new Vector3(0.15f, 1.0f, 1.15f) - new Vector3(0.35f, 2.30f, 0.75f)));
+            dockLamp.transform.SetPositionAndRotation(L.P(new Vector3(0.35f, 2.30f, 0.75f)), Quaternion.LookRotation(L.P(new Vector3(0.15f, 1.0f, 1.15f)) - L.P(new Vector3(0.35f, 2.30f, 0.75f))));
             var ceil = new GameObject("Ceiling_Fluo (cool)").AddComponent<Light>();
             ceil.type = LightType.Point; ceil.color = new Color(0.80f, 0.90f, 0.86f); ceil.intensity = 0.85f; ceil.range = 3.4f;
             ceil.transform.position = new Vector3(0f, 2.30f, -0.25f);

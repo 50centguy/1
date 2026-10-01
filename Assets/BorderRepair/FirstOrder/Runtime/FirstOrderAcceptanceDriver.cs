@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using BorderRepair.Dock;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
 namespace BorderRepair.FirstOrder
 {
@@ -19,7 +21,8 @@ namespace BorderRepair.FirstOrder
         {
             public int index;
             public string label, camera, target, targetPath, expect, message, stepAfter, dockState, parts, screenPoint;
-            public bool clickable, accepted, pass;
+            public bool clickable, accepted, pass, hovered;
+            public Dictionary<string, string> extra = new Dictionary<string, string>();   // 布局实测等附加量测
         }
 
         readonly FirstOrderFlow flow;
@@ -27,10 +30,53 @@ namespace BorderRepair.FirstOrder
         readonly Func<string, IEnumerator> onShot;   // 每步截图（可为空）
         public readonly List<Record> Records = new List<Record>();
         public float Timeout = 20f;
+        /// <summary>不为空时：点击经 Input System 的这个鼠标设备送进游戏（FirstOrderInput.Update 读鼠标），而不是直接调 ClickAt。</summary>
+        public Mouse VirtualMouse;
+        /// <summary>每次点击前的量测钩子（布局实测用）。</summary>
+        public Action<Record, Component> BeforeClick;
+        /// <summary>每个“查看”步骤记下之后调用（布局实测用）。</summary>
+        public Action<Record> OnView;
 
         public FirstOrderAcceptanceDriver(FirstOrderFlow f, FirstOrderInput i, Func<string, IEnumerator> shot = null)
         {
             flow = f; input = i; onShot = shot;
+        }
+
+        /// <summary>
+        /// 建一个虚拟鼠标设备（测试工具）：临时让 Input System 在编辑器失焦时也把输入送进 Game 视图，用完 cleanup 恢复原设置并移除设备。
+        /// 这是程序生成的鼠标事件，不是真人操作。
+        /// </summary>
+        public static Mouse CreateVirtualMouse(out Action cleanup)
+        {
+            var old = InputSystem.settings;
+            var oldBg = old.backgroundBehavior;
+#if UNITY_EDITOR
+            var oldEd = old.editorInputBehaviorInPlayMode;
+#endif
+            var s = UnityEngine.Object.Instantiate(old);
+            s.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+#if UNITY_EDITOR
+            s.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+#endif
+            InputSystem.settings = s;
+            var m = InputSystem.AddDevice<Mouse>("FirstOrder_VirtualMouse");
+            m.MakeCurrent();
+            cleanup = () =>
+            {
+                try { if (m.added) InputSystem.RemoveDevice(m); } catch (Exception e) { Debug.LogWarning("[FirstOrder] 移除虚拟鼠标：" + e.Message); }
+                try
+                {
+                    // 换设置时 Input System 会销毁旧的设置对象，所以在一份新副本上把两个值改回去
+                    var r = UnityEngine.Object.Instantiate(InputSystem.settings);
+                    r.backgroundBehavior = oldBg;
+#if UNITY_EDITOR
+                    r.editorInputBehaviorInPlayMode = oldEd;
+#endif
+                    InputSystem.settings = r;
+                }
+                catch (Exception e) { Debug.LogWarning("[FirstOrder] 恢复输入设置：" + e.Message); }
+            };
+            return m;
         }
 
         public bool AllPassed => Records.Count > 0 && Records.All(r => r.pass);
@@ -76,11 +122,34 @@ namespace BorderRepair.FirstOrder
             var rec = new Record { index = Records.Count + 1, label = label, camera = FirstOrderCameraRig.Labels[camera], target = FirstOrderInput.NameOf(target),
                                    targetPath = target != null ? PathOf(target) : "-", expect = expectAccept ? "接受" : "拒绝" };
             var before = PartsSummary();
+            BeforeClick?.Invoke(rec, target);
             rec.clickable = target != null && FindClickPoint(target, out var sp);
             if (!rec.clickable)
             {
                 rec.message = "在这个镜头下找不到能选中目标的屏幕点（被挡住或不在画面内）";
                 rec.pass = false;
+            }
+            else if (VirtualMouse != null)
+            {
+                // 经 Input System 鼠标设备：移到屏幕点 → 等两帧看悬停 → 按下 → 松开；由 FirstOrderInput.Update 自己读鼠标、自己点
+                FindClickPoint(target, out sp);
+                rec.screenPoint = $"({sp.x:F0}, {sp.y:F0}) / {flow.Rig.Cam.pixelWidth}×{flow.Rig.Cam.pixelHeight}（虚拟鼠标设备）";
+                bool? accepted = null;
+                void OnActed(string t, bool ok, string msg) { if (accepted == null) accepted = ok; }
+                flow.Acted += OnActed;
+                VirtualMouse.MakeCurrent();
+                InputSystem.QueueStateEvent(VirtualMouse, new MouseState { position = sp });
+                yield return null; yield return null;
+                rec.hovered = input.Hovered == target;
+                InputSystem.QueueStateEvent(VirtualMouse, new MouseState { position = sp }.WithButton(MouseButton.Left, true));
+                yield return null;
+                InputSystem.QueueStateEvent(VirtualMouse, new MouseState { position = sp }.WithButton(MouseButton.Left, false));
+                yield return null;
+                flow.Acted -= OnActed;
+                rec.accepted = accepted ?? false;
+                rec.message = accepted == null ? "鼠标按下后游戏没有收到点击（输入没有送到 Game 视图）" : flow.Message;
+                rec.pass = accepted != null && rec.hovered && input.LastClickHit == target && rec.accepted == expectAccept && (expectText == null || flow.Message.Contains(expectText));
+                if (accepted == false && PartsSummary() != before) { rec.pass = false; rec.message += "【被拒绝的操作改变了零件状态】"; }
             }
             else
             {
@@ -120,6 +189,7 @@ namespace BorderRepair.FirstOrder
             Records.Add(new Record { index = Records.Count + 1, label = label, camera = FirstOrderCameraRig.Labels[camera], target = "（查看）", targetPath = "-",
                                      expect = "画面条件成立", clickable = true, accepted = ok, pass = ok, message = detail != null ? detail() : flow.Message,
                                      stepAfter = flow.Step.ToString(), dockState = flow.Dock.State.ToString(), parts = PartsSummary() });
+            OnView?.Invoke(Records[Records.Count - 1]);
             if (onShot != null) yield return onShot($"A{Records.Count:00}_{(ok ? "ok" : "FAIL")}_{label}");
         }
 

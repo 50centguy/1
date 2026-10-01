@@ -8,9 +8,13 @@ using UnityEngine;
 namespace BorderRepair.FirstOrder.Tests
 {
     /// <summary>首单测试场景的组成：用的都是真实对象；只有标了占位的对象是程序生成的；预制体资源没有被改。</summary>
+    [TestFixture("Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity")]
+    [TestFixture("Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity")]
+    [TestFixture("Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity")]
     public class FirstOrderSceneTests
     {
-        const string ScenePath = "Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity";
+        readonly string ScenePath;
+        public FirstOrderSceneTests(string scenePath) { ScenePath = scenePath; }   // 正式首单测试场景 + 布局 A/B 两个测试副本
         const string RobotPrefab = "Assets/BorderRepair/Prefabs/Unit07Dock/UNIT07_RobotV4_DockReady.prefab";
         const string DockPrefab = "Assets/BorderRepair/Prefabs/Unit07Dock/Unit07ServiceDock.prefab";
         const string BenchPrefab = "Assets/WorkbenchArea/Prefabs/WorkbenchArea.prefab";

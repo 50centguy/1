@@ -1,0 +1,18 @@
+七号首单原型 · 场景构建记录（布局 B）（Unity 6000.0.84f1，2026-10-02 07:26）
+布局 B：B：维修架在玩家前方偏左、工作台在前方偏右——维修架锚点 (0.375, 0.825)，在 A 的朝向上再转 105°；玩家站位 (-0.40, 0.45)，朝向 49°。工作台 Assets/WorkbenchArea/Prefabs/WorkbenchArea.prefab 在原点（关掉 WB_Placeholder）；维修座 Assets/BorderRepair/Prefabs/Unit07Dock/Unit07ServiceDock.prefab 在 (0.375, 0.000, 0.825)，朝向 285°；七号 Assets/BorderRepair/Prefabs/Unit07Dock/UNIT07_RobotV4_DockReady.prefab 对齐 Dock_RobotAnchor (0.375, 0.720, 0.825)
+遮挡碰撞：给七号和维修座的 268 个网格加 MeshCollider（射线被机身挡住时，后面的部件点不到）
+首单部件（真实网格）：engine_l_latch_outer = Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_CoverLatch_Outer_L；engine_l_latch_rear = Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_CoverLatch_Rear_L；engine_l_cover = Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_UpperCover_L；engine_l_bearing = Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingTop_L；engine_r = Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_R_Hinge/Engine_UpperCover_R
+磨损轴承：Assets/BorderRepair/Art/Unit07FaultKit/Models/UNIT07_FK_BearingWorn.fbx 挂在 Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingTop_L 下；关掉原轴承 MeshRenderer（碰撞保留）。顶点质心与原轴承差 0.14 mm
+进气口堵塞点选盒：世界包围盒 86×37×89 mm（护栅碰撞 80×23×85 mm）
+进气口堵塞：Assets/BorderRepair/Art/Unit07FaultKit/Models/UNIT07_FK_IntakeClog.fbx 挂在 Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeGuard_L 下；清理时逐层隐藏：UNIT07_FK_IntakeClog_L_Fibers → UNIT07_FK_IntakeClog_L_GuardDust → UNIT07_FK_IntakeClog_L_RimDust → UNIT07_FK_IntakeClog_L_DustMat
+保养标记：Assets/BorderRepair/Art/Unit07FaultKit/Models/UNIT07_FK_CoverLabel.fbx 挂在 Robot_V4（UNIT07_RobotV4_DockReady）/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_UpperCover_L 下（上盖内侧，翻盖后朝上可读）
+新轴承：Assets/BorderRepair/Art/Unit07FaultKit/Models/UNIT07_FK_BearingNew.fbx；装配位置与原轴承顶点质心差 0.14 mm
+新轴承摆放：平放在 WB_Trays/Box_Bearings 盒体顶面 (-0.650, 0.950, -0.264)（盒体顶面高 0.950 m，顶面区域 100×88 mm；轴承外圈 24 个采样点中 24 个落在顶面上；盒盖最高 1.010 m）。轴承盒是实心块，没有内腔，放不进“盒里”
+落点：上盖总成翻面（内侧朝上，占地 241×230 mm、高 95 mm）→ WorkbenchArea/WB_Mat/Bench_Mat (0.035, 0.904, -0.450)；旧轴承平放 → WorkbenchArea/WB_Trays/Tray_Screws 里的空位 (-0.507, 0.904, -0.251)（旧件托盘 没有放得下 52 mm 轴承的空位（被 Tray_OldParts_Contents、Tray_OldParts_Shells 占满）；所以放到螺钉托盘前格）
+进出路线 上盖总成 → 操作垫：落点正上方被 Lamp_Head 挡住（竖直往上最多 41 cm）；改走：竖直抬 35 cm → 朝七号方向偏 0° 水平移 15 cm 到进场点 → 竖直往上 1 m 空着
+进出路线 旧轴承 → 托盘：落点正上方 1 m 竖直通道空着，直接竖直落下
+进出路线 新轴承 ← 轴承盒：落点正上方 1 m 竖直通道空着，直接竖直落下
+镜头：保养记录对准操作垫上翻面后的标记 (0.037, 0.945, -0.382)；新旧轴承对比对准托盘落点和轴承盒之间 (-0.578, 0.930, -0.257)（两者相距 153 mm）
+点选核对：左引擎镜头朝进气口堵塞中心点 → 左进气口堵塞（积尘 + 纤维）
+故障美术包网格三角面（静态统计，Unity 导入后的索引数 / 3）：磨损轴承 3048（UNIT07_FK_BearingTop_L_Worn 2880+UNIT07_FK_BearingTop_L_Worn_Chips 168）；进气口堵塞 11664（UNIT07_FK_IntakeClog_L_DustMat 4608+UNIT07_FK_IntakeClog_L_Fibers 3412+UNIT07_FK_IntakeClog_L_GuardDust 2876+UNIT07_FK_IntakeClog_L_RimDust 768）；保养标记 768（UNIT07_FK_CoverInnerLabel_L 768）；新轴承 2880（UNIT07_FK_BearingTop_L_New 2880）；合计 18360。关掉的原轴承渲染器 576 面；去掉的占位圆柱（Unity 内置 Cylinder）80 面
+测试场景：Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity

@@ -20,6 +20,7 @@ namespace BorderRepair.FirstOrder
         [SerializeField] bool showHud = true;
 
         public Component Hovered { get; private set; }
+        public Component LastClickHit { get; private set; }
         public FirstOrderFlow Flow => flow;
 
         public void Configure(FirstOrderFlow f) => flow = f;
@@ -73,6 +74,7 @@ namespace BorderRepair.FirstOrder
         public (Component hit, bool accepted) ClickAt(Vector2 screen)
         {
             var hit = PickScreen(screen);
+            LastClickHit = hit;
             return (hit, flow.Click(hit));
         }
 
