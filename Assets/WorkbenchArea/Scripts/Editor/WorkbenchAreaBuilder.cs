@@ -134,7 +134,9 @@ namespace WorkbenchArea.EditorTools
                 m.SetTexture("_BaseMap", string.IsNullOrEmpty(e.baseMap) ? null : AssetDatabase.LoadAssetAtPath<Texture2D>($"{TexDir}/{e.baseMap}"));
                 // 纯漫反射，不做写实 PBR。脚本建的 Simple Lit 材质会带着 _SPECULAR_COLOR 与 0.5 灰高光色，
                 // 低光滑度下变成整片偏冷的高光，把深色件洗成和墙一样亮（洞洞板工具“消失”）。高光色清零，关键字也关掉。
-                m.SetFloat("_SpecularHighlights", 0f);
+                // 注意 URP 17 的 _SpecularHighlights 是 SpecularSource 枚举：0 = 高光贴图与颜色，1 = 无高光。
+                // 设成 0 时，材质被重新导入 / 校验后 URP 会把 _SPECULAR_COLOR 又打开（集成到新工作树时被回归测试查出）。
+                m.SetFloat("_SpecularHighlights", 1f);
                 m.SetColor("_SpecColor", new Color(0f, 0f, 0f, e.smoothness));
                 m.DisableKeyword("_SPECULAR_COLOR");
                 m.DisableKeyword("_SPECGLOSSMAP");
