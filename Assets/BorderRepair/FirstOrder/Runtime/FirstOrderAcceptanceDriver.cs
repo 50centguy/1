@@ -109,22 +109,110 @@ namespace BorderRepair.FirstOrder
                                      stepAfter = flow.Step.ToString(), dockState = flow.Dock.State.ToString(), parts = PartsSummary() });
         }
 
-        /// <summary>完整首单：正确操作 + 穿插的拒绝检查。</summary>
-        public IEnumerator RunFullOrder()
+        /// <summary>
+        /// 只看不点的一步（截图用）：切到镜头，核对画面里应该成立的条件（例如保养标记朝上、新旧轴承分开摆着），记为一条记录。
+        /// </summary>
+        public IEnumerator View(string label, string camera, Func<bool> cond, Func<string> detail = null)
+        {
+            flow.Rig.Go(camera, true);
+            yield return null;
+            var ok = cond();
+            Records.Add(new Record { index = Records.Count + 1, label = label, camera = FirstOrderCameraRig.Labels[camera], target = "（查看）", targetPath = "-",
+                                     expect = "画面条件成立", clickable = true, accepted = ok, pass = ok, message = detail != null ? detail() : flow.Message,
+                                     stepAfter = flow.Step.ToString(), dockState = flow.Dock.State.ToString(), parts = PartsSummary() });
+            if (onShot != null) yield return onShot($"A{Records.Count:00}_{(ok ? "ok" : "FAIL")}_{label}");
+        }
+
+        // 画面核对用的小工具
+        bool OnScreen(Renderer r)
+        {
+            var cam = flow.Rig.Cam;
+            var sp = cam.WorldToViewportPoint(r.bounds.center);
+            return r.enabled && r.gameObject.activeInHierarchy && sp.z > 0f && sp.x > 0.02f && sp.x < 0.98f && sp.y > 0.02f && sp.y < 0.98f;
+        }
+
+        Renderer LabelRenderer => flow.CoverLabel;
+        IEnumerable<Renderer> WornRenderers => flow.Bearing.Renderers().Where(r => r != flow.OriginalBearingRenderer);
+        IEnumerable<Renderer> NewRenderers => flow.NewBearing.Renderers();
+
+        /// <summary>完整首单：正确操作 + 穿插的拒绝检查。cleanEarly = 检查左引擎后马上清理进气口（并试一次“只清理就复测”）；false = 装回上盖后、通电前才清理。</summary>
+        public IEnumerator RunFullOrder(bool cleanEarly = true)
         {
             var dock = flow.Dock;
-            // 左右夹具握把是同一个动作：取维修座镜头下能点到的那一个
-            Component Grip()
-            {
-                flow.Rig.Go(FirstOrderCameraRig.Dock, true);
-                var grips = new[] { "Dock_Clamp_L_Grip", "Dock_Clamp_R_Grip" }.Select(n => (Component)GameObject.Find(n).GetComponent<DockInteractable>()).ToList();
-                return grips.FirstOrDefault(g => FindClickPoint(g, out _)) ?? grips[0];
-            }
-            Component Lever() => GameObject.Find("Dock_PowerSwitch_LeverGrip").GetComponent<DockInteractable>();
             const string D = FirstOrderCameraRig.Dock, E = FirstOrderCameraRig.EngineL, R = FirstOrderCameraRig.EngineRear,
-                         B = FirstOrderCameraRig.Bench, O = FirstOrderCameraRig.Overview, ER = FirstOrderCameraRig.EngineR;
+                         B = FirstOrderCameraRig.Bench, O = FirstOrderCameraRig.Overview, ER = FirstOrderCameraRig.EngineR,
+                         REC = FirstOrderCameraRig.Record, CMP = FirstOrderCameraRig.Compare, CL = FirstOrderCameraRig.EngineClose;
 
             yield return Click("拒绝：通电悬停时碰左上盖", E, flow.Cover, false, "供电");
+            yield return DockAndPowerOff();
+            yield return View("故障原位：进气口堵塞（断电停转）", CL, () => flow.ClogLayers.All(OnScreen),
+                              () => $"进气口堵塞 {flow.ClogLayers.Count} 层都在画面里：{string.Join("、", flow.ClogLayers.Select(r => r.GetComponent<MeshFilter>().sharedMesh.name))}");
+            yield return Click("4 检查左引擎：点左上盖", E, flow.Cover, true);
+            yield return Click("拒绝：要拆右引擎（右引擎对照镜头）", ER, flow.RightEngine, false, "右引擎");
+            if (cleanEarly)
+            {
+                yield return CleanClog("4b 清理：点进气口堵塞（断电停转后允许）");
+                yield return Click("拒绝：只清理就尝试复测（点夹具握把松开）", D, Grip(), false, "只清理");
+                yield return Click("拒绝：只清理就尝试复测（点断电开关通电）", D, Lever(), false, "只清理");
+            }
+            yield return Click("拒绝：锁扣没扳开就取上盖", E, flow.Cover, false, "锁扣");
+            yield return Click("5a 拆：扳开外侧锁扣", E, flow.LatchOuter, true);
+            yield return Click("5b 拆：扳开后侧锁扣（背面镜头）", R, flow.LatchRear, true);
+            yield return Click("拒绝：维修中途通电", D, Lever(), false);
+            yield return Click("5c 拆：取下左上盖总成", E, flow.Cover, true);
+            yield return Click("5d 去向：上盖总成翻面放到工作台操作垫", O, flow.MatZone, true);
+            yield return View("翻盖读保养记录：上盖内侧朝上", REC, () => LabelRenderer != null && OnScreen(LabelRenderer) && Vector3.Dot(LabelNormal(), Vector3.up) > 0.9f,
+                              () => $"保养标记朝向与竖直向上夹角 {Vector3.Angle(LabelNormal(), Vector3.up):F1}°");
+            yield return View("故障原位：上盖拆下后的磨损轴承", CL, () => WornRenderers.Any(OnScreen) && !flow.OriginalBearingRenderer.enabled,
+                              () => "磨损轴承在原位，原轴承渲染器关闭");
+            yield return Click("6 定位故障轴承：点左上轴承", E, flow.Bearing, true);
+            yield return Click("7a 更换：取下旧轴承", E, flow.Bearing, true);
+            yield return Click("拒绝：把旧轴承放到上盖的落点", O, flow.MatZone, false);
+            yield return Click("7b 去向：旧轴承平放进工作台托盘", O, flow.OldTrayZone, true);
+            yield return View("新旧轴承对比：托盘里的旧件 / 轴承盒上的新件", CMP, () => WornRenderers.Any(OnScreen) && NewRenderers.Any(OnScreen),
+                              () => $"旧轴承 {flow.Bearing.WorldBounds().center:F3}，新轴承 {flow.NewBearing.WorldBounds().center:F3}，相距 {Vector3.Distance(flow.Bearing.WorldBounds().center, flow.NewBearing.WorldBounds().center) * 1000:F0} mm");
+            yield return Click("拒绝：新轴承还没装就通电", D, Lever(), false, "新轴承");
+            yield return Click("7c 更换：从工作台轴承盒取新轴承装上", B, flow.NewBearing, true);
+            yield return View("装回：新轴承装在原位（上盖装回前）", CL, () => flow.NewBearing.Location == PartLocation.Installed && NewRenderers.Any(OnScreen) && !WornRenderers.Any(OnScreen),
+                              () => $"新轴承与原轴承原位距离 {Vector3.Distance(flow.NewBearing.transform.position, flow.Bearing.HomeWorldPose().position) * 1000:F2} mm；旧轴承在{flow.OldTrayZone.displayName}");
+            yield return Click("拒绝：新轴承装上了但上盖没装回就通电", D, Lever(), false, "上盖");
+            yield return Click("8a 装回：上盖总成翻回来装回左引擎", B, flow.Cover, true);
+            yield return Click("拒绝：锁扣没扣回就通电", D, Lever(), false, "锁扣");
+            yield return Click("8b 装回：扣回外侧锁扣", E, flow.LatchOuter, true);
+            yield return Click("拒绝：只扣回一个锁扣就通电", D, Lever(), false, "锁扣");
+            yield return Click("8c 装回：扣回后侧锁扣（背面镜头）", R, flow.LatchRear, true);
+            if (!cleanEarly)
+            {
+                yield return Click("拒绝：进气口没清理就通电", D, Lever(), false, "进气口");
+                yield return CleanClog("8d 清理：点进气口堵塞（装回后、通电前）");
+            }
+            yield return View("装回：新轴承、上盖总成、锁扣都在原位", CL, () => flow.NewBearing.Location == PartLocation.Installed && flow.Cover.Location == PartLocation.Installed &&
+                                                                               flow.LatchOuter.Location == PartLocation.Installed && flow.LatchRear.Location == PartLocation.Installed);
+            yield return Click("9 通电：点断电开关手柄", D, Lever(), true);
+            yield return WaitFor("等待：涡轮恢复转动", () => dock.Rotors.SpeedDegPerSec > 1f);
+            yield return Click("10 离座：点夹具握把（松开 → 上浮）", D, Grip(), true);
+            yield return WaitFor("等待：离座复测结束（Done）", () => flow.Step == FoStep.Done);
+            yield return WaitFor("复测结果（占位判定）：" + flow.RetestDetail, () => flow.RetestPassed);
+        }
+
+        /// <summary>只清理进气口、不处理轴承，就尝试复测（松开夹具 / 通电）：都必须被拒绝，七号留在维修座上、不通电。</summary>
+        public IEnumerator RunCleanOnlyAttempt()
+        {
+            const string D = FirstOrderCameraRig.Dock, E = FirstOrderCameraRig.EngineL;
+            yield return DockAndPowerOff();
+            yield return Click("4 检查左引擎：点左上盖", E, flow.Cover, true);
+            yield return CleanClog("4b 只清理进气口");
+            yield return Click("拒绝：只清理就尝试复测（点夹具握把松开）", D, Grip(), false, "只清理");
+            yield return Click("拒绝：只清理就尝试复测（点断电开关通电）", D, Lever(), false, "只清理");
+            yield return WaitFor("复测没有开始：七号仍夹在维修座上、断电、磨损轴承仍在原位",
+                                 () => flow.Dock.State == DockState.RotorsStopped && !flow.Dock.PowerOn && flow.Step < FoStep.PowerOn && !flow.RetestPassed &&
+                                       flow.Bearing.Location == PartLocation.Installed);
+        }
+
+        IEnumerator DockAndPowerOff()
+        {
+            var dock = flow.Dock;
+            const string D = FirstOrderCameraRig.Dock, E = FirstOrderCameraRig.EngineL;
             yield return Click("1 七号入座：点夹具握把（张开 → 落座）", D, Grip(), true);
             yield return WaitFor("等待：七号落座（SeatedOpen）", () => dock.State == DockState.SeatedOpen);
             yield return Click("拒绝：没夹紧就断电", D, Lever(), false, "夹紧");
@@ -133,29 +221,26 @@ namespace BorderRepair.FirstOrder
             yield return Click("3 断电：点断电开关手柄", D, Lever(), true);
             yield return Click("拒绝：涡轮减速中碰外侧锁扣", E, flow.LatchOuter, false, "叶轮");
             yield return WaitFor("等待：涡轮停转（RotorsStopped，转速 0）", () => dock.State == DockState.RotorsStopped && dock.Rotors.SpeedDegPerSec <= 0f);
-            yield return Click("4 检查左引擎：点左上盖", E, flow.Cover, true);
-            yield return Click("拒绝：要拆右引擎（右引擎对照镜头）", ER, flow.RightEngine, false, "右引擎");
-            yield return Click("拒绝：锁扣没扳开就取上盖", E, flow.Cover, false, "锁扣");
-            yield return Click("5a 拆：扳开外侧锁扣", E, flow.LatchOuter, true);
-            yield return Click("5b 拆：扳开后侧锁扣（背面镜头）", R, flow.LatchRear, true);
-            yield return Click("拒绝：维修中途通电", D, Lever(), false);
-            yield return Click("5c 拆：取下左上盖总成", E, flow.Cover, true);
-            yield return Click("5d 去向：上盖总成放到工作台操作垫", O, flow.MatZone, true);
-            yield return Click("6 定位故障轴承：点左上轴承", E, flow.Bearing, true);
-            yield return Click("7a 更换：取下旧轴承", E, flow.Bearing, true);
-            yield return Click("拒绝：把旧轴承放到上盖的落点", O, flow.MatZone, false);
-            yield return Click("7b 去向：旧轴承放进工作台托盘", O, flow.OldTrayZone, true);
-            yield return Click("拒绝：上盖没装回就通电", D, Lever(), false, "上盖");
-            yield return Click("7c 更换：从工作台轴承盒取新轴承装上（占位）", B, flow.NewBearing, true);
-            yield return Click("8a 装回：上盖总成装回左引擎", B, flow.Cover, true);
-            yield return Click("拒绝：锁扣没扣回就通电", D, Lever(), false, "锁扣");
-            yield return Click("8b 装回：扣回外侧锁扣", E, flow.LatchOuter, true);
-            yield return Click("8c 装回：扣回后侧锁扣（背面镜头）", R, flow.LatchRear, true);
-            yield return Click("9 通电：点断电开关手柄", D, Lever(), true);
-            yield return WaitFor("等待：涡轮恢复转动", () => dock.Rotors.SpeedDegPerSec > 1f);
-            yield return Click("10 离座：点夹具握把（松开 → 上浮）", D, Grip(), true);
-            yield return WaitFor("等待：离座复测结束（Done）", () => flow.Step == FoStep.Done);
-            yield return WaitFor("复测结果（占位判定）：" + flow.RetestDetail, () => flow.RetestPassed);
         }
+
+        IEnumerator CleanClog(string label)
+        {
+            yield return Click(label, FirstOrderCameraRig.EngineL, flow.Clog, true);
+            yield return WaitFor("等待：清理完成（积尘、纤维逐层清掉）", () => flow.Clog.Location == PartLocation.Cleared && !flow.Busy && flow.ClogLayers.All(r => !r.enabled));
+            yield return View("清理后的进气口", FirstOrderCameraRig.EngineClose, () => flow.ClogLayers.All(r => !r.enabled), () => flow.Message);
+        }
+
+        // 左右夹具握把是同一个动作：取维修座镜头下能点到的那一个
+        Component Grip()
+        {
+            flow.Rig.Go(FirstOrderCameraRig.Dock, true);
+            var grips = new[] { "Dock_Clamp_L_Grip", "Dock_Clamp_R_Grip" }.Select(n => (Component)GameObject.Find(n).GetComponent<DockInteractable>()).ToList();
+            return grips.FirstOrDefault(g => FindClickPoint(g, out _)) ?? grips[0];
+        }
+
+        static Component Lever() => GameObject.Find("Dock_PowerSwitch_LeverGrip").GetComponent<DockInteractable>();
+
+        /// <summary>保养标记的朝向（世界）：构建时从网格法线算好，运行时网格不可读。</summary>
+        Vector3 LabelNormal() => flow.CoverLabelNormal;
     }
 }

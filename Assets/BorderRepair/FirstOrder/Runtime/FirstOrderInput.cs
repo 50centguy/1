@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using BorderRepair.Dock;
 using UnityEngine;
@@ -40,7 +41,8 @@ namespace BorderRepair.FirstOrder
             var hits = Physics.RaycastAll(ray, maxDistance, ~0, QueryTriggerInteraction.Collide);
             Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
             Component best = null;
-            float first = -1f, bestVol = float.MaxValue;
+            float first = -1f, solid = float.MaxValue, bestVol = float.MaxValue;
+            var enclosing = new List<Collider>();
             foreach (var h in hits)
             {
                 var a = ActionableOn(h.collider);
@@ -52,7 +54,12 @@ namespace BorderRepair.FirstOrder
                     break;
                 }
                 if (first < 0f) first = h.distance;
-                if (h.distance > first + 0.01f) break;
+                if (h.distance > solid + 0.01f) break;                       // 已经碰到可操作对象的实体表面：再往后的看不见
+                // 套在前面某个点选盒里面的小点选盒（例如上盖总成点选盒里的进气口堵塞）：射线还在大盒子里、没碰到实体表面，也算候选
+                bool nested = h.collider.isTrigger && enclosing.Any(c => (c.ClosestPoint(h.point) - h.point).sqrMagnitude < 1e-8f);
+                if (h.distance > first + 0.01f && !nested) break;
+                if (h.collider.isTrigger && (h.collider is BoxCollider || h.collider is SphereCollider || h.collider is CapsuleCollider)) enclosing.Add(h.collider);
+                else if (!h.collider.isTrigger) solid = Mathf.Min(solid, h.distance);
                 var s = h.collider.bounds.size;
                 float vol = s.x * s.y * s.z;
                 if (vol < bestVol) { bestVol = vol; best = a; }
@@ -96,11 +103,11 @@ namespace BorderRepair.FirstOrder
         void OnGUI()
         {
             if (!showHud || flow == null) return;
-            GUI.Box(new Rect(12, 12, 820, 230), GUIContent.none);
+            GUI.Box(new Rect(12, 12, 900, 252), GUIContent.none);
             GUI.Label(new Rect(22, 16, 800, 22), $"七号首单 · 可玩原型（占位交互，非正式维修流程） · 步骤 {(int)flow.Step + 1}/17：{flow.Step}");
             GUI.Label(new Rect(22, 36, 800, 22), "下一步：" + flow.NextHint());
             GUI.Label(new Rect(22, 56, 800, 40), flow.Message);
-            GUI.Label(new Rect(22, 92, 800, 22), $"指向：{NameOf(Hovered)}    镜头：{FirstOrderCameraRig.Labels[flow.Rig.Current]}（1 维修座 / 2 左引擎 / 3 背面 / 4 工作台 / 5 总览 / 6 右引擎）    " +
+            GUI.Label(new Rect(22, 92, 880, 22), $"指向：{NameOf(Hovered)}    镜头：{FirstOrderCameraRig.Labels[flow.Rig.Current]}（1 维修座 / 2 左引擎 / 3 背面 / 4 工作台 / 5 总览 / 6 右引擎 / 7 保养记录 / 8 新旧轴承 / 9 近看）    " +
                                                  $"维修座：{flow.Dock.State}，供电 {(flow.Dock.PowerOn ? "ON" : "OFF")}，转速 {flow.Dock.Rotors.SpeedDegPerSec:F0}°/s");
             int y = 114;
             GUI.Label(new Rect(22, y, 800, 22), "零件去向：");

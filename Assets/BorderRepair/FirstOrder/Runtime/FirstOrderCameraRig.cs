@@ -3,14 +3,15 @@ using UnityEngine;
 
 namespace BorderRepair.FirstOrder
 {
-    /// <summary>首单原型的固定镜头：每一步自动切到合适的镜头，玩家也可以按 1–6 手动切换。切换时短暂平滑过渡。</summary>
+    /// <summary>首单原型的固定镜头：每一步自动切到合适的镜头，玩家也可以按 1–9 手动切换。切换时短暂平滑过渡。</summary>
     public class FirstOrderCameraRig : MonoBehaviour
     {
-        public const string Dock = "Dock", EngineL = "EngineL", EngineRear = "EngineRear", Bench = "Bench", Overview = "Overview", EngineR = "EngineR";
-        public static readonly string[] Order = { Dock, EngineL, EngineRear, Bench, Overview, EngineR };
+        public const string Dock = "Dock", EngineL = "EngineL", EngineRear = "EngineRear", Bench = "Bench", Overview = "Overview", EngineR = "EngineR",
+                            Record = "Record", Compare = "Compare", EngineClose = "EngineClose";
+        public static readonly string[] Order = { Dock, EngineL, EngineRear, Bench, Overview, EngineR, Record, Compare, EngineClose };
         public static readonly Dictionary<string, string> Labels = new Dictionary<string, string>
         {
-            [Dock] = "维修座", [EngineL] = "左引擎", [EngineRear] = "左引擎背面", [Bench] = "工作台", [Overview] = "总览", [EngineR] = "右引擎（对照）",
+            [Dock] = "维修座", [EngineL] = "左引擎", [EngineRear] = "左引擎背面", [Bench] = "工作台", [Overview] = "总览", [EngineR] = "右引擎（对照）", [Record] = "保养记录（翻盖内侧）", [Compare] = "新旧轴承对比", [EngineClose] = "左引擎近看（进气口 / 轴承位）",
         };
 
         [System.Serializable] public struct Shot { public string id; public Transform pose; public float fov; }

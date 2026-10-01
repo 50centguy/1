@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BorderRepair.FirstOrder
@@ -10,6 +11,7 @@ namespace BorderRepair.FirstOrder
         Held = 2,           // 已取下，悬在拆下位置上方，等玩家点工作台落点
         OnBench = 3,        // 放在工作台落点上
         Stored = 4,         // 备件：在工作台的备件盒里
+        Cleared = 5,        // 进气口堵塞：已清理（积尘、纤维已清掉）
     }
 
     /// <summary>
@@ -85,23 +87,27 @@ namespace BorderRepair.FirstOrder
             }
         }
 
-        /// <summary>主对象 + 成员的世界包围盒。</summary>
+        /// <summary>
+        /// 主对象 + 成员的世界包围盒，含它们下面挂的故障美术件（磨损轴承、进气口堵塞、保养标记）。
+        /// 只算正在显示的渲染器（原轴承的渲染器已关掉、由磨损件代替显示；清理掉的积尘也不算）；一个都没有时退回全部。
+        /// </summary>
         public Bounds WorldBounds()
         {
-            var rs = new List<Renderer>();
-            var own = GetComponent<Renderer>();
-            if (own != null) rs.Add(own);
-            foreach (var m in members) { var r = m.GetComponent<Renderer>(); if (r != null) rs.Add(r); }
+            var all = Renderers().ToList();
+            var rs = all.Where(r => r.enabled && r.gameObject.activeInHierarchy).ToList();
+            if (rs.Count == 0) rs = all;
             var b = rs.Count > 0 ? rs[0].bounds : new Bounds(transform.position, Vector3.zero);
             foreach (var r in rs) b.Encapsulate(r.bounds);
             return b;
         }
 
+        /// <summary>主对象 + 成员及其子对象上的全部渲染器（含关掉的）。</summary>
         public IEnumerable<Renderer> Renderers()
         {
-            var own = GetComponent<Renderer>();
-            if (own != null) yield return own;
-            foreach (var m in members) { var r = m.GetComponent<Renderer>(); if (r != null) yield return r; }
+            var seen = new HashSet<Renderer>();
+            foreach (var t in members.Prepend(transform))
+                foreach (var r in t.GetComponentsInChildren<Renderer>(true))
+                    if (seen.Add(r)) yield return r;
         }
     }
 }
