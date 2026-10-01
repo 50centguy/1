@@ -254,7 +254,30 @@ namespace BorderRepair.EditorTools
         }
 
         // ------------------------------------------------------------------ 5. 测试场景
+        /// <summary>场景里共用的部分：灯光、地面、维修座、七号、镜头、维修座控制器。不接“允许结束维修”接口、不加输入、不保存。</summary>
+        public struct SceneParts
+        {
+            public UnityEngine.SceneManagement.Scene Scene;
+            public GameObject Dock, Robot, Flow;
+            public Transform Anchor;
+            public Camera Camera;
+            public Unit07DockController Controller;
+        }
+
         static void BuildScene()
+        {
+            var p = BuildSceneBase();
+            // 第二阶段：“允许结束维修”接口。测试场景接的是手动占位实现，不是工单
+            var gate = new GameObject("ServiceCompletionGate (占位：手动确认，未接工单)").AddComponent<ManualServiceCompletionGate>();
+            p.Controller.SetServiceCompletionGate(gate);
+            p.Flow.AddComponent<Unit07DockInput>().Configure(p.Camera, p.Controller);
+            EditorUtility.SetDirty(p.Controller);
+
+            EditorSceneManager.SaveScene(p.Scene, ScenePath);
+            Note($"测试场景：{ScenePath}；七号根对齐 Dock_RobotAnchor {p.Anchor.position:F3}，缩放 1，正面 +Z；“允许结束维修”接手动占位实现 {gate.name}");
+        }
+
+        public static SceneParts BuildSceneBase()
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             RenderSettings.ambientMode = AmbientMode.Flat;
@@ -307,14 +330,7 @@ namespace BorderRepair.EditorTools
             ctrl.Configure(robot.transform, robot.GetComponent<Animator>(), robot.GetComponent<RotorPowerDriver>(), anchor,
                            Find(dock.transform, "Dock_Clamp_L"), Find(dock.transform, "Dock_Clamp_R"),
                            Find(dock.transform, "Dock_PowerSwitch_Lever"), Find(dock.transform, "Dock_PowerSwitch_Lamp").GetComponent<Renderer>());
-            // 第二阶段：“允许结束维修”接口。测试场景接的是手动占位实现，不是工单
-            var gate = new GameObject("ServiceCompletionGate (占位：手动确认，未接工单)").AddComponent<ManualServiceCompletionGate>();
-            ctrl.SetServiceCompletionGate(gate);
-            flow.AddComponent<Unit07DockInput>().Configure(cam, ctrl);
-            EditorUtility.SetDirty(ctrl);
-
-            EditorSceneManager.SaveScene(scene, ScenePath);
-            Note($"测试场景：{ScenePath}；七号根对齐 Dock_RobotAnchor {anchor.position:F3}，缩放 1，正面 +Z；“允许结束维修”接手动占位实现 {gate.name}");
+            return new SceneParts { Scene = scene, Dock = dock, Robot = robot, Flow = flow, Anchor = anchor, Camera = cam, Controller = ctrl };
         }
 
         /// <summary>只重建测试场景（预制体、材质、FBX 不动），第二阶段改场景时用，避免重新生成资源带来的无关改动。</summary>

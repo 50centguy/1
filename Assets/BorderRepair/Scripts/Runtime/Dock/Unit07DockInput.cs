@@ -5,7 +5,7 @@ namespace BorderRepair.Dock
 {
     /// <summary>
     /// 测试场景的鼠标点击：从镜头打射线，命中 DockInteractable 就交给 Unit07DockController。另有简单的 IMGUI 提示。
-    /// 第二阶段：L = 七号升起离座；F = 【占位】手动确认“维修已结束”（只有场景里接的是 ManualServiceCompletionGate 时才有用，不是工单）。
+    /// L = 七号升起离座。“允许结束维修”由场景里接入的接口决定，本组件不做任何确认（占位的 F 确认已移到 ManualServiceCompletionGate 自身）。
     /// </summary>
     public class Unit07DockInput : MonoBehaviour
     {
@@ -13,26 +13,27 @@ namespace BorderRepair.Dock
         [SerializeField] Unit07DockController controller;
         [SerializeField] float maxDistance = 6f;
         [SerializeField] bool showHud = true;
+        [Tooltip("可选：界面区域（实现 IDockClickBlocker，例如工单面板），落在上面的点击不打射线。")]
+        [SerializeField] MonoBehaviour clickBlocker;
 
         public Camera ViewCamera => viewCamera;
 
-        public void Configure(Camera cam, Unit07DockController dock)
+        public void Configure(Camera cam, Unit07DockController dock, MonoBehaviour blocker = null)
         {
             viewCamera = cam;
             controller = dock;
+            clickBlocker = blocker;
         }
 
         void Update()
         {
             var kb = Keyboard.current;
-            if (kb != null)
-            {
-                if (kb.lKey.wasPressedThisFrame) controller.Interact(DockAction.LiftOff);
-                if (kb.fKey.wasPressedThisFrame && controller.ServiceGate is ManualServiceCompletionGate g) g.Confirm();
-            }
+            if (kb != null && kb.lKey.wasPressedThisFrame) controller.Interact(DockAction.LiftOff);
             var mouse = Mouse.current;
             if (mouse == null || !mouse.leftButton.wasPressedThisFrame) return;
-            TryClick(mouse.position.ReadValue(), out _);
+            var pos = mouse.position.ReadValue();
+            if (clickBlocker is IDockClickBlocker b && b.BlocksClick(pos)) return;
+            TryClick(pos, out _);
         }
 
         /// <summary>按屏幕坐标点击；返回命中的代理（没命中为 null）。</summary>
@@ -60,8 +61,10 @@ namespace BorderRepair.Dock
                                                  (controller.Rotors.Driven ? "（维修座驱动）" : "（Animator 驱动）"));
             GUI.Label(new Rect(22, 42, 540, 22), "下一步：" + controller.NextHint());
             GUI.Label(new Rect(22, 66, 540, 36), controller.LastMessage);
-            string gate = controller.ServiceGate == null ? "未接入" :
-                          controller.ServiceGate is ManualServiceCompletionGate m ? (m.Confirmed ? "【占位】已手动确认" : "【占位】未确认（按 F 手动确认）") : "已接入";
+            string gate;
+            if (controller.ServiceGate == null) gate = "未接入";
+            else if (controller.PowerOn) gate = "（通电中，不需要）";
+            else gate = controller.ServiceGate.CanFinishService(out var why) ? "允许恢复供电" : "不允许：" + why;
             GUI.Label(new Rect(22, 102, 540, 22), $"允许结束维修：{gate}");
             GUI.Label(new Rect(22, 124, 540, 22), "按键：L = 升起离座");
         }
