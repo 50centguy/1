@@ -1,0 +1,119 @@
+{
+  "groups": {
+    "Room": {
+      "objects": 10,
+      "triangles": 396
+    },
+    "Bench": {
+      "objects": 9,
+      "triangles": 1084
+    },
+    "Mat": {
+      "objects": 2,
+      "triangles": 84
+    },
+    "Placeholder": {
+      "objects": 12,
+      "triangles": 600
+    },
+    "Trays": {
+      "objects": 6,
+      "triangles": 912
+    },
+    "Toolbox": {
+      "objects": 5,
+      "triangles": 972
+    },
+    "Diagnostic": {
+      "objects": 11,
+      "triangles": 696
+    },
+    "Lamp": {
+      "objects": 5,
+      "triangles": 224
+    },
+    "Storage": {
+      "objects": 13,
+      "triangles": 732
+    },
+    "Records": {
+      "objects": 20,
+      "triangles": 252
+    },
+    "Clutter": {
+      "objects": 37,
+      "triangles": 3498
+    }
+  },
+  "materials": [
+    "M_WB_DarkSteel",
+    "M_WB_FaultRed",
+    "M_WB_Floor",
+    "M_WB_Ivory",
+    "M_WB_LampCool",
+    "M_WB_LampWarm",
+    "M_WB_Mat",
+    "M_WB_PaintGreen",
+    "M_WB_Paper",
+    "M_WB_Pegboard",
+    "M_WB_Placeholder",
+    "M_WB_Rubber",
+    "M_WB_Screen",
+    "M_WB_ShellOld",
+    "M_WB_Steel",
+    "M_WB_WallGreen",
+    "M_WB_Wire",
+    "M_WB_Wood",
+    "M_WB_Yellow"
+  ],
+  "textures": {
+    "T_WB_Grain.png": [
+      128,
+      128
+    ],
+    "T_WB_Floor.png": [
+      128,
+      128
+    ],
+    "T_WB_Paper.png": [
+      512,
+      512
+    ],
+    "T_WB_Screen.png": [
+      128,
+      96
+    ],
+    "T_WB_Mat.png": [
+      320,
+      184
+    ],
+    "T_WB_Pegboard.png": [
+      128,
+      128
+    ],
+    "T_WB_ShellWear.png": [
+      128,
+      128
+    ]
+  },
+  "total_triangles": 9450,
+  "mesh_objects": 130,
+  "roles": {
+    "cable": 1,
+    "clutter": 37,
+    "fault_indicator": 2,
+    "indicator": 1,
+    "inspectable": 22,
+    "inspectable_record": 5,
+    "label": 6,
+    "light_fixture": 2,
+    "placeholder": 5,
+    "placeholder_inspectable": 1,
+    "placeholder_removable": 5,
+    "record": 15,
+    "removable": 3,
+    "static": 19,
+    "storage": 3,
+    "tray_contents": 3
+  }
+}

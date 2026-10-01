@@ -1,0 +1,45 @@
+工作台区域 · 独立构建 Draw Call 拆解  Unity 6000.0.84f1  Release 构建
+屏幕 1920×1080  图形 API Direct3D11  GPU NVIDIA GeForce RTX 3070  质量档 PC
+渲染管线 PC_RPAsset
+渲染特性：ScreenSpaceAmbientOcclusion；相机后处理开关：True
+区域内 Renderer 130 个，材质槽 130 个，静态批处理的 Renderer 78 个
+
+步骤	Draw Calls	Batches	SetPass	三角面	阴影投射体	帧时间中位 ms	可见 Renderer
+A 游戏镜头 · 完整（含 HUD）	270	192	39	22353	58	1.30	98
+B 去掉 IMGUI HUD	261	183	30	22139	58	1.27	98
+C 再关阴影	218	154	29	16901	0	1.19	98
+D 再关 SSAO 渲染特性	118	86	25	8460	0	0.67	98
+E 再关后处理（只剩几何主通道）	101	69	8	8443	0	0.61	98
+F 在 E 基础上去掉杂物	70	63	8	5169	0	0.56	66
+G 在 E 基础上去掉 WB_Bench	92	65	8	7359	0	0.51	89
+G 在 E 基础上去掉 WB_Clutter	72	65	8	5513	0	0.57	68
+G 在 E 基础上去掉 WB_Diagnostic	90	58	6	7747	0	0.57	87
+G 在 E 基础上去掉 WB_Lamp	96	64	8	8219	0	0.64	93
+G 在 E 基础上去掉 WB_Mat	99	68	8	8359	0	0.58	96
+G 在 E 基础上去掉 WB_Placeholder	89	57	8	7843	0	0.56	86
+G 在 E 基础上去掉 WB_Records	96	65	8	8383	0	0.59	93
+G 在 E 基础上去掉 WB_Room	95	66	8	8247	0	0.54	92
+G 在 E 基础上去掉 WB_Storage	96	66	8	8107	0	0.59	93
+G 在 E 基础上去掉 WB_Toolbox	94	63	8	7127	0	0.54	91
+G 在 E 基础上去掉 WB_Trays	95	63	8	7531	0	0.57	92
+H 在 E 基础上去掉整个区域（管线固定开销）	4	4	3	5	0	0.32	0
+I 近距镜头 · 完整（含 HUD）	228	178	37	18481	53	1.35	80
+
+拆解（游戏镜头，Draw Calls 中位数差值）：
+  IMGUI HUD：9
+  阴影（工作灯阴影图）：43
+  SSAO（深度法线预通道 + AO 通道）：100
+  后处理：17
+  几何主通道：97（其中杂物 31）
+    WB_Bench：9
+    WB_Clutter：29
+    WB_Diagnostic：11
+    WB_Lamp：5
+    WB_Mat：2
+    WB_Placeholder：12
+    WB_Records：5
+    WB_Room：6
+    WB_Storage：5
+    WB_Toolbox：7
+    WB_Trays：6
+  管线固定开销（没有任何物体时）：4

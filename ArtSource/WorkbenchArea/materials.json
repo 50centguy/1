@@ -1,0 +1,213 @@
+{
+  "materials": [
+    {
+      "name": "M_WB_WallGreen",
+      "baseColor": "#5C6358",
+      "metallic": 0.0,
+      "smoothness": 0.08,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_PaintGreen",
+      "baseColor": "#4A5649",
+      "metallic": 0.0,
+      "smoothness": 0.12,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Ivory",
+      "baseColor": "#CFC6AA",
+      "metallic": 0.0,
+      "smoothness": 0.15,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Steel",
+      "baseColor": "#8C928D",
+      "metallic": 0.0,
+      "smoothness": 0.2,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Rubber",
+      "baseColor": "#2C312D",
+      "metallic": 0.0,
+      "smoothness": 0.05,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Wood",
+      "baseColor": "#6E5C46",
+      "metallic": 0.0,
+      "smoothness": 0.1,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Yellow",
+      "baseColor": "#B99A45",
+      "metallic": 0.0,
+      "smoothness": 0.15,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Mat",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.05,
+      "baseMap": "T_WB_Mat.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Paper",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.05,
+      "baseMap": "T_WB_Paper.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Floor",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.05,
+      "baseMap": "T_WB_Floor.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Screen",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.4,
+      "baseMap": "T_WB_Screen.png",
+      "emissionMap": "T_WB_Screen.png",
+      "emissionColor": "#FFFFFF",
+      "emissionStrength": 1.6,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_LampWarm",
+      "baseColor": "#FFD9A0",
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#FFCF8A",
+      "emissionStrength": 6.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_FaultRed",
+      "baseColor": "#7A1A14",
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#FF3A22",
+      "emissionStrength": 4.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_LampCool",
+      "baseColor": "#D8E8DC",
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#CFE8D8",
+      "emissionStrength": 3.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Placeholder",
+      "baseColor": "#5E7183",
+      "metallic": 0.0,
+      "smoothness": 0.15,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Pegboard",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.1,
+      "baseMap": "T_WB_Pegboard.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_ShellOld",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.15,
+      "baseMap": "T_WB_ShellWear.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_Wire",
+      "baseColor": "#3F566E",
+      "metallic": 0.0,
+      "smoothness": 0.2,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    },
+    {
+      "name": "M_WB_DarkSteel",
+      "baseColor": "#3B3F3C",
+      "metallic": 0.0,
+      "smoothness": 0.3,
+      "baseMap": "T_WB_Grain.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point"
+    }
+  ]
+}

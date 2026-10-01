@@ -1,0 +1,423 @@
+{
+  "bench_top_z_m": 0.9,
+  "cameras": {
+    "Game": {
+      "camera": {
+        "loc": [
+          0.0,
+          -0.8,
+          1.62
+        ],
+        "target": [
+          0.0,
+          0.48,
+          0.92
+        ],
+        "fov_v": 50.0
+      },
+      "targets": {
+        "screws": {
+          "visible_fraction": 1.0,
+          "samples": 20,
+          "min_screen_px": 5.7,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "cover": {
+          "visible_fraction": 1.0,
+          "samples": 2,
+          "min_screen_px": 192.4,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "connector": {
+          "visible_fraction": 0.875,
+          "samples": 8,
+          "min_screen_px": 64.7,
+          "occluded_by": {
+            "Placeholder_Prosthetic_ElbowCuff": 1
+          },
+          "occluded_by_clutter_or_props": 0
+        },
+        "fault_led": {
+          "visible_fraction": 1.0,
+          "samples": 4,
+          "min_screen_px": 9.0,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "tray_screws": {
+          "visible_fraction": 1.0,
+          "samples": 97,
+          "min_screen_px": 178.7,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "tray_oldparts": {
+          "visible_fraction": 0.877,
+          "samples": 73,
+          "min_screen_px": 210.2,
+          "occluded_by": {
+            "Bench_Mat": 8,
+            "Tray_OldParts_Contents": 1
+          },
+          "occluded_by_clutter_or_props": 0
+        },
+        "probe": {
+          "visible_fraction": 1.0,
+          "samples": 9,
+          "min_screen_px": 125.2,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "diag_screen": {
+          "visible_fraction": 1.0,
+          "samples": 3,
+          "min_screen_px": 148.3,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "diag_knobs": {
+          "visible_fraction": 1.0,
+          "samples": 27,
+          "min_screen_px": 35.3,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "mat_center": {
+          "visible_fraction": 0.5,
+          "samples": 24,
+          "min_screen_px": 741.3,
+          "occluded_by": {
+            "Placeholder_Prosthetic_Forearm": 10,
+            "Placeholder_Prosthetic_Hand": 2
+          },
+          "occluded_by_clutter_or_props": 0
+        },
+        "toolbox_upper": {
+          "visible_fraction": 1.0,
+          "samples": 81,
+          "min_screen_px": 264.9,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "organizer_drawers": {
+          "visible_fraction": 0.9,
+          "samples": 30,
+          "min_screen_px": 144.3,
+          "occluded_by": {
+            "Storage_PartsOrganizer": 3
+          },
+          "occluded_by_clutter_or_props": 0
+        }
+      }
+    },
+    "CloseUp": {
+      "camera": {
+        "loc": [
+          0.06,
+          -0.2,
+          1.42
+        ],
+        "target": [
+          0.03,
+          0.42,
+          0.95
+        ],
+        "fov_v": 44.0
+      },
+      "targets": {
+        "screws": {
+          "visible_fraction": 1.0,
+          "samples": 20,
+          "min_screen_px": 11.6,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "cover": {
+          "visible_fraction": 1.0,
+          "samples": 2,
+          "min_screen_px": 401.6,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "connector": {
+          "visible_fraction": 0.875,
+          "samples": 8,
+          "min_screen_px": 132.4,
+          "occluded_by": {
+            "Placeholder_Prosthetic_ElbowCuff": 1
+          },
+          "occluded_by_clutter_or_props": 0
+        },
+        "fault_led": {
+          "visible_fraction": 1.0,
+          "samples": 4,
+          "min_screen_px": 18.8,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "tray_screws": {
+          "visible_fraction": 0.839,
+          "samples": 87,
+          "min_screen_px": 349.5,
+          "occluded_by": {
+            "<outside frame>": 14
+          },
+          "occluded_by_clutter_or_props": 0
+        },
+        "tray_oldparts": {
+          "visible_fraction": 0.886,
+          "samples": 70,
+          "min_screen_px": 396.7,
+          "occluded_by": {
+            "Bench_Mat": 7,
+            "Tray_OldParts_Contents": 1
+          },
+          "occluded_by_clutter_or_props": 0
+        },
+        "probe": {
+          "visible_fraction": 1.0,
+          "samples": 8,
+          "min_screen_px": 227.1,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "diag_screen": {
+          "visible_fraction": 0.333,
+          "samples": 3,
+          "min_screen_px": 241.8,
+          "occluded_by": {
+            "<outside frame>": 2
+          },
+          "occluded_by_clutter_or_props": 0
+        },
+        "diag_knobs": {
+          "visible_fraction": 1.0,
+          "samples": 27,
+          "min_screen_px": 60.2,
+          "occluded_by": {},
+          "occluded_by_clutter_or_props": 0
+        },
+        "mat_center": {
+          "visible_fraction": 0.5,
+          "samples": 24,
+          "min_screen_px": 1477.1,
+          "occluded_by": {
+            "Placeholder_Prosthetic_Forearm": 7,
+            "Placeholder_Prosthetic_Cover": 3,
+            "Placeholder_Prosthetic_Hand": 2
+          },
+          "occluded_by_clutter_or_props": 0
+        },
+        "toolbox_upper": {
+          "visible_fraction": 0.159,
+          "samples": 82,
+          "min_screen_px": 466.1,
+          "occluded_by": {
+            "<outside frame>": 69
+          },
+          "occluded_by_clutter_or_props": 0
+        },
+        "organizer_drawers": {
+          "visible_fraction": 0.0,
+          "samples": 30,
+          "min_screen_px": 244.5,
+          "occluded_by": {
+            "<outside frame>": 30
+          },
+          "occluded_by_clutter_or_props": 0
+        }
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "bench_top_height_0_90",
+      "passed": true,
+      "top_z": 0.9
+    },
+    {
+      "name": "closeup_sees_screws_cover_connector",
+      "passed": true,
+      "screws": 1.0,
+      "cover": 1.0,
+      "connector": 0.875
+    },
+    {
+      "name": "no_clutter_or_props_occlude_work_targets",
+      "passed": true,
+      "offenders": {
+        "Game": {},
+        "CloseUp": {}
+      },
+      "note": "samples hidden only by the placeholder being repaired, by the target itself or by the mat edge do not count"
+    },
+    {
+      "name": "game_cam_sees_trays_and_probe",
+      "passed": true,
+      "tray_screws": 1.0,
+      "probe": 1.0,
+      "mat_center_visible": 0.5,
+      "mat_center_note": "the rest is behind the placeholder arm itself"
+    },
+    {
+      "name": "closeup_screw_heads_at_least_10px",
+      "passed": true,
+      "screw_px": 11.6,
+      "note": "screw head 7 mm diameter at 1920x1080"
+    },
+    {
+      "name": "closeup_shows_trays_and_probe",
+      "passed": true,
+      "tray_screws": 0.839,
+      "tray_oldparts": 0.886,
+      "probe": 1.0,
+      "note": "player must see where the tools and part trays are without leaving the repair view"
+    },
+    {
+      "name": "game_cam_diagnostic_readout_clear",
+      "passed": true,
+      "diag_screen": 1.0,
+      "occluders": {}
+    },
+    {
+      "name": "central_work_area_clear",
+      "passed": true,
+      "offenders": []
+    },
+    {
+      "name": "hand_zone_left_hand_approach_clear",
+      "passed": true,
+      "offenders": [],
+      "box": [
+        [
+          -0.36,
+          -0.1,
+          0.9560000000000001
+        ],
+        [
+          -0.16,
+          0.38,
+          1.1360000000000001
+        ]
+      ]
+    },
+    {
+      "name": "hand_zone_right_hand_approach_clear",
+      "passed": true,
+      "offenders": [],
+      "box": [
+        [
+          0.02,
+          -0.1,
+          0.9560000000000001
+        ],
+        [
+          0.22,
+          0.38,
+          1.1360000000000001
+        ]
+      ]
+    },
+    {
+      "name": "hand_zone_over_arm_tool_space_clear",
+      "passed": true,
+      "offenders": [],
+      "box": [
+        [
+          -0.3,
+          0.38,
+          1.036
+        ],
+        [
+          0.2,
+          0.52,
+          1.296
+        ]
+      ]
+    },
+    {
+      "name": "hand_zone_player_standing_knee_space_clear",
+      "passed": true,
+      "offenders": [],
+      "box": [
+        [
+          -0.46,
+          -0.45,
+          0.01
+        ],
+        [
+          0.48,
+          0.13,
+          1.6
+        ]
+      ]
+    },
+    {
+      "name": "tray_Tray_Screws_lift_and_pull_path_clear",
+      "passed": true,
+      "lift_hits": [],
+      "pull_hits": []
+    },
+    {
+      "name": "tray_Tray_OldParts_lift_and_pull_path_clear",
+      "passed": true,
+      "lift_hits": [],
+      "pull_hits": []
+    },
+    {
+      "name": "placeholder_screws_to_tray_path_clear",
+      "passed": true,
+      "hits": []
+    },
+    {
+      "name": "placeholder_cover_to_parking_path_clear",
+      "passed": true,
+      "hits": []
+    },
+    {
+      "name": "cover_parking_box_has_margin",
+      "passed": true,
+      "margins_mm": {
+        "x_min": 15.0,
+        "x_max": 15.0,
+        "y_min": 31.0,
+        "y_max": 31.0
+      },
+      "cover_mm": [
+        220.0,
+        68.0
+      ],
+      "box_mm": [
+        250.0,
+        130.0
+      ],
+      "min_required_mm": 12.0
+    }
+  ],
+  "cover_park": {
+    "center": [
+      0.25,
+      0.30000001192092896,
+      0.9039999842643738
+    ],
+    "box": [
+      [
+        0.125,
+        0.235
+      ],
+      [
+        0.375,
+        0.365
+      ]
+    ],
+    "margins_mm": {
+      "x_min": 15.0,
+      "x_max": 15.0,
+      "y_min": 31.0,
+      "y_max": 31.0
+    }
+  },
+  "all_passed": true
+}

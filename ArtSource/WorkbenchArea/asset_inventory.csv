@@ -1,0 +1,131 @@
+﻿name,group,role,triangles,material,origin_world,origin_meaning,props
+Bench_Cabinet,Bench,static,48,M_WB_PaintGreen,0.710 0.560 0.140,mount face / base center,
+Bench_CabinetDoor,Bench,inspectable,88,M_WB_PaintGreen,0.520 0.190 0.160,hinge,hinge_axis_local=Z; open_deg=-15.0; note=hinge on the left edge; currently ajar 15 deg
+Bench_DrawerCase,Bench,static,48,M_WB_PaintGreen,-0.700 0.560 0.140,mount face / base center,
+Bench_Drawer_1_Probes,Bench,inspectable,264,M_WB_PaintGreen,-0.700 -0.075 0.710,handle center,slide_axis_local=-Y; travel_m=0.3; open_m=0.22; grab_point=handle center
+Bench_Drawer_2,Bench,inspectable,264,M_WB_PaintGreen,-0.700 0.145 0.500,handle center,slide_axis_local=-Y; travel_m=0.3; open_m=0.0; grab_point=handle center
+Bench_Drawer_3,Bench,inspectable,264,M_WB_PaintGreen,-0.700 0.145 0.270,handle center,slide_axis_local=-Y; travel_m=0.3; open_m=0.0; grab_point=handle center
+Bench_Frame,Bench,static,72,M_WB_PaintGreen,0.000 0.550 0.000,mount face / base center,
+Bench_Top,Bench,static,12,M_WB_Wood,0.000 0.550 0.900,mount face / base center,note=work surface top at z 0.90
+Bench_TopEdge,Bench,static,24,M_WB_Steel,0.000 0.140 0.900,mount face / base center,
+Clutter_BacklogLine,Clutter,clutter,60,M_WB_Steel,0.270 1.010 1.725,mount face / base center,
+Clutter_Binders,Clutter,clutter,84,M_WB_PaintGreen,0.140 1.020 1.825,mount face / base center,
+Clutter_DrawerProbes,Clutter,clutter,112,M_WB_Yellow,-0.700 0.100 0.635,mount face / base center,
+Clutter_FloorPartsBox,Clutter,clutter,12,M_WB_Wood,0.235 0.725 0.140,mount face / base center,
+Clutter_HangingShell_New,Clutter,clutter,56,M_WB_Ivory,0.660 0.975 1.560,mount face / base center,"note=new forearm shell, hanging"
+Clutter_HangingShell_Old,Clutter,clutter,72,M_WB_ShellOld,0.790 1.000 1.470,mount face / base center,"note=worn old hand shell, hanging"
+Clutter_HarnessTape,Clutter,clutter,60,M_WB_Yellow,0.200 0.940 0.900,mount face / base center,
+Clutter_JacketOnHook,Clutter,clutter,32,M_WB_PaintGreen,-1.600 -0.280 1.720,mount face / base center,
+Clutter_LunchTin,Clutter,clutter,48,M_WB_Yellow,0.480 0.775 0.900,mount face / base center,note=personal lunch tin
+Clutter_MugPens,Clutter,clutter,84,M_WB_Ivory,-0.380 0.860 0.900,mount face / base center,
+Clutter_OrganizerFronts,Clutter,clutter,168,M_WB_Ivory,0.750 0.360 0.900,mount face / base center,
+Clutter_OrganizerParts,Clutter,clutter,320,M_WB_Steel,0.800 0.330 0.900,mount face / base center,
+Clutter_PatchedWallCable,Clutter,clutter,96,M_WB_Rubber,-1.200 1.000 1.000,mount face / base center,
+Clutter_PegHooks,Clutter,clutter,52,M_WB_Steel,0.720 1.020 1.500,mount face / base center,
+Clutter_PegboardHandles,Clutter,clutter,80,M_WB_Yellow,-0.500 1.010 1.330,mount face / base center,
+Clutter_PegboardTools,Clutter,clutter,362,M_WB_Rubber,0.000 1.020 1.200,mount face / base center,
+Clutter_PowerStrip,Clutter,clutter,60,M_WB_PaintGreen,0.470 0.920 0.900,mount face / base center,
+Clutter_Radio,Clutter,clutter,24,M_WB_Ivory,0.790 0.880 0.900,mount face / base center,
+Clutter_Rag,Clutter,clutter,12,M_WB_Ivory,0.160 0.870 0.900,mount face / base center,
+Clutter_ReadingGlasses,Clutter,clutter,204,M_WB_Steel,-0.580 0.250 0.912,mount face / base center,
+Clutter_ServoHarness,Clutter,clutter,238,M_WB_Wire,0.150 0.900 0.900,mount face / base center,note=patched harness + loose coil
+Clutter_ServoPile_Motors,Clutter,clutter,136,M_WB_Steel,0.000 0.830 0.900,mount face / base center,
+Clutter_ServoPile_New,Clutter,clutter,36,M_WB_Ivory,0.000 0.810 0.900,mount face / base center,note=new replacement servo modules
+Clutter_ServoPile_Old,Clutter,clutter,48,M_WB_ShellOld,-0.070 0.810 0.900,mount face / base center,note=worn old servo modules
+Clutter_ShelfBoxes,Clutter,clutter,36,M_WB_Wood,0.600 1.020 1.825,mount face / base center,
+Clutter_Shelving,Clutter,clutter,210,M_WB_Ivory,1.300 0.620 0.250,mount face / base center,
+Clutter_ShelvingCRT,Clutter,clutter,12,M_WB_Screen,1.440 0.390 1.300,mount face / base center,
+Clutter_TapeAndSolder,Clutter,clutter,80,M_WB_Yellow,0.300 0.860 0.900,mount face / base center,
+Clutter_Thermos,Clutter,clutter,36,M_WB_PaintGreen,-0.200 0.920 0.900,mount face / base center,
+Clutter_UnderBenchCrate,Clutter,clutter,60,M_WB_Wood,-0.260 0.675 0.140,mount face / base center,note=crate of old shells under the bench
+Clutter_UnderBenchShells,Clutter,clutter,68,M_WB_ShellOld,-0.260 0.650 0.160,mount face / base center,note=old forearm shells sticking out of the crate
+Clutter_UnderBenchSpares,Clutter,clutter,104,M_WB_Ivory,-0.060 0.550 0.140,mount face / base center,note=spare servos + wire spool on the bottom shelf
+Diag_CablePatchTape,Clutter,clutter,40,M_WB_Yellow,-0.600 0.430 0.909,mount face / base center,
+Toolbox_BaseContents,Clutter,clutter,40,M_WB_Steel,0.730 0.810 0.904,mount face / base center,
+Toolbox_LidLabel,Clutter,clutter,12,M_WB_Paper,0.730 0.913 1.118,mount face / base center,
+Toolbox_Tier1_Contents,Clutter,clutter,172,M_WB_Yellow,0.730 0.700 1.054,mount face / base center,
+Toolbox_Tier2_Contents,Clutter,clutter,172,M_WB_Yellow,0.730 0.600 1.104,mount face / base center,
+Diag_Body,Diagnostic,inspectable,308,M_WB_Ivory,-0.650 0.770 0.900,mount face / base center,note=diagnostic unit casing; mounting face = feet
+Diag_Knob_Gain,Diagnostic,inspectable,48,M_WB_Rubber,-0.580 0.676 1.115,mount face / base center,rot_axis_local=Y
+Diag_Knob_Offset,Diagnostic,inspectable,48,M_WB_Rubber,-0.580 0.676 1.065,mount face / base center,rot_axis_local=Y
+Diag_Knob_Time,Diagnostic,inspectable,48,M_WB_Rubber,-0.500 0.676 1.115,mount face / base center,rot_axis_local=Y
+Diag_LED_Fault,Diagnostic,fault_indicator,20,M_WB_FaultRed,-0.500 0.680 1.145,mount face / base center,note=red = real fault only
+Diag_LED_OK,Diagnostic,indicator,20,M_WB_Screen,-0.530 0.680 1.145,mount face / base center,
+Diag_Probe,Diagnostic,removable,48,M_WB_Yellow,-0.480 0.330 0.912,grip center,grab_point=grip center; note=handheld probe; tip reaches the placeholder connector
+Diag_ProbeCable,Diagnostic,cable,56,M_WB_Rubber,-0.620 0.420 0.908,mount face / base center,note=patched cable (tape wraps)
+Diag_ProbeJacks,Diagnostic,inspectable,56,M_WB_Steel,-0.730 0.624 0.980,mount face / base center,
+Diag_Screen,Diagnostic,inspectable,12,M_WB_Screen,-0.730 0.675 1.097,mount face / base center,note=waveform screen
+Diag_Switch_Power,Diagnostic,inspectable,32,M_WB_Steel,-0.480 0.680 1.065,mount face / base center,rot_axis_local=X
+Lamp_ArmLower,Lamp,inspectable,48,M_WB_Steel,-0.300 0.900 0.980,shoulder joint,pivot=shoulder joint; rot_axis_local=X
+Lamp_ArmUpper,Lamp,inspectable,48,M_WB_Steel,-0.300 0.860 1.480,elbow joint,pivot=elbow joint; rot_axis_local=X
+Lamp_Base,Lamp,inspectable,52,M_WB_PaintGreen,-0.300 0.900 0.900,mount face / base center,note=clamp on bench back edge
+Lamp_Bulb,Lamp,light_fixture,28,M_WB_LampWarm,-0.110 0.545 1.407,mount face / base center,
+Lamp_Head,Lamp,inspectable,48,M_WB_PaintGreen,-0.120 0.560 1.480,head joint,pivot=head joint; light_target=-0.040 0.440 0.904; note=Unity spot light child points at the mat center
+Bench_ArmCradles,Mat,static,72,M_WB_Rubber,-0.035 0.450 0.904,mount face / base center,
+Bench_Mat,Mat,static,12,M_WB_Mat,-0.020 0.450 0.900,mount face / base center,note=wear-resistant work mat; printed cover parking zone at front right; center kept clear
+Placeholder_Prosthetic_BayMotor,Placeholder,placeholder,40,M_WB_Steel,-0.010 0.450 1.016,mount face / base center,blocked_by=Placeholder_Prosthetic_Cover; access=remove the cover first
+Placeholder_Prosthetic_Connector,Placeholder,placeholder_inspectable,40,M_WB_Steel,0.236 0.450 0.976,interface face center,grab_point=interface face center; note=probe target
+Placeholder_Prosthetic_Cover,Placeholder,placeholder_removable,12,M_WB_Placeholder,-0.010 0.450 1.023,cover top center,"grab_point=cover top center; removal=lift +Z 40 mm, then to mat parking zone COVER; park_point=0.250 0.300 0.904"
+Placeholder_Prosthetic_ElbowCuff,Placeholder,placeholder,28,M_WB_Placeholder,0.192 0.450 0.976,mount face / base center,
+Placeholder_Prosthetic_FaultLED,Placeholder,fault_indicator,20,M_WB_FaultRed,0.215 0.414 0.990,mount face / base center,note=red = real fault only
+Placeholder_Prosthetic_Forearm,Placeholder,placeholder,28,M_WB_Placeholder,-0.010 0.450 0.976,shell center,"grab_point=shell center; note=PLACEHOLDER: not art, not RobotV4; validates camera and hand access"
+Placeholder_Prosthetic_Hand,Placeholder,placeholder,228,M_WB_Placeholder,-0.265 0.450 0.946,mount face / base center,"note=PLACEHOLDER silhouette only: wrist, palm, segmented fingers"
+Placeholder_Prosthetic_Screw_1,Placeholder,placeholder_removable,48,M_WB_DarkSteel,-0.110 0.423 1.026,screw head top (tool point),"grab_point=screw head top (tool point); tool_axis_local=Z; removal=unscrew +Z, then to Tray_Screws slot"
+Placeholder_Prosthetic_Screw_2,Placeholder,placeholder_removable,48,M_WB_DarkSteel,-0.110 0.477 1.026,screw head top (tool point),"grab_point=screw head top (tool point); tool_axis_local=Z; removal=unscrew +Z, then to Tray_Screws slot"
+Placeholder_Prosthetic_Screw_3,Placeholder,placeholder_removable,48,M_WB_DarkSteel,0.090 0.423 1.026,screw head top (tool point),"grab_point=screw head top (tool point); tool_axis_local=Z; removal=unscrew +Z, then to Tray_Screws slot"
+Placeholder_Prosthetic_Screw_4,Placeholder,placeholder_removable,48,M_WB_DarkSteel,0.090 0.477 1.026,screw head top (tool point),"grab_point=screw head top (tool point); tool_axis_local=Z; removal=unscrew +Z, then to Tray_Screws slot"
+Placeholder_Prosthetic_Tag,Placeholder,placeholder,12,M_WB_Paper,-0.255 0.360 0.905,mount face / base center,note=PLACEHOLDER tag (PH)
+Diag_PrintoutStrip,Records,inspectable_record,12,M_WB_Paper,-0.570 0.570 0.902,mount face / base center,
+Records_BacklogOrder_1,Records,record,12,M_WB_Paper,0.090 1.013 1.650,mount face / base center,note=backlog work order clipped on the line
+Records_BacklogOrder_2,Records,record,12,M_WB_Paper,0.200 1.013 1.645,mount face / base center,note=backlog work order clipped on the line
+Records_BacklogOrder_3,Records,record,12,M_WB_Paper,0.310 1.013 1.650,mount face / base center,note=backlog work order clipped on the line
+Records_BacklogOrder_4,Records,record,12,M_WB_Paper,0.420 1.013 1.645,mount face / base center,note=backlog work order clipped on the line
+Records_BacklogStack,Records,inspectable_record,12,M_WB_Paper,-0.860 0.525 0.930,mount face / base center,note=second backlog stack
+Records_Clipboard,Records,inspectable_record,24,M_WB_Wood,-1.588 0.110 1.400,clip top,grab_point=clip top
+Records_ClipboardSheet,Records,record,12,M_WB_Paper,-1.588 0.110 1.240,mount face / base center,
+Records_InboxStack,Records,inspectable_record,12,M_WB_Paper,-0.790 0.310 0.918,mount face / base center,note=backlog of work orders
+Records_PegNote_1,Records,record,12,M_WB_Paper,-0.700 1.019 1.620,mount face / base center,
+Records_PegNote_2,Records,record,12,M_WB_Paper,0.860 1.019 1.620,mount face / base center,
+Records_PegNote_3,Records,record,12,M_WB_Paper,-0.050 1.019 1.660,mount face / base center,
+Records_PegPhoto,Records,record,12,M_WB_Paper,-0.860 1.018 1.450,mount face / base center,
+Records_RepairLog,Records,inspectable_record,12,M_WB_Paper,-0.565 0.240 0.906,mount face / base center,note=open repair log book
+Records_WallNote_1,Records,record,12,M_WB_Paper,-1.599 0.550 1.450,mount face / base center,
+Records_WallNote_2,Records,record,12,M_WB_Paper,-1.599 0.350 1.500,mount face / base center,
+Records_WallNote_3,Records,record,12,M_WB_Paper,-1.599 0.700 1.200,mount face / base center,
+Records_WallNote_4,Records,record,12,M_WB_Paper,-1.599 0.450 1.220,mount face / base center,
+Records_WallNote_5,Records,record,12,M_WB_Paper,-1.599 0.200 1.300,mount face / base center,
+Records_WallNote_6,Records,record,12,M_WB_Paper,-1.599 0.850 1.550,mount face / base center,
+Furniture_Stool,Room,static,108,M_WB_Steel,-0.850 -0.250 0.000,mount face / base center,
+Room_CeilingFixture,Room,static,52,M_WB_Steel,0.000 0.250 2.420,mount face / base center,
+Room_CeilingTube,Room,light_fixture,28,M_WB_LampCool,0.000 0.250 2.370,mount face / base center,note=cool fluorescent tube
+Room_Conduits,Room,static,124,M_WB_Steel,0.000 1.020 2.300,mount face / base center,
+Room_Floor,Room,static,12,M_WB_Floor,0.000 0.000 0.000,mount face / base center,
+Room_FloorDrain,Room,static,12,M_WB_Steel,1.050 -1.050 0.000,mount face / base center,
+Room_Wainscot,Room,static,24,M_WB_PaintGreen,0.000 1.040 0.000,mount face / base center,
+Room_WallBack,Room,static,12,M_WB_WallGreen,0.000 1.050 0.000,mount face / base center,
+Room_WallLeft,Room,static,12,M_WB_WallGreen,-1.600 -0.300 0.000,mount face / base center,
+Room_WallRight,Room,static,12,M_WB_WallGreen,1.600 0.500 0.000,mount face / base center,
+Storage_BinLabel_1,Storage,label,12,M_WB_Paper,-0.835 0.819 1.875,mount face / base center,
+Storage_BinLabel_2,Storage,label,12,M_WB_Paper,-0.685 0.819 1.875,mount face / base center,
+Storage_BinLabel_3,Storage,label,12,M_WB_Paper,-0.535 0.819 1.875,mount face / base center,
+Storage_BinLabel_4,Storage,label,12,M_WB_Paper,-0.385 0.819 1.875,mount face / base center,
+Storage_BinLabel_5,Storage,label,12,M_WB_Paper,-0.235 0.819 1.875,mount face / base center,
+Storage_BinLabel_6,Storage,label,12,M_WB_Paper,-0.085 0.819 1.875,mount face / base center,
+Storage_OrganizerDrawer_Open1,Storage,inspectable,60,M_WB_Ivory,0.850 0.301 1.004,drawer pull,slide_axis_local=-Y; open_m=0.05; grab_point=drawer pull; note=half-open parts drawer
+Storage_OrganizerDrawer_Open2,Storage,inspectable,60,M_WB_Ivory,0.850 0.271 0.924,drawer pull,slide_axis_local=-Y; open_m=0.08; grab_point=drawer pull; note=half-open parts drawer
+Storage_PartsBins,Storage,storage,288,M_WB_PaintGreen,-0.500 1.020 1.825,mount face / base center,
+Storage_PartsOrganizer,Storage,storage,108,M_WB_Steel,0.750 0.500 0.900,mount face / base center,"note=small-parts organizer, 3 x 3 drawers"
+Storage_Shelving,Storage,storage,96,M_WB_Steel,1.300 1.000 0.000,mount face / base center,
+Wall_Pegboard,Storage,static,12,M_WB_Pegboard,0.000 1.035 0.920,mount face / base center,
+Wall_ShelfUpper,Storage,static,36,M_WB_Steel,0.000 1.035 1.800,mount face / base center,
+Toolbox_Arms,Toolbox,static,48,M_WB_Steel,0.730 0.700 1.000,mount face / base center,
+Toolbox_Base,Toolbox,inspectable,220,M_WB_PaintGreen,0.730 0.810 0.900,mount face / base center,
+Toolbox_Lid,Toolbox,inspectable,88,M_WB_PaintGreen,0.730 0.920 1.050,hinge,"hinge_axis_local=X; note=lid hinged at the back top edge, shown open (upright)"
+Toolbox_Tier1,Toolbox,inspectable,308,M_WB_PaintGreen,0.730 0.600 1.090,front lip center,"grab_point=front lip center; note=cantilever tier, shown extended; blocked_by=Toolbox_Tier2; access=move the upper tier first"
+Toolbox_Tier2,Toolbox,inspectable,308,M_WB_PaintGreen,0.730 0.500 1.135,front lip center,"grab_point=front lip center; note=cantilever tier, shown extended"
+Box_Bearings,Trays,inspectable,24,M_WB_PaintGreen,0.650 0.220 0.950,mount face / base center,"note=old bearing box, lid open"
+Tray_OldParts,Trays,removable,264,M_WB_Rubber,0.450 0.402 0.932,front handle,grab_point=front handle
+Tray_OldParts_Contents,Trays,tray_contents,116,M_WB_Steel,0.450 0.510 0.904,mount face / base center,
+Tray_OldParts_Shells,Trays,tray_contents,36,M_WB_ShellOld,0.450 0.510 0.904,mount face / base center,
+Tray_Screws,Trays,removable,352,M_WB_Steel,0.470 0.200 0.918,front tab,grab_point=front tab; slots=4 compartments; slot for placeholder screws at front-left
+Tray_Screws_Contents,Trays,tray_contents,120,M_WB_Steel,0.470 0.290 0.904,mount face / base center,
