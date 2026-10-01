@@ -1,0 +1,8 @@
+工作台区域 · Unity 构建记录
+Unity 6000.0.84f1，2026-10-01 10:37
+复制源文件：Assets/WorkbenchArea/Art/WorkbenchArea.fbx 与 5 张贴图
+URP Simple Lit 材质 15 个（无高光、无金属）：M_WB_WallGreen, M_WB_PaintGreen, M_WB_Ivory, M_WB_Steel, M_WB_Rubber, M_WB_Wood, M_WB_Yellow, M_WB_Mat, M_WB_Paper, M_WB_Floor, M_WB_Screen, M_WB_LampWarm, M_WB_FaultRed, M_WB_LampCool, M_WB_Placeholder
+模型：102 个网格，7140 个三角面，材质 15 个，带 wb_role 的对象 102 个
+预制体 Assets/WorkbenchArea/Prefabs/WorkbenchArea.prefab：静态 MeshCollider 27 个（墙地、台体、抽屉、柜门、货架、洞洞板、诊断仪机身、工具箱底座）；可检查对象 50 个（无实体碰撞的配占位触发盒，补 6 mm、最小边 22 mm；有实体碰撞的直接用实体表面）；静态批处理对象 55 个（托盘、螺钉、盖板等会动的对象不设静态）
+测试场景 Assets/WorkbenchArea/Scenes/WorkbenchArea_Test.unity：游戏镜头 (0.00, 1.62, 0.80) 竖直视场 50°，近距维修镜头 (-0.05, 1.36, 0.12) 竖直视场 38°；暖色聚光工作灯（软阴影）+ 冷色顶灯 + 弱补光 + 绿灰环境光
+构建期间控制台警告 / 错误：0

@@ -1,0 +1,107 @@
+{
+  "groups": {
+    "Room": {
+      "objects": 10,
+      "triangles": 396
+    },
+    "Bench": {
+      "objects": 9,
+      "triangles": 1084
+    },
+    "Mat": {
+      "objects": 2,
+      "triangles": 84
+    },
+    "Placeholder": {
+      "objects": 11,
+      "triangles": 416
+    },
+    "Trays": {
+      "objects": 5,
+      "triangles": 876
+    },
+    "Toolbox": {
+      "objects": 5,
+      "triangles": 972
+    },
+    "Diagnostic": {
+      "objects": 11,
+      "triangles": 696
+    },
+    "Lamp": {
+      "objects": 5,
+      "triangles": 224
+    },
+    "Storage": {
+      "objects": 10,
+      "triangles": 504
+    },
+    "Records": {
+      "objects": 14,
+      "triangles": 180
+    },
+    "Clutter": {
+      "objects": 20,
+      "triangles": 1708
+    }
+  },
+  "materials": [
+    "M_WB_FaultRed",
+    "M_WB_Floor",
+    "M_WB_Ivory",
+    "M_WB_LampCool",
+    "M_WB_LampWarm",
+    "M_WB_Mat",
+    "M_WB_PaintGreen",
+    "M_WB_Paper",
+    "M_WB_Placeholder",
+    "M_WB_Rubber",
+    "M_WB_Screen",
+    "M_WB_Steel",
+    "M_WB_WallGreen",
+    "M_WB_Wood",
+    "M_WB_Yellow"
+  ],
+  "textures": {
+    "T_WB_Grain.png": [
+      128,
+      128
+    ],
+    "T_WB_Floor.png": [
+      128,
+      128
+    ],
+    "T_WB_Paper.png": [
+      512,
+      512
+    ],
+    "T_WB_Screen.png": [
+      128,
+      96
+    ],
+    "T_WB_Mat.png": [
+      320,
+      184
+    ]
+  },
+  "total_triangles": 7140,
+  "mesh_objects": 102,
+  "roles": {
+    "cable": 1,
+    "clutter": 20,
+    "fault_indicator": 2,
+    "indicator": 1,
+    "inspectable": 20,
+    "inspectable_record": 4,
+    "label": 6,
+    "light_fixture": 2,
+    "placeholder": 4,
+    "placeholder_inspectable": 1,
+    "placeholder_removable": 5,
+    "record": 10,
+    "removable": 3,
+    "static": 19,
+    "storage": 2,
+    "tray_contents": 2
+  }
+}
