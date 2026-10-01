@@ -121,9 +121,25 @@ namespace BorderRepair.EditorTools
                 Do(() => Dock(DockState.SeatedOpen), () => Click(DockAction.Clamps), "重新夹紧");
                 Do(() => Dock(DockState.Clamped), () => { Stage(); Click(DockAction.PowerSwitch); }, "再次断电");
                 Do(() => Dock(DockState.RotorsStopped) && wo.Stage == RobotRepairStage.Disassemble, () => { Stage(); Panels("W09_second_cycle_disassemble"); }, "第二轮");
+                // 安全故障：拆卸中维修座被临时接到总是放行的接口（模拟接线错误）→ 异常通电 → 接回工单、再断电 → 尝试操作 → 维修人员复位
+                Now(() => { foreach (var st in wo.Plan.RemovalSteps.Take(2)) Work("拆卸 " + st.Id, () => wo.Remove(st.Id));
+                            dock.SetServiceCompletionGate(new BypassGate()); Note("【模拟接线错误】维修座临时接到总是放行的接口");
+                            Click(DockAction.PowerSwitch); }, "异常通电");
+                Do(() => wo.IsLocked, () => { dock.SetServiceCompletionGate(bridge); Note("接回工单接口；安全故障：" + wo.SafetyFault); Stage(); Panels("W09b_safety_fault_locked_powered"); }, "发现故障");
+                Do(() => Dock(DockState.Clamped), () => Click(DockAction.PowerSwitch), "故障后断电");
+                Do(() => Dock(DockState.RotorsStopped), () =>
+                {
+                    Stage();
+                    Work("锁定时拆卸 3", () => wo.Remove("3"));
+                    Work("锁定时通电前检查", wo.RunPrePowerCheck);
+                    Click(DockAction.PowerSwitch);
+                    Work("无工号复位", () => wo.ResetSafetyFault(""));
+                    Panels("W09c_safety_fault_locked_powered_off_reset_prompt");
+                }, "故障锁定中尝试操作");
+                Now(() => { Work("维修人员 T-0601 复位", () => wo.ResetSafetyFault("T-0601")); Panels("W09d_safety_fault_reset"); }, "复位");
                 Now(() =>
                 {
-                    foreach (var st in wo.Plan.RemovalSteps) Work("拆卸 " + st.Id, () => wo.Remove(st.Id));
+                    foreach (var st in wo.Plan.RemovalSteps.Skip(2)) Work("拆卸 " + st.Id, () => wo.Remove(st.Id));
                     Work("选择 " + RobotRepairChoice.ReplaceMotorCore, () => wo.ChooseRepair(RobotRepairChoice.ReplaceMotorCore));
                     foreach (var st in wo.Plan.RemovalSteps.Reverse()) Work("装回 " + st.Id, () => wo.Install(st.Id));
                     Work("通电前检查", wo.RunPrePowerCheck);
@@ -159,6 +175,11 @@ namespace BorderRepair.EditorTools
                 catch (Exception e) { Note($"步骤 {next}（{what}）异常：{e.Message}"); console.Add("Exception: " + e.Message); }
                 next++;
                 stepStart = Time.realtimeSinceStartup;
+            }
+
+            sealed class BypassGate : IDockServiceCompletionGate
+            {
+                public bool CanFinishService(out string reason) { reason = string.Empty; return true; }
             }
 
             static void Stage() => Note($"  · 维修座 {dock.State}（供电 {(dock.PowerOn ? "ON" : "OFF")}，转速 {dock.Rotors.SpeedDegPerSec:F0}°/s）→ 工单阶段 {wo.Stage}，第 {wo.RepairCycle + 1} 轮");

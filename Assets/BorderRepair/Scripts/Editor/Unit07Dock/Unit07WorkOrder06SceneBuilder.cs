@@ -36,5 +36,34 @@ namespace BorderRepair.EditorTools
                       $"模型缺少的工单节点：{(missing.Count == 0 ? "无" : string.Join(", ", missing))}");
             if (Application.isBatchMode) EditorApplication.Exit(missing.Count == 0 ? 0 : 1);
         }
+
+        // ------------------------------------------------------------------ 验收用：模拟接线错误
+
+        const string SimulateMenu = "Border Repair/Unit07 Dock/验收：模拟接线错误并通电（安全故障）";
+
+        sealed class BypassGate : IDockServiceCompletionGate
+        {
+            public bool CanFinishService(out string reason) { reason = string.Empty; return true; }
+        }
+
+        /// <summary>
+        /// 只在编辑器 Play 模式、集成场景里用：把维修座临时接到总是放行的接口，拨断电开关通电，再接回工单。
+        /// 用来人工验收安全故障锁定与复位（MouseAcceptance.md 第 F 节）。不进入构建，运行时代码里没有这个入口。
+        /// </summary>
+        [MenuItem(SimulateMenu)]
+        public static void SimulateMiswiredPowerOn()
+        {
+            var dock = Object.FindFirstObjectByType<Unit07DockController>();
+            var bridge = Object.FindFirstObjectByType<Unit07WorkOrder06Bridge>();
+            dock.SetServiceCompletionGate(new BypassGate());
+            bool ok = dock.SetPower(true);
+            dock.SetServiceCompletionGate(bridge);
+            Debug.Log($"[Unit07WorkOrder06] 验收模拟接线错误：通电{(ok ? "成功" : "未执行（" + dock.LastMessage + "）")}；已接回工单接口。");
+        }
+
+        [MenuItem(SimulateMenu, true)]
+        static bool CanSimulate() => Application.isPlaying &&
+                                     Object.FindFirstObjectByType<Unit07WorkOrder06Bridge>() != null &&
+                                     Object.FindFirstObjectByType<Unit07DockController>() is Unit07DockController d && !d.PowerOn;
     }
 }

@@ -42,6 +42,9 @@ namespace BorderRepair.Unit07WorkOrder
     /// - 恢复供电：通电前检查已完成，维修座经本接口放行后通电。
     /// 安全规则：检查、拆卸、维修选择、装回、通电前检查只在维修座 RotorsStopped 时允许；
     /// 悬停 / 负载复测只在七号离座悬停（Undocked、转子在悬停转速）后允许；复测失败后回到停靠，重新落座、夹紧、断电后重新拆卸。
+    /// 安全故障（<see cref="SafetyFault"/>）：从检查到通电前检查通过之前，看到维修座通电（只可能是绕过了本接口）。故障期间锁定：
+    /// 工单阶段冻结（不再从维修座同步推进）；所有工单操作被拒绝；不放行恢复供电；已通过的通电前检查作废。
+    /// 只有维修人员能复位（<see cref="ResetSafetyFault"/>）：填写工号，且维修座已断电、叶轮停稳。复位后从原阶段继续，通电前检查必须重做。
     /// </summary>
     public sealed class Unit07WorkOrder06Session : IDockServiceCompletionGate
     {
@@ -61,8 +64,13 @@ namespace BorderRepair.Unit07WorkOrder
         public int RepairCycle => Inner.RepairCycle;
         public bool PrePowerChecked { get; private set; }
         public string LastFeedback { get; private set; }
-        /// <summary>检测到维修座绕过本接口恢复了供电（接线错误）。正常流程中始终为 null。</summary>
+        /// <summary>检测到维修座绕过本接口恢复了供电（接线错误）。不为 null 时工单锁定，见类说明。正常流程中始终为 null。</summary>
         public string SafetyFault { get; private set; }
+        public bool IsLocked => SafetyFault != null;
+        /// <summary>本工单累计发生过的安全故障次数（复位后不清零）。</summary>
+        public int FaultCount { get; private set; }
+        /// <summary>最近一次复位安全故障的维修人员工号。</summary>
+        public string LastResetBy { get; private set; }
         public Unit07DockSnapshot Dock => dock;
         public IReadOnlyList<Unit07WorkOrderLogEntry> Log => log;
         public bool IsInspected(string anchor) => inspected.Contains(anchor);
@@ -83,6 +91,7 @@ namespace BorderRepair.Unit07WorkOrder
         public void Sync()
         {
             dock = readDock();
+            if (IsLocked) return;   // 故障锁定：只读维修座状态，工单阶段冻结
             if (Stage == RobotRepairStage.Dock && IsClampedOnDock(dock.State))
                 Advance(RobotRepairAction.Dock, "七号已夹紧在维修座上。拨断电开关 OFF，等叶轮停稳后开始。");
             if (Stage == RobotRepairStage.PowerOff && dock.State == DockState.RotorsStopped && !dock.PowerOn)
@@ -94,7 +103,7 @@ namespace BorderRepair.Unit07WorkOrder
                 if (Stage == RobotRepairStage.PowerOn && PrePowerChecked)
                     Advance(RobotRepairAction.PowerOn, "已恢复供电。转子回到正常转速后松开夹具、按 L 离座，再做悬停复测。");
                 else
-                    Fault("维修座在工单放行前恢复了供电（工单阶段 " + Stage + "）。检查“允许结束维修”接口的接线。");
+                    Fault("维修座在工单放行前恢复了供电（工单阶段：" + StageLabel(Stage) + "）。检查“允许结束维修”接口的接线。");
             }
         }
 
@@ -113,9 +122,33 @@ namespace BorderRepair.Unit07WorkOrder
 
         void Fault(string message)
         {
-            if (SafetyFault != null) return;
+            if (IsLocked) return;
             SafetyFault = message;
+            FaultCount++;
+            PrePowerChecked = false;   // 意外通电过，之前的通电前检查作废
             Record("SafetyFault", null, false, message);
+        }
+
+        string LockReason => "安全故障锁定：" + SafetyFault + " 先拨断电开关 OFF、等叶轮停稳，再由维修人员复位。";
+
+        /// <summary>
+        /// 维修人员复位安全故障。条件：确有故障、填写了工号、维修座已断电且叶轮停稳。
+        /// 复位后工单从原阶段继续（已完成的检查 / 拆装步骤保留），通电前检查必须重做；复位记入工单记录（Target = 工号）。
+        /// </summary>
+        public bool ResetSafetyFault(string technicianId)
+        {
+            const string act = "SafetyFaultReset";
+            dock = readDock();
+            if (!IsLocked) return Reject(act, technicianId, "没有安全故障，不需要复位。");
+            if (string.IsNullOrWhiteSpace(technicianId)) return Reject(act, technicianId, "复位安全故障需要填写维修人员工号。");
+            if (dock.State != DockState.RotorsStopped || dock.PowerOn)
+                return Reject(act, technicianId, "维修座还没到“断电、叶轮停稳”（现在：" + DockStateLabel(dock.State) + "），不能复位。先拨断电开关 OFF。");
+            SafetyFault = null;
+            LastResetBy = technicianId.Trim();
+            PrePowerChecked = false;
+            Accept(act, LastResetBy, "维修人员 " + LastResetBy + " 已复位安全故障。从“" + StageLabel(Stage) + "”继续；通电前检查需要重做。");
+            Sync();
+            return true;
         }
 
         // ------------------------------------------------------------------ 玩家操作（鼠标面板 / 以后的 VR / 测试）
@@ -167,6 +200,7 @@ namespace BorderRepair.Unit07WorkOrder
         bool Retest(RobotRepairAction action, bool passed, string what)
         {
             Sync();
+            if (IsLocked) return Reject(action.ToString(), passed ? "pass" : "fail", LockReason);
             if (dock.State != DockState.Undocked || !dock.PowerOn || !dock.RotorsAtIdle)
                 return Reject(action.ToString(), passed ? "pass" : "fail",
                     what + "要在七号离座悬停后进行（维修座：" + DockStateLabel(dock.State) + "）。");
@@ -182,6 +216,7 @@ namespace BorderRepair.Unit07WorkOrder
         bool BeginStopped(string what)
         {
             Sync();
+            if (IsLocked) return Reject(what, null, LockReason);
             if (dock.State == DockState.RotorsStopped && !dock.PowerOn) return true;
             string why = dock.State == DockState.SpinningDown ? "叶轮还在减速转动，禁止" + what + "。"
                        : "维修座没有到“断电、叶轮停稳”（现在：" + DockStateLabel(dock.State) + "），不能" + what + "。";
@@ -214,6 +249,7 @@ namespace BorderRepair.Unit07WorkOrder
         {
             Sync();
             reason = string.Empty;
+            if (IsLocked) { reason = "工单 06 " + LockReason; return false; }
             switch (Stage)
             {
                 case RobotRepairStage.HoverRetest:
@@ -234,6 +270,10 @@ namespace BorderRepair.Unit07WorkOrder
 
         public string NextHint()
         {
+            if (IsLocked)
+                return dock.State == DockState.RotorsStopped && !dock.PowerOn
+                    ? "安全故障锁定：维修人员填写工号后复位"
+                    : "安全故障锁定：先拨断电开关 OFF（维修座），等叶轮停稳";
             switch (Stage)
             {
                 case RobotRepairStage.Dock:

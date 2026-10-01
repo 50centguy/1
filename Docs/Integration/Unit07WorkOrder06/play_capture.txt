@@ -1,20 +1,20 @@
 进入 Play 模式（runInBackground=True，帧 1）：Unity 6000.0.84f1，Game 视图 1471×886，图形 API Direct3D11，GPU NVIDIA GeForce RTX 3070
 工单 case_06_left_engine_imbalance，机器人 UNIT07；维修座的“允许结束维修”= Unit07WorkOrder06Bridge；场景里 ManualServiceCompletionGate 0 个；模型缺少的工单节点：无
 截图 W01_hovering_work_order_waits_dock：工单阶段 Dock，下一步“让七号落座并夹紧（维修座）”
-  部件 Dock_Clamp_R_Grip（Clamps）屏幕 530,373：被工单面板挡住=False
-  部件 Dock_Clamp_L_JawPad（Clamps）屏幕 766,480：被工单面板挡住=False
   部件 Dock_Clamp_L_Grip（Clamps）屏幕 838,404：被工单面板挡住=False
   部件 Dock_Clamp_R_JawPad（Clamps）屏幕 613,468：被工单面板挡住=False
+  部件 Dock_Clamp_R_Grip（Clamps）屏幕 530,373：被工单面板挡住=False
+  部件 Dock_Clamp_L_JawPad（Clamps）屏幕 766,480：被工单面板挡住=False
   部件 Dock_PowerSwitch_LeverGrip（PowerSwitch）屏幕 1081,320：被工单面板挡住=False
   部件 Dock_PowerSwitch_Label（PowerSwitch）屏幕 1046,308：被工单面板挡住=False
   部件 Dock_PartsTray（PartsTray）屏幕 416,288：被工单面板挡住=False
   部件 Dock_MagneticBox（MagneticBox）屏幕 563,297：被工单面板挡住=False
   部件 Unit07_EngineL_InspectProxy（EngineLeft）屏幕 945,700：被工单面板挡住=False
-  部件 Dock_ContactPad_L（ContactPad）屏幕 785,443：被工单面板挡住=False
   部件 Dock_ContactPad_R（ContactPad）屏幕 617,428：被工单面板挡住=False
+  部件 Dock_ContactPad_L（ContactPad）屏幕 785,443：被工单面板挡住=False
 工单 悬停时检查：拒绝 — 维修座没有到“断电、叶轮停稳”（现在：悬停未落座），不能检查左引擎。
-点击 Clamps（屏幕 530,373）：执行 — 夹具张开，七号准备落座。（状态 ClampsOpening）
-点击 Clamps（屏幕 568,353）：执行 — 夹具合拢。（状态 Clamping）
+点击 Clamps（屏幕 838,404）：执行 — 夹具张开，七号准备落座。（状态 ClampsOpening）
+点击 Clamps（屏幕 805,379）：执行 — 夹具合拢。（状态 Clamping）
   · 维修座 Clamped（供电 ON，转速 360°/s）→ 工单阶段 PowerOff，第 1 轮
 点击 PowerSwitch（屏幕 1081,320）：执行 — 断电。涡轮减速中，等叶轮停稳。（状态 SpinningDown）
 工单 减速中检查：拒绝 — 叶轮还在减速转动，禁止检查左引擎。
@@ -40,7 +40,7 @@
 工单 拆卸 10La：执行 — 已完成拆卸步骤 10La。
 工单 拆卸 10Lb：执行 — 已完成拆卸步骤 10Lb。
 工单 拆卸 10Lc：执行 — 已完成拆卸步骤 10Lc。
-点击 Clamps（屏幕 530,373）：拒绝 — 断电维修中，夹具保持锁紧。先恢复供电再松开夹具。（状态 RotorsStopped）
+点击 Clamps（屏幕 838,404）：拒绝 — 断电维修中，夹具保持锁紧。先恢复供电再松开夹具。（状态 RotorsStopped）
 截图 W04_repair_choice：工单阶段 RepairChoice，下一步“马达芯已露出：选择维修方式”
 工单 选择 RebalanceRotor：执行 — 已选择维修方式。请按拆卸逆序装回。
 工单 装回 10Lc：执行 — 已装回步骤 10Lc。
@@ -63,7 +63,7 @@
 点击 PowerSwitch（屏幕 1079,278）：执行 — 确认维修结束，恢复供电。涡轮加速中，叶轮禁止操作，夹具保持锁紧。（状态 SpinningUp）
   · 维修座 SpinningUp（供电 ON，转速 0°/s）→ 工单阶段 PowerOn，第 1 轮
 工单 加速中复测：拒绝 — 悬停复测要在七号离座悬停后进行（维修座：恢复供电、转子加速中）。
-点击 Clamps（屏幕 530,373）：执行 — 夹具张开（七号仍停在接触垫上）。（状态 ClampsOpening）
+点击 Clamps（屏幕 838,404）：执行 — 夹具张开（七号仍停在接触垫上）。（状态 ClampsOpening）
 工单 未离座复测：拒绝 — 悬停复测要在七号离座悬停后进行（维修座：已落座、夹具张开）。
 维修座 LiftOff：执行 — 七号升起离座。（状态 LiftingOff）
   · 维修座 Undocked（供电 ON，转速 360°/s）→ 工单阶段 HoverRetest，第 1 轮
@@ -71,14 +71,28 @@
 截图 W07_undocked_hover_retest：工单阶段 HoverRetest，下一步“悬停复测”
 工单 悬停复测：不通过：执行 — 悬停仍不稳定。请再次停靠、断电并维修。点夹具握把让七号重新落座。
 截图 W08_hover_retest_failed_redock_prompt：工单阶段 Dock，下一步“复测未通过：让七号重新落座并夹紧（维修座）”
-点击 Clamps（屏幕 568,353）：执行 — 七号重新落座。（状态 Descending）
-点击 Clamps（屏幕 568,353）：执行 — 夹具合拢。（状态 Clamping）
+点击 Clamps（屏幕 805,379）：执行 — 七号重新落座。（状态 Descending）
+点击 Clamps（屏幕 805,379）：执行 — 夹具合拢。（状态 Clamping）
   · 维修座 Clamped（供电 ON，转速 360°/s）→ 工单阶段 PowerOff，第 2 轮
 点击 PowerSwitch（屏幕 1081,320）：执行 — 断电。涡轮减速中，等叶轮停稳。（状态 SpinningDown）
   · 维修座 RotorsStopped（供电 OFF，转速 0°/s）→ 工单阶段 Disassemble，第 2 轮
 截图 W09_second_cycle_disassemble：工单阶段 Disassemble，下一步“拆卸 1：卸四颗螺钉，取下顶盖”
 工单 拆卸 1：执行 — 已完成拆卸步骤 1。
 工单 拆卸 2：执行 — 已完成拆卸步骤 2。
+【模拟接线错误】维修座临时接到总是放行的接口
+点击 PowerSwitch（屏幕 1079,278）：执行 — 确认维修结束，恢复供电。涡轮加速中，叶轮禁止操作，夹具保持锁紧。（状态 SpinningUp）
+接回工单接口；安全故障：维修座在工单放行前恢复了供电（工单阶段：拆卸）。检查“允许结束维修”接口的接线。
+  · 维修座 SpinningUp（供电 ON，转速 18°/s）→ 工单阶段 Disassemble，第 2 轮
+截图 W09b_safety_fault_locked_powered：工单阶段 Disassemble，下一步“安全故障锁定：先拨断电开关 OFF（维修座），等叶轮停稳”
+点击 PowerSwitch（屏幕 1081,320）：执行 — 断电。涡轮减速中，等叶轮停稳。（状态 SpinningDown）
+  · 维修座 RotorsStopped（供电 OFF，转速 0°/s）→ 工单阶段 Disassemble，第 2 轮
+工单 锁定时拆卸 3：拒绝 — 安全故障锁定：维修座在工单放行前恢复了供电（工单阶段：拆卸）。检查“允许结束维修”接口的接线。 先拨断电开关 OFF、等叶轮停稳，再由维修人员复位。
+工单 锁定时通电前检查：拒绝 — 安全故障锁定：维修座在工单放行前恢复了供电（工单阶段：拆卸）。检查“允许结束维修”接口的接线。 先拨断电开关 OFF、等叶轮停稳，再由维修人员复位。
+点击 PowerSwitch（屏幕 1079,278）：拒绝 — 工单 06 安全故障锁定：维修座在工单放行前恢复了供电（工单阶段：拆卸）。检查“允许结束维修”接口的接线。 先拨断电开关 OFF、等叶轮停稳，再由维修人员复位。（状态 RotorsStopped）
+工单 无工号复位：拒绝 — 复位安全故障需要填写维修人员工号。
+截图 W09c_safety_fault_locked_powered_off_reset_prompt：工单阶段 Disassemble，下一步“安全故障锁定：维修人员填写工号后复位”
+工单 维修人员 T-0601 复位：执行 — 维修人员 T-0601 已复位安全故障。从“拆卸”继续；通电前检查需要重做。
+截图 W09d_safety_fault_reset：工单阶段 Disassemble，下一步“拆卸 3：上提并取下前框”
 工单 拆卸 3：执行 — 已完成拆卸步骤 3。
 工单 拆卸 4：执行 — 已完成拆卸步骤 4。
 工单 拆卸 5：执行 — 已完成拆卸步骤 5。
@@ -106,12 +120,12 @@
 工单 装回 1：执行 — 已装回步骤 1。
 工单 通电前检查：执行 — 通电前检查通过：13 步已按逆序装回，零件盘、磁性零件盒已放回。可以拨断电开关 ON 恢复供电。
 点击 PowerSwitch（屏幕 1079,278）：执行 — 确认维修结束，恢复供电。涡轮加速中，叶轮禁止操作，夹具保持锁紧。（状态 SpinningUp）
-点击 Clamps（屏幕 530,373）：执行 — 夹具张开（七号仍停在接触垫上）。（状态 ClampsOpening）
+点击 Clamps（屏幕 838,404）：执行 — 夹具张开（七号仍停在接触垫上）。（状态 ClampsOpening）
 维修座 LiftOff：执行 — 七号升起离座。（状态 LiftingOff）
 工单 悬停复测：通过：执行 — 悬停稳定。请进行负载复测。
 工单 负载复测：通过：执行 — 悬停与负载复测通过，工单完成。
   · 维修座 Undocked（供电 ON，转速 360°/s）→ 工单阶段 Complete，第 2 轮
 截图 W10_work_order_complete：工单阶段 Complete，下一步“工单完成”
 维修座 PowerSwitch：拒绝 — 七号不在维修座上，不能断电。（状态 Undocked）
-工单最终阶段 Complete，轮次 2，工单事件 66 条，工单记录 73 条（拒绝 5），安全故障：无
-截图 10 张；控制台警告 / 错误 0 条
+工单最终阶段 Complete，轮次 2，工单事件 66 条，工单记录 78 条（拒绝 9），安全故障：无
+截图 13 张；控制台警告 / 错误 0 条

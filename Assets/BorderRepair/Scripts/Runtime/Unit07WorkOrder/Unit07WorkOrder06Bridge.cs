@@ -101,6 +101,20 @@ namespace BorderRepair.Unit07WorkOrder
             return PanelRect.Contains(new Vector2(screenPos.x, Screen.height - screenPos.y));
         }
 
+        /// <summary>安全故障锁定时只显示故障和维修人员复位，不显示任何工单操作按钮。</summary>
+        void DrawFault(Unit07WorkOrder06Session s)
+        {
+            var prev = GUI.color;
+            GUI.color = new Color(1f, 0.55f, 0.45f);
+            GUILayout.Label("安全故障（工单已锁定）：" + s.SafetyFault);
+            GUI.color = prev;
+            GUILayout.Label("维修人员工号：");
+            technicianId = GUILayout.TextField(technicianId ?? string.Empty, 32);
+            if (GUILayout.Button("维修人员复位安全故障（需断电、叶轮停稳）")) s.ResetSafetyFault(technicianId);
+        }
+
+        string technicianId = string.Empty;
+
         void OnGUI()
         {
             if (!showPanel || Session == null) return;
@@ -112,9 +126,9 @@ namespace BorderRepair.Unit07WorkOrder
             scroll = GUILayout.BeginScrollView(scroll);
             GUILayout.Label("下一步：" + s.NextHint());
             GUILayout.Label(s.LastFeedback);
-            if (s.SafetyFault != null) GUILayout.Label("安全故障：" + s.SafetyFault);
             GUILayout.Space(4);
-            switch (s.Stage)
+            if (s.IsLocked) DrawFault(s);
+            else switch (s.Stage)
             {
                 case RobotRepairStage.Inspect:
                     foreach (var a in s.Plan.InspectionAnchors)

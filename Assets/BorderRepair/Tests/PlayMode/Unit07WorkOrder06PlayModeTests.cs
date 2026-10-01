@@ -204,5 +204,61 @@ namespace BorderRepair.Tests
             Assert.AreEqual(2 * 13, wo.Inner.Events.Count(e => e.Action == RobotRepairAction.Install));
             Assert.AreEqual(2, wo.Inner.Events.Count(e => e.Action == RobotRepairAction.PowerOn));
         }
+
+        /// <summary>模拟接线错误：总是放行的接口。</summary>
+        sealed class BypassGate : IDockServiceCompletionGate
+        {
+            public bool CanFinishService(out string reason) { reason = string.Empty; return true; }
+        }
+
+        /// <summary>
+        /// 回归：拆卸中异常通电（维修座被临时接到总是放行的接口）→ 桥接每帧自己发现故障 → 接回工单、点击断电、叶轮停稳 →
+        /// 工单操作和恢复供电全部被拒绝 → 维修人员复位 → 继续完成。
+        /// </summary>
+        [UnityTest]
+        public IEnumerator AbnormalPowerOn_ThenPowerOff_LockedUntilTechnicianReset()
+        {
+            yield return ClampAndStop();
+            foreach (var a in wo.Plan.InspectionAnchors) Assert.IsTrue(wo.Inspect(a), wo.LastFeedback);
+            for (int i = 0; i < 3; i++) Assert.IsTrue(wo.Remove(wo.Plan.RemovalSteps[i].Id), wo.LastFeedback);
+
+            dock.SetServiceCompletionGate(new BypassGate());
+            Assert.IsTrue(Click(DockAction.PowerSwitch), "接线错误时维修座会通电：" + dock.LastMessage);
+            yield return null;
+            yield return null;
+            Assert.IsTrue(wo.IsLocked, "桥接每帧同步，应自行发现异常通电");
+            dock.SetServiceCompletionGate(bridge);
+
+            yield return WaitFor(() => dock.State == DockState.Clamped, dock.Rotors.SpinUpSeconds + 2f, "加速完成");
+            Assert.IsTrue(Click(DockAction.PowerSwitch), "断电：" + dock.LastMessage);
+            yield return WaitFor(() => dock.State == DockState.RotorsStopped, dock.Rotors.SpinDownSeconds + 2f, "再次停转");
+            yield return null;
+            Assert.IsTrue(wo.IsLocked, "再断电不会自动解锁");
+            Assert.AreEqual(RobotRepairStage.Disassemble, wo.Stage);
+            int events = wo.Inner.Events.Count;
+            Assert.IsFalse(wo.Remove("4"));
+            Assert.IsFalse(wo.Inspect(wo.Plan.InspectionAnchors[0]));
+            Assert.IsFalse(wo.RunPrePowerCheck());
+            Assert.IsFalse(wo.HoverRetest(true));
+            StringAssert.Contains("安全故障锁定", wo.LastFeedback);
+            Assert.AreEqual(events, wo.Inner.Events.Count);
+            Assert.IsFalse(Click(DockAction.PowerSwitch), "故障锁定时恢复供电");
+            StringAssert.Contains("安全故障锁定", dock.LastMessage);
+            StringAssert.Contains("复位", wo.NextHint());
+
+            Assert.IsFalse(wo.ResetSafetyFault(""), "没有工号不能复位");
+            Assert.IsTrue(wo.ResetSafetyFault("T-0601"), wo.LastFeedback);
+            Assert.AreEqual("4", wo.Inner.NextRemoval.Id);
+            foreach (var step in wo.Plan.RemovalSteps.Skip(3)) Assert.IsTrue(wo.Remove(step.Id), wo.LastFeedback);
+            Assert.IsTrue(wo.ChooseRepair(RobotRepairChoice.RebalanceRotor));
+            foreach (var step in wo.Plan.RemovalSteps.Reverse()) Assert.IsTrue(wo.Install(step.Id), wo.LastFeedback);
+            Assert.IsTrue(wo.RunPrePowerCheck(), wo.LastFeedback);
+            yield return RestoreAndUndock();
+            Assert.IsTrue(wo.HoverRetest(true));
+            Assert.IsTrue(wo.LoadRetest(true));
+            Assert.AreEqual(RobotRepairStage.Complete, wo.Stage);
+            Assert.AreEqual(1, wo.FaultCount);
+            Assert.AreEqual("T-0601", wo.LastResetBy);
+        }
     }
 }
