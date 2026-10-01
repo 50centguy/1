@@ -2,6 +2,7 @@
     "name": "BorderRepair.Tests.EditMode",
     "rootNamespace": "BorderRepair.Tests",
     "references": [
+        "BorderRepair.Motion",
         "BorderRepair.Runtime",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"

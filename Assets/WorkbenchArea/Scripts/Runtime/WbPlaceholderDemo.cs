@@ -28,7 +28,12 @@ namespace WorkbenchArea
         [SerializeField] float screwLift = 0.05f;
         [SerializeField] float coverLift = 0.05f;
         [SerializeField] float tierLift = 0.15f;
-        [SerializeField] float stepSeconds = 0.35f;
+        [Tooltip("每段移动的时长与运动曲线（配置资产）。为空时用默认值：每段 0.35 s 缓入缓出。")]
+        [SerializeField] WbPlaceholderMotionConfig motion;
+        WbPlaceholderMotionConfig defaults;
+        public WbPlaceholderMotionConfig Motion => motion != null ? motion : (defaults != null ? defaults : defaults = WbPlaceholderMotionConfig.CreateDefault());
+        public void SetMotionConfig(WbPlaceholderMotionConfig config) => motion = config;
+        public float TrayLift => trayLift;
 
         readonly Dictionary<Transform, Vector3> home = new Dictionary<Transform, Vector3>();
         readonly Dictionary<Transform, float> originAboveBottom = new Dictionary<Transform, float>();
@@ -209,15 +214,20 @@ namespace WorkbenchArea
 
         IEnumerator Move(Transform t, Vector3 a, Vector3 b)
         {
+            var m = Motion.step;
             float time = 0f;
-            while (time < stepSeconds)
+            while (time < m.Seconds)
             {
                 time += Time.deltaTime;
-                t.position = Vector3.Lerp(a, b, Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(time / stepSeconds)));
+                PoseSegment(t, a, b, time / m.Seconds);
                 yield return null;
             }
             t.position = b;
         }
+
+        /// <summary>一段直线移动：时间进度 progress（0–1）按曲线换算，写对象位置。运行和预览共用。</summary>
+        public void PoseSegment(Transform t, Vector3 a, Vector3 b, float progress) =>
+            t.position = Vector3.Lerp(a, b, Motion.step.Evaluate(progress));
 
         void OnGUI()
         {

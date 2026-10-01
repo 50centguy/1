@@ -41,9 +41,8 @@ namespace BorderRepair.Dock
 
         [Header("节奏")]
         [SerializeField] float hoverHeight = 0.12f;
-        [SerializeField] float clampSeconds = 0.6f;
-        [SerializeField] float descendSeconds = 1.2f;
-        [SerializeField] float leverSeconds = 0.3f;
+        [Tooltip("夹具、落座、手柄的时长与运动曲线（配置资产）。为空时用默认值：夹具 0.6 s 线性、落座 1.2 s 缓入缓出、手柄 0.3 s 线性。")]
+        [SerializeField] Unit07DockMotionConfig motion;
 
         [Header("状态灯")]
         [SerializeField] Color lampOnColor = new Color(0.25f, 1f, 0.35f);
@@ -52,11 +51,12 @@ namespace BorderRepair.Dock
 
         float unityOpenL, unityOpenR, unityOnDeg, unityOffDeg;
         Quaternion clampClosedL, clampClosedR, leverRest;
-        float clampFraction;            // 0 = 夹紧，1 = 张开
-        float leverFraction;            // 0 = ON，1 = OFF
+        float clampFraction;            // 夹具动作的时间进度：0 = 夹紧，1 = 张开（姿态按曲线换算）
+        float leverFraction;            // 手柄动作的时间进度：0 = ON，1 = OFF（姿态按曲线换算）
         float timer;
         MaterialPropertyBlock lampBlock;
-        bool configured;
+        bool configured, initialized;
+        Unit07DockMotionConfig defaults;
 
         public DockState State { get; private set; } = DockState.Hovering;
         public bool PowerOn { get; private set; } = true;
@@ -77,6 +77,14 @@ namespace BorderRepair.Dock
         public bool CanOperateImpeller => State == DockState.RotorsStopped;
         public bool LeftEngineInspectable => CanOperateImpeller;
         public Color LampColor => PowerOn ? lampOnColor : lampOffColor;
+        public float HoverHeight => hoverHeight;
+        public string SeatedStateName => seatedStateName;
+        public Transform ClampL => clampL;
+        public Transform ClampR => clampR;
+        public Transform PowerLever => powerLever;
+        public Unit07DockMotionConfig Motion => motion != null ? motion : (defaults != null ? defaults : defaults = Unit07DockMotionConfig.CreateDefault());
+
+        public void SetMotionConfig(Unit07DockMotionConfig config) => motion = config;
 
         public void Configure(Transform robot, Animator animator, RotorPowerDriver rotors, Transform anchor,
                               Transform clampLeft, Transform clampRight, Transform lever, Renderer lamp)
@@ -85,8 +93,15 @@ namespace BorderRepair.Dock
             clampL = clampLeft; clampR = clampRight; powerLever = lever; statusLamp = lamp;
         }
 
-        void Awake()
+        void Awake() => Initialize();
+
+        /// <summary>
+        /// 读取属性，记录夹具和手柄的原始姿态（Awake 调用；编辑模式测试和不进 Play 的预览也调用）。可重复调用，只在第一次生效。
+        /// 要求调用时夹具在闭合位置、手柄在导入时的 OFF 位置（场景里的初始状态）。
+        /// </summary>
+        public void Initialize()
         {
+            if (initialized) return;
             configured = ReadProperties();
             if (!configured) return;
             clampClosedL = clampL.localRotation;
@@ -94,9 +109,13 @@ namespace BorderRepair.Dock
             // 导入后的手柄处在 OFF 位置（unity_off_deg），先换算出 0° 的静止姿态
             leverRest = powerLever.localRotation * Quaternion.AngleAxis(-unityOffDeg, Vector3.right);
             lampBlock = new MaterialPropertyBlock();
+            initialized = true;
         }
 
-        void Start()
+        void Start() => ResetToHover();
+
+        /// <summary>初始：通电悬停在锚点上方，夹具闭合，手柄在 ON（Start 调用；编辑模式测试也直接调用）。</summary>
+        public void ResetToHover()
         {
             if (!configured) return;
             // 初始：通电悬停在锚点上方，夹具闭合，手柄在 ON
@@ -108,7 +127,7 @@ namespace BorderRepair.Dock
             ApplyLever();
             ApplyLamp();
             robotRoot.position = robotAnchor.position + Vector3.up * hoverHeight;
-            if (robotAnimator != null) robotAnimator.Play(hoverStateName, 0, 0f);
+            if (robotAnimator != null && Application.isPlaying) robotAnimator.Play(hoverStateName, 0, 0f);
             State = DockState.Hovering;
             Say("七号在维修座上方悬停。先张开夹具。");
         }
@@ -246,14 +265,17 @@ namespace BorderRepair.Dock
 
         // ------------------------------------------------------------------ 每帧推进
 
-        void Update()
+        void Update() => Tick(Time.deltaTime);
+
+        /// <summary>每帧推进（Update 调用；编辑模式测试可以按固定步长直接调用）。状态判断与原来相同，只有时长和缓动来自配置。</summary>
+        public void Tick(float dt)
         {
             if (!configured) return;
-            float dt = Time.deltaTime;
+            var m = Motion;
             switch (State)
             {
                 case DockState.ClampsOpening:
-                    clampFraction = Mathf.MoveTowards(clampFraction, 1f, dt / clampSeconds);
+                    clampFraction = Mathf.MoveTowards(clampFraction, 1f, dt / m.clamps.Seconds);
                     if (clampFraction >= 1f)
                     {
                         if (IsRobotSeatedPosition()) State = DockState.SeatedOpen;
@@ -261,20 +283,19 @@ namespace BorderRepair.Dock
                     }
                     break;
                 case DockState.Descending:
-                    timer += dt / descendSeconds;
-                    float k = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(timer));
-                    robotRoot.position = robotAnchor.position + Vector3.up * (hoverHeight * (1f - k));
+                    timer += dt / m.descend.Seconds;
+                    PoseDescend(timer);
                     if (timer >= 1f)
                     {
                         robotRoot.position = robotAnchor.position;
                         rotorDriver.TakeOver();
-                        if (robotAnimator != null) robotAnimator.CrossFadeInFixedTime(seatedStateName, 0.15f, 0);
+                        if (robotAnimator != null && Application.isPlaying) robotAnimator.CrossFadeInFixedTime(seatedStateName, m.seatedBlendSeconds, 0);
                         State = DockState.SeatedOpen;
                         Say("七号已落在接触垫上。夹紧夹具。", true);
                     }
                     break;
                 case DockState.Clamping:
-                    clampFraction = Mathf.MoveTowards(clampFraction, 0f, dt / clampSeconds);
+                    clampFraction = Mathf.MoveTowards(clampFraction, 0f, dt / m.clamps.Seconds);
                     if (clampFraction <= 0f)
                     {
                         State = DockState.Clamped;
@@ -290,23 +311,38 @@ namespace BorderRepair.Dock
                     break;
             }
             float leverTarget = PowerOn ? 0f : 1f;
-            leverFraction = Mathf.MoveTowards(leverFraction, leverTarget, dt / leverSeconds);
+            leverFraction = Mathf.MoveTowards(leverFraction, leverTarget, dt / m.lever.Seconds);
             ApplyClamps();
             ApplyLever();
         }
 
         bool IsRobotSeatedPosition() => (robotRoot.position - robotAnchor.position).sqrMagnitude < 1e-8f;
 
-        void ApplyClamps()
+        void ApplyClamps() => PoseClamps(clampFraction);
+        void ApplyLever() => PoseLever(leverFraction);
+
+        // ------------------------------------------------------------------ 姿态（运行和不进 Play 的预览共用）
+
+        /// <summary>夹具：时间进度 progress（0 = 夹紧，1 = 张开）按夹具曲线换算成张开程度，写两侧夹具。</summary>
+        public void PoseClamps(float progress)
         {
-            clampL.localRotation = clampClosedL * Quaternion.AngleAxis(unityOpenL * clampFraction, Vector3.up);
-            clampR.localRotation = clampClosedR * Quaternion.AngleAxis(unityOpenR * clampFraction, Vector3.up);
+            float open = Motion.clamps.Evaluate(progress);
+            clampL.localRotation = clampClosedL * Quaternion.AngleAxis(unityOpenL * open, Vector3.up);
+            clampR.localRotation = clampClosedR * Quaternion.AngleAxis(unityOpenR * open, Vector3.up);
         }
 
-        void ApplyLever()
+        /// <summary>断电开关手柄：时间进度 progress（0 = ON，1 = OFF）按手柄曲线换算，写手柄。</summary>
+        public void PoseLever(float progress)
         {
-            float deg = Mathf.Lerp(unityOnDeg, unityOffDeg, leverFraction);
+            float deg = Mathf.Lerp(unityOnDeg, unityOffDeg, Motion.lever.Evaluate(progress));
             powerLever.localRotation = leverRest * Quaternion.AngleAxis(deg, Vector3.right);
+        }
+
+        /// <summary>七号落座：时间进度 progress（0 = 悬停高度，1 = 接触垫）按落座曲线换算，写七号根节点位置。</summary>
+        public void PoseDescend(float progress)
+        {
+            float k = Motion.descend.Evaluate(progress);
+            robotRoot.position = robotAnchor.position + Vector3.up * (hoverHeight * (1f - k));
         }
 
         void ApplyLamp()

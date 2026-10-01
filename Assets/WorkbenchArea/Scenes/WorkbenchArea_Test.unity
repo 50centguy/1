@@ -298,7 +298,7 @@ MonoBehaviour:
   screwLift: 0.05
   coverLift: 0.05
   tierLift: 0.15
-  stepSeconds: 0.35
+  motion: {fileID: 11400000, guid: 9e9847f6c4b59e14cb0031ee5a33e1bc, type: 2}
 --- !u!4 &644622186
 Transform:
   m_ObjectHideFlags: 0

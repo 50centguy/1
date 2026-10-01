@@ -1,0 +1,519 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UNIT07_Mask_RotorsOnly
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 0
+  - m_Path: AuxCable_L
+    m_Weight: 0
+  - m_Path: AuxCable_R
+    m_Weight: 0
+  - m_Path: ExternalCable_L
+    m_Weight: 0
+  - m_Path: ExternalCable_R
+    m_Weight: 0
+  - m_Path: Robot_Rig
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_RootBolts
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_RootRing
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_ElbowWasher_B
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_ForearmDrive
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_ForearmGear
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_ForearmHub
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_ForearmShell
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist/Arm_L_GripperBracket
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist/Arm_L_HingePin_Lower
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist/Arm_L_HingePin_Upper
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist/Arm_L_JawLower
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist/Arm_L_JawLower/Arm_L_JawLower
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist/Arm_L_JawLower/Arm_L_JawLower_Teeth
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist/Arm_L_JawUpper
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist/Arm_L_JawUpper/Arm_L_JawUpper
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist/Arm_L_JawUpper/Arm_L_JawUpper_Teeth
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_Elbow/Arm_L_Wrist/Arm_L_Wrist
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_ElbowPin
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_ElbowWasher_A
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_Shoulder/Arm_L_UpperLink
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_ShoulderPin
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootPivot/Arm_L_ShoulderYoke
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_L_RootSeat
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_RootBolts
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_RootRing
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_ElbowWasher_B
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_ForearmDrive
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_ForearmGear
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_ForearmHub
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_ForearmShell
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist/Arm_R_GripperBracket
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist/Arm_R_HingePin_Lower
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist/Arm_R_HingePin_Upper
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist/Arm_R_JawLower
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist/Arm_R_JawLower/Arm_R_JawLower
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist/Arm_R_JawLower/Arm_R_JawLower_Teeth
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist/Arm_R_JawUpper
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist/Arm_R_JawUpper/Arm_R_JawUpper
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist/Arm_R_JawUpper/Arm_R_JawUpper_Teeth
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist/Arm_R_Wrist
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_ElbowPin
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_ElbowWasher_A
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_UpperLink
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_ShoulderPin
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_ShoulderYoke
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Arm_R_RootSeat
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/AuxCable_L_PlugBody
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/AuxCable_R_PlugBody
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Body_LowerModule
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Body_RearBolt_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Body_RearBolt_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Body_RearBolt_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Body_RearBolt_4
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Body_RearGrille
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Body_RearVent_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Body_RearVent_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Body_Shell
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/BodySocket_Knob_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/BodySocket_Knob_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/BodySocket_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/BodySocket_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Chassis_ArmHardpoint_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Chassis_ArmHardpoint_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Chassis_Frame
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Chassis_MountRail_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Chassis_MountRail_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Chassis_SledRail_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Chassis_SledRail_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ChinFascia
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ChinFascia_Screw_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ChinFascia_Screw_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/AuxCable_L_PlugEngine
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/ConnectionKey_Bolt_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/ConnectionKey_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_Badge_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingBottom_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingTop_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_CoolingFins_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_CoverLatch_Outer_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_CoverLatch_Rear_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeDuct_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeGuard_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeLip_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_InternalLead_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_L_Rotor
+    m_Weight: 1
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_L_Rotor/Engine_Fan_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_L_Rotor/Engine_FanNut_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_L_Rotor/Engine_Shaft_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_LowerCover_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MotorBracket_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MotorBracket_Screw_L_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MotorBracket_Screw_L_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MotorBracket_Screw_L_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MotorHousing_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MountBase_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MountPost_L_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MountPost_L_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MountPost_L_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MountPost_L_4
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_NozzleRing_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_RearCap_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_UpperCover_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/Engine_Windings_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/EngineAnchor_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_L_Hinge/ExternalCable_L_PlugEngine
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/AuxCable_R_PlugEngine
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/ConnectionKey_Bolt_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/ConnectionKey_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_Badge_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_BearingBottom_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_BearingTop_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_CoolingFins_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_CoverLatch_Outer_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_CoverLatch_Rear_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_IntakeDuct_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_IntakeGuard_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_IntakeLip_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_InternalLead_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_LowerCover_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_MotorBracket_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_MotorBracket_Screw_R_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_MotorBracket_Screw_R_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_MotorBracket_Screw_R_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_MotorHousing_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_MountBase_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_MountPost_R_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_MountPost_R_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_MountPost_R_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_MountPost_R_4
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_NozzleRing_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_R_Rotor
+    m_Weight: 1
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_R_Rotor/Engine_Fan_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_R_Rotor/Engine_FanNut_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_R_Rotor/Engine_Shaft_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_RearCap_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_UpperCover_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/Engine_Windings_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/EngineAnchor_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Engine_R_Hinge/ExternalCable_R_PlugEngine
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ExternalCable_Clip_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ExternalCable_Clip_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ExternalCable_L_PlugBody
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ExternalCable_R_PlugBody
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/FrontBezel
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/FrontBezel_GrilleBacking
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/FrontBezel_InnerFrame
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/FrontBezel_Screw_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/FrontBezel_Screw_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Engine_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Engine_L_PlugA
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Engine_L_PlugB
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Engine_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Engine_R_PlugA
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Engine_R_PlugB
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Power
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Power_PlugA
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Power_PlugB
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Screen
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Screen_PlugA
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Screen_PlugB
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Service
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Service_PlugA
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Harness_Service_PlugB
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Heatsink_Base
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Heatsink_Fins
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Heatsink_Screw_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Heatsink_Screw_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/Heatsink_ThermalPad
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_IO
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_IO_Header
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_IO_Port_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_IO_Port_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_IO_Port_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Chip_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Chip_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Connector_Engine_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Connector_Engine_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Connector_Power
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Connector_Screen
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_CPU
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Screw_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Screw_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Screw_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Screw_4
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Shield
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Standoff_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Standoff_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Standoff_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Main_Standoff_4
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Sled
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Sled_Screw_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PCB_Sled_Screw_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_Capacitors
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_Connector
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_CoverScrew_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_CoverScrew_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_PSU
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_PSUScrew_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_PSUScrew_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_Regulator
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_RegulatorScrew_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_RegulatorScrew_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_Screw_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_Screw_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_Screw_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_Screw_4
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/PowerTray_WarningCover
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/RearService_Bolt_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/RearService_Bolt_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/RearService_Plug
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/RearService_StatusBar
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/RearService_WarningSign
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/RearServiceCassette
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/RearServiceCassette_Face
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenCassette_Box
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenCassette_Rail_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenCassette_Rail_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenCassette_Screw_L
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenCassette_Screw_R
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenContent_Animated
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenCradle
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenCradle_Screw_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenCradle_Screw_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenDriverConnector
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/ScreenGlass
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/StatusLamp_Housing
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/StatusLamp_Red
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/TopCover
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/TopCover_Ridge
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/TopCover_Screw_1
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/TopCover_Screw_2
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/TopCover_Screw_3
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/TopCover_Screw_4
+    m_Weight: 0
+  - m_Path: Robot_Rig/Root/Body/TopCover_VentBacking
+    m_Weight: 0

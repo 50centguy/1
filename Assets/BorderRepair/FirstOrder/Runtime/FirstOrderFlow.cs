@@ -43,7 +43,8 @@ namespace BorderRepair.FirstOrder
         [SerializeField] FirstOrderPart latchOuter, latchRear, cover, bearing, newBearing, rightEngine;
         [SerializeField] FirstOrderDropZone matZone, oldTrayZone;
         [SerializeField] float hoverHeight = 0.12f;
-        [SerializeField] float moveSeconds = 0.45f;
+        [Tooltip("占位移动和离座的时长与运动曲线（配置资产）。为空时用默认值：每段 0.45 s、离座 1.2 s，缓入缓出。")]
+        [SerializeField] FirstOrderMotionConfig motion;
         [SerializeField] float latchOffset = 0.006f;
         [SerializeField] float coverLift = 0.10f;
         [SerializeField] float bearingLift = 0.07f;
@@ -80,6 +81,12 @@ namespace BorderRepair.FirstOrder
         public Transform EngineLHinge => engineLHinge;
         public Transform EngineRHinge => engineRHinge;
         public IEnumerable<FirstOrderPart> TrackedParts => new[] { latchOuter, latchRear, cover, bearing, newBearing };
+        public float HoverHeight => hoverHeight;
+        public float CoverLift => coverLift;
+        public float LatchOffset => latchOffset;
+        FirstOrderMotionConfig defaults;
+        public FirstOrderMotionConfig Motion => motion != null ? motion : (defaults != null ? defaults : defaults = FirstOrderMotionConfig.CreateDefault());
+        public void SetMotionConfig(FirstOrderMotionConfig config) => motion = config;
 
         /// <summary>每次点击的结果（报告用）。</summary>
         public event Action<string, bool, string> Acted;   // (对象, 是否成功, 消息)
@@ -317,14 +324,22 @@ namespace BorderRepair.FirstOrder
         IEnumerator MoveTo(Transform t, Vector3 target)
         {
             Vector3 a = t.position;
+            var m = Motion.partMove;
             float time = 0f;
-            while (time < moveSeconds)
+            while (time < m.Seconds)
             {
                 time += Time.deltaTime;
-                t.position = Vector3.Lerp(a, target, Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(time / moveSeconds)));
+                t.position = Vector3.Lerp(a, target, m.Evaluate(time / m.Seconds));
                 yield return null;
             }
             t.position = target;
+        }
+
+        /// <summary>七号离座：时间进度 progress（0 = 接触垫，1 = 悬停高度）按离座曲线换算，写七号根节点位置。运行和预览共用。</summary>
+        public void PoseLiftOff(float progress)
+        {
+            var anchor = dock.RobotAnchor.position;
+            dock.RobotRoot.position = Vector3.Lerp(anchor, anchor + Vector3.up * hoverHeight, Motion.liftOff.Evaluate(progress));
         }
 
         IEnumerator MoveLatch(FirstOrderPart latch, bool open)
@@ -408,15 +423,15 @@ namespace BorderRepair.FirstOrder
             Busy = true;
             while (dock.State != DockState.SeatedOpen) yield return null;     // 等夹具张开
             var root = dock.RobotRoot;
-            var a = root.position;
             var b = dock.RobotAnchor.position + Vector3.up * hoverHeight;
+            var m = Motion;
             dock.Rotors.Release();                                            // 交还给 Idle_Hover 片段
-            if (dock.RobotAnimator != null) dock.RobotAnimator.CrossFadeInFixedTime("Idle_Hover", 0.2f, 0);
+            if (dock.RobotAnimator != null) dock.RobotAnimator.CrossFadeInFixedTime("Idle_Hover", m.liftBlendSeconds, 0);
             float time = 0f;
-            while (time < 1.2f)
+            while (time < m.liftOff.Seconds)
             {
                 time += Time.deltaTime;
-                root.position = Vector3.Lerp(a, b, Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(time / 1.2f)));
+                PoseLiftOff(time / m.liftOff.Seconds);
                 yield return null;
             }
             root.position = b;

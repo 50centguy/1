@@ -1,7 +1,8 @@
 {
     "name": "WorkbenchArea.Tests.PlayMode",
     "rootNamespace": "WorkbenchArea.Tests",
-    "references": [ "WorkbenchArea.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner", "Unity.RenderPipelines.Core.Runtime", "Unity.InputSystem" ],
+    "references": [
+        "BorderRepair.Motion", "WorkbenchArea.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner", "Unity.RenderPipelines.Core.Runtime", "Unity.InputSystem" ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

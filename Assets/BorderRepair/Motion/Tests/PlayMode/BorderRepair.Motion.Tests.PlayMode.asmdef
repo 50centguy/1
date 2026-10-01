@@ -1,0 +1,26 @@
+{
+    "name": "BorderRepair.Motion.Tests.PlayMode",
+    "rootNamespace": "BorderRepair.Motion.Tests",
+    "references": [
+        "BorderRepair.Motion",
+        "BorderRepair.Runtime",
+        "BorderRepair.FirstOrder.Runtime",
+        "WorkbenchArea.Runtime",
+        "Unity.InputSystem",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

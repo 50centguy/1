@@ -1,7 +1,8 @@
 {
     "name": "WorkbenchArea.Runtime",
     "rootNamespace": "WorkbenchArea",
-    "references": [ "Unity.InputSystem" ],
+    "references": [
+        "BorderRepair.Motion", "Unity.InputSystem" ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

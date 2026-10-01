@@ -2,6 +2,7 @@
     "name": "BorderRepair.Runtime",
     "rootNamespace": "BorderRepair",
     "references": [
+        "BorderRepair.Motion",
         "Unity.InputSystem",
         "UnityEngine.UI"
     ],

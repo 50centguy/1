@@ -2,6 +2,8 @@
     "name": "BorderRepair.Editor",
     "rootNamespace": "BorderRepair.EditorTools",
     "references": [
+        "BorderRepair.Motion.Editor",
+        "BorderRepair.Motion",
         "BorderRepair.Runtime",
         "Unity.InputSystem",
         "UnityEngine.UI"

@@ -1,7 +1,8 @@
 {
     "name": "BorderRepair.FirstOrder.Tests.EditMode",
     "rootNamespace": "BorderRepair.FirstOrder.Tests",
-    "references": [ "BorderRepair.FirstOrder.Runtime", "BorderRepair.Runtime", "WorkbenchArea.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner", "Unity.InputSystem" ],
+    "references": [
+        "BorderRepair.Motion", "BorderRepair.FirstOrder.Runtime", "BorderRepair.Runtime", "WorkbenchArea.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner", "Unity.InputSystem" ],
     "includePlatforms": [ "Editor" ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

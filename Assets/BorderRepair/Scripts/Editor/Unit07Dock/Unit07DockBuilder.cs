@@ -308,6 +308,8 @@ namespace BorderRepair.EditorTools
                            Find(dock.transform, "Dock_Clamp_L"), Find(dock.transform, "Dock_Clamp_R"),
                            Find(dock.transform, "Dock_PowerSwitch_Lever"), Find(dock.transform, "Dock_PowerSwitch_Lamp").GetComponent<Renderer>());
             flow.AddComponent<Unit07DockInput>().Configure(cam, ctrl);
+            // 可编辑动画与动作配置（持久资产：已存在的不覆盖，这里只引用）
+            BorderRepair.Motion.EditorTools.Unit07EditableAnimation.ApplyToDock(ctrl, BorderRepair.Motion.EditorTools.Unit07EditableAnimation.EnsureAll());
             EditorUtility.SetDirty(ctrl);
 
             EditorSceneManager.SaveScene(scene, ScenePath);

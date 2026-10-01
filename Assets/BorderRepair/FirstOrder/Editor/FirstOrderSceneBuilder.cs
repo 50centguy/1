@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BorderRepair.Dock;
+using BorderRepair.Motion.EditorTools;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -34,6 +35,15 @@ namespace BorderRepair.FirstOrder.EditorTools
         [MenuItem("Border Repair/Unit07 First Order/Build Test Scene")]
         public static void Build()
         {
+            BuildTo(ScenePath);
+            Directory.CreateDirectory(ReportDir);
+            File.WriteAllText(Path.Combine(ReportDir, "build_log.txt"), $"七号首单原型 · 场景构建记录（Unity {Application.unityVersion}，{DateTime.Now:yyyy-MM-dd HH:mm}）\n" + Log, new UTF8Encoding(false));
+            if (Application.isBatchMode) EditorApplication.Exit(0);
+        }
+
+        /// <summary>构建场景并保存到 scenePath（测试用临时路径时不写构建记录、不退出）。</summary>
+        public static void BuildTo(string scenePath)
+        {
             Log.Clear();
             Directory.CreateDirectory(ArtDir);
             Directory.CreateDirectory(Root + "/Scenes");
@@ -57,6 +67,14 @@ namespace BorderRepair.FirstOrder.EditorTools
             dockCtl.Configure(robot.transform, robot.GetComponent<Animator>(), robot.GetComponent<RotorPowerDriver>(), anchor,
                               Find(dockGo.transform, "Dock_Clamp_L"), Find(dockGo.transform, "Dock_Clamp_R"),
                               Find(dockGo.transform, "Dock_PowerSwitch_Lever"), Find(dockGo.transform, "Dock_PowerSwitch_Lamp").GetComponent<Renderer>());
+
+            // ---------------------------------------------------------------- 2b. 可编辑动画与动作配置（持久资产：已存在的不覆盖，这里只引用）
+            var editable = Unit07EditableAnimation.EnsureAll();
+            robot.GetComponent<Animator>().runtimeAnimatorController = editable.controller;      // 场景实例上覆盖，不改预制体和原控制器
+            robot.GetComponent<RotorPowerDriver>().SetMotionConfig(editable.rotor);
+            dockCtl.SetMotionConfig(editable.dock);
+            Note($"可编辑动画：七号用 {AssetDatabase.GetAssetPath(editable.controller)}（片段在 {Unit07EditableAnimation.ClipDir}）；" +
+                 $"动作配置 {AssetDatabase.GetAssetPath(editable.dock)}、{AssetDatabase.GetAssetPath(editable.rotor)}、{AssetDatabase.GetAssetPath(editable.firstOrder)}");
 
             // ---------------------------------------------------------------- 3. 遮挡碰撞：七号与维修座的每个网格（场景实例上加，不改预制体资源）
             int occ = 0;
@@ -160,14 +178,12 @@ namespace BorderRepair.FirstOrder.EditorTools
             var flowGo = new GameObject("FirstOrderFlow (七号首单原型：占位交互，非正式维修流程)");
             var flow = flowGo.AddComponent<FirstOrderFlow>();
             flow.Configure(dockCtl, rig, hingeL, hingeR, carrier, latchOuter, latchRear, cover, bearingOld, newBearing, rightEngine, matZone, trayZone);
+            flow.SetMotionConfig(editable.firstOrder);
             flowGo.AddComponent<FirstOrderInput>().Configure(flow);
             EditorUtility.SetDirty(flow);
 
-            EditorSceneManager.SaveScene(scene, ScenePath);
-            Note($"测试场景：{ScenePath}");
-            Directory.CreateDirectory(ReportDir);
-            File.WriteAllText(Path.Combine(ReportDir, "build_log.txt"), $"七号首单原型 · 场景构建记录（Unity {Application.unityVersion}，{DateTime.Now:yyyy-MM-dd HH:mm}）\n" + Log, new UTF8Encoding(false));
-            if (Application.isBatchMode) EditorApplication.Exit(0);
+            EditorSceneManager.SaveScene(scene, scenePath);
+            Note($"测试场景：{scenePath}");
         }
 
         // ------------------------------------------------------------------ 工具

@@ -332,6 +332,8 @@ namespace WorkbenchArea.EditorTools
                            Find(area.transform, "Placeholder_Prosthetic_Cover"),
                            Enumerable.Range(1, 4).Select(i => Find(area.transform, $"Placeholder_Prosthetic_Screw_{i}")).ToArray(),
                            ScrewTraySlot, CoverPark, Find(area.transform, "Toolbox_Tier2"), tier1);
+            // 每段移动的时长与曲线：引用持久配置资产（已存在的不覆盖）
+            demo.SetMotionConfig(BorderRepair.Motion.EditorTools.Unit07EditableAnimation.EnsureAll().workbench);
             EditorUtility.SetDirty(demo);
             // 鼠标操作记录（真人鼠标检查用；只记录，不改行为）
             var logGo = new GameObject("MouseSessionLog");
