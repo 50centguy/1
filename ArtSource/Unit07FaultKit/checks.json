@@ -1,0 +1,149 @@
+{
+  "original_bearing": {
+    "od": 52.0,
+    "bore": 18.0,
+    "width": 10.0
+  },
+  "BearingWorn": {
+    "od_mm": 52.0,
+    "bore_mm": 18.0,
+    "width_mm": 10.0,
+    "center_offset_mm": 0.0,
+    "axis_angle_to_original_deg": 0.0
+  },
+  "BearingNew": {
+    "od_mm": 52.0,
+    "bore_mm": 18.0,
+    "width_mm": 10.0,
+    "center_offset_mm": 0.0,
+    "axis_angle_to_original_deg": 0.0
+  },
+  "intake": {
+    "guard_bottom_mm": 54.9,
+    "guard_top_mm": 66.9,
+    "lip_inner_radius_mm": 34.0,
+    "guard_bar_coverage": 0.325,
+    "fiber_strands": 11,
+    "guard_dust_faces": 2876
+  },
+  "label": {
+    "size_mm": [
+      46.0,
+      30.0
+    ],
+    "center_radius_from_axis_mm": 66,
+    "direction_deg": 180,
+    "surface_spread_mm": 3.836,
+    "max_normal_tilt_deg": 7.61
+  },
+  "overlaps": {
+    "UNIT07_FK_BearingTop_L_Worn": {
+      "Engine_IntakeGuard_L": 0,
+      "Engine_IntakeLip_L": 0,
+      "Engine_IntakeDuct_L": 0,
+      "Engine_UpperCover_L": 0,
+      "Engine_LowerCover_L": 0,
+      "Engine_MotorHousing_L": 0,
+      "Engine_Shaft_L": 0,
+      "Engine_Fan_L": 0,
+      "Engine_CoverLatch_Outer_L": 0,
+      "Engine_CoverLatch_Rear_L": 0
+    },
+    "UNIT07_FK_BearingTop_L_Worn_Chips": {
+      "Engine_IntakeGuard_L": 0,
+      "Engine_IntakeLip_L": 0,
+      "Engine_IntakeDuct_L": 0,
+      "Engine_UpperCover_L": 0,
+      "Engine_LowerCover_L": 0,
+      "Engine_MotorHousing_L": 0,
+      "Engine_Shaft_L": 0,
+      "Engine_Fan_L": 0,
+      "Engine_CoverLatch_Outer_L": 0,
+      "Engine_CoverLatch_Rear_L": 0
+    },
+    "UNIT07_FK_BearingTop_L_New": {
+      "Engine_IntakeGuard_L": 0,
+      "Engine_IntakeLip_L": 0,
+      "Engine_IntakeDuct_L": 0,
+      "Engine_UpperCover_L": 0,
+      "Engine_LowerCover_L": 0,
+      "Engine_MotorHousing_L": 0,
+      "Engine_Shaft_L": 0,
+      "Engine_Fan_L": 0,
+      "Engine_CoverLatch_Outer_L": 0,
+      "Engine_CoverLatch_Rear_L": 0
+    },
+    "UNIT07_FK_IntakeClog_L_DustMat": {
+      "Engine_IntakeGuard_L": 0,
+      "Engine_IntakeLip_L": 0,
+      "Engine_IntakeDuct_L": 0,
+      "Engine_UpperCover_L": 0,
+      "Engine_LowerCover_L": 0,
+      "Engine_MotorHousing_L": 0,
+      "Engine_Shaft_L": 0,
+      "Engine_Fan_L": 0,
+      "Engine_CoverLatch_Outer_L": 0,
+      "Engine_CoverLatch_Rear_L": 0
+    },
+    "UNIT07_FK_IntakeClog_L_Fibers": {
+      "Engine_IntakeGuard_L": 0,
+      "Engine_IntakeLip_L": 0,
+      "Engine_IntakeDuct_L": 0,
+      "Engine_UpperCover_L": 0,
+      "Engine_LowerCover_L": 0,
+      "Engine_MotorHousing_L": 0,
+      "Engine_Shaft_L": 0,
+      "Engine_Fan_L": 0,
+      "Engine_CoverLatch_Outer_L": 0,
+      "Engine_CoverLatch_Rear_L": 0
+    },
+    "UNIT07_FK_IntakeClog_L_GuardDust": {
+      "Engine_IntakeGuard_L": 0,
+      "Engine_IntakeLip_L": 0,
+      "Engine_IntakeDuct_L": 0,
+      "Engine_UpperCover_L": 0,
+      "Engine_LowerCover_L": 0,
+      "Engine_MotorHousing_L": 0,
+      "Engine_Shaft_L": 0,
+      "Engine_Fan_L": 0,
+      "Engine_CoverLatch_Outer_L": 0,
+      "Engine_CoverLatch_Rear_L": 0
+    },
+    "UNIT07_FK_IntakeClog_L_RimDust": {
+      "Engine_IntakeGuard_L": 0,
+      "Engine_IntakeLip_L": 0,
+      "Engine_IntakeDuct_L": 0,
+      "Engine_UpperCover_L": 0,
+      "Engine_LowerCover_L": 0,
+      "Engine_MotorHousing_L": 0,
+      "Engine_Shaft_L": 0,
+      "Engine_Fan_L": 0,
+      "Engine_CoverLatch_Outer_L": 0,
+      "Engine_CoverLatch_Rear_L": 0
+    },
+    "UNIT07_FK_CoverInnerLabel_L": {
+      "Engine_IntakeGuard_L": 0,
+      "Engine_IntakeLip_L": 0,
+      "Engine_IntakeDuct_L": 0,
+      "Engine_UpperCover_L": 0,
+      "Engine_LowerCover_L": 0,
+      "Engine_MotorHousing_L": 0,
+      "Engine_Shaft_L": 0,
+      "Engine_Fan_L": 0,
+      "Engine_CoverLatch_Outer_L": 0,
+      "Engine_CoverLatch_Rear_L": 0
+    },
+    "BearingNew_vs_original_bearing_world_bbox_mm": {
+      "original": [
+        52.61,
+        52.14,
+        17.23
+      ],
+      "new": [
+        52.82,
+        52.17,
+        17.5
+      ]
+    }
+  }
+}

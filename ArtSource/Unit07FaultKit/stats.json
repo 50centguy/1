@@ -1,0 +1,196 @@
+{
+  "groups": {
+    "BearingWorn": {
+      "triangles": 3080,
+      "objects": [
+        "UNIT07_FK_BearingTop_L_Worn",
+        "UNIT07_FK_BearingTop_L_Worn_Chips"
+      ]
+    },
+    "BearingNew": {
+      "triangles": 2880,
+      "objects": [
+        "UNIT07_FK_BearingTop_L_New"
+      ]
+    },
+    "IntakeClog": {
+      "triangles": 11664,
+      "objects": [
+        "UNIT07_FK_IntakeClog_L_DustMat",
+        "UNIT07_FK_IntakeClog_L_Fibers",
+        "UNIT07_FK_IntakeClog_L_GuardDust",
+        "UNIT07_FK_IntakeClog_L_RimDust"
+      ]
+    },
+    "CoverLabel": {
+      "triangles": 768,
+      "objects": [
+        "UNIT07_FK_CoverInnerLabel_L"
+      ]
+    }
+  },
+  "objects": {
+    "UNIT07_FK_BearingTop_L_Worn": {
+      "triangles": 2880,
+      "vertices": 1440,
+      "size_mm_world": [
+        52.82,
+        52.17,
+        17.5
+      ],
+      "origin_world": [
+        0.37973,
+        -0.01092,
+        0.47808
+      ],
+      "material": "M_FK_BearingWorn"
+    },
+    "UNIT07_FK_BearingTop_L_Worn_Chips": {
+      "triangles": 200,
+      "vertices": 124,
+      "size_mm_world": [
+        34.88,
+        33.79,
+        7.69
+      ],
+      "origin_world": [
+        0.37973,
+        -0.01092,
+        0.47808
+      ],
+      "material": "M_FK_MetalChips"
+    },
+    "UNIT07_FK_BearingTop_L_New": {
+      "triangles": 2880,
+      "vertices": 1440,
+      "size_mm_world": [
+        52.82,
+        52.17,
+        17.5
+      ],
+      "origin_world": [
+        0.37973,
+        -0.01092,
+        0.47808
+      ],
+      "material": "M_FK_BearingNew"
+    },
+    "UNIT07_FK_IntakeClog_L_DustMat": {
+      "triangles": 4608,
+      "vertices": 2306,
+      "size_mm_world": [
+        66.65,
+        67.05,
+        13.02
+      ],
+      "origin_world": [
+        0.37167,
+        -0.00986,
+        0.53238
+      ],
+      "material": "M_FK_IntakeClog"
+    },
+    "UNIT07_FK_IntakeClog_L_Fibers": {
+      "triangles": 3412,
+      "vertices": 1756,
+      "size_mm_world": [
+        43.83,
+        54.85,
+        7.76
+      ],
+      "origin_world": [
+        0.37167,
+        -0.00986,
+        0.53238
+      ],
+      "material": "M_FK_IntakeClog"
+    },
+    "UNIT07_FK_IntakeClog_L_GuardDust": {
+      "triangles": 2876,
+      "vertices": 1957,
+      "size_mm_world": [
+        68.1,
+        62.93,
+        11.03
+      ],
+      "origin_world": [
+        0.37167,
+        -0.00986,
+        0.53238
+      ],
+      "material": "M_FK_IntakeClog"
+    },
+    "UNIT07_FK_IntakeClog_L_RimDust": {
+      "triangles": 768,
+      "vertices": 384,
+      "size_mm_world": [
+        67.05,
+        67.53,
+        12.93
+      ],
+      "origin_world": [
+        0.37167,
+        -0.00986,
+        0.53238
+      ],
+      "material": "M_FK_IntakeClog"
+    },
+    "UNIT07_FK_CoverInnerLabel_L": {
+      "triangles": 768,
+      "vertices": 425,
+      "size_mm_world": [
+        30.25,
+        46.06,
+        2.75
+      ],
+      "origin_world": [
+        0.3053,
+        -0.00992,
+        0.52968
+      ],
+      "material": "M_FK_CoverLabel"
+    }
+  },
+  "textures": {
+    "T_FK_BearingWorn_BaseColor": [
+      1024,
+      1024
+    ],
+    "T_FK_BearingWorn_MetallicSmoothness": [
+      1024,
+      1024
+    ],
+    "T_FK_BearingWorn_Normal": [
+      1024,
+      1024
+    ],
+    "T_FK_BearingNew_BaseColor": [
+      1024,
+      1024
+    ],
+    "T_FK_BearingNew_MetallicSmoothness": [
+      1024,
+      1024
+    ],
+    "T_FK_BearingNew_Normal": [
+      1024,
+      1024
+    ],
+    "T_FK_IntakeClog_BaseColor": [
+      512,
+      512
+    ],
+    "T_FK_IntakeClog_Normal": [
+      512,
+      512
+    ],
+    "T_FK_CoverLabel_BaseColor": [
+      640,
+      416
+    ]
+  },
+  "total_triangles": 18392,
+  "reference_original_triangles": {
+    "Engine_BearingTop_L": 576
+  }
+}

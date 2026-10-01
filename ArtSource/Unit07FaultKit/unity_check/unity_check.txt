@@ -1,0 +1,26 @@
+Unity 6000.0.84f1，渲染管线 UniversalRenderPipelineAsset，图形 Direct3D11
+导入 UNIT07_FK_BearingNew.fbx：材质映射到 M_FK_BearingNew
+导入 UNIT07_FK_BearingWorn.fbx：材质映射到 M_FK_BearingWorn、M_FK_MetalChips
+导入 UNIT07_FK_CoverLabel.fbx：材质映射到 M_FK_CoverLabel
+导入 UNIT07_FK_IntakeClog.fbx：材质映射到 M_FK_IntakeClog
+原 Engine_BearingTop_L（网格顶点）：质心 (-0.37985, 0.47812, 0.01079)，转轴 (0.1479, 0.9888, -0.0201)，外径 52.34 mm，宽 10.06 mm
+UNIT07_FK_BearingTop_L_Worn：质心差 0.134 mm，转轴夹角 0.071°，外径 52.15 mm，宽 10.00 mm
+  网格 2892 顶点 / 2880 三角，子网格 1，切线 有，材质 M_FK_BearingWorn
+UNIT07_FK_BearingTop_L_New：质心差 0.134 mm，转轴夹角 0.071°，外径 52.15 mm，宽 10.00 mm
+  网格 2892 顶点 / 2880 三角，子网格 1，切线 有，材质 M_FK_BearingNew
+进气堵塞（积尘毡层）：沿转轴在护栅质心 -9.05 mm 处（负 = 护栅下方），径向偏差 0.03 mm，直径 67.1 mm（护栅 70.2 mm）
+上盖内侧贴纸中心 (-0.3053, 0.5296, 0.0099)，在上盖包围盒内 True
+挂载（把下面“FBX 根”拖到父对象下，按此本地位姿摆放；父对象在七号静态姿态下）：
+  UNIT07_FK_BearingWorn.fbx → 父 Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingTop_L：localPosition 0.00073, -0.00003, 0.00495；localRotation(四元数) 0.70700, 0.05222, -0.05196, 0.70337（欧拉 (89.705, 180.000, 171.551)）；localScale (1.0000, 1.0000, 1.0000)
+    回代：挂在父对象下后与原位置的中心差 0.000 mm
+  UNIT07_FK_BearingNew.fbx → 父 Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingTop_L：localPosition 0.00073, -0.00003, 0.00495；localRotation(四元数) 0.70700, 0.05222, -0.05196, 0.70337（欧拉 (89.705, 180.000, 171.551)）；localScale (1.0000, 1.0000, 1.0000)
+    回代：挂在父对象下后与原位置的中心差 0.000 mm
+  UNIT07_FK_IntakeClog.fbx → 父 Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeGuard_L：localPosition -0.00088, 0.00003, -0.00593；localRotation(四元数) 0.70700, 0.05222, -0.05196, 0.70337（欧拉 (89.705, 180.000, 171.551)）；localScale (1.0000, 1.0000, 1.0000)
+    回代：挂在父对象下后与原位置的中心差 0.000 mm
+  UNIT07_FK_CoverLabel.fbx → 父 Robot_Rig/Root/Body/Engine_L_Hinge/Engine_UpperCover_L：localPosition 0.06842, -0.00006, 0.01115；localRotation(四元数) 0.70700, 0.05222, -0.05196, 0.70337（欧拉 (89.705, 180.000, 171.551)）；localScale (1.0000, 1.0000, 1.0000)
+    回代：挂在父对象下后与原位置的中心差 0.000 mm
+URP 渲染 U01_urp_intake_clogged.png
+URP 渲染 U02_urp_worn_bearing_seated.png
+URP 渲染 U03_urp_new_bearing_seated.png
+URP 渲染 U04_urp_intake_cleaned.png
+URP 渲染 U05_urp_cover_label_from_inside.png

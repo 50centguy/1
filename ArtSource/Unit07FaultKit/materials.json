@@ -1,0 +1,59 @@
+{
+  "materials": [
+    {
+      "name": "M_FK_BearingWorn",
+      "shader": "Universal Render Pipeline/Lit",
+      "baseMap": "T_FK_BearingWorn_BaseColor.png",
+      "baseColor": "#FFFFFF",
+      "metallicGlossMap": "T_FK_BearingWorn_MetallicSmoothness.png",
+      "smoothnessSource": "Metallic Alpha",
+      "metallic": 1.0,
+      "smoothness": 0.5,
+      "normalMap": "T_FK_BearingWorn_Normal.png"
+    },
+    {
+      "name": "M_FK_BearingNew",
+      "shader": "Universal Render Pipeline/Lit",
+      "baseMap": "T_FK_BearingNew_BaseColor.png",
+      "baseColor": "#FFFFFF",
+      "metallicGlossMap": "T_FK_BearingNew_MetallicSmoothness.png",
+      "smoothnessSource": "Metallic Alpha",
+      "metallic": 1.0,
+      "smoothness": 0.5,
+      "normalMap": "T_FK_BearingNew_Normal.png"
+    },
+    {
+      "name": "M_FK_MetalChips",
+      "shader": "Universal Render Pipeline/Lit",
+      "baseMap": "",
+      "baseColor": "#D9D7D0",
+      "metallicGlossMap": "",
+      "smoothnessSource": "",
+      "metallic": 1.0,
+      "smoothness": 0.78,
+      "normalMap": ""
+    },
+    {
+      "name": "M_FK_IntakeClog",
+      "shader": "Universal Render Pipeline/Lit",
+      "baseMap": "T_FK_IntakeClog_BaseColor.png",
+      "baseColor": "#FFFFFF",
+      "metallicGlossMap": "",
+      "smoothnessSource": "",
+      "metallic": 0.0,
+      "smoothness": 0.05,
+      "normalMap": "T_FK_IntakeClog_Normal.png"
+    },
+    {
+      "name": "M_FK_CoverLabel",
+      "shader": "Universal Render Pipeline/Lit",
+      "baseMap": "T_FK_CoverLabel_BaseColor.png",
+      "baseColor": "#FFFFFF",
+      "metallicGlossMap": "",
+      "smoothnessSource": "",
+      "metallic": 0.0,
+      "smoothness": 0.22,
+      "normalMap": ""
+    }
+  ]
+}

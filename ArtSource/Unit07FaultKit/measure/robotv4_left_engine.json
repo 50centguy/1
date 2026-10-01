@@ -1,0 +1,980 @@
+{
+  "source": "Assets/RobotV4/Model/robot-final.fbx (read only)",
+  "pose": "Idle_Hover first frame (= Unity static pose)",
+  "objects": {
+    "Engine_BearingTop_L": {
+      "name": "Engine_BearingTop_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Hinge",
+      "world_location": [
+        0.38047,
+        -0.01101,
+        0.47314
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.02704,
+        -0.02605,
+        -0.00367
+      ],
+      "local_bbox_max": [
+        0.02557,
+        0.02599,
+        0.01356
+      ],
+      "world_bbox_min": [
+        0.35343,
+        -0.03699,
+        0.46947
+      ],
+      "world_bbox_max": [
+        0.40604,
+        0.01516,
+        0.4867
+      ],
+      "world_size_mm": [
+        52.6,
+        52.1,
+        17.2
+      ],
+      "verts": 288,
+      "tris": 576,
+      "materials": [
+        "M_Internal"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_IntakeLip_L": {
+      "name": "Engine_IntakeLip_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Hinge",
+      "world_location": [
+        0.36932,
+        -0.00955,
+        0.5482
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.04587,
+        -0.04601,
+        -0.0283
+      ],
+      "local_bbox_max": [
+        0.04851,
+        0.0461,
+        0.01049
+      ],
+      "world_bbox_min": [
+        0.32345,
+        -0.05594,
+        0.51985
+      ],
+      "world_bbox_max": [
+        0.41783,
+        0.03649,
+        0.55875
+      ],
+      "world_size_mm": [
+        94.4,
+        92.4,
+        38.9
+      ],
+      "verts": 576,
+      "tris": 1152,
+      "materials": [
+        "M_Engine"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_IntakeGuard_L": {
+      "name": "Engine_IntakeGuard_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Hinge",
+      "world_location": [
+        0.37079,
+        -0.00974,
+        0.53831
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.0353,
+        -0.03181,
+        -0.01055
+      ],
+      "local_bbox_max": [
+        0.03531,
+        0.03182,
+        0.01057
+      ],
+      "world_bbox_min": [
+        0.33548,
+        -0.04156,
+        0.52771
+      ],
+      "world_bbox_max": [
+        0.40609,
+        0.02217,
+        0.54884
+      ],
+      "world_size_mm": [
+        70.6,
+        63.7,
+        21.1
+      ],
+      "verts": 456,
+      "tris": 884,
+      "materials": [
+        "M_Engine"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_IntakeDuct_L": {
+      "name": "Engine_IntakeDuct_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Hinge",
+      "world_location": [
+        0.37225,
+        -0.00994,
+        0.52842
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.03881,
+        -0.03949,
+        -0.03635
+      ],
+      "local_bbox_max": [
+        0.04351,
+        0.03965,
+        0.0047
+      ],
+      "world_bbox_min": [
+        0.33345,
+        -0.05001,
+        0.49203
+      ],
+      "world_bbox_max": [
+        0.41576,
+        0.02952,
+        0.53317
+      ],
+      "world_size_mm": [
+        82.3,
+        79.5,
+        41.1
+      ],
+      "verts": 480,
+      "tris": 960,
+      "materials": [
+        "M_Engine"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_UpperCover_L": {
+      "name": "Engine_UpperCover_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Hinge",
+      "world_location": [
+        0.37372,
+        -0.01013,
+        0.51853
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.11446,
+        -0.11947,
+        -0.04421
+      ],
+      "local_bbox_max": [
+        0.11454,
+        0.12013,
+        0.05082
+      ],
+      "world_bbox_min": [
+        0.25927,
+        -0.13036,
+        0.47382
+      ],
+      "world_bbox_max": [
+        0.48826,
+        0.10958,
+        0.57051
+      ],
+      "world_size_mm": [
+        229.0,
+        239.9,
+        96.7
+      ],
+      "verts": 780,
+      "tris": 1560,
+      "materials": [
+        "M_Engine"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_LowerCover_L": {
+      "name": "Engine_LowerCover_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Hinge",
+      "world_location": [
+        0.40794,
+        -0.01462,
+        0.2882
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.14307,
+        -0.12107,
+        -0.01247
+      ],
+      "local_bbox_max": [
+        0.10181,
+        0.11916,
+        0.21822
+      ],
+      "world_bbox_min": [
+        0.26488,
+        -0.13113,
+        0.27577
+      ],
+      "world_bbox_max": [
+        0.50975,
+        0.10935,
+        0.50777
+      ],
+      "world_size_mm": [
+        244.9,
+        240.5,
+        232.0
+      ],
+      "verts": 1729,
+      "tris": 3466,
+      "materials": [
+        "M_Engine"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_Shaft_L": {
+      "name": "Engine_Shaft_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Rotor",
+      "world_location": [
+        0.40501,
+        -0.01423,
+        0.30798
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.03544,
+        -0.00944,
+        -0.02583
+      ],
+      "local_bbox_max": [
+        0.01193,
+        0.00862,
+        0.18409
+      ],
+      "world_bbox_min": [
+        0.36956,
+        -0.02319,
+        0.28216
+      ],
+      "world_bbox_max": [
+        0.41694,
+        -0.00219,
+        0.49204
+      ],
+      "world_size_mm": [
+        47.4,
+        21.0,
+        209.9
+      ],
+      "verts": 96,
+      "tris": 188,
+      "materials": [
+        "M_Internal"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_Fan_L": {
+      "name": "Engine_Fan_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Rotor",
+      "world_location": [
+        0.40736,
+        -0.01454,
+        0.29216
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.06084,
+        -0.05624,
+        -0.01297
+      ],
+      "local_bbox_max": [
+        0.06085,
+        0.05626,
+        0.01304
+      ],
+      "world_bbox_min": [
+        0.34651,
+        -0.07079,
+        0.27903
+      ],
+      "world_bbox_max": [
+        0.4682,
+        0.04182,
+        0.30503
+      ],
+      "world_size_mm": [
+        121.7,
+        112.6,
+        26.0
+      ],
+      "verts": 456,
+      "tris": 884,
+      "materials": [
+        "M_Internal"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_FanNut_L": {
+      "name": "Engine_FanNut_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Rotor",
+      "world_location": [
+        0.40868,
+        -0.01471,
+        0.28326
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.00803,
+        -0.0088,
+        -0.00402
+      ],
+      "local_bbox_max": [
+        0.00803,
+        0.0088,
+        0.00402
+      ],
+      "world_bbox_min": [
+        0.40065,
+        -0.02355,
+        0.27919
+      ],
+      "world_bbox_max": [
+        0.41671,
+        -0.00588,
+        0.28733
+      ],
+      "world_size_mm": [
+        16.1,
+        17.7,
+        8.1
+      ],
+      "verts": 84,
+      "tris": 164,
+      "materials": [
+        "M_Internal"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_MotorHousing_L": {
+      "name": "Engine_MotorHousing_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Hinge",
+      "world_location": [
+        0.40251,
+        -0.0139,
+        0.3248
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.07177,
+        -0.0585,
+        -0.00823
+      ],
+      "local_bbox_max": [
+        0.05708,
+        0.05799,
+        0.10714
+      ],
+      "world_bbox_min": [
+        0.33074,
+        -0.07185,
+        0.3165
+      ],
+      "world_bbox_max": [
+        0.45958,
+        0.04597,
+        0.43199
+      ],
+      "world_size_mm": [
+        128.8,
+        117.8,
+        115.5
+      ],
+      "verts": 480,
+      "tris": 960,
+      "materials": [
+        "M_Internal"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_CoverLatch_Outer_L": {
+      "name": "Engine_CoverLatch_Outer_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Hinge",
+      "world_location": [
+        0.48606,
+        -0.01004,
+        0.51251
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.001,
+        -0.013,
+        -0.017
+      ],
+      "local_bbox_max": [
+        0.006,
+        0.013,
+        0.017
+      ],
+      "world_bbox_min": [
+        0.48506,
+        -0.02342,
+        0.49523
+      ],
+      "world_bbox_max": [
+        0.49206,
+        0.00334,
+        0.52979
+      ],
+      "world_size_mm": [
+        7.0,
+        26.8,
+        34.6
+      ],
+      "verts": 56,
+      "tris": 108,
+      "materials": [
+        "M_Engine"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_CoverLatch_Rear_L": {
+      "name": "Engine_CoverLatch_Rear_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Hinge",
+      "world_location": [
+        0.38451,
+        0.10836,
+        0.48832
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.013,
+        -0.001,
+        -0.017
+      ],
+      "local_bbox_max": [
+        0.013,
+        0.006,
+        0.017
+      ],
+      "world_bbox_min": [
+        0.37151,
+        0.10698,
+        0.47121
+      ],
+      "world_bbox_max": [
+        0.39751,
+        0.11474,
+        0.5053
+      ],
+      "world_size_mm": [
+        26.0,
+        7.8,
+        34.1
+      ],
+      "verts": 56,
+      "tris": 108,
+      "materials": [
+        "M_Engine"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    },
+    "Engine_MountBase_L": {
+      "name": "Engine_MountBase_L",
+      "parent": "Robot_Rig",
+      "parent_type": "BONE",
+      "parent_bone": "Engine_L_Hinge",
+      "world_location": [
+        0.40501,
+        -0.01423,
+        0.30798
+      ],
+      "world_rotation_euler_deg": [
+        -1.412,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "local_bbox_min": [
+        -0.08444,
+        -0.08501,
+        -0.01622
+      ],
+      "local_bbox_max": [
+        0.08444,
+        0.08501,
+        0.01622
+      ],
+      "world_bbox_min": [
+        0.32056,
+        -0.09926,
+        0.29166
+      ],
+      "world_bbox_max": [
+        0.48945,
+        0.0708,
+        0.32431
+      ],
+      "world_size_mm": [
+        168.9,
+        170.1,
+        32.7
+      ],
+      "verts": 480,
+      "tris": 960,
+      "materials": [
+        "M_Internal"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ]
+    }
+  },
+  "left_engine_meshes": [
+    "EngineAnchor_L",
+    "Engine_Badge_L",
+    "Engine_BearingBottom_L",
+    "Engine_BearingTop_L",
+    "Engine_CoolingFins_L",
+    "Engine_CoverLatch_Outer_L",
+    "Engine_CoverLatch_Rear_L",
+    "Engine_FanNut_L",
+    "Engine_Fan_L",
+    "Engine_IntakeDuct_L",
+    "Engine_IntakeGuard_L",
+    "Engine_IntakeLip_L",
+    "Engine_InternalLead_L",
+    "Engine_LowerCover_L",
+    "Engine_MotorBracket_L",
+    "Engine_MotorBracket_Screw_L_1",
+    "Engine_MotorBracket_Screw_L_2",
+    "Engine_MotorBracket_Screw_L_3",
+    "Engine_MotorHousing_L",
+    "Engine_MountBase_L",
+    "Engine_MountPost_L_1",
+    "Engine_MountPost_L_2",
+    "Engine_MountPost_L_3",
+    "Engine_MountPost_L_4",
+    "Engine_NozzleRing_L",
+    "Engine_RearCap_L",
+    "Engine_Shaft_L",
+    "Engine_UpperCover_L",
+    "Engine_Windings_L"
+  ],
+  "left_engine_bones": [
+    "Engine_L_Hinge",
+    "Engine_L_Rotor"
+  ],
+  "armature": {
+    "name": "Robot_Rig",
+    "world_location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rotation_deg": [
+      -9.334667642611415e-06,
+      -0.0,
+      0.0
+    ]
+  },
+  "Engine_L_Hinge": {
+    "head_world": [
+      0.2150000035762787,
+      -0.029999932274222374,
+      0.41499999165534973
+    ],
+    "tail_world": [
+      0.2150000035762787,
+      -0.02999989688396454,
+      0.6336402893066406
+    ],
+    "y_axis_world": [
+      0.0,
+      1.6292068494294654e-07,
+      1.0
+    ]
+  },
+  "bearing": {
+    "center_world": [
+      0.37973,
+      -0.01092,
+      0.47808
+    ],
+    "axis_world": [
+      -0.14693,
+      0.01927,
+      0.98896
+    ],
+    "axis_tilt_from_world_up_deg": 8.522,
+    "center_local": [
+      -0.00073,
+      -3e-05,
+      0.00495
+    ],
+    "axis_local": [
+      0.14693,
+      0.0051,
+      -0.98913
+    ],
+    "outer_diameter_mm": 52.0,
+    "bore_diameter_mm": 18.0,
+    "width_mm": 10.0,
+    "radial_levels_mm": [
+      9.0,
+      9.3,
+      10.01,
+      24.99,
+      25.7,
+      26.0
+    ],
+    "axial_levels_mm": [
+      -5.0,
+      -4.71,
+      -4.0,
+      4.0,
+      4.71,
+      5.0
+    ]
+  },
+  "shaft_at_bearing": {
+    "max_radius_mm_within_bearing_width": null,
+    "count": 0
+  },
+  "Engine_IntakeGuard_L_profile": {
+    "axial_min_mm": 54.9,
+    "axial_max_mm": 66.9,
+    "radius_min_mm": 11.4,
+    "radius_max_mm": 35.1,
+    "radius_levels_mm": [
+      11.4,
+      11.6,
+      11.8,
+      11.9,
+      12.0,
+      12.1,
+      12.2,
+      12.3,
+      12.5,
+      12.6,
+      34.4,
+      34.5,
+      34.8,
+      34.9,
+      35.0,
+      35.1
+    ]
+  },
+  "Engine_IntakeLip_L_profile": {
+    "axial_min_mm": 48.9,
+    "axial_max_mm": 74.9,
+    "radius_min_mm": 34.0,
+    "radius_max_mm": 46.0,
+    "radius_levels_mm": [
+      34.0,
+      34.4,
+      35.5,
+      44.5,
+      45.6,
+      46.0
+    ]
+  },
+  "Engine_IntakeDuct_L_profile": {
+    "axial_min_mm": 19.9,
+    "axial_max_mm": 49.9,
+    "radius_min_mm": 35.5,
+    "radius_max_mm": 39.5,
+    "radius_levels_mm": [
+      35.5,
+      35.7,
+      36.3,
+      38.7,
+      39.3,
+      39.5
+    ]
+  },
+  "cover_inner_hits_from_bearing_center": [
+    {
+      "offset_xy": [
+        0.06,
+        0
+      ],
+      "hit_world": [
+        0.42864,
+        -0.00946,
+        0.55272
+      ],
+      "normal_world": [
+        0.3774,
+        -0.0165,
+        -0.9259
+      ],
+      "distance_mm": 75.5
+    },
+    {
+      "offset_xy": [
+        -0.06,
+        0
+      ],
+      "hit_world": [
+        0.31199,
+        -0.0099,
+        0.53023
+      ],
+      "normal_world": [
+        0.0269,
+        -0.0222,
+        -0.9994
+      ],
+      "distance_mm": 52.7
+    },
+    {
+      "offset_xy": [
+        0,
+        0.06
+      ],
+      "hit_world": [
+        0.37061,
+        0.05028,
+        0.5395
+      ],
+      "normal_world": [
+        0.1513,
+        0.1458,
+        -0.9777
+      ],
+      "distance_mm": 62.1
+    },
+    {
+      "offset_xy": [
+        0,
+        -0.06
+      ],
+      "hit_world": [
+        0.37013,
+        -0.06966,
+        0.54275
+      ],
+      "normal_world": [
+        0.1565,
+        -0.18,
+        -0.9711
+      ],
+      "distance_mm": 65.4
+    },
+    {
+      "offset_xy": [
+        0.08,
+        0.04
+      ],
+      "hit_world": [
+        0.44754,
+        0.03068,
+        0.56015
+      ],
+      "normal_world": [
+        0.3705,
+        0.0127,
+        -0.9288
+      ],
+      "distance_mm": 83.0
+    },
+    {
+      "offset_xy": [
+        -0.05,
+        -0.07
+      ],
+      "hit_world": [
+        0.32106,
+        -0.07978,
+        0.53645
+      ],
+      "normal_world": [
+        0.1566,
+        -0.1576,
+        -0.975
+      ],
+      "distance_mm": 59.0
+    }
+  ],
+  "Engine_UpperCover_L_profile": {
+    "axial_min_mm": 11.3,
+    "axial_max_mm": 79.2,
+    "radius_max_mm": 132.9
+  }
+}
