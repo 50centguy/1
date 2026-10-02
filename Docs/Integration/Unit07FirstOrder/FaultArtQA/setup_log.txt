@@ -1,0 +1,12 @@
+[B] 反射探针 RP_EngineBay：拍摄点 (0.27, 1.60, 0.46)，盒投影 中心 (0.43, 0.68, 0.94) 尺寸 (1.62, 1.88, 1.93)，128 HDR 立方体贴图（RenderToCubemap 成功，平均亮度 0.161）存到 Assets/BorderRepair/FirstOrder/Art/FaultArtQA/RP_B_RP_EngineBay.asset
+[B] 反射探针 RP_Bench：拍摄点 (0.04, 1.20, -0.45)，盒投影 中心 (0.00, 1.35, -0.55) 尺寸 (2.00, 1.00, 1.10)，128 HDR 立方体贴图（RenderToCubemap 成功，平均亮度 0.177）存到 Assets/BorderRepair/FirstOrder/Art/FaultArtQA/RP_B_RP_Bench.asset
+[B] 保养标记：Assets/BorderRepair/Art/Unit07FaultKit/Materials/M_FK_CoverLabel.mat → Assets/BorderRepair/FirstOrder/Art/FaultArtQA/M_FK_CoverLabel_SceneQA.mat（底色 RGBA(0.640, 0.650, 0.660, 1.000)，光滑度 0.08，关高光和环境反射）
+[B] 检修补光：暖色聚光，强度 0.6，不投影，位置 (-0.17, 1.81, 0.45) 对准轴承位
+[B] 层板下补光：暖色聚光，强度 0.8，不投影，位置 (-0.53, 1.62, -0.80) 对准托盘 / 轴承盒 (-0.53, 1.01, -0.40)
+[B] 游戏镜头抗锯齿：None → FastApproximateAntialiasing
+[A] 反射探针 RP_EngineBay：拍摄点 (0.38, 1.60, 1.14)，盒投影 中心 (-0.11, 0.68, 1.24) 尺寸 (1.84, 1.88, 1.46)，128 HDR 立方体贴图（RenderToCubemap 成功，平均亮度 0.120）存到 Assets/BorderRepair/FirstOrder/Art/FaultArtQA/RP_A_RP_EngineBay.asset
+[A] 反射探针 RP_Bench：拍摄点 (0.04, 1.20, -0.45)，盒投影 中心 (0.00, 1.35, -0.55) 尺寸 (2.00, 1.00, 1.10)，128 HDR 立方体贴图（RenderToCubemap 成功，平均亮度 0.176）存到 Assets/BorderRepair/FirstOrder/Art/FaultArtQA/RP_A_RP_Bench.asset
+[A] 保养标记：Assets/BorderRepair/Art/Unit07FaultKit/Materials/M_FK_CoverLabel.mat → Assets/BorderRepair/FirstOrder/Art/FaultArtQA/M_FK_CoverLabel_SceneQA.mat（底色 RGBA(0.640, 0.650, 0.660, 1.000)，光滑度 0.08，关高光和环境反射）
+[A] 检修补光：暖色聚光，强度 0.6，不投影，位置 (0.17, 1.81, 0.69) 对准轴承位
+[A] 层板下补光：暖色聚光，强度 0.8，不投影，位置 (-0.53, 1.62, -0.80) 对准托盘 / 轴承盒 (-0.53, 1.01, -0.40)
+[A] 游戏镜头抗锯齿：None → FastApproximateAntialiasing

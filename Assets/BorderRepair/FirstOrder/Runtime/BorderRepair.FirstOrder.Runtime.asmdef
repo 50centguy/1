@@ -1,7 +1,7 @@
 {
     "name": "BorderRepair.FirstOrder.Runtime",
     "rootNamespace": "BorderRepair.FirstOrder",
-    "references": [ "BorderRepair.Runtime", "WorkbenchArea.Runtime", "Unity.InputSystem" ],
+    "references": [ "BorderRepair.Runtime", "WorkbenchArea.Runtime", "Unity.InputSystem", "Unity.RenderPipelines.Universal.Runtime", "Unity.RenderPipelines.Core.Runtime" ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
