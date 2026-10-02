@@ -214,7 +214,7 @@ namespace BorderRepair.FirstOrder.Tests
                 [KitDir + "UNIT07_FK_BearingNew.fbx"] = "dbc00062aa5a6a2be170086bcdba1283",
                 [KitDir + "UNIT07_FK_BearingWorn.fbx"] = "93458ceefff0018cd5ce87bba2c3700c",
                 [KitDir + "UNIT07_FK_CoverLabel.fbx"] = "c837a5b9a4b7645cf1722aaab6ca0383",
-                [KitDir + "UNIT07_FK_IntakeClog.fbx"] = "620d0e8ad175dbf35647fcd054140216",
+                [KitDir + "UNIT07_FK_IntakeClog.fbx"] = "8355a4145c1755eb1b1859d433fec437",   // art/unit07-fault-kit-dust-fibers：纤维减半、加粗 1.4 倍后重新导出（其余几何不变）
             };
             using var md5 = System.Security.Cryptography.MD5.Create();
             foreach (var kv in expect)

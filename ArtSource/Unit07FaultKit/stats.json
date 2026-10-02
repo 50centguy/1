@@ -14,7 +14,7 @@
       ]
     },
     "IntakeClog": {
-      "triangles": 11664,
+      "triangles": 9886,
       "objects": [
         "UNIT07_FK_IntakeClog_L_DustMat",
         "UNIT07_FK_IntakeClog_L_Fibers",
@@ -91,12 +91,12 @@
       "material": "M_FK_IntakeClog"
     },
     "UNIT07_FK_IntakeClog_L_Fibers": {
-      "triangles": 3412,
-      "vertices": 1756,
+      "triangles": 1634,
+      "vertices": 843,
       "size_mm_world": [
-        43.83,
-        54.85,
-        7.76
+        37.82,
+        52.37,
+        7.8
       ],
       "origin_world": [
         0.37167,
@@ -189,7 +189,7 @@
       416
     ]
   },
-  "total_triangles": 18392,
+  "total_triangles": 16614,
   "reference_original_triangles": {
     "Engine_BearingTop_L": 576
   }

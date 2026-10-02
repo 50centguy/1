@@ -24,8 +24,6 @@ namespace BorderRepair.FirstOrder.EditorTools.FaultArtQA
         public const string FixName = "FaultArtLookFix (场景验收观感调整：仅测试副本)";
 
         // ---- 调整参数（实测后定）
-        public static Color LabelTint = new Color(0.64f, 0.65f, 0.66f);   // 旧纸色：贴图乘这个颜色（纸面亮度降到色调映射的线性段，字和纸才拉得开）
-        public const float LabelSmoothness = 0.08f;
         public static float BayFillIntensity = 0.6f;                        // 0 = 不加补光
         public static float TrayFillIntensity = 0.8f;
         public static AntialiasingMode CameraAA = AntialiasingMode.FastApproximateAntialiasing;   // 实测：FXAA 让纤维闪烁降低约 30%，SMAA 只降约 20%
@@ -39,21 +37,6 @@ namespace BorderRepair.FirstOrder.EditorTools.FaultArtQA
             Directory.CreateDirectory(FaultArtAudit.OutDir);
             File.WriteAllText(Path.Combine(FaultArtAudit.OutDir, "setup_log.txt"), log.ToString(), new UTF8Encoding(false));
             if (Application.isBatchMode) EditorApplication.Exit(0);
-        }
-
-        static Material LabelMaterial(Material src)
-        {
-            string path = $"{ArtDir}/M_FK_CoverLabel_SceneQA.mat";
-            var m = AssetDatabase.LoadAssetAtPath<Material>(path);
-            if (m == null) { m = new Material(src); AssetDatabase.CreateAsset(m, path); }
-            m.CopyPropertiesFromMaterial(src);
-            m.SetColor("_BaseColor", LabelTint);
-            m.SetFloat("_Smoothness", LabelSmoothness);
-            m.SetFloat("_SpecularHighlights", 0f); m.EnableKeyword("_SPECULARHIGHLIGHTS_OFF");
-            m.SetFloat("_EnvironmentReflections", 0f); m.EnableKeyword("_ENVIRONMENTREFLECTIONS_OFF");
-            EditorUtility.SetDirty(m);
-            AssetDatabase.SaveAssets();
-            return m;
         }
 
         static void Setup(string id, string scenePath, StringBuilder log)
@@ -108,11 +91,8 @@ namespace BorderRepair.FirstOrder.EditorTools.FaultArtQA
                 log.AppendLine($"[{id}] 反射探针 {name}：拍摄点 {cap:F2}，盒投影 中心 {b.center:F2} 尺寸 {b.size:F2}，128 HDR 立方体贴图（RenderToCubemap {(ok ? "成功" : "失败")}，平均亮度 {lum / Mathf.Max(1, n):F3}）存到 {tex}");
             }
 
-            // 2) 保养标记材质副本
-            var label = flow.CoverLabel;
-            var orig = label.sharedMaterial;
-            fix.swaps.Add(new FaultArtLookFix.MaterialSwap { renderer = label, original = orig, fixedMaterial = LabelMaterial(orig) });
-            log.AppendLine($"[{id}] 保养标记：{AssetDatabase.GetAssetPath(orig)} → {ArtDir}/M_FK_CoverLabel_SceneQA.mat（底色 {LabelTint}，光滑度 {LabelSmoothness}，关高光和环境反射）");
+            // 2) 保养标记：已在 art/unit07-fault-kit-dust-fibers 同步回故障包源（materials.json → M_FK_CoverLabel），场景里不再换材质
+            log.AppendLine($"[{id}] 保养标记：用故障包源材质 {AssetDatabase.GetAssetPath(flow.CoverLabel.sharedMaterial)}（已同步验收过的旧纸色 / 哑光 / 关高光和环境反射），不再换场景材质副本");
 
             // 3) 检修补光（可选）
             if (BayFillIntensity > 0f)

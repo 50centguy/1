@@ -399,8 +399,11 @@ MAT_SPECS = {
     "M_FK_BearingWorn": dict(base="T_FK_BearingWorn_BaseColor", ms="T_FK_BearingWorn_MetallicSmoothness", normal="T_FK_BearingWorn_Normal"),
     "M_FK_BearingNew": dict(base="T_FK_BearingNew_BaseColor", ms="T_FK_BearingNew_MetallicSmoothness", normal="T_FK_BearingNew_Normal"),
     "M_FK_MetalChips": dict(color="#D9D7D0", metallic=1.0, roughness=0.22),
-    "M_FK_IntakeClog": dict(base="T_FK_IntakeClog_BaseColor", normal="T_FK_IntakeClog_Normal", metallic=0.0, roughness=0.95),
-    "M_FK_CoverLabel": dict(base="T_FK_CoverLabel_BaseColor", metallic=0.0, roughness=0.78),
+    # tint：贴图乘的底色（sRGB）。场景验收后加：
+    # - 积尘 #B38F66 = (0.70, 0.56, 0.40)，暖褐“旧油泥”——在常用左引擎镜头下和米色上盖、灰色护栅都拉得开（不是红色，也不发光）；
+    # - 保养标记 #A3A6A8 = (0.64, 0.65, 0.66) 旧纸色、哑光（光滑度 0.08）、关高光和环境反射——台灯直射下不再过曝（qa/unit07-fault-art-scene 验证过）。
+    "M_FK_IntakeClog": dict(base="T_FK_IntakeClog_BaseColor", normal="T_FK_IntakeClog_Normal", metallic=0.0, roughness=0.95, tint="#B38F66"),
+    "M_FK_CoverLabel": dict(base="T_FK_CoverLabel_BaseColor", metallic=0.0, roughness=0.92, tint="#A3A6A8", specular=False, env_reflections=False),
 }
 MATS = hs.MATS
 MATS.clear()
@@ -412,7 +415,14 @@ for name, spec in MAT_SPECS.items():
     if "base" in spec:
         t = nodes.new("ShaderNodeTexImage")
         t.image = images[spec["base"]]
-        links.new(t.outputs["Color"], bsdf.inputs["Base Color"])
+        if "tint" in spec:
+            mul = nodes.new("ShaderNodeVectorMath")
+            mul.operation = "MULTIPLY"
+            mul.inputs[1].default_value = tuple(hs.srgb_to_linear(c) for c in hs.hex_rgb(spec["tint"]))
+            links.new(t.outputs["Color"], mul.inputs[0])
+            links.new(mul.outputs["Vector"], bsdf.inputs["Base Color"])
+        else:
+            links.new(t.outputs["Color"], bsdf.inputs["Base Color"])
     else:
         bsdf.inputs["Base Color"].default_value = (*[hs.srgb_to_linear(c) for c in hs.hex_rgb(spec["color"])], 1)
     if "ms" in spec:
@@ -427,6 +437,8 @@ for name, spec in MAT_SPECS.items():
     else:
         bsdf.inputs["Metallic"].default_value = spec.get("metallic", 0.0)
         bsdf.inputs["Roughness"].default_value = spec.get("roughness", 0.5)
+    if spec.get("specular", True) is False and "Specular IOR Level" in bsdf.inputs:
+        bsdf.inputs["Specular IOR Level"].default_value = 0.0
     if "normal" in spec:
         t = nodes.new("ShaderNodeTexImage")
         t.image = images[spec["normal"]]
@@ -640,7 +652,12 @@ me.shade_smooth()
 clog_root = link_obj("UNIT07_FK_IntakeClog_L_DustMat", me, groups["IntakeClog"], "M_FK_IntakeClog", FRAME)
 
 # 纤维：沿护栅表面拖过的细线，搭在条上、在条间下垂（不低于护栅底面）
-CLEAR = 0.40 * MM          # 纤维中心离条顶的距离：最粗纤维半径 0.24 mm + 0.16 mm
+# 场景验收（qa/unit07-fault-art-scene → art/unit07-fault-kit-dust-fibers）：游戏镜头下 0.3–0.5 mm 粗的纤维远小于一个像素，运动时忽隐忽现。
+# 试验“减少 / 加粗”后采用：隔一根留一根（FIBER_KEEP_EVERY = 2），半径 × 1.4（FIBER_RADIUS_SCALE）。
+# 随机数照常抽取（被跳过的纤维也抽），保证其它资源的随机序列不变。
+FIBER_KEEP_EVERY = 2
+FIBER_RADIUS_SCALE = 1.4
+CLEAR = (0.24 * FIBER_RADIUS_SCALE + 0.16) * MM   # 纤维中心离条顶的距离：最粗纤维半径 + 0.16 mm
 
 
 def fiber_path(seed):
@@ -673,7 +690,9 @@ for i in range(11):
     zs = [p.z for p in pts]
     zs = [max(zs[max(0, j - 1):j + 2]) for j in range(len(zs))]
     pts = [Vector((p.x, p.y, z)) for p, z in zip(pts, zs)]
-    radius = prng.uniform(0.14, 0.24) * MM
+    radius = prng.uniform(0.14, 0.24) * MM * FIBER_RADIUS_SCALE
+    if i % FIBER_KEEP_EVERY:
+        continue
     tb = hs.bm_tube([tuple(p) for p in pts], [radius] * len(pts), segs=5)
     uvt = tb.loops.layers.uv.verify()
     for f in tb.faces:
@@ -700,7 +719,9 @@ for j in range(14):
         q = pts[-1].xy + Vector((math.cos(hd), math.sin(hd))) * 0.9 * MM
         t2 = bar_height_near(q.x, q.y, 0.8 * MM)
         pts.append(Vector((q.x, q.y, (t2 if t2 is not None else top) + CLEAR + s * 0.12 * MM)))
-    tb = hs.bm_tube([tuple(p) for p in pts], [0.15 * MM] * len(pts), segs=4)
+    if j % FIBER_KEEP_EVERY:
+        continue
+    tb = hs.bm_tube([tuple(p) for p in pts], [0.15 * MM * FIBER_RADIUS_SCALE] * len(pts), segs=4)
     uvt = tb.loops.layers.uv.verify()
     for f in tb.faces:
         for loop in f.loops:
@@ -987,12 +1008,14 @@ for name, spec in MAT_SPECS.items():
     manifest["materials"].append({
         "name": name, "shader": "Universal Render Pipeline/Lit",
         "baseMap": (spec.get("base", "") + ".png") if spec.get("base") else "",
-        "baseColor": spec.get("color", "#FFFFFF"),
+        "baseColor": spec.get("tint", spec.get("color", "#FFFFFF")),
         "metallicGlossMap": (spec.get("ms", "") + ".png") if spec.get("ms") else "",
         "smoothnessSource": "Metallic Alpha" if spec.get("ms") else "",
         "metallic": spec.get("metallic", 1.0 if spec.get("ms") else 0.0),
         "smoothness": round(1 - spec.get("roughness", 0.5), 3),
         "normalMap": (spec.get("normal", "") + ".png") if spec.get("normal") else "",
+        "specularHighlights": spec.get("specular", True),
+        "environmentReflections": spec.get("env_reflections", True),
     })
 with open(os.path.join(HERE, "materials.json"), "w", encoding="utf-8") as f:
     json.dump(manifest, f, ensure_ascii=False, indent=2)

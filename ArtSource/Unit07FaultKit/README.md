@@ -30,9 +30,9 @@
 |---|---|---|---|---|---|
 | ① 左上轴承磨损件 | `UNIT07_FK_BearingWorn.fbx` | `UNIT07_FK_BearingTop_L_Worn` + 子对象 `…_Worn_Chips`（12 片金属屑） | 外径 52.0 / 内径 18.0 / 宽 10.0 mm | 2880 + 200 | `M_FK_BearingWorn`：BaseColor / MetallicSmoothness / Normal 各 1024²；`M_FK_MetalChips`（纯色） |
 | ② 新轴承 | `UNIT07_FK_BearingNew.fbx` | `UNIT07_FK_BearingTop_L_New` | 同上（同一网格、同一 UV） | 2880 | `M_FK_BearingNew`：三张 1024² |
-| ③ 进气口积尘 / 纤维堵塞（可移除） | `UNIT07_FK_IntakeClog.fbx` | 根 `UNIT07_FK_IntakeClog_L_DustMat`，子对象 `…_Fibers`、`…_GuardDust`、`…_RimDust` | 毡层直径 67 mm、厚 2–7 mm | 4608 + 3412 + 2876 + 768 = 11 664 | `M_FK_IntakeClog`：BaseColor / Normal 512² |
-| ④ 上盖内侧旧保养标记 | `UNIT07_FK_CoverLabel.fbx` | `UNIT07_FK_CoverInnerLabel_L` | 46 × 30 mm 贴纸，贴合内表面 | 768 | `M_FK_CoverLabel`：BaseColor 640×416 |
-| 合计 | — | — | — | **18 392** | 9 张贴图、5 个材质 |
+| ③ 进气口积尘 / 纤维堵塞（可移除） | `UNIT07_FK_IntakeClog.fbx` | 根 `UNIT07_FK_IntakeClog_L_DustMat`，子对象 `…_Fibers`、`…_GuardDust`、`…_RimDust` | 毡层直径 67 mm、厚 2–7 mm | 4608 + 1634 + 2876 + 768 = 9 886（纤维原 3412，见第 8 节） | `M_FK_IntakeClog`：BaseColor / Normal 512²，底色 `#B38F66` |
+| ④ 上盖内侧旧保养标记 | `UNIT07_FK_CoverLabel.fbx` | `UNIT07_FK_CoverInnerLabel_L` | 46 × 30 mm 贴纸，贴合内表面 | 768 | `M_FK_CoverLabel`：BaseColor 640×416，底色 `#A3A6A8`、光滑度 0.08、关高光和环境反射 |
+| 合计 | — | — | — | **16 614**（原 18 392） | 9 张贴图、5 个材质 |
 
 详细数字见 `stats.json`（每个对象的顶点、三角面、尺寸、原点）、`checks.json`（对位与穿插检查）、`materials.json`（URP Lit 参数）。
 
@@ -67,7 +67,7 @@
 |---|---|
 | 积尘毡层 | 护栅下方 0.6 mm 起往下 2–7 mm 起伏的灰褐毡层，有 7 处变薄下陷的“透气薄点”；从护栅缝里看得到 |
 | 护栅积尘 | 贴着辐条 / 中心毂朝上表面（离表面 0.15–0.5 mm）的斑驳浅灰积尘，外圈和一侧积得多 |
-| 纤维 | 11 根 0.14–0.24 mm 粗的纤维搭在护栅条上、在宽缝里稍下垂，外加中心毂上的一小团短纤维；灰白为主，少量褪色蓝 / 暗红 |
+| 纤维 | 6 根 0.20–0.34 mm 粗的纤维搭在护栅条上、在宽缝里稍下垂，外加中心毂上的 7 根短纤维；贴图灰白为主，少量褪色蓝 / 暗红，整体再乘暖褐底色（原为 11 根 0.14–0.24 mm + 14 根短纤维，见第 8 节） |
 | 唇口内壁积尘 | 贴内壁（离壁 0.25 mm）的一圈薄层，上沿不齐 |
 
 - **穿插**：与护栅、唇口、风道、上盖等 10 个邻近零件的三角面穿插检查结果全部为 0。
@@ -91,6 +91,8 @@
 **风格**：旧诊所长期使用的工业件——钢件偏暗、油污近黑褐、积尘灰褐、纸张泛黄；不用高饱和色，不发光。
 
 ## 3. 对比渲染（`Renders/`，Cycles）
+
+> **已过期**：这些渲染是第 8 节修改之前的（原纤维、白底色积尘、原标记材质），这次没有重新渲染。
 
 | 状态 | 渲染图 |
 |---|---|
@@ -152,7 +154,7 @@ Unity 6000.0.84f1，URP；记录见 `unity_check/unity_check.txt`，截图见 `u
 - **贴纸能不能被看到**：现在首单原型把上盖“正着”放到操作垫上，内侧朝下，贴纸看不到；要让玩家读到，需要设计上让上盖翻过来，或用镜头从下往上看。这是流程 / 镜头问题，本包没改。
 - **新轴承放在轴承盒上时的姿态**：见第 5 节，未验证。
 - **VR 下的可读性**：没有验证。贴纸字高约 2.0–2.5 mm、轴承压印字高约 1.5 mm，近看清楚，但 VR 头显里能不能读没有试过。
-- **目标硬件性能**：没有测。堵塞件 11.7k 三角对一个小零件偏多，主要在护栅积尘层；如果性能紧张，可以只保留毡层 + 纤维（约 8k）。没有做 LOD。
+- **目标硬件性能**：没有测。堵塞件现为 9.9k 三角（第 8 节减纤维后，原 11.7k），主要在毡层和护栅积尘层；如果性能紧张，可以只保留毡层 + 纤维（约 6.2k）。没有做 LOD。
 - **规格字**：`B18-52 2Z` 是虚构的。
 - **磨损分布**：磨损主要做在上端面（拆上盖后能看到的一面）和外圈，下端面较干净。
 - **护栅积尘依赖原护栅几何**：RobotV4 的 FBX 改了以后，要重新运行脚本。
@@ -176,3 +178,20 @@ Unity 6000.0.84f1，URP；记录见 `unity_check/unity_check.txt`，截图见 `u
 1. 运行 `run_blender.bat`。
 2. 把 `Export/`、`Textures/` 复制到 `Assets/BorderRepair/Art/Unit07FaultKit/Models|Textures/`。
 3. 把 `unity_check/Unit07FaultKitUnityCheck.cs` 临时放进 `Assets/…/Editor`，用 `-executeMethod Unit07FaultKitUnityCheck.Run` 运行，然后删掉。
+
+## 8. 场景验收后的源资产修改（分支 `art/unit07-fault-kit-dust-fibers`）
+
+依据 `Docs/Integration/Unit07FirstOrder/DustFiberQA/README.md` 在布局 B 场景里的实测，把验证过的修改写回本包源脚本，重新生成：
+
+| 项目 | 修改前 | 修改后 | 脚本里的位置 |
+|---|---|---|---|
+| 积尘底色（乘在贴图上） | 白 | `#B38F66` 暖褐（偏黄不偏红） | `MAT_SPECS["M_FK_IntakeClog"]` 的 `tint` |
+| 纤维数量 | 11 根长纤维 + 14 根短纤维 | 隔一根留一根：6 + 7 | `FIBER_KEEP_EVERY = 2`（随机数照常抽取，其它资源的随机序列不变） |
+| 纤维粗细 | 半径 0.14–0.24 mm / 短纤维 0.15 mm | × 1.4 | `FIBER_RADIUS_SCALE = 1.4`；与护栅的间隙 `CLEAR` 同步加大，穿插检查仍全部为 0 |
+| 纤维三角面 | 3 412 | 1 634 | — |
+| 保养标记 | 底色白、光滑度 0.22、开高光和环境反射 | 底色 `#A3A6A8`、光滑度 0.08、关高光、关环境反射 | `MAT_SPECS["M_FK_CoverLabel"]`（`specular=False`、`env_reflections=False`） |
+
+- 其它网格几何不变（用 `tools/fbx_geometry_hash.py` 比对顶点 / 面 / UV），贴图逐字节不变。FBX 每次导出都会写入时间戳，所以文件 MD5 会变；未改的三个 FBX 已恢复为原文件，只有 `UNIT07_FK_IntakeClog.fbx` 换了（MD5 `8355a4145c1755eb1b1859d433fec437`）。
+- `materials.json` 新增 `baseColor`、`specularHighlights`、`environmentReflections`；Unity 材质由 `Assets/BorderRepair/FirstOrder/Editor/DustFiberQA/SyncKitMaterials.cs` 按它同步。
+- `Renders/` 没有重新渲染，见第 3 节说明。
+- 颜色是验收试验选的，**待美术签收**。
