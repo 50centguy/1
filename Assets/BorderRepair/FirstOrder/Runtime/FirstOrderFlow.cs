@@ -274,16 +274,18 @@ namespace BorderRepair.FirstOrder
                 proxy = engineLHinge.GetComponentsInChildren<DockInteractable>(true).FirstOrDefault(d => d.action == DockAction.EngineLeft)?.GetComponent<Collider>();
             if (proxy != null) proxy.enabled = false;
             Advance(FoStep.ReleaseLatches, "左引擎：进气口护栅上糊着积尘和纤维（堵塞），现在已断电停转，可以点进气口清理。" +
-                                           "上盖由外侧和后侧两个锁扣固定，拆上盖要先扳开两个锁扣（后侧那个要转到背面，按 3）。");
+                                           "上盖由外侧和后侧两个锁扣固定，拆上盖要先扳开两个锁扣（后侧那个在背面：切到镜头「左引擎背面」）。");
             return Ok(n, Message);
         }
 
         bool ClickPart(FirstOrderPart p)
         {
             string n = p.realPath;
-            if (p == rightEngine) return Refuse(n, "右引擎的手感和进气口都正常，不用拆。");
+            if (p == rightEngine) return Refuse(n, "误拆右侧：右引擎是这单的正常对照（进气口干净、转子与左侧同速、手转顺滑），故障在左引擎。右引擎不拆，继续处理左侧。");
             if (p != newBearing && !EngineSafe && Step < FoStep.PowerOn)
-                return Refuse(n, "七号还在供电或叶轮还在转。先停靠、夹紧、断电，等涡轮停稳。");
+                return Refuse(n, dock.State == DockState.SpinningDown
+                    ? $"已断电，但叶轮还在减速转动（{dock.Rotors.SpeedDegPerSec:F0}°/s）。等它停稳再检查、拆卸。"
+                    : "七号还在供电或叶轮还在转。先停靠、夹紧、断电，等涡轮停稳。");
             if (Step == FoStep.InspectLeftEngine && p != newBearing) return InspectLeft(n, null);   // 点左引擎上的任何部件都算“开始检查”
             if (Step < FoStep.InspectLeftEngine) return Refuse(n, "先完成停靠和断电。");
 
@@ -316,7 +318,7 @@ namespace BorderRepair.FirstOrder
                     p.Location = PartLocation.Installed; p.LocationDetail = "七号左引擎原位（已扣回）";
                     if (latchOuter.Location == PartLocation.Installed && latchRear.Location == PartLocation.Installed)
                         Advance(FoStep.PowerOn, ClogCleared ? "两个锁扣都扣回了。点断电开关：通电。" : "两个锁扣都扣回了。进气口还堵着：先点进气口清理，再通电。");
-                    else Say($"{p.displayName}已扣回。还有一个锁扣（后侧按 3 转到背面）。");
+                    else Say($"{p.displayName}已扣回。还有一个锁扣（后侧在镜头「左引擎背面」）。");
                     return Ok(n, Message);
                 }
                 return Refuse(n, p.Location == PartLocation.Released ? "这个锁扣已经扳开了。" : "现在不用动锁扣。");
@@ -324,7 +326,7 @@ namespace BorderRepair.FirstOrder
 
             if (p == cover)
             {
-                if (Step == FoStep.ReleaseLatches) return Refuse(n, "还有锁扣没扳开。后侧那个要转到背面（按 3）。");
+                if (Step == FoStep.ReleaseLatches) return Refuse(n, "还有锁扣没扳开。后侧那个在镜头「左引擎背面」。");
                 if (Step == FoStep.RemoveCover)
                 {
                     StartCoroutine(RemoveFromEngine(cover, coverLift, FoStep.PlaceCover, "上盖总成已取下。点工作台操作垫上的落点，翻过来放下（内侧朝上）。", matZone));
@@ -334,7 +336,7 @@ namespace BorderRepair.FirstOrder
                 if (Step == FoStep.ReinstallCover && cover.Location == PartLocation.OnBench)
                 {
                     StartCoroutine(InstallOnEngine(cover, coverLift, FoStep.CloseLatches,
-                        "上盖总成装回。扣回两个锁扣（后侧按 3）。" + (ClogCleared ? "" : "进气口还堵着，记得清理。")));
+                        "上盖总成装回。扣回两个锁扣（后侧锁扣在镜头「左引擎背面」）。" + (ClogCleared ? "" : "进气口还堵着，记得清理。")));
                     return Ok(n, "把上盖总成从操作垫上翻回来，装回左引擎。");
                 }
                 if (cover.Location == PartLocation.OnBench) return Refuse(n, !BearingReplaced ? "轴承位还空着，先装新轴承。" : "现在不用动上盖。");
@@ -539,8 +541,8 @@ namespace BorderRepair.FirstOrder
             yield return Carry(p, land, rot, true, null, z.useApproach ? z.approachPoint : (Vector3?)null);
             z.ShowMarker(false);
             p.Location = PartLocation.OnBench; p.LocationDetail = $"{z.displayName}（{z.benchObjectPath}）";
-            if (p == cover) Advance(FoStep.LocateBearing, "上盖总成翻过来放在操作垫上，内侧朝上，能看到保养记录（按 7 近看）。现在能看到左上轴承：点它检查。");
-            else Advance(FoStep.FetchNewBearing, $"旧轴承平放进{oldTrayZone.displayName}，可以和轴承盒上的新轴承对比（按 8）。点新轴承，装到左上轴承位。");
+            if (p == cover) Advance(FoStep.LocateBearing, "上盖总成翻过来放在操作垫上，内侧朝上，能看到保养记录（镜头「保养记录」近看）。现在能看到左上轴承：点它检查。");
+            else Advance(FoStep.FetchNewBearing, $"旧轴承平放进{oldTrayZone.displayName}，可以和轴承盒上的新轴承对比（镜头「新旧轴承」）。点新轴承，装到左上轴承位。");
             Busy = false;
         }
 
@@ -623,15 +625,15 @@ namespace BorderRepair.FirstOrder
                 case FoStep.ClampRobot: return dock.State == DockState.SeatedOpen ? "点夹具握把：夹紧" : "等七号落座…";
                 case FoStep.PowerOff: return dock.State == DockState.SpinningDown ? "等涡轮停转…" : "点断电开关：OFF";
                 case FoStep.InspectLeftEngine: return "点左引擎（上盖或进气口）：开始检查";
-                case FoStep.ReleaseLatches: return "扳开外侧锁扣、后侧锁扣（按 3 转到背面）" + clean;
+                case FoStep.ReleaseLatches: return "扳开外侧锁扣、后侧锁扣（后侧在镜头「左引擎背面」）" + clean;
                 case FoStep.RemoveCover: return "点左上盖：取下上盖总成" + clean;
                 case FoStep.PlaceCover: return "点工作台操作垫上的黄色落点（上盖翻过来放）";
-                case FoStep.LocateBearing: return "点左上轴承：检查（按 7 看上盖内侧的保养记录）";
+                case FoStep.LocateBearing: return "点左上轴承：检查（镜头「保养记录」看上盖内侧）";
                 case FoStep.RemoveBearing: return "再点左上轴承：取下";
                 case FoStep.PlaceOldBearing: return $"点工作台{oldTrayZone.displayName}里的黄色落点";
-                case FoStep.FetchNewBearing: return "点工作台轴承盒上的新轴承（按 8 对比新旧轴承）";
+                case FoStep.FetchNewBearing: return "点工作台轴承盒上的新轴承（镜头「新旧轴承」对比）";
                 case FoStep.ReinstallCover: return "点操作垫上的上盖总成：装回";
-                case FoStep.CloseLatches: return "扣回外侧锁扣、后侧锁扣（按 3 转到背面）" + clean;
+                case FoStep.CloseLatches: return "扣回外侧锁扣、后侧锁扣（后侧在镜头「左引擎背面」）" + clean;
                 case FoStep.PowerOn: return ClogCleared ? "点断电开关：通电" : "先点进气口清理堵塞，再通电";
                 case FoStep.ReleaseAndLift: return "点夹具握把：松开，让七号离座";
                 case FoStep.Retest: return "复测中…";

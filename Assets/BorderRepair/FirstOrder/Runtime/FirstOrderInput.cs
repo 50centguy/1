@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BorderRepair.Dock;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace BorderRepair.FirstOrder
 {
@@ -12,18 +14,65 @@ namespace BorderRepair.FirstOrder
     /// 点选规则：沿射线按距离看命中；可操作的对象（维修座代理、首单部件、工作台落点）被选中；
     /// 碰到不属于目标的实体表面（七号机身、维修座、工作台的遮挡碰撞）就停下——被挡住的部件点不到，必须换镜头。
     /// 同一位置 1 cm 内有多个可操作对象时取体积最小的（小锁扣不会被大上盖吞掉）。
+    /// 鼠标落在界面（UGUI）上时不打射线：界面点击不会穿透到 3D。文字输入框有焦点时不响应数字键等快捷键。
+    /// 左键 = 操作（交给 FirstOrderFlow）；右键，或打开“观察”模式后的左键 = 观察（只发出 Observed 事件，不改变流程状态）。
     /// </summary>
     public class FirstOrderInput : MonoBehaviour
     {
         [SerializeField] FirstOrderFlow flow;
         [SerializeField] float maxDistance = 8f;
         [SerializeField] bool showHud = true;
+        [Tooltip("数字键 1–9 切镜头（调试用，可选；必需路径都能用鼠标完成）")]
+        [SerializeField] bool debugKeys = true;
+        [Tooltip("调试 HUD 用的字体（为空时用 IMGUI 默认字体）")]
+        [SerializeField] Font hudFont;
+        [SerializeField] Vector2 hudOrigin = new Vector2(12f, 12f);
 
         public Component Hovered { get; private set; }
         public Component LastClickHit { get; private set; }
         public FirstOrderFlow Flow => flow;
+        public bool ShowHud { get => showHud; set => showHud = value; }
+        public bool DebugKeys { get => debugKeys; set => debugKeys = value; }
+        /// <summary>打开后左键也是观察（界面上的“观察”模式）。</summary>
+        public bool ObserveMode { get; set; }
+        /// <summary>观察：右键，或观察模式下的左键。参数为命中的可操作对象（可能为空）。</summary>
+        public event Action<Component> Observed;
+        public Component LastObserveHit { get; private set; }
+        /// <summary>本帧鼠标在界面上（点击被界面接住，不进 3D）。</summary>
+        public bool PointerOverUI { get; private set; }
 
         public void Configure(FirstOrderFlow f) => flow = f;
+        public void ConfigureHud(bool show, bool keys, Font font, Vector2 origin) { showHud = show; debugKeys = keys; hudFont = font; hudOrigin = origin; }
+
+        /// <summary>屏幕点上有没有会接住鼠标的界面元素（直接对当前 EventSystem 做一次界面射线，不依赖上一帧的结果）。</summary>
+        public static bool IsOverUI(Vector2 screen)
+        {
+            var es = EventSystem.current;
+            if (es == null) return false;
+            var results = new List<RaycastResult>();
+            es.RaycastAll(new PointerEventData(es) { position = screen }, results);
+            return results.Count > 0;
+        }
+
+        /// <summary>文字输入框有焦点：快捷键不生效。</summary>
+        public static bool TextInputFocused
+        {
+            get
+            {
+                var go = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
+                var field = go != null ? go.GetComponent<InputField>() : null;
+                return field != null && field.isFocused;
+            }
+        }
+
+        /// <summary>按屏幕坐标观察（真实鼠标与程序验收共用）。</summary>
+        public Component ObserveAt(Vector2 screen)
+        {
+            var hit = PickScreen(screen);
+            LastObserveHit = hit;
+            Observed?.Invoke(hit);
+            return hit;
+        }
 
         static bool IsActionable(Component c) => c is DockInteractable d ? d.action != DockAction.ContactPad : c is FirstOrderPart || c is FirstOrderDropZone;
 
@@ -81,7 +130,7 @@ namespace BorderRepair.FirstOrder
         void Update()
         {
             var kb = Keyboard.current;
-            if (kb != null)
+            if (kb != null && debugKeys && !TextInputFocused)
             {
                 for (int i = 0; i < FirstOrderCameraRig.Order.Length; i++)
                     if (kb[(Key)((int)Key.Digit1 + i)].wasPressedThisFrame) flow.Rig.Go(FirstOrderCameraRig.Order[i]);
@@ -89,8 +138,11 @@ namespace BorderRepair.FirstOrder
             var mouse = Mouse.current;
             if (mouse == null) return;
             var pos = mouse.position.ReadValue();
+            PointerOverUI = IsOverUI(pos);
+            if (PointerOverUI) { Hovered = null; return; }      // 鼠标在界面上：不悬停、不点 3D
             Hovered = PickScreen(pos);
-            if (mouse.leftButton.wasPressedThisFrame) ClickAt(pos);
+            if (mouse.rightButton.wasPressedThisFrame || ObserveMode && mouse.leftButton.wasPressedThisFrame) ObserveAt(pos);
+            else if (mouse.leftButton.wasPressedThisFrame) ClickAt(pos);
         }
 
         public static string NameOf(Component c) => c switch
@@ -105,6 +157,8 @@ namespace BorderRepair.FirstOrder
         void OnGUI()
         {
             if (!showHud || flow == null) return;
+            if (hudFont != null) GUI.skin.font = hudFont;
+            GUI.matrix = Matrix4x4.Translate(new Vector3(hudOrigin.x - 12f, hudOrigin.y - 12f, 0f));
             GUI.Box(new Rect(12, 12, 900, 252), GUIContent.none);
             GUI.Label(new Rect(22, 16, 800, 22), $"七号首单 · 可玩原型（占位交互，非正式维修流程） · 步骤 {(int)flow.Step + 1}/17：{flow.Step}");
             GUI.Label(new Rect(22, 36, 800, 22), "下一步：" + flow.NextHint());

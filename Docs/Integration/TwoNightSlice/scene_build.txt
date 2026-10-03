@@ -1,0 +1,5 @@
+切片场景 Assets/BorderRepair/FirstOrder/Scenes/Slice/TwoNightSlice.unity
+来源 Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity（副本；原场景不改）
+字体 Assets/BorderRepair/Art/Fonts/NotoSansSC/NotoSansSC-Regular.otf（NotoSansSC-Regular，dynamic True）
+FirstOrderFlow FirstOrderFlow (七号首单原型：占位交互，非正式维修流程)；FirstOrderInput 调试 HUD 默认关、数字键保留
+加了：EventSystem（InputSystemUIInputModule）、SliceUI (两晚切片鼠标界面)、SlicePlayerSelfCheck

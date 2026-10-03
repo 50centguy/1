@@ -1,7 +1,7 @@
 {
     "name": "BorderRepair.FirstOrder.Editor",
     "rootNamespace": "BorderRepair.FirstOrder.EditorTools",
-    "references": [ "BorderRepair.FirstOrder.Runtime", "BorderRepair.Runtime", "BorderRepair.Editor", "WorkbenchArea.Runtime", "WorkbenchArea.Editor", "Unity.InputSystem", "Unity.RenderPipelines.Universal.Runtime", "Unity.RenderPipelines.Core.Runtime" ],
+    "references": [ "BorderRepair.FirstOrder.Runtime", "BorderRepair.Runtime", "BorderRepair.Editor", "WorkbenchArea.Runtime", "WorkbenchArea.Editor", "Unity.InputSystem", "UnityEngine.UI", "Unity.RenderPipelines.Universal.Runtime", "Unity.RenderPipelines.Core.Runtime" ],
     "includePlatforms": [ "Editor" ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

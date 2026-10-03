@@ -18,6 +18,7 @@ namespace BorderRepair.FirstOrder.Tests
     [TestFixture("Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity")]
     [TestFixture("Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity")]
     [TestFixture("Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity")]
+    [TestFixture("Assets/BorderRepair/FirstOrder/Scenes/Slice/TwoNightSlice.unity")]
     public class FirstOrderPlayTests
     {
         readonly string ScenePath;
