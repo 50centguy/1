@@ -1,0 +1,3127 @@
+{
+ "Arm_L_ElbowPin": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Shoulder",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_ElbowWasher_A": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Shoulder",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_ElbowWasher_B": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Elbow",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_ForearmDrive": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Elbow",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_ForearmGear": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Elbow",
+  "props": {
+   "look": "brass",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_ForearmHub": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Elbow",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_ForearmShell": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Elbow",
+  "props": {
+   "look": "ivory",
+   "texset": "Arm",
+   "removable": 1,
+   "remove_dir": "1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_GripperBracket": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Wrist",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_HingePin_Lower": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Wrist",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_HingePin_Upper": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Wrist",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_JawLower": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_JawLower",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_JawLower_Teeth": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_JawLower",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_JawUpper": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_JawUpper",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_JawUpper_Teeth": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_JawUpper",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_RootBolts": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_RootPivot",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_RootRing": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_RootPivot",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_RootSeat": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_ShoulderPin": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_RootPivot",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_ShoulderYoke": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_RootPivot",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_UpperLink": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Shoulder",
+  "props": {
+   "look": "ivory",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_L_Wrist": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_L_Wrist",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_ElbowPin": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Shoulder",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_ElbowWasher_A": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Shoulder",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_ElbowWasher_B": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Elbow",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_ForearmDrive": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Elbow",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_ForearmGear": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Elbow",
+  "props": {
+   "look": "brass",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_ForearmHub": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Elbow",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_ForearmShell": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Elbow",
+  "props": {
+   "look": "ivory",
+   "texset": "Arm",
+   "removable": 1,
+   "remove_dir": "-1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_GripperBracket": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Wrist",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_HingePin_Lower": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Wrist",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_HingePin_Upper": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Wrist",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_JawLower": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_JawLower",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_JawLower_Teeth": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_JawLower",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_JawUpper": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_JawUpper",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_JawUpper_Teeth": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_JawUpper",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_RootBolts": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_RootPivot",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_RootRing": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_RootPivot",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_RootSeat": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_ShoulderPin": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_RootPivot",
+  "props": {
+   "look": "steel",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_ShoulderYoke": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_RootPivot",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_UpperLink": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Shoulder",
+  "props": {
+   "look": "ivory",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Arm_R_Wrist": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Arm_R_Wrist",
+  "props": {
+   "look": "grey",
+   "texset": "Arm"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "AuxCable_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "OBJECT",
+  "parent_bone": null,
+  "props": {
+   "look": "wire_grey",
+   "texset": "Engine",
+   "cable_ends": "<bpy id property array [3]>,<bpy id property array [3]>",
+   "cable_bones": "Body,Engine_L_Hinge"
+  },
+  "vertex_groups": [
+   "Body",
+   "Engine_L_Hinge"
+  ],
+  "modifiers": [
+   "ARMATURE"
+  ]
+ },
+ "AuxCable_L_PlugBody": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "AuxCable_L_PlugEngine": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "AuxCable_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "OBJECT",
+  "parent_bone": null,
+  "props": {
+   "look": "wire_grey",
+   "texset": "Engine",
+   "cable_ends": "<bpy id property array [3]>,<bpy id property array [3]>",
+   "cable_bones": "Body,Engine_R_Hinge"
+  },
+  "vertex_groups": [
+   "Body",
+   "Engine_R_Hinge"
+  ],
+  "modifiers": [
+   "ARMATURE"
+  ]
+ },
+ "AuxCable_R_PlugBody": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "AuxCable_R_PlugEngine": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Body_LowerModule": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "ivory_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Body_RearBolt_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Body_RearBolt_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Body_RearBolt_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Body_RearBolt_4": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Body_RearGrille": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Body_RearVent_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Body_RearVent_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Body_Shell": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "ivory",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "BodySocket_Knob_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "BodySocket_Knob_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "BodySocket_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "BodySocket_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Chassis_ArmHardpoint_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Chassis_ArmHardpoint_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Chassis_Frame": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Chassis_MountRail_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Chassis_MountRail_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Chassis_SledRail_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Chassis_SledRail_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ChinFascia": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "ivory",
+   "texset": "Body",
+   "remove_path": "0,0,-1,0.006;0,-1,0,0.25",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ChinFascia_Screw_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,0,-1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ChinFascia_Screw_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,0,-1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ConnectionKey_Bolt_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ConnectionKey_Bolt_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ConnectionKey_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ConnectionKey_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_Badge_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_Badge_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_BearingBottom_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_BearingBottom_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_BearingTop_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_BearingTop_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_CoolingFins_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "alu",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_CoolingFins_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "alu",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_CoverLatch_Outer_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "1.0000,-0.0000,-0.0000"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_CoverLatch_Outer_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-1.0000,-0.0000,-0.0000"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_CoverLatch_Rear_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "0.0000,1.0000,-0.0000"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_CoverLatch_Rear_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-0.0000,1.0000,-0.0000"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_Fan_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Rotor",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,0.0051,-0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_Fan_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Rotor",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,0.0051,-0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_FanNut_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Rotor",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,0.0051,-0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_FanNut_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Rotor",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,0.0051,-0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_IntakeDuct_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_IntakeDuct_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_IntakeGuard_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_IntakeGuard_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_IntakeLip_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_IntakeLip_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_InternalLead_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "wire_yellow",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_InternalLead_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "wire_yellow",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_LowerCover_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "ivory",
+   "texset": "Engine"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_LowerCover_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "ivory",
+   "texset": "Engine"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MotorBracket_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MotorBracket_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MotorBracket_Screw_L_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MotorBracket_Screw_L_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MotorBracket_Screw_L_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MotorBracket_Screw_R_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MotorBracket_Screw_R_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MotorBracket_Screw_R_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MotorHousing_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MotorHousing_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MountBase_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MountBase_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MountPost_L_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MountPost_L_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MountPost_L_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MountPost_L_4": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MountPost_R_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MountPost_R_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MountPost_R_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_MountPost_R_4": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_NozzleRing_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_NozzleRing_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_RearCap_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "0,1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_RearCap_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "0,1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_Shaft_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Rotor",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_Shaft_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Rotor",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_UpperCover_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "ivory",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_UpperCover_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "ivory",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_Windings_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "copper",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "-0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Engine_Windings_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "copper",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0.1469,-0.0051,0.9891"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "EngineAnchor_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Engine"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "EngineAnchor_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey",
+   "texset": "Engine"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ExternalCable_Clip_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ExternalCable_Clip_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ExternalCable_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "OBJECT",
+  "parent_bone": null,
+  "props": {
+   "look": "wire_yellow",
+   "texset": "Engine",
+   "cable_ends": "<bpy id property array [3]>,<bpy id property array [3]>",
+   "cable_bones": "Body,Engine_L_Hinge"
+  },
+  "vertex_groups": [
+   "Body",
+   "Engine_L_Hinge"
+  ],
+  "modifiers": [
+   "ARMATURE"
+  ]
+ },
+ "ExternalCable_L_PlugBody": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ExternalCable_L_PlugEngine": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_L_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ExternalCable_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "OBJECT",
+  "parent_bone": null,
+  "props": {
+   "look": "wire_yellow",
+   "texset": "Engine",
+   "cable_ends": "<bpy id property array [3]>,<bpy id property array [3]>",
+   "cable_bones": "Body,Engine_R_Hinge"
+  },
+  "vertex_groups": [
+   "Body",
+   "Engine_R_Hinge"
+  ],
+  "modifiers": [
+   "ARMATURE"
+  ]
+ },
+ "ExternalCable_R_PlugBody": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "-1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ExternalCable_R_PlugEngine": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Engine_R_Hinge",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Engine",
+   "removable": 1,
+   "remove_dir": "1,0,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "FrontBezel": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "ivory",
+   "texset": "Body",
+   "remove_path": "0,0,1,0.014;0,-1,0,0.25",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "FrontBezel_GrilleBacking": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "FrontBezel_InnerFrame": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "bezel",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "FrontBezel_Screw_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "FrontBezel_Screw_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Engine_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "wire_yellow",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Engine_L_PlugA": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Engine_L_PlugB": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Engine_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "wire_yellow",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Engine_R_PlugA": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Engine_R_PlugB": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Power": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "wire_blue",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Power_PlugA": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Power_PlugB": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Screen": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "wire_red",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Screen_PlugA": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Screen_PlugB": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Service": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "wire_grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Service_PlugA": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Harness_Service_PlugB": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Heatsink_Base": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "alu",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Heatsink_Fins": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "alu",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Heatsink_Screw_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Heatsink_Screw_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Heatsink_ThermalPad": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_IO": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "pcb",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_IO_Header": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_IO_Port_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_IO_Port_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_IO_Port_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "pcb",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Chip_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Chip_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Connector_Engine_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "plastic_white",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Connector_Engine_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "plastic_white",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Connector_Power": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "plastic_white",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Connector_Screen": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "plastic_white",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_CPU": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Screw_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Screw_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Screw_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Screw_4": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Shield": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Standoff_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "brass",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Standoff_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "brass",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Standoff_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "brass",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Main_Standoff_4": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "brass",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Sled": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Sled_Screw_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PCB_Sled_Screw_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,-1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_Capacitors": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "wire_blue",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_Connector": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_CoverScrew_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_CoverScrew_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_PSU": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_PSUScrew_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_PSUScrew_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_Regulator": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "pcb",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_RegulatorScrew_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_RegulatorScrew_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_Screw_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,-1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_Screw_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,-1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_Screw_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,-1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_Screw_4": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,-1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "PowerTray_WarningCover": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "yellow",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "RearService_Bolt_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "RearService_Bolt_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "RearService_Plug": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "chip",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "RearService_StatusBar": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "lamp_yellow",
+   "texset": "Lamp",
+   "removable": 1,
+   "remove_dir": "0,1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "RearService_WarningSign": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "yellow",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "RearServiceCassette": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "RearServiceCassette_Face": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "Robot_Rig": {
+  "type": "ARMATURE",
+  "parent": null,
+  "parent_type": "OBJECT",
+  "parent_bone": null,
+  "props": {},
+  "bones": {
+   "Root": {
+    "parent": null
+   },
+   "Body": {
+    "parent": "Root"
+   },
+   "Engine_R_Hinge": {
+    "parent": "Body"
+   },
+   "Engine_R_Rotor": {
+    "parent": "Engine_R_Hinge"
+   },
+   "Arm_R_RootPivot": {
+    "parent": "Body"
+   },
+   "Arm_R_Shoulder": {
+    "parent": "Arm_R_RootPivot"
+   },
+   "Arm_R_Elbow": {
+    "parent": "Arm_R_Shoulder"
+   },
+   "Arm_R_Wrist": {
+    "parent": "Arm_R_Elbow"
+   },
+   "Arm_R_JawUpper": {
+    "parent": "Arm_R_Wrist"
+   },
+   "Arm_R_JawLower": {
+    "parent": "Arm_R_Wrist"
+   },
+   "Engine_L_Hinge": {
+    "parent": "Body"
+   },
+   "Engine_L_Rotor": {
+    "parent": "Engine_L_Hinge"
+   },
+   "Arm_L_RootPivot": {
+    "parent": "Body"
+   },
+   "Arm_L_Shoulder": {
+    "parent": "Arm_L_RootPivot"
+   },
+   "Arm_L_Elbow": {
+    "parent": "Arm_L_Shoulder"
+   },
+   "Arm_L_Wrist": {
+    "parent": "Arm_L_Elbow"
+   },
+   "Arm_L_JawUpper": {
+    "parent": "Arm_L_Wrist"
+   },
+   "Arm_L_JawLower": {
+    "parent": "Arm_L_Wrist"
+   }
+  }
+ },
+ "ScreenCassette_Box": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ScreenCassette_Rail_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ScreenCassette_Rail_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ScreenCassette_Screw_L": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ScreenCassette_Screw_R": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ScreenContent_Animated": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "screen",
+   "texset": "Screen",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ScreenCradle": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ScreenCradle_Screw_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,0,-1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ScreenCradle_Screw_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,0,-1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ScreenDriverConnector": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "plastic_white",
+   "texset": "Internal"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "ScreenGlass": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "glass",
+   "texset": "Glass",
+   "removable": 1,
+   "remove_dir": "0,-1,0"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "StatusLamp_Housing": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "StatusLamp_Red": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "lamp_red",
+   "texset": "Lamp"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "TopCover": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "ivory",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "TopCover_Ridge": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "TopCover_Screw_1": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "TopCover_Screw_2": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "TopCover_Screw_3": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "TopCover_Screw_4": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "steel",
+   "texset": "Internal",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ },
+ "TopCover_VentBacking": {
+  "type": "MESH",
+  "parent": "Robot_Rig",
+  "parent_type": "BONE",
+  "parent_bone": "Body",
+  "props": {
+   "look": "grey_dark",
+   "texset": "Body",
+   "removable": 1,
+   "remove_dir": "0,0,1"
+  },
+  "vertex_groups": [],
+  "modifiers": []
+ }
+}

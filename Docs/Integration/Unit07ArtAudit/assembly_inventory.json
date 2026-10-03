@@ -1,0 +1,3042 @@
+[
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge",
+  "name": "Engine_L_Hinge",
+  "parent": "Body",
+  "role": "骨骼（动画写入，不移动）",
+  "renderer": "Renderer",
+  "material": "",
+  "mesh": null,
+  "tris": null,
+  "origin_world": [
+   0.29038,
+   1.135,
+   0.62509
+  ],
+  "origin_local": [
+   -0.215,
+   -0.005,
+   0.03
+  ],
+  "local_rot": [
+   358.5884,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "axis_z_world": [
+   -0.96563,
+   0.02463,
+   0.25874
+  ],
+  "remove_dir_blender": null,
+  "independent": false,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": "Animator 每帧写入（所有 9 个片段）；不能移动骨骼来取出引擎，要把网格从骨骼下脱开"
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_L_Rotor",
+  "name": "Engine_L_Rotor",
+  "parent": "Engine_L_Hinge",
+  "role": "骨骼（动画写入，不移动）",
+  "renderer": "Renderer",
+  "material": "",
+  "mesh": null,
+  "tris": null,
+  "origin_world": [
+   0.25643,
+   1.02798,
+   0.43748
+  ],
+  "origin_local": [
+   -0.19001,
+   -0.1066,
+   -0.0184
+  ],
+  "local_rot": [
+   5.72229,
+   135.6239,
+   276.2338
+  ],
+  "axis_x_world": [
+   -0.05664,
+   -0.98896,
+   -0.13694
+  ],
+  "axis_y_world": [
+   0.49944,
+   0.0907,
+   -0.86159
+  ],
+  "axis_z_world": [
+   0.8645,
+   -0.1172,
+   0.48879
+  ],
+  "remove_dir_blender": null,
+  "independent": false,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": "Animator / RotorPowerDriver 写入"
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/AuxCable_L",
+  "name": "AuxCable_L",
+  "parent": "UNIT07_RobotV4_DockReady",
+  "role": "蒙皮线缆（两端跨界）",
+  "renderer": "SkinnedMeshRenderer",
+  "material": "M_Engine",
+  "mesh": "AuxCable_L",
+  "tris": 404,
+  "origin_world": [
+   0.36937,
+   1.095,
+   0.5915
+  ],
+  "origin_local": [
+   -0.227,
+   0.375,
+   -0.055
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.35059,
+   1.05924,
+   0.54006
+  ],
+  "bounds_max": [
+   0.37332,
+   1.09644,
+   0.59464
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": "同 ExternalCable_L"
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/ExternalCable_L",
+  "name": "ExternalCable_L",
+  "parent": "UNIT07_RobotV4_DockReady",
+  "role": "蒙皮线缆（两端跨界）",
+  "renderer": "SkinnedMeshRenderer",
+  "material": "M_Engine",
+  "mesh": "ExternalCable_L",
+  "tris": 404,
+  "origin_world": [
+   0.25057,
+   1.075,
+   0.62333
+  ],
+  "origin_local": [
+   -0.227,
+   0.355,
+   0.068
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.22717,
+   1.0218,
+   0.56342
+  ],
+  "bounds_max": [
+   0.25651,
+   1.07762,
+   0.62883
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": "实测：两根骨骼（Body / Engine_L_Hinge）权重沿线渐变，两端各贴一个插头；引擎外移会被直线拉长（E02），没有拔下状态"
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/AuxCable_L_PlugBody",
+  "name": "AuxCable_L_PlugBody",
+  "parent": "Body",
+  "role": "留在机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "AuxCable_L_PlugBody",
+  "tris": 472,
+  "origin_world": [
+   0.37248,
+   1.095,
+   0.60309
+  ],
+  "origin_local": [
+   -0.215,
+   -0.045,
+   -0.055
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.35517,
+   1.0809,
+   0.58568
+  ],
+  "bounds_max": [
+   0.38896,
+   1.1091,
+   0.61741
+  ],
+  "remove_dir_blender": "1,0,0",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/BodySocket_Knob_L",
+  "name": "BodySocket_Knob_L",
+  "parent": "Body",
+  "role": "留在机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Body",
+  "mesh": "BodySocket_Knob_L",
+  "tris": 236,
+  "origin_world": [
+   0.29038,
+   1.103,
+   0.62509
+  ],
+  "origin_local": [
+   -0.215,
+   -0.037,
+   0.03
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.27918,
+   1.094,
+   0.6134
+  ],
+  "bounds_max": [
+   0.29851,
+   1.112,
+   0.62534
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/BodySocket_L",
+  "name": "BodySocket_L",
+  "parent": "Body",
+  "role": "留在机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Body",
+  "mesh": "BodySocket_L",
+  "tris": 292,
+  "origin_world": [
+   0.29038,
+   1.12,
+   0.62509
+  ],
+  "origin_local": [
+   -0.215,
+   -0.02,
+   0.03
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.25884,
+   1.079,
+   0.60779
+  ],
+  "bounds_max": [
+   0.32039,
+   1.161,
+   0.63673
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "ConnectionKey_L 0.0mm",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Chassis_ArmHardpoint_L",
+  "name": "Chassis_ArmHardpoint_L",
+  "parent": "Body",
+  "role": "留在机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Body",
+  "mesh": "Chassis_ArmHardpoint_L",
+  "tris": 108,
+  "origin_world": [
+   0.375,
+   0.72,
+   0.825
+  ],
+  "origin_local": [
+   0,
+   -0.42,
+   0
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.30906,
+   0.913,
+   0.60585
+  ],
+  "bounds_max": [
+   0.5275,
+   0.925,
+   0.71037
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Chassis_MountRail_L",
+  "name": "Chassis_MountRail_L",
+  "parent": "Body",
+  "role": "留在机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Body",
+  "mesh": "Chassis_MountRail_L",
+  "tris": 216,
+  "origin_world": [
+   0.375,
+   0.72,
+   0.825
+  ],
+  "origin_local": [
+   0,
+   -0.42,
+   0
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.50106,
+   0.915,
+   0.63394
+  ],
+  "bounds_max": [
+   0.54475,
+   1.15,
+   0.6866
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/ExternalCable_L_PlugBody",
+  "name": "ExternalCable_L_PlugBody",
+  "parent": "Body",
+  "role": "留在机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "ExternalCable_L_PlugBody",
+  "tris": 472,
+  "origin_world": [
+   0.25367,
+   1.075,
+   0.63493
+  ],
+  "origin_local": [
+   -0.215,
+   -0.065,
+   0.068
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.23485,
+   1.0593,
+   0.61722
+  ],
+  "bounds_max": [
+   0.27177,
+   1.0907,
+   0.64994
+  ],
+  "remove_dir_blender": "1,0,0",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Harness_Engine_L",
+  "name": "Harness_Engine_L",
+  "parent": "Body",
+  "role": "留在机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Harness_Engine_L",
+  "tris": 496,
+  "origin_world": [
+   0.34006,
+   1.035,
+   0.6946
+  ],
+  "origin_local": [
+   -0.135,
+   -0.105,
+   0
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.25391,
+   1.035,
+   0.62745
+  ],
+  "bounds_max": [
+   0.34317,
+   1.07778,
+   0.71493
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Harness_Engine_L_PlugA",
+  "name": "Harness_Engine_L_PlugA",
+  "parent": "Body",
+  "role": "留在机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Harness_Engine_L_PlugA",
+  "tris": 108,
+  "origin_world": [
+   0.34006,
+   1.035,
+   0.6946
+  ],
+  "origin_local": [
+   -0.135,
+   -0.105,
+   0
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.33247,
+   1.033,
+   0.68635
+  ],
+  "bounds_max": [
+   0.34723,
+   1.049,
+   0.70129
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Harness_Engine_L_PlugB",
+  "name": "Harness_Engine_L_PlugB",
+  "parent": "Body",
+  "role": "留在机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Harness_Engine_L_PlugB",
+  "tris": 108,
+  "origin_world": [
+   0.25704,
+   1.075,
+   0.64748
+  ],
+  "origin_local": [
+   -0.202,
+   -0.065,
+   0.068
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.25024,
+   1.069,
+   0.64221
+  ],
+  "bounds_max": [
+   0.26605,
+   1.081,
+   0.66103
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/PCB_Main_Connector_Engine_L",
+  "name": "PCB_Main_Connector_Engine_L",
+  "parent": "Body",
+  "role": "留在机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "PCB_Main_Connector_Engine_L",
+  "tris": 108,
+  "origin_world": [
+   0.375,
+   0.72,
+   0.825
+  ],
+  "origin_local": [
+   0,
+   -0.42,
+   0
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96593,
+   0,
+   -0.25882
+  ],
+  "axis_z_world": [
+   0,
+   1,
+   0
+  ],
+  "bounds_min": [
+   0.33096,
+   1.023,
+   0.6807
+  ],
+  "bounds_max": [
+   0.34882,
+   1.035,
+   0.70724
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：挂在 Body（或其它）骨骼下，名称与左引擎相关",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/AuxCable_L_PlugEngine",
+  "name": "AuxCable_L_PlugEngine",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "AuxCable_L_PlugEngine",
+  "tris": 188,
+  "origin_world": [
+   0.35261,
+   1.09292,
+   0.53285
+  ],
+  "origin_local": [
+   -0.07299,
+   -0.04,
+   -0.085
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.34401,
+   1.08616,
+   0.52337
+  ],
+  "bounds_max": [
+   0.36328,
+   1.09968,
+   0.55005
+  ],
+  "remove_dir_blender": "-1,0,0",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/ConnectionKey_Bolt_L",
+  "name": "ConnectionKey_Bolt_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "ConnectionKey_Bolt_L",
+  "tris": 588,
+  "origin_world": [
+   0.26271,
+   1.13547,
+   0.59523
+  ],
+  "origin_local": [
+   -0.036,
+   0,
+   0.019
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.25645,
+   1.12594,
+   0.5761
+  ],
+  "bounds_max": [
+   0.30567,
+   1.14406,
+   0.60453
+  ],
+  "remove_dir_blender": "0,-1,0",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": "实测：先拔。沿七号 Body +Y（向上）25 mm 脱开，途中离其它件 ≥ 12 mm；+Z（前）45 mm 脱开、≥ 17.7 mm。游戏镜头里 0% 可见（visibility.md）"
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/ConnectionKey_L",
+  "name": "ConnectionKey_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎层级 / 实测应留机身",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "ConnectionKey_L",
+  "tris": 360,
+  "origin_world": [
+   0.29038,
+   1.135,
+   0.62509
+  ],
+  "origin_local": [
+   0,
+   0,
+   0
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.26481,
+   1.12563,
+   0.58058
+  ],
+  "bounds_max": [
+   0.30404,
+   1.14437,
+   0.62517
+  ],
+  "remove_dir_blender": "1,0,0",
+  "independent": true,
+  "contacts": "BodySocket_L 0.0mm",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": "实测：层级挂在 Engine_L_Hinge 下，但取出时应留在机身 BodySocket_L 里——先拔螺栓，引擎外滑 20 mm 即脱开连接键（途中离其它件 ≥ 17 mm）；连接键自己外拔会撞 Engine_LowerCover_L，内推 55 mm 才脱开。程序需在拆下时把它重挂到 Body（engine_path.md）"
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_Badge_L",
+  "name": "Engine_Badge_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "Engine_Badge_L",
+  "tris": 332,
+  "origin_world": [
+   0.36512,
+   0.71939,
+   0.82765
+  ],
+  "origin_local": [
+   0.215,
+   -0.415,
+   -0.03
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.14498,
+   1.16137,
+   0.47626
+  ],
+  "bounds_max": [
+   0.15743,
+   1.20352,
+   0.49753
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingBottom_L",
+  "name": "Engine_BearingBottom_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_BearingBottom_L",
+  "tris": 576,
+  "origin_world": [
+   0.25703,
+   1.03837,
+   0.43892
+  ],
+  "origin_local": [
+   -0.18846,
+   -0.09621,
+   -0.01835
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.23214,
+   1.02866,
+   0.41378
+  ],
+  "bounds_max": [
+   0.28191,
+   1.04808,
+   0.46405
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingTop_L",
+  "name": "Engine_BearingTop_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_BearingTop_L",
+  "tris": 576,
+  "origin_world": [
+   0.26589,
+   1.19314,
+   0.46035
+  ],
+  "origin_local": [
+   -0.16547,
+   0.05859,
+   -0.01755
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.23403,
+   1.18883,
+   0.42883
+  ],
+  "bounds_max": [
+   0.29831,
+   1.20734,
+   0.49323
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": false,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingTop_L/UNIT07_FK_BearingWorn",
+  "name": "UNIT07_FK_BearingWorn",
+  "parent": "Engine_BearingTop_L",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_FK_BearingWorn",
+  "mesh": "UNIT07_FK_BearingTop_L_Worn",
+  "tris": 2880,
+  "origin_world": [
+   0.26617,
+   1.19809,
+   0.46103
+  ],
+  "origin_local": [
+   0.00073,
+   -0.00003,
+   0.00495
+  ],
+  "local_rot": [
+   89.70525,
+   180.1277,
+   171.6786
+  ],
+  "axis_x_world": [
+   0.25323,
+   -0.1469,
+   0.95619
+  ],
+  "axis_y_world": [
+   0.05665,
+   0.98896,
+   0.13694
+  ],
+  "axis_z_world": [
+   -0.96575,
+   0.01949,
+   0.25876
+  ],
+  "bounds_min": [
+   0.23419,
+   1.18882,
+   0.42875
+  ],
+  "bounds_max": [
+   0.29814,
+   1.20736,
+   0.4933
+  ],
+  "remove_dir_blender": null,
+  "independent": false,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": "故障包磨损轴承，随旧引擎走；原轴承 Engine_BearingTop_L 渲染器在场景里是关的"
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_BearingTop_L/UNIT07_FK_BearingWorn/UNIT07_FK_BearingTop_L_Worn_Chips",
+  "name": "UNIT07_FK_BearingTop_L_Worn_Chips",
+  "parent": "UNIT07_FK_BearingWorn",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_FK_MetalChips",
+  "mesh": "UNIT07_FK_BearingTop_L_Worn_Chips",
+  "tris": 168,
+  "origin_world": [
+   0.26617,
+   1.19809,
+   0.46103
+  ],
+  "origin_local": [
+   0,
+   0,
+   0
+  ],
+  "local_rot": [
+   0,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25323,
+   -0.1469,
+   0.95619
+  ],
+  "axis_y_world": [
+   0.05665,
+   0.98896,
+   0.13694
+  ],
+  "axis_z_world": [
+   -0.96575,
+   0.01949,
+   0.25876
+  ],
+  "bounds_min": [
+   0.24951,
+   1.19447,
+   0.4304
+  ],
+  "bounds_max": [
+   0.29138,
+   1.20713,
+   0.47336
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_CoolingFins_L",
+  "name": "Engine_CoolingFins_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_CoolingFins_L",
+  "tris": 2064,
+  "origin_world": [
+   0.26306,
+   1.14369,
+   0.4535
+  ],
+  "origin_local": [
+   -0.17281,
+   0.00913,
+   -0.0178
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.14646,
+   1.12751,
+   0.33786
+  ],
+  "bounds_max": [
+   0.38249,
+   1.20932,
+   0.57598
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_CoverLatch_Outer_L",
+  "name": "Engine_CoverLatch_Outer_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "Engine_CoverLatch_Outer_L",
+  "tris": 108,
+  "origin_world": [
+   0.2395,
+   1.23251,
+   0.3581
+  ],
+  "origin_local": [
+   -0.27106,
+   0.09797,
+   -0.01755
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.22499,
+   1.21519,
+   0.34883
+  ],
+  "bounds_max": [
+   0.25271,
+   1.24982,
+   0.36254
+  ],
+  "remove_dir_blender": "1.0000,-0.0000,-0.0000",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_CoverLatch_Rear_L",
+  "name": "Engine_CoverLatch_Rear_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "Engine_CoverLatch_Rear_L",
+  "tris": 108,
+  "origin_world": [
+   0.38015,
+   1.20832,
+   0.42555
+  ],
+  "origin_local": [
+   -0.16951,
+   0.07671,
+   -0.13651
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.37541,
+   1.19118,
+   0.41133
+  ],
+  "bounds_max": [
+   0.38971,
+   1.22534,
+   0.43847
+  ],
+  "remove_dir_blender": "0.0000,1.0000,-0.0000",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeDuct_L",
+  "name": "Engine_IntakeDuct_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "Engine_IntakeDuct_L",
+  "tris": 960,
+  "origin_world": [
+   0.26906,
+   1.24842,
+   0.468
+  ],
+  "origin_local": [
+   -0.15725,
+   0.11388,
+   -0.01726
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.2188,
+   1.21111,
+   0.41568
+  ],
+  "bounds_max": [
+   0.3175,
+   1.25409,
+   0.51593
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeGuard_L",
+  "name": "Engine_IntakeGuard_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "Engine_IntakeGuard_L",
+  "tris": 884,
+  "origin_world": [
+   0.26962,
+   1.25831,
+   0.46937
+  ],
+  "origin_local": [
+   -0.15579,
+   0.12377,
+   -0.01721
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.22952,
+   1.24698,
+   0.42697
+  ],
+  "bounds_max": [
+   0.30974,
+   1.26967,
+   0.51177
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": false,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeGuard_L/FO_IntakeClog_L (故障美术包：进气口堵塞)",
+  "name": "FO_IntakeClog_L (故障美术包：进气口堵塞)",
+  "parent": "Engine_IntakeGuard_L",
+  "role": "随引擎拆下",
+  "renderer": "Renderer",
+  "material": "",
+  "mesh": null,
+  "tris": null,
+  "origin_world": [
+   0.26928,
+   1.25238,
+   0.46855
+  ],
+  "origin_local": [
+   -0.00088,
+   0.00003,
+   -0.00593
+  ],
+  "local_rot": [
+   89.70525,
+   180.1277,
+   171.6786
+  ],
+  "axis_x_world": [
+   0.25323,
+   -0.1469,
+   0.95619
+  ],
+  "axis_y_world": [
+   0.05665,
+   0.98896,
+   0.13694
+  ],
+  "axis_z_world": [
+   -0.96575,
+   0.01949,
+   0.25876
+  ],
+  "remove_dir_blender": null,
+  "independent": false,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeGuard_L/FO_IntakeClog_L (故障美术包：进气口堵塞)/UNIT07_FK_IntakeClog",
+  "name": "UNIT07_FK_IntakeClog",
+  "parent": "FO_IntakeClog_L (故障美术包：进气口堵塞)",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_FK_IntakeClog",
+  "mesh": "UNIT07_FK_IntakeClog_L_DustMat",
+  "tris": 4608,
+  "origin_world": [
+   0.26928,
+   1.25238,
+   0.46855
+  ],
+  "origin_local": [
+   0,
+   0,
+   0
+  ],
+  "local_rot": [
+   0,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25323,
+   -0.1469,
+   0.95619
+  ],
+  "axis_y_world": [
+   0.05665,
+   0.98896,
+   0.13694
+  ],
+  "axis_z_world": [
+   -0.96575,
+   0.01949,
+   0.25876
+  ],
+  "bounds_min": [
+   0.22803,
+   1.23944,
+   0.42683
+  ],
+  "bounds_max": [
+   0.31008,
+   1.25736,
+   0.50917
+  ],
+  "remove_dir_blender": null,
+  "independent": false,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeGuard_L/FO_IntakeClog_L (故障美术包：进气口堵塞)/UNIT07_FK_IntakeClog/UNIT07_FK_IntakeClog_L_Fibers",
+  "name": "UNIT07_FK_IntakeClog_L_Fibers",
+  "parent": "UNIT07_FK_IntakeClog",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_FK_IntakeClog",
+  "mesh": "UNIT07_FK_IntakeClog_L_Fibers",
+  "tris": 1634,
+  "origin_world": [
+   0.26928,
+   1.25238,
+   0.46855
+  ],
+  "origin_local": [
+   0,
+   0,
+   0
+  ],
+  "local_rot": [
+   0,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25323,
+   -0.1469,
+   0.95619
+  ],
+  "axis_y_world": [
+   0.05665,
+   0.98896,
+   0.13694
+  ],
+  "axis_z_world": [
+   -0.96575,
+   0.01949,
+   0.25876
+  ],
+  "bounds_min": [
+   0.23342,
+   1.25762,
+   0.43525
+  ],
+  "bounds_max": [
+   0.29393,
+   1.27037,
+   0.48602
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeGuard_L/FO_IntakeClog_L (故障美术包：进气口堵塞)/UNIT07_FK_IntakeClog/UNIT07_FK_IntakeClog_L_GuardDust",
+  "name": "UNIT07_FK_IntakeClog_L_GuardDust",
+  "parent": "UNIT07_FK_IntakeClog",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_FK_IntakeClog",
+  "mesh": "UNIT07_FK_IntakeClog_L_GuardDust",
+  "tris": 2876,
+  "origin_world": [
+   0.26928,
+   1.25238,
+   0.46855
+  ],
+  "origin_local": [
+   0,
+   0,
+   0
+  ],
+  "local_rot": [
+   0,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25323,
+   -0.1469,
+   0.95619
+  ],
+  "axis_y_world": [
+   0.05665,
+   0.98896,
+   0.13694
+  ],
+  "axis_z_world": [
+   -0.96575,
+   0.01949,
+   0.25876
+  ],
+  "bounds_min": [
+   0.23104,
+   1.25745,
+   0.429
+  ],
+  "bounds_max": [
+   0.30924,
+   1.27033,
+   0.51118
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeGuard_L/FO_IntakeClog_L (故障美术包：进气口堵塞)/UNIT07_FK_IntakeClog/UNIT07_FK_IntakeClog_L_RimDust",
+  "name": "UNIT07_FK_IntakeClog_L_RimDust",
+  "parent": "UNIT07_FK_IntakeClog",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_FK_IntakeClog",
+  "mesh": "UNIT07_FK_IntakeClog_L_RimDust",
+  "tris": 768,
+  "origin_world": [
+   0.26928,
+   1.25238,
+   0.46855
+  ],
+  "origin_local": [
+   0,
+   0,
+   0
+  ],
+  "local_rot": [
+   0,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25323,
+   -0.1469,
+   0.95619
+  ],
+  "axis_y_world": [
+   0.05665,
+   0.98896,
+   0.13694
+  ],
+  "axis_z_world": [
+   -0.96575,
+   0.01949,
+   0.25876
+  ],
+  "bounds_min": [
+   0.22887,
+   1.25943,
+   0.4293
+  ],
+  "bounds_max": [
+   0.31132,
+   1.2736,
+   0.51171
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_IntakeLip_L",
+  "name": "Engine_IntakeLip_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "Engine_IntakeLip_L",
+  "tris": 1152,
+  "origin_world": [
+   0.27019,
+   1.2682,
+   0.47074
+  ],
+  "origin_local": [
+   -0.15432,
+   0.13367,
+   -0.01716
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.21253,
+   1.23878,
+   0.41188
+  ],
+  "bounds_max": [
+   0.32683,
+   1.27983,
+   0.52713
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_InternalLead_L",
+  "name": "Engine_InternalLead_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_InternalLead_L",
+  "tris": 316,
+  "origin_world": [
+   0.22982,
+   1.07595,
+   0.55159
+  ],
+  "origin_local": [
+   -0.08667,
+   -0.06,
+   0.038
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.19003,
+   1.07317,
+   0.41061
+  ],
+  "bounds_max": [
+   0.23883,
+   1.10563,
+   0.55336
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_L_Rotor/Engine_Fan_L",
+  "name": "Engine_Fan_L",
+  "parent": "Engine_L_Rotor",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_Fan_L",
+  "tris": 884,
+  "origin_world": [
+   0.25552,
+   1.01216,
+   0.43529
+  ],
+  "origin_local": [
+   0.016,
+   0,
+   0
+  ],
+  "local_rot": [
+   353.7974,
+   264.2439,
+   315.0001
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.18516,
+   0.99781,
+   0.36187
+  ],
+  "bounds_max": [
+   0.32591,
+   1.02658,
+   0.50869
+  ],
+  "remove_dir_blender": "0.1469,0.0051,-0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_L_Rotor/Engine_FanNut_L",
+  "name": "Engine_FanNut_L",
+  "parent": "Engine_L_Rotor",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_FanNut_L",
+  "tris": 164,
+  "origin_world": [
+   0.25501,
+   1.00326,
+   0.43405
+  ],
+  "origin_local": [
+   0.025,
+   0,
+   0
+  ],
+  "local_rot": [
+   353.7974,
+   264.2439,
+   315.0001
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.24434,
+   0.99903,
+   0.42399
+  ],
+  "bounds_max": [
+   0.26569,
+   1.00749,
+   0.44412
+  ],
+  "remove_dir_blender": "0.1469,0.0051,-0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_L_Rotor/Engine_Shaft_L",
+  "name": "Engine_Shaft_L",
+  "parent": "Engine_L_Rotor",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_Shaft_L",
+  "tris": 188,
+  "origin_world": [
+   0.25643,
+   1.02798,
+   0.43748
+  ],
+  "origin_local": [
+   0,
+   0,
+   0
+  ],
+  "local_rot": [
+   353.7974,
+   264.2439,
+   315.0001
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.24361,
+   1.00195,
+   0.42255
+  ],
+  "bounds_max": [
+   0.27831,
+   1.21225,
+   0.47432
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_LowerCover_L",
+  "name": "Engine_LowerCover_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "Engine_LowerCover_L",
+  "tris": 3466,
+  "origin_world": [
+   0.2553,
+   1.0082,
+   0.43474
+  ],
+  "origin_local": [
+   -0.19294,
+   -0.12638,
+   -0.0185
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.11174,
+   0.9928,
+   0.30417
+  ],
+  "bounds_max": [
+   0.41259,
+   1.22934,
+   0.60434
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MotorBracket_L",
+  "name": "Engine_MotorBracket_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_MotorBracket_L",
+  "tris": 960,
+  "origin_world": [
+   0.25666,
+   1.03194,
+   0.43803
+  ],
+  "origin_local": [
+   -0.18942,
+   -0.10264,
+   -0.01838
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.1709,
+   1.02015,
+   0.3531
+  ],
+  "bounds_max": [
+   0.34315,
+   1.05658,
+   0.52473
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MotorBracket_Screw_L_1",
+  "name": "Engine_MotorBracket_Screw_L_1",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_MotorBracket_Screw_L_1",
+  "tris": 140,
+  "origin_world": [
+   0.27437,
+   1.0538,
+   0.37874
+  ],
+  "origin_local": [
+   -0.2421,
+   -0.07999,
+   -0.05028
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.27001,
+   1.0518,
+   0.37435
+  ],
+  "bounds_max": [
+   0.27873,
+   1.05579,
+   0.38313
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MotorBracket_Screw_L_2",
+  "name": "Engine_MotorBracket_Screw_L_2",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_MotorBracket_Screw_L_2",
+  "tris": 140,
+  "origin_world": [
+   0.3024,
+   1.03751,
+   0.48474
+  ],
+  "origin_local": [
+   -0.13245,
+   -0.09628,
+   -0.05033
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.29804,
+   1.03552,
+   0.48035
+  ],
+  "bounds_max": [
+   0.30676,
+   1.0395,
+   0.48913
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MotorBracket_Screw_L_3",
+  "name": "Engine_MotorBracket_Screw_L_3",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_MotorBracket_Screw_L_3",
+  "tris": 140,
+  "origin_world": [
+   0.19566,
+   1.04753,
+   0.45655
+  ],
+  "origin_local": [
+   -0.18731,
+   -0.08862,
+   0.04569
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.19131,
+   1.04554,
+   0.45216
+  ],
+  "bounds_max": [
+   0.20002,
+   1.04952,
+   0.46094
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MotorHousing_L",
+  "name": "Engine_MotorHousing_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_MotorHousing_L",
+  "tris": 960,
+  "origin_world": [
+   0.25739,
+   1.0448,
+   0.43981
+  ],
+  "origin_local": [
+   -0.18751,
+   -0.08978,
+   -0.01831
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.18594,
+   1.03514,
+   0.36899
+  ],
+  "bounds_max": [
+   0.33451,
+   1.15334,
+   0.52432
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MountBase_L",
+  "name": "Engine_MountBase_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_MountBase_L",
+  "tris": 960,
+  "origin_world": [
+   0.25643,
+   1.02798,
+   0.43748
+  ],
+  "origin_local": [
+   -0.19001,
+   -0.1066,
+   -0.0184
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.1521,
+   1.00967,
+   0.33381
+  ],
+  "bounds_max": [
+   0.36076,
+   1.0463,
+   0.54114
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MountPost_L_1",
+  "name": "Engine_MountPost_L_1",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_MountPost_L_1",
+  "tris": 140,
+  "origin_world": [
+   0.29171,
+   1.02548,
+   0.37526
+  ],
+  "origin_local": [
+   -0.24097,
+   -0.10787,
+   -0.06863
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.2853,
+   1.01983,
+   0.36858
+  ],
+  "bounds_max": [
+   0.29813,
+   1.03113,
+   0.38194
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MountPost_L_2",
+  "name": "Engine_MountPost_L_2",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_MountPost_L_2",
+  "tris": 140,
+  "origin_world": [
+   0.31711,
+   1.01073,
+   0.47128
+  ],
+  "origin_local": [
+   -0.14165,
+   -0.12262,
+   -0.06867
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.31069,
+   1.00508,
+   0.4646
+  ],
+  "bounds_max": [
+   0.32352,
+   1.01638,
+   0.47796
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MountPost_L_3",
+  "name": "Engine_MountPost_L_3",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_MountPost_L_3",
+  "tris": 140,
+  "origin_world": [
+   0.22013,
+   1.01269,
+   0.49723
+  ],
+  "origin_local": [
+   -0.14169,
+   -0.12313,
+   0.03174
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.21372,
+   1.00704,
+   0.49055
+  ],
+  "bounds_max": [
+   0.22654,
+   1.01834,
+   0.50391
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_MountPost_L_4",
+  "name": "Engine_MountPost_L_4",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_MountPost_L_4",
+  "tris": 140,
+  "origin_world": [
+   0.19474,
+   1.02744,
+   0.40121
+  ],
+  "origin_local": [
+   -0.24101,
+   -0.10838,
+   0.03178
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.18832,
+   1.02179,
+   0.39453
+  ],
+  "bounds_max": [
+   0.20115,
+   1.03309,
+   0.40789
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_NozzleRing_L",
+  "name": "Engine_NozzleRing_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "Engine_NozzleRing_L",
+  "tris": 960,
+  "origin_world": [
+   0.2553,
+   1.0082,
+   0.43474
+  ],
+  "origin_local": [
+   -0.19294,
+   -0.12638,
+   -0.0185
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.15894,
+   0.98127,
+   0.3382
+  ],
+  "bounds_max": [
+   0.3512,
+   1.02722,
+   0.53018
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_RearCap_L",
+  "name": "Engine_RearCap_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "Engine_RearCap_L",
+  "tris": 444,
+  "origin_world": [
+   0.37505,
+   1.11672,
+   0.42691
+  ],
+  "origin_local": [
+   -0.16951,
+   -0.015,
+   -0.13349
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.35988,
+   1.07643,
+   0.38492
+  ],
+  "bounds_max": [
+   0.39794,
+   1.1568,
+   0.46684
+  ],
+  "remove_dir_blender": "0,1,0",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_UpperCover_L",
+  "name": "Engine_UpperCover_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "Engine_UpperCover_L",
+  "tris": 1560,
+  "origin_world": [
+   0.26849,
+   1.23853,
+   0.46663
+  ],
+  "origin_local": [
+   -0.15872,
+   0.10399,
+   -0.01732
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.12243,
+   1.19138,
+   0.32459
+  ],
+  "bounds_max": [
+   0.41533,
+   1.29228,
+   0.60838
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": false,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_UpperCover_L/UNIT07_FK_CoverLabel",
+  "name": "UNIT07_FK_CoverLabel",
+  "parent": "Engine_UpperCover_L",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_FK_CoverLabel",
+  "mesh": "UNIT07_FK_CoverInnerLabel_L",
+  "tris": 768,
+  "origin_world": [
+   0.28641,
+   1.24968,
+   0.53266
+  ],
+  "origin_local": [
+   0.06842,
+   -0.00006,
+   0.01115
+  ],
+  "local_rot": [
+   89.70525,
+   180.1277,
+   171.6786
+  ],
+  "axis_x_world": [
+   0.25323,
+   -0.1469,
+   0.95619
+  ],
+  "axis_y_world": [
+   0.05665,
+   0.98896,
+   0.13694
+  ],
+  "axis_z_world": [
+   -0.96575,
+   0.01949,
+   0.25876
+  ],
+  "bounds_min": [
+   0.26025,
+   1.24508,
+   0.51208
+  ],
+  "bounds_max": [
+   0.31255,
+   1.25421,
+   0.55323
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": "故障包保养贴纸，挂在旧上盖下，随旧引擎走；去向交策划确认，不能自动复制到新件"
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Engine_Windings_L",
+  "name": "Engine_Windings_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Internal",
+  "mesh": "Engine_Windings_L",
+  "tris": 960,
+  "origin_world": [
+   0.25926,
+   1.07743,
+   0.44432
+  ],
+  "origin_local": [
+   -0.18266,
+   -0.05714,
+   -0.01815
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.16853,
+   1.06503,
+   0.35448
+  ],
+  "bounds_max": [
+   0.35192,
+   1.12345,
+   0.53882
+  ],
+  "remove_dir_blender": "-0.1469,-0.0051,0.9891",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/EngineAnchor_L",
+  "name": "EngineAnchor_L",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "EngineAnchor_L",
+  "tris": 1300,
+  "origin_world": [
+   0.27394,
+   1.135,
+   0.56376
+  ],
+  "origin_local": [
+   -0.0635,
+   0,
+   0
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.25514,
+   1.11554,
+   0.55872
+  ],
+  "bounds_max": [
+   0.30348,
+   1.15446,
+   0.60888
+  ],
+  "remove_dir_blender": null,
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/ExternalCable_L_PlugEngine",
+  "name": "ExternalCable_L_PlugEngine",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "MeshRenderer",
+  "material": "M_Engine",
+  "mesh": "ExternalCable_L_PlugEngine",
+  "tris": 188,
+  "origin_world": [
+   0.23164,
+   1.07595,
+   0.55835
+  ],
+  "origin_local": [
+   -0.07967,
+   -0.06,
+   0.038
+  ],
+  "local_rot": [
+   270.0198,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0.96563,
+   -0.02463,
+   -0.25874
+  ],
+  "axis_z_world": [
+   0.0238,
+   0.9997,
+   -0.00638
+  ],
+  "bounds_min": [
+   0.22145,
+   1.06755,
+   0.54845
+  ],
+  "bounds_max": [
+   0.24389,
+   1.08435,
+   0.57598
+  ],
+  "remove_dir_blender": "-1,0,0",
+  "independent": true,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": ""
+ },
+ {
+  "path": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Engine_L_Hinge/Unit07_EngineL_InspectProxy",
+  "name": "Unit07_EngineL_InspectProxy",
+  "parent": "Engine_L_Hinge",
+  "role": "随引擎拆下",
+  "renderer": "Renderer",
+  "material": "",
+  "mesh": null,
+  "tris": null,
+  "origin_world": [
+   0.26888,
+   1.24183,
+   0.46649
+  ],
+  "origin_local": [
+   -0.15876,
+   0.10729,
+   -0.01764
+  ],
+  "local_rot": [
+   1.41161,
+   0,
+   0
+  ],
+  "axis_x_world": [
+   0.25882,
+   0,
+   0.96593
+  ],
+  "axis_y_world": [
+   0,
+   1,
+   0
+  ],
+  "axis_z_world": [
+   -0.96593,
+   0,
+   0.25882
+  ],
+  "remove_dir_blender": null,
+  "independent": false,
+  "contacts": "",
+  "basis": "Unity 层级：在 Engine_L_Hinge 骨骼以下",
+  "note": "维修座预制体 UNIT07_RobotV4_DockReady.prefab 加的检查代理（BoxCollider + DockInteractable），不是美术网格；随引擎骨骼，换引擎时由程序处理"
+ }
+]
