@@ -1,0 +1,184 @@
+{
+ "stats": {
+  "cables": {
+   "ExternalCable_L": {
+    "color": "黄",
+    "original_tris": 404,
+    "unplugged_tris": 404,
+    "free_plug_tris": 188,
+    "arc_length_mm": 115.21,
+    "bend_total_deg": 120,
+    "bend_plane_phi_deg": 60,
+    "min_dist_to_robot_mm_blender_bvh": 10.79,
+    "free_plug_out_of_flange_mm": 91.9,
+    "lowest_point_z": 0.2811,
+    "lowest_above_engine_bottom_mm": 18.0,
+    "engine_end_ring_shift_mm": 0.0,
+    "frame_parent": "ExternalCable_L_PlugEngine 的物体本地坐标（运行时父对象 Engine_L_Hinge，本地位姿同 ExternalCable_L_PlugEngine）",
+    "clip": {
+     "source": "ExternalCable_Clip_L",
+     "ring_index": 12,
+     "arc_mm": 77.0,
+     "tris": 384
+    }
+   },
+   "AuxCable_L": {
+    "color": "灰",
+    "original_tris": 404,
+    "unplugged_tris": 404,
+    "free_plug_tris": 188,
+    "arc_length_mm": 80.33,
+    "bend_total_deg": 40,
+    "bend_plane_phi_deg": -20,
+    "min_dist_to_robot_mm_blender_bvh": 13.51,
+    "free_plug_out_of_flange_mm": 57.4,
+    "lowest_point_z": 0.2848,
+    "lowest_above_engine_bottom_mm": 21.7,
+    "engine_end_ring_shift_mm": 0.0001,
+    "frame_parent": "AuxCable_L_PlugEngine 的物体本地坐标（运行时父对象 Engine_L_Hinge，本地位姿同 AuxCable_L_PlugEngine）",
+    "clip": null
+   }
+  },
+  "sockets": {
+   "ExternalCable_L": {
+    "plug_body_islands_tris": [
+     122,
+     82
+    ],
+    "flange_tris": 384,
+    "insert_tris": 252,
+    "barrel_radius_mm": 8.2,
+    "insert_depth_mm": 15.1,
+    "pull_axis": "ExternalCable_L_PlugBody 本地 +X（世界 [1.0, 0.0, 0.0]）",
+    "frame_parent": "ExternalCable_L_PlugBody 的物体本地坐标（运行时父对象 Body，本地位姿同 ExternalCable_L_PlugBody）"
+   },
+   "AuxCable_L": {
+    "plug_body_islands_tris": [
+     122,
+     82
+    ],
+    "flange_tris": 384,
+    "insert_tris": 252,
+    "barrel_radius_mm": 6.6,
+    "insert_depth_mm": 15.0,
+    "pull_axis": "AuxCable_L_PlugBody 本地 +X（世界 [1.0, 0.0, 0.0]）",
+    "frame_parent": "AuxCable_L_PlugBody 的物体本地坐标（运行时父对象 Body，本地位姿同 AuxCable_L_PlugBody）"
+   }
+  },
+  "textures": {
+   "T_Engine_BaseColor_ReplacementL": {
+    "source": "T_Engine_BaseColor.png",
+    "output": "T_Engine_BaseColor_ReplacementL.png",
+    "size": [
+     2048,
+     2048
+    ],
+    "pixels_changed_ratio": 0.6019,
+    "max_lift": 0.081
+   },
+   "T_Internal_BaseColor_ReplacementL": {
+    "source": "T_Internal_BaseColor.png",
+    "output": "T_Internal_BaseColor_ReplacementL.png",
+    "size": [
+     2048,
+     2048
+    ],
+    "pixels_changed_ratio": 0.4057,
+    "max_lift": 0.081
+   }
+  },
+  "notes": [
+   "引擎件最低点 z = 0.2631（Blender 世界，静止姿态）；断开线缆最低点要求 ≥ 0.2781"
+  ]
+ },
+ "anchors_blender": {
+  "ExternalCable_L": {
+   "Anchor_ExternalCable_L_MountEngineEnd": {
+    "parent": "Kit_ExternalCable_L_Unplugged",
+    "local_pos_mm": [
+     -12.0,
+     0.009,
+     -0.006
+    ],
+    "local_rot_wxyz": [
+     0.006896,
+     -0.988105,
+     -0.037184,
+     0.149061
+    ]
+   },
+   "Anchor_ExternalCable_L_FreePlugTip": {
+    "parent": "Kit_ExternalCable_L_Unplugged",
+    "local_pos_mm": [
+     26.058,
+     -45.857,
+     -57.175
+    ],
+    "local_rot_wxyz": [
+     0.324641,
+     0.020618,
+     0.674142,
+     -0.66311
+    ]
+   },
+   "Anchor_ExternalCable_L_SocketFace": {
+    "parent": "Kit_ExternalCable_L_BodySocketFixed",
+    "local_pos_mm": [
+     4.868,
+     -0.0,
+     0.0
+    ],
+    "local_rot_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "AuxCable_L": {
+   "Anchor_AuxCable_L_MountEngineEnd": {
+    "parent": "Kit_AuxCable_L_Unplugged",
+    "local_pos_mm": [
+     -12.0,
+     0.003,
+     0.007
+    ],
+    "local_rot_wxyz": [
+     0.006884,
+     -0.978439,
+     -0.02756,
+     0.204572
+    ]
+   },
+   "Anchor_AuxCable_L_FreePlugTip": {
+    "parent": "Kit_AuxCable_L_Unplugged",
+    "local_pos_mm": [
+     0.265,
+     7.245,
+     -81.837
+    ],
+    "local_rot_wxyz": [
+     0.095841,
+     -0.047997,
+     -0.98422,
+     -0.140792
+    ]
+   },
+   "Anchor_AuxCable_L_SocketFace": {
+    "parent": "Kit_AuxCable_L_BodySocketFixed",
+    "local_pos_mm": [
+     5.052,
+     -0.0,
+     0.0
+    ],
+    "local_rot_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  }
+ }
+}

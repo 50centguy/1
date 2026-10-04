@@ -1,0 +1,894 @@
+{
+ "fbx": "C:\\Users\\Administrator\\UnityProjects\\BorderRepairStation_replkit\\Assets\\RobotV4\\Model\\robot-final.fbx",
+ "objects": {
+  "ExternalCable_L_PlugBody": {
+   "type": "MESH",
+   "parent": "Robot_Rig",
+   "parent_bone": "Body",
+   "verts": 240,
+   "tris": 472,
+   "materials": [
+    {
+     "name": "M_Engine",
+     "image": "T_Engine_BaseColor.png",
+     "image_size": [
+      2048,
+      2048
+     ]
+    }
+   ],
+   "islands": [
+    {
+     "index": 0,
+     "tris": 284,
+     "verts": 144,
+     "bounds_local_mm": [
+      [
+       1.6,
+       -15.7,
+       -15.7
+      ],
+      [
+       4.9,
+       15.7,
+       15.7
+      ]
+     ],
+     "size_local_mm": [
+      3.2,
+      31.4,
+      31.4
+     ],
+     "center_world": [
+      0.21827,
+      -0.068,
+      0.355
+     ],
+     "profile_along_local_x_yz_mm": [
+      [
+       29.0,
+       19.1
+      ],
+      [
+       30.7,
+       29.3
+      ],
+      [
+       26.6,
+       7.7
+      ],
+      [
+       27.2,
+       7.9
+      ],
+      [
+       31.4,
+       19.8
+      ],
+      [
+       31.4,
+       15.7
+      ],
+      [
+       30.3,
+       11.6
+      ],
+      [
+       21.7,
+       4.5
+      ],
+      [
+       30.7,
+       29.3
+      ],
+      [
+       29.0,
+       25.6
+      ]
+     ],
+     "color_uv": [
+      0.308,
+      0.308,
+      0.308
+     ]
+    },
+    {
+     "index": 1,
+     "tris": 188,
+     "verts": 96,
+     "bounds_local_mm": [
+      [
+       -11.3,
+       -8.2,
+       -8.2
+      ],
+      [
+       14.1,
+       8.2,
+       8.2
+      ]
+     ],
+     "size_local_mm": [
+      25.5,
+      16.4,
+      16.4
+     ],
+     "center_world": [
+      0.21643,
+      -0.068,
+      0.355
+     ],
+     "profile_along_local_x_yz_mm": [
+      [
+       16.4,
+       16.4
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [
+       16.4,
+       16.4
+      ]
+     ],
+     "color_uv": [
+      0.315,
+      0.315,
+      0.315
+     ]
+    }
+   ]
+  },
+  "ExternalCable_L_PlugEngine": {
+   "type": "MESH",
+   "parent": "Robot_Rig",
+   "parent_bone": "Engine_L_Hinge",
+   "verts": 96,
+   "tris": 188,
+   "materials": [
+    {
+     "name": "M_Engine",
+     "image": "T_Engine_BaseColor.png",
+     "image_size": [
+      2048,
+      2048
+     ]
+    }
+   ],
+   "islands": [
+    {
+     "index": 0,
+     "tris": 188,
+     "verts": 96,
+     "bounds_local_mm": [
+      [
+       -16.0,
+       -8.2,
+       -8.2
+      ],
+      [
+       8.0,
+       8.2,
+       8.2
+      ]
+     ],
+     "size_local_mm": [
+      24.0,
+      16.4,
+      16.4
+     ],
+     "center_world": [
+      0.29067,
+      -0.06948,
+      0.35596
+     ],
+     "profile_along_local_x_yz_mm": [
+      [
+       16.4,
+       16.4
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [
+       16.4,
+       16.4
+      ]
+     ],
+     "color_uv": [
+      0.314,
+      0.314,
+      0.314
+     ]
+    }
+   ]
+  },
+  "AuxCable_L_PlugBody": {
+   "type": "MESH",
+   "parent": "Robot_Rig",
+   "parent_bone": "Body",
+   "verts": 240,
+   "tris": 472,
+   "materials": [
+    {
+     "name": "M_Engine",
+     "image": "T_Engine_BaseColor.png",
+     "image_size": [
+      2048,
+      2048
+     ]
+    }
+   ],
+   "islands": [
+    {
+     "index": 0,
+     "tris": 284,
+     "verts": 144,
+     "bounds_local_mm": [
+      [
+       2.0,
+       -14.1,
+       -14.1
+      ],
+      [
+       5.1,
+       14.1,
+       14.1
+      ]
+     ],
+     "size_local_mm": [
+      3.1,
+      28.2,
+      28.2
+     ],
+     "center_world": [
+      0.21853,
+      0.055,
+      0.375
+     ],
+     "profile_along_local_x_yz_mm": [
+      [
+       25.8,
+       25.8
+      ],
+      [
+       27.5,
+       23.5
+      ],
+      [
+       13.7,
+       1.8
+      ],
+      [
+       24.4,
+       7.1
+      ],
+      [
+       28.2,
+       17.7
+      ],
+      [
+       28.2,
+       14.1
+      ],
+      [
+       27.2,
+       10.5
+      ],
+      null,
+      [
+       27.5,
+       27.5
+      ],
+      [
+       25.8,
+       25.8
+      ]
+     ],
+     "color_uv": [
+      0.308,
+      0.308,
+      0.308
+     ]
+    },
+    {
+     "index": 1,
+     "tris": 188,
+     "verts": 96,
+     "bounds_local_mm": [
+      [
+       -11.0,
+       -6.6,
+       -6.6
+      ],
+      [
+       14.2,
+       6.6,
+       6.6
+      ]
+     ],
+     "size_local_mm": [
+      25.3,
+      13.2,
+      13.2
+     ],
+     "center_world": [
+      0.21663,
+      0.055,
+      0.375
+     ],
+     "profile_along_local_x_yz_mm": [
+      [
+       13.2,
+       13.2
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [
+       13.2,
+       13.2
+      ]
+     ],
+     "color_uv": [
+      0.315,
+      0.315,
+      0.315
+     ]
+    }
+   ]
+  },
+  "AuxCable_L_PlugEngine": {
+   "type": "MESH",
+   "parent": "Robot_Rig",
+   "parent_bone": "Engine_L_Hinge",
+   "verts": 96,
+   "tris": 188,
+   "materials": [
+    {
+     "name": "M_Engine",
+     "image": "T_Engine_BaseColor.png",
+     "image_size": [
+      2048,
+      2048
+     ]
+    }
+   ],
+   "islands": [
+    {
+     "index": 0,
+     "tris": 188,
+     "verts": 96,
+     "bounds_local_mm": [
+      [
+       -16.0,
+       -6.6,
+       -6.6
+      ],
+      [
+       8.0,
+       6.6,
+       6.6
+      ]
+     ],
+     "size_local_mm": [
+      24.0,
+      13.2,
+      13.2
+     ],
+     "center_world": [
+      0.28399,
+      0.05398,
+      0.37291
+     ],
+     "profile_along_local_x_yz_mm": [
+      [
+       13.2,
+       13.2
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [
+       13.2,
+       13.2
+      ]
+     ],
+     "color_uv": [
+      0.314,
+      0.314,
+      0.314
+     ]
+    }
+   ]
+  },
+  "Harness_Engine_L_PlugA": {
+   "type": "MESH",
+   "parent": "Robot_Rig",
+   "parent_bone": "Body",
+   "verts": 56,
+   "tris": 108,
+   "materials": [
+    {
+     "name": "M_Internal",
+     "image": "T_Internal_BaseColor.png",
+     "image_size": [
+      2048,
+      2048
+     ]
+    }
+   ],
+   "islands": [
+    {
+     "index": 0,
+     "tris": 108,
+     "verts": 56,
+     "bounds_local_mm": [
+      [
+       -5.3,
+       -6.0,
+       -2.0
+      ],
+      [
+       6.9,
+       6.0,
+       14.0
+      ]
+     ],
+     "size_local_mm": [
+      12.2,
+      12.0,
+      16.0
+     ],
+     "center_world": [
+      0.1358,
+      0.0,
+      0.321
+     ],
+     "profile_along_local_x_yz_mm": [
+      [
+       12.0,
+       15.6
+      ],
+      [
+       12.0,
+       1.2
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [
+       12.0,
+       1.2
+      ],
+      [
+       12.0,
+       15.6
+      ]
+     ],
+     "color_uv": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Harness_Engine_L_PlugB": {
+   "type": "MESH",
+   "parent": "Robot_Rig",
+   "parent_bone": "Body",
+   "verts": 56,
+   "tris": 108,
+   "materials": [
+    {
+     "name": "M_Internal",
+     "image": "T_Internal_BaseColor.png",
+     "image_size": [
+      2048,
+      2048
+     ]
+    }
+   ],
+   "islands": [
+    {
+     "index": 0,
+     "tris": 108,
+     "verts": 56,
+     "bounds_local_mm": [
+      [
+       -12.4,
+       -6.0,
+       -6.0
+      ],
+      [
+       3.8,
+       6.0,
+       6.0
+      ]
+     ],
+     "size_local_mm": [
+      16.3,
+      12.0,
+      12.0
+     ],
+     "center_world": [
+      0.19771,
+      -0.068,
+      0.355
+     ],
+     "profile_along_local_x_yz_mm": [
+      [
+       12.0,
+       12.0
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [
+       12.0,
+       12.0
+      ]
+     ],
+     "color_uv": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "ExternalCable_L": {
+   "type": "MESH",
+   "parent": "Robot_Rig",
+   "parent_bone": "",
+   "verts": 204,
+   "tris": 404,
+   "materials": [
+    {
+     "name": "M_Engine",
+     "image": "T_Engine_BaseColor.png",
+     "image_size": [
+      2048,
+      2048
+     ]
+    }
+   ],
+   "islands": [
+    {
+     "index": 0,
+     "tris": 404,
+     "verts": 204,
+     "bounds_local_mm": [
+      [
+       -3.5,
+       -5.2,
+       -53.2
+      ],
+      [
+       60.6,
+       5.2,
+       1.5
+      ]
+     ],
+     "size_local_mm": [
+      64.2,
+      10.4,
+      54.7
+     ],
+     "center_world": [
+      0.25501,
+      -0.068,
+      0.325
+     ],
+     "profile_along_local_x_yz_mm": [
+      [
+       10.4,
+       12.9
+      ],
+      [
+       10.4,
+       33.0
+      ],
+      [
+       10.4,
+       25.3
+      ],
+      [
+       10.4,
+       15.5
+      ],
+      [
+       10.4,
+       12.1
+      ],
+      [
+       10.4,
+       14.0
+      ],
+      [
+       10.4,
+       21.9
+      ],
+      [
+       10.4,
+       34.8
+      ],
+      [
+       10.4,
+       33.0
+      ],
+      [
+       10.4,
+       12.9
+      ]
+     ],
+     "color_uv": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "AuxCable_L": {
+   "type": "MESH",
+   "parent": "Robot_Rig",
+   "parent_bone": "",
+   "verts": 204,
+   "tris": 404,
+   "materials": [
+    {
+     "name": "M_Engine",
+     "image": "T_Engine_BaseColor.png",
+     "image_size": [
+      2048,
+      2048
+     ]
+    }
+   ],
+   "islands": [
+    {
+     "index": 0,
+     "tris": 404,
+     "verts": 204,
+     "bounds_local_mm": [
+      [
+       -1.8,
+       -3.6,
+       -33.6
+      ],
+      [
+       52.3,
+       3.6,
+       1.4
+      ]
+     ],
+     "size_local_mm": [
+      54.1,
+      7.2,
+      35.0
+     ],
+     "center_world": [
+      0.25174,
+      0.055,
+      0.35625
+     ],
+     "profile_along_local_x_yz_mm": [
+      [
+       7.2,
+       9.3
+      ],
+      [
+       7.2,
+       21.7
+      ],
+      [
+       7.2,
+       17.0
+      ],
+      [
+       7.2,
+       11.0
+      ],
+      [
+       7.2,
+       8.5
+      ],
+      [
+       7.2,
+       7.9
+      ],
+      [
+       7.2,
+       11.0
+      ],
+      [
+       7.2,
+       17.0
+      ],
+      [
+       7.2,
+       21.7
+      ],
+      [
+       7.2,
+       9.3
+      ]
+     ],
+     "color_uv": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   ]
+  }
+ },
+ "cables": {
+  "ExternalCable_L": {
+   "ends": {
+    "Body": {
+     "ring_verts": 12,
+     "center_world": [
+      0.22654,
+      -0.068,
+      0.34933
+     ],
+     "ring_radius_mm": 7.01,
+     "max_weight": 1.0,
+     "nearest_islands": [
+      {
+       "plug": "ExternalCable_L_PlugBody",
+       "island": 1,
+       "dist_mm": 2.47
+      },
+      {
+       "plug": "ExternalCable_L_PlugBody",
+       "island": 0,
+       "dist_mm": 6.93
+      },
+      {
+       "plug": "Harness_Engine_L_PlugB",
+       "island": 0,
+       "dist_mm": 20.85
+      }
+     ]
+    },
+    "Engine_L_Hinge": {
+     "ring_verts": 10,
+     "center_world": [
+      0.28482,
+      -0.068,
+      0.3506
+     ],
+     "ring_radius_mm": 6.51,
+     "max_weight": 1.0,
+     "nearest_islands": [
+      {
+       "plug": "ExternalCable_L_PlugEngine",
+       "island": 0,
+       "dist_mm": 2.51
+      },
+      {
+       "plug": "ExternalCable_L_PlugBody",
+       "island": 1,
+       "dist_mm": 55.8
+      },
+      {
+       "plug": "ExternalCable_L_PlugBody",
+       "island": 0,
+       "dist_mm": 65.19
+      }
+     ]
+    }
+   },
+   "end_to_end_mm": 58.3,
+   "vertex_groups": [
+    "Body",
+    "Engine_L_Hinge"
+   ],
+   "color_uv": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "AuxCable_L": {
+   "ends": {
+    "Body": {
+     "ring_verts": 10,
+     "center_world": [
+      0.22714,
+      0.055,
+      0.37194
+     ],
+     "ring_radius_mm": 4.31,
+     "max_weight": 1.0,
+     "nearest_islands": [
+      {
+       "plug": "AuxCable_L_PlugBody",
+       "island": 1,
+       "dist_mm": 2.05
+      },
+      {
+       "plug": "AuxCable_L_PlugBody",
+       "island": 0,
+       "dist_mm": 7.25
+      },
+      {
+       "plug": "AuxCable_L_PlugEngine",
+       "island": 0,
+       "dist_mm": 44.85
+      }
+     ]
+    },
+    "Engine_L_Hinge": {
+     "ring_verts": 10,
+     "center_world": [
+      0.2772,
+      0.055,
+      0.37194
+     ],
+     "ring_radius_mm": 4.35,
+     "max_weight": 1.0,
+     "nearest_islands": [
+      {
+       "plug": "AuxCable_L_PlugEngine",
+       "island": 0,
+       "dist_mm": 5.08
+      },
+      {
+       "plug": "AuxCable_L_PlugBody",
+       "island": 1,
+       "dist_mm": 48.0
+      },
+      {
+       "plug": "AuxCable_L_PlugBody",
+       "island": 0,
+       "dist_mm": 57.3
+      }
+     ]
+    }
+   },
+   "end_to_end_mm": 50.1,
+   "vertex_groups": [
+    "Body",
+    "Engine_L_Hinge"
+   ],
+   "color_uv": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  }
+ }
+}

@@ -1,0 +1,13 @@
+object,unity_path_or_asset,runtime_parent,local_pose,S1_connected,S2_unplugged,S3_engine_removed_body_side,S3b_old_assembly_on_bench,S4_new_engine_not_plugged(optional),S5_reconnected,note
+ExternalCable_L,UNIT07_RobotV4_DockReady/ExternalCable_L,robot root (skinned Body/Engine_L_Hinge),original,show,hide,hide,-,hide,show (material may be M_Engine_ReplacementL),yellow skinned jumper; never stretch it by moving the hinge
+AuxCable_L,UNIT07_RobotV4_DockReady/AuxCable_L,robot root (skinned),original,show,hide,hide,-,hide,show (material may be M_Engine_ReplacementL),grey skinned jumper
+ExternalCable_L_PlugBody,.../Body/ExternalCable_L_PlugBody,Body,original,show,hide,hide,-,hide,show,original = fixed flange + movable plug in one mesh
+AuxCable_L_PlugBody,.../Body/AuxCable_L_PlugBody,Body,original,show,hide,hide,-,hide,show,same structure
+ExternalCable_Clip_L,.../Body/ExternalCable_Clip_L,Body,original,show,hide,hide,-,hide,show,clip around the yellow cable (not skinned)
+ExternalCable_L_PlugEngine,.../Body/Engine_L_Hinge/ExternalCable_L_PlugEngine,Engine_L_Hinge,original,show,show,moves with old assembly,show with old assembly,new engine instance (M_Engine_ReplacementL),new engine instance,engine end stays connected
+AuxCable_L_PlugEngine,.../Body/Engine_L_Hinge/AuxCable_L_PlugEngine,Engine_L_Hinge,original,show,show,moves with old assembly,show with old assembly,new engine instance,new engine instance,engine end stays connected
+Kit_ExternalCable_L_BodySocketFixed,Prefabs/Kit_ExternalCable_L_BodySocketFixed.prefab,Body,= ExternalCable_L_PlugBody local pose,hide,show,show,-,show,hide,holed flange + socket cavity (stays on body)
+Kit_AuxCable_L_BodySocketFixed,Prefabs/Kit_AuxCable_L_BodySocketFixed.prefab,Body,= AuxCable_L_PlugBody local pose,hide,show,show,-,show,hide,holed flange + socket cavity
+Kit_ExternalCable_L_Unplugged,Prefabs/Kit_ExternalCable_L_Unplugged.prefab,Engine_L_Hinge (then old assembly group),= ExternalCable_L_PlugEngine local pose,hide,show,moves with old assembly,show with old assembly,optional 2nd instance with M_Engine_ReplacementL,hide (old one stays on bench),children: ExternalCable_L_Unplugged / ExternalCable_L_FreePlug / ExternalCable_L_Clip_Unplugged / anchors
+Kit_AuxCable_L_Unplugged,Prefabs/Kit_AuxCable_L_Unplugged.prefab,Engine_L_Hinge (then old assembly group),= AuxCable_L_PlugEngine local pose,hide,show,moves with old assembly,show with old assembly,optional 2nd instance,hide (old one stays on bench),children: AuxCable_L_Unplugged / AuxCable_L_FreePlug / anchors
+ConnectionKey_L / ConnectionKey_Bolt_L,.../Engine_L_Hinge/...,Engine_L_Hinge -> stays on body side,original,show,show,show (key stays in BodySocket_L; bolt kept separately),-,show,show,per audit E1; not part of this kit

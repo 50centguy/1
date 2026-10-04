@@ -1,0 +1,7 @@
+﻿kit,anchor,runtime_parent,kit_root_local_pose,anchor_local_pos_mm,anchor_local_rot_xyzw
+Kit_ExternalCable_L_Unplugged,Anchor_ExternalCable_L_FreePlugTip,Engine_L_Hinge,同 ExternalCable_L_PlugEngine 的 localPosition/localRotation/localScale,"-26.059 -45.857 -57.175","-0.020618 0.674142 -0.663110 -0.324641"
+Kit_ExternalCable_L_Unplugged,Anchor_ExternalCable_L_MountEngineEnd,Engine_L_Hinge,同 ExternalCable_L_PlugEngine 的 localPosition/localRotation/localScale,"12.000 0.009 -0.006","0.988105 -0.037184 0.149061 -0.006896"
+Kit_ExternalCable_L_BodySocketFixed,Anchor_ExternalCable_L_SocketFace,Body,同 ExternalCable_L_PlugBody 的 localPosition/localRotation/localScale,"-4.868 0.000 0.000","0.000000 0.000000 0.000000 1.000000"
+Kit_AuxCable_L_Unplugged,Anchor_AuxCable_L_FreePlugTip,Engine_L_Hinge,同 AuxCable_L_PlugEngine 的 localPosition/localRotation/localScale,"-0.265 7.245 -81.838","-0.047997 0.984220 0.140792 0.095841"
+Kit_AuxCable_L_Unplugged,Anchor_AuxCable_L_MountEngineEnd,Engine_L_Hinge,同 AuxCable_L_PlugEngine 的 localPosition/localRotation/localScale,"12.000 0.003 0.007","0.978439 -0.027560 0.204572 -0.006884"
+Kit_AuxCable_L_BodySocketFixed,Anchor_AuxCable_L_SocketFace,Body,同 AuxCable_L_PlugBody 的 localPosition/localRotation/localScale,"-5.052 0.000 0.000","0.000000 0.000000 0.000000 1.000000"
