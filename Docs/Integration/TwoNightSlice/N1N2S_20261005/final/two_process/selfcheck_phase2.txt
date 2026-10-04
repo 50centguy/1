@@ -1,0 +1,41 @@
+两晚自检第 2 段（新进程）2026-10-05 02:51:17，存档 C:/Users/ADMINI~1/AppData/Local/Temp/claude/C--WINDOWS-System32/0a797c9f-60ab-4564-98b9-98644345a8d7/scratchpad/n1n2s_save_final2_025045\checkpoint.json
+通过 进入场景 TwoNight_Menu
+通过 继续可用：存档：第一晚已结束（10-05 02:51）。现金 800，七号内部工单 WO-U07-N1 待修。
+通过 TwoNight_Menu：显示中的文字 8 段，没有字形的字符 0 个
+截图（游戏画面）：p2_01_menu_continue.png
+通过 进入场景 Unit07_Night
+通过 Unit07_Night：EventSystem 1 个，启用的 AudioListener 1 个
+通过 Unit07_Night：显示中的文字 30 段，没有字形的字符 0 个
+通过 第二晚：第 2 晚，现金 800，房租尚差 400，工单 WO-U07-N1
+通过 维修座：RotorsStopped，通电 False，转速 0
+通过 七号未修：步骤 InspectLeftEngine，进气口已清理 False，轴承已换 False
+通过 第二晚不重放事故
+通过 入口手册已打开，不写诊断答案
+截图（游戏画面）：p2_02_night2_manual.png
+布局检查：显示器 1024×768，当前窗口 1024×768（Windowed）
+失败 1600x900：请求 1600×900，实际只有 1024×768（Windowed）（显示器 1024×768）——下面各项量的是实际尺寸，不能算作 1600x900 的结果
+通过 1600x900：实际 1024×768（Windowed）；按钮 15 个，出画面 0，互相重叠 0；截断文字 0
+截图（游戏画面）：p2_03_layout_1600x900_manual_open.png
+通过 1600x900：手册展开时手册外 3D（镜头 EngineL，50, 430：维修座：Dock_PartsTray_HandleRaised）不悬停、无提示、点击无效
+通过 1600x900：点“关闭”收起手册后恢复悬停（维修座：Dock_PartsTray_HandleRaised）
+截图（游戏画面）：p2_04_layout_1600x900_manual_closed.png
+通过 1600x900：悬停提示扫点显示 38 次，压按钮 / 状态栏 0、出画面 0
+失败 1920x1080：请求 1920×1080，实际只有 1024×768（Windowed）（显示器 1024×768）——下面各项量的是实际尺寸，不能算作 1920x1080 的结果
+通过 1920x1080：实际 1024×768（Windowed）；按钮 15 个，出画面 0，互相重叠 0；截断文字 0
+截图（游戏画面）：p2_05_layout_1920x1080_manual_open.png
+通过 1920x1080：手册展开时手册外 3D（镜头 Dock，150, 430：维修座：Dock_PartsTray_HandleRaised）不悬停、无提示、点击无效
+通过 1920x1080：点“关闭”收起手册后恢复悬停（维修座：Dock_PartsTray_HandleRaised）
+截图（游戏画面）：p2_06_layout_1920x1080_manual_closed.png
+通过 1920x1080：悬停提示扫点显示 51 次，压按钮 / 状态栏 0、出画面 0
+失败 narrow_1280x960：请求 1280×960，实际只有 1024×768（Windowed）（显示器 1024×768）——下面各项量的是实际尺寸，不能算作 narrow_1280x960 的结果
+通过 narrow_1280x960：实际 1024×768（Windowed）；按钮 15 个，出画面 0，互相重叠 0；截断文字 0
+截图（游戏画面）：p2_07_layout_narrow_1280x960_manual_open.png
+通过 narrow_1280x960：手册展开时手册外 3D（镜头 Dock，150, 430：维修座：Dock_PartsTray_HandleRaised）不悬停、无提示、点击无效
+通过 narrow_1280x960：点“关闭”收起手册后恢复悬停（维修座：Dock_PartsTray_HandleRaised）
+截图（游戏画面）：p2_08_layout_narrow_1280x960_manual_closed.png
+通过 narrow_1280x960：悬停提示扫点显示 51 次，压按钮 / 状态栏 0、出画面 0
+截图（游戏画面）：p2_09_night2_open.png
+通过 可以开始检查：点左上盖 → 左引擎：进气口护栅上糊着积尘和纤维（堵塞），现在已断电停转，可以点进气口清理。上盖由外侧和后侧两个锁扣固定，拆上盖要先扳开两个锁扣（后侧那个在背面：切到镜头「左引擎背面」）。
+截图（游戏画面）：p2_10_night2_inspect_started.png
+通过 继续没有改存档
+结果：有失败项

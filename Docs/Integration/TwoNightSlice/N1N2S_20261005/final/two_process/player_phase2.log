@@ -1,0 +1,79 @@
+Mono path[0] = 'C:/Users/Administrator/UnityProjects/BorderRepairStation_slice/Builds/TwoNightSlice_N1N2_20261005-n1n2s/TwoNightSlice_Data/Managed'
+Mono config path = 'C:/Users/Administrator/UnityProjects/BorderRepairStation_slice/Builds/TwoNightSlice_N1N2_20261005-n1n2s/MonoBleedingEdge/etc'
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.0.84f1 (78ab6fc243d5)
+[Subsystems] Discovering subsystems at path C:/Users/Administrator/UnityProjects/BorderRepairStation_slice/Builds/TwoNightSlice_N1N2_20261005-n1n2s/TwoNightSlice_Data/UnitySubsystems
+kGfxThreadingModeSplitJobs is not supported on Direct3D 11. Reverting to kGfxThreadingModeClientWorkerJobs instead.
+GfxDevice: creating device client; kGfxThreadingModeClientWorkerJobs
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3070 (ID=0x2488)
+    Vendor:   NVIDIA
+    VRAM:     8018 MB
+    Driver:   32.0.15.9636
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.106 seconds
+- Finished resetting the current domain, in  0.002 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+<RI> Initializing input.
+Using Windows.Gaming.Input
+UnloadTime: 0.474100 ms
+[TwoNightCheck] 两晚自检第 2 段（新进程）2026-10-05 02:51:17，存档 C:/Users/ADMINI~1/AppData/Local/Temp/claude/C--WINDOWS-System32/0a797c9f-60ab-4564-98b9-98644345a8d7/scratchpad/n1n2s_save_final2_025045\checkpoint.json
+RenderGraph is now enabled.
+[TwoNightCheck] 通过 进入场景 TwoNight_Menu
+[TwoNightCheck] 通过 继续可用：存档：第一晚已结束（10-05 02:51）。现金 800，七号内部工单 WO-U07-N1 待修。
+[TwoNightCheck] 通过 TwoNight_Menu：显示中的文字 8 段，没有字形的字符 0 个
+[TwoNightCheck] 截图（游戏画面）：p2_01_menu_continue.png
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.996500 ms
+Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 5803.
+Total: 1.779100 ms (FindLiveObjects: 0.176600 ms CreateObjectMapping: 0.065100 ms MarkObjects: 1.521600 ms  DeleteObjects: 0.015600 ms)
+
+[TwoNightCheck] 通过 进入场景 Unit07_Night
+[TwoNightCheck] 通过 Unit07_Night：EventSystem 1 个，启用的 AudioListener 1 个
+[TwoNightCheck] 通过 Unit07_Night：显示中的文字 30 段，没有字形的字符 0 个
+[TwoNightCheck] 通过 第二晚：第 2 晚，现金 800，房租尚差 400，工单 WO-U07-N1
+[TwoNightCheck] 通过 维修座：RotorsStopped，通电 False，转速 0
+[TwoNightCheck] 通过 七号未修：步骤 InspectLeftEngine，进气口已清理 False，轴承已换 False
+[TwoNightCheck] 通过 第二晚不重放事故
+[TwoNightCheck] 通过 入口手册已打开，不写诊断答案
+[TwoNightCheck] 截图（游戏画面）：p2_02_night2_manual.png
+[TwoNightCheck] 布局检查：显示器 1024×768，当前窗口 1024×768（Windowed）
+[TwoNightCheck] 失败 1600x900：请求 1600×900，实际只有 1024×768（Windowed）（显示器 1024×768）——下面各项量的是实际尺寸，不能算作 1600x900 的结果
+[TwoNightCheck] 通过 1600x900：实际 1024×768（Windowed）；按钮 15 个，出画面 0，互相重叠 0；截断文字 0
+[TwoNightCheck] 截图（游戏画面）：p2_03_layout_1600x900_manual_open.png
+[TwoNightCheck] 通过 1600x900：手册展开时手册外 3D（镜头 EngineL，50, 430：维修座：Dock_PartsTray_HandleRaised）不悬停、无提示、点击无效
+[TwoNightCheck] 通过 1600x900：点“关闭”收起手册后恢复悬停（维修座：Dock_PartsTray_HandleRaised）
+[TwoNightCheck] 截图（游戏画面）：p2_04_layout_1600x900_manual_closed.png
+[TwoNightCheck] 通过 1600x900：悬停提示扫点显示 38 次，压按钮 / 状态栏 0、出画面 0
+[TwoNightCheck] 失败 1920x1080：请求 1920×1080，实际只有 1024×768（Windowed）（显示器 1024×768）——下面各项量的是实际尺寸，不能算作 1920x1080 的结果
+[TwoNightCheck] 通过 1920x1080：实际 1024×768（Windowed）；按钮 15 个，出画面 0，互相重叠 0；截断文字 0
+[TwoNightCheck] 截图（游戏画面）：p2_05_layout_1920x1080_manual_open.png
+[TwoNightCheck] 通过 1920x1080：手册展开时手册外 3D（镜头 Dock，150, 430：维修座：Dock_PartsTray_HandleRaised）不悬停、无提示、点击无效
+[TwoNightCheck] 通过 1920x1080：点“关闭”收起手册后恢复悬停（维修座：Dock_PartsTray_HandleRaised）
+[TwoNightCheck] 截图（游戏画面）：p2_06_layout_1920x1080_manual_closed.png
+[TwoNightCheck] 通过 1920x1080：悬停提示扫点显示 51 次，压按钮 / 状态栏 0、出画面 0
+[TwoNightCheck] 失败 narrow_1280x960：请求 1280×960，实际只有 1024×768（Windowed）（显示器 1024×768）——下面各项量的是实际尺寸，不能算作 narrow_1280x960 的结果
+[TwoNightCheck] 通过 narrow_1280x960：实际 1024×768（Windowed）；按钮 15 个，出画面 0，互相重叠 0；截断文字 0
+[TwoNightCheck] 截图（游戏画面）：p2_07_layout_narrow_1280x960_manual_open.png
+[TwoNightCheck] 通过 narrow_1280x960：手册展开时手册外 3D（镜头 Dock，150, 430：维修座：Dock_PartsTray_HandleRaised）不悬停、无提示、点击无效
+[TwoNightCheck] 通过 narrow_1280x960：点“关闭”收起手册后恢复悬停（维修座：Dock_PartsTray_HandleRaised）
+[TwoNightCheck] 截图（游戏画面）：p2_08_layout_narrow_1280x960_manual_closed.png
+[TwoNightCheck] 通过 narrow_1280x960：悬停提示扫点显示 51 次，压按钮 / 状态栏 0、出画面 0
+[TwoNightCheck] 截图（游戏画面）：p2_09_night2_open.png
+[TwoNightCheck] 通过 可以开始检查：点左上盖 → 左引擎：进气口护栅上糊着积尘和纤维（堵塞），现在已断电停转，可以点进气口清理。上盖由外侧和后侧两个锁扣固定，拆上盖要先扳开两个锁扣（后侧那个在背面：切到镜头「左引擎背面」）。
+[TwoNightCheck] 截图（游戏画面）：p2_10_night2_inspect_started.png
+[TwoNightCheck] 通过 继续没有改存档
+[TwoNightCheck] 结果：有失败项
+[Physics::Module] Cleanup current backned.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.

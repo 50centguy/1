@@ -30,6 +30,9 @@ namespace BorderRepair.FirstOrder
         readonly Func<string, IEnumerator> onShot;   // 每步截图（可为空）
         public readonly List<Record> Records = new List<Record>();
         public float Timeout = 20f;
+        /// <summary>诊断时间线（可为空）：每次等待的开始、每秒一次的心跳、结束时的实时 / 游戏时间 / 帧数 / 维修座状态 / 转速 / 焦点。</summary>
+        public Action<string> Trace;
+        string Snap() => $"实时 {Time.realtimeSinceStartup:F2}s，游戏时间 {Time.time:F2}s，帧 {Time.frameCount}，维修座 {flow.Dock.State}，转速 {flow.Dock.Rotors.SpeedDegPerSec:F0}°/s，焦点 {Application.isFocused}";
         /// <summary>不为空时：点击经 Input System 的这个鼠标设备送进游戏（FirstOrderInput.Update 读鼠标），而不是直接调 ClickAt。</summary>
         public Mouse VirtualMouse;
         /// <summary>每次点击前的量测钩子（布局实测用）。</summary>
@@ -161,8 +164,7 @@ namespace BorderRepair.FirstOrder
                 rec.pass = hit == target && accepted == expectAccept && (expectText == null || flow.Message.Contains(expectText));
                 if (!accepted && PartsSummary() != before) { rec.pass = false; rec.message += "【被拒绝的操作改变了零件状态】"; }
             }
-            float until = Time.realtimeSinceStartup + Timeout;
-            while (flow.Busy && Time.realtimeSinceStartup < until) yield return null;
+            for (float spent = 0f; flow.Busy && spent < Timeout; spent += Mathf.Min(Time.unscaledDeltaTime, 0.25f)) yield return null;   // 同 WaitFor：按运行时间计
             rec.stepAfter = flow.Step.ToString(); rec.dockState = flow.Dock.State.ToString(); rec.parts = PartsSummary();
             Records.Add(rec);
             if (onShot != null) yield return onShot($"A{rec.index:00}_{(rec.pass ? "ok" : "FAIL")}_{label}");
@@ -170,9 +172,19 @@ namespace BorderRepair.FirstOrder
 
         public IEnumerator WaitFor(string label, Func<bool> cond)
         {
-            float until = Time.realtimeSinceStartup + Timeout;
-            while (!cond() && Time.realtimeSinceStartup < until) yield return null;
+            float r0 = Time.realtimeSinceStartup, t0 = Time.time; int f0 = Time.frameCount;
+            Trace?.Invoke($"WAIT-BEGIN {label} | {Snap()}");
+            // 等待预算按“Player 实际在跑的时间”计：每帧最多记 0.25 s。窗口失焦被暂停（runInBackground = false）时实时照走但不扣预算，
+            // 否则恢复后的第一帧就会因为实时已过 Timeout 而判超时（2026-10-04 首次核心自检失败的样子）。暂停本身仍记在 Trace 里。
+            float spent = 0f, beat = r0 + 1f;
+            while (!cond() && spent < Timeout)
+            {
+                if (Trace != null && Time.realtimeSinceStartup >= beat) { Trace($"WAIT … {label} | {Snap()}"); beat = Time.realtimeSinceStartup + 1f; }
+                yield return null;
+                spent += Mathf.Min(Time.unscaledDeltaTime, 0.25f);
+            }
             var ok = cond();
+            Trace?.Invoke($"WAIT-END {label}：{(ok ? "成立" : "超时（运行 " + Timeout.ToString("F0") + " s）")} | 计入预算 {spent:F2}s，实时 +{Time.realtimeSinceStartup - r0:F2}s，游戏时间 +{Time.time - t0:F2}s，帧 +{Time.frameCount - f0} | {Snap()}");
             Records.Add(new Record { index = Records.Count + 1, label = label, camera = FirstOrderCameraRig.Labels[flow.Rig.Current], target = "（等待）", targetPath = "-",
                                      expect = "条件成立", clickable = true, accepted = ok, pass = ok, message = flow.Message,
                                      stepAfter = flow.Step.ToString(), dockState = flow.Dock.State.ToString(), parts = PartsSummary() });

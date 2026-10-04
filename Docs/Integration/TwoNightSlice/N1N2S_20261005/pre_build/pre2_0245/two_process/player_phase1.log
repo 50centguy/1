@@ -1,0 +1,78 @@
+Mono path[0] = 'C:/Users/Administrator/UnityProjects/BorderRepairStation_slice/Builds/TwoNightSlice_N1N2_20261005-n1n2s/TwoNightSlice_Data/Managed'
+Mono config path = 'C:/Users/Administrator/UnityProjects/BorderRepairStation_slice/Builds/TwoNightSlice_N1N2_20261005-n1n2s/MonoBleedingEdge/etc'
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.0.84f1 (78ab6fc243d5)
+[Subsystems] Discovering subsystems at path C:/Users/Administrator/UnityProjects/BorderRepairStation_slice/Builds/TwoNightSlice_N1N2_20261005-n1n2s/TwoNightSlice_Data/UnitySubsystems
+kGfxThreadingModeSplitJobs is not supported on Direct3D 11. Reverting to kGfxThreadingModeClientWorkerJobs instead.
+GfxDevice: creating device client; kGfxThreadingModeClientWorkerJobs
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3070 (ID=0x2488)
+    Vendor:   NVIDIA
+    VRAM:     8018 MB
+    Driver:   32.0.15.9636
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  3.858 seconds
+- Finished resetting the current domain, in  0.002 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+<RI> Initializing input.
+Using Windows.Gaming.Input
+UnloadTime: 0.721200 ms
+[TwoNightCheck] 两晚自检第 1 段 2026-10-05 02:45:28，Windows 11  (10.0.26200)，NVIDIA GeForce RTX 3070，1024×768，存档 C:/Users/ADMINI~1/AppData/Local/Temp/claude/C--WINDOWS-System32/0a797c9f-60ab-4564-98b9-98644345a8d7/scratchpad/n1n2s_save_final_024521\checkpoint.json
+RenderGraph is now enabled.
+[TwoNightCheck] 通过 进入场景 TwoNight_Menu
+[TwoNightCheck] 通过 新存档目录：继续不可用（没有存档。从第一晚开始。）
+[TwoNightCheck] 通过 TwoNight_Menu：显示中的文字 8 段，没有字形的字符 0 个
+[TwoNightCheck] 通过 TwoNight_Menu：EventSystem 1 个，启用的 AudioListener 1 个
+[TwoNightCheck] 截图（游戏画面）：p1_01_menu.png
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.712800 ms
+Unloading 16 unused Assets to reduce memory usage. Loaded Objects now: 3175.
+Total: 1.478800 ms (FindLiveObjects: 0.105200 ms CreateObjectMapping: 0.040400 ms MarkObjects: 1.288400 ms  DeleteObjects: 0.044700 ms)
+
+[TwoNightCheck] 通过 进入场景 Night1_Counter
+[TwoNightCheck] 通过 Night1_Counter：EventSystem 1 个，启用的 AudioListener 1 个
+[TwoNightCheck] 通过 Night1_Counter：显示中的文字 12 段，没有字形的字符 0 个
+[TwoNightCheck] 截图（游戏画面）：p1_02_counter_collector.png
+[TwoNightCheck] 截图（游戏画面）：p1_03_counter_result.png
+[TwoNightCheck] 通过 账本：现金 800，房租尚差 400
+[TwoNightCheck] 通过 Night1_Counter：显示中的文字 15 段，没有字形的字符 0 个
+[TwoNightCheck] 截图（游戏画面）：p1_04_ledger.png
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.814800 ms
+Unloading 24 unused Assets to reduce memory usage. Loaded Objects now: 6086.
+Total: 1.624200 ms (FindLiveObjects: 0.164700 ms CreateObjectMapping: 0.078400 ms MarkObjects: 1.349500 ms  DeleteObjects: 0.031500 ms)
+
+[TwoNightCheck] 通过 进入场景 Unit07_Night
+[TwoNightCheck] 通过 Unit07_Night：EventSystem 1 个，启用的 AudioListener 1 个
+[TwoNightCheck] 通过 Unit07_Night：显示中的文字 23 段，没有字形的字符 0 个
+[TwoNightCheck] 通过 账本确认后七号端盘演出开始
+[TwoNightCheck] 截图（游戏画面）：p1_05_incident_carry.png
+[TwoNightCheck] 截图（游戏画面）：p1_06_incident_lean.png
+[TwoNightCheck] 截图（游戏画面）：p1_07_incident_release.png
+[TwoNightCheck] 截图（游戏画面）：p1_08_incident_away.png
+[TwoNightCheck] 通过 演出结束：托盘放回、机身回正
+[TwoNightCheck] 截图（游戏画面）：p1_09_after_incident.png
+[TwoNightCheck] 通过 点夹具握把：张开、落座：接受 —— 夹具张开，七号准备落座。
+[TwoNightCheck] 通过 点夹具握把：夹紧：接受 —— 夹具合拢。
+[TwoNightCheck] 通过 点断电开关：接受 —— 断电。涡轮减速中，等叶轮停稳。
+[TwoNightCheck] 通过 叶轮减速中碰锁扣（应拒绝）：拒绝 —— 已断电，但叶轮还在减速转动（360°/s）。等它停稳再检查、拆卸。
+[TwoNightCheck] 通过 停稳后碰上盖（第一晚不拆，应拒绝）：拒绝 —— 今晚不拆：先登记内部维修单，明天开盖检查。
+[TwoNightCheck] 截图（游戏画面）：p1_10_docked_ready_to_register.png
+[TwoNightCheck] 通过 停稳后出现“登记内部维修单”
+[TwoNightCheck] 通过 夜末存档：Ok，现金 800，已保存。
+[TwoNightCheck] 通过 Unit07_Night：显示中的文字 26 段，没有字形的字符 0 个
+[TwoNightCheck] 截图（游戏画面）：p1_11_night1_end_saved.png
+[TwoNightCheck] 结果：全部通过
+[Physics::Module] Cleanup current backned.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.

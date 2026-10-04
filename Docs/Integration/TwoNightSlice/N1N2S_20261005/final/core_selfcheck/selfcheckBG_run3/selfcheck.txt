@@ -1,0 +1,26 @@
+Player 自检 2026-10-05 02:52:21，Unity 6000.0.84f1，Windows 11  (10.0.26200)，NVIDIA GeForce RTX 3070，1024×768，编辑器内 False
+场景：Assets/BorderRepair/FirstOrder/Scenes/Slice/TwoNightSlice.unity（Build 里共 4 个场景）
+打包字体：NotoSansSC-Regular，dynamic True，fontNames [Noto Sans SC]
+运行设置：runInBackground = True（自检参数打开，玩家版本不是这样）；受控失焦 无；启动时焦点 True
+通过 启动：显示中的文字 21 段、134 个字符；不是打包字体的 0 段；没有字形的字符 0 个；被截掉 / 没显示出来的 0 段
+截图（游戏画面，ScreenCapture）：01_start_dock.png
+通过 打开手册：显示中的文字 28 段、551 个字符；不是打包字体的 0 段；没有字形的字符 0 个；被截掉 / 没显示出来的 0 段
+截图（游戏画面，ScreenCapture）：02_manual_open.png
+通过 右引擎镜头下能点到右引擎
+通过 观察右引擎：右引擎（正常，作对照）
+通过 观察面板：显示中的文字 24 段、189 个字符；不是打包字体的 0 段；没有字形的字符 0 个；被截掉 / 没显示出来的 0 段
+截图（游戏画面，ScreenCapture）：03_observe_right_engine.png
+通过 左引擎镜头下能点到左上盖
+通过 通电悬停时碰左上盖被拒绝：七号还在供电或叶轮还在转。先停靠、夹紧、断电，等涡轮停稳。
+截图（游戏画面，ScreenCapture）：04_refuse_while_powered.png
+截图（游戏画面，ScreenCapture）：05_order_ok_拒绝_涡轮减速中碰外侧锁扣.png
+截图（游戏画面，ScreenCapture）：06_order_ok_拒绝_要拆右引擎（右引擎对照镜头）.png
+截图（游戏画面，ScreenCapture）：07_order_ok_4b_清理_点进气口堵塞（断电停转后允许）.png
+截图（游戏画面，ScreenCapture）：08_order_ok_翻盖读保养记录_上盖内侧朝上.png
+截图（游戏画面，ScreenCapture）：09_order_ok_6_定位故障轴承_点左上轴承.png
+截图（游戏画面，ScreenCapture）：10_order_ok_新旧轴承对比_托盘里的旧件___轴承盒上的新件.png
+截图（游戏画面，ScreenCapture）：11_order_ok_10_离座_点夹具握把（松开_→_上浮）.png
+通过 完整首单（程序点击）：45 步，失败 0，结束步骤 Done，复测 True
+通过 流程结束：显示中的文字 24 段、186 个字符；不是打包字体的 0 段；没有字形的字符 0 个；被截掉 / 没显示出来的 0 段
+截图（游戏画面，ScreenCapture）：12_order_done.png
+结果：全部通过

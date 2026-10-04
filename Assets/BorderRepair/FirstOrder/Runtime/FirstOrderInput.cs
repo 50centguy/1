@@ -40,6 +40,8 @@ namespace BorderRepair.FirstOrder
         public Component LastObserveHit { get; private set; }
         /// <summary>本帧鼠标在界面上（点击被界面接住，不进 3D）。</summary>
         public bool PointerOverUI { get; private set; }
+        /// <summary>模态界面（展开的手册）打开时：真实鼠标不悬停、不点 3D；界面自己的按钮和输入框照常。程序验收用的 ClickAt / ObserveAt 不受影响。</summary>
+        public bool ModalBlocked { get; set; }
 
         public void Configure(FirstOrderFlow f) => flow = f;
         public void ConfigureHud(bool show, bool keys, Font font, Vector2 origin) { showHud = show; debugKeys = keys; hudFont = font; hudOrigin = origin; }
@@ -139,7 +141,7 @@ namespace BorderRepair.FirstOrder
             if (mouse == null) return;
             var pos = mouse.position.ReadValue();
             PointerOverUI = IsOverUI(pos);
-            if (PointerOverUI) { Hovered = null; return; }      // 鼠标在界面上：不悬停、不点 3D
+            if (PointerOverUI || ModalBlocked) { Hovered = null; return; }      // 鼠标在界面上、或模态手册展开：不悬停、不点 3D
             Hovered = PickScreen(pos);
             if (mouse.rightButton.wasPressedThisFrame || ObserveMode && mouse.leftButton.wasPressedThisFrame) ObserveAt(pos);
             else if (mouse.leftButton.wasPressedThisFrame) ClickAt(pos);

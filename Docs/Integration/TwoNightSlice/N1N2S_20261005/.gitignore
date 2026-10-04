@@ -1,0 +1,4 @@
+# 只提交文字记录和代表性截图；其余截图留在本机磁盘（同一目录），不进 git
+pre_build/**/*.png
+final/core_selfcheck/**/*.png
+!final/core_selfcheck/human_run1/*.png

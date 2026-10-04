@@ -1,7 +1,7 @@
 {
     "name": "BorderRepair.TwoNight.Editor",
     "rootNamespace": "BorderRepair.TwoNight.EditorTools",
-    "references": [ "BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "BorderRepair.FirstOrder.Editor", "BorderRepair.Runtime", "BorderRepair.Editor", "Unity.InputSystem", "UnityEngine.UI" ],
+    "references": [ "BorderRepair.Art.Unit07TrayVariant.Runtime", "BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "BorderRepair.FirstOrder.Editor", "BorderRepair.Runtime", "BorderRepair.Editor", "Unity.InputSystem", "UnityEngine.UI" ],
     "includePlatforms": [ "Editor" ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

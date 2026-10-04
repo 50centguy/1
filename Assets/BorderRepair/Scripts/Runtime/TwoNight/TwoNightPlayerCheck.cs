@@ -10,6 +10,8 @@ using BorderRepair.FirstOrder;
 using BorderRepair.FirstOrder.Slice;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -177,6 +179,109 @@ namespace BorderRepair.TwoNight
             Finish();
         }
 
+        /// <summary>
+        /// 三种窗口尺寸下的布局与输入（程序鼠标事件，虚拟鼠标设备；不是真人试玩）：按钮在画面内、互不重叠；文字没被截；
+        /// 手册展开时后方 3D 不悬停、不点；点“关闭”后恢复；悬停提示扫点不压按钮、不出画面。窗口尺寸以 Screen 实际得到的为准。
+        /// </summary>
+        IEnumerator LayoutCheck(SliceView view, FirstOrderInput input, FirstOrderFlow flow)
+        {
+            var mouse = FirstOrderAcceptanceDriver.CreateVirtualMouse(out var cleanup);
+            input.enabled = true;
+            Line($"布局检查：显示器 {Screen.currentResolution.width}×{Screen.currentResolution.height}，当前窗口 {Screen.width}×{Screen.height}（{Screen.fullScreenMode}）");
+            foreach (var (w, h, label) in new[] { (1600, 900, "1600x900"), (1920, 1080, "1920x1080"), (1280, 960, "narrow_1280x960") })
+            {
+                Screen.SetResolution(w, h, FullScreenMode.Windowed);
+                for (int k = 0; k < 20; k++) yield return null;
+                if ((Screen.width != w || Screen.height != h) && Screen.currentResolution.width >= w && Screen.currentResolution.height >= h)
+                {
+                    Screen.SetResolution(w, h, FullScreenMode.FullScreenWindow);       // 窗口模式放不下（标题栏 / 任务栏）时改无边框全屏
+                    for (int k = 0; k < 20; k++) yield return null;
+                }
+                string got = $"{Screen.width}×{Screen.height}（{Screen.fullScreenMode}）";
+                Canvas.ForceUpdateCanvases();
+                var buttons = FindObjectsByType<Button>(FindObjectsSortMode.None).Where(b => b.isActiveAndEnabled).ToList();
+                Rect R(RectTransform rt) { var c = new Vector3[4]; rt.GetWorldCorners(c); return Rect.MinMaxRect(c[0].x, c[0].y, c[2].x, c[2].y); }
+                int outside = buttons.Count(b => { var r = R((RectTransform)b.transform); return r.xMin < -1 || r.yMin < -1 || r.xMax > Screen.width + 1 || r.yMax > Screen.height + 1; });
+                int overlap = 0; var pairs = new StringBuilder();
+                for (int i = 0; i < buttons.Count; i++)
+                    for (int j = i + 1; j < buttons.Count; j++)
+                    {
+                        var a = R((RectTransform)buttons[i].transform); var b = R((RectTransform)buttons[j].transform);
+                        if (Rect.MinMaxRect(a.xMin + 1, a.yMin + 1, a.xMax - 1, a.yMax - 1).Overlaps(b)) { overlap++; if (pairs.Length < 120) pairs.Append($"{buttons[i].name}/{buttons[j].name} "); }
+                    }
+                var texts = FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.isActiveAndEnabled && !string.IsNullOrEmpty(t.text)).ToList();
+                var over = texts.Where(t => t.verticalOverflow == VerticalWrapMode.Truncate && t.preferredHeight > ((RectTransform)t.transform).rect.height + 4f).Select(t => t.name).ToList();
+                bool sizeOk = Screen.width == w && Screen.height == h;
+                Check(sizeOk, sizeOk ? $"{label}：窗口尺寸达到请求 {w}×{h}" : $"{label}：请求 {w}×{h}，实际只有 {got}（显示器 {Screen.currentResolution.width}×{Screen.currentResolution.height}）——下面各项量的是实际尺寸，不能算作 {label} 的结果");
+                Check(outside == 0 && overlap == 0 && over.Count == 0,
+                      $"{label}：实际 {got}；按钮 {buttons.Count} 个，出画面 {outside}，互相重叠 {overlap}{(overlap > 0 ? "（" + pairs + "）" : "")}；截断文字 {over.Count}{(over.Count > 0 ? "（" + string.Join(",", over.Take(6)) + "）" : "")}");
+                if (!view.ManualOpen) view.ToggleManual();
+                yield return null;
+                var cam = flow.Rig.Cam;
+                string camBefore = flow.Rig.Current, camUsed = null;
+                Vector2? behind = null;
+                // 当前镜头下手册外没有可指的 3D（窄窗口时手册占了大半个画面）：换维修座、总览镜头再找
+                foreach (var shotId in new[] { camBefore, FirstOrderCameraRig.Dock, FirstOrderCameraRig.Overview })
+                {
+                    if (shotId != flow.Rig.Current) { flow.Rig.Go(shotId, true); yield return null; yield return null; }
+                    for (int i = 2; i < 40 && behind == null; i++)
+                        for (int j = 2; j < 24 && behind == null; j++)
+                        {
+                            var p = new Vector2(Screen.width * i / 41f, Screen.height * j / 25f);
+                            if (!FirstOrderInput.IsOverUI(p) && FirstOrderInput.Pick(cam.ScreenPointToRay(p)) != null) behind = p;
+                        }
+                    if (behind != null) { camUsed = shotId; break; }
+                }
+                bool acted = false; void OnActed(string t, bool ok, string m) => acted = true;
+                if (behind != null)
+                {
+                    flow.Acted += OnActed;
+                    mouse.MakeCurrent();
+                    InputSystem.QueueStateEvent(mouse, new MouseState { position = behind.Value }); yield return null; yield return null;
+                    bool noHover = input.Hovered == null && !view.TooltipVisible;
+                    InputSystem.QueueStateEvent(mouse, new MouseState { position = behind.Value }.WithButton(MouseButton.Left, true)); yield return null;
+                    InputSystem.QueueStateEvent(mouse, new MouseState { position = behind.Value }.WithButton(MouseButton.Left, false)); yield return null; yield return null;
+                    flow.Acted -= OnActed;
+                    yield return Shot($"layout_{label}_manual_open");
+                    Check(noHover && !acted && view.ManualOpen, $"{label}：手册展开时手册外 3D（镜头 {camUsed}，{behind.Value.x:F0}, {behind.Value.y:F0}：{FirstOrderInput.NameOf(FirstOrderInput.Pick(cam.ScreenPointToRay(behind.Value)))}）不悬停、无提示、点击无效");
+                    var close = view.GetButton("manual:close"); var cc = R((RectTransform)close.transform).center;
+                    InputSystem.QueueStateEvent(mouse, new MouseState { position = cc }); yield return null; yield return null;
+                    InputSystem.QueueStateEvent(mouse, new MouseState { position = cc }.WithButton(MouseButton.Left, true)); yield return null;
+                    InputSystem.QueueStateEvent(mouse, new MouseState { position = cc }.WithButton(MouseButton.Left, false)); yield return null; yield return null;
+                    InputSystem.QueueStateEvent(mouse, new MouseState { position = behind.Value + Vector2.right }); yield return null;
+                    InputSystem.QueueStateEvent(mouse, new MouseState { position = behind.Value }); yield return null; yield return null;
+                    Check(!view.ManualOpen && input.Hovered != null, $"{label}：点“关闭”收起手册后恢复悬停（{FirstOrderInput.NameOf(input.Hovered)}）");
+                }
+                else { yield return Shot($"layout_{label}_manual_open"); Check(false, $"{label}：三个镜头下手册外都找不到可指的 3D 对象"); }
+                if (view.ManualOpen) view.ToggleManual();
+                if (flow.Rig.Current != camBefore) { flow.Rig.Go(camBefore, true); yield return null; yield return null; }
+                int shown = 0, tipOver = 0, tipOut = 0;
+                var canvas = (RectTransform)view.transform;
+                for (int i = 1; i < 24; i++)
+                    for (int j = 1; j < 14; j++)
+                    {
+                        var p = new Vector2(Screen.width * i / 24f, Screen.height * j / 14f);
+                        if (FirstOrderInput.IsOverUI(p) || FirstOrderInput.Pick(cam.ScreenPointToRay(p)) == null) continue;
+                        InputSystem.QueueStateEvent(mouse, new MouseState { position = p }); yield return null; yield return null;
+                        if (!view.TooltipVisible) continue;
+                        shown++;
+                        var c = new Vector3[4]; view.TooltipRect.GetWorldCorners(c);
+                        var size = canvas.rect.size;
+                        Vector2 a = (Vector2)canvas.InverseTransformPoint(c[0]) + size * 0.5f, b = (Vector2)canvas.InverseTransformPoint(c[2]) + size * 0.5f;
+                        var tr = Rect.MinMaxRect(a.x, a.y, b.x, b.y);
+                        if (tr.xMin < 0 || tr.yMin < 0 || tr.xMax > size.x || tr.yMax > size.y) tipOut++;
+                        if (view.TooltipAvoidRects().Any(x => x.Overlaps(tr))) tipOver++;
+                    }
+                yield return Shot($"layout_{label}_manual_closed");
+                Check(shown > 0 && tipOver == 0 && tipOut == 0, $"{label}：悬停提示扫点显示 {shown} 次，压按钮 / 状态栏 {tipOver}、出画面 {tipOut}");
+                if (!view.ManualOpen) view.ToggleManual();
+                yield return null;
+            }
+            Screen.SetResolution(1600, 900, FullScreenMode.Windowed);
+            for (int k = 0; k < 10; k++) yield return null;
+            cleanup();
+        }
+
         IEnumerator Phase2()
         {
             Line($"两晚自检第 2 段（新进程）{DateTime.Now:yyyy-MM-dd HH:mm:ss}，存档 {TwoNightSave.FilePath}");
@@ -198,9 +303,10 @@ namespace BorderRepair.TwoNight
             var view = FindFirstObjectByType<SliceView>();
             Check(view.ManualOpen && !(view.ManualTitleText + view.ManualBodyText).Contains("磨损"), "入口手册已打开，不写诊断答案");
             yield return Shot("night2_manual");
-            view.ToggleManual();
-            yield return Shot("night2_open");
             var input = FindFirstObjectByType<FirstOrderInput>();
+            yield return LayoutCheck(view, input, flow);
+            if (view.ManualOpen) view.ToggleManual();
+            yield return Shot("night2_open");
             input.enabled = false;
             var drv = new FirstOrderAcceptanceDriver(flow, input);
             flow.Rig.Go(FirstOrderCameraRig.EngineL, true); yield return null;

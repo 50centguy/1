@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -194,6 +196,24 @@ namespace BorderRepair.TwoNight.Tests
             Assert.AreEqual(0f, MeshClearance.Distance(Seg(new Vector3(0.2f, 0.2f, 0.5f), new Vector3(0.2f, 0.2f, -0.5f)), tri, 1f), "顺法线反向穿过：穿插");
             Assert.AreEqual(0f, MeshClearance.Distance(Seg(new Vector3(0.2f, 0.2f, -0.5f), new Vector3(0.2f, 0.2f, 0.5f)), tri, 1f), "逆法线方向穿过：也是穿插（旧写法漏报）");
             Assert.Greater(MeshClearance.Distance(Seg(new Vector3(-0.2f, -0.3f, -0.5f), new Vector3(-0.2f, -0.3f, 0.5f)), tri, 1f), 0.1f, "在三角形外穿过平面：不是穿插（旧写法按顶点镜像误报）");
+        }
+
+        [Test]
+        public void Tooltip_Placement_AvoidsButtonsAndEdges()
+        {
+            var canvas = new Vector2(1600, 900);
+            var box = new Vector2(320, 54);
+            var tools = new Rect(1600 - 16 - 492, 16, 492, 52);          // 右下：模式 / 手册 / 调试（画布左下为原点）
+            var bar = new Rect(16, 16, 1060, 52);                          // 左下：镜头栏
+            var avoid = new List<Rect> { tools, bar };
+            bool Ok(Vector2 tl) { var r = new Rect(tl.x, tl.y - box.y, box.x, box.y); return r.xMin >= 4 && r.yMin >= 4 && r.xMax <= canvas.x - 4 && r.yMax <= canvas.y - 4 && !avoid.Any(a => new Rect(a.x - 4, a.y - 4, a.width + 8, a.height + 8).Overlaps(r)); }
+            Assert.IsTrue(BorderRepair.FirstOrder.Slice.SliceView.PlaceTooltip(new Vector2(800, 450), box, canvas, avoid, out var a1));
+            Assert.AreEqual(new Vector2(818, 432), a1, "画面中间：默认放在光标右下"); Assert.IsTrue(Ok(a1));
+            Assert.IsTrue(BorderRepair.FirstOrder.Slice.SliceView.PlaceTooltip(new Vector2(1500, 90), box, canvas, avoid, out var a2));
+            Assert.IsTrue(Ok(a2), $"右下按钮正上方（旧写法会把提示夹到按钮上）→ {a2}");
+            Assert.IsTrue(BorderRepair.FirstOrder.Slice.SliceView.PlaceTooltip(new Vector2(1590, 450), box, canvas, avoid, out var a3));
+            Assert.IsTrue(Ok(a3) && a3.x < 1590, "靠右边：换到光标左侧");
+            Assert.IsFalse(BorderRepair.FirstOrder.Slice.SliceView.PlaceTooltip(new Vector2(800, 450), box, canvas, new List<Rect> { new Rect(0, 0, 1600, 900) }, out _), "四周都是按钮：不显示");
         }
     }
 }

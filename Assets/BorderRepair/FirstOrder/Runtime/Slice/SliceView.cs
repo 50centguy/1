@@ -46,6 +46,13 @@ namespace BorderRepair.FirstOrder.Slice
         public Text FeedbackText => feedbackText;
         public bool LastFeedbackWasRefusal { get; private set; }
         public IEnumerable<Text> AllTexts => GetComponentsInChildren<Text>(true);
+        /// <summary>诊断记录里哪些项要显示（为空 = 全部显示，即核心切片原样）。两晚切片第二晚用它让“新旧轴承对比”在拆下旧件后才出现。</summary>
+        public System.Func<string, bool> DiagnosisItemVisible { get; set; }
+        public bool TooltipVisible => tooltip != null && tooltip.activeSelf;
+        public RectTransform TooltipRect => tooltipRect;
+        /// <summary>悬停提示要避开的界面区域（画布坐标，左下为原点）。</summary>
+        public List<Rect> TooltipAvoidRects() => new[] { statusRect, feedbackRect, barRect, toolsRect, obsPanel != null && obsPanel.activeSelf ? (RectTransform)obsPanel.transform : null }
+            .Where(r => r != null).Select(CanvasRect).ToList();
 
         readonly Dictionary<string, Button> buttons = new Dictionary<string, Button>();
         readonly List<string> history = new List<string>();
@@ -59,7 +66,7 @@ namespace BorderRepair.FirstOrder.Slice
         GameObject obsPanel, manualPanel, tooltip;
         Button obsGoButton;
         InputField notesField;
-        RectTransform tooltipRect, canvasRect;
+        RectTransform tooltipRect, canvasRect, statusRect, feedbackRect, barRect, toolsRect;
 
         public void Configure(FirstOrderFlow f, FirstOrderInput i, Font uiFont) { flow = f; input = i; font = uiFont; }
 
@@ -111,18 +118,18 @@ namespace BorderRepair.FirstOrder.Slice
             canvasRect = (RectTransform)transform;
 
             // 左上：状态 + 下一步
-            var status = Panel("Status", transform, new Vector2(0, 1), new Vector2(16, -16), new Vector2(820, 112));
+            var status = Panel("Status", transform, new Vector2(0, 1), new Vector2(16, -16), new Vector2(820, 112)); statusRect = status;
             titleText = Label(status, "Title", "七号 · 左引擎维修（两晚切片）", 20, new Vector2(14, -6), new Vector2(790, 32), TextMain, FontStyle.Bold);
             stepText = Label(status, "Step", "", 16, new Vector2(14, -38), new Vector2(790, 24), TextDim);
             hintText = Label(status, "Hint", "", 17, new Vector2(14, -64), new Vector2(790, 44), TextMain);
 
             // 反馈
-            var fb = Panel("Feedback", transform, new Vector2(0, 1), new Vector2(16, -136), new Vector2(820, 76));
+            var fb = Panel("Feedback", transform, new Vector2(0, 1), new Vector2(16, -136), new Vector2(820, 76)); feedbackRect = fb;
             feedbackBg = fb.GetComponent<Image>();
             feedbackText = Label(fb, "Message", "", 17, new Vector2(14, -8), new Vector2(792, 62), TextMain);
 
             // 底部镜头栏
-            var bar = Panel("CameraBar", transform, new Vector2(0, 0), new Vector2(16, 16 + 52), new Vector2(1060, 52));
+            var bar = Panel("CameraBar", transform, new Vector2(0, 0), new Vector2(16, 16 + 52), new Vector2(1060, 52)); barRect = bar;
             float x = 8f;
             Label(bar, "BarLabel", "镜头", 15, new Vector2(x, -15), new Vector2(40, 24), TextDim);
             x += 44f;
@@ -136,7 +143,7 @@ namespace BorderRepair.FirstOrder.Slice
             buttons["back"] = MakeButton(bar, "Back", "← 返回", new Vector2(x + 6f, -8), new Vector2(84, 36), Back);
 
             // 右下：模式 / 手册 / 调试
-            var tools = Panel("Tools", transform, new Vector2(1, 0), new Vector2(-16 - 492, 16 + 52), new Vector2(492, 52));
+            var tools = Panel("Tools", transform, new Vector2(1, 0), new Vector2(-16 - 492, 16 + 52), new Vector2(492, 52)); toolsRect = tools;
             Label(tools, "ModeLabel", "左键", 15, new Vector2(8, -15), new Vector2(40, 24), TextDim);
             buttons["mode:act"] = MakeButton(tools, "Mode_Act", "操作", new Vector2(52, -8), new Vector2(76, 36), () => SetObserveMode(false));
             buttons["mode:observe"] = MakeButton(tools, "Mode_Observe", "观察", new Vector2(134, -8), new Vector2(76, 36), () => SetObserveMode(true));
@@ -155,6 +162,7 @@ namespace BorderRepair.FirstOrder.Slice
 
             // 手册
             manualPanel = Panel("Manual", transform, new Vector2(0.5f, 0.5f), new Vector2(-420, 330), new Vector2(840, 660)).gameObject;
+            manualPanel.GetComponent<Image>().color = new Color(PanelBg.r, PanelBg.g, PanelBg.b, 0.97f);   // 手册是模态：底色接近不透明，后面的反馈条文字不透出来
             manualTitle = Label(manualPanel.transform, "ManualTitle", "维修手册 · 七号左引擎（工单：进气堵塞 + 左上轴承磨损）", 20, new Vector2(18, -12), new Vector2(800, 30), TextMain, FontStyle.Bold);
             manualBody = Label(manualPanel.transform, "ManualBody",
                 "安全：七号落座、夹紧、断电，并且叶轮停稳之后，才能检查和拆卸。转动中只能看，不能动手。\n" +
@@ -291,6 +299,8 @@ namespace BorderRepair.FirstOrder.Slice
         public void ToggleManual()
         {
             manualPanel.SetActive(!manualPanel.activeSelf);
+            if (input != null) input.ModalBlocked = manualPanel.activeSelf;     // 手册展开：不悬停、不点后方 3D；关上恢复
+            if (manualPanel.activeSelf) tooltip.SetActive(false);
             if (!manualPanel.activeSelf && EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
         }
 
@@ -356,6 +366,7 @@ namespace BorderRepair.FirstOrder.Slice
             feedbackText.text = refusal ? "不行：" + flow.Message : flow.Message;
             feedbackBg.color = refusal ? RefuseBg : OkBg;
 
+            if (input != null) input.ModalBlocked = manualPanel.activeSelf;
             if (manualPanel.activeSelf) manualDiag.text = DiagnosisText();
             UpdateTooltip();
         }
@@ -363,10 +374,11 @@ namespace BorderRepair.FirstOrder.Slice
         public string DiagnosisText()
         {
             var sb = new StringBuilder();
-            foreach (var (key, label) in SliceObservation.DiagnosisItems)
+            var items = SliceObservation.DiagnosisItems.Where(i => DiagnosisItemVisible == null || DiagnosisItemVisible(i.key)).ToList();
+            foreach (var (key, label) in items)
                 sb.Append(Observation.HasSeen(key) ? "【已看】" : "【未看】").Append(label).Append("    ");
             sb.AppendLine();
-            sb.Append($"已看 {Observation.SeenCount}/{SliceObservation.DiagnosisItems.Length}。");
+            sb.Append($"已看 {items.Count(i => Observation.HasSeen(i.key))}/{items.Count}。");
             sb.Append(flow.BearingReplaced ? "左上轴承已更换。" : flow.BearingLocated ? "已定位磨损轴承。" : "");
             sb.Append(flow.ClogCleared ? "进气口已清理。" : "");
             return sb.ToString();
@@ -376,15 +388,51 @@ namespace BorderRepair.FirstOrder.Slice
         {
             var mouse = Mouse.current;
             var h = input != null ? input.Hovered : null;
-            if (mouse == null || h == null || input.PointerOverUI) { tooltip.SetActive(false); return; }
-            tooltip.SetActive(true);
+            if (mouse == null || h == null || input.PointerOverUI || manualPanel.activeSelf) { tooltip.SetActive(false); return; }
             tooltipText.text = FirstOrderInput.NameOf(h) + "\n" + (input.ObserveMode ? "左键：观察" : "左键：操作 · 右键：观察");
+            // 高度随文字（名字长时换行不溢出），宽度固定
+            const float w = 320f;
+            var tr = tooltipText.rectTransform; tr.sizeDelta = new Vector2(w - 16f, 200f);
+            float hgt = Mathf.Max(54f, tooltipText.preferredHeight + 14f);
+            tooltipRect.sizeDelta = new Vector2(w, hgt); tr.sizeDelta = new Vector2(w - 16f, hgt - 10f);
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, mouse.position.ReadValue(), null, out var local);
             var size = canvasRect.rect.size;
-            var p = local + size * 0.5f + new Vector2(18f, -18f);                       // 画布左下为原点
-            p.x = Mathf.Min(p.x, size.x - tooltipRect.sizeDelta.x - 4f);
-            p.y = Mathf.Max(p.y, tooltipRect.sizeDelta.y + 4f);
-            tooltipRect.anchoredPosition = p;
+            if (PlaceTooltip(local + size * 0.5f, new Vector2(w, hgt), size, TooltipAvoidRects(), out var topLeft))
+            {
+                tooltip.SetActive(true);
+                tooltipRect.anchoredPosition = topLeft;
+            }
+            else tooltip.SetActive(false);                                           // 四个方向都会压到按钮或出界：宁可不显示
+        }
+
+        Rect CanvasRect(RectTransform rt)
+        {
+            var c = new Vector3[4]; rt.GetWorldCorners(c);
+            var size = canvasRect.rect.size;
+            Vector2 a = (Vector2)canvasRect.InverseTransformPoint(c[0]) + size * 0.5f, b = (Vector2)canvasRect.InverseTransformPoint(c[2]) + size * 0.5f;
+            return Rect.MinMaxRect(Mathf.Min(a.x, b.x), Mathf.Min(a.y, b.y), Mathf.Max(a.x, b.x), Mathf.Max(a.y, b.y));
+        }
+
+        /// <summary>
+        /// 悬停提示放在哪里（画布坐标，左下为原点；返回提示框左上角）：依次试光标右下、左下、右上、左上（离光标 18 像素），
+        /// 第一个完全在画布内（留 4 像素）且不压到 avoid 区域（各外扩 4 像素）的位置。都不行返回 false。
+        /// </summary>
+        public static bool PlaceTooltip(Vector2 cursor, Vector2 box, Vector2 canvas, IList<Rect> avoid, out Vector2 topLeft)
+        {
+            const float gap = 18f, margin = 4f;
+            var cands = new[] {
+                new Vector2(cursor.x + gap, cursor.y - gap), new Vector2(cursor.x - gap - box.x, cursor.y - gap),
+                new Vector2(cursor.x + gap, cursor.y + gap + box.y), new Vector2(cursor.x - gap - box.x, cursor.y + gap + box.y) };
+            foreach (var tl in cands)
+            {
+                var r = new Rect(tl.x, tl.y - box.y, box.x, box.y);
+                if (r.xMin < margin || r.yMin < margin || r.xMax > canvas.x - margin || r.yMax > canvas.y - margin) continue;
+                bool hit = false;
+                foreach (var a in avoid) { var e = new Rect(a.x - margin, a.y - margin, a.width + 2 * margin, a.height + 2 * margin); if (e.Overlaps(r)) { hit = true; break; } }
+                if (hit) continue;
+                topLeft = tl; return true;
+            }
+            topLeft = Vector2.zero; return false;
         }
     }
 }

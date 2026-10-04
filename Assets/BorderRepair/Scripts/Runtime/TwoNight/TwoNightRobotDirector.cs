@@ -47,11 +47,12 @@ namespace BorderRepair.TwoNight
         public FirstOrderFlow Flow => flow;
         public Vector3 TrayHomePosition => trayHomePos;
         public Quaternion TrayHomeRotation => trayHomeRot;
+        public Transform TrayHomeParent => trayHomeParent;
 
         Text hud, caption, endText;
         Button registerBtn;
         GameObject endPanel;
-        Vector3 trayHomePos; Quaternion trayHomeRot;
+        Vector3 trayHomePos; Quaternion trayHomeRot; Transform trayHomeParent;
 
         public void Configure(FirstOrderFlow f, FirstOrderInput i, SliceView v, TrayIncident t, TwoNightEconomy e, Font fnt)
         { flow = f; input = i; view = v; incident = t; economy = e; font = fnt; }
@@ -60,8 +61,10 @@ namespace BorderRepair.TwoNight
         {
             BuildUi();
             var tr = incident.Tray.transform;
-            trayHomePos = tr.position; trayHomeRot = tr.rotation;
+            trayHomePos = tr.position; trayHomeRot = tr.rotation; trayHomeParent = tr.parent;
             view.SetManual(ManualTitle, ManualBody);
+            // 诊断记录：部件名“左上轴承（原位）”照常列出；“新旧轴承对比”要等实际拆下旧轴承、有了对照才出现（不当作开场必看项）
+            view.DiagnosisItemVisible = key => key != BorderRepair.FirstOrder.Slice.SliceObservation.Compare || flow.Bearing.Location != BorderRepair.FirstOrder.PartLocation.Installed;
             var s = TwoNightRun.Current;
             if (s == null)
             {
@@ -141,7 +144,7 @@ namespace BorderRepair.TwoNight
                 clamped = dock.State >= DockState.Clamped && dock.ClampOpenFraction <= 1e-4f,
                 powerOff = !dock.PowerOn,
                 rotorsStopped = dock.State == DockState.RotorsStopped && dock.Rotors.SpeedDegPerSec <= 0f,
-                trayStowed = !incident.Tray.Taken && (tr.position - trayHomePos).sqrMagnitude < 1e-6f && Quaternion.Angle(tr.rotation, trayHomeRot) < 0.1f,
+                trayStowed = !incident.Tray.Taken && tr.parent == trayHomeParent && (tr.position - trayHomePos).sqrMagnitude < 1e-6f && Quaternion.Angle(tr.rotation, trayHomeRot) < 0.1f,
                 robotUpright = !incident.Playing && Vector3.Angle(root.up, Vector3.up) < 0.1f,
             };
         }
