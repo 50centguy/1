@@ -80,6 +80,9 @@ namespace BorderRepair.FirstOrder
         };
 
         public FoStep Step { get; private set; } = FoStep.SeatRobot;
+        /// <summary>两晚切片第一晚：只停靠和登记，不检查、不拆修（停转安全的拒绝原因优先）。</summary>
+        public bool InspectionLocked { get; set; }
+        public string InspectionLockMessage { get; set; } = "今晚不拆：先登记内部维修单，明天开盖检查。";
         public string Message { get; private set; } = "";
         public bool Busy { get; private set; }
         public bool BearingLocated { get; private set; }
@@ -155,7 +158,7 @@ namespace BorderRepair.FirstOrder
                     Advance(FoStep.PowerOff, "已夹紧。点断电开关：OFF。");
                     break;
                 case FoStep.PowerOff when dock.State == DockState.RotorsStopped:
-                    Advance(FoStep.InspectLeftEngine, "涡轮已停转。点左引擎开始检查。");
+                    Advance(FoStep.InspectLeftEngine, InspectionLocked ? "涡轮已停转。" + InspectionLockMessage : "涡轮已停转。点左引擎开始检查。");
                     break;
             }
         }
@@ -258,6 +261,7 @@ namespace BorderRepair.FirstOrder
                     if (Step > FoStep.PowerOff && Step < FoStep.PowerOn) return Refuse(n, PowerRefusal());
                     return dock.Interact(DockAction.PowerSwitch) ? Ok(n, dock.LastMessage) : Refuse(n, dock.LastMessage);
                 case DockAction.EngineLeft:
+                    if (InspectionLocked && Step >= FoStep.InspectLeftEngine) return Refuse(n, InspectionLockMessage);
                     if (Step < FoStep.InspectLeftEngine) return Refuse(n, dock.InspectLeftEngine() ? "先完成停靠和断电。" : dock.LastMessage);
                     if (Step == FoStep.InspectLeftEngine) return InspectLeft(n, di.GetComponent<Collider>());
                     return Refuse(n, "已经在检查左引擎了。");
@@ -286,6 +290,7 @@ namespace BorderRepair.FirstOrder
                 return Refuse(n, dock.State == DockState.SpinningDown
                     ? $"已断电，但叶轮还在减速转动（{dock.Rotors.SpeedDegPerSec:F0}°/s）。等它停稳再检查、拆卸。"
                     : "七号还在供电或叶轮还在转。先停靠、夹紧、断电，等涡轮停稳。");
+            if (InspectionLocked) return Refuse(n, Step < FoStep.InspectLeftEngine ? "先完成停靠和断电。" : InspectionLockMessage);
             if (Step == FoStep.InspectLeftEngine && p != newBearing) return InspectLeft(n, null);   // 点左引擎上的任何部件都算“开始检查”
             if (Step < FoStep.InspectLeftEngine) return Refuse(n, "先完成停靠和断电。");
 
@@ -376,6 +381,7 @@ namespace BorderRepair.FirstOrder
 
         bool ClickZone(FirstOrderDropZone z)
         {
+            if (InspectionLocked) return Refuse(z.benchObjectPath, InspectionLockMessage);
             string n = z.benchObjectPath;
             var held = Step == FoStep.PlaceCover ? cover : Step == FoStep.PlaceOldBearing ? bearing : null;
             if (held == null) return Refuse(n, "手上没有要放下的零件。");
@@ -616,6 +622,19 @@ namespace BorderRepair.FirstOrder
             Busy = false;
         }
 
+        /// <summary>
+        /// 读档后从安全检查阶段开始（两晚切片第二晚）：维修座必须已经是“断电、叶轮停稳”，七号未拆、未修。
+        /// 不跳过任何维修步骤，只是不再要求玩家重复停靠。
+        /// </summary>
+        public bool ResumeAtInspection(string message)
+        {
+            if (dock == null || dock.State != DockState.RotorsStopped || Step != FoStep.SeatRobot) return false;
+            Step = FoStep.InspectLeftEngine;
+            Say(message);
+            if (rig != null) rig.Go(FirstOrderCameraRig.EngineL);
+            return true;
+        }
+
         public string NextHint()
         {
             string clean = ClogCleared ? "" : "；进气口堵塞断电时随时可以点击清理";
@@ -624,7 +643,7 @@ namespace BorderRepair.FirstOrder
                 case FoStep.SeatRobot: return "点维修座夹具的黄色握把：张开，让七号落座";
                 case FoStep.ClampRobot: return dock.State == DockState.SeatedOpen ? "点夹具握把：夹紧" : "等七号落座…";
                 case FoStep.PowerOff: return dock.State == DockState.SpinningDown ? "等涡轮停转…" : "点断电开关：OFF";
-                case FoStep.InspectLeftEngine: return "点左引擎（上盖或进气口）：开始检查";
+                case FoStep.InspectLeftEngine: return InspectionLocked ? InspectionLockMessage : "点左引擎（上盖或进气口）：开始检查";
                 case FoStep.ReleaseLatches: return "扳开外侧锁扣、后侧锁扣（后侧在镜头「左引擎背面」）" + clean;
                 case FoStep.RemoveCover: return "点左上盖：取下上盖总成" + clean;
                 case FoStep.PlaceCover: return "点工作台操作垫上的黄色落点（上盖翻过来放）";

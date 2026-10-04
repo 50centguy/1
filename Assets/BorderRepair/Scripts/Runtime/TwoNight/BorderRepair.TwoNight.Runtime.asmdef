@@ -1,0 +1,14 @@
+{
+    "name": "BorderRepair.TwoNight.Runtime",
+    "rootNamespace": "BorderRepair.TwoNight",
+    "references": [ "BorderRepair.Runtime", "BorderRepair.FirstOrder.Runtime", "Unity.InputSystem", "UnityEngine.UI" ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

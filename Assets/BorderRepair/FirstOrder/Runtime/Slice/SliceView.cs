@@ -54,7 +54,7 @@ namespace BorderRepair.FirstOrder.Slice
         string lastActedMessage;
         bool lastActedOk = true;
 
-        Text titleText, stepText, hintText, feedbackText, tooltipText, obsTitle, obsBody, manualDiag;
+        Text titleText, stepText, hintText, feedbackText, tooltipText, obsTitle, obsBody, manualDiag, manualTitle, manualBody;
         Image feedbackBg;
         GameObject obsPanel, manualPanel, tooltip;
         Button obsGoButton;
@@ -64,6 +64,19 @@ namespace BorderRepair.FirstOrder.Slice
         public void Configure(FirstOrderFlow f, FirstOrderInput i, Font uiFont) { flow = f; input = i; font = uiFont; }
 
         public Button GetButton(string id) => buttons.TryGetValue(id, out var b) ? b : null;
+
+        /// <summary>两晚切片：换标题（例如“第二晚 · 七号内部工单”）。</summary>
+        public void SetTitle(string title) { if (titleText != null) titleText.text = title; }
+
+        /// <summary>两晚切片：换手册内容（入口手册只写安全须知、可观察现象和推荐检查方法，不写诊断答案）。</summary>
+        public void SetManual(string title, string body)
+        {
+            if (manualTitle != null) manualTitle.text = title;
+            if (manualBody != null) manualBody.text = body;
+        }
+
+        public string ManualTitleText => manualTitle != null ? manualTitle.text : "";
+        public string ManualBodyText => manualBody != null ? manualBody.text : "";
 
         void Awake()
         {
@@ -142,8 +155,8 @@ namespace BorderRepair.FirstOrder.Slice
 
             // 手册
             manualPanel = Panel("Manual", transform, new Vector2(0.5f, 0.5f), new Vector2(-420, 330), new Vector2(840, 660)).gameObject;
-            Label(manualPanel.transform, "ManualTitle", "维修手册 · 七号左引擎（工单：进气堵塞 + 左上轴承磨损）", 20, new Vector2(18, -12), new Vector2(800, 30), TextMain, FontStyle.Bold);
-            Label(manualPanel.transform, "ManualBody",
+            manualTitle = Label(manualPanel.transform, "ManualTitle", "维修手册 · 七号左引擎（工单：进气堵塞 + 左上轴承磨损）", 20, new Vector2(18, -12), new Vector2(800, 30), TextMain, FontStyle.Bold);
+            manualBody = Label(manualPanel.transform, "ManualBody",
                 "安全：七号落座、夹紧、断电，并且叶轮停稳之后，才能检查和拆卸。转动中只能看，不能动手。\n" +
                 "诊断：先看右引擎（正常对照），再看左进气口、上盖内侧保养记录、左上轴承。只清理进气口不算修好。\n" +
                 "步骤：落座 → 夹紧 → 断电停转 → 检查左引擎 → 扳开外侧、后侧锁扣 → 取下上盖总成，翻面放到操作垫 → 定位并取下磨损轴承 → 旧件放进托盘 → 装新轴承 → 装回上盖、扣回锁扣 → 清理进气口（停转期间随时）→ 通电 → 松开夹具，离座复测。\n" +

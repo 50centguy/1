@@ -65,6 +65,13 @@ namespace BorderRepair.Dock
             powered = on;
         }
 
+        /// <summary>断电并立即停稳（只在读档恢复“已断电、叶轮停稳”时用；必须先 TakeOver）。</summary>
+        public void StopNow()
+        {
+            powered = false;
+            speed = 0f;
+        }
+
         void LateUpdate()
         {
             if (!Driven) return;

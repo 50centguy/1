@@ -1,0 +1,14 @@
+{
+    "name": "BorderRepair.TwoNight.Editor",
+    "rootNamespace": "BorderRepair.TwoNight.EditorTools",
+    "references": [ "BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "BorderRepair.FirstOrder.Editor", "BorderRepair.Runtime", "BorderRepair.Editor", "Unity.InputSystem", "UnityEngine.UI" ],
+    "includePlatforms": [ "Editor" ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

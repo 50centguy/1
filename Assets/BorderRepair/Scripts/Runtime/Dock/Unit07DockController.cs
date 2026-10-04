@@ -295,6 +295,27 @@ namespace BorderRepair.Dock
             ApplyLever();
         }
 
+        /// <summary>
+        /// 读档恢复：七号已落座、夹具夹紧、断电、叶轮停稳（与玩家依次点完落座 → 夹紧 → 断电 → 等停稳之后的状态相同）。
+        /// 只给两晚切片的第二晚开场用；供电、夹具、转子仍然只由维修座管理。
+        /// </summary>
+        public bool RestoreRotorsStopped()
+        {
+            if (!configured) return Say("维修座配置无效，见控制台。", false);
+            robotRoot.position = robotAnchor.position;
+            rotorDriver.TakeOver();
+            rotorDriver.StopNow();
+            if (robotAnimator != null) robotAnimator.Play(seatedStateName, 0, 0f);
+            PowerOn = false;
+            clampFraction = 0f;
+            leverFraction = 1f;
+            ApplyClamps();
+            ApplyLever();
+            ApplyLamp();
+            State = DockState.RotorsStopped;
+            return Say("七号停在维修座上：已夹紧、断电，叶轮停稳。", true);
+        }
+
         bool IsRobotSeatedPosition() => (robotRoot.position - robotAnchor.position).sqrMagnitude < 1e-8f;
 
         void ApplyClamps()

@@ -1,0 +1,1023 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="105" result="Passed" total="105" passed="98" failed="0" inconclusive="0" skipped="7" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-04 07:01:02Z" end-time="2026-10-04 07:09:42Z" duration="519.7943053">
+  <test-suite type="TestSuite" id="1152" name="BorderRepairStation" fullname="BorderRepairStation" runstate="Runnable" testcasecount="105" result="Passed" start-time="2026-10-04 07:01:02Z" end-time="2026-10-04 07:09:42Z" duration="519.794305" total="105" passed="98" failed="0" inconclusive="0" skipped="7" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1037" name="BorderRepair.FirstOrder.Tests.PlayMode.dll" fullname="C:/Users/Administrator/UnityProjects/BorderRepairStation_slice/Library/ScriptAssemblies/BorderRepair.FirstOrder.Tests.PlayMode.dll" runstate="Runnable" testcasecount="30" result="Passed" start-time="2026-10-04 07:01:02Z" end-time="2026-10-04 07:06:08Z" duration="306.016033" total="30" passed="30" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="31520" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1038" name="BorderRepair" fullname="BorderRepair" runstate="Runnable" testcasecount="30" result="Passed" start-time="2026-10-04 07:01:02Z" end-time="2026-10-04 07:06:08Z" duration="306.014791" total="30" passed="30" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1039" name="FirstOrder" fullname="BorderRepair.FirstOrder" runstate="Runnable" testcasecount="30" result="Passed" start-time="2026-10-04 07:01:02Z" end-time="2026-10-04 07:06:08Z" duration="306.014063" total="30" passed="30" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1040" name="Tests" fullname="BorderRepair.FirstOrder.Tests" runstate="Runnable" testcasecount="30" result="Passed" start-time="2026-10-04 07:01:02Z" end-time="2026-10-04 07:06:08Z" duration="306.013446" total="30" passed="30" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="ParameterizedFixture" id="1033" name="FirstOrderPlayTests" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" testcasecount="28" result="Passed" start-time="2026-10-04 07:01:02Z" end-time="2026-10-04 07:05:34Z" duration="271.417877" total="28" passed="28" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1001" name="FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-04 07:01:02Z" end-time="2026-10-04 07:02:10Z" duration="67.855323" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1003" name="CleanOnly_ThenRetestAttempt_IsRefused" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).CleanOnly_ThenRetestAttempt_IsRefused" methodname="CleanOnly_ThenRetestAttempt_IsRefused" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="2004601677" result="Passed" start-time="2026-10-04 07:01:02Z" end-time="2026-10-04 07:01:08Z" duration="5.977844" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1002" name="FullOrder_ThroughRealScreenClicks" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).FullOrder_ThroughRealScreenClicks" methodname="FullOrder_ThroughRealScreenClicks" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="2033698255" result="Passed" start-time="2026-10-04 07:01:08Z" end-time="2026-10-04 07:01:33Z" duration="24.604749" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1006" name="MovedParts_NoTeleport_NoClipping" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).MovedParts_NoTeleport_NoClipping" methodname="MovedParts_NoTeleport_NoClipping" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="843081877" result="Passed" start-time="2026-10-04 07:01:33Z" end-time="2026-10-04 07:01:34Z" duration="1.055540" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] 翻面的上盖总成落点：位置差 0.000 mm，朝向差 0.000°
+[FirstOrderTest] 旧轴承落点：位置差 0.000 mm，朝向差 0.000°
+[FirstOrderTest] 保养标记法线与竖直向上夹角 1.8°
+[FirstOrderTest] 逐帧：1506 帧，最大单帧位移 36.3 mm（engine_l_bearing_new 第 850 帧（FetchNewBearing）），最大单帧转角 6.21°（engine_l_cover 第 1061 帧（ReinstallCover））；搬运途中检查了 562 帧（engine_l_cover：搬运时中心高 1.699 m（沿途最高 Lamp_Head），低空钻进落点（上方有台灯）；engine_l_bearing：搬运时中心高 1.435 m（沿途最高 TopCover_Ridge）；engine_l_bearing_new：搬运时中心高 1.434 m（沿途最高 TopCover_Ridge）；engine_l_cover：搬运时中心高 1.700 m（沿途最高 Lamp_Head），从工作台低空钻出），包围盒粗筛有重叠的 0 次，凸包精查穿入 0 处；没有碰撞、只能比包围盒、包围盒有交叠的物件：engine_l_cover↔Marker（PlaceCover）、engine_l_bearing↔Tray_Screws（PlaceOldBearing）、engine_l_bearing↔Marker（PlaceOldBearing）、engine_l_bearing_new↔Box_Bearings（FetchNewBearing）
+]]></output>
+                </test-case>
+                <test-case id="1005" name="OldAndNewBearings_NeverShownTogether" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).OldAndNewBearings_NeverShownTogether" methodname="OldAndNewBearings_NeverShownTogether" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="961665067" result="Passed" start-time="2026-10-04 07:01:34Z" end-time="2026-10-04 07:01:35Z" duration="1.054910" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] 新旧轴承逐帧核对：1506 帧，同时在轴承位的最多 1 个；违规 0 条
+]]></output>
+                </test-case>
+                <test-case id="1004" name="PowerOn_BeforeFullyInstalled_IsRefused" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).PowerOn_BeforeFullyInstalled_IsRefused" methodname="PowerOn_BeforeFullyInstalled_IsRefused" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="189538230" result="Passed" start-time="2026-10-04 07:01:35Z" end-time="2026-10-04 07:01:59Z" duration="24.561510" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1007" name="RemovalPaths_DoNotPassThroughOtherRobotParts" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).RemovalPaths_DoNotPassThroughOtherRobotParts" methodname="RemovalPaths_DoNotPassThroughOtherRobotParts" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="954608250" result="Passed" start-time="2026-10-04 07:01:59Z" end-time="2026-10-04 07:02:10Z" duration="10.329543" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] Engine_UpperCover_L：检查了 8 个邻近零件；原位就与凸包重叠、凸包方法判断不了的：无
+[FirstOrderTest] 上盖总成抬起 10 cm 途中穿入：无
+[FirstOrderTest] Engine_BearingTop_L：检查了 2 个邻近零件；原位就与凸包重叠、凸包方法判断不了的：Engine_LowerCover_L
+[FirstOrderTest] 旧轴承抬起 7 cm 途中穿入（转轴同轴不计）：无
+]]></output>
+                </test-case>
+                <test-case id="1008" name="Scene_RunsWithoutConsoleErrors" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Scene_RunsWithoutConsoleErrors" methodname="Scene_RunsWithoutConsoleErrors" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1295175092" result="Passed" start-time="2026-10-04 07:02:10Z" end-time="2026-10-04 07:02:10Z" duration="0.256285" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1009" name="FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-04 07:02:10Z" end-time="2026-10-04 07:03:18Z" duration="67.769529" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties>
+                  <property name="childIndex" value="2" />
+                  <property name="childIndex" value="2" />
+                  <property name="childIndex" value="2" />
+                </properties>
+                <test-case id="1011" name="CleanOnly_ThenRetestAttempt_IsRefused" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).CleanOnly_ThenRetestAttempt_IsRefused" methodname="CleanOnly_ThenRetestAttempt_IsRefused" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="920034150" result="Passed" start-time="2026-10-04 07:02:10Z" end-time="2026-10-04 07:02:16Z" duration="5.969469" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1010" name="FullOrder_ThroughRealScreenClicks" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).FullOrder_ThroughRealScreenClicks" methodname="FullOrder_ThroughRealScreenClicks" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1640413042" result="Passed" start-time="2026-10-04 07:02:16Z" end-time="2026-10-04 07:02:41Z" duration="24.556836" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1014" name="MovedParts_NoTeleport_NoClipping" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).MovedParts_NoTeleport_NoClipping" methodname="MovedParts_NoTeleport_NoClipping" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1688002537" result="Passed" start-time="2026-10-04 07:02:41Z" end-time="2026-10-04 07:02:42Z" duration="1.076445" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] 翻面的上盖总成落点：位置差 0.000 mm，朝向差 0.000°
+[FirstOrderTest] 旧轴承落点：位置差 0.000 mm，朝向差 0.000°
+[FirstOrderTest] 保养标记法线与竖直向上夹角 1.8°
+[FirstOrderTest] 逐帧：1506 帧，最大单帧位移 36.3 mm（engine_l_bearing_new 第 850 帧（FetchNewBearing）），最大单帧转角 6.21°（engine_l_cover 第 1061 帧（ReinstallCover））；搬运途中检查了 562 帧（engine_l_cover：搬运时中心高 1.699 m（沿途最高 Lamp_Head），低空钻进落点（上方有台灯）；engine_l_bearing：搬运时中心高 1.435 m（沿途最高 TopCover_Ridge）；engine_l_bearing_new：搬运时中心高 1.434 m（沿途最高 TopCover_Ridge）；engine_l_cover：搬运时中心高 1.700 m（沿途最高 Lamp_Head），从工作台低空钻出），包围盒粗筛有重叠的 0 次，凸包精查穿入 0 处；没有碰撞、只能比包围盒、包围盒有交叠的物件：engine_l_cover↔Marker（PlaceCover）、engine_l_bearing↔Tray_Screws（PlaceOldBearing）、engine_l_bearing↔Marker（PlaceOldBearing）、engine_l_bearing_new↔Box_Bearings（FetchNewBearing）
+]]></output>
+                </test-case>
+                <test-case id="1013" name="OldAndNewBearings_NeverShownTogether" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).OldAndNewBearings_NeverShownTogether" methodname="OldAndNewBearings_NeverShownTogether" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1352986238" result="Passed" start-time="2026-10-04 07:02:42Z" end-time="2026-10-04 07:02:43Z" duration="1.070103" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] 新旧轴承逐帧核对：1506 帧，同时在轴承位的最多 1 个；违规 0 条
+]]></output>
+                </test-case>
+                <test-case id="1012" name="PowerOn_BeforeFullyInstalled_IsRefused" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).PowerOn_BeforeFullyInstalled_IsRefused" methodname="PowerOn_BeforeFullyInstalled_IsRefused" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1091893946" result="Passed" start-time="2026-10-04 07:02:43Z" end-time="2026-10-04 07:03:07Z" duration="24.551592" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1015" name="RemovalPaths_DoNotPassThroughOtherRobotParts" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).RemovalPaths_DoNotPassThroughOtherRobotParts" methodname="RemovalPaths_DoNotPassThroughOtherRobotParts" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1253448580" result="Passed" start-time="2026-10-04 07:03:07Z" end-time="2026-10-04 07:03:18Z" duration="10.297134" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] Engine_UpperCover_L：检查了 8 个邻近零件；原位就与凸包重叠、凸包方法判断不了的：无
+[FirstOrderTest] 上盖总成抬起 10 cm 途中穿入：无
+[FirstOrderTest] Engine_BearingTop_L：检查了 2 个邻近零件；原位就与凸包重叠、凸包方法判断不了的：Engine_LowerCover_L
+[FirstOrderTest] 旧轴承抬起 7 cm 途中穿入（转轴同轴不计）：无
+]]></output>
+                </test-case>
+                <test-case id="1016" name="Scene_RunsWithoutConsoleErrors" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Scene_RunsWithoutConsoleErrors" methodname="Scene_RunsWithoutConsoleErrors" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="600518742" result="Passed" start-time="2026-10-04 07:03:18Z" end-time="2026-10-04 07:03:18Z" duration="0.245888" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1017" name="FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-04 07:03:18Z" end-time="2026-10-04 07:04:26Z" duration="67.898255" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties>
+                  <property name="childIndex" value="3" />
+                  <property name="childIndex" value="3" />
+                  <property name="childIndex" value="3" />
+                </properties>
+                <test-case id="1019" name="CleanOnly_ThenRetestAttempt_IsRefused" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).CleanOnly_ThenRetestAttempt_IsRefused" methodname="CleanOnly_ThenRetestAttempt_IsRefused" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1468597140" result="Passed" start-time="2026-10-04 07:03:18Z" end-time="2026-10-04 07:03:24Z" duration="5.952060" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1018" name="FullOrder_ThroughRealScreenClicks" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).FullOrder_ThroughRealScreenClicks" methodname="FullOrder_ThroughRealScreenClicks" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1076717032" result="Passed" start-time="2026-10-04 07:03:24Z" end-time="2026-10-04 07:03:48Z" duration="24.550582" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1022" name="MovedParts_NoTeleport_NoClipping" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).MovedParts_NoTeleport_NoClipping" methodname="MovedParts_NoTeleport_NoClipping" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1669648245" result="Passed" start-time="2026-10-04 07:03:48Z" end-time="2026-10-04 07:03:49Z" duration="1.015103" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] 翻面的上盖总成落点：位置差 0.000 mm，朝向差 0.000°
+[FirstOrderTest] 旧轴承落点：位置差 0.000 mm，朝向差 0.000°
+[FirstOrderTest] 保养标记法线与竖直向上夹角 1.8°
+[FirstOrderTest] 逐帧：1506 帧，最大单帧位移 24.3 mm（engine_l_bearing_new 第 850 帧（FetchNewBearing）），最大单帧转角 6.20°（engine_l_cover 第 1061 帧（ReinstallCover））；搬运途中检查了 562 帧（engine_l_cover：搬运时中心高 1.735 m（沿途最高 Lamp_Head），低空钻进落点（上方有台灯）；engine_l_bearing：搬运时中心高 1.326 m（沿途最高 Engine_CoverLatch_Outer_L）；engine_l_bearing_new：搬运时中心高 1.325 m（沿途最高 Engine_CoverLatch_Outer_L）；engine_l_cover：搬运时中心高 1.700 m（沿途最高 Lamp_Head），从工作台低空钻出），包围盒粗筛有重叠的 0 次，凸包精查穿入 0 处；没有碰撞、只能比包围盒、包围盒有交叠的物件：engine_l_cover↔Marker（PlaceCover）、engine_l_bearing↔Tray_Screws（PlaceOldBearing）、engine_l_bearing↔Marker（PlaceOldBearing）、engine_l_bearing_new↔Box_Bearings（FetchNewBearing）
+]]></output>
+                </test-case>
+                <test-case id="1021" name="OldAndNewBearings_NeverShownTogether" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).OldAndNewBearings_NeverShownTogether" methodname="OldAndNewBearings_NeverShownTogether" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="85196074" result="Passed" start-time="2026-10-04 07:03:49Z" end-time="2026-10-04 07:03:50Z" duration="1.078121" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] 新旧轴承逐帧核对：1506 帧，同时在轴承位的最多 1 个；违规 0 条
+]]></output>
+                </test-case>
+                <test-case id="1020" name="PowerOn_BeforeFullyInstalled_IsRefused" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).PowerOn_BeforeFullyInstalled_IsRefused" methodname="PowerOn_BeforeFullyInstalled_IsRefused" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="2004407131" result="Passed" start-time="2026-10-04 07:03:50Z" end-time="2026-10-04 07:04:15Z" duration="24.547021" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1023" name="RemovalPaths_DoNotPassThroughOtherRobotParts" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).RemovalPaths_DoNotPassThroughOtherRobotParts" methodname="RemovalPaths_DoNotPassThroughOtherRobotParts" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1931820378" result="Passed" start-time="2026-10-04 07:04:15Z" end-time="2026-10-04 07:04:25Z" duration="10.498432" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] Engine_UpperCover_L：检查了 10 个邻近零件；原位就与凸包重叠、凸包方法判断不了的：无
+[FirstOrderTest] 上盖总成抬起 10 cm 途中穿入：无
+[FirstOrderTest] Engine_BearingTop_L：检查了 2 个邻近零件；原位就与凸包重叠、凸包方法判断不了的：Engine_LowerCover_L
+[FirstOrderTest] 旧轴承抬起 7 cm 途中穿入（转轴同轴不计）：无
+]]></output>
+                </test-case>
+                <test-case id="1024" name="Scene_RunsWithoutConsoleErrors" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Scene_RunsWithoutConsoleErrors" methodname="Scene_RunsWithoutConsoleErrors" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1094513622" result="Passed" start-time="2026-10-04 07:04:25Z" end-time="2026-10-04 07:04:26Z" duration="0.255457" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1025" name="FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-04 07:04:26Z" end-time="2026-10-04 07:05:34Z" duration="67.892485" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties>
+                  <property name="childIndex" value="4" />
+                  <property name="childIndex" value="4" />
+                  <property name="childIndex" value="4" />
+                </properties>
+                <test-case id="1027" name="CleanOnly_ThenRetestAttempt_IsRefused" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).CleanOnly_ThenRetestAttempt_IsRefused" methodname="CleanOnly_ThenRetestAttempt_IsRefused" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="339121451" result="Passed" start-time="2026-10-04 07:04:26Z" end-time="2026-10-04 07:04:32Z" duration="6.081738" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1026" name="FullOrder_ThroughRealScreenClicks" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).FullOrder_ThroughRealScreenClicks" methodname="FullOrder_ThroughRealScreenClicks" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1016832990" result="Passed" start-time="2026-10-04 07:04:32Z" end-time="2026-10-04 07:04:56Z" duration="24.586301" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1030" name="MovedParts_NoTeleport_NoClipping" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).MovedParts_NoTeleport_NoClipping" methodname="MovedParts_NoTeleport_NoClipping" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="1100820043" result="Passed" start-time="2026-10-04 07:04:56Z" end-time="2026-10-04 07:04:57Z" duration="1.036688" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] 翻面的上盖总成落点：位置差 0.000 mm，朝向差 0.000°
+[FirstOrderTest] 旧轴承落点：位置差 0.000 mm，朝向差 0.000°
+[FirstOrderTest] 保养标记法线与竖直向上夹角 1.8°
+[FirstOrderTest] 逐帧：1506 帧，最大单帧位移 24.3 mm（engine_l_bearing_new 第 850 帧（FetchNewBearing）），最大单帧转角 6.20°（engine_l_cover 第 1061 帧（ReinstallCover））；搬运途中检查了 562 帧（engine_l_cover：搬运时中心高 1.735 m（沿途最高 Lamp_Head），低空钻进落点（上方有台灯）；engine_l_bearing：搬运时中心高 1.326 m（沿途最高 Engine_CoverLatch_Outer_L）；engine_l_bearing_new：搬运时中心高 1.325 m（沿途最高 Engine_CoverLatch_Outer_L）；engine_l_cover：搬运时中心高 1.700 m（沿途最高 Lamp_Head），从工作台低空钻出），包围盒粗筛有重叠的 0 次，凸包精查穿入 0 处；没有碰撞、只能比包围盒、包围盒有交叠的物件：engine_l_cover↔Marker（PlaceCover）、engine_l_bearing↔Tray_Screws（PlaceOldBearing）、engine_l_bearing↔Marker（PlaceOldBearing）、engine_l_bearing_new↔Box_Bearings（FetchNewBearing）
+]]></output>
+                </test-case>
+                <test-case id="1029" name="OldAndNewBearings_NeverShownTogether" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).OldAndNewBearings_NeverShownTogether" methodname="OldAndNewBearings_NeverShownTogether" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="2051694271" result="Passed" start-time="2026-10-04 07:04:57Z" end-time="2026-10-04 07:04:58Z" duration="1.052553" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] 新旧轴承逐帧核对：1506 帧，同时在轴承位的最多 1 个；违规 0 条
+]]></output>
+                </test-case>
+                <test-case id="1028" name="PowerOn_BeforeFullyInstalled_IsRefused" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).PowerOn_BeforeFullyInstalled_IsRefused" methodname="PowerOn_BeforeFullyInstalled_IsRefused" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="2080775322" result="Passed" start-time="2026-10-04 07:04:58Z" end-time="2026-10-04 07:05:23Z" duration="24.561964" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1031" name="RemovalPaths_DoNotPassThroughOtherRobotParts" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).RemovalPaths_DoNotPassThroughOtherRobotParts" methodname="RemovalPaths_DoNotPassThroughOtherRobotParts" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="687479894" result="Passed" start-time="2026-10-04 07:05:23Z" end-time="2026-10-04 07:05:33Z" duration="10.318076" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[FirstOrderTest] Engine_UpperCover_L：检查了 10 个邻近零件；原位就与凸包重叠、凸包方法判断不了的：无
+[FirstOrderTest] 上盖总成抬起 10 cm 途中穿入：无
+[FirstOrderTest] Engine_BearingTop_L：检查了 2 个邻近零件；原位就与凸包重叠、凸包方法判断不了的：Engine_LowerCover_L
+[FirstOrderTest] 旧轴承抬起 7 cm 途中穿入（转轴同轴不计）：无
+]]></output>
+                </test-case>
+                <test-case id="1032" name="Scene_RunsWithoutConsoleErrors" fullname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Scene_RunsWithoutConsoleErrors" methodname="Scene_RunsWithoutConsoleErrors" classname="BorderRepair.FirstOrder.Tests.FirstOrderPlayTests" runstate="Runnable" seed="190180122" result="Passed" start-time="2026-10-04 07:05:33Z" end-time="2026-10-04 07:05:34Z" duration="0.253560" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1034" name="SlicePlayTests" fullname="BorderRepair.FirstOrder.Tests.SlicePlayTests" classname="BorderRepair.FirstOrder.Tests.SlicePlayTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-04 07:05:34Z" end-time="2026-10-04 07:06:08Z" duration="34.594842" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1035" name="MouseOnly_FullRepair_WithObservation" fullname="BorderRepair.FirstOrder.Tests.SlicePlayTests.MouseOnly_FullRepair_WithObservation" methodname="MouseOnly_FullRepair_WithObservation" classname="BorderRepair.FirstOrder.Tests.SlicePlayTests" runstate="Runnable" seed="318388289" result="Passed" start-time="2026-10-04 07:05:34Z" end-time="2026-10-04 07:06:07Z" duration="33.823598" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1036" name="UiClick_DoesNotReach3D_AndTextInputBlocksShortcuts" fullname="BorderRepair.FirstOrder.Tests.SlicePlayTests.UiClick_DoesNotReach3D_AndTextInputBlocksShortcuts" methodname="UiClick_DoesNotReach3D_AndTextInputBlocksShortcuts" classname="BorderRepair.FirstOrder.Tests.SlicePlayTests" runstate="Runnable" seed="705308085" result="Passed" start-time="2026-10-04 07:06:07Z" end-time="2026-10-04 07:06:08Z" duration="0.769950" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1120" name="BorderRepair.Tests.PlayMode.dll" fullname="C:/Users/Administrator/UnityProjects/BorderRepairStation_slice/Library/ScriptAssemblies/BorderRepair.Tests.PlayMode.dll" runstate="Runnable" testcasecount="59" result="Passed" start-time="2026-10-04 07:06:08Z" end-time="2026-10-04 07:07:42Z" duration="93.806443" total="59" passed="52" failed="0" inconclusive="0" skipped="7" asserts="0">
+      <properties>
+        <property name="_PID" value="31520" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1121" name="BorderRepair" fullname="BorderRepair" runstate="Runnable" testcasecount="59" result="Passed" start-time="2026-10-04 07:06:08Z" end-time="2026-10-04 07:07:42Z" duration="93.805395" total="59" passed="52" failed="0" inconclusive="0" skipped="7" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1122" name="Tests" fullname="BorderRepair.Tests" runstate="Runnable" testcasecount="59" result="Passed" start-time="2026-10-04 07:06:08Z" end-time="2026-10-04 07:07:42Z" duration="93.803942" total="59" passed="52" failed="0" inconclusive="0" skipped="7" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1044" name="CommunicatorCaptureTests" fullname="BorderRepair.Tests.CommunicatorCaptureTests" classname="BorderRepair.Tests.CommunicatorCaptureTests" runstate="Explicit" testcasecount="1" result="Skipped" label="Explicit" site="SetUp" start-time="2026-10-04 07:06:08Z" end-time="2026-10-04 07:06:08Z" duration="0.002182" total="1" passed="0" failed="0" inconclusive="0" skipped="1" asserts="0">
+            <properties>
+              <property name="_SKIPREASON" value="仅用于生成截图" />
+            </properties>
+            <reason>
+              <message><![CDATA[仅用于生成截图]]></message>
+            </reason>
+            <test-case id="1045" name="CaptureUnityShots" fullname="BorderRepair.Tests.CommunicatorCaptureTests.CaptureUnityShots" methodname="CaptureUnityShots" classname="BorderRepair.Tests.CommunicatorCaptureTests" runstate="Runnable" seed="1791394016" result="Skipped" label="Explicit" site="Parent" start-time="0001-01-01 00:00:00Z" end-time="0001-01-01 00:00:00Z" duration="0.000000" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+              </properties>
+              <reason>
+                <message><![CDATA[仅用于生成截图]]></message>
+              </reason>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1041" name="CommunicatorFinalTests" fullname="BorderRepair.Tests.CommunicatorFinalTests" classname="BorderRepair.Tests.CommunicatorFinalTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-04 07:06:08Z" end-time="2026-10-04 07:06:09Z" duration="0.490622" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1042" name="FrontFacesCameraAndPointsAreRaycastable" fullname="BorderRepair.Tests.CommunicatorFinalTests.FrontFacesCameraAndPointsAreRaycastable" methodname="FrontFacesCameraAndPointsAreRaycastable" classname="BorderRepair.Tests.CommunicatorFinalTests" runstate="Runnable" seed="1738461070" result="Passed" start-time="2026-10-04 07:06:08Z" end-time="2026-10-04 07:06:09Z" duration="0.283314" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1043" name="RepairSwapsAntennaVisualsAndStaysInFrame" fullname="BorderRepair.Tests.CommunicatorFinalTests.RepairSwapsAntennaVisualsAndStaysInFrame" methodname="RepairSwapsAntennaVisualsAndStaysInFrame" classname="BorderRepair.Tests.CommunicatorFinalTests" runstate="Runnable" seed="538749215" result="Passed" start-time="2026-10-04 07:06:09Z" end-time="2026-10-04 07:06:09Z" duration="0.205843" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1102" name="DefaultScenePolishRegressionTests" fullname="BorderRepair.Tests.DefaultScenePolishRegressionTests" classname="BorderRepair.Tests.DefaultScenePolishRegressionTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-04 07:06:09Z" end-time="2026-10-04 07:06:09Z" duration="0.193816" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1103" name="DefaultSceneHasNoFramingFxOrCollapsiblePanels" fullname="BorderRepair.Tests.DefaultScenePolishRegressionTests.DefaultSceneHasNoFramingFxOrCollapsiblePanels" methodname="DefaultSceneHasNoFramingFxOrCollapsiblePanels" classname="BorderRepair.Tests.DefaultScenePolishRegressionTests" runstate="Runnable" seed="122104777" result="Passed" start-time="2026-10-04 07:06:09Z" end-time="2026-10-04 07:06:09Z" duration="0.193003" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1094" name="DefaultShiftRegressionTests" fullname="BorderRepair.Tests.DefaultShiftRegressionTests" classname="BorderRepair.Tests.DefaultShiftRegressionTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-04 07:06:09Z" end-time="2026-10-04 07:06:09Z" duration="0.209613" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1095" name="DefaultShiftStillJudgedAndOrdered" fullname="BorderRepair.Tests.DefaultShiftRegressionTests.DefaultShiftStillJudgedAndOrdered" methodname="DefaultShiftStillJudgedAndOrdered" classname="BorderRepair.Tests.DefaultShiftRegressionTests" runstate="Runnable" seed="282412244" result="Passed" start-time="2026-10-04 07:06:09Z" end-time="2026-10-04 07:06:09Z" duration="0.208468" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1073" name="DiagnosticHighlightScannerTests" fullname="BorderRepair.Tests.DiagnosticHighlightScannerTests" classname="BorderRepair.Tests.DiagnosticHighlightScannerTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-04 07:06:09Z" end-time="2026-10-04 07:06:10Z" duration="0.390449" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1074" name="DefaultSceneKeepsLegacyTint" fullname="BorderRepair.Tests.DiagnosticHighlightScannerTests.DefaultSceneKeepsLegacyTint" methodname="DefaultSceneKeepsLegacyTint" classname="BorderRepair.Tests.DiagnosticHighlightScannerTests" runstate="Runnable" seed="2138423697" result="Passed" start-time="2026-10-04 07:06:09Z" end-time="2026-10-04 07:06:09Z" duration="0.194262" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1075" name="ScannerStatesDriveOverlayWhenEnabled" fullname="BorderRepair.Tests.DiagnosticHighlightScannerTests.ScannerStatesDriveOverlayWhenEnabled" methodname="ScannerStatesDriveOverlayWhenEnabled" classname="BorderRepair.Tests.DiagnosticHighlightScannerTests" runstate="Runnable" seed="1486719012" result="Passed" start-time="2026-10-04 07:06:09Z" end-time="2026-10-04 07:06:10Z" duration="0.194795" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1051" name="NavBeaconCaptureTests" fullname="BorderRepair.Tests.NavBeaconCaptureTests" classname="BorderRepair.Tests.NavBeaconCaptureTests" runstate="Explicit" testcasecount="1" result="Skipped" label="Explicit" site="SetUp" start-time="2026-10-04 07:06:10Z" end-time="2026-10-04 07:06:10Z" duration="0.000152" total="1" passed="0" failed="0" inconclusive="0" skipped="1" asserts="0">
+            <properties>
+              <property name="_SKIPREASON" value="仅用于生成截图" />
+            </properties>
+            <reason>
+              <message><![CDATA[仅用于生成截图]]></message>
+            </reason>
+            <test-case id="1052" name="CaptureUnityShots" fullname="BorderRepair.Tests.NavBeaconCaptureTests.CaptureUnityShots" methodname="CaptureUnityShots" classname="BorderRepair.Tests.NavBeaconCaptureTests" runstate="Runnable" seed="1788945857" result="Skipped" label="Explicit" site="Parent" start-time="0001-01-01 00:00:00Z" end-time="0001-01-01 00:00:00Z" duration="0.000000" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+              </properties>
+              <reason>
+                <message><![CDATA[仅用于生成截图]]></message>
+              </reason>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1046" name="NavBeaconFinalTests" fullname="BorderRepair.Tests.NavBeaconFinalTests" classname="BorderRepair.Tests.NavBeaconFinalTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-04 07:06:10Z" end-time="2026-10-04 07:06:10Z" duration="0.848717" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1048" name="AllFourPointsPickableFromScreen" fullname="BorderRepair.Tests.NavBeaconFinalTests.AllFourPointsPickableFromScreen" methodname="AllFourPointsPickableFromScreen" classname="BorderRepair.Tests.NavBeaconFinalTests" runstate="Runnable" seed="1689828922" result="Passed" start-time="2026-10-04 07:06:10Z" end-time="2026-10-04 07:06:10Z" duration="0.198755" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1050" name="CaseCompletesWithRefuseAndRegister" fullname="BorderRepair.Tests.NavBeaconFinalTests.CaseCompletesWithRefuseAndRegister" methodname="CaseCompletesWithRefuseAndRegister" classname="BorderRepair.Tests.NavBeaconFinalTests" runstate="Runnable" seed="329394730" result="Passed" start-time="2026-10-04 07:06:10Z" end-time="2026-10-04 07:06:10Z" duration="0.218148" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1047" name="FrontFacesCameraAndBackAfterRotation" fullname="BorderRepair.Tests.NavBeaconFinalTests.FrontFacesCameraAndBackAfterRotation" methodname="FrontFacesCameraAndBackAfterRotation" classname="BorderRepair.Tests.NavBeaconFinalTests" runstate="Runnable" seed="1976054909" result="Passed" start-time="2026-10-04 07:06:10Z" end-time="2026-10-04 07:06:10Z" duration="0.232233" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1049" name="PickImmediatelyAfterRotation" fullname="BorderRepair.Tests.NavBeaconFinalTests.PickImmediatelyAfterRotation" methodname="PickImmediatelyAfterRotation" classname="BorderRepair.Tests.NavBeaconFinalTests" runstate="Runnable" seed="1403394494" result="Passed" start-time="2026-10-04 07:06:10Z" end-time="2026-10-04 07:06:10Z" duration="0.198324" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1053" name="RepairStationPlayModeTests" fullname="BorderRepair.Tests.RepairStationPlayModeTests" classname="BorderRepair.Tests.RepairStationPlayModeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-04 07:06:10Z" end-time="2026-10-04 07:06:11Z" duration="0.422563" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1054" name="PlaysAllThreeCasesToSummaryAndRestarts" fullname="BorderRepair.Tests.RepairStationPlayModeTests.PlaysAllThreeCasesToSummaryAndRestarts" methodname="PlaysAllThreeCasesToSummaryAndRestarts" classname="BorderRepair.Tests.RepairStationPlayModeTests" runstate="Runnable" seed="1231405363" result="Passed" start-time="2026-10-04 07:06:10Z" end-time="2026-10-04 07:06:11Z" duration="0.226172" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1055" name="ZoomAndRotationStayWithinLimits" fullname="BorderRepair.Tests.RepairStationPlayModeTests.ZoomAndRotationStayWithinLimits" methodname="ZoomAndRotationStayWithinLimits" classname="BorderRepair.Tests.RepairStationPlayModeTests" runstate="Runnable" seed="1405147911" result="Passed" start-time="2026-10-04 07:06:11Z" end-time="2026-10-04 07:06:11Z" duration="0.195505" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1061" name="SalvageDroneCaptureTests" fullname="BorderRepair.Tests.SalvageDroneCaptureTests" classname="BorderRepair.Tests.SalvageDroneCaptureTests" runstate="Explicit" testcasecount="1" result="Skipped" label="Explicit" site="SetUp" start-time="2026-10-04 07:06:11Z" end-time="2026-10-04 07:06:11Z" duration="0.000216" total="1" passed="0" failed="0" inconclusive="0" skipped="1" asserts="0">
+            <properties>
+              <property name="_SKIPREASON" value="仅用于生成截图" />
+            </properties>
+            <reason>
+              <message><![CDATA[仅用于生成截图]]></message>
+            </reason>
+            <test-case id="1062" name="CaptureUnityShots" fullname="BorderRepair.Tests.SalvageDroneCaptureTests.CaptureUnityShots" methodname="CaptureUnityShots" classname="BorderRepair.Tests.SalvageDroneCaptureTests" runstate="Runnable" seed="1540797199" result="Skipped" label="Explicit" site="Parent" start-time="0001-01-01 00:00:00Z" end-time="0001-01-01 00:00:00Z" duration="0.000000" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+              </properties>
+              <reason>
+                <message><![CDATA[仅用于生成截图]]></message>
+              </reason>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1056" name="SalvageDroneFinalTests" fullname="BorderRepair.Tests.SalvageDroneFinalTests" classname="BorderRepair.Tests.SalvageDroneFinalTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-04 07:06:11Z" end-time="2026-10-04 07:06:12Z" duration="0.794495" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1058" name="AllFourPointsPickableFromScreen" fullname="BorderRepair.Tests.SalvageDroneFinalTests.AllFourPointsPickableFromScreen" methodname="AllFourPointsPickableFromScreen" classname="BorderRepair.Tests.SalvageDroneFinalTests" runstate="Runnable" seed="1229749443" result="Passed" start-time="2026-10-04 07:06:11Z" end-time="2026-10-04 07:06:11Z" duration="0.200015" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1060" name="CaseCompletesWithRecommendReplacement" fullname="BorderRepair.Tests.SalvageDroneFinalTests.CaseCompletesWithRecommendReplacement" methodname="CaseCompletesWithRecommendReplacement" classname="BorderRepair.Tests.SalvageDroneFinalTests" runstate="Runnable" seed="721874568" result="Passed" start-time="2026-10-04 07:06:11Z" end-time="2026-10-04 07:06:11Z" duration="0.202623" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1057" name="NoseFacesCameraAndTailAfterRotation" fullname="BorderRepair.Tests.SalvageDroneFinalTests.NoseFacesCameraAndTailAfterRotation" methodname="NoseFacesCameraAndTailAfterRotation" classname="BorderRepair.Tests.SalvageDroneFinalTests" runstate="Runnable" seed="1312787214" result="Passed" start-time="2026-10-04 07:06:11Z" end-time="2026-10-04 07:06:11Z" duration="0.195134" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1059" name="PickImmediatelyAfterRotation" fullname="BorderRepair.Tests.SalvageDroneFinalTests.PickImmediatelyAfterRotation" methodname="PickImmediatelyAfterRotation" classname="BorderRepair.Tests.SalvageDroneFinalTests" runstate="Runnable" seed="2038393976" result="Passed" start-time="2026-10-04 07:06:11Z" end-time="2026-10-04 07:06:12Z" duration="0.195493" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1076" name="ShaderLabCaptureTests" fullname="BorderRepair.Tests.ShaderLabCaptureTests" classname="BorderRepair.Tests.ShaderLabCaptureTests" runstate="Explicit" testcasecount="1" result="Skipped" label="Explicit" site="SetUp" start-time="2026-10-04 07:06:12Z" end-time="2026-10-04 07:06:12Z" duration="0.000159" total="1" passed="0" failed="0" inconclusive="0" skipped="1" asserts="0">
+            <properties>
+              <property name="_SKIPREASON" value="仅用于生成截图与性能粗测" />
+            </properties>
+            <reason>
+              <message><![CDATA[仅用于生成截图与性能粗测]]></message>
+            </reason>
+            <test-case id="1077" name="CaptureStatesAndMeasure" fullname="BorderRepair.Tests.ShaderLabCaptureTests.CaptureStatesAndMeasure" methodname="CaptureStatesAndMeasure" classname="BorderRepair.Tests.ShaderLabCaptureTests" runstate="Runnable" seed="432399973" result="Skipped" label="Explicit" site="Parent" start-time="0001-01-01 00:00:00Z" end-time="0001-01-01 00:00:00Z" duration="0.000000" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+              </properties>
+              <reason>
+                <message><![CDATA[仅用于生成截图与性能粗测]]></message>
+              </reason>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1063" name="ShaderLabPlayModeTests" fullname="BorderRepair.Tests.ShaderLabPlayModeTests" classname="BorderRepair.Tests.ShaderLabPlayModeTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-10-04 07:06:12Z" end-time="2026-10-04 07:06:14Z" duration="2.329212" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1068" name="ExistingPropertyBlocksArePreserved" fullname="BorderRepair.Tests.ShaderLabPlayModeTests.ExistingPropertyBlocksArePreserved" methodname="ExistingPropertyBlocksArePreserved" classname="BorderRepair.Tests.ShaderLabPlayModeTests" runstate="Runnable" seed="1150878367" result="Passed" start-time="2026-10-04 07:06:12Z" end-time="2026-10-04 07:06:12Z" duration="0.203717" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1072" name="HighlightDoesNotShowThroughOccluders" fullname="BorderRepair.Tests.ShaderLabPlayModeTests.HighlightDoesNotShowThroughOccluders" methodname="HighlightDoesNotShowThroughOccluders" classname="BorderRepair.Tests.ShaderLabPlayModeTests" runstate="Runnable" seed="1996697150" result="Passed" start-time="2026-10-04 07:06:12Z" end-time="2026-10-04 07:06:12Z" duration="0.588350" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1069" name="LegacyRestoreLeavesNoBaseColorWhenOriginalBlockHadNone" fullname="BorderRepair.Tests.ShaderLabPlayModeTests.LegacyRestoreLeavesNoBaseColorWhenOriginalBlockHadNone" methodname="LegacyRestoreLeavesNoBaseColorWhenOriginalBlockHadNone" classname="BorderRepair.Tests.ShaderLabPlayModeTests" runstate="Runnable" seed="1318077362" result="Passed" start-time="2026-10-04 07:06:12Z" end-time="2026-10-04 07:06:13Z" duration="0.223271" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1071" name="NestedPointsAreIndependent" fullname="BorderRepair.Tests.ShaderLabPlayModeTests.NestedPointsAreIndependent" methodname="NestedPointsAreIndependent" classname="BorderRepair.Tests.ShaderLabPlayModeTests" runstate="Runnable" seed="246359020" result="Passed" start-time="2026-10-04 07:06:13Z" end-time="2026-10-04 07:06:13Z" duration="0.214367" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1065" name="OverlayOnlyOnOwnedRenderers" fullname="BorderRepair.Tests.ShaderLabPlayModeTests.OverlayOnlyOnOwnedRenderers" methodname="OverlayOnlyOnOwnedRenderers" classname="BorderRepair.Tests.ShaderLabPlayModeTests" runstate="Runnable" seed="1107006421" result="Passed" start-time="2026-10-04 07:06:13Z" end-time="2026-10-04 07:06:13Z" duration="0.222011" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1067" name="OverlayParametersFollowProfilePerState" fullname="BorderRepair.Tests.ShaderLabPlayModeTests.OverlayParametersFollowProfilePerState" methodname="OverlayParametersFollowProfilePerState" classname="BorderRepair.Tests.ShaderLabPlayModeTests" runstate="Runnable" seed="46377314" result="Passed" start-time="2026-10-04 07:06:13Z" end-time="2026-10-04 07:06:13Z" duration="0.224033" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1066" name="SharedMaterialAssetsAreNeverModified" fullname="BorderRepair.Tests.ShaderLabPlayModeTests.SharedMaterialAssetsAreNeverModified" methodname="SharedMaterialAssetsAreNeverModified" classname="BorderRepair.Tests.ShaderLabPlayModeTests" runstate="Runnable" seed="982591574" result="Passed" start-time="2026-10-04 07:06:13Z" end-time="2026-10-04 07:06:13Z" duration="0.218732" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1070" name="ToggleModeKeepsCurrentHover" fullname="BorderRepair.Tests.ShaderLabPlayModeTests.ToggleModeKeepsCurrentHover" methodname="ToggleModeKeepsCurrentHover" classname="BorderRepair.Tests.ShaderLabPlayModeTests" runstate="Runnable" seed="595177224" result="Passed" start-time="2026-10-04 07:06:13Z" end-time="2026-10-04 07:06:14Z" duration="0.212085" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1064" name="WornSurfaceRendersWithUrpSubshader" fullname="BorderRepair.Tests.ShaderLabPlayModeTests.WornSurfaceRendersWithUrpSubshader" methodname="WornSurfaceRendersWithUrpSubshader" classname="BorderRepair.Tests.ShaderLabPlayModeTests" runstate="Runnable" seed="316320132" result="Passed" start-time="2026-10-04 07:06:14Z" end-time="2026-10-04 07:06:14Z" duration="0.220276" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1078" name="TesterScreenCaptureTests" fullname="BorderRepair.Tests.TesterScreenCaptureTests" classname="BorderRepair.Tests.TesterScreenCaptureTests" runstate="Explicit" testcasecount="1" result="Skipped" label="Explicit" site="SetUp" start-time="2026-10-04 07:06:14Z" end-time="2026-10-04 07:06:14Z" duration="0.000169" total="1" passed="0" failed="0" inconclusive="0" skipped="1" asserts="0">
+            <properties>
+              <property name="_SKIPREASON" value="仅用于生成截图和性能对比" />
+            </properties>
+            <reason>
+              <message><![CDATA[仅用于生成截图和性能对比]]></message>
+            </reason>
+            <test-case id="1079" name="CaptureThreeStatesAndCompareCost" fullname="BorderRepair.Tests.TesterScreenCaptureTests.CaptureThreeStatesAndCompareCost" methodname="CaptureThreeStatesAndCompareCost" classname="BorderRepair.Tests.TesterScreenCaptureTests" runstate="Runnable" seed="1654880773" result="Skipped" label="Explicit" site="Parent" start-time="0001-01-01 00:00:00Z" end-time="0001-01-01 00:00:00Z" duration="0.000000" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+              </properties>
+              <reason>
+                <message><![CDATA[仅用于生成截图和性能对比]]></message>
+              </reason>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1080" name="TesterScreenPlayModeTests" fullname="BorderRepair.Tests.TesterScreenPlayModeTests" classname="BorderRepair.Tests.TesterScreenPlayModeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-04 07:06:14Z" end-time="2026-10-04 07:06:17Z" duration="2.908524" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1081" name="PresetsFollowTheReadingAndCanBeSwitchedOff" fullname="BorderRepair.Tests.TesterScreenPlayModeTests.PresetsFollowTheReadingAndCanBeSwitchedOff" methodname="PresetsFollowTheReadingAndCanBeSwitchedOff" classname="BorderRepair.Tests.TesterScreenPlayModeTests" runstate="Runnable" seed="1523173489" result="Passed" start-time="2026-10-04 07:06:14Z" end-time="2026-10-04 07:06:15Z" duration="1.193320" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1082" name="ScreenJumpsBrieflyOnSwitchThenStaysStable" fullname="BorderRepair.Tests.TesterScreenPlayModeTests.ScreenJumpsBrieflyOnSwitchThenStaysStable" methodname="ScreenJumpsBrieflyOnSwitchThenStaysStable" classname="BorderRepair.Tests.TesterScreenPlayModeTests" runstate="Runnable" seed="1149726893" result="Passed" start-time="2026-10-04 07:06:15Z" end-time="2026-10-04 07:06:17Z" duration="1.714276" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1083" name="Unit07DockPlayModeTests" fullname="BorderRepair.Tests.Unit07DockPlayModeTests" classname="BorderRepair.Tests.Unit07DockPlayModeTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-04 07:06:17Z" end-time="2026-10-04 07:06:36Z" duration="19.100769" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1084" name="DockingFlowPowerAndRotorsStayConsistent" fullname="BorderRepair.Tests.Unit07DockPlayModeTests.DockingFlowPowerAndRotorsStayConsistent" methodname="DockingFlowPowerAndRotorsStayConsistent" classname="BorderRepair.Tests.Unit07DockPlayModeTests" runstate="Runnable" seed="528364771" result="Passed" start-time="2026-10-04 07:06:17Z" end-time="2026-10-04 07:06:24Z" duration="7.359343" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1085" name="PowerOffDoesNotBreakGripperAnimation" fullname="BorderRepair.Tests.Unit07DockPlayModeTests.PowerOffDoesNotBreakGripperAnimation" methodname="PowerOffDoesNotBreakGripperAnimation" classname="BorderRepair.Tests.Unit07DockPlayModeTests" runstate="Runnable" seed="336156428" result="Passed" start-time="2026-10-04 07:06:24Z" end-time="2026-10-04 07:06:30Z" duration="6.217688" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1086" name="ProxiesAreClickableFromTheCamera" fullname="BorderRepair.Tests.Unit07DockPlayModeTests.ProxiesAreClickableFromTheCamera" methodname="ProxiesAreClickableFromTheCamera" classname="BorderRepair.Tests.Unit07DockPlayModeTests" runstate="Runnable" seed="491330993" result="Passed" start-time="2026-10-04 07:06:30Z" end-time="2026-10-04 07:06:33Z" duration="2.914958" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1087" name="RemovalCorridorsHaveNoDockColliders" fullname="BorderRepair.Tests.Unit07DockPlayModeTests.RemovalCorridorsHaveNoDockColliders" methodname="RemovalCorridorsHaveNoDockColliders" classname="BorderRepair.Tests.Unit07DockPlayModeTests" runstate="Runnable" seed="670767818" result="Passed" start-time="2026-10-04 07:06:33Z" end-time="2026-10-04 07:06:36Z" duration="2.607359" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1104" name="WorkerHandCaptureTests" fullname="BorderRepair.Tests.WorkerHandCaptureTests" classname="BorderRepair.Tests.WorkerHandCaptureTests" runstate="Explicit" testcasecount="1" result="Skipped" label="Explicit" site="SetUp" start-time="2026-10-04 07:06:36Z" end-time="2026-10-04 07:06:36Z" duration="0.000161" total="1" passed="0" failed="0" inconclusive="0" skipped="1" asserts="0">
+            <properties>
+              <property name="_SKIPREASON" value="仅用于生成截图" />
+            </properties>
+            <reason>
+              <message><![CDATA[仅用于生成截图]]></message>
+            </reason>
+            <test-case id="1105" name="CaptureStages" fullname="BorderRepair.Tests.WorkerHandCaptureTests.CaptureStages" methodname="CaptureStages" classname="BorderRepair.Tests.WorkerHandCaptureTests" runstate="Runnable" seed="1315175224" result="Skipped" label="Explicit" site="Parent" start-time="0001-01-01 00:00:00Z" end-time="0001-01-01 00:00:00Z" duration="0.000000" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+              </properties>
+              <reason>
+                <message><![CDATA[仅用于生成截图]]></message>
+              </reason>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1088" name="WorkerHandPlayModeTests" fullname="BorderRepair.Tests.WorkerHandPlayModeTests" classname="BorderRepair.Tests.WorkerHandPlayModeTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-04 07:06:36Z" end-time="2026-10-04 07:06:40Z" duration="3.871974" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1090" name="DisassemblyThroughScreenPicksAndSnapPositions" fullname="BorderRepair.Tests.WorkerHandPlayModeTests.DisassemblyThroughScreenPicksAndSnapPositions" methodname="DisassemblyThroughScreenPicksAndSnapPositions" classname="BorderRepair.Tests.WorkerHandPlayModeTests" runstate="Runnable" seed="2046534986" result="Passed" start-time="2026-10-04 07:06:36Z" end-time="2026-10-04 07:06:39Z" duration="2.975452" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1093" name="EndingGiveLog" fullname="BorderRepair.Tests.WorkerHandPlayModeTests.EndingGiveLog" methodname="EndingGiveLog" classname="BorderRepair.Tests.WorkerHandPlayModeTests" runstate="Runnable" seed="802788591" result="Passed" start-time="2026-10-04 07:06:39Z" end-time="2026-10-04 07:06:39Z" duration="0.235885" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1092" name="EndingKeepParams" fullname="BorderRepair.Tests.WorkerHandPlayModeTests.EndingKeepParams" methodname="EndingKeepParams" classname="BorderRepair.Tests.WorkerHandPlayModeTests" runstate="Runnable" seed="1134556611" result="Passed" start-time="2026-10-04 07:06:39Z" end-time="2026-10-04 07:06:39Z" duration="0.223777" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1091" name="EndingRestoreLimits" fullname="BorderRepair.Tests.WorkerHandPlayModeTests.EndingRestoreLimits" methodname="EndingRestoreLimits" classname="BorderRepair.Tests.WorkerHandPlayModeTests" runstate="Runnable" seed="1585030749" result="Passed" start-time="2026-10-04 07:06:39Z" end-time="2026-10-04 07:06:40Z" duration="0.225050" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1089" name="SceneUsesNarrativeShiftAndToolbar" fullname="BorderRepair.Tests.WorkerHandPlayModeTests.SceneUsesNarrativeShiftAndToolbar" methodname="SceneUsesNarrativeShiftAndToolbar" classname="BorderRepair.Tests.WorkerHandPlayModeTests" runstate="Runnable" seed="1486200133" result="Passed" start-time="2026-10-04 07:06:40Z" end-time="2026-10-04 07:06:40Z" duration="0.210293" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1096" name="WorkerHandPolishPlayModeTests" fullname="BorderRepair.Tests.WorkerHandPolishPlayModeTests" classname="BorderRepair.Tests.WorkerHandPolishPlayModeTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-04 07:06:40Z" end-time="2026-10-04 07:06:52Z" duration="12.154772" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1099" name="CustomerNoteCollapsesAfterAcceptAndCluesStayReachable" fullname="BorderRepair.Tests.WorkerHandPolishPlayModeTests.CustomerNoteCollapsesAfterAcceptAndCluesStayReachable" methodname="CustomerNoteCollapsesAfterAcceptAndCluesStayReachable" classname="BorderRepair.Tests.WorkerHandPolishPlayModeTests" runstate="Runnable" seed="2122164344" result="Passed" start-time="2026-10-04 07:06:40Z" end-time="2026-10-04 07:06:40Z" duration="0.214799" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1097" name="EachOperationCentresItsPartAndPanelsStayClear" fullname="BorderRepair.Tests.WorkerHandPolishPlayModeTests.EachOperationCentresItsPartAndPanelsStayClear" methodname="EachOperationCentresItsPartAndPanelsStayClear" classname="BorderRepair.Tests.WorkerHandPolishPlayModeTests" runstate="Runnable" seed="880799394" result="Passed" start-time="2026-10-04 07:06:40Z" end-time="2026-10-04 07:06:47Z" duration="7.223515" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[WorkerHandPolish] 取景
+fastener_a: 中心 (0.50, 0.49) 大小 0.06 遮挡 0%（-）
+fastener_b: 中心 (0.50, 0.50) 大小 0.05 遮挡 0%（-）
+shell: 中心 (0.50, 0.50) 大小 0.51 遮挡 0%（-）
+force_limiter: 中心 (0.50, 0.50) 大小 0.10 遮挡 0%（-）
+data_port: 中心 (0.50, 0.50) 大小 0.10 遮挡 0%（-）
+
+]]></output>
+            </test-case>
+            <test-case id="1098" name="HandToolLooksAtWholeItemAndResetReturnsToShot" fullname="BorderRepair.Tests.WorkerHandPolishPlayModeTests.HandToolLooksAtWholeItemAndResetReturnsToShot" methodname="HandToolLooksAtWholeItemAndResetReturnsToShot" classname="BorderRepair.Tests.WorkerHandPolishPlayModeTests" runstate="Runnable" seed="414501207" result="Passed" start-time="2026-10-04 07:06:47Z" end-time="2026-10-04 07:06:47Z" duration="0.209611" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1100" name="OperationsPlayDistinctFeedback" fullname="BorderRepair.Tests.WorkerHandPolishPlayModeTests.OperationsPlayDistinctFeedback" methodname="OperationsPlayDistinctFeedback" classname="BorderRepair.Tests.WorkerHandPolishPlayModeTests" runstate="Runnable" seed="26034738" result="Passed" start-time="2026-10-04 07:06:47Z" end-time="2026-10-04 07:06:52Z" duration="4.301186" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1101" name="V2UsesItsOwnMaterialsAndPlaceholderSkinStillWorks" fullname="BorderRepair.Tests.WorkerHandPolishPlayModeTests.V2UsesItsOwnMaterialsAndPlaceholderSkinStillWorks" methodname="V2UsesItsOwnMaterialsAndPlaceholderSkinStillWorks" classname="BorderRepair.Tests.WorkerHandPolishPlayModeTests" runstate="Runnable" seed="1528241495" result="Passed" start-time="2026-10-04 07:06:52Z" end-time="2026-10-04 07:06:52Z" duration="0.203166" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1106" name="WorkerHandToolAnimationTests" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-04 07:06:52Z" end-time="2026-10-04 07:07:42Z" duration="50.082473" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1111" name="CancelBeforeContactChangesNothing" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.CancelBeforeContactChangesNothing" methodname="CancelBeforeContactChangesNothing" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="998529068" result="Passed" start-time="2026-10-04 07:06:52Z" end-time="2026-10-04 07:06:53Z" duration="0.918939" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1110" name="ClicksDuringAnimationAreIgnored" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.ClicksDuringAnimationAreIgnored" methodname="ClicksDuringAnimationAreIgnored" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="1313784436" result="Passed" start-time="2026-10-04 07:06:53Z" end-time="2026-10-04 07:06:57Z" duration="3.815442" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1115" name="CoverRingStaysNearTheBayAndCoverStillPops" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.CoverRingStaysNearTheBayAndCoverStillPops" methodname="CoverRingStaysNearTheBayAndCoverStillPops" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="688910347" result="Passed" start-time="2026-10-04 07:06:57Z" end-time="2026-10-04 07:07:00Z" duration="2.916944" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1113" name="FramingHoldsWhileToolIsWorking" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.FramingHoldsWhileToolIsWorking" methodname="FramingHoldsWhileToolIsWorking" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="879868345" result="Passed" start-time="2026-10-04 07:07:00Z" end-time="2026-10-04 07:07:04Z" duration="4.005154" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1114" name="FullInvestigationWithAnimationsReachesDecision" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.FullInvestigationWithAnimationsReachesDecision" methodname="FullInvestigationWithAnimationsReachesDecision" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="1994270168" result="Passed" start-time="2026-10-04 07:07:04Z" end-time="2026-10-04 07:07:15Z" duration="10.906519" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1116" name="LimiterRedLightStaysOnSteadilyAfterProbe" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.LimiterRedLightStaysOnSteadilyAfterProbe" methodname="LimiterRedLightStaysOnSteadilyAfterProbe" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="933254032" result="Passed" start-time="2026-10-04 07:07:15Z" end-time="2026-10-04 07:07:18Z" duration="3.949287" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1112" name="RestartDuringAnimationResetsEverything" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.RestartDuringAnimationResetsEverything" methodname="RestartDuringAnimationResetsEverything" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="426639932" result="Passed" start-time="2026-10-04 07:07:18Z" end-time="2026-10-04 07:07:21Z" duration="2.750287" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1107" name="StepIsPerformedOnlyAtContactAndPhasesRunInOrder" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.StepIsPerformedOnlyAtContactAndPhasesRunInOrder" methodname="StepIsPerformedOnlyAtContactAndPhasesRunInOrder" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="373612252" result="Passed" start-time="2026-10-04 07:07:21Z" end-time="2026-10-04 07:07:23Z" duration="2.013495" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1117" name="ToolsAndGlovesDoNotPenetrateTheItem" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.ToolsAndGlovesDoNotPenetrateTheItem" methodname="ToolsAndGlovesDoNotPenetrateTheItem" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="80823891" result="Passed" start-time="2026-10-04 07:07:23Z" end-time="2026-10-04 07:07:33Z" duration="9.304653" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[WorkerHandV2] 接触时刻工具 / 手套顶点落在物品碰撞体内的数量：remove_fastener_a: 0/5012；remove_fastener_b: 0/5012；open_housing: 0/4166；test_limiter: 0/4489；read_log: 0/4141
+]]></output>
+            </test-case>
+            <test-case id="1108" name="ToolTipMeetsAnchorEvenAfterItemRotatesAndRescales" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.ToolTipMeetsAnchorEvenAfterItemRotatesAndRescales" methodname="ToolTipMeetsAnchorEvenAfterItemRotatesAndRescales" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="268793709" result="Passed" start-time="2026-10-04 07:07:33Z" end-time="2026-10-04 07:07:42Z" duration="9.302680" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1109" name="WrongToolOrBlockedStepDoesNotAnimateOrChangeTheModel" fullname="BorderRepair.Tests.WorkerHandToolAnimationTests.WrongToolOrBlockedStepDoesNotAnimateOrChangeTheModel" methodname="WrongToolOrBlockedStepDoesNotAnimateOrChangeTheModel" classname="BorderRepair.Tests.WorkerHandToolAnimationTests" runstate="Runnable" seed="1821639212" result="Passed" start-time="2026-10-04 07:07:42Z" end-time="2026-10-04 07:07:42Z" duration="0.196014" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1118" name="WorkerHandV2CaptureTests" fullname="BorderRepair.Tests.WorkerHandV2CaptureTests" classname="BorderRepair.Tests.WorkerHandV2CaptureTests" runstate="Explicit" testcasecount="1" result="Skipped" label="Explicit" site="SetUp" start-time="2026-10-04 07:07:42Z" end-time="2026-10-04 07:07:42Z" duration="0.000173" total="1" passed="0" failed="0" inconclusive="0" skipped="1" asserts="0">
+            <properties>
+              <property name="_SKIPREASON" value="仅用于生成截图" />
+            </properties>
+            <reason>
+              <message><![CDATA[仅用于生成截图]]></message>
+            </reason>
+            <test-case id="1119" name="CaptureStagesAndMeasure" fullname="BorderRepair.Tests.WorkerHandV2CaptureTests.CaptureStagesAndMeasure" methodname="CaptureStagesAndMeasure" classname="BorderRepair.Tests.WorkerHandV2CaptureTests" runstate="Runnable" seed="1767047247" result="Skipped" label="Explicit" site="Parent" start-time="0001-01-01 00:00:00Z" end-time="0001-01-01 00:00:00Z" duration="0.000000" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+              </properties>
+              <reason>
+                <message><![CDATA[仅用于生成截图]]></message>
+              </reason>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1133" name="BorderRepair.TwoNight.Tests.PlayMode.dll" fullname="C:/Users/Administrator/UnityProjects/BorderRepairStation_slice/Library/ScriptAssemblies/BorderRepair.TwoNight.Tests.PlayMode.dll" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-04 07:07:42Z" end-time="2026-10-04 07:09:26Z" duration="103.606745" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="31520" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1134" name="BorderRepair" fullname="BorderRepair" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-04 07:07:42Z" end-time="2026-10-04 07:09:26Z" duration="103.606231" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1135" name="TwoNight" fullname="BorderRepair.TwoNight" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-04 07:07:42Z" end-time="2026-10-04 07:09:26Z" duration="103.605796" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1136" name="Tests" fullname="BorderRepair.TwoNight.Tests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-04 07:07:42Z" end-time="2026-10-04 07:09:26Z" duration="103.605334" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1123" name="TwoNightMotionProbe" fullname="BorderRepair.TwoNight.Tests.TwoNightMotionProbe" classname="BorderRepair.TwoNight.Tests.TwoNightMotionProbe" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-04 07:07:42Z" end-time="2026-10-04 07:09:02Z" duration="79.976853" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1124" name="Incident_FullMotion_NoPenetration" fullname="BorderRepair.TwoNight.Tests.TwoNightMotionProbe.Incident_FullMotion_NoPenetration" methodname="Incident_FullMotion_NoPenetration" classname="BorderRepair.TwoNight.Tests.TwoNightMotionProbe" runstate="Runnable" seed="25269661" result="Passed" start-time="2026-10-04 07:07:42Z" end-time="2026-10-04 07:09:02Z" duration="79.976016" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1125" name="TwoNightPlayTests" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-04 07:09:02Z" end-time="2026-10-04 07:09:26Z" duration="23.627845" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1126" name="Counter_CorrectRepair_PostsOnce_ConfirmGoesToUnit07" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Counter_CorrectRepair_PostsOnce_ConfirmGoesToUnit07" methodname="Counter_CorrectRepair_PostsOnce_ConfirmGoesToUnit07" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="1484894409" result="Passed" start-time="2026-10-04 07:09:02Z" end-time="2026-10-04 07:09:03Z" duration="0.598238" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1127" name="Counter_WrongDecision_NoIncome_RetryThenCorrect" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Counter_WrongDecision_NoIncome_RetryThenCorrect" methodname="Counter_WrongDecision_NoIncome_RetryThenCorrect" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="857134387" result="Passed" start-time="2026-10-04 07:09:03Z" end-time="2026-10-04 07:09:03Z" duration="0.219540" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1130" name="Menu_ContinueTwice_Night2SafeStart_NoDoubleMoney" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Menu_ContinueTwice_Night2SafeStart_NoDoubleMoney" methodname="Menu_ContinueTwice_Night2SafeStart_NoDoubleMoney" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="1440821288" result="Passed" start-time="2026-10-04 07:09:03Z" end-time="2026-10-04 07:09:04Z" duration="1.111668" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1131" name="Menu_CorruptSave_ContinueDisabled_RestartDeletesOnlyCheckpoint" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Menu_CorruptSave_ContinueDisabled_RestartDeletesOnlyCheckpoint" methodname="Menu_CorruptSave_ContinueDisabled_RestartDeletesOnlyCheckpoint" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="1135922576" result="Passed" start-time="2026-10-04 07:09:04Z" end-time="2026-10-04 07:09:04Z" duration="0.423341" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1132" name="Menu_NoSave_ContinueDisabled_NewGameStartsCounter" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Menu_NoSave_ContinueDisabled_NewGameStartsCounter" methodname="Menu_NoSave_ContinueDisabled_NewGameStartsCounter" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="951059916" result="Passed" start-time="2026-10-04 07:09:04Z" end-time="2026-10-04 07:09:05Z" duration="0.378536" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1129" name="Unit07_Night1_IncidentThenDock_RegisterSaves_SafeState" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Unit07_Night1_IncidentThenDock_RegisterSaves_SafeState" methodname="Unit07_Night1_IncidentThenDock_RegisterSaves_SafeState" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="1062895021" result="Passed" start-time="2026-10-04 07:09:05Z" end-time="2026-10-04 07:09:25Z" duration="20.633367" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1128" name="Unit07_WithoutConfirmedLedger_NoIncident" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Unit07_WithoutConfirmedLedger_NoIncident" methodname="Unit07_WithoutConfirmedLedger_NoIncident" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="1227865609" result="Passed" start-time="2026-10-04 07:09:25Z" end-time="2026-10-04 07:09:26Z" duration="0.260243" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[[TwoNight] 七号场景不能从阶段 Night1Counter 开始
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1149" name="WorkbenchArea.Tests.PlayMode.dll" fullname="C:/Users/Administrator/UnityProjects/BorderRepairStation_slice/Library/ScriptAssemblies/WorkbenchArea.Tests.PlayMode.dll" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-04 07:09:26Z" end-time="2026-10-04 07:09:42Z" duration="16.354679" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="31520" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1150" name="WorkbenchArea" fullname="WorkbenchArea" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-04 07:09:26Z" end-time="2026-10-04 07:09:42Z" duration="16.354197" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1151" name="Tests" fullname="WorkbenchArea.Tests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-04 07:09:26Z" end-time="2026-10-04 07:09:42Z" duration="16.353746" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1140" name="WorkbenchAreaPlayTests" fullname="WorkbenchArea.Tests.WorkbenchAreaPlayTests" classname="WorkbenchArea.Tests.WorkbenchAreaPlayTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-04 07:09:26Z" end-time="2026-10-04 07:09:42Z" duration="16.353208" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1145" name="Cameras_EveryVisibleTargetIsPickable" fullname="WorkbenchArea.Tests.WorkbenchAreaPlayTests.Cameras_EveryVisibleTargetIsPickable" methodname="Cameras_EveryVisibleTargetIsPickable" classname="WorkbenchArea.Tests.WorkbenchAreaPlayTests" runstate="Runnable" seed="1792457304" result="Passed" start-time="2026-10-04 07:09:26Z" end-time="2026-10-04 07:09:26Z" duration="0.231232" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[WorkbenchAreaTest] 看得见就点得到：两台镜头共 61 个“对象 × 镜头”组合看得见（331 个可见瞄准点）；看得见却完全点不中的组合 0 个。边缘点被相邻小件 / 包围盒较松的部件抢走 14 处（同一对象换个位置仍能选中）：Game:Diag_Body→Diag_Knob_Offset, Game:Lamp_ArmUpper→Lamp_Head, Game:Placeholder_Prosthetic_Connector→Placeholder_Prosthetic_FaultLED, Game:Placeholder_Prosthetic_ElbowCuff→Placeholder_Prosthetic_Connector, Game:Placeholder_Prosthetic_Forearm→Placeholder_Prosthetic_BayMotor, Game:Records_BacklogStack→Records_InboxStack, CloseUp:Placeholder_Prosthetic_Connector→Placeholder_Prosthetic_FaultLED, CloseUp:Placeholder_Prosthetic_ElbowCuff→Placeholder_Prosthetic_Connector, CloseUp:Placeholder_Prosthetic_Forearm→Placeholder_Prosthetic_BayMotor
+]]></output>
+            </test-case>
+            <test-case id="1141" name="Cameras_KeyTargetsClickable_AndSmallPartSize" fullname="WorkbenchArea.Tests.WorkbenchAreaPlayTests.Cameras_KeyTargetsClickable_AndSmallPartSize" methodname="Cameras_KeyTargetsClickable_AndSmallPartSize" classname="WorkbenchArea.Tests.WorkbenchAreaPlayTests" runstate="Runnable" seed="2091799526" result="Passed" start-time="2026-10-04 07:09:26Z" end-time="2026-10-04 07:09:26Z" duration="0.207529" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[WorkbenchAreaTest] 游戏镜头点选：Placeholder_Prosthetic_Screw_1 可点 9/9 检查区 28px; Placeholder_Prosthetic_Screw_2 可点 7/9 检查区 27px; Placeholder_Prosthetic_Screw_3 可点 9/9 检查区 27px; Placeholder_Prosthetic_Screw_4 可点 7/9 检查区 26px; Placeholder_Prosthetic_Cover 可点 9/9 检查区 259px; Placeholder_Prosthetic_Connector 可点 5/9 检查区 76px; Placeholder_Prosthetic_FaultLED 可点 9/9 检查区 30px; Tray_Screws 可点 9/9 检查区 246px; Tray_OldParts 可点 9/9 检查区 259px; Diag_Probe 可点 9/9 检查区 164px; Diag_Knob_Gain 可点 9/9 检查区 59px; Diag_Switch_Power 可点 9/9 检查区 42px; Toolbox_Tier1 被挡 检查区 412px; Records_RepairLog 可点 9/9 检查区 309px; Lamp_Head 可点 9/9 检查区 227px; 
+[WorkbenchAreaTest] 游戏镜头被挡：Toolbox_Tier1→Toolbox_Tier2；螺钉头最小 5.7px
+[WorkbenchAreaTest] 近距镜头点选：Placeholder_Prosthetic_Screw_1 可点 9/9 检查区 69px; Placeholder_Prosthetic_Screw_2 可点 9/9 检查区 64px; Placeholder_Prosthetic_Screw_3 可点 9/9 检查区 58px; Placeholder_Prosthetic_Screw_4 可点 9/9 检查区 54px; Placeholder_Prosthetic_Cover 可点 9/9 检查区 553px; Placeholder_Prosthetic_Connector 可点 5/9 检查区 166px; Placeholder_Prosthetic_FaultLED 可点 9/9 检查区 69px; Tray_Screws 可点 9/9 检查区 636px; Tray_OldParts 可点 9/9 检查区 583px; Diag_Probe 可点 9/9 检查区 355px; Diag_Knob_Gain 可点 9/9 检查区 146px; Diag_Switch_Power 可点 9/9 检查区 110px; Toolbox_Tier1 可点 2/9 检查区 955px; Records_RepairLog 可点 9/9 检查区 773px; Lamp_Head 可点 9/9 检查区 695px; 
+[WorkbenchAreaTest] 近距镜头被挡：无；螺钉头最小 11.7px
+]]></output>
+            </test-case>
+            <test-case id="1142" name="Cameras_ToggleBetweenFixedPoses" fullname="WorkbenchArea.Tests.WorkbenchAreaPlayTests.Cameras_ToggleBetweenFixedPoses" methodname="Cameras_ToggleBetweenFixedPoses" classname="WorkbenchArea.Tests.WorkbenchAreaPlayTests" runstate="Runnable" seed="94585895" result="Passed" start-time="2026-10-04 07:09:26Z" end-time="2026-10-04 07:09:26Z" duration="0.205513" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1147" name="Mouse_SimulatedHoverAndClickThroughInputSystem" fullname="WorkbenchArea.Tests.WorkbenchAreaPlayTests.Mouse_SimulatedHoverAndClickThroughInputSystem" methodname="Mouse_SimulatedHoverAndClickThroughInputSystem" classname="WorkbenchArea.Tests.WorkbenchAreaPlayTests" runstate="Runnable" seed="1011412864" result="Passed" start-time="2026-10-04 07:09:26Z" end-time="2026-10-04 07:09:27Z" duration="0.915974" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[WorkbenchAreaTest] 模拟鼠标（Input System 虚拟鼠标，非真人）：悬停托盘 → HUD“Tray_Screws”；点击托盘 → 【占位】已取出 Tray_Screws；悬停工具箱上层 → 提示“下面的 Toolbox_Tier1 被它挡住：点击工具箱上层或按 U 先移开它（占位）”；近距镜头悬停螺钉 → “【占位】Placeholder_Prosthetic_Screw_1”
+]]></output>
+            </test-case>
+            <test-case id="1144" name="Placeholder_DisassemblyPathClearAndReversible" fullname="WorkbenchArea.Tests.WorkbenchAreaPlayTests.Placeholder_DisassemblyPathClearAndReversible" methodname="Placeholder_DisassemblyPathClearAndReversible" classname="WorkbenchArea.Tests.WorkbenchAreaPlayTests" runstate="Runnable" seed="685337581" result="Passed" start-time="2026-10-04 07:09:27Z" end-time="2026-10-04 07:09:38Z" duration="10.702094" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[WorkbenchAreaTest] 占位拆装：4 颗螺钉 → 螺钉托盘、盖板 → COVER 停放框，途中碰撞 无；盖板停放包围盒 (-0.360, 0.904, -0.334)–(-0.140, 0.911, -0.266)，距停放框四边 15.0 / 15.0 / 31.0 / 31.0 mm
+[WorkbenchAreaTest] 占位装回：全部回到原位（误差 < 0.1 mm）
+]]></output>
+            </test-case>
+            <test-case id="1143" name="Placeholder_TrayTakeAndPut" fullname="WorkbenchArea.Tests.WorkbenchAreaPlayTests.Placeholder_TrayTakeAndPut" methodname="Placeholder_TrayTakeAndPut" classname="WorkbenchArea.Tests.WorkbenchAreaPlayTests" runstate="Runnable" seed="1644672513" result="Passed" start-time="2026-10-04 07:09:38Z" end-time="2026-10-04 07:09:41Z" duration="2.990839" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[WorkbenchAreaTest] 托盘取放（占位）：Tray_Screws：抬起 8 cm，拉出 45 cm 到台沿外，取 / 放途中碰撞 无；Tray_OldParts：抬起 8 cm，拉出 65 cm 到台沿外，取 / 放途中碰撞 无；
+]]></output>
+            </test-case>
+            <test-case id="1148" name="Scene_RunsWithoutConsoleErrors" fullname="WorkbenchArea.Tests.WorkbenchAreaPlayTests.Scene_RunsWithoutConsoleErrors" methodname="Scene_RunsWithoutConsoleErrors" classname="WorkbenchArea.Tests.WorkbenchAreaPlayTests" runstate="Runnable" seed="1707176727" result="Passed" start-time="2026-10-04 07:09:41Z" end-time="2026-10-04 07:09:41Z" duration="0.201601" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1146" name="Toolbox_LowerTierOnlyAfterUpperTierMoved" fullname="WorkbenchArea.Tests.WorkbenchAreaPlayTests.Toolbox_LowerTierOnlyAfterUpperTierMoved" methodname="Toolbox_LowerTierOnlyAfterUpperTierMoved" classname="WorkbenchArea.Tests.WorkbenchAreaPlayTests" runstate="Runnable" seed="1763203846" result="Passed" start-time="2026-10-04 07:09:41Z" end-time="2026-10-04 07:09:42Z" duration="0.896000" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[WorkbenchAreaTest] 工具箱上层移开 / 放回（占位）：上层抬起 15 cm，途中碰撞 无；移开后游戏镜头 8/8 个瞄准点能选中下层；上层在原位时下层悬停提示：“Toolbox_Tier1（被 Toolbox_Tier2 挡住：先移开上层才能取用）”
+Saving results to: C:/Users/Administrator/AppData/LocalLow/DefaultCompany/BorderRepairStation\TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

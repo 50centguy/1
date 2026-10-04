@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8513712a02de36409a8e6a9ce009e75, type: 3}
+  m_Name: Case_N1_Collector_Communicator
+  m_EditorClassIdentifier: 
+  caseId: case_n1_collector_communicator
+  itemName: "\u901A\u8BAF\u5668"
+  itemPrefab: {fileID: 3676840438999104053, guid: 14978e94df774e24686340be1af8f20c, type: 3}
+  customerName: "\u6536\u85CF\u5BB6"
+  customerStatement: "\u5F00\u5F97\u4E86\u673A\uFF0C\u5C31\u662F\u6536\u4E0D\u5230\u4FE1\u53F7\u3002\u4E0D\u662F\u6025\u4EF6\uFF0C\u4FEE\u597D\u5C31\u884C\u3002\u91CC\u9762\u7684\u901A\u8BDD\u8BB0\u5F55\u522B\u6E05\u6389\u3002"
+  intakeNote: "\u5916\u89C2\u6709\u6454\u843D\u78D5\u75D5\uFF1B\u987E\u5BA2\u53EF\u63A5\u53D7\u7EF4\u4FEE\u8D39\u4E0A\u9650
+    600\u3002"
+  inspectionPoints:
+  - pointId: antenna
+    displayName: "\u5929\u7EBF\u6A21\u5757"
+    finding: "\u5929\u7EBF\u6839\u90E8\u65AD\u88C2\uFF0C\u5185\u90E8\u9988\u7EBF\u5916\u9732\u3002\u5929\u7EBF\u6A21\u5757\u662F\u6807\u51C6\u53EF\u66F4\u6362\u4EF6\u3002"
+    requiredForDiagnosis: 1
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: battery
+    displayName: "\u7535\u6C60\u4ED3"
+    finding: "\u7535\u6C60\u7535\u538B 3.9V\uFF0C\u89E6\u70B9\u5E72\u51C0\uFF0C\u6B63\u5E38\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: screen
+    displayName: "\u663E\u793A\u5C4F"
+    finding: "\u663E\u793A\u6B63\u5E38\uFF0C\u65E0\u574F\u70B9\uFF0C\u6392\u7EBF\u7262\u56FA\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  diagnosisOptions:
+  - optionId: battery_aging
+    label: "\u7535\u6C60\u8001\u5316\uFF0C\u5BFC\u81F4\u4F9B\u7535\u4E0D\u8DB3"
+    wrongFeedback: "\u7535\u6C60\u8BFB\u6570\u6B63\u5E38\uFF1B\u800C\u4E14\u987E\u5BA2\u8BF4\u80FD\u5F00\u673A\uFF0C\u95EE\u9898\u5728\u4FE1\u53F7\u3002"
+  - optionId: antenna_broken
+    label: "\u5929\u7EBF\u6A21\u5757\u65AD\u88C2\uFF0C\u4FE1\u53F7\u65E0\u6CD5\u6536\u53D1"
+    wrongFeedback: 
+  - optionId: mainboard_burnt
+    label: "\u4E3B\u677F\u70E7\u6BC1"
+    wrongFeedback: "\u626B\u63CF\u6CA1\u6709\u53D1\u73B0\u4E3B\u677F\u5F02\u5E38\u3002\u4E0D\u8981\u8FC7\u5EA6\u8BCA\u65AD\uFF0C\u987E\u5BA2\u4ED8\u7684\u662F\u4FEE\u7406\u8D39\u3002"
+  correctDiagnosisId: antenna_broken
+  diagnosisConfirmedText: "\u8BCA\u65AD\u786E\u8BA4\uFF1A\u5929\u7EBF\u6A21\u5757\u65AD\u88C2\u3002\u6807\u51C6\u4EF6\u6709\u5E93\u5B58\u3002"
+  estimatedRepairCost: 180
+  repairCostLimit: 600
+  outcomes:
+  - decision: 0
+    isCorrect: 1
+    resultTitle: "\u6362\u4EF6\u7EF4\u4FEE\u5B8C\u6210"
+    reason: "\u53EA\u6709\u5929\u7EBF\u6A21\u5757\u8FD9\u4E00\u4E2A\u6807\u51C6\u4EF6\u635F\u574F\u3002\u66F4\u6362\u540E\u4FE1\u53F7\u6062\u590D\uFF0C\u8D39\u7528
+      180\uFF0C\u5728\u987E\u5BA2\u4E0A\u9650 600 \u4EE5\u5185\uFF0C\u7EF4\u4FEE\u662F\u6700\u5408\u7406\u7684\u9009\u62E9\u3002"
+    performsPartReplacement: 1
+  - decision: 1
+    isCorrect: 0
+    resultTitle: "\u8BA9\u987E\u5BA2\u591A\u82B1\u4E86\u51A4\u6789\u94B1"
+    reason: "\u53EA\u574F\u4E86\u4E00\u4E2A\u4FBF\u5B9C\u7684\u6807\u51C6\u4EF6\uFF0C\u5374\u5EFA\u8BAE\u6574\u673A\u66F4\u6362\u3002\u987E\u5BA2\u591A\u82B1\u94B1\uFF0C\u7EF4\u4FEE\u7AD9\u4E5F\u5931\u4E86\u4FE1\u8A89\u3002"
+    performsPartReplacement: 0
+  - decision: 2
+    isCorrect: 0
+    resultTitle: "\u9519\u8FC7\u4E86\u4E00\u5355\u6B63\u5F53\u751F\u610F"
+    reason: "\u7269\u54C1\u6765\u6E90\u6B63\u5E38\uFF0C\u6545\u969C\u660E\u786E\uFF0C\u4FEE\u8D77\u6765\u4E5F\u7B80\u5355\uFF0C\u6CA1\u6709\u7406\u7531\u62D2\u4FEE\u3002"
+    performsPartReplacement: 0
+  replacementPointId: antenna
+  scoring: 0
+  clues: []
+  repairSteps: []
+  endings: []
