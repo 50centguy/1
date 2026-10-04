@@ -1,0 +1,14 @@
+{
+    "name": "BorderRepair.Art.Unit07TrayVariant.Tests",
+    "rootNamespace": "BorderRepair.Art.Unit07TrayVariant.Tests",
+    "references": [ "BorderRepair.TwoNight.Runtime", "BorderRepair.Runtime", "BorderRepair.FirstOrder.Runtime", "BorderRepair.Art.Unit07TrayVariant.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner", "Unity.InputSystem", "UnityEngine.UI" ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [ "nunit.framework.dll" ],
+    "autoReferenced": false,
+    "defineConstraints": [ "UNITY_INCLUDE_TESTS" ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

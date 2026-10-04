@@ -1,0 +1,74 @@
+{
+  "variant": "Dock_PartsTray_HandleRaised",
+  "units": "m (Blender), Z up; exported -Z forward / Y up, FBX_SCALE_UNITS",
+  "objects": {
+    "Tray_Body": {
+      "triangles": 648,
+      "material": "M_Dock_Ivory"
+    },
+    "Tray_Handle_PX": {
+      "triangles": 592,
+      "material": "M_Dock_Ivory"
+    },
+    "Tray_Handle_NX": {
+      "triangles": 592,
+      "material": "M_Dock_Ivory"
+    }
+  },
+  "triangles_total": 1832,
+  "original_triangles_rebuilt_reference": 1440,
+  "renderers": 3,
+  "original_renderers": 1,
+  "materials": [
+    "M_Dock_Ivory (reused, not modified)"
+  ],
+  "textures": [
+    "T_Dock_Grime.png (reused from Unit07ServiceDock/Textures, not copied)"
+  ],
+  "bounds_mm": {
+    "min": [
+      -156.6,
+      -90.0,
+      0.0
+    ],
+    "max": [
+      156.6,
+      90.0,
+      97.0
+    ]
+  },
+  "body_bounds_mm": {
+    "min": [
+      -130.0,
+      -90.0,
+      0.0
+    ],
+    "max": [
+      130.0,
+      90.0,
+      35.0
+    ]
+  },
+  "original_bounds_mm": {
+    "min": [
+      -156.8,
+      -90.0,
+      0.0
+    ],
+    "max": [
+      156.8,
+      90.0,
+      51.8
+    ]
+  },
+  "grip_bar_straight_y_mm": [
+    -74.0,
+    30.0
+  ],
+  "grip_bar_x_z_mm": [
+    151.60000000000002,
+    92.0
+  ],
+  "handle_raise_mm": 45.0,
+  "leg_y_mm": 84.0
+}
