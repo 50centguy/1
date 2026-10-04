@@ -111,7 +111,11 @@ namespace BorderRepair.Art.Unit07TrayVariant.EditorTools
             var bar = barPX.localPosition.x > 0 ? barPX : barNX;     // 七号右手握托盘本地 +X 端（72838e9 实测）
             var gp = root.transform.Find("GripPoint_R"); if (gp == null) gp = new GameObject("GripPoint_R").transform;
             gp.SetParent(root.transform, false);
-            gp.localPosition = bar.localPosition + new Vector3(0f, 0.0302f, 0f); gp.localRotation = Quaternion.identity;
+            gp.localPosition = new Vector3(bar.localPosition.x, 0.0302f, bar.localPosition.z); gp.localRotation = Quaternion.identity;
+            // 核对 Blender → Unity 的 Y 方向：握杆封端必须在托盘本地 +Y（夹爪铰链一侧），否则用 TRAY_Y_SIGN=-1 重新生成
+            var end = root.transform.Find(bar == barPX ? "GripBarEnd_PX" : "GripBarEnd_NX").localPosition;
+            Debug.Log($"[TrayVariant] AxisMarker_PlusY 本地 {root.transform.Find("AxisMarker_PlusY").localPosition * 1000:F1} mm；握杆封端 {end * 1000:F1} mm");
+            if (end.y < 0.02f) throw new Exception("握杆封端不在托盘本地 +Y：请用环境变量 TRAY_Y_SIGN=-1 重新运行 Blender 脚本");
             Directory.CreateDirectory(Path.GetDirectoryName(PrefabPath));
             PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
             UnityEngine.Object.DestroyImmediate(root);
@@ -142,9 +146,10 @@ namespace BorderRepair.Art.Unit07TrayVariant.EditorTools
                 var w = World(mf.GetComponent<Renderer>()); if (w == null) continue;
                 w = Moved(w, extra);
                 if (mf.name == "Tray_Body") { parts.body = w; continue; }
-                var bar = tray.Find(mf.name.EndsWith("PX") ? "GripBar_PX" : "GripBar_NX");
-                var c = extra.MultiplyPoint3x4(bar.position); var axis = extra.MultiplyVector(tray.up * 0f + tray.TransformDirection(Vector3.up)).normalized;
-                float half = 0.084f - 0.008f - 0.002f;     // 立柱在 ±84 mm，圆角 8 mm
+                string sfx = mf.name.EndsWith("PX") ? "PX" : "NX";
+                var p0 = extra.MultiplyPoint3x4(tray.Find("GripBarStart_" + sfx).position); var p1 = extra.MultiplyPoint3x4(tray.Find("GripBarEnd_" + sfx).position);
+                var c = (p0 + p1) / 2f; var axis = (p1 - p0).normalized;
+                float half = (p1 - p0).magnitude / 2f + 0.0005f;     // 握杆直段：远端立柱圆角之外 → 封端
                 var barTri = new List<int>(); var legTri = new List<int>();
                 for (int i = 0; i < w.tri.Length; i += 3)
                 {
@@ -234,7 +239,8 @@ namespace BorderRepair.Art.Unit07TrayVariant.EditorTools
             var barT = vt.Find(vt.Find("GripBar_PX").localPosition.x > 0 ? "GripBar_PX" : "GripBar_NX");
             data.trayPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath); data.trayPrefabPath = PrefabPath;
             data.gripBarCenterLocal = barT.localPosition; data.gripBarAxisLocal = Vector3.up; data.gripPointLocal = gpLocal;
-            data.allowedContactSpan = new Vector2(-0.074f, 0.074f); data.gripBarRadius = 0.005f;
+            string sfx = barT.name.EndsWith("PX") ? "PX" : "NX";   // 允许爪齿接触的握杆直段：相对握杆中心沿握杆方向的范围
+            data.allowedContactSpan = new Vector2(vt.Find("GripBarStart_" + sfx).localPosition.y - barT.localPosition.y, vt.Find("GripBarEnd_" + sfx).localPosition.y - barT.localPosition.y); data.gripBarRadius = 0.005f;
             data.wristBonePath = PathOf(wrist, robot);
             data.holdLocalPosition = newHoldPos; data.holdLocalRotation = oldHoldRot;
             data.previousHoldLocalPosition = oldHoldPos; data.previousHoldLocalRotation = oldHoldRot;
@@ -407,7 +413,7 @@ namespace BorderRepair.Art.Unit07TrayVariant.EditorTools
                 if (score > best.min) best = (n, v, score, release);
             }
             var R = P + best.v * Mathf.Max(best.release, step);
-            var W = P + best.v * Mathf.Max(best.release + 0.02f, 0.06f);
+            var W = P + best.v * Mathf.Max(best.release + 0.04f, 0.08f);   // 多退一点再升：升起时爪架不擦握杆
 
             // 搬运高度
             var armNames = new HashSet<string>(rb[0].GetComponentsInChildren<Renderer>(true).Concat(lb[0].GetComponentsInChildren<Renderer>(true)).Select(r => r.name));
@@ -427,7 +433,8 @@ namespace BorderRepair.Art.Unit07TrayVariant.EditorTools
                 }
                 Add($"开场带盘停在 T1，左倾 0–{LeanDeg + 1:F0}°", (leanMin, leanPair), Clear);
                 Add("带盘：T1 平移到托盘架上方 T2", Leg(loaded, T1, T2, env), Clear);
-                Add($"带盘：T2 下降到放盘位 P（托盘离原位 {placeAbove * 1000:F0} mm；最后 20 mm 托盘 ↔ 它原位就贴着的件不计）", Leg(robotGrip.Concat(trayCarriedAll).ToList(), T2, P, envNoSeat), Clear);
+                Add($"带盘：T2 下降到放盘位 P（托盘离原位 {placeAbove * 1000:F0} mm；最后 20 mm 托盘 ↔ 它原位就贴着的件不计）", Leg(robotGrip.Concat(trayCarriedAll).ToList(), T2, P, envNoSeat, 0.02f), Clear);
+                Add("带盘：最后 20 mm 落座（托盘 ↔ 旁边的件，原位关系；不含它坐着的托盘架）", Leg(robotGrip.Concat(trayCarriedAll).ToList(), P + Vector3.up * 0.02f, P, envNoSeat), 0.005f);
                 Add("夹住：七号（含右爪，不含托盘）↔ 环境，T2 下降到 P", Leg(robotGrip, T2, P, env), Grip);
                 Add("在 P 张开上爪：右手非爪齿零件 ↔ 托盘全部", jawOpenGap, Grip);
                 Add("在 P 张开上爪：爪齿 ↔ 盘体 / 立柱", jawOpenTeethGap, Grip);

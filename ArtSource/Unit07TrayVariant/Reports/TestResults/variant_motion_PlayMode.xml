@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-04 10:28:13Z" end-time="2026-10-04 10:28:58Z" duration="44.764532">
+  <test-suite type="TestSuite" id="1159" name="BorderRepairStation" fullname="BorderRepairStation" runstate="Runnable" testcasecount="106" result="Passed" start-time="2026-10-04 10:28:13Z" end-time="2026-10-04 10:28:58Z" duration="44.764532" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1003" name="BorderRepair.Art.Unit07TrayVariant.Tests.dll" fullname="C:/Users/Administrator/UnityProjects/BorderRepairStation_trayvar/Library/ScriptAssemblies/BorderRepair.Art.Unit07TrayVariant.Tests.dll" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-04 10:28:13Z" end-time="2026-10-04 10:28:58Z" duration="44.756973" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="15952" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1004" name="BorderRepair" fullname="BorderRepair" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-04 10:28:13Z" end-time="2026-10-04 10:28:58Z" duration="44.756509" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1005" name="Art" fullname="BorderRepair.Art" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-04 10:28:13Z" end-time="2026-10-04 10:28:58Z" duration="44.756235" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1006" name="Unit07TrayVariant" fullname="BorderRepair.Art.Unit07TrayVariant" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-04 10:28:13Z" end-time="2026-10-04 10:28:58Z" duration="44.755708" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1007" name="Tests" fullname="BorderRepair.Art.Unit07TrayVariant.Tests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-04 10:28:13Z" end-time="2026-10-04 10:28:58Z" duration="44.755365" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1001" name="VariantMotionTests" fullname="BorderRepair.Art.Unit07TrayVariant.Tests.VariantMotionTests" classname="BorderRepair.Art.Unit07TrayVariant.Tests.VariantMotionTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-04 10:28:13Z" end-time="2026-10-04 10:28:58Z" duration="44.754350" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1002" name="FullIncident_StrictGrip_ThenDock_SafeSave" fullname="BorderRepair.Art.Unit07TrayVariant.Tests.VariantMotionTests.FullIncident_StrictGrip_ThenDock_SafeSave" methodname="FullIncident_StrictGrip_ThenDock_SafeSave" classname="BorderRepair.Art.Unit07TrayVariant.Tests.VariantMotionTests" runstate="Runnable" seed="349953488" result="Passed" start-time="2026-10-04 10:28:13Z" end-time="2026-10-04 10:28:58Z" duration="44.741344" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Administrator/AppData/LocalLow/DefaultCompany/BorderRepairStation\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

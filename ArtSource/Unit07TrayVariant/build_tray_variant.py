@@ -9,7 +9,10 @@ Docs/Integration/TwoNightSlice/README_N1N2.md 第 4 节）。本变体只改两�
 
 参数（集成线 Unity 里实测选出，见 Reports/param_search.md）：
   HANDLE_RAISE = 45 mm   握杆中心从 z 47 mm 抬到 92 mm
-  LEG_Y        = ±84 mm  支腿离盘中心（原 ±45 mm 的斜撑在新姿态下会顶到夹爪尖和爪架）
+  握杆为“悬臂式”：两根立柱都在夹爪尖一侧（盘本地 Y = −84、−30 mm），握杆从 −84 mm 伸到 +30 mm 封端。
+    原因：七号是纵握，夹爪铰链在握点的 +Y 侧约 25 mm 处；握杆再往 +Y 伸会穿进爪身（第一版 ±84 mm 两端立柱即因此失败，
+    见 Reports/jaw_detail_probe.md 第 3 节：握杆端 ≤ +30 mm 时下爪身 2.05 mm；立柱在 y ≤ −24 mm 时离右手 ≥ 12.5 mm）。
+  Y_SIGN       = 盘本地 +Y（Unity）对应 Blender 的哪个方向（Unity 导入后用 AxisMarker_PlusY 核对）
   BAR_X        = ±151.6 mm  握杆离盘中心（与原握杆相同，离端壁外面 21.6 mm）
   管径 10 mm（与原提手相同）、12 段；盘体倒角 1.5 mm 与原脚本相同
 
@@ -45,7 +48,10 @@ for d in (EXPORT_DIR, RENDER_DIR):
 NO_RENDER = "--norender" in sys.argv
 
 HANDLE_RAISE = 0.045
-LEG_Y = 0.084
+LEG_Y = 0.084           # 远端立柱
+LEG2_Y = 0.030          # 近握点立柱（夹爪尖一侧）
+BAR_END_Y = 0.030       # 握杆封端（握点就在这里，铰链一侧不再有握杆）
+Y_SIGN = float(os.environ.get("TRAY_Y_SIGN", "1"))
 BAR_X = 0.1516
 BAR_Z0 = 0.047                 # 原握杆中心高（盘底为 0）
 TUBE_R = 0.005
@@ -112,14 +118,19 @@ def handle_axis(side):
     """提手轴线（盘本地）：端壁外面上的脚 → 立柱 → 握杆 → 立柱 → 脚。side = ±1（盘的 ±X 端）。"""
     zb = BAR_Z0 + HANDLE_RAISE
     x0, x1 = WALL_OUT_X * side, BAR_X * side
-    return [(x0, -LEG_Y, FOOT_Z), (x1, -LEG_Y, FOOT_Z + 0.008), (x1, -LEG_Y, zb), (x1, LEG_Y, zb), (x1, LEG_Y, FOOT_Z + 0.008), (x0, LEG_Y, FOOT_Z)]
+    y = lambda v: v * Y_SIGN
+    main = [(x0, y(-LEG_Y), FOOT_Z), (x1, y(-LEG_Y), FOOT_Z + 0.008), (x1, y(-LEG_Y), zb), (x1, y(BAR_END_Y), zb)]
+    strut = [(x1, y(-LEG2_Y), zb), (x1, y(-LEG2_Y), FOOT_Z + 0.008), (x0, y(-LEG2_Y), FOOT_Z)]
+    return main, strut
 
 
 def handle_bm(side):
-    axis = fillet(handle_axis(side), FILLET_R)
-    tube = hs.bm_tube([tuple(p) for p in axis], [TUBE_R] * len(axis), segs=TUBE_SEGS)
-    pads = []
-    for y in (-LEG_Y, LEG_Y):                 # 支腿脚下的安装座：贴在端壁外面，看得出提手是固定在盘上的
+    main, strut = handle_axis(side)
+    a1 = fillet(main, FILLET_R); a2 = fillet(strut, FILLET_R)
+    tube = hs.bm_tube([tuple(p) for p in a1], [TUBE_R] * len(a1), segs=TUBE_SEGS)
+    tube2 = hs.bm_tube([tuple(p) for p in a2], [TUBE_R] * len(a2), segs=TUBE_SEGS)   # 第二根立柱从握杆下面接出（T 形接头埋在握杆里）
+    pads = [tube2]
+    for y in (-LEG_Y * Y_SIGN, -LEG2_Y * Y_SIGN):                 # 支腿脚下的安装座：贴在端壁外面，看得出提手是固定在盘上的
         x_in, x_out = WALL_OUT_X * side, (WALL_OUT_X + 0.005) * side
         y0, y1 = max(y - 0.007, -0.0895), min(y + 0.007, 0.0895)
         pad = box((min(x_in, x_out), y0, FOOT_Z - 0.009), (max(x_in, x_out), y1, FOOT_Z + 0.006))
@@ -192,9 +203,13 @@ def main():
     for o in (body, hpx, hnx):
         o.parent = root
     zb = BAR_Z0 + HANDLE_RAISE
-    empty("GripBar_PX", (BAR_X, 0.0, zb), root, G["Variant"])
-    empty("GripBar_NX", (-BAR_X, 0.0, zb), root, G["Variant"])
-    for k, v in dict(dock_role="parts_tray", removable=True, variant="handle_raised_45mm", handle_raise_mm=45.0, leg_y_mm=84.0, bar_x_mm=151.6,
+    ymid = (-LEG_Y + BAR_END_Y) / 2 * Y_SIGN
+    for nm, sx in (("PX", 1), ("NX", -1)):   # 握杆中点、直段两端（圆角之外；Unity 里按这两点区分“握杆直段”与立柱）
+        empty("GripBar_" + nm, (BAR_X * sx, ymid, zb), root, G["Variant"])
+        empty("GripBarStart_" + nm, (BAR_X * sx, (-LEG_Y + FILLET_R + 0.002) * Y_SIGN, zb), root, G["Variant"])
+        empty("GripBarEnd_" + nm, (BAR_X * sx, BAR_END_Y * Y_SIGN, zb), root, G["Variant"])
+    empty("AxisMarker_PlusY", (0.0, 0.05, 0.01), root, G["Variant"])   # 只用来核对 Unity 里的 +Y 方向
+    for k, v in dict(dock_role="parts_tray", removable=True, variant="handle_raised_45mm_cantilever", handle_raise_mm=45.0, leg_y_mm=-84.0, leg2_y_mm=-30.0, bar_end_y_mm=30.0, y_sign=Y_SIGN, bar_x_mm=151.6,
                      bar_z_mm=zb * 1000, tube_d_mm=10.0, grip="end handles, 10 mm bar; right-hand one-hand carry").items():
         root[k] = v
 
@@ -219,7 +234,7 @@ def main():
         "bounds_mm": {"min": [round(c * 1000, 1) for c in lo], "max": [round(c * 1000, 1) for c in hi]},
         "body_bounds_mm": {"min": [round(c * 1000, 1) for c in blo], "max": [round(c * 1000, 1) for c in bhi]},
         "original_bounds_mm": {"min": [round(c * 1000, 1) for c in rlo], "max": [round(c * 1000, 1) for c in rhi]},
-        "grip_bar_center_mm": [BAR_X * 1000, 0.0, round(zb * 1000, 1)], "handle_raise_mm": HANDLE_RAISE * 1000, "leg_y_mm": LEG_Y * 1000,
+        "grip_bar_straight_y_mm": [round((-LEG_Y + FILLET_R + 0.002) * Y_SIGN * 1000, 1), round(BAR_END_Y * Y_SIGN * 1000, 1)], "grip_bar_x_z_mm": [BAR_X * 1000, round(zb * 1000, 1)], "handle_raise_mm": HANDLE_RAISE * 1000, "leg_y_mm": LEG_Y * 1000,
     }
     with open(os.path.join(HERE, "stats.json"), "w", encoding="utf-8") as f:
         json.dump(stats, f, ensure_ascii=False, indent=2)

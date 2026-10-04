@@ -7,15 +7,15 @@
       "material": "M_Dock_Ivory"
     },
     "Tray_Handle_PX": {
-      "triangles": 644,
+      "triangles": 592,
       "material": "M_Dock_Ivory"
     },
     "Tray_Handle_NX": {
-      "triangles": 644,
+      "triangles": 592,
       "material": "M_Dock_Ivory"
     }
   },
-  "triangles_total": 1936,
+  "triangles_total": 1832,
   "original_triangles_rebuilt_reference": 1440,
   "renderers": 3,
   "original_renderers": 1,
@@ -61,9 +61,12 @@
       51.8
     ]
   },
-  "grip_bar_center_mm": [
+  "grip_bar_straight_y_mm": [
+    -74.0,
+    30.0
+  ],
+  "grip_bar_x_z_mm": [
     151.60000000000002,
-    0.0,
     92.0
   ],
   "handle_raise_mm": 45.0,

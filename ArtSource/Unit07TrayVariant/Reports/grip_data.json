@@ -1,11 +1,11 @@
 {
     "trayPrefab": {
-        "instanceID": 46344
+        "instanceID": 46386
     },
     "trayPrefabPath": "Assets/BorderRepair/Art/Unit07TrayVariant/Prefabs/Dock_PartsTray_HandleRaised.prefab",
     "gripBarCenterLocal": {
         "x": 0.15160000324249268,
-        "y": 0.0,
+        "y": -0.027000000700354577,
         "z": 0.09200000017881394
     },
     "gripBarAxisLocal": {
@@ -19,8 +19,8 @@
         "z": 0.09200000017881394
     },
     "allowedContactSpan": {
-        "x": -0.07400000095367432,
-        "y": 0.07400000095367432
+        "x": -0.04699999839067459,
+        "y": 0.05700000002980232
     },
     "gripBarRadius": 0.004999999888241291,
     "wristBonePath": "UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist",
@@ -65,5 +65,5 @@
         "z": 0.0,
         "w": 1.0
     },
-    "routeNotes": "搬运高度 dh = 450 mm（悬停位上方）；放盘：托盘降到离原位 0 mm；上爪张开后沿“外（离开盘中心）”滑出 68 mm 放手，再退 20 mm；世界坐标（隔离验证场景，与发布场景布局 B 相同）：H (0.3750, 0.8400, 0.8250)，P (0.5546, 0.8100, 1.2634)，R (0.5722, 0.8100, 1.3291)，W (0.5774, 0.8100, 1.3485)。程序接入时按发布场景重算，不照抄。"
+    "routeNotes": "搬运高度 dh = 60 mm（悬停位上方）；放盘：托盘降到离原位 0 mm；上爪张开后沿“后”滑出 20 mm 放手，再退 20 mm；世界坐标（隔离验证场景，与发布场景布局 B 相同）：H (0.3750, 0.8400, 0.8250)，P (0.5546, 0.8100, 1.2634)，R (0.5739, 0.8100, 1.2583)，W (0.6319, 0.8100, 1.2427)。程序接入时按发布场景重算，不照抄。"
 }
