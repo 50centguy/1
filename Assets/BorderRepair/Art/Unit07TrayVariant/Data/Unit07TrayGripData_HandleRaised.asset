@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e26f1da4f3258e64f8e282d7a85998f3, type: 3}
+  m_Name: Unit07TrayGripData_HandleRaised
+  m_EditorClassIdentifier: 
+  trayPrefab: {fileID: 2589767512111507515, guid: 30d0ec41d90844a429f4e9b9853c7054, type: 3}
+  trayPrefabPath: Assets/BorderRepair/Art/Unit07TrayVariant/Prefabs/Dock_PartsTray_HandleRaised.prefab
+  gripBarCenterLocal: {x: 0.1516, y: 0, z: 0.092}
+  gripBarAxisLocal: {x: 0, y: 1, z: 0}
+  gripPointLocal: {x: 0.1516, y: 0.0302, z: 0.092}
+  allowedContactSpan: {x: -0.074, y: 0.074}
+  gripBarRadius: 0.005
+  wristBonePath: UNIT07_RobotV4_DockReady/Robot_Rig/Root/Body/Arm_R_RootPivot/Arm_R_Shoulder/Arm_R_Elbow/Arm_R_Wrist
+  holdLocalPosition: {x: -0.12527359, y: -0.12925345, z: -0.089898214}
+  holdLocalRotation: {x: -0.5911022, y: -0.53961205, z: -0.42572162, w: 0.42211157}
+  previousHoldLocalPosition: {x: -0.12313, y: -0.08609, z: -0.10257}
+  previousHoldLocalRotation: {x: -0.5911022, y: -0.53961205, z: -0.42572162, w: 0.42211157}
+  rightArmJointsDeg:
+  - 3.16558
+  - 36.33465
+  - -58.62568
+  - 16.34933
+  jawT: 0.32071
+  homeParentPath: Unit07ServiceDock
+  homeLocalPosition: {x: 0.57, y: -0.19, z: 0.785}
+  homeLocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  routeNotes: "\u642C\u8FD0\u9AD8\u5EA6 dh = 450 mm\uFF08\u60AC\u505C\u4F4D\u4E0A\u65B9\uFF09\uFF1B\u653E\u76D8\uFF1A\u6258\u76D8\u964D\u5230\u79BB\u539F\u4F4D
+    0 mm\uFF1B\u4E0A\u722A\u5F20\u5F00\u540E\u6CBF\u201C\u5916\uFF08\u79BB\u5F00\u76D8\u4E2D\u5FC3\uFF09\u201D\u6ED1\u51FA
+    68 mm \u653E\u624B\uFF0C\u518D\u9000 20 mm\uFF1B\u4E16\u754C\u5750\u6807\uFF08\u9694\u79BB\u9A8C\u8BC1\u573A\u666F\uFF0C\u4E0E\u53D1\u5E03\u573A\u666F\u5E03\u5C40
+    B \u76F8\u540C\uFF09\uFF1AH (0.3750, 0.8400, 0.8250)\uFF0CP (0.5546, 0.8100,
+    1.2634)\uFF0CR (0.5722, 0.8100, 1.3291)\uFF0CW (0.5774, 0.8100, 1.3485)\u3002\u7A0B\u5E8F\u63A5\u5165\u65F6\u6309\u53D1\u5E03\u573A\u666F\u91CD\u7B97\uFF0C\u4E0D\u7167\u6284\u3002"
