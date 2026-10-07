@@ -1,6 +1,6 @@
 # 两晚切片 · 界面点击不穿透 3D、文字输入时快捷键不生效（程序鼠标 / 键盘事件）
 
-- 2026-10-08 06:35，Unity 6000.0.84f1，屏幕 640×480，场景 `Assets/BorderRepair/FirstOrder/Scenes/Slice/TwoNightSlice.unity`
+- 2026-10-08 08:08，Unity 6000.0.84f1，屏幕 640×480，场景 `Assets/BorderRepair/FirstOrder/Scenes/Slice/TwoNightSlice.unity`
 - Input System 虚拟鼠标设备的事件经 InputSystemUIInputModule（界面）和 FirstOrderInput（3D）处理；镜头只经界面镜头栏切换。**程序生成的鼠标事件，不是真人试玩。**
 
 1. 手册面板盖住 维修座：夹具握把：左键、右键都没穿透

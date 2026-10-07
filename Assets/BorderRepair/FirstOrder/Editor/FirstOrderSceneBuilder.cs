@@ -153,6 +153,7 @@ namespace BorderRepair.FirstOrder.EditorTools
             var label = Mount(KitLabel, coverT, LabelPos);
             var labelR = label.GetComponentsInChildren<Renderer>(true).First();
             Note($"保养标记：{KitLabel} 挂在 {RPath(coverT)} 下（上盖内侧，翻盖后朝上可读）");
+            Note(RefitLabel(label, coverT));
 
             // 新轴承：主对象的装配位姿 = 原轴承位姿（装上后与原轴承完全重合），美术件按挂载位姿挂在主对象下
             var box = Find(bench.transform, "Box_Bearings");
@@ -312,6 +313,49 @@ namespace BorderRepair.FirstOrder.EditorTools
         static readonly Vector3 WornPos = new Vector3(0.00073f, -0.00003f, 0.00495f);     // 父：Engine_BearingTop_L（新轴承同）
         static readonly Vector3 ClogPos = new Vector3(-0.00088f, 0.00003f, -0.00593f);    // 父：Engine_IntakeGuard_L
         static readonly Vector3 LabelPos = new Vector3(0.06842f, -0.00006f, 0.01115f);    // 父：Engine_UpperCover_L
+
+        /// <summary>
+        /// 保养标记是美术按上盖内表面逐点贴合的（离表面 0.35 mm）。上盖换了模型（2026-10-08 RobotV4 新模型：上盖变薄、内表面移动），
+        /// 原贴纸会埋进内壁看不见。这里按美术说明的同一方法，沿贴纸法线把每个顶点重新投到当前上盖内表面、离表面 0.35 mm，
+        /// 生成一份网格资产给场景用（不改故障美术包源 FBX）。贴纸本来就贴合时（偏差在 0.05 mm 内）不生成、保持原网格。
+        /// 这是程序重贴的过渡做法：正式版应由美术按新上盖重新导出标记。
+        /// </summary>
+        static string RefitLabel(GameObject label, Transform coverT)
+        {
+            const float Gap = 0.00035f;
+            const string FitPath = ArtDir + "/Generated/UNIT07_FK_CoverInnerLabel_L_RefitToCover.asset";
+            var lmf = label.GetComponentsInChildren<MeshFilter>(true).First();
+            var src = lmf.sharedMesh; var lt = lmf.transform;
+            var temp = new GameObject("__LabelRefitCollider");
+            temp.transform.SetPositionAndRotation(coverT.position, coverT.rotation); temp.transform.localScale = coverT.lossyScale;
+            var mc = temp.AddComponent<MeshCollider>(); mc.sharedMesh = coverT.GetComponent<MeshFilter>().sharedMesh; Physics.SyncTransforms();
+            try
+            {
+                var n = lt.TransformDirection(src.normals.Aggregate(Vector3.zero, (a, b) => a + b)).normalized;   // 贴纸正面（朝上盖内侧空间）
+                var verts = src.vertices; var outV = new Vector3[verts.Length];
+                float minD = float.MaxValue, maxD = float.MinValue;
+                for (int i = 0; i < verts.Length; i++)
+                {
+                    var p = lt.TransformPoint(verts[i]);
+                    if (!mc.Raycast(new Ray(p + n * 0.03f, -n), out var hit, 0.06f)) throw new InvalidOperationException($"保养标记第 {i} 个顶点沿法线找不到上盖内表面");
+                    float d = Vector3.Dot(hit.point - p, n);
+                    minD = Mathf.Min(minD, d); maxD = Mathf.Max(maxD, d);
+                    outV[i] = lt.InverseTransformPoint(hit.point + n * Gap);
+                }
+                string before = $"原贴合位置相对当前上盖内表面 {(-maxD) * 1000:F2}～{(-minD) * 1000:F2} mm（负数 = 埋进内壁）";
+                if (Mathf.Abs(minD + Gap) < 0.00005f && Mathf.Abs(maxD + Gap) < 0.00005f) return "保养标记：" + before + "，贴合良好，用原网格。";
+                Directory.CreateDirectory(ArtDir + "/Generated");
+                var fit = UnityEngine.Object.Instantiate(src); fit.name = src.name + "_RefitToCover";
+                fit.vertices = outV; fit.RecalculateBounds();
+                var existing = AssetDatabase.LoadAssetAtPath<Mesh>(FitPath);
+                if (existing != null) { EditorUtility.CopySerialized(fit, existing); existing.name = fit.name; EditorUtility.SetDirty(existing); UnityEngine.Object.DestroyImmediate(fit); fit = existing; }   // 原地更新：GUID 不变，先生成的场景引用不断
+                else AssetDatabase.CreateAsset(fit, FitPath);
+                AssetDatabase.SaveAssets();
+                lmf.sharedMesh = fit;
+                return $"保养标记：{before}；按美术说明的方法（逐点沿贴纸法线贴到内表面、离表面 {Gap * 1000:F2} mm）重新贴合 {verts.Length} 个顶点 → {FitPath}（过渡做法，不改故障美术包源 FBX；正式版应由美术按新上盖重新导出）";
+            }
+            finally { UnityEngine.Object.DestroyImmediate(temp); }
+        }
 
         static GameObject Mount(string fbx, Transform parent, Vector3 localPos)
         {

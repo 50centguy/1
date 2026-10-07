@@ -99,7 +99,9 @@ namespace BorderRepair.FirstOrder.Tests
             Assert.AreEqual("engine_l_intake_clog", clog.partId);
             Assert.AreEqual(4, clog.GetComponentsInChildren<MeshRenderer>(true).Length, "堵塞 4 层：积尘垫、纤维、护栅积尘、唇口积尘");
             var cover = Under("UNIT07_RobotV4_DockReady", E + "Engine_UpperCover_L");
-            Assert.IsTrue(cover.GetComponentsInChildren<MeshFilter>(true).Any(m => KitOf(m.transform).EndsWith("UNIT07_FK_CoverLabel.fbx")), "保养标记挂在上盖下");
+            Assert.IsTrue(cover.GetComponentsInChildren<MeshFilter>(true).Any(m => KitOf(m.transform).EndsWith("UNIT07_FK_CoverLabel.fbx") ||
+                                                                                   KitOf(m.transform).EndsWith("Generated/UNIT07_FK_CoverInnerLabel_L_RefitToCover.asset") && m.sharedMesh.name.StartsWith("UNIT07_FK_CoverInnerLabel_L")),
+                          "保养标记挂在上盖下（美术包 FBX，或换上盖模型后按美术说明重新贴合生成的网格）");
             var flow = Object.FindFirstObjectByType<FirstOrderFlow>();
             Assert.AreEqual(clog, flow.Clog);
             Assert.AreEqual(bearing.GetComponent<MeshRenderer>(), flow.OriginalBearingRenderer);
@@ -204,13 +206,44 @@ namespace BorderRepair.FirstOrder.Tests
             Debug.Log("[FirstOrderTest] 工作台摆放：\n" + string.Join("\n", report));
         }
 
+        /// <summary>
+        /// 上盖内侧保养标记没有被上盖内壁挡住：每个顶点沿贴纸法线离上盖内表面 0.2–0.5 mm（美术说明 0.35 mm）。
+        /// 2026-10-08 换 RobotV4 新模型后原贴纸整片埋进新上盖 3–7 mm，保养记录看不见，其他检查都没发现，所以加这一项。
+        /// </summary>
+        [Test]
+        public void CoverLabel_SitsOnCoverInnerSurface()
+        {
+            var cover = Under("UNIT07_RobotV4_DockReady", "Robot_Rig/Root/Body/Engine_L_Hinge/Engine_UpperCover_L");
+            var lmf = cover.GetComponentsInChildren<MeshFilter>(true).First(m => m.sharedMesh != null && m.sharedMesh.name.StartsWith("UNIT07_FK_CoverInnerLabel_L"));
+            var temp = new GameObject("__LabelTestCollider");
+            try
+            {
+                temp.transform.SetPositionAndRotation(cover.position, cover.rotation); temp.transform.localScale = cover.lossyScale;
+                var mc = temp.AddComponent<MeshCollider>(); mc.sharedMesh = cover.GetComponent<MeshFilter>().sharedMesh;
+                Physics.SyncTransforms();
+                var m = lmf.sharedMesh; var lt = lmf.transform;
+                var n = lt.TransformDirection(m.normals.Aggregate(Vector3.zero, (x, y) => x + y)).normalized;
+                float min = float.MaxValue, max = float.MinValue;
+                foreach (var v in m.vertices)
+                {
+                    var p = lt.TransformPoint(v);
+                    Assert.IsTrue(mc.Raycast(new Ray(p + n * 0.03f, -n), out var hit, 0.06f), "贴纸顶点沿法线找不到上盖内表面");
+                    float gap = Vector3.Dot(p - hit.point, n);
+                    min = Mathf.Min(min, gap); max = Mathf.Max(max, gap);
+                }
+                Assert.That(min, Is.GreaterThanOrEqualTo(0.0002f), $"贴纸离上盖内表面 {min * 1000:F2}～{max * 1000:F2} mm：有顶点埋进内壁（{m.name}）");
+                Assert.That(max, Is.LessThanOrEqualTo(0.0005f), $"贴纸离上盖内表面 {min * 1000:F2}～{max * 1000:F2} mm：有顶点悬空（{m.name}）");
+            }
+            finally { Object.DestroyImmediate(temp); }
+        }
+
         /// <summary>RobotV4 原 FBX 和故障美术包 FBX 都没被改（字节级校验）。</summary>
         [Test]
         public void SourceArt_NotModified()
         {
             var expect = new System.Collections.Generic.Dictionary<string, string>
             {
-                ["Assets/RobotV4/Model/robot-final.fbx"] = "80b94f89c3dfbd62e03214e7487e5d96",
+                ["Assets/RobotV4/Model/robot-final.fbx"] = "b47c9c43006cbef29e820d022d37560b",   // 2026-10-08 新模型：左右引擎上下盖重做、锁扣 / 后盖帽 / 机身细节调整（骨骼、节点、动画不变），原 80b94f89…
                 [KitDir + "UNIT07_FK_BearingNew.fbx"] = "dbc00062aa5a6a2be170086bcdba1283",
                 [KitDir + "UNIT07_FK_BearingWorn.fbx"] = "93458ceefff0018cd5ce87bba2c3700c",
                 [KitDir + "UNIT07_FK_CoverLabel.fbx"] = "c837a5b9a4b7645cf1722aaab6ca0383",
