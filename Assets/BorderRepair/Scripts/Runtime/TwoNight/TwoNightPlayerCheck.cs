@@ -63,6 +63,8 @@ namespace BorderRepair.TwoNight
             float until = Time.realtimeSinceStartup + sec;
             while (SceneManager.GetActiveScene().name != n && Time.realtimeSinceStartup < until) yield return null;
             for (int k = 0; k < 10; k++) yield return null;
+            var walker = FindFirstObjectByType<FirstPersonWalker>();
+            if (walker != null) walker.LeaveSystemCursor = true;   // 自检不锁住电脑上真实的鼠标（机上可能有人在用）
             Check(SceneManager.GetActiveScene().name == n, "进入场景 " + n);
         }
 
@@ -139,6 +141,9 @@ namespace BorderRepair.TwoNight
             }
             Check(inc.Done && !inc.Tray.Taken && Vector3.Angle(dock.RobotRoot.up, Vector3.up) < 0.01f, "演出结束：托盘放回、机身回正");
             yield return Shot("after_incident");
+            for (int k = 0; k < 40; k++) yield return null;
+            Check(flow.Rig.Walker == null || flow.Rig.Walking, $"演出结束后回到第一人称行走（镜头：{flow.Rig.Current}）");
+            yield return Shot("first_person_docking");
 
             var drv = new FirstOrderAcceptanceDriver(flow, input);
             input.enabled = false;   // 不读桌面上的真实鼠标；程序按屏幕坐标点
@@ -187,6 +192,7 @@ namespace BorderRepair.TwoNight
         {
             var mouse = FirstOrderAcceptanceDriver.CreateVirtualMouse(out var cleanup);
             input.enabled = true;
+            if (flow.Rig.Walking) { flow.Rig.Go(FirstOrderCameraRig.EngineL, true); yield return null; }   // 鼠标指向的界面检查在固定机位（近看）里做
             Line($"布局检查：显示器 {Screen.currentResolution.width}×{Screen.currentResolution.height}，当前窗口 {Screen.width}×{Screen.height}（{Screen.fullScreenMode}）");
             foreach (var (w, h, label) in new[] { (1600, 900, "1600x900"), (1920, 1080, "1920x1080"), (1280, 960, "narrow_1280x960") })
             {
@@ -282,6 +288,37 @@ namespace BorderRepair.TwoNight
             cleanup();
         }
 
+        /// <summary>第一人称（程序给转头和移动输入，不是真人）：准星对准左上盖能悬停、伸手够得着；向后走能移动；镜头栏进固定机位、按移动回到行走。</summary>
+        IEnumerator FirstPersonCheck(SliceView view, FirstOrderInput input, FirstOrderFlow flow)
+        {
+            var w = flow.Rig.Walker;
+            if (w == null) { Check(false, "场景里没有第一人称行走组件"); yield break; }
+            if (view.ManualOpen) view.ToggleManual();
+            input.enabled = true;
+            flow.Rig.Walk(true);
+            for (int k = 0; k < 5; k++) yield return null;
+            var home = w.transform.position; float homeYaw = w.Yaw;
+            w.LookAt(flow.Cover.GetComponentInChildren<Renderer>().bounds.center);
+            for (int k = 0; k < 3; k++) yield return null;
+            Check(flow.Rig.Walking && w.Aiming && view.CrosshairVisible, $"第一人称：行走中、准星显示（镜头 {flow.Rig.Current}）");
+            bool leftEngine = input.Hovered == flow.Cover || input.Hovered is DockInteractable d && d.action == DockAction.EngineLeft;   // 检查开始前左引擎的点选入口是检查代理
+            Check(leftEngine && !input.HoverOutOfReach, $"出生点准星对准左引擎：悬停 {FirstOrderInput.NameOf(input.Hovered)}，距离 {input.HoverDistance:F2} m，伸手 {w.Reach:F1} m 以内");
+            yield return Shot("first_person_aim_cover");
+            w.ScriptedMove = new Vector2(0f, -1f);
+            for (float t = 0f; t < 0.6f; t += Time.deltaTime) yield return null;
+            w.ScriptedMove = null;
+            float moved = Vector3.Distance(home, w.transform.position);
+            Check(moved > 0.4f, $"按“后退”移动了 {moved:F2} m");
+            flow.Rig.Go(FirstOrderCameraRig.EngineClose);
+            for (int k = 0; k < 3; k++) yield return null;
+            bool fixedShot = !flow.Rig.Walking;
+            w.ScriptedMove = new Vector2(0f, 1f); yield return null; w.ScriptedMove = null;
+            for (int k = 0; k < 30; k++) yield return null;
+            Check(fixedShot && flow.Rig.Walking, "镜头栏进入固定机位（近看），按移动键回到行走");
+            w.PlaceAt(home, homeYaw);
+            yield return null;
+        }
+
         IEnumerator Phase2()
         {
             Line($"两晚自检第 2 段（新进程）{DateTime.Now:yyyy-MM-dd HH:mm:ss}，存档 {TwoNightSave.FilePath}");
@@ -305,6 +342,7 @@ namespace BorderRepair.TwoNight
             yield return Shot("night2_manual");
             var input = FindFirstObjectByType<FirstOrderInput>();
             yield return LayoutCheck(view, input, flow);
+            yield return FirstPersonCheck(view, input, flow);
             if (view.ManualOpen) view.ToggleManual();
             yield return Shot("night2_open");
             input.enabled = false;

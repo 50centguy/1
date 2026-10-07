@@ -79,20 +79,31 @@ namespace BorderRepair.TwoNight.Tests
             var input = UnityEngine.Object.FindFirstObjectByType<FirstOrderInput>();
             var flow = UnityEngine.Object.FindFirstObjectByType<FirstOrderFlow>();
             Assert.IsTrue(view.ManualOpen, "第二晚开场手册展开");
+            // 第二晚开场是第一人称行走；本测试检查的是“鼠标指向”的界面行为，在固定机位（近看）里做。第一人称见 TwoNightFirstPersonTests。
+            if (flow.Rig.Walker != null) flow.Rig.Walker.LeaveSystemCursor = true;
+            flow.Rig.Go(FirstOrderCameraRig.EngineL, true);
+            yield return null;
             log.AppendLine($"# 第二晚界面检查（PlayMode，程序鼠标事件）\n\n- {DateTime.Now:yyyy-MM-dd HH:mm}，Game 视图 {Screen.width}×{Screen.height}。\n");
 
             // ---- 1) 手册展开：后方 3D
             var cam = flow.Rig.Cam;
             Vector2? behind = null; Component target = null;
-            for (int i = 2; i < 40 && behind == null; i++)
-                for (int j = 2; j < 24 && behind == null; j++)
-                {
-                    var p = new Vector2(Screen.width * i / 41f, Screen.height * j / 25f);
-                    if (FirstOrderInput.IsOverUI(p)) continue;
-                    var hit = FirstOrderInput.Pick(cam.ScreenPointToRay(p));
-                    if (hit != null) { behind = p; target = hit; }
-                }
-            Assert.IsNotNull(behind, "手册外面要有能指到的 3D 对象，才能测“后方不点”");
+            // 窄的 Game 视图里手册几乎盖满画面：依次试左引擎、维修座、总览机位，找手册外能指到的 3D 对象
+            foreach (var shot in new[] { FirstOrderCameraRig.EngineL, FirstOrderCameraRig.Dock, FirstOrderCameraRig.Overview })
+            {
+                flow.Rig.Go(shot, true);
+                yield return null;
+                for (int i = 2; i < 40 && behind == null; i++)
+                    for (int j = 2; j < 24 && behind == null; j++)
+                    {
+                        var p = new Vector2(Screen.width * i / 41f, Screen.height * j / 25f);
+                        if (FirstOrderInput.IsOverUI(p)) continue;
+                        var hit = FirstOrderInput.Pick(cam.ScreenPointToRay(p));
+                        if (hit != null) { behind = p; target = hit; }
+                    }
+                if (behind != null) break;
+            }
+            Assert.IsNotNull(behind, "三个镜头下手册外面都要有能指到的 3D 对象，才能测“后方不点”");
             bool acted = false; void OnActed(string t, bool ok, string m) => acted = true;
             flow.Acted += OnActed;
             var step = flow.Step;

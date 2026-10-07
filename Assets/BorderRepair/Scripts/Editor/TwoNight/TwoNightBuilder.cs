@@ -209,6 +209,9 @@ namespace BorderRepair.TwoNight.EditorTools
             var glass = Under(robot, "ScreenGlass").GetComponent<Renderer>();
             var status = BuildScreenStatus(glass, body, font);
 
+            // ---- 第一人称：玩家、看不见的边界、挪开凳子（在规划端盘路线之前做，间隙报告按挪过的场景算）
+            BuildFirstPerson(flow);
+
             // ---- 端盘路径（预制体根在悬停位，右臂端盘姿态）与静态间隙检查
             var report = new StringBuilder();
             var path = PlanIncident(flow, robot, body, bones, carry, openJaw, rest, lb, stow, restL, hold, tray, LeanDeg, report);
@@ -223,6 +226,47 @@ namespace BorderRepair.TwoNight.EditorTools
             EditorSceneManager.SaveScene(scene);
             Directory.CreateDirectory(DocsDir);
             File.WriteAllText(Path.Combine(DocsDir, "incident_motion.md"), report.ToString(), new UTF8Encoding(false));
+        }
+
+        // ------------------------------------------------------------------ 第一人称
+
+        /// <summary>出生点（脚底）与朝向：房间前左的空地，面向七号。</summary>
+        public static readonly Vector3 FpSpawn = new Vector3(-0.55f, 0.02f, 0.80f);
+        public const float FpSpawnYaw = 90f;
+        /// <summary>凳子从工作台和维修座之间挪到前左角（让出去七号背面的通道；只改本发布场景）。</summary>
+        public static readonly Vector3 StoolShift = new Vector3(-2.15f, 0f, 1.20f);
+        public const float FpRadius = 0.14f;   // 去七号背面的通道在打开的抽屉和左夹具之间只有约 0.38 m
+
+        static void BuildFirstPerson(FirstOrderFlow flow)
+        {
+            var root = new GameObject("TwoNight_FirstPerson（第一人称行走）").transform;
+            var stool = GameObject.Find("Furniture_Stool");
+            if (stool == null) throw new Exception("找不到 Furniture_Stool");
+            stool.transform.position += StoolShift;
+            // 看不见的边界：房间正面（原镜头一侧）和右前方没有墙；只挡行走，点选射线忽略
+            void Bound(string name, Vector3 center, Vector3 size)
+            {
+                var go = new GameObject(name, typeof(BoxCollider), typeof(FirstPersonBlocker));
+                go.transform.SetParent(root, false);
+                go.transform.position = center;
+                go.GetComponent<BoxCollider>().size = size;
+                go.layer = 2;   // Ignore Raycast
+            }
+            Bound("FP_Bound_Front", new Vector3(0f, 1.3f, 1.75f), new Vector3(3.6f, 2.6f, 0.1f));
+            Bound("FP_Bound_RightFront", new Vector3(-1.65f, 1.3f, 0.95f), new Vector3(0.1f, 2.6f, 1.7f));
+            var player = new GameObject("FirstPersonPlayer");
+            player.transform.SetParent(root, false);
+            player.transform.SetPositionAndRotation(FpSpawn, Quaternion.Euler(0f, FpSpawnYaw, 0f));
+            var cc = player.AddComponent<CharacterController>();
+            cc.radius = FpRadius; cc.height = 1.7f; cc.center = new Vector3(0f, 0.85f, 0f); cc.stepOffset = 0.2f; cc.skinWidth = 0.02f; cc.slopeLimit = 50f; cc.minMoveDistance = 0f;
+            var eye = new GameObject("Eye").transform;
+            eye.SetParent(player.transform, false);
+            eye.localPosition = new Vector3(0f, 1.55f, 0f);
+            var walker = player.AddComponent<FirstPersonWalker>();
+            walker.Configure(flow.Rig, eye);
+            EditorUtility.SetDirty(walker);
+            flow.Rig.ConfigureWalker(walker);
+            EditorUtility.SetDirty(flow.Rig);
         }
 
         static GameObject BuildScreenStatus(Renderer glass, Transform body, Font font)

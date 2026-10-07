@@ -79,6 +79,7 @@ namespace BorderRepair.FirstOrder.Slice
                 case FirstOrderCameraRig.Record: return "保养记录";
                 case FirstOrderCameraRig.Compare: return "新旧轴承";
                 case FirstOrderCameraRig.Overview: return "总览";
+                case FirstOrderCameraRig.FirstPerson: return "行走";
                 default: return shot;
             }
         }

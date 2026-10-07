@@ -29,7 +29,8 @@ namespace BorderRepair.TwoNight
             "安全：七号落座、夹紧、断电，并且叶轮停稳之后，才能检查和拆卸。转动和减速中只能看，不能动手。\n" +
             "现象：打烊后七号单手端零件盘时，机身慢慢往左边沉，盘面跟着斜；屏幕显示 TRAY UNSTABLE。右侧没有异常表现。\n" +
             "建议检查：先看右引擎作对照；再看左引擎外观和进气口；需要时扳开锁扣、取下上盖检查里面，并翻看上盖内侧的保养记录。\n" +
-            "鼠标：左键操作，右键观察（或在右下角切到“观察”）。底部镜头栏切换视角，“返回”回到上一个镜头。\n" +
+            "行走：WASD 移动，Shift 快走，C 蹲下，鼠标转头；准星对准后左键操作、右键观察（伸手够得着才能操作）。Tab 放开鼠标去点界面，点一下画面回到准星。\n" +
+            "近看：底部镜头栏切到固定机位（看细节用），按 WASD 或「← 行走」回到行走。\n" +
             "可选调试：数字键 1–9 切镜头，F3 开关调试面板（文字输入时不响应）。";
 
         public TwoNightState State => TwoNightRun.Current;
@@ -60,6 +61,15 @@ namespace BorderRepair.TwoNight
         void Start()
         {
             BuildUi();
+            var walker = flow.Rig.Walker;
+            if (walker != null)
+            {
+                // 这些界面要鼠标：自动放开鼠标、停止行走
+                walker.CursorRequests.Add(() => view.ManualOpen);
+                walker.CursorRequests.Add(() => EndPanelVisible);
+                walker.CursorRequests.Add(() => RegisterVisible);
+                walker.CursorRequests.Add(() => TwoNightRun.Current != null && TwoNightRun.Current.phase == TwoNightPhase.Night1Incident);   // 端盘演出：固定镜头看完
+            }
             var tr = incident.Tray.transform;
             trayHomePos = tr.position; trayHomeRot = tr.rotation; trayHomeParent = tr.parent;
             view.SetManual(ManualTitle, ManualBody);
@@ -107,7 +117,7 @@ namespace BorderRepair.TwoNight
             SetSliceHud(true);
             flow.InspectionLocked = true;
             input.enabled = true;
-            flow.Rig.Go(FirstOrderCameraRig.Dock);
+            if (flow.Rig.FirstPersonEnabled) flow.Rig.Walk(); else flow.Rig.Go(FirstOrderCameraRig.Dock);
             ShowCaption("七号放回零件盘，机身回正了。用鼠标让它停靠：张开夹具落座 → 夹紧 → 断电，等叶轮停稳后登记。");
             RefreshHud();
         }
@@ -120,6 +130,7 @@ namespace BorderRepair.TwoNight
             if (!flow.ResumeAtInspection("第二晚。七号昨晚已停靠、夹紧、断电，叶轮停稳，还没修。可以开始检查左引擎。"))
                 Debug.LogError("[TwoNight] 七号流程没能从检查阶段开始（Step " + flow.Step + "，维修座 " + flow.Dock.State + "）", this);
             ShowCaption("第二晚开店前。先看手册，再开始检查七号。");
+            if (flow.Rig.FirstPersonEnabled) flow.Rig.Walk(true);
             view.ToggleManual();                                     // 打开入口手册一次；玩家可以关掉
             RefreshHud();
         }
