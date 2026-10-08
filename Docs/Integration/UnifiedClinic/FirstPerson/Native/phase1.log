@@ -1,0 +1,78 @@
+Mono path[0] = 'C:/Users/Administrator/Documents/Codex/clinic-int/Builds/UnifiedClinic-20261008/BorderRepairClinic_Data/Managed'
+Mono config path = 'C:/Users/Administrator/Documents/Codex/clinic-int/Builds/UnifiedClinic-20261008/MonoBleedingEdge/etc'
+Found 1 interfaces on host : 0) 192.168.0.176
+Player connection [15516]  Target information:
+
+Player connection [15516]  * "[IP] 192.168.0.176 [Port] 55000 [Flags] 2 [Guid] 164334396 [EditorId] 1576031784 [Version] 1048832 [Id] WindowsPlayer(2,WIN-1SU0ECNLPV2) [Debug] 0 [PackageName] WindowsPlayer [ProjectName] BorderRepairStation" 
+
+Player connection [15516] Started UDP target info broadcast (1) on [225.0.0.222:54997].
+
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.0.84f1 (78ab6fc243d5)
+[Subsystems] Discovering subsystems at path C:/Users/Administrator/Documents/Codex/clinic-int/Builds/UnifiedClinic-20261008/BorderRepairClinic_Data/UnitySubsystems
+kGfxThreadingModeSplitJobs is not supported on Direct3D 11. Reverting to kGfxThreadingModeClientWorkerJobs instead.
+GfxDevice: creating device client; kGfxThreadingModeClientWorkerJobs
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3070 (ID=0x2488)
+    Vendor:   NVIDIA
+    VRAM:     8018 MB
+    Driver:   32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.371 seconds
+- Finished resetting the current domain, in  0.002 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+<RI> Initializing input.
+Using Windows.Gaming.Input
+UnloadTime: 0.541300 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.215400 ms
+Unloading 13 unused Assets / (76.4 KB). Loaded Objects now: 7038.
+Memory consumption went from 95.2 MB to 95.1 MB.
+Total: 1.252800 ms (FindLiveObjects: 0.193600 ms CreateObjectMapping: 0.076500 ms MarkObjects: 0.963200 ms  DeleteObjects: 0.019100 ms)
+
+RenderGraph is now enabled.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at C:/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at C:/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at C:/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at C:/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+UnityEngine.Rendering.Universal.UniversalRenderPipeline:.ctor (UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset) (at ./Library/PackageCache/com.unity.render-pipelines.universal@ab605b8cbe5e/Runtime/UniversalRenderPipeline.cs:267)
+UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset:CreatePipeline () (at ./Library/PackageCache/com.unity.render-pipelines.universal@ab605b8cbe5e/Runtime/Data/UniversalRenderPipelineAsset.cs:793)
+UnityEngine.Rendering.RenderPipelineAsset:InternalCreatePipeline () (at C:/build/output/unity/unity/Runtime/Export/RenderPipeline/RenderPipelineAsset.cs:15)
+UnityEngine.Rendering.RenderPipelineManager:TryPrepareRenderPipeline (UnityEngine.Rendering.RenderPipelineAsset) (at C:/build/output/unity/unity/Runtime/Export/RenderPipeline/RenderPipelineManager.cs:165)
+UnityEngine.Rendering.RenderPipelineManager:DoRenderLoop_Internal (UnityEngine.Rendering.RenderPipelineAsset,intptr,UnityEngine.Object) (at C:/build/output/unity/unity/Runtime/Export/RenderPipeline/RenderPipelineManager.cs:139)
+UnityEngine.Camera:Render ()
+BorderRepair.TwoNight.ClinicOffscreenFrame:Render () (at C:/Users/Administrator/Documents/Codex/clinic-int/Assets/BorderRepair/Scripts/Runtime/TwoNight/ClinicOffscreenFrame.cs:45)
+BorderRepair.TwoNight.UnifiedClinicPlayerCheck/<Screenshot>d__9:MoveNext () (at C:/Users/Administrator/Documents/Codex/clinic-int/Assets/BorderRepair/Scripts/Runtime/TwoNight/UnifiedClinicPlayerCheck.cs:100)
+BorderRepair.TwoNight.UnifiedClinicPlayerCheck/<Execute>d__7:MoveNext () (at C:/Users/Administrator/Documents/Codex/clinic-int/Assets/BorderRepair/Scripts/Runtime/TwoNight/UnifiedClinicPlayerCheck.cs:69)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at C:/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: C:/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+[ClinicCheckpoint] {"startedUtc":"2026-10-08T13:41:06.0995496Z","finishedUtc":"2026-10-08T13:41:27.7656680Z","error":"","scene":"Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity","checkpoint":"C:\\Users\\Administrator\\Documents\\Codex\\clinic-int\\Docs\\Integration\\UnifiedClinic\\FirstPerson\\Native\\Save\\checkpoint.json","processId":16144,"phase":1,"cash":800,"receipts":2,"mouseClicks":5,"budgetSeconds":180,"passed":true,"retestPassed":false,"walkedMeters":0.4914371073246002,"mouseYawDegrees":10.800000190734864,"firstPersonPassed":true}
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at C:/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at C:/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at C:/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at C:/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+BorderRepair.TwoNight.UnifiedClinicPlayerCheck/<Execute>d__7:MoveNext () (at C:/Users/Administrator/Documents/Codex/clinic-int/Assets/BorderRepair/Scripts/Runtime/TwoNight/UnifiedClinicPlayerCheck.cs:84)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at C:/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: C:/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+[Physics::Module] Cleanup current backned.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+PlayerConnection::Cleanup##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1791466887919,"processId":16144,"allocatedMemory":585727,"memoryLabels":[{"Default":144},{"Thread":2048},{"Manager":533995},{"VFX":-104},{"GfxDevice":72},{"GfxThread":6144},{"Serialization":520},{"JobScheduler":32768},{"String":372},{"HashMap":3584},{"PoolAlloc":288},{"VR":1792},{"Video":144},{"NativeArray":3744},{"Subsystems":96},{"CoreBusinessMetrics":120}]}

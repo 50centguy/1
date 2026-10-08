@@ -161,7 +161,7 @@ namespace BorderRepair.FirstOrder
             matZone.ShowMarker(false);
             oldTrayZone.ShowMarker(false);
             Say("七号在维修座上方悬停。点夹具握把，让它落座。");
-            if (rig != null) rig.Go(FirstOrderCameraRig.Dock);
+            if (rig != null) rig.Auto(FirstOrderCameraRig.Dock);
         }
 
         void Update()
@@ -188,9 +188,9 @@ namespace BorderRepair.FirstOrder
             if (rig == null) return;
             switch (next)
             {
-                case FoStep.ReleaseLatches: case FoStep.LocateBearing: case FoStep.CloseLatches: rig.Go(FirstOrderCameraRig.EngineL); break;
-                case FoStep.PlaceCover: case FoStep.PlaceOldBearing: case FoStep.FetchNewBearing: case FoStep.ReinstallCover: rig.Go(FirstOrderCameraRig.Overview); break;
-                case FoStep.PowerOn: case FoStep.ReleaseAndLift: case FoStep.Retest: rig.Go(FirstOrderCameraRig.Dock); break;
+                case FoStep.ReleaseLatches: case FoStep.LocateBearing: case FoStep.CloseLatches: rig.Auto(FirstOrderCameraRig.EngineL); break;
+                case FoStep.PlaceCover: case FoStep.PlaceOldBearing: case FoStep.FetchNewBearing: case FoStep.ReinstallCover: rig.Auto(FirstOrderCameraRig.Overview); break;
+                case FoStep.PowerOn: case FoStep.ReleaseAndLift: case FoStep.Retest: rig.Auto(FirstOrderCameraRig.Dock); break;
             }
         }
 
@@ -330,7 +330,7 @@ namespace BorderRepair.FirstOrder
                     if (latchOuter.Location == PartLocation.Released && latchRear.Location == PartLocation.Released)
                     {
                         Advance(FoStep.RemoveCover, "两个锁扣都扳开了。点上盖，沿引擎轴线取下上盖总成。");
-                        if (rig != null) rig.Go(FirstOrderCameraRig.EngineL);
+                        if (rig != null) rig.Auto(FirstOrderCameraRig.EngineL);
                     }
                     else Say($"{p.displayName}已扳开。还有一个锁扣。");
                     return Ok(n, Message);
@@ -652,7 +652,7 @@ namespace BorderRepair.FirstOrder
             if (dock == null || dock.State != DockState.RotorsStopped || Step != FoStep.SeatRobot) return false;
             Step = FoStep.InspectLeftEngine;
             Say(message);
-            if (rig != null) rig.Go(FirstOrderCameraRig.EngineL);
+            if (rig != null) rig.Auto(FirstOrderCameraRig.EngineL);
             return true;
         }
 

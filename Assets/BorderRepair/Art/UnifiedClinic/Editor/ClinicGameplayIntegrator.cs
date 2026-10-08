@@ -199,6 +199,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             }
             rigData.ApplyModifiedPropertiesWithoutUndo();
             flow.Rig.Go(FirstOrderCameraRig.Overview, true);
+            BuildFirstPerson(flow, scene);
 
             // Add light only where the shared baseline has none; preserve the user's bench and dock lights.
             AddPoint("ClinicTradeTaskLight", new Vector3(2.4f, 2.1f, 0), new Color(1, .74f, .45f), 2.2f, 2.3f);
@@ -231,6 +232,32 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
         static void Remap(Transform target, Matrix4x4 delta, Quaternion rotation)
         {
             target.SetPositionAndRotation(delta.MultiplyPoint3x4(target.position), rotation * target.rotation);
+        }
+        static void BuildFirstPerson(FirstOrderFlow flow, Scene scene)
+        {
+            var player = new GameObject("ClinicFirstPersonPlayer");
+            SceneManager.MoveGameObjectToScene(player, scene);
+            player.transform.position = new Vector3(0, .05f, -2.25f);
+            var controller = player.AddComponent<CharacterController>();
+            controller.radius = .18f; controller.height = 1.7f;
+            controller.center = new Vector3(0, .85f, 0);
+            controller.stepOffset = .15f; controller.skinWidth = .015f;
+            controller.slopeLimit = 50; controller.minMoveDistance = 0;
+            var eye = new GameObject("Eye").transform;
+            eye.SetParent(player.transform, false);
+            eye.localPosition = new Vector3(0, 1.55f, 0);
+            var walker = player.AddComponent<FirstPersonWalker>();
+            walker.Configure(flow.Rig, eye);
+            flow.Rig.ConfigureWalker(walker);
+            flow.Rig.Cam.nearClipPlane = .03f;
+            EditorUtility.SetDirty(walker);
+            EditorUtility.SetDirty(flow.Rig);
+            // The authored door is closed; its open proxy gap must not let the player leave the room.
+            var threshold = new GameObject("ClinicClosedDoorCollision", typeof(BoxCollider), typeof(FirstPersonBlocker));
+            SceneManager.MoveGameObjectToScene(threshold, scene);
+            threshold.transform.position = new Vector3(0, 1.2f, -3.48f);
+            threshold.GetComponent<BoxCollider>().size = new Vector3(1.5f, 2.4f, .12f);
+            threshold.layer = 2;
         }
         static void BindZone(Transform target, ClinicArtImporter.Anchor anchor, Transform parent)
         {

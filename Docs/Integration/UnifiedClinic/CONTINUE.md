@@ -1,5 +1,7 @@
 # Delivery checkpoint
 
+First-person follow-up on the same independent integration branch is complete: migrated existing 5028a74 walking/input/camera code, adapted shared-room spawn/colliders and first-night trade/UI, added long-frame step protection. Latest focused PlayMode is 19/19; updated native player passes both independent-process phases including keyboard/mouse input and full internal repair/retest. See FirstPerson/README.md and Native/. Do not restart integration or modeling; the heartbeat remains paused. Earlier full-suite numbers below are historical, not a full-suite rerun after this input follow-up.
+
 2026-10-08: implementation, acceptance and independent-branch publication complete. Implementation commit 43116353fc8dbf67f2d63dad3f6611ba37a929be is verified on origin/integ/unified-clinic-20261008. No Unity, player, Claude or Blender job owned by this task remains. Do not restart modeling or repeat completed scene generation.
 
 - Integration: C:/Users/Administrator/Documents/Codex/clinic-int, branch integ/unified-clinic-20261008. Inherited user snapshot is separately committed as a32cfc4 (34 source files plus protection manifest). Implementation is published as 4311635, with a documentation-only delivery follow-up. Do not merge main automatically.

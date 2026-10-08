@@ -23,6 +23,8 @@ namespace BorderRepair.TwoNight
             public string startedUtc, finishedUtc, error, scene, checkpoint;
             public int processId, phase, cash, receipts, mouseClicks, budgetSeconds;
             public bool passed, retestPassed;
+            public float walkedMeters, mouseYawDegrees;
+            public bool firstPersonPassed;
         }
         Report report;
         string output;
@@ -107,8 +109,40 @@ namespace BorderRepair.TwoNight
             Require(FindObjectsByType<AudioListener>(FindObjectsSortMode.None).Count(a => a.enabled) == 1, "Duplicate listener.");
         }
 
+        IEnumerator CheckWalking(UnifiedClinicDirector clinic)
+        {
+            var flow = clinic.Robot.Flow;
+            var walker = flow.Rig.Walker;
+            Require(walker != null && flow.Rig.Walking, "Shared room did not start in first-person mode.");
+            if (mouse == null) mouse = FirstOrderAcceptanceDriver.CreateVirtualMouse(out cleanup);
+            var keyboard = InputSystem.AddDevice<Keyboard>("ClinicWalkingAcceptanceKeyboard");
+            var previousCleanup = cleanup;
+            cleanup = () => { if (keyboard.added) InputSystem.RemoveDevice(keyboard); previousCleanup?.Invoke(); };
+            keyboard.MakeCurrent();
+            for (int frame = 0; frame < 30; frame++) yield return null;
+            Vector3 start = walker.transform.position;
+            InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.D));
+            float end = Time.realtimeSinceStartup + .35f;
+            while (Time.realtimeSinceStartup < end) yield return null;
+            InputSystem.QueueStateEvent(keyboard, new KeyboardState());
+            yield return null;
+            report.walkedMeters = Vector2.Distance(new Vector2(start.x, start.z),
+                new Vector2(walker.transform.position.x, walker.transform.position.z));
+            Require(report.walkedMeters > .2f && report.walkedMeters < .8f, "Keyboard movement failed or jumped.");
+            float yaw = walker.Yaw;
+            InputSystem.QueueDeltaStateEvent(mouse.delta, new Vector2(120, 0));
+            yield return null;
+            report.mouseYawDegrees = Mathf.Abs(Mathf.DeltaAngle(yaw, walker.Yaw));
+            Require(report.mouseYawDegrees > 5f && report.mouseYawDegrees < 20f, "Mouse-look input failed.");
+            report.firstPersonPassed = true;
+            yield return Screenshot("first_person_walk");
+        }
+
         IEnumerator ClickZone(ClinicTradeAction action)
         {
+            // Preserve the fixed close-up acceptance path; first-person input is checked separately.
+            FindFirstObjectByType<UnifiedClinicDirector>().Robot.Flow.Rig.Go(FirstOrderCameraRig.Overview, true);
+            yield return null;
             var zone = FindObjectsByType<ClinicTradeZone>(FindObjectsSortMode.None).Single(z => z.Action == action);
             Physics.SyncTransforms();
             Vector2? position = null;
@@ -160,8 +194,9 @@ namespace BorderRepair.TwoNight
                 var input = FindFirstObjectByType<FirstOrderInput>();
                 var view = FindFirstObjectByType<BorderRepair.FirstOrder.Slice.SliceView>();
                 if (view.ManualOpen) view.ToggleManual();
+                yield return null;
+                yield return CheckWalking(clinic);
                 yield return Screenshot("night2_room");
-                mouse = FirstOrderAcceptanceDriver.CreateVirtualMouse(out cleanup);
                 var night2Driver = new FirstOrderAcceptanceDriver(clinic.Robot.Flow, input) { VirtualMouse = mouse };
                 yield return night2Driver.RunFullOrder(resumeAtInspection: true);
                 report.mouseClicks = night2Driver.Records.Count(r => !string.IsNullOrEmpty(r.screenPoint));
@@ -184,6 +219,7 @@ namespace BorderRepair.TwoNight
             var room = FindFirstObjectByType<UnifiedClinicDirector>();
             Singles();
             yield return Screenshot("night1_room");
+            yield return CheckWalking(room);
             yield return ClickZone(ClinicTradeAction.Receive);
             Require(room.TradeState == ClinicTradeState.InRepair, "Physical receive failed.");
             var session = room.Station.Session;

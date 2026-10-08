@@ -1,0 +1,18 @@
+{
+    "startedUtc": "2026-10-08T13:36:58.6278945Z",
+    "finishedUtc": "2026-10-08T13:37:00.3504829Z",
+    "error": "System.InvalidOperationException: Keyboard movement failed or jumped.\r\n  at BorderRepair.TwoNight.UnifiedClinicPlayerCheck+<CheckWalking>d__11.MoveNext () [0x00381] in C:\\Users\\Administrator\\Documents\\Codex\\clinic-int\\Assets\\BorderRepair\\Scripts\\Runtime\\TwoNight\\UnifiedClinicPlayerCheck.cs:138 \r\n  at BorderRepair.TwoNight.UnifiedClinicPlayerCheck+<Execute>d__7.MoveNext () [0x000b4] in C:\\Users\\Administrator\\Documents\\Codex\\clinic-int\\Assets\\BorderRepair\\Scripts\\Runtime\\TwoNight\\UnifiedClinicPlayerCheck.cs:69 ",
+    "scene": "Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity",
+    "checkpoint": "C:\\Users\\Administrator\\Documents\\Codex\\clinic-int\\Docs\\Integration\\UnifiedClinic\\FirstPerson\\Native\\Save\\checkpoint.json",
+    "processId": 6516,
+    "phase": 1,
+    "cash": 500,
+    "receipts": 0,
+    "mouseClicks": 0,
+    "budgetSeconds": 180,
+    "passed": false,
+    "retestPassed": false,
+    "walkedMeters": 0.9537668228149414,
+    "mouseYawDegrees": 0.0,
+    "firstPersonPassed": false
+}

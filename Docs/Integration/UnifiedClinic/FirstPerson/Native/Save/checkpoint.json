@@ -1,0 +1,55 @@
+{
+    "version": 1,
+    "night": 1,
+    "phase": 5,
+    "startingCash": 500,
+    "rent": 1200,
+    "rentDueNight": 3,
+    "transactions": [
+        {
+            "id": "N1-COMM-INCOME",
+            "amount": 400,
+            "label": "case_n1_collector_communicator · 维修收入",
+            "night": 1
+        },
+        {
+            "id": "N1-COMM-PARTS",
+            "amount": -100,
+            "label": "case_n1_collector_communicator · 耗材与配件",
+            "night": 1
+        }
+    ],
+    "communicatorSettled": true,
+    "communicatorCaseId": "case_n1_collector_communicator",
+    "communicatorIncome": 400,
+    "communicatorPartsCost": 100,
+    "communicatorAmountsRecorded": true,
+    "unifiedClinic": true,
+    "communicatorTrade": 3,
+    "customerQueueCount": 1,
+    "customerTrades": [
+        {
+            "caseId": "case_n1_collector_communicator",
+            "queueIndex": 0,
+            "income": 400,
+            "partsCost": 100,
+            "state": 3,
+            "returnedUnpaid": false,
+            "decision": 0
+        }
+    ],
+    "ledgerConfirmed": true,
+    "unit07IncidentShown": true,
+    "unit07Registered": true,
+    "unit07WorkOrderId": "WO-U07-N1",
+    "unit07Repaired": false,
+    "unit07": {
+        "seated": true,
+        "clamped": true,
+        "powerOff": true,
+        "rotorsStopped": true,
+        "trayStowed": true,
+        "robotUpright": true
+    },
+    "savedAtUtc": "2026-10-08T13:41:27.5923330Z"
+}

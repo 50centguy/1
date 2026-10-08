@@ -94,6 +94,9 @@ namespace BorderRepair.TwoNight.Tests
 
         IEnumerator ClickZone(UnifiedClinicDirector clinic, ClinicTradeAction action)
         {
+            // This regression exercises the retained fixed-view mouse path; walking has separate tests.
+            clinic.Robot.Flow.Rig.Go(FirstOrderCameraRig.Overview, true);
+            yield return null;
             var zone = UnityEngine.Object.FindObjectsByType<ClinicTradeZone>(FindObjectsSortMode.None).Single(z => z.Action == action);
             var camera = Camera.main;
             Vector2? position = null;

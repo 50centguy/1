@@ -49,9 +49,12 @@ namespace BorderRepair.FirstOrder.Slice
         /// <summary>诊断记录里哪些项要显示（为空 = 全部显示，即核心切片原样）。两晚切片第二晚用它让“新旧轴承对比”在拆下旧件后才出现。</summary>
         public System.Func<string, bool> DiagnosisItemVisible { get; set; }
         public bool TooltipVisible => tooltip != null && tooltip.activeSelf;
+        public bool CrosshairVisible => crosshair != null && crosshair.activeSelf;
+        public string ControlsHintText => controlsText != null && controls.activeSelf ? controlsText.text : "";
+        public string TooltipText => tooltipText != null ? tooltipText.text : "";
         public RectTransform TooltipRect => tooltipRect;
         /// <summary>悬停提示要避开的界面区域（画布坐标，左下为原点）。</summary>
-        public List<Rect> TooltipAvoidRects() => new[] { statusRect, feedbackRect, barRect, toolsRect, obsPanel != null && obsPanel.activeSelf ? (RectTransform)obsPanel.transform : null }
+        public List<Rect> TooltipAvoidRects() => new[] { statusRect, feedbackRect, barRect, toolsRect, controls != null && controls.activeSelf ? (RectTransform)controls.transform : null, obsPanel != null && obsPanel.activeSelf ? (RectTransform)obsPanel.transform : null }
             .Where(r => r != null).Select(CanvasRect).ToList();
 
         readonly Dictionary<string, Button> buttons = new Dictionary<string, Button>();
@@ -63,7 +66,9 @@ namespace BorderRepair.FirstOrder.Slice
 
         Text titleText, stepText, hintText, feedbackText, tooltipText, obsTitle, obsBody, manualDiag, manualTitle, manualBody;
         Image feedbackBg;
-        GameObject obsPanel, manualPanel, tooltip;
+        GameObject obsPanel, manualPanel, tooltip, crosshair, controls;
+        Text controlsText, backLabel;
+        string localMsg, localMsgAtFlow;
         Button obsGoButton;
         InputField notesField;
         RectTransform tooltipRect, canvasRect, statusRect, feedbackRect, barRect, toolsRect;
@@ -93,13 +98,13 @@ namespace BorderRepair.FirstOrder.Slice
 
         void OnEnable()
         {
-            if (input != null) input.Observed += OnObserved;
+            if (input != null) { input.Observed += OnObserved; input.OutOfReach += OnOutOfReach; }
             if (flow != null) flow.Acted += OnActed;
         }
 
         void OnDisable()
         {
-            if (input != null) input.Observed -= OnObserved;
+            if (input != null) { input.Observed -= OnObserved; input.OutOfReach -= OnOutOfReach; }
             if (flow != null) flow.Acted -= OnActed;
         }
 
@@ -141,6 +146,19 @@ namespace BorderRepair.FirstOrder.Slice
                 x += w + 6f;
             }
             buttons["back"] = MakeButton(bar, "Back", "← 返回", new Vector2(x + 6f, -8), new Vector2(84, 36), Back);
+            backLabel = buttons["back"].GetComponentInChildren<Text>();
+
+            // 第一人称：操作说明条（镜头栏上方，不接鼠标）和准星
+            controls = Panel("Controls", transform, new Vector2(0, 0), new Vector2(16, 16 + 52 + 6 + 30), new Vector2(1060, 30)).gameObject;
+            controls.GetComponent<Image>().raycastTarget = false;
+            controlsText = Label(controls.transform, "ControlsText", "", 14, new Vector2(10, -5), new Vector2(1040, 22), TextDim);
+            controlsText.raycastTarget = false;
+            controls.SetActive(false);
+            crosshair = new GameObject("Crosshair", typeof(RectTransform), typeof(Image));
+            crosshair.transform.SetParent(transform, false);
+            var chr = (RectTransform)crosshair.transform; chr.anchorMin = chr.anchorMax = chr.pivot = new Vector2(0.5f, 0.5f); chr.sizeDelta = new Vector2(6, 6);
+            var chi = crosshair.GetComponent<Image>(); chi.color = new Color(0.95f, 0.93f, 0.88f, 0.85f); chi.raycastTarget = false;
+            crosshair.SetActive(false);
 
             // 右下：模式 / 手册 / 调试
             var tools = Panel("Tools", transform, new Vector2(1, 0), new Vector2(-16 - 492, 16 + 52), new Vector2(492, 52)); toolsRect = tools;
@@ -283,6 +301,7 @@ namespace BorderRepair.FirstOrder.Slice
 
         public void Back()
         {
+            if (flow.Rig.FirstPersonEnabled) { flow.Rig.Walk(); return; }       // 第一人称场景：从固定机位回到行走
             if (history.Count == 0) return;
             var prev = history[history.Count - 1];
             history.RemoveAt(history.Count - 1);
@@ -331,7 +350,13 @@ namespace BorderRepair.FirstOrder.Slice
             obsPanel.SetActive(true);
         }
 
-        void OnActed(string target, bool ok, string msg) { lastActedMessage = msg; lastActedOk = ok; }
+        void OnActed(string target, bool ok, string msg) { lastActedMessage = msg; lastActedOk = ok; localMsg = null; }
+
+        void OnOutOfReach(Component hit, float d)
+        {
+            localMsg = $"够不着{FirstOrderInput.NameOf(hit)}（离眼睛 {d:F1} m，伸手 {flow.Rig.Walker.Reach:F1} m 以内）。走近一点再点。";
+            localMsgAtFlow = flow.Message;
+        }
 
         // ------------------------------------------------------------------ 每帧刷新
 
@@ -355,15 +380,20 @@ namespace BorderRepair.FirstOrder.Slice
             goingBack = false;
             lastShot = cur;
             foreach (var (shot, _) in CameraButtons) Tint(buttons["cam:" + shot], shot == cur);
-            buttons["back"].interactable = history.Count > 0;
+            bool fp = flow.Rig.FirstPersonEnabled;
+            backLabel.text = fp ? "← 行走" : "← 返回";
+            buttons["back"].interactable = fp ? !flow.Rig.Walking : history.Count > 0;
+            UpdateFirstPersonHud();
 
             // 离座由 FirstOrderFlow 自己移动七号（当前维修座没有“离座”状态），这时按流程步骤显示
             string where = flow.Step >= FoStep.Retest ? "七号离座悬停" : SliceObservation.DockStateText(flow.Dock.State);
             stepText.text = $"步骤 {(int)flow.Step + 1}/17 · 维修座：{where} · 镜头：{SliceObservation.ShortLabel(cur)}";
             hintText.text = "下一步：" + flow.NextHint();
             bool refusal = !lastActedOk && flow.Message == lastActedMessage;
+            if (localMsg != null && flow.Message != localMsgAtFlow) localMsg = null;   // 流程有了新消息：本地提示让位
+            if (localMsg != null) refusal = true;
             LastFeedbackWasRefusal = refusal;
-            feedbackText.text = refusal ? "不行：" + flow.Message : flow.Message;
+            feedbackText.text = localMsg != null ? "不行：" + localMsg : refusal ? "不行：" + flow.Message : flow.Message;
             feedbackBg.color = refusal ? RefuseBg : OkBg;
 
             if (input != null) input.ModalBlocked = manualPanel.activeSelf;
@@ -384,18 +414,36 @@ namespace BorderRepair.FirstOrder.Slice
             return sb.ToString();
         }
 
+        void UpdateFirstPersonHud()
+        {
+            var rig = flow.Rig;
+            bool fp = rig.FirstPersonEnabled;
+            if (controls.activeSelf != fp) controls.SetActive(fp);
+            bool aim = fp && rig.Walker.Aiming && input != null && input.enabled;
+            if (crosshair.activeSelf != aim) crosshair.SetActive(aim);
+            if (!fp) return;
+            controlsText.text = rig.Walking
+                ? (rig.Walker.Aiming
+                    ? "WASD 移动 · Shift 快走 · C 蹲下 · 鼠标转头 · 准星对准：左键操作、右键观察 · Tab 放开鼠标点界面"
+                    : "鼠标已放开：可以点界面按钮。点一下画面（不在按钮上）或按 Tab，回到准星。")
+                : "固定机位（近看）：直接用鼠标点。按 WASD 或「← 行走」回到行走。";
+        }
+
         void UpdateTooltip()
         {
             var mouse = Mouse.current;
             var h = input != null ? input.Hovered : null;
-            if (mouse == null || h == null || input.PointerOverUI || manualPanel.activeSelf) { tooltip.SetActive(false); return; }
-            tooltipText.text = FirstOrderInput.NameOf(h) + "\n" + (input.ObserveMode ? "左键：观察" : "左键：操作 · 右键：观察");
+            bool walking = flow.Rig.Walking;
+            if (mouse == null || h == null || input.PointerOverUI || manualPanel.activeSelf || walking && !flow.Rig.Walker.Aiming) { tooltip.SetActive(false); return; }
+            tooltipText.text = FirstOrderInput.NameOf(h) + "\n" +
+                (input.HoverOutOfReach ? $"够不着（{input.HoverDistance:F1} m），走近一点 · 右键：观察" : input.ObserveMode ? "左键：观察" : "左键：操作 · 右键：观察");
             // 高度随文字（名字长时换行不溢出），宽度固定
             const float w = 320f;
             var tr = tooltipText.rectTransform; tr.sizeDelta = new Vector2(w - 16f, 200f);
             float hgt = Mathf.Max(54f, tooltipText.preferredHeight + 14f);
             tooltipRect.sizeDelta = new Vector2(w, hgt); tr.sizeDelta = new Vector2(w - 16f, hgt - 10f);
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, mouse.position.ReadValue(), null, out var local);
+            var pointer = walking ? new Vector2(Screen.width * 0.5f, Screen.height * 0.5f) : mouse.position.ReadValue();   // 行走：提示跟着准星
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, pointer, null, out var local);
             var size = canvasRect.rect.size;
             if (PlaceTooltip(local + size * 0.5f, new Vector2(w, hgt), size, TooltipAvoidRects(), out var topLeft))
             {

@@ -1,5 +1,7 @@
 # Unified clinic acceptance
 
+The latest independent-branch follow-up adds the previously separate first-person controller to this shared room. See FirstPerson/README.md for 19/19 focused PlayMode results and the updated player's two-process walking, checkpoint and repair/retest evidence. The original full-suite/performance acceptance below predates that follow-up; it is retained as history, not represented as a full-suite rerun.
+
 ## Implemented scope
 
 Real Blender room/clutter sources are imported around the current RobotV4, workbench and service dock. The south entrance, north workbench, central surgery bed/hanging-tool ring, west robot zone and east V4-style trading area share one runtime room for both nights. The functional diagnostic console remains. Trade pads receive/deliver actual existing item prefabs; income posts exactly once only after physical delivery. Unfinished deliveries are rejected; authored unpaid returns and retry/next-case queue behavior have tests.

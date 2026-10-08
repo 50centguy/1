@@ -4,6 +4,8 @@ This is an independent delivery on `integ/unified-clinic-20261008`, not an autom
 
 ## Play and rebuild
 
+First-person integration follow-up: the shared room now starts in walking mode in both nights. WASD moves, mouse delta looks, Shift walks faster, and C toggles a lowered eye position. The crosshair selects nearby objects (1.3 m reach); Tab/Esc releases the mouse for UI. Fixed repair views remain available and movement keys or the Back/Walk button return to the player's unchanged body location. Diagnostic console, dialogue, ledger, repair manual and night-end panels pause movement. See `FirstPerson/README.md` for the latest input-specific evidence; earlier full-suite and performance reports remain historical results, not a claim that the entire suite was rerun after this follow-up.
+
 - Open `Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity`, then Play and choose New Game or Continue.
 - Both nights use `Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity`. The customer-night console and internal UNIT07 flow are phase-gated rather than loaded into different rooms.
 - The room-side receive/deliver pads are clickable. Receiving opens the existing diagnostic console; returning to the room permits physical handoff. Completing a repair alone does not post income. An unfinished item cannot be delivered. Authored refusal/replacement advice permits an unpaid return.

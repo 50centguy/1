@@ -38,6 +38,7 @@ namespace BorderRepair.TwoNight
         public bool Initialized { get; private set; }
         public bool ConsoleOpen { get; private set; }
         public string LastMessage { get; private set; }
+        public bool RoomWalking => !ConsoleOpen && flow.Rig.Walking;
         public bool HasPendingCase => State != null && State.phase == TwoNightPhase.Night1Counter &&
             (State.ActiveTrade == null || (State.ActiveTrade.state == ClinicTradeState.Delivered &&
                 State.ActiveTrade.queueIndex + 1 < State.customerQueueCount));
@@ -45,6 +46,7 @@ namespace BorderRepair.TwoNight
         public TwoNightState State => TwoNightRun.Current;
 
         GameObject tradeUi;
+        GameObject crosshair;
         Text status;
         Button consoleButton, roomButton;
         Transform itemParent;
@@ -82,12 +84,19 @@ namespace BorderRepair.TwoNight
             station.View.gameObject.SetActive(false);
             station.Inspector.ViewCamera.enabled = false;
             SetRobotActive(!customerNight);
-            if (customerNight) flow.Rig.Go(FirstOrderCameraRig.Overview, true);
+            if (customerNight)
+            {
+                if (flow.Rig.FirstPersonEnabled) flow.Rig.Walk(true);
+                else flow.Rig.Go(FirstOrderCameraRig.Overview, true);
+            }
         }
 
         IEnumerator Start()
         {
             BuildUi();
+            if (flow.Rig.Walker != null)
+                flow.Rig.Walker.CursorRequests.Add(() => ConsoleOpen || counter.LedgerVisible ||
+                    counter.RetryVisible || counter.DialogueVisible);
             // The original station and dock initialize through their own Start methods.
             yield return null;
             if (State.phase == TwoNightPhase.Night1Counter || State.phase == TwoNightPhase.Night1Ledger)
@@ -100,6 +109,8 @@ namespace BorderRepair.TwoNight
                 CacheItemPose();
                 if (HasPendingCase) PlaceItem(receiveAnchor);
                 else station.Inspector.Clear();
+                // Walker Awake runs after this director's early Awake. Select walking once all actors are ready.
+                if (flow.Rig.FirstPersonEnabled) flow.Rig.Walk(true);
             }
             Initialized = true;
             RefreshStatus();
@@ -110,7 +121,7 @@ namespace BorderRepair.TwoNight
             robotInput.enabled = active && State.phase != TwoNightPhase.Night2Open;
             flow.enabled = active;
             flow.InspectionLocked = true;
-            flow.Rig.enabled = active;
+            flow.Rig.enabled = active || flow.Rig.Walker != null;
             robotView.gameObject.SetActive(active);
             robot.gameObject.SetActive(active);
             roomCamera.enabled = true;
@@ -164,6 +175,7 @@ namespace BorderRepair.TwoNight
             if (!Initialized || State.phase != TwoNightPhase.Night1Counter || TradeState != ClinicTradeState.InRepair) return;
             RestoreItem();
             ConsoleOpen = true;
+            flow.Rig.enabled = false;
             roomCamera.enabled = false;
             station.Inspector.ViewCamera.enabled = true;
             station.View.gameObject.SetActive(true);
@@ -178,7 +190,9 @@ namespace BorderRepair.TwoNight
             station.View.gameObject.SetActive(false);
             station.Inspector.ViewCamera.enabled = false;
             roomCamera.enabled = true;
-            flow.Rig.Go(FirstOrderCameraRig.Overview, true);
+            flow.Rig.enabled = true;
+            if (flow.Rig.FirstPersonEnabled) flow.Rig.Walk(true);
+            else flow.Rig.Go(FirstOrderCameraRig.Overview, true);
             RefreshStatus();
         }
 
@@ -259,12 +273,27 @@ namespace BorderRepair.TwoNight
 
         void Update()
         {
+            if (crosshair != null)
+                crosshair.SetActive(RoomWalking && flow.Rig.Walker.Aiming);
             if (!Initialized || State == null || ConsoleOpen || State.phase != TwoNightPhase.Night1Counter ||
-                counter.LedgerVisible || counter.RetryVisible || RepairInput.PointerOverUI || !RepairInput.LeftPressed) return;
-            if (Physics.Raycast(roomCamera.ScreenPointToRay(RepairInput.PointerPosition), out var hit))
+                counter.LedgerVisible || counter.RetryVisible || counter.DialogueVisible || !RepairInput.LeftPressed) return;
+            var walker = flow.Rig.Walker;
+            bool walking = flow.Rig.Walking;
+            if (walking && (!walker.Aiming || walker.ClickConsumedThisFrame) ||
+                !walking && RepairInput.PointerOverUI) return;
+            Vector2 pointer = walking ? new Vector2(Screen.width * .5f, Screen.height * .5f) : RepairInput.PointerPosition;
+            foreach (var hit in Physics.RaycastAll(roomCamera.ScreenPointToRay(pointer), 8, ~0,
+                QueryTriggerInteraction.Collide).OrderBy(h => h.distance))
             {
+                if (hit.collider is CharacterController || hit.collider.GetComponent<FirstPersonBlocker>() != null) continue;
                 var zone = hit.collider.GetComponentInParent<ClinicTradeZone>();
-                if (zone != null) zone.Activate();
+                if (zone != null)
+                {
+                    if (walking && hit.distance > walker.Reach) Refuse("够不着交易区物品，请走近一点。");
+                    else zone.Activate();
+                    break;
+                }
+                if (!hit.collider.isTrigger) break;
             }
         }
 
@@ -285,6 +314,13 @@ namespace BorderRepair.TwoNight
             tradeUi = new GameObject("UnifiedClinicTradeUI");
             tradeUi.transform.SetParent(transform, false);
             TwoNightUi.Canvas(tradeUi, 30);
+            crosshair = new GameObject("TradeCrosshair", typeof(RectTransform), typeof(Image));
+            crosshair.transform.SetParent(tradeUi.transform, false);
+            var crosshairRect = (RectTransform)crosshair.transform;
+            crosshairRect.anchorMin = crosshairRect.anchorMax = crosshairRect.pivot = new Vector2(.5f, .5f);
+            crosshairRect.sizeDelta = new Vector2(6, 6);
+            crosshair.GetComponent<Image>().raycastTarget = false;
+            crosshair.GetComponent<Image>().color = new Color(.95f, .93f, .88f, .85f);
             var panel = TwoNightUi.Panel(tradeUi.transform, "TradeStatus", new Vector2(1, 1), new Vector2(-416, -16), new Vector2(400, 120));
             panel.GetComponent<Image>().raycastTarget = false;
             status = TwoNightUi.Label(panel, "Status", "", font, 18, new Vector2(14, -10), new Vector2(372, 100), TwoNightUi.TextMain);

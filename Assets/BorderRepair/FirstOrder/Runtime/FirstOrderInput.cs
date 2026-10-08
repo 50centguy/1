@@ -42,6 +42,14 @@ namespace BorderRepair.FirstOrder
         public bool PointerOverUI { get; private set; }
         /// <summary>模态界面（展开的手册）打开时：真实鼠标不悬停、不点 3D；界面自己的按钮和输入框照常。程序验收用的 ClickAt / ObserveAt 不受影响。</summary>
         public bool ModalBlocked { get; set; }
+        /// <summary>悬停对象离镜头的距离（射线命中点，米）；没有悬停对象时为 -1。</summary>
+        public float HoverDistance { get; private set; } = -1f;
+        /// <summary>第一人称行走时，准星对着的对象超出伸手距离（左键不会操作它）。</summary>
+        public bool HoverOutOfReach { get; private set; }
+        /// <summary>第一人称行走时左键点了伸手够不着的对象（不交给流程）：参数为对象和距离。</summary>
+        public event Action<Component, float> OutOfReach;
+        /// <summary>这一帧点选用的屏幕位置：行走时是画面中央（准星），否则是鼠标位置。</summary>
+        public Vector2 PointerPosition { get; private set; }
 
         public void Configure(FirstOrderFlow f) => flow = f;
         public void ConfigureHud(bool show, bool keys, Font font, Vector2 origin) { showHud = show; debugKeys = keys; hudFont = font; hudOrigin = origin; }
@@ -88,15 +96,20 @@ namespace BorderRepair.FirstOrder
             return null;
         }
 
-        public static Component Pick(Ray ray, float maxDistance = 8f)
+        public static Component Pick(Ray ray, float maxDistance = 8f) => Pick(ray, maxDistance, out _);
+
+        /// <summary>同上，另给出命中距离（射线起点到命中点，米；没命中为 -1）。玩家自己的身体和只挡行走的边界（FirstPersonBlocker）不参与。</summary>
+        public static Component Pick(Ray ray, float maxDistance, out float distance)
         {
             var hits = Physics.RaycastAll(ray, maxDistance, ~0, QueryTriggerInteraction.Collide);
             Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
             Component best = null;
-            float first = -1f, solid = float.MaxValue, bestVol = float.MaxValue;
+            float first = -1f, solid = float.MaxValue, bestVol = float.MaxValue, bestDist = -1f;
+            distance = -1f;
             var enclosing = new List<Collider>();
             foreach (var h in hits)
             {
+                if (h.collider is CharacterController || h.collider.GetComponent<FirstPersonBlocker>() != null) continue;
                 var a = ActionableOn(h.collider);
                 if (a == null)
                 {
@@ -114,8 +127,9 @@ namespace BorderRepair.FirstOrder
                 else if (!h.collider.isTrigger) solid = Mathf.Min(solid, h.distance);
                 var s = h.collider.bounds.size;
                 float vol = s.x * s.y * s.z;
-                if (vol < bestVol) { bestVol = vol; best = a; }
+                if (vol < bestVol) { bestVol = vol; best = a; bestDist = h.distance; }
             }
+            distance = best != null ? bestDist : -1f;
             return best;
         }
 
@@ -139,19 +153,46 @@ namespace BorderRepair.FirstOrder
             }
             var mouse = Mouse.current;
             if (mouse == null) return;
-            var pos = mouse.position.ReadValue();
-            PointerOverUI = IsOverUI(pos);
+            var walker = flow.Rig != null ? flow.Rig.Walker : null;
+            bool walking = flow.Rig != null && flow.Rig.Walking;
+            HoverOutOfReach = false; HoverDistance = -1f;
+            if (walking && !walker.Aiming)
+            {
+                // 第一人称、鼠标放开去点界面：不悬停、不点 3D（点一下画面由 FirstPersonWalker 重新锁住鼠标）
+                PointerPosition = mouse.position.ReadValue();
+                PointerOverUI = IsOverUI(PointerPosition);
+                Hovered = null;
+                return;
+            }
+            var pos = walking ? new Vector2(Screen.width * 0.5f, Screen.height * 0.5f) : mouse.position.ReadValue();   // 行走：准星在画面中央
+            PointerPosition = pos;
+            PointerOverUI = !walking && IsOverUI(pos);
             if (PointerOverUI || ModalBlocked) { Hovered = null; return; }      // 鼠标在界面上、或模态手册展开：不悬停、不点 3D
-            Hovered = PickScreen(pos);
-            if (mouse.rightButton.wasPressedThisFrame || ObserveMode && mouse.leftButton.wasPressedThisFrame) ObserveAt(pos);
-            else if (mouse.leftButton.wasPressedThisFrame) ClickAt(pos);
+            Hovered = Pick(flow.Rig.Cam.ScreenPointToRay(pos), maxDistance, out var dist);
+            HoverDistance = dist;
+            HoverOutOfReach = walking && Hovered != null && dist > walker.Reach;
+            bool left = mouse.leftButton.wasPressedThisFrame && !(walking && walker.ClickConsumedThisFrame);
+            if (mouse.rightButton.wasPressedThisFrame || ObserveMode && left) ObserveAt(pos);
+            else if (left)
+            {
+                if (HoverOutOfReach) { LastClickHit = Hovered; OutOfReach?.Invoke(Hovered, dist); }   // 够不着：不交给流程
+                else ClickAt(pos);
+            }
         }
 
         public static string NameOf(Component c) => c switch
         {
             FirstOrderPart p => (p.isPlaceholder ? "【占位】" : "") + p.displayName,
             FirstOrderDropZone z => "落点：" + z.displayName,
-            DockInteractable d => "维修座：" + d.name,
+            DockInteractable d => d.action switch   // 给玩家看的名字（原来直接显示物体名，例如 Unit07_EngineL_InspectProxy）
+            {
+                DockAction.Clamps => "维修座：夹具握把",
+                DockAction.PowerSwitch => "维修座：断电开关",
+                DockAction.PartsTray => "维修座：零件盘",
+                DockAction.MagneticBox => "维修座：磁性零件盒",
+                DockAction.EngineLeft => "七号左引擎",
+                _ => "维修座：" + d.name,
+            },
             null => "—",
             _ => c.name,
         };
