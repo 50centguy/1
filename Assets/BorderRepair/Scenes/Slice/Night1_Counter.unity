@@ -228,6 +228,53 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787288}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &20977486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 20977488}
+  - component: {fileID: 20977487}
+  m_Layer: 0
+  m_Name: "TwoNightCounterDirector\uFF08\u4E24\u665A\uFF1A\u67DC\u53F0\u4E0E\u8D26\u672C\uFF09"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &20977487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20977486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dccbf840b923f642848621772e9d4cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  station: {fileID: 1214396535}
+  economy: {fileID: 11400000, guid: f8d54236e283daf49963ab3055d53e1b, type: 2}
+  font: {fileID: 12800000, guid: f33b99cadc28ef94c91233837e769a05, type: 3}
+--- !u!4 &20977488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20977486}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &58604760
 GameObject:
   m_ObjectHideFlags: 0
@@ -3245,53 +3292,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663364411}
   m_CullTransparentMesh: 1
---- !u!1 &686264532
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 686264534}
-  - component: {fileID: 686264533}
-  m_Layer: 0
-  m_Name: "TwoNightCounterDirector\uFF08\u4E24\u665A\uFF1A\u67DC\u53F0\u4E0E\u8D26\u672C\uFF09"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &686264533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 686264532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dccbf840b923f642848621772e9d4cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  station: {fileID: 1214396535}
-  economy: {fileID: 11400000, guid: f8d54236e283daf49963ab3055d53e1b, type: 2}
-  font: {fileID: 12800000, guid: f33b99cadc28ef94c91233837e769a05, type: 3}
---- !u!4 &686264534
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 686264532}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &687485597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9465,4 +9465,4 @@ SceneRoots:
   - {fileID: 222975374}
   - {fileID: 1393672633}
   - {fileID: 1214396536}
-  - {fileID: 686264534}
+  - {fileID: 20977488}
