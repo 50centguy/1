@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="20" result="Passed" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-08 07:36:39Z" end-time="2026-10-08 07:38:13Z" duration="94.4045187">
+  <test-suite type="TestSuite" id="1173" name="BorderRepairStation" fullname="BorderRepairStation" runstate="Runnable" testcasecount="118" result="Passed" start-time="2026-10-08 07:36:39Z" end-time="2026-10-08 07:38:13Z" duration="94.404519" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1154" name="BorderRepair.TwoNight.Tests.PlayMode.dll" fullname="C:/Users/Administrator/Documents/Codex/clinic-int/Library/ScriptAssemblies/BorderRepair.TwoNight.Tests.PlayMode.dll" runstate="Runnable" testcasecount="20" result="Passed" start-time="2026-10-08 07:36:39Z" end-time="2026-10-08 07:38:13Z" duration="94.395678" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="12808" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1155" name="BorderRepair" fullname="BorderRepair" runstate="Runnable" testcasecount="20" result="Passed" start-time="2026-10-08 07:36:39Z" end-time="2026-10-08 07:38:13Z" duration="94.394850" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1156" name="TwoNight" fullname="BorderRepair.TwoNight" runstate="Runnable" testcasecount="20" result="Passed" start-time="2026-10-08 07:36:39Z" end-time="2026-10-08 07:38:13Z" duration="94.394399" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1157" name="Tests" fullname="BorderRepair.TwoNight.Tests" runstate="Runnable" testcasecount="20" result="Passed" start-time="2026-10-08 07:36:39Z" end-time="2026-10-08 07:38:13Z" duration="94.393387" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1130" name="TwoNightMotionProbe" fullname="BorderRepair.TwoNight.Tests.TwoNightMotionProbe" classname="BorderRepair.TwoNight.Tests.TwoNightMotionProbe" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-08 07:36:39Z" end-time="2026-10-08 07:37:29Z" duration="50.533795" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1131" name="Incident_FullMotion_StrictGrip_NoPenetration" fullname="BorderRepair.TwoNight.Tests.TwoNightMotionProbe.Incident_FullMotion_StrictGrip_NoPenetration" methodname="Incident_FullMotion_StrictGrip_NoPenetration" classname="BorderRepair.TwoNight.Tests.TwoNightMotionProbe" runstate="Runnable" seed="2099516613" result="Passed" start-time="2026-10-08 07:36:39Z" end-time="2026-10-08 07:37:29Z" duration="50.522616" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1132" name="TwoNightPlayTests" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-08 07:37:29Z" end-time="2026-10-08 07:37:53Z" duration="23.190190" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1133" name="Counter_CorrectRepair_PostsOnce_ConfirmGoesToUnit07" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Counter_CorrectRepair_PostsOnce_ConfirmGoesToUnit07" methodname="Counter_CorrectRepair_PostsOnce_ConfirmGoesToUnit07" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="1611706796" result="Passed" start-time="2026-10-08 07:37:29Z" end-time="2026-10-08 07:37:30Z" duration="0.716104" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1134" name="Counter_WrongDecision_NoIncome_RetryThenCorrect" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Counter_WrongDecision_NoIncome_RetryThenCorrect" methodname="Counter_WrongDecision_NoIncome_RetryThenCorrect" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="151876391" result="Passed" start-time="2026-10-08 07:37:30Z" end-time="2026-10-08 07:37:30Z" duration="0.230374" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1137" name="Menu_ContinueTwice_Night2SafeStart_NoDoubleMoney" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Menu_ContinueTwice_Night2SafeStart_NoDoubleMoney" methodname="Menu_ContinueTwice_Night2SafeStart_NoDoubleMoney" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="1596265085" result="Passed" start-time="2026-10-08 07:37:30Z" end-time="2026-10-08 07:37:31Z" duration="1.200561" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1138" name="Menu_CorruptSave_ContinueDisabled_RestartDeletesOnlyCheckpoint" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Menu_CorruptSave_ContinueDisabled_RestartDeletesOnlyCheckpoint" methodname="Menu_CorruptSave_ContinueDisabled_RestartDeletesOnlyCheckpoint" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="656856532" result="Passed" start-time="2026-10-08 07:37:31Z" end-time="2026-10-08 07:37:32Z" duration="0.392116" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1139" name="Menu_NoSave_ContinueDisabled_NewGameStartsCounter" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Menu_NoSave_ContinueDisabled_NewGameStartsCounter" methodname="Menu_NoSave_ContinueDisabled_NewGameStartsCounter" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="229624131" result="Passed" start-time="2026-10-08 07:37:32Z" end-time="2026-10-08 07:37:32Z" duration="0.388318" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1136" name="Unit07_Night1_IncidentThenDock_RegisterSaves_SafeState" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Unit07_Night1_IncidentThenDock_RegisterSaves_SafeState" methodname="Unit07_Night1_IncidentThenDock_RegisterSaves_SafeState" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="421559154" result="Passed" start-time="2026-10-08 07:37:32Z" end-time="2026-10-08 07:37:52Z" duration="19.995662" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1135" name="Unit07_WithoutConfirmedLedger_NoIncident" fullname="BorderRepair.TwoNight.Tests.TwoNightPlayTests.Unit07_WithoutConfirmedLedger_NoIncident" methodname="Unit07_WithoutConfirmedLedger_NoIncident" classname="BorderRepair.TwoNight.Tests.TwoNightPlayTests" runstate="Runnable" seed="819847376" result="Passed" start-time="2026-10-08 07:37:52Z" end-time="2026-10-08 07:37:53Z" duration="0.263666" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[[TwoNight] 七号场景不能从阶段 Night1Counter 开始
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1140" name="TwoNightUiTests" fullname="BorderRepair.TwoNight.Tests.TwoNightUiTests" classname="BorderRepair.TwoNight.Tests.TwoNightUiTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-08 07:37:53Z" end-time="2026-10-08 07:37:58Z" duration="5.219524" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1141" name="Night2_ManualModal_TooltipLayout_StagedDiagnosis" fullname="BorderRepair.TwoNight.Tests.TwoNightUiTests.Night2_ManualModal_TooltipLayout_StagedDiagnosis" methodname="Night2_ManualModal_TooltipLayout_StagedDiagnosis" classname="BorderRepair.TwoNight.Tests.TwoNightUiTests" runstate="Runnable" seed="84682373" result="Passed" start-time="2026-10-08 07:37:53Z" end-time="2026-10-08 07:37:58Z" duration="5.218581" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1142" name="UnifiedClinicPlayTests" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-08 07:37:58Z" end-time="2026-10-08 07:38:13Z" duration="15.448183" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1147" name="AuthoredQueue_RefusalAndReplacementAdvice_ReturnUnpaidThenAllowNextIntake" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.AuthoredQueue_RefusalAndReplacementAdvice_ReturnUnpaidThenAllowNextIntake" methodname="AuthoredQueue_RefusalAndReplacementAdvice_ReturnUnpaidThenAllowNextIntake" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="1032300631" result="Passed" start-time="2026-10-08 07:37:58Z" end-time="2026-10-08 07:37:58Z" duration="0.370069" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1150" name="CheckpointContinue_SharedNight2_NoCustomerSessionOrDualUi" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.CheckpointContinue_SharedNight2_NoCustomerSessionOrDualUi" methodname="CheckpointContinue_SharedNight2_NoCustomerSessionOrDualUi" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="229221948" result="Passed" start-time="2026-10-08 07:37:58Z" end-time="2026-10-08 07:37:59Z" duration="0.747149" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1146" name="ConfiguredTwoCaseQueue_NextItemRequiresPhysicalReceive_AfterDelivery" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.ConfiguredTwoCaseQueue_NextItemRequiresPhysicalReceive_AfterDelivery" methodname="ConfiguredTwoCaseQueue_NextItemRequiresPhysicalReceive_AfterDelivery" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="1159491833" result="Passed" start-time="2026-10-08 07:37:59Z" end-time="2026-10-08 07:37:59Z" duration="0.305388" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1145" name="FailedRepair_RetriesSameOccupiedItem_WithoutReceivingAgain" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.FailedRepair_RetriesSameOccupiedItem_WithoutReceivingAgain" methodname="FailedRepair_RetriesSameOccupiedItem_WithoutReceivingAgain" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="30650865" result="Passed" start-time="2026-10-08 07:37:59Z" end-time="2026-10-08 07:37:59Z" duration="0.283361" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1151" name="Night2_DockRestoreFailure_KeepsInspectionAndUiLocked" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.Night2_DockRestoreFailure_KeepsInspectionAndUiLocked" methodname="Night2_DockRestoreFailure_KeepsInspectionAndUiLocked" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="1531352152" result="Passed" start-time="2026-10-08 07:37:59Z" end-time="2026-10-08 07:38:00Z" duration="0.307304" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1152" name="Night2_FlowRestoreFailure_KeepsInspectionAndUiLocked" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.Night2_FlowRestoreFailure_KeepsInspectionAndUiLocked" methodname="Night2_FlowRestoreFailure_KeepsInspectionAndUiLocked" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="82978425" result="Passed" start-time="2026-10-08 07:38:00Z" end-time="2026-10-08 07:38:00Z" duration="0.282998" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1143" name="PhysicalTrade_RepairSummary_NoIncomeUntilDelivery_ThenSameRoomIncident" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.PhysicalTrade_RepairSummary_NoIncomeUntilDelivery_ThenSameRoomIncident" methodname="PhysicalTrade_RepairSummary_NoIncomeUntilDelivery_ThenSameRoomIncident" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="1840906678" result="Passed" start-time="2026-10-08 07:38:00Z" end-time="2026-10-08 07:38:10Z" duration="9.788895" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1148" name="ReentryAfterFirstDelivery_ResetsWholeUnsavedNightWithoutDuplicateIncome" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.ReentryAfterFirstDelivery_ResetsWholeUnsavedNightWithoutDuplicateIncome" methodname="ReentryAfterFirstDelivery_ResetsWholeUnsavedNightWithoutDuplicateIncome" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="372901922" result="Passed" start-time="2026-10-08 07:38:10Z" end-time="2026-10-08 07:38:11Z" duration="0.926762" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1149" name="ReentryDuringSecondRepair_ResetsWholeUnsavedNightWithoutOccupiedItemDeadlock" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.ReentryDuringSecondRepair_ResetsWholeUnsavedNightWithoutOccupiedItemDeadlock" methodname="ReentryDuringSecondRepair_ResetsWholeUnsavedNightWithoutOccupiedItemDeadlock" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="855310324" result="Passed" start-time="2026-10-08 07:38:11Z" end-time="2026-10-08 07:38:12Z" duration="0.945940" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1144" name="RestoredPowerLever_SkipsUiCoveredCandidate_AndReceivesGenuineMouseClick" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.RestoredPowerLever_SkipsUiCoveredCandidate_AndReceivesGenuineMouseClick" methodname="RestoredPowerLever_SkipsUiCoveredCandidate_AndReceivesGenuineMouseClick" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="415507448" result="Passed" start-time="2026-10-08 07:38:12Z" end-time="2026-10-08 07:38:12Z" duration="0.291662" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1153" name="SharedMenu_NewAndContinue_BothRouteToSharedClinic" fullname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests.SharedMenu_NewAndContinue_BothRouteToSharedClinic" methodname="SharedMenu_NewAndContinue_BothRouteToSharedClinic" classname="BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests" runstate="Runnable" seed="750994463" result="Passed" start-time="2026-10-08 07:38:12Z" end-time="2026-10-08 07:38:13Z" duration="1.195690" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: C:/Users/Administrator/AppData/LocalLow/DefaultCompany/BorderRepairStation\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

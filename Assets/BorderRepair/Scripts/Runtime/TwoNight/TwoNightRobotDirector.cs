@@ -23,6 +23,7 @@ namespace BorderRepair.TwoNight
         [SerializeField] TrayIncident incident;
         [SerializeField] TwoNightEconomy economy;
         [SerializeField] Font font;
+        [SerializeField] bool unifiedClinic;
 
         public const string ManualTitle = "维修手册 · 七号（内部工单：端盘时左侧下沉）";
         public const string ManualBody =
@@ -45,6 +46,10 @@ namespace BorderRepair.TwoNight
         public Text CaptionText => caption;
         public TrayIncident Incident => incident;
         public FirstOrderFlow Flow => flow;
+        public bool RestoreFailed { get; private set; }
+        // Fault injection for shared-scene restoration tests; runtime uses the existing APIs.
+        public System.Func<bool> DockRestoreOverride { private get; set; }
+        public System.Func<bool> InspectionRestoreOverride { private get; set; }
         public Vector3 TrayHomePosition => trayHomePos;
         public Quaternion TrayHomeRotation => trayHomeRot;
         public Transform TrayHomeParent => trayHomeParent;
@@ -52,10 +57,12 @@ namespace BorderRepair.TwoNight
         Text hud, caption, endText;
         Button registerBtn;
         GameObject endPanel;
+        bool completionShown;
         Vector3 trayHomePos; Quaternion trayHomeRot; Transform trayHomeParent;
 
         public void Configure(FirstOrderFlow f, FirstOrderInput i, SliceView v, TrayIncident t, TwoNightEconomy e, Font fnt)
         { flow = f; input = i; view = v; incident = t; economy = e; font = fnt; }
+        public void ConfigureUnified() => unifiedClinic = true;
 
         void Start()
         {
@@ -115,6 +122,11 @@ namespace BorderRepair.TwoNight
         void Night2()
         {
             view.SetTitle("第二晚 · 七号内部工单 " + TwoNightRun.Current.unit07WorkOrderId);
+            if (unifiedClinic)
+            {
+                RestoreSharedNight2();
+                return;
+            }
             flow.InspectionLocked = false;
             if (!flow.Dock.RestoreRotorsStopped()) Debug.LogError("[TwoNight] 维修座恢复安全状态失败：" + flow.Dock.LastMessage, this);
             if (!flow.ResumeAtInspection("第二晚。七号昨晚已停靠、夹紧、断电，叶轮停稳，还没修。可以开始检查左引擎。"))
@@ -124,10 +136,54 @@ namespace BorderRepair.TwoNight
             RefreshHud();
         }
 
+        public bool RestoreSharedNight2()
+        {
+            if (!unifiedClinic || TwoNightRun.Current == null || TwoNightRun.Current.phase != TwoNightPhase.Night2Open) return false;
+            input.enabled = false;
+            flow.InspectionLocked = true;
+            var s = TwoNightRun.Current;
+            bool checkpointSafe = s.unit07Registered && s.unit07 != null && s.unit07.IsSafe &&
+                                  s.unit07WorkOrderId == TwoNightRun.Unit07WorkOrderId &&
+                                  s.communicatorSettled && s.communicatorTrade == ClinicTradeState.Delivered;
+            bool dockRestored = checkpointSafe && (DockRestoreOverride != null ? DockRestoreOverride() : flow.Dock.RestoreRotorsStopped());
+            bool inspectionRestored = dockRestored && (InspectionRestoreOverride != null ? InspectionRestoreOverride() :
+                flow.ResumeAtInspection("第二晚。七号昨晚已安全停靠，可以开始检查。"));
+            if (!inspectionRestored)
+            {
+                RestoreFailed = true;
+                flow.enabled = false;
+                SetSliceHud(false);
+                ShowCaption("安全状态恢复失败。维修已锁定，请返回主菜单重新读取检查点。");
+                MenuButton.gameObject.SetActive(true);
+                endText.text = "安全状态恢复失败。七号维修已锁定。\n返回主菜单检查存档后再试。";
+                QuitButton.gameObject.SetActive(true);
+                RetrySaveButton.gameObject.SetActive(false);
+                endPanel.SetActive(true);
+                return false;
+            }
+            RestoreFailed = false;
+            flow.enabled = true;
+            flow.InspectionLocked = false;
+            input.enabled = true;
+            SetSliceHud(true);
+            endPanel.SetActive(false);
+            ShowCaption("第二晚开店前。先看手册，再开始检查七号。");
+            if (!view.ManualOpen) view.ToggleManual();
+            RefreshHud();
+            return true;
+        }
+
         void Update()
         {
             var s = TwoNightRun.Current;
             if (s == null) return;
+            bool complete = unifiedClinic && s.phase == TwoNightPhase.Night2Open && flow.Step == FoStep.Done && flow.RetestPassed;
+            if (complete != completionShown)
+            {
+                completionShown = complete;
+                RefreshHud();
+                if (complete) ShowCaption("七号复测通过，内部维修完成；不计顾客维修收入。");
+            }
             bool canRegister = s.phase == TwoNightPhase.Night1Docking && flow.Step == FoStep.InspectLeftEngine && flow.Dock.State == DockState.RotorsStopped && !incident.Playing;
             if (registerBtn.gameObject.activeSelf != canRegister) registerBtn.gameObject.SetActive(canRegister);
         }
@@ -189,7 +245,9 @@ namespace BorderRepair.TwoNight
         {
             var s = TwoNightRun.Current;
             if (s == null || hud == null) return;
-            string task = s.phase == TwoNightPhase.Night2Open ? $"待修：七号内部工单 {s.unit07WorkOrderId}（未修）" :
+            bool complete = unifiedClinic && flow.Step == FoStep.Done && flow.RetestPassed;
+            string task = s.phase == TwoNightPhase.Night2Open ? (complete ? $"已修：七号内部工单 {s.unit07WorkOrderId}（复测通过）" :
+                          $"待修：七号内部工单 {s.unit07WorkOrderId}（未修）") :
                           s.phase == TwoNightPhase.Night1Incident ? "打烊后" :
                           s.phase == TwoNightPhase.Night1Docking ? "让七号停靠、断电，登记内部维修单" : s.phase.ToString();
             hud.text = $"第 {s.night} 晚　现金 <b>{TwoNightUi.Money(s.Cash)}</b>\n房租 {TwoNightUi.Money(s.rent)}（第 {s.rentDueNight} 晚到期）还差 {TwoNightUi.Money(s.RentShortfall)}\n{task}";
@@ -212,7 +270,7 @@ namespace BorderRepair.TwoNight
 
             endPanel = TwoNightUi.Panel(root.transform, "NightEnd", new Vector2(0.5f, 0.5f), new Vector2(-400, 220), new Vector2(800, 440)).gameObject;
             endText = TwoNightUi.Label(endPanel.transform, "Body", "", font, 20, new Vector2(30, -26), new Vector2(740, 300), TwoNightUi.TextMain);
-            MenuButton = TwoNightUi.Button(endPanel.transform, "Menu", "回到主菜单", font, new Vector2(330, -370), new Vector2(200, 46), () => SceneManager.LoadScene(TwoNightScenes.Menu), true);
+            MenuButton = TwoNightUi.Button(endPanel.transform, "Menu", "回到主菜单", font, new Vector2(330, -370), new Vector2(200, 46), () => SceneManager.LoadScene(unifiedClinic ? TwoNightScenes.ClinicMenu : TwoNightScenes.Menu), true);
             QuitButton = TwoNightUi.Button(endPanel.transform, "Quit", "退出游戏", font, new Vector2(550, -370), new Vector2(200, 46), Application.Quit);
             RetrySaveButton = TwoNightUi.Button(endPanel.transform, "RetrySave", "再试一次保存", font, new Vector2(30, -370), new Vector2(200, 46), SaveNow);
             endPanel.SetActive(false);

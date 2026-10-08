@@ -68,6 +68,15 @@ namespace BorderRepair.TwoNight
 
         public bool communicatorSettled;
         public string communicatorCaseId;
+        public int communicatorIncome = 400;
+        public int communicatorPartsCost = 100;
+        public bool communicatorAmountsRecorded;
+        // Missing fields in version-1 legacy checkpoints retain their legacy defaults.
+        public bool unifiedClinic;
+        public ClinicTradeState communicatorTrade;
+        public int customerQueueCount = 1;
+        public List<ClinicCustomerTrade> customerTrades = new List<ClinicCustomerTrade>();
+        public ClinicCustomerTrade ActiveTrade => customerTrades != null && customerTrades.Count > 0 ? customerTrades[customerTrades.Count - 1] : null;
         public bool ledgerConfirmed;
 
         public bool unit07IncidentShown;
@@ -90,5 +99,19 @@ namespace BorderRepair.TwoNight
 
         public int RentShortfall => Mathf.Max(0, rent - Cash);
         public bool HasTransaction(string id) => transactions.Exists(t => t.id == id);
+    }
+
+    public enum ClinicTradeState { AwaitingReceive, InRepair, ReadyForDelivery, Delivered, ReadyForReturn }
+
+    [Serializable]
+    public class ClinicCustomerTrade
+    {
+        public string caseId;
+        public int queueIndex, income, partsCost;
+        public ClinicTradeState state;
+        public bool returnedUnpaid;
+        public BorderRepair.Data.RepairDecision decision;
+        public string IncomeId => queueIndex == 0 ? TwoNightRun.CommunicatorIncomeId : $"N1-CASE-{queueIndex}-{caseId}-INCOME";
+        public string PartsId => queueIndex == 0 ? TwoNightRun.CommunicatorPartsId : $"N1-CASE-{queueIndex}-{caseId}-PARTS";
     }
 }

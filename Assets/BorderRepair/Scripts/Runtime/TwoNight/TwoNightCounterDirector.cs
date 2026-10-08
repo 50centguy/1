@@ -10,6 +10,8 @@ namespace BorderRepair.TwoNight
         public const string Menu = "TwoNight_Menu";
         public const string Counter = "Night1_Counter";
         public const string Robot = "Unit07_Night";
+        public const string Clinic = "UnifiedClinic";
+        public const string ClinicMenu = "UnifiedClinic_Menu";
     }
 
     /// <summary>
@@ -26,6 +28,7 @@ namespace BorderRepair.TwoNight
         [SerializeField] RepairStationController station;
         [SerializeField] TwoNightEconomy economy;
         [SerializeField] Font font;
+        [SerializeField] UnifiedClinicDirector clinic;
 
         public TwoNightState State => TwoNightRun.Current;
         public bool LedgerVisible => ledger != null && ledger.activeSelf;
@@ -40,6 +43,7 @@ namespace BorderRepair.TwoNight
         GameObject ledger, retry, dialogue;
         Text dialogueText, retryText;
         int dialogueIndex;
+        string[] activeDialogue;
         bool leaving;
 
         static readonly string[] Lines =
@@ -50,6 +54,7 @@ namespace BorderRepair.TwoNight
         };
 
         public void Configure(RepairStationController s, TwoNightEconomy e, Font f) { station = s; economy = e; font = f; }
+        public void ConfigureUnified(UnifiedClinicDirector shared) => clinic = shared;
 
         void Awake()
         {
@@ -67,7 +72,7 @@ namespace BorderRepair.TwoNight
             station.Session.CaseStarted += OnCaseStarted;
             var s = TwoNightRun.Current;
             if (s.phase == TwoNightPhase.Night1Ledger) ShowLedger();
-            else if (s.phase == TwoNightPhase.Night1Counter) ShowDialogue();
+            else if (s.phase == TwoNightPhase.Night1Counter && clinic == null) ShowDialogue();
         }
 
         void OnDestroy()
@@ -79,10 +84,25 @@ namespace BorderRepair.TwoNight
             }
         }
 
-        void OnCaseStarted(Data.RepairCaseData data, int index) { if (TwoNightRun.Current.phase == TwoNightPhase.Night1Counter && dialogue != null) ShowDialogue(); }
+        void OnCaseStarted(Data.RepairCaseData data, int index) { if (clinic == null && TwoNightRun.Current.phase == TwoNightPhase.Night1Counter && dialogue != null) ShowDialogue(); }
 
         void OnStage(RepairStage stage)
         {
+            if (clinic != null)
+            {
+                if (stage != RepairStage.Result && stage != RepairStage.Summary) return;
+                var record = station.Session.CurrentRecord;
+                SettleAttempts++;
+                if (record != null && record.Decision.HasValue &&
+                    TwoNightRun.CompleteCustomerDecision(State, record.DecisionCorrect, record.Case.caseId, record.Decision.Value))
+                { clinic.RepairCompleted(); return; }
+                if (State.ActiveTrade != null && State.ActiveTrade.state != ClinicTradeState.InRepair) return;
+                dialogue.SetActive(false);
+                retryText.text = station.Session.CurrentCase.customerName + "的" + station.Session.CurrentCase.itemName + "还没修好。交付前请重新检查。";
+                RetryButton.GetComponentInChildren<Text>().text = "重新处理" + station.Session.CurrentCase.itemName;
+                retry.SetActive(true);
+                return;
+            }
             if (stage != RepairStage.Summary) return;
             var rec = station.Session.CurrentRecord;
             bool correct = rec != null && rec.DecisionCorrect;
@@ -97,15 +117,16 @@ namespace BorderRepair.TwoNight
         void ShowDialogue()
         {
             dialogueIndex = 0;
-            dialogueText.text = Lines[0];
+            activeDialogue = clinic == null ? Lines : new[] { station.Session.CurrentCase.customerName + "：" + station.Session.CurrentCase.customerStatement };
+            dialogueText.text = activeDialogue[0];
             dialogue.SetActive(true);
         }
 
         void NextLine()
         {
             dialogueIndex++;
-            if (dialogueIndex >= Lines.Length) { dialogue.SetActive(false); return; }
-            dialogueText.text = Lines[dialogueIndex];
+            if (dialogueIndex >= activeDialogue.Length) { dialogue.SetActive(false); return; }
+            dialogueText.text = activeDialogue[dialogueIndex];
         }
 
         void ShowLedger()
@@ -132,13 +153,21 @@ namespace BorderRepair.TwoNight
             if (!TwoNightRun.ConfirmLedger(TwoNightRun.Current) && TwoNightRun.Current.phase != TwoNightPhase.Night1Incident) return;
             leaving = true;
             ConfirmButton.interactable = false;
+            if (clinic != null) { ledger.SetActive(false); clinic.BeginRobotNight(); return; }
             SceneManager.LoadScene(TwoNightScenes.Robot);
         }
 
+        public void DeliveryCompleted() => ShowLedger();
+        public void CustomerReceived() => ShowDialogue();
+        public void DismissDialogue() => dialogue.SetActive(false);
+
         public void RetryCommunicator()
         {
+            if (clinic != null && (State.ActiveTrade == null || State.ActiveTrade.state != ClinicTradeState.InRepair)) return;
             retry.SetActive(false);
-            station.Session.Restart();
+            if (clinic == null) station.Session.Restart();
+            else if (!station.Session.RetryCurrentCase()) return;
+            if (clinic != null) { station.Session.AcceptItem(); clinic.OpenConsole(); }
         }
 
         void BuildUi()

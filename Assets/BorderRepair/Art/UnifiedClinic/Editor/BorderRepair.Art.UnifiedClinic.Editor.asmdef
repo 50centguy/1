@@ -1,0 +1,7 @@
+{
+    "name": "BorderRepair.Art.UnifiedClinic.Editor",
+    "rootNamespace": "BorderRepair.Art.UnifiedClinic.EditorTools",
+    "references": ["BorderRepair.TwoNight.Editor", "BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "BorderRepair.Runtime"],
+    "includePlatforms": ["Editor"],
+    "autoReferenced": true
+}

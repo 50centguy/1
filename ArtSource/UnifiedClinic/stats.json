@@ -1,0 +1,141 @@
+{
+  "environment_fbx_objects_mesh": 150,
+  "environment_triangles": 13700,
+  "per_module": {
+    "UC_Clutter": {
+      "objects": 29,
+      "triangles": 5286
+    },
+    "UC_Door": {
+      "objects": 12,
+      "triangles": 268
+    },
+    "UC_MonitorArm": {
+      "objects": 8,
+      "triangles": 336
+    },
+    "UC_Shell": {
+      "objects": 20,
+      "triangles": 3336
+    },
+    "UC_Storage": {
+      "objects": 13,
+      "triangles": 456
+    },
+    "UC_Surgery": {
+      "objects": 35,
+      "triangles": 2810
+    },
+    "UC_Trade": {
+      "objects": 25,
+      "triangles": 800
+    },
+    "UC_Unit07Zone": {
+      "objects": 8,
+      "triangles": 408
+    }
+  },
+  "materials_used": [
+    "M_UC_Cloth",
+    "M_UC_DarkSteel",
+    "M_UC_Floor",
+    "M_UC_Grate",
+    "M_UC_Hazard",
+    "M_UC_Ivory",
+    "M_UC_LampWarm",
+    "M_UC_Orange",
+    "M_UC_PaintGreen",
+    "M_UC_Paper",
+    "M_UC_Pipe",
+    "M_UC_Red",
+    "M_UC_Rubber",
+    "M_UC_Screen",
+    "M_UC_Steel",
+    "M_UC_Vinyl",
+    "M_UC_Wall",
+    "M_UC_Wood"
+  ],
+  "material_count": 18,
+  "triangles_per_material": {
+    "M_UC_Cloth": 160,
+    "M_UC_DarkSteel": 4096,
+    "M_UC_Floor": 40,
+    "M_UC_Grate": 60,
+    "M_UC_Hazard": 108,
+    "M_UC_Ivory": 2252,
+    "M_UC_LampWarm": 208,
+    "M_UC_Orange": 580,
+    "M_UC_PaintGreen": 358,
+    "M_UC_Paper": 216,
+    "M_UC_Pipe": 348,
+    "M_UC_Red": 276,
+    "M_UC_Rubber": 2414,
+    "M_UC_Screen": 48,
+    "M_UC_Steel": 2028,
+    "M_UC_Vinyl": 60,
+    "M_UC_Wall": 412,
+    "M_UC_Wood": 36
+  },
+  "textures": {
+    "T_UC_Worn.png": {
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 41116
+    },
+    "T_UC_Floor.png": {
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 51419
+    },
+    "T_UC_Wall.png": {
+      "size": [
+        256,
+        256
+      ],
+      "bytes": 48577
+    },
+    "T_UC_Hazard.png": {
+      "size": [
+        128,
+        32
+      ],
+      "bytes": 4484
+    },
+    "T_UC_Grate.png": {
+      "size": [
+        64,
+        64
+      ],
+      "bytes": 3123
+    },
+    "T_UC_Fabric.png": {
+      "size": [
+        64,
+        64
+      ],
+      "bytes": 2838
+    },
+    "T_UC_Paper.png": {
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 218495
+    },
+    "T_UC_Screen.png": {
+      "size": [
+        256,
+        96
+      ],
+      "bytes": 3537
+    }
+  },
+  "texture_count": 8,
+  "collision_proxies": 23,
+  "collision_triangles": 304,
+  "anchors": 29
+}

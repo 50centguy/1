@@ -1,0 +1,895 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.0/staging' branch; Version is '6000.0.84f1 (78ab6fc243d5) revision 7908207'; Using compiler version '193933523'; Build Type 'Release'
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator" at "2026-10-08T08:31:58.770242Z"
+OS: 'Windows 11  (10.0.26200) Professional' Language: 'zh' Physical Memory: 65378 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-08T08:31:58Z
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.0.84f1\Editor\Unity.exe
+-batchmode
+-projectPath
+C:\Users\Administrator\Documents\Codex\clinic-int
+-runTests
+-testPlatform
+PlayMode
+-testFilter
+BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests
+-testResults
+C:\Users\Administrator\Documents\Codex\clinic-int\Logs\UnifiedClinicFinalHudPlay.xml
+-logFile
+C:\Users\Administrator\Documents\Codex\clinic-int\Logs\UnifiedClinicFinalHudPlay.log
+Successfully changed project path to: C:\Users\Administrator\Documents\Codex\clinic-int
+C:/Users/Administrator/Documents/Codex/clinic-int
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [39912]  Target information:
+
+Player connection [39912]  * "[IP] 192.168.0.176 [Port] 55504 [Flags] 2 [Guid] 1915608996 [EditorId] 1915608996 [Version] 1048832 [Id] WindowsEditor(7,WIN-1SU0ECNLPV2) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [39912] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [39912] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 35436, path: "C:/Program Files/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              6dc04b26a29c41aca9c5d7fdb021d1fb
+  Correlation Id:          317e617e98d789f714402b041f4b5cd0
+  External correlation Id: 5356316012462651281
+  Machine Id:              zA3F66iXHPF32y0MH2OuDuccLU8=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Administrator" (connect: 0.00s, validation: 0.00s, handshake: 0.05s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator-notifications" at "2026-10-08T08:31:58.8170865Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 15669642595473-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Module] Licensing Background thread has ended after 0.05s
+[Package Manager] Connected to IPC stream "Upm-9856" after 0.3 seconds.
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Artifact Garbage Collection - Removed 2 unused hashed content filesRefreshing native plugins compatible for Editor in 0.41 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.0.84f1 (78ab6fc243d5)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.0.84f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Administrator/Documents/Codex/clinic-int/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3070 (ID=0x2488)
+    Vendor:   NVIDIA
+    VRAM:     8018 MB
+    Driver:   32.0.16.1088
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.0.84f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.0.84f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.0.84f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56856
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.84f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002549 seconds.
+- Loaded All Assemblies, in  0.328 seconds
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.289 seconds
+Domain Reload Profiling: 615ms
+	BeginReloadAssembly (121ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (31ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (43ms)
+	LoadAllAssembliesAndSetupDomain (121ms)
+		LoadAssemblies (118ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (119ms)
+			TypeCache.Refresh (117ms)
+				TypeCache.ScanAssembly (106ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (290ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (258ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (18ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (50ms)
+			ProcessInitializeOnLoadAttributes (134ms)
+			ProcessInitializeOnLoadMethodAttributes (53ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 56 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.navigation@2.0.14 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.ai.navigation@134dd6a3b97b)
+    com.unity.collab-proxy@2.13.6 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.collab-proxy@4628d2ba6ea4)
+    com.unity.ide.rider@3.0.39 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.ide.rider@4504839d03f7)
+    com.unity.ide.visualstudio@2.0.27 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.ide.visualstudio@dc1ddd4f09b6)
+    com.unity.inputsystem@1.20.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.inputsystem@7a4e1a2a8194)
+    com.unity.timeline@1.8.13 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.timeline@3a22918286f5)
+    com.unity.visualscripting@1.9.12 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.visualscripting@4edfcc09512f)
+    com.unity.searcher@4.9.3 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.searcher@1e17ce91558d)
+    com.unity.burst@1.8.30 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.burst@2f3d916873ea)
+    com.unity.mathematics@1.3.2 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.mathematics@8017b507cc74)
+    com.unity.collections@2.6.8 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.collections@84e8eb3fc12e)
+    com.unity.nuget.mono-cecil@1.11.6 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.5.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.test-framework.performance@8b56083ec0f0)
+  Built-in packages:
+    com.unity.multiplayer.center@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.multiplayer.center@f3fb577b3546)
+    com.unity.render-pipelines.universal@17.0.4 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.render-pipelines.universal@ab605b8cbe5e)
+    com.unity.test-framework@1.6.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.test-framework@082c24152fd4)
+    com.unity.ugui@2.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.ugui@5d6a93c81cc4)
+    com.unity.modules.accessibility@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.ai@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vehicles@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.ext.nunit@2.0.5 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.ext.nunit@031a54704bff)
+    com.unity.render-pipelines.core@17.0.4 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.render-pipelines.core@36dd213002aa)
+    com.unity.shadergraph@17.0.4 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.shadergraph@867249b1c940)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.render-pipelines.universal-config@dd206bf35d04)
+    com.unity.rendering.light-transport@1.0.1 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.rendering.light-transport@9bd588f963c0)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.02 seconds
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.84f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/Administrator/Documents/Codex/clinic-int
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 2s906ms
+[ 421/1063  0s] WriteResponseFile Library/Bee/artifacts/rsp/4747638433968585886.rsp
+[ 805/1063  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[1019/1063  1s] Csc Library/Bee/artifacts/1900b0aE.dag/BorderRepair.TwoNight.Runtime.dll (+2 others)
+[1020/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/BorderRepair.TwoNight.Runtime.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/BorderRepair.TwoNight.Runtime.dll, with 131 defines and 263 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1021/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.TwoNight.Runtime.pdb
+[1022/1063  0s] Csc Library/Bee/artifacts/1900b0aE.dag/BorderRepair.Art.UnifiedClinic.Runtime.dll (+2 others)
+[1023/1063  0s] Csc Library/Bee/artifacts/1900b0aE.dag/BorderRepair.Art.Unit07TrayVariant.Tests.dll (+2 others)
+[1024/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.TwoNight.Runtime.dll
+[1025/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/BorderRepair.Art.UnifiedClinic.Runtime.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/BorderRepair.Art.UnifiedClinic.Runtime.dll, with 131 defines and 262 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1026/1063  0s] Csc Library/Bee/artifacts/1900b0aE.dag/BorderRepair.TwoNight.Tests.PlayMode.dll (+2 others)
+[1027/1063  0s] Csc Library/Bee/artifacts/1900b0aE.dag/BorderRepair.TwoNight.Editor.dll (+2 others)
+[1028/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/BorderRepair.Art.Unit07TrayVariant.Tests.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/BorderRepair.Art.Unit07TrayVariant.Tests.dll, with 131 defines and 252 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1029/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.Art.UnifiedClinic.Runtime.dll
+[1030/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.Art.UnifiedClinic.Runtime.pdb
+[1031/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.Art.Unit07TrayVariant.Tests.pdb
+[1032/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.Art.Unit07TrayVariant.Tests.dll
+[1033/1063  0s] Csc Library/Bee/artifacts/1900b0aE.dag/BorderRepair.Art.Unit07TrayVariant.Editor.dll (+2 others)
+[1034/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/BorderRepair.TwoNight.Tests.PlayMode.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/BorderRepair.TwoNight.Tests.PlayMode.dll, with 131 defines and 251 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1035/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.TwoNight.Tests.PlayMode.pdb
+[1036/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.TwoNight.Tests.PlayMode.dll
+[1037/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/BorderRepair.TwoNight.Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/BorderRepair.TwoNight.Editor.dll, with 129 defines and 275 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1038/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.TwoNight.Editor.pdb
+[1039/1063  0s] Csc Library/Bee/artifacts/1900b0aE.dag/BorderRepair.TwoNight.Tests.EditMode.dll (+2 others)
+[1040/1063  0s] Csc Library/Bee/artifacts/1900b0aE.dag/BorderRepair.Art.UnifiedClinic.Editor.dll (+2 others)
+[1041/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.TwoNight.Editor.dll
+[1042/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/BorderRepair.TwoNight.Tests.EditMode.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/BorderRepair.TwoNight.Tests.EditMode.dll, with 129 defines and 258 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1043/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/BorderRepair.Art.Unit07TrayVariant.Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/BorderRepair.Art.Unit07TrayVariant.Editor.dll, with 129 defines and 276 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1044/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.TwoNight.Tests.EditMode.pdb
+[1045/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/BorderRepair.Art.UnifiedClinic.Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/BorderRepair.Art.UnifiedClinic.Editor.dll, with 129 defines and 272 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1046/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.Art.Unit07TrayVariant.Editor.pdb
+[1047/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.TwoNight.Tests.EditMode.dll
+[1048/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.Art.UnifiedClinic.Editor.pdb
+[1049/1063  0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+[1050/1063  0s] Csc Library/Bee/artifacts/1900b0aE.dag/BorderRepair.Art.UnifiedClinic.Tests.dll (+2 others)
+[1051/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.Art.UnifiedClinic.Editor.dll
+[1052/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/BorderRepair.Art.UnifiedClinic.Tests.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/BorderRepair.Art.UnifiedClinic.Tests.dll, with 129 defines and 256 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1053/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.Art.UnifiedClinic.Tests.dll
+[1054/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.Art.UnifiedClinic.Tests.pdb
+[1055/1063  0s] CopyFiles Library/ScriptAssemblies/BorderRepair.Art.Unit07TrayVariant.Editor.dll
+[1056/1063  0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[1057/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 131 defines and 310 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1058/1063  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 129 defines and 331 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1059/1063  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[1060/1063  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[1061/1063  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[1062/1063  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (2.87 seconds), 46 items updated, 1063 evaluated
+AssetDatabase: script compilation time: 3.360051s
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  1.777 seconds
+Refreshing native plugins compatible for Editor in 2.00 ms, found 4 plugins.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.65 ms, found 4 plugins.
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.851 seconds
+Domain Reload Profiling: 4624ms
+	BeginReloadAssembly (289ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (10ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (138ms)
+	RebuildCommonClasses (35ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (27ms)
+	LoadAllAssembliesAndSetupDomain (1411ms)
+		LoadAssemblies (1232ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (277ms)
+			TypeCache.Refresh (187ms)
+				TypeCache.ScanAssembly (175ms)
+			BuildScriptInfoCaches (72ms)
+			ResolveRequiredComponents (14ms)
+	FinalizeReload (2852ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (2611ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (13ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (141ms)
+			ProcessInitializeOnLoadAttributes (2388ms)
+			ProcessInitializeOnLoadMethodAttributes (59ms)
+			AfterProcessingInitializeOnLoad (7ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (14ms)
+Refreshing native plugins compatible for Editor in 2.38 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=96141d0eb7e492f4b95c624bd961e14b): Total: 8.680 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=3254 ms
+		Asset DB Callback time: managed=199 ms, native=33 ms
+		Scripting: domain reloads=1, domain reload time=1778 ms, compile time=3361 ms, other=52 ms
+		Project Asset Count: scripts=1446, non-scripts=2556
+		Asset File Changes: new=0, changed=4, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 28.400ms
+	ApplyChangesToAssetFolders: 0.830ms
+	Scan: 92.178ms
+	OnSourceAssetsModified: 0.946ms
+	CategorizeAssetsWithTransientArtifact: 58.511ms
+	ProcessAssetsWithTransientArtifactChanges: 69.039ms
+	CategorizeAssets: 39.490ms
+	ImportOutOfDateAssets: 2862.591ms (-501.226ms without children)
+		CompileScripts: 3361.413ms
+		ReloadNativeAssets: 0.019ms
+		UnloadImportedAssets: 0.956ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.637ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.791ms
+	PostProcessAllAssets: 200.840ms
+	Hotreload: 4.814ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.001ms
+	UnloadStreamsBegin: 0.406ms
+	PersistCurrentRevisions: 0.164ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 2.167ms
+	Untracked: 5321.620ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 9.593ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-BorderRepairStation
+Unloading 47 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6764 unused Assets / (8.9 MB). Loaded Objects now: 7412.
+Memory consumption went from 196.9 MB to 188.0 MB.
+Total: 11.080200 ms (FindLiveObjects: 0.549600 ms CreateObjectMapping: 0.600700 ms MarkObjects: 5.711100 ms  DeleteObjects: 4.217400 ms)
+
+[Project] Loading completed in 10.965 seconds
+	Project init time: 				10.625 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		0.270 seconds
+		Asset Database init time: 		0.180 seconds
+		Global illumination init time: 	0.002 seconds
+		Assemblies load time: 			0.638 seconds
+		Unity extensions init time: 	0.006 seconds
+		Asset Database refresh time: 	8.680 seconds
+	Scene opening time: 			0.282 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1791448329724,"processId":9856,"projectLoad":10.965120899999999,"projectInit":10.6251943,"templateInit":0.0,"packageManagerInit":0.27015,"assetDatabaseInit":0.1798887,"globalIlluminationInit":0.0022288,"assembliesLoad":0.638072,"unityExtensionsInit":0.006453,"assetDatabaseRefresh":8.6799627,"sceneOpening":0.2824013}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1791448329724,"processId":9856,"editorVersion":"6000.0.84f1 (78ab6fc243d5)","branch":"6000.0/staging","buildType":"Release","platform":"Windows"}
+Asset Pipeline Refresh (id=bd9e612bcdc22eb4e8066b79f5d081c5): Total: 0.045 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.02 seconds
+Running tests for ExecutionSettings with details:
+targetPlatform = 
+playerHeartbeatTimeout = 600
+filters[0] = 
+   Filter with settings:
+   testMode = PlayMode
+   targetPlatform = 
+   testNames = null
+   groupNames = BorderRepair.TwoNight.Tests.UnifiedClinicPlayTests
+   categoryNames = null
+   assemblyNames = null
+ignoreTests = {}
+featureFlags = null
+
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:InitializeAndExecuteRun (string[]) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/Executer.cs:53)
+UnityEditor.TestTools.TestRunner.CommandLineTest.TestStarter:InitializeAndExecuteRun () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/TestStarter.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/Executer.cs Line: 53)
+
+[UnityConnectServicesConfig] config is NOT valid, switching to default
+Created GICache directory at C:/Users/Administrator/AppData/LocalLow/Unity/Caches/GiCache. Took: 0.021s, timestamps: [10.980 - 11.001]
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 4 unused Assets / (2.1 KB). Loaded Objects now: 7448.
+Memory consumption went from 185.5 MB to 185.5 MB.
+Total: 9.553800 ms (FindLiveObjects: 0.430600 ms CreateObjectMapping: 0.465200 ms MarkObjects: 8.537300 ms  DeleteObjects: 0.119400 ms)
+
+Start importing Assets/InitTestScene0bcb86dd-639b-424d-9c7f-f7045c854295.unity using Guid(90ac265ace490534d8faa94c503f7863) (DefaultImporter) -> (artifact id: 'f1a9d57281b342857f9484b25c4fc9b5') in 0.0059516 seconds
+Refreshing native plugins compatible for Editor in 1.23 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=3769c31827cf1384f8fe1eb5b03c532c): Total: 0.047 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Executing IPrebuildSetup for: Unity.PerformanceTesting.Editor.TestRunBuilder.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<ExecuteMethods>d__8<UnityEngine.TestTools.IPrebuildSetup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:48)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<Execute>d__7<UnityEngine.TestTools.IPrebuildSetup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:34)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteStep () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:173)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteCallback () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:108)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs Line: 48)
+
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.792 seconds
+Refreshing native plugins compatible for Editor in 1.65 ms, found 4 plugins.
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.050 seconds
+Domain Reload Profiling: 1842ms
+	BeginReloadAssembly (457ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (22ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (314ms)
+	RebuildCommonClasses (32ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (25ms)
+	LoadAllAssembliesAndSetupDomain (269ms)
+		LoadAssemblies (132ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (217ms)
+			TypeCache.Refresh (7ms)
+				TypeCache.ScanAssembly (0ms)
+			BuildScriptInfoCaches (194ms)
+			ResolveRequiredComponents (11ms)
+	FinalizeReload (1050ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (757ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (14ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (154ms)
+			ProcessInitializeOnLoadAttributes (395ms)
+			ProcessInitializeOnLoadMethodAttributes (184ms)
+			AfterProcessingInitializeOnLoad (6ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (21ms)
+Asset Pipeline Refresh (id=5c6cb709b44516e4e882bf7a8b88ca10): Total: 1.976 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=1138 ms
+		Asset DB Callback time: managed=28 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=807 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=1446, non-scripts=2557
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 1.891ms
+	ApplyChangesToAssetFolders: 0.324ms
+	Scan: 0.000ms
+	OnSourceAssetsModified: 0.002ms
+	CategorizeAssetsWithTransientArtifact: 0.004ms
+	ProcessAssetsWithTransientArtifactChanges: 3.695ms
+	CategorizeAssets: 47.040ms
+	ImportOutOfDateAssets: 1057.933ms (1052.067ms without children)
+		CompileScripts: 1.425ms
+		CollectScriptTypesHashes: 2.403ms
+		ReloadNativeAssets: 1.022ms
+		UnloadImportedAssets: 0.085ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.558ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 0.373ms
+	PostProcessAllAssets: 28.497ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.240ms
+	UnloadStreamsBegin: 0.052ms
+	PersistCurrentRevisions: 0.161ms
+	UnloadStreamsEnd: 0.002ms
+	GenerateScriptTypeHashes: 4.517ms
+	Untracked: 835.933ms
+
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            0.903 ms
+	Integration:            429.232 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.007 ms
+	Total Operation Time:   430.143 ms
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+Unloading 143 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.992600 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            214.825 ms
+	Integration:            303.402 ms
+	Integration of assets:  41.492 ms
+	Thread Wait Time:       3.311 ms
+	Total Operation Time:   563.029 ms
+Unloading 5044 unused Assets / (3.5 MB). Loaded Objects now: 12689.
+Memory consumption went from 261.5 MB to 258.0 MB.
+Total: 18.128400 ms (FindLiveObjects: 1.161100 ms CreateObjectMapping: 0.542200 ms MarkObjects: 13.884900 ms  DeleteObjects: 2.538700 ms)
+
+Unloading 47 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 8.273800 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            59.077 ms
+	Integration:            189.239 ms
+	Integration of assets:  5.308 ms
+	Thread Wait Time:       0.702 ms
+	Total Operation Time:   254.327 ms
+Unloading 5830 unused Assets / (5.6 MB). Loaded Objects now: 12693.
+Memory consumption went from 264.6 MB to 258.9 MB.
+Total: 18.017100 ms (FindLiveObjects: 0.799900 ms CreateObjectMapping: 0.359300 ms MarkObjects: 14.046400 ms  DeleteObjects: 2.810400 ms)
+
+Unloading 22 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.940100 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            53.601 ms
+	Integration:            176.464 ms
+	Integration of assets:  5.352 ms
+	Thread Wait Time:       0.674 ms
+	Total Operation Time:   236.090 ms
+Unloading 5031 unused Assets / (2.4 MB). Loaded Objects now: 12857.
+Memory consumption went from 277.1 MB to 274.7 MB.
+Total: 17.784600 ms (FindLiveObjects: 0.727900 ms CreateObjectMapping: 0.616500 ms MarkObjects: 14.631000 ms  DeleteObjects: 1.808300 ms)
+
+Unloading 16 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.512000 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            53.962 ms
+	Integration:            169.919 ms
+	Integration of assets:  5.101 ms
+	Thread Wait Time:       0.886 ms
+	Total Operation Time:   229.867 ms
+Unloading 5027 unused Assets / (2.4 MB). Loaded Objects now: 12857.
+Memory consumption went from 277.8 MB to 275.5 MB.
+Total: 17.283700 ms (FindLiveObjects: 0.689100 ms CreateObjectMapping: 0.358900 ms MarkObjects: 14.433300 ms  DeleteObjects: 1.801400 ms)
+
+Unloading 16 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.334300 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            46.222 ms
+	Integration:            175.678 ms
+	Integration of assets:  4.891 ms
+	Thread Wait Time:       0.725 ms
+	Total Operation Time:   227.516 ms
+Unloading 5027 unused Assets / (2.4 MB). Loaded Objects now: 12853.
+Memory consumption went from 278.1 MB to 275.7 MB.
+Total: 17.753600 ms (FindLiveObjects: 0.706300 ms CreateObjectMapping: 0.309400 ms MarkObjects: 14.949000 ms  DeleteObjects: 1.787600 ms)
+
+Unloading 16 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.541400 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            46.729 ms
+	Integration:            175.191 ms
+	Integration of assets:  5.255 ms
+	Thread Wait Time:       1.134 ms
+	Total Operation Time:   228.309 ms
+Unloading 5027 unused Assets / (2.3 MB). Loaded Objects now: 12853.
+Memory consumption went from 278.1 MB to 275.8 MB.
+Total: 17.703400 ms (FindLiveObjects: 0.689600 ms CreateObjectMapping: 0.348200 ms MarkObjects: 14.803200 ms  DeleteObjects: 1.861200 ms)
+
+Unloading 16 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.497300 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            48.053 ms
+	Integration:            173.078 ms
+	Integration of assets:  5.680 ms
+	Thread Wait Time:       1.224 ms
+	Total Operation Time:   228.035 ms
+Unloading 5027 unused Assets / (2.5 MB). Loaded Objects now: 12857.
+Memory consumption went from 278.0 MB to 275.5 MB.
+Total: 17.079000 ms (FindLiveObjects: 0.653400 ms CreateObjectMapping: 0.329700 ms MarkObjects: 14.343400 ms  DeleteObjects: 1.751500 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.799400 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity'
+	Deserialize:            1.230 ms
+	Integration:            163.521 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       6.628 ms
+	Total Operation Time:   171.382 ms
+Unloading 706 unused Assets / (54.7 MB). Loaded Objects now: 8190.
+Memory consumption went from 272.8 MB to 218.2 MB.
+Total: 17.420200 ms (FindLiveObjects: 0.346700 ms CreateObjectMapping: 0.276300 ms MarkObjects: 14.309000 ms  DeleteObjects: 2.487000 ms)
+
+Unloading 123 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.392400 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            83.143 ms
+	Integration:            244.857 ms
+	Integration of assets:  36.790 ms
+	Thread Wait Time:       0.003 ms
+	Total Operation Time:   364.793 ms
+Unloading 5025 unused Assets / (2.1 MB). Loaded Objects now: 12748.
+Memory consumption went from 277.1 MB to 274.9 MB.
+Total: 17.100800 ms (FindLiveObjects: 0.639000 ms CreateObjectMapping: 0.335100 ms MarkObjects: 14.284500 ms  DeleteObjects: 1.841200 ms)
+
+Unloading 18 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.691700 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            53.473 ms
+	Integration:            172.062 ms
+	Integration of assets:  5.116 ms
+	Thread Wait Time:       1.060 ms
+	Total Operation Time:   231.711 ms
+Unloading 5030 unused Assets / (2.3 MB). Loaded Objects now: 12857.
+Memory consumption went from 292.6 MB to 290.3 MB.
+Total: 17.903300 ms (FindLiveObjects: 0.770700 ms CreateObjectMapping: 0.385000 ms MarkObjects: 14.922200 ms  DeleteObjects: 1.823800 ms)
+
+Unloading 8 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.724000 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity'
+	Deserialize:            1.398 ms
+	Integration:            167.901 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       0.951 ms
+	Total Operation Time:   170.254 ms
+Unloading 705 unused Assets / (38.5 MB). Loaded Objects now: 8456.
+Memory consumption went from 287.4 MB to 249.0 MB.
+Total: 18.424400 ms (FindLiveObjects: 0.362700 ms CreateObjectMapping: 0.250100 ms MarkObjects: 15.467400 ms  DeleteObjects: 2.343100 ms)
+
+Unloading 124 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.401500 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            123.032 ms
+	Integration:            250.684 ms
+	Integration of assets:  29.517 ms
+	Thread Wait Time:       3.884 ms
+	Total Operation Time:   407.117 ms
+Unloading 5025 unused Assets / (2.0 MB). Loaded Objects now: 13124.
+Memory consumption went from 291.1 MB to 289.1 MB.
+Total: 17.213500 ms (FindLiveObjects: 0.700700 ms CreateObjectMapping: 0.388700 ms MarkObjects: 14.433000 ms  DeleteObjects: 1.690000 ms)
+
+Unloading 26 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.225500 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            53.553 ms
+	Integration:            172.764 ms
+	Integration of assets:  5.200 ms
+	Thread Wait Time:       0.925 ms
+	Total Operation Time:   232.442 ms
+Unloading 5305 unused Assets / (2.9 MB). Loaded Objects now: 12857.
+Memory consumption went from 293.4 MB to 290.5 MB.
+Total: 18.558700 ms (FindLiveObjects: 0.731600 ms CreateObjectMapping: 0.423500 ms MarkObjects: 14.919800 ms  DeleteObjects: 2.482800 ms)
+
+Unloading 15 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.562100 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity'
+	Deserialize:            1.105 ms
+	Integration:            159.232 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       6.477 ms
+	Total Operation Time:   166.816 ms
+Unloading 706 unused Assets / (56.9 MB). Loaded Objects now: 8462.
+Memory consumption went from 287.6 MB to 230.8 MB.
+Total: 19.711400 ms (FindLiveObjects: 0.568500 ms CreateObjectMapping: 0.324300 ms MarkObjects: 15.414300 ms  DeleteObjects: 3.403200 ms)
+
+Unloading 124 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.436100 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            124.260 ms
+	Integration:            252.076 ms
+	Integration of assets:  34.083 ms
+	Thread Wait Time:       3.422 ms
+	Total Operation Time:   413.842 ms
+Unloading 5025 unused Assets / (2.0 MB). Loaded Objects now: 13130.
+Memory consumption went from 291.9 MB to 289.9 MB.
+Total: 18.250900 ms (FindLiveObjects: 0.694800 ms CreateObjectMapping: 0.383600 ms MarkObjects: 15.492500 ms  DeleteObjects: 1.678600 ms)
+
+Unloading 20 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.480100 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            59.661 ms
+	Integration:            176.407 ms
+	Integration of assets:  5.833 ms
+	Thread Wait Time:       0.855 ms
+	Total Operation Time:   242.757 ms
+Unloading 5304 unused Assets / (3.0 MB). Loaded Objects now: 12858.
+Memory consumption went from 294.1 MB to 291.1 MB.
+Total: 17.727700 ms (FindLiveObjects: 0.703800 ms CreateObjectMapping: 0.377500 ms MarkObjects: 14.463500 ms  DeleteObjects: 2.181900 ms)
+
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.999800 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity'
+	Deserialize:            1.767 ms
+	Integration:            159.852 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.593 ms
+	Total Operation Time:   162.216 ms
+Unloading 1142 unused Assets / (54.8 MB). Loaded Objects now: 7752.
+Memory consumption went from 286.2 MB to 231.4 MB.
+Total: 19.190200 ms (FindLiveObjects: 0.343300 ms CreateObjectMapping: 0.231700 ms MarkObjects: 14.174200 ms  DeleteObjects: 4.439900 ms)
+
+Unloading 140 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.477700 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            89.738 ms
+	Integration:            250.357 ms
+	Integration of assets:  28.556 ms
+	Thread Wait Time:       -0.025 ms
+	Total Operation Time:   368.626 ms
+Unloading 5025 unused Assets / (1.4 MB). Loaded Objects now: 12491.
+Memory consumption went from 290.2 MB to 288.8 MB.
+Total: 17.735400 ms (FindLiveObjects: 1.077200 ms CreateObjectMapping: 0.717300 ms MarkObjects: 13.940400 ms  DeleteObjects: 1.999600 ms)
+
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.406000 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity'
+	Deserialize:            1.222 ms
+	Integration:            162.822 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.614 ms
+	Total Operation Time:   164.661 ms
+Unloading 1143 unused Assets / (62.2 MB). Loaded Objects now: 7752.
+Memory consumption went from 286.2 MB to 224.1 MB.
+Total: 18.921900 ms (FindLiveObjects: 0.377000 ms CreateObjectMapping: 0.403200 ms MarkObjects: 14.092100 ms  DeleteObjects: 4.048600 ms)
+
+Unloading 140 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.387600 ms
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            91.986 ms
+	Integration:            244.032 ms
+	Integration of assets:  29.093 ms
+	Thread Wait Time:       -0.238 ms
+	Total Operation Time:   364.872 ms
+Unloading 5025 unused Assets / (2.2 MB). Loaded Objects now: 12748.
+Memory consumption went from 291.2 MB to 289.0 MB.
+Total: 17.846300 ms (FindLiveObjects: 0.717600 ms CreateObjectMapping: 0.348200 ms MarkObjects: 15.027200 ms  DeleteObjects: 1.752000 ms)
+
+Saving results to: C:/Users/Administrator/AppData/LocalLow/DefaultCompany/BorderRepairStation\TestResults.xml
+Saving results to: C:\Users\Administrator\Documents\Codex\clinic-int\Logs\UnifiedClinicFinalHudPlay.xml
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            0.467 ms
+	Integration:            160.701 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       0.028 ms
+	Total Operation Time:   161.199 ms
+Unloading 1130 unused Assets / (70.5 MB). Loaded Objects now: 7467.
+Memory consumption went from 279.3 MB to 208.8 MB.
+Total: 18.784600 ms (FindLiveObjects: 0.358900 ms CreateObjectMapping: 0.249100 ms MarkObjects: 13.865100 ms  DeleteObjects: 4.309500 ms)
+
+Executing IPostBuildCleanup for: Unity.PerformanceTesting.Editor.TestRunBuilder.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<ExecuteMethods>d__8<UnityEngine.TestTools.IPostBuildCleanup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:48)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<Execute>d__7<UnityEngine.TestTools.IPostBuildCleanup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:34)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteStep () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:173)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteCallback () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:108)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs Line: 48)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 4 unused Assets / (0.5 KB). Loaded Objects now: 7468.
+Memory consumption went from 199.8 MB to 199.8 MB.
+Total: 14.364900 ms (FindLiveObjects: 0.331900 ms CreateObjectMapping: 0.150900 ms MarkObjects: 13.834300 ms  DeleteObjects: 0.046200 ms)
+
+Refreshing native plugins compatible for Editor in 1.42 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=43fca82c8734d9543a0b68be9216af6a): Total: 0.075 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+DisplayProgressbar: Undo
+Test run completed. Exiting with code 0 (Ok). Run completed.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:ExitApplication (UnityEditor.TestTools.TestRunner.CommandLineTest.Executer/ReturnCodes,string) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/Executer.cs:81)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:ExitIfRunIsCompleted () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/Executer.cs:74)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/Executer.cs Line: 81)
+
+Start importing ProjectSettings/ProjectSettings.asset using Guid(00000000000000004000000000000000) (LibraryAssetImporter) -> (artifact id: '81e5f970ae5d37203dd655023e61b098') in 0.0074344 seconds
+Refreshing native plugins compatible for Editor in 1.78 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=a5e25f683d671b34c821ac12bfd17503): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[Physics::Module] Cleanup current backned.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Administrator-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Administrator channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+Checking for leaked weakptr:
+  Found no leaked weakptrs.
+[Package Manager] Server process was shutdown
+##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1791448350248,"processId":9856,"allocatedMemory":15183137,"memoryLabels":[{"Default":14269},{"Permanent":15356},{"NewDelete":71505},{"Thread":4230344},{"Manager":815994},{"VertexData":1112},{"Geometry":816},{"VFX":-104},{"Texture":296},{"Shader":78795},{"Material":24},{"GfxDevice":56432},{"Animation":392},{"Audio":4040},{"FontEngine":256},{"Physics":2081},{"Serialization":816},{"Input":14824},{"JobScheduler":33024},{"TextLib":160},{"Mono":32},{"MonoCode":64},{"ScriptingNativeRuntime":155060},{"BaseObject":1620112},{"Resource":1304},{"Renderer":2928},{"Transform":4646},{"File":12720},{"WebCam":616},{"Culling":32},{"Terrain":11394},{"Wind":24},{"STL":40},{"String":9366},{"DynamicArray":117108},{"HashMap":92695},{"Utility":2660078},{"Curl":48},{"PoolAlloc":1960},{"AI":104},{"TypeTree":5005},{"ScriptManager":512},{"RuntimeInitializeOnLoadManager":64},{"SpriteAtlas":112},{"GI":7888},{"Director":8240},{"WebRequest":552},{"VR":45969},{"SceneManager":496},{"Video":208},{"LazyScriptCache":32},{"Camera":17},{"Secure":265},{"SerializationCache":1576},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57888},{"StaticSafetyDebugInfo":278528},{"Analytics":336},{"Hierarchy":272},{"CoreStats":12536},{"Identifiers":6192},{"Gui":80},{"EditorUtility":52193},{"VersionControl":4},{"Undo":947},{"AssetDatabase":4621209},{"EditorGi":328},{"UnityConnect":24208},{"Upm":2036},{"DrivenProperties":72},{"LocalIPC":219},{"ProfilerEditor":9746},{"CoreBusinessMetrics":3228},{"Licensing":696},{"AssetReference":32},{"IPCStream":32}]}

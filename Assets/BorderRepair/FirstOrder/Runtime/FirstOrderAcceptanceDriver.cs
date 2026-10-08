@@ -112,7 +112,8 @@ namespace BorderRepair.FirstOrder
                     var w = b.min + Vector3.Scale(b.size, Vector3.one * 0.5f + (f - Vector3.one * 0.5f) * 0.9f);
                     var sp = cam.WorldToScreenPoint(w);
                     if (sp.z <= 0 || sp.x < 1 || sp.y < 1 || sp.x > cam.pixelWidth - 1 || sp.y > cam.pixelHeight - 1) continue;
-                    if (FirstOrderInput.Pick(cam.ScreenPointToRay(sp)) == target) { screen = sp; return true; }
+                    if (!FirstOrderInput.IsOverUI(sp) && FirstOrderInput.Pick(cam.ScreenPointToRay(sp)) == target)
+                    { screen = sp; return true; }
                 }
             }
             return false;
@@ -218,15 +219,18 @@ namespace BorderRepair.FirstOrder
         IEnumerable<Renderer> NewRenderers => flow.NewBearing.Renderers();
 
         /// <summary>完整首单：正确操作 + 穿插的拒绝检查。cleanEarly = 检查左引擎后马上清理进气口（并试一次“只清理就复测”）；false = 装回上盖后、通电前才清理。</summary>
-        public IEnumerator RunFullOrder(bool cleanEarly = true)
+        public IEnumerator RunFullOrder(bool cleanEarly = true, bool resumeAtInspection = false)
         {
             var dock = flow.Dock;
             const string D = FirstOrderCameraRig.Dock, E = FirstOrderCameraRig.EngineL, R = FirstOrderCameraRig.EngineRear,
                          B = FirstOrderCameraRig.Bench, O = FirstOrderCameraRig.Overview, ER = FirstOrderCameraRig.EngineR,
                          REC = FirstOrderCameraRig.Record, CMP = FirstOrderCameraRig.Compare, CL = FirstOrderCameraRig.EngineClose;
 
-            yield return Click("拒绝：通电悬停时碰左上盖", E, flow.Cover, false, "供电");
-            yield return DockAndPowerOff();
+            if (!resumeAtInspection)
+            {
+                yield return Click("拒绝：通电悬停时碰左上盖", E, flow.Cover, false, "供电");
+                yield return DockAndPowerOff();
+            }
             yield return View("故障原位：进气口堵塞（断电停转）", CL, () => flow.ClogLayers.All(OnScreen),
                               () => $"进气口堵塞 {flow.ClogLayers.Count} 层都在画面里：{string.Join("、", flow.ClogLayers.Select(r => r.GetComponent<MeshFilter>().sharedMesh.name))}");
             yield return Click("4 检查左引擎：点左上盖", E, flow.Cover, true);

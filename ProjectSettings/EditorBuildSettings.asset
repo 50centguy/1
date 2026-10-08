@@ -6,23 +6,26 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity
+    guid: d4a3ceae829403d4ca9c554c9d398383
+  - enabled: 1
+    path: Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity
+    guid: 5e112458c20ed84429c792da3a294aa9
+  - enabled: 1
     path: Assets/BorderRepair/Scenes/Slice/TwoNight_Menu.unity
     guid: 47c077d9fbc5fe64282008a10cee06ef
   - enabled: 1
     path: Assets/BorderRepair/Scenes/Slice/Night1_Counter.unity
-    guid: 50fc898698a1e0942917a5fbd909cdf5
+    guid: 88e80d69672a0034c8aed293c2dea887
   - enabled: 1
     path: Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity
-    guid: 20f9982cdafae4648bddc4a91be7bc72
+    guid: 820a48b34ffc71044b0cbf842bdb2b51
   - enabled: 1
     path: Assets/BorderRepair/FirstOrder/Scenes/Slice/TwoNightSlice.unity
     guid: 2fbedc2001a306641aec8eabb5211704
   - enabled: 1
     path: Assets/BorderRepair/Scenes/RepairStation_Prototype.unity
     guid: 35c9268364ec3604cae0d7f0c3078744
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

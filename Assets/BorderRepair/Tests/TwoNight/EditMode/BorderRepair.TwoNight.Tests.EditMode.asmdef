@@ -1,7 +1,7 @@
 {
     "name": "BorderRepair.TwoNight.Tests.EditMode",
     "rootNamespace": "BorderRepair.TwoNight.Tests",
-    "references": [ "BorderRepair.TwoNight.Runtime", "BorderRepair.Runtime", "BorderRepair.FirstOrder.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner" ],
+    "references": [ "BorderRepair.TwoNight.Runtime", "BorderRepair.TwoNight.Editor", "BorderRepair.Runtime", "BorderRepair.FirstOrder.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner" ],
     "includePlatforms": [ "Editor" ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

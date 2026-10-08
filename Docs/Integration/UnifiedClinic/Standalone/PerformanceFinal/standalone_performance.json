@@ -1,0 +1,68 @@
+{
+    "timestampUtc": "2026-10-08T08:53:29.1681202Z",
+    "unityVersion": "6000.0.84f1",
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12400F",
+    "renderMode": "One explicit camera render/frame to a native offscreen surface, including camera-space UI. Hidden-window backbuffer is not measured.",
+    "width": 1920,
+    "height": 1080,
+    "editor": false,
+    "uncapped": true,
+    "samples": [
+        {
+            "state": "Night1_AwaitingReceive",
+            "camera": "Overview",
+            "sampledFrames": 240,
+            "timingFrames": 240,
+            "gpuTimingFrames": 0,
+            "drawCounterAvailable": true,
+            "triangleCounterAvailable": true,
+            "averageFrameMs": 1.3807591666894344,
+            "frameP95Ms": 1.7549035837873817,
+            "cpuTimingMeanMs": 1.3796441666666662,
+            "gpuTimingMeanMs": -1.0,
+            "drawCallsMean": 887.2875,
+            "trianglesSubmittedMean": 570089.6875,
+            "allocatedMemoryBytes": 117990628
+        },
+        {
+            "state": "Night2_Overview",
+            "camera": "Overview",
+            "sampledFrames": 240,
+            "timingFrames": 240,
+            "gpuTimingFrames": 0,
+            "drawCounterAvailable": true,
+            "triangleCounterAvailable": true,
+            "averageFrameMs": 1.4598766686200786,
+            "frameP95Ms": 1.8464993918314577,
+            "cpuTimingMeanMs": 1.4619837500000004,
+            "gpuTimingMeanMs": -1.0,
+            "drawCallsMean": 869.3625,
+            "trianglesSubmittedMean": 569599.7375,
+            "allocatedMemoryBytes": 119169019
+        },
+        {
+            "state": "Night2_EngineClose",
+            "camera": "EngineClose",
+            "sampledFrames": 240,
+            "timingFrames": 240,
+            "gpuTimingFrames": 0,
+            "drawCounterAvailable": true,
+            "triangleCounterAvailable": true,
+            "averageFrameMs": 1.4945724993594923,
+            "frameP95Ms": 1.8022038275375963,
+            "cpuTimingMeanMs": 1.4954829166666666,
+            "gpuTimingMeanMs": -1.0,
+            "drawCallsMean": 707.0416666666666,
+            "trianglesSubmittedMean": 621466.7208333333,
+            "allocatedMemoryBytes": 119396700
+        }
+    ],
+    "limitations": [
+        "Standalone measurements on this machine only; not target-device or VR acceptance.",
+        "VSync and frame cap disabled for this opt-in probe; normal game settings are unchanged.",
+        "Frame timings can include driver/present waits; zero GPU timings are excluded, with gpuTimingFrames=0 and mean=-1 if unavailable.",
+        "Profiler triangle/draw counters include render submissions, not unique asset triangles.",
+        "Three stationary viewpoints; interactive worst cases and headset stereo performance still need measurement."
+    ]
+}

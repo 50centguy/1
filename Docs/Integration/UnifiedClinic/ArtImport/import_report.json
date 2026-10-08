@@ -1,0 +1,19 @@
+{
+    "timestampUtc": "2026-10-08T02:15:01.7771066Z",
+    "scene": "Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_ArtPreview.unity",
+    "source": "ArtSource/UnifiedClinic",
+    "unityVersion": "6000.0.84f1",
+    "environmentTriangles": 13700,
+    "environmentMeshes": 150,
+    "materialCount": 18,
+    "colliderCount": 23,
+    "anchorCount": 29,
+    "maxAnchorErrorMeters": 5.960464477539063e-7,
+    "messages": [],
+    "limitations": [
+        "Isolated art preview only; gameplay routes are not migrated by this builder.",
+        "Real RobotV4 is instantiated, but exact mesh interference is not certified here.",
+        "Editor camera rendering; no human play, VR, GPU timing or target-device measurements.",
+        "Temporary preview lighting is not final art approval."
+    ]
+}

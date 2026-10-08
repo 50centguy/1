@@ -16,13 +16,17 @@ namespace BorderRepair.TwoNight
         public static void Set(TwoNightState state) => Current = state;
         public static void Clear() => Current = null;
 
-        public static TwoNightState NewGame(TwoNightEconomy eco)
+        public static TwoNightState NewGame(TwoNightEconomy eco, bool unifiedClinic = false)
         {
             eco = eco != null ? eco : TwoNightEconomy.Defaults();
             Current = new TwoNightState
             {
                 night = 1,
                 phase = TwoNightPhase.Night1Counter,
+                unifiedClinic = unifiedClinic,
+                communicatorIncome = eco.communicatorIncome,
+                communicatorPartsCost = eco.communicatorPartsCost,
+                communicatorAmountsRecorded = true,
                 startingCash = eco.startingCash,
                 rent = eco.rent,
                 rentDueNight = eco.rentDueNight,
@@ -36,8 +40,89 @@ namespace BorderRepair.TwoNight
         /// </summary>
         public static bool SettleCommunicator(TwoNightState s, bool correct, string caseId, TwoNightEconomy eco)
         {
+            if (s == null || s.unifiedClinic) return false;
+            return Settle(s, correct, caseId, eco);
+        }
+
+        public static bool ReceiveCommunicator(TwoNightState s, string caseId)
+        {
+            return s != null && ReceiveCustomer(s, caseId, 0, s.communicatorIncome, s.communicatorPartsCost);
+        }
+
+        public static bool CompleteCommunicatorRepair(TwoNightState s, bool correct, string caseId)
+        {
+            return s != null && s.ActiveTrade != null && s.ActiveTrade.queueIndex == 0 && CompleteCustomerRepair(s, correct, caseId);
+        }
+
+        public static bool DeliverCommunicator(TwoNightState s, string caseId, TwoNightEconomy eco)
+        {
+            return s != null && s.ActiveTrade != null && s.ActiveTrade.queueIndex == 0 && DeliverCustomer(s, caseId);
+        }
+
+        public static bool ReceiveCustomer(TwoNightState s, string caseId, int index, int income, int partsCost)
+        {
+            if (s == null || !s.unifiedClinic || s.phase != TwoNightPhase.Night1Counter ||
+                string.IsNullOrEmpty(caseId) || income < 0 || partsCost < 0 || s.customerTrades == null ||
+                index != s.customerTrades.Count || index >= s.customerQueueCount ||
+                s.customerTrades.Exists(t => t.caseId == caseId) ||
+                (s.ActiveTrade != null && s.ActiveTrade.state != ClinicTradeState.Delivered)) return false;
+            s.customerTrades.Add(new ClinicCustomerTrade { caseId = caseId, queueIndex = index,
+                income = income, partsCost = partsCost, state = ClinicTradeState.InRepair });
+            if (index == 0) { s.communicatorCaseId = caseId; s.communicatorTrade = ClinicTradeState.InRepair; }
+            return true;
+        }
+
+        public static bool CompleteCustomerRepair(TwoNightState s, bool correct, string caseId)
+            => CompleteCustomerDecision(s, correct, caseId, BorderRepair.Data.RepairDecision.Repair);
+
+        public static bool CompleteCustomerDecision(TwoNightState s, bool correct, string caseId, BorderRepair.Data.RepairDecision decision)
+        {
+            if (s == null || !s.unifiedClinic || s.phase != TwoNightPhase.Night1Counter || !correct ||
+                s.ActiveTrade == null || s.ActiveTrade.caseId != caseId || s.ActiveTrade.state != ClinicTradeState.InRepair ||
+                (decision != BorderRepair.Data.RepairDecision.Repair && decision != BorderRepair.Data.RepairDecision.Refuse &&
+                 decision != BorderRepair.Data.RepairDecision.RecommendReplacement)) return false;
+            var trade = s.ActiveTrade;
+            trade.decision = decision;
+            trade.returnedUnpaid = decision != BorderRepair.Data.RepairDecision.Repair;
+            if (trade.returnedUnpaid) { trade.income = 0; trade.partsCost = 0; }
+            trade.state = trade.returnedUnpaid ? ClinicTradeState.ReadyForReturn : ClinicTradeState.ReadyForDelivery;
+            if (trade.queueIndex == 0) s.communicatorTrade = trade.state;
+            return true;
+        }
+
+        public static bool DeliverCustomer(TwoNightState s, string caseId)
+        {
+            if (s == null || !s.unifiedClinic || s.phase != TwoNightPhase.Night1Counter || s.ActiveTrade == null ||
+                s.ActiveTrade.caseId != caseId ||
+                (s.ActiveTrade.state != ClinicTradeState.ReadyForDelivery && s.ActiveTrade.state != ClinicTradeState.ReadyForReturn)) return false;
+            var trade = s.ActiveTrade;
+            if (s.HasTransaction(trade.IncomeId) || s.HasTransaction(trade.PartsId)) return false;
+            if (!trade.returnedUnpaid)
+            {
+                Post(s, trade.IncomeId, trade.income, caseId + " · 维修收入", 1);
+                Post(s, trade.PartsId, -trade.partsCost, caseId + " · 耗材与配件", 1);
+            }
+            trade.state = ClinicTradeState.Delivered;
+            if (trade.queueIndex == 0)
+            {
+                s.communicatorSettled = true;
+                s.communicatorTrade = ClinicTradeState.Delivered;
+                s.communicatorIncome = trade.income;
+                s.communicatorPartsCost = trade.partsCost;
+                s.communicatorAmountsRecorded = true;
+            }
+            if (s.customerTrades.Count == s.customerQueueCount) s.phase = TwoNightPhase.Night1Ledger;
+            return true;
+        }
+
+        static bool Settle(TwoNightState s, bool correct, string caseId, TwoNightEconomy eco)
+        {
             if (s == null || s.phase != TwoNightPhase.Night1Counter || s.communicatorSettled || !correct) return false;
+            if (s.HasTransaction(CommunicatorIncomeId) || s.HasTransaction(CommunicatorPartsId)) return false;
             eco = eco != null ? eco : TwoNightEconomy.Defaults();
+            s.communicatorIncome = eco.communicatorIncome;
+            s.communicatorPartsCost = eco.communicatorPartsCost;
+            s.communicatorAmountsRecorded = true;
             Post(s, CommunicatorIncomeId, eco.communicatorIncome, "收藏家 · 通讯器维修收入", 1);
             Post(s, CommunicatorPartsId, -eco.communicatorPartsCost, "通讯器 · 耗材与配件", 1);
             s.communicatorSettled = true;
@@ -88,7 +173,8 @@ namespace BorderRepair.TwoNight
         /// <summary>从第一晚结束进入第二晚开场（只改内存里的阶段，不入账）。</summary>
         public static bool BeginNight2(TwoNightState s)
         {
-            if (s == null || s.phase != TwoNightPhase.Night1Ended) return false;
+            if (s == null || s.phase != TwoNightPhase.Night1Ended || !s.unit07Registered ||
+                s.unit07 == null || !s.unit07.IsSafe) return false;
             s.night = 2;
             s.phase = TwoNightPhase.Night2Open;
             return true;

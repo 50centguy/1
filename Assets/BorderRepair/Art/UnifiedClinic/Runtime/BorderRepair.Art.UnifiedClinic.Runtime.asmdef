@@ -1,0 +1,6 @@
+{
+    "name": "BorderRepair.Art.UnifiedClinic.Runtime",
+    "rootNamespace": "BorderRepair.Art.UnifiedClinic",
+    "references": ["BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime"],
+    "autoReferenced": true
+}

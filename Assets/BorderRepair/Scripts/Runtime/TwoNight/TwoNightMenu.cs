@@ -18,6 +18,7 @@ namespace BorderRepair.TwoNight
 
         [SerializeField] TwoNightEconomy economy;
         [SerializeField] Font font;
+        [SerializeField] bool unifiedClinic;
 
         public Button NewButton { get; private set; }
         public Button ContinueButton { get; private set; }
@@ -31,6 +32,7 @@ namespace BorderRepair.TwoNight
         GameObject confirm;
 
         public void Configure(TwoNightEconomy e, Font f) { economy = e; font = f; }
+        public void ConfigureUnified() => unifiedClinic = true;
 
         public static void ApplyCommandLine()
         {
@@ -71,8 +73,8 @@ namespace BorderRepair.TwoNight
 
         public void NewGame()
         {
-            TwoNightRun.NewGame(economy);
-            SceneManager.LoadScene(TwoNightScenes.Counter);
+            TwoNightRun.NewGame(economy, unifiedClinic);
+            SceneManager.LoadScene(unifiedClinic ? TwoNightScenes.Clinic : TwoNightScenes.Counter);
         }
 
         public void Continue()
@@ -80,9 +82,11 @@ namespace BorderRepair.TwoNight
             var r = TwoNightSave.Read();
             LastRead = r;
             if (r.status != SaveStatus.Ok) { Refresh(); return; }
+            // A legacy checkpoint can resume in the shared room after its completed delivery.
+            if (unifiedClinic) { r.state.unifiedClinic = true; r.state.communicatorTrade = ClinicTradeState.Delivered; }
             TwoNightRun.Set(r.state);
             if (!TwoNightRun.BeginNight2(r.state)) { status.text = "存档阶段不对，不能继续。"; return; }
-            SceneManager.LoadScene(TwoNightScenes.Robot);
+            SceneManager.LoadScene(unifiedClinic || r.state.unifiedClinic ? TwoNightScenes.Clinic : TwoNightScenes.Robot);
         }
 
         public void AskRestart() => confirm.SetActive(true);

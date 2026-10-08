@@ -1,0 +1,688 @@
+{
+ "blender": "5.2.2 LTS",
+ "counts": {
+  "triangles": 2752,
+  "mesh_objects": 11,
+  "materials": 4,
+  "textures": 2
+ },
+ "budget": {
+  "triangles": 4000,
+  "mesh_objects": 20,
+  "materials": 4,
+  "textures": 2
+ },
+ "materials": [
+  "M_UCC_Cable",
+  "M_UCC_Fabric",
+  "M_UCC_PaintedMetal",
+  "M_UCC_Paper"
+ ],
+ "textures": {
+  "T_UCC_SoftAtlas.png": {
+   "size": [
+    256,
+    256
+   ],
+   "bytes": 83878
+  },
+  "T_UCC_PaintAtlas.png": {
+   "size": [
+    128,
+    128
+   ],
+   "bytes": 20883
+  }
+ },
+ "triangles_per_material": {
+  "M_UCC_Fabric": 532,
+  "M_UCC_PaintedMetal": 1380,
+  "M_UCC_Paper": 340,
+  "M_UCC_Cable": 500
+ },
+ "topology": {
+  "UCC_SE_Fabric": {
+   "triangles": 532,
+   "loop_triangles": 532,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 532,
+   "total_area_m2": 1.94379952,
+   "polygon_sizes": {
+    "3": 532
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.0,
+   "inconsistent_winding_edges": 0
+  },
+  "UCC_SE_Metal": {
+   "triangles": 192,
+   "loop_triangles": 192,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 192,
+   "total_area_m2": 0.15860791,
+   "polygon_sizes": {
+    "4": 87,
+    "5": 6
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.00764,
+   "inconsistent_winding_edges": 0
+  },
+  "UCC_SE_Paper": {
+   "triangles": 72,
+   "loop_triangles": 72,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 72,
+   "total_area_m2": 0.11957175,
+   "polygon_sizes": {
+    "4": 36
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.0,
+   "inconsistent_winding_edges": 0
+  },
+  "UCC_SW_Metal": {
+   "triangles": 652,
+   "loop_triangles": 652,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 652,
+   "total_area_m2": 0.6654515,
+   "polygon_sizes": {
+    "4": 254,
+    "10": 18
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.0,
+   "inconsistent_winding_edges": 0
+  },
+  "UCC_SW_Paper": {
+   "triangles": 96,
+   "loop_triangles": 96,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 96,
+   "total_area_m2": 0.20926367,
+   "polygon_sizes": {
+    "4": 48
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.0,
+   "inconsistent_winding_edges": 0
+  },
+  "UCC_NW_Metal": {
+   "triangles": 176,
+   "loop_triangles": 176,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 176,
+   "total_area_m2": 0.21822692,
+   "polygon_sizes": {
+    "4": 72,
+    "6": 8
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.0,
+   "inconsistent_winding_edges": 0
+  },
+  "UCC_NW_Cable": {
+   "triangles": 250,
+   "loop_triangles": 250,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 250,
+   "total_area_m2": 0.08964695,
+   "polygon_sizes": {
+    "4": 110,
+    "5": 10
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.00051,
+   "inconsistent_winding_edges": 0
+  },
+  "UCC_NW_Paper": {
+   "triangles": 80,
+   "loop_triangles": 80,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 80,
+   "total_area_m2": 0.07537102,
+   "polygon_sizes": {
+    "4": 36,
+    "6": 2
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.0,
+   "inconsistent_winding_edges": 0
+  },
+  "UCC_NE_Metal": {
+   "triangles": 360,
+   "loop_triangles": 360,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 360,
+   "total_area_m2": 0.29095673,
+   "polygon_sizes": {
+    "4": 148,
+    "6": 8,
+    "10": 4
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.0,
+   "inconsistent_winding_edges": 0
+  },
+  "UCC_NE_Cable": {
+   "triangles": 250,
+   "loop_triangles": 250,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 250,
+   "total_area_m2": 0.07820686,
+   "polygon_sizes": {
+    "4": 110,
+    "5": 10
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.00044,
+   "inconsistent_winding_edges": 0
+  },
+  "UCC_NE_Paper": {
+   "triangles": 92,
+   "loop_triangles": 92,
+   "zero_area_loop_triangles": 0,
+   "usable_triangles": 92,
+   "total_area_m2": 0.08316494,
+   "polygon_sizes": {
+    "4": 42,
+    "6": 2
+   },
+   "self_intersecting_ngons": 0,
+   "self_intersecting_ngon_ids": [],
+   "max_quad_nonplanarity_m": 0.0,
+   "inconsistent_winding_edges": 0
+  }
+ },
+ "vs_previous_build": {
+  "UCC_SE_Fabric": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0116,
+   "triangles_before": 532,
+   "triangles_after": 532,
+   "polygons_before": {
+    "4": 236,
+    "6": 4,
+    "10": 2,
+    "16": 2
+   },
+   "polygons_after": {
+    "3": 532
+   },
+   "self_intersecting_ngons_before": 2
+  },
+  "UCC_SE_Metal": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0,
+   "triangles_before": 192,
+   "triangles_after": 192,
+   "polygons_before": {
+    "4": 87,
+    "5": 6
+   },
+   "polygons_after": {
+    "4": 87,
+    "5": 6
+   },
+   "self_intersecting_ngons_before": 0
+  },
+  "UCC_SE_Paper": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0,
+   "triangles_before": 72,
+   "triangles_after": 72,
+   "polygons_before": {
+    "4": 36
+   },
+   "polygons_after": {
+    "4": 36
+   },
+   "self_intersecting_ngons_before": 0
+  },
+  "UCC_SW_Metal": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0,
+   "triangles_before": 672,
+   "triangles_after": 652,
+   "polygons_before": {
+    "4": 264,
+    "10": 18
+   },
+   "polygons_after": {
+    "4": 254,
+    "10": 18
+   },
+   "self_intersecting_ngons_before": 0,
+   "documented_exception": "10 zero-area quads (20 loop triangles) between two coincident lathe rings welded away"
+  },
+  "UCC_SW_Paper": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0,
+   "triangles_before": 96,
+   "triangles_after": 96,
+   "polygons_before": {
+    "4": 48
+   },
+   "polygons_after": {
+    "4": 48
+   },
+   "self_intersecting_ngons_before": 0
+  },
+  "UCC_NW_Metal": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0,
+   "triangles_before": 176,
+   "triangles_after": 176,
+   "polygons_before": {
+    "4": 72,
+    "6": 8
+   },
+   "polygons_after": {
+    "4": 72,
+    "6": 8
+   },
+   "self_intersecting_ngons_before": 0
+  },
+  "UCC_NW_Cable": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0,
+   "triangles_before": 250,
+   "triangles_after": 250,
+   "polygons_before": {
+    "4": 110,
+    "5": 10
+   },
+   "polygons_after": {
+    "4": 110,
+    "5": 10
+   },
+   "self_intersecting_ngons_before": 0
+  },
+  "UCC_NW_Paper": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0,
+   "triangles_before": 80,
+   "triangles_after": 80,
+   "polygons_before": {
+    "4": 36,
+    "6": 2
+   },
+   "polygons_after": {
+    "4": 36,
+    "6": 2
+   },
+   "self_intersecting_ngons_before": 0
+  },
+  "UCC_NE_Metal": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0,
+   "triangles_before": 360,
+   "triangles_after": 360,
+   "polygons_before": {
+    "4": 148,
+    "6": 8,
+    "10": 4
+   },
+   "polygons_after": {
+    "4": 148,
+    "6": 8,
+    "10": 4
+   },
+   "self_intersecting_ngons_before": 0
+  },
+  "UCC_NE_Cable": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0,
+   "triangles_before": 250,
+   "triangles_after": 250,
+   "polygons_before": {
+    "4": 110,
+    "5": 10
+   },
+   "polygons_after": {
+    "4": 110,
+    "5": 10
+   },
+   "self_intersecting_ngons_before": 0
+  },
+  "UCC_NE_Paper": {
+   "pivot_delta_m": 0.0,
+   "bounds_delta_m": 0.0,
+   "triangles_before": 92,
+   "triangles_after": 92,
+   "polygons_before": {
+    "4": 42,
+    "6": 2
+   },
+   "polygons_after": {
+    "4": 42,
+    "6": 2
+   },
+   "self_intersecting_ngons_before": 0
+  }
+ },
+ "degenerate_weld": {
+  "UCC_SW_Metal": {
+   "zero_area_faces_found": 10,
+   "zero_area_face_sizes": [
+    4
+   ],
+   "zero_area_loop_triangles": 20,
+   "faces_removed": 10,
+   "area_before_m2": 0.6654515,
+   "area_after_m2": 0.6654515
+  }
+ },
+ "area_vs_pre_degenerate_fix": {
+  "UCC_SE_Fabric": {
+   "area_before_m2": 1.94379952,
+   "area_after_m2": 1.94379952,
+   "loop_tris_before": 532,
+   "zero_area_before": 0,
+   "loop_tris_after": 532,
+   "zero_area_after": 0
+  },
+  "UCC_SE_Metal": {
+   "area_before_m2": 0.15860791,
+   "area_after_m2": 0.15860791,
+   "loop_tris_before": 192,
+   "zero_area_before": 0,
+   "loop_tris_after": 192,
+   "zero_area_after": 0
+  },
+  "UCC_SE_Paper": {
+   "area_before_m2": 0.11957175,
+   "area_after_m2": 0.11957175,
+   "loop_tris_before": 72,
+   "zero_area_before": 0,
+   "loop_tris_after": 72,
+   "zero_area_after": 0
+  },
+  "UCC_SW_Metal": {
+   "area_before_m2": 0.6654515,
+   "area_after_m2": 0.6654515,
+   "loop_tris_before": 672,
+   "zero_area_before": 20,
+   "loop_tris_after": 652,
+   "zero_area_after": 0
+  },
+  "UCC_SW_Paper": {
+   "area_before_m2": 0.20926367,
+   "area_after_m2": 0.20926367,
+   "loop_tris_before": 96,
+   "zero_area_before": 0,
+   "loop_tris_after": 96,
+   "zero_area_after": 0
+  },
+  "UCC_NW_Metal": {
+   "area_before_m2": 0.21822692,
+   "area_after_m2": 0.21822692,
+   "loop_tris_before": 176,
+   "zero_area_before": 0,
+   "loop_tris_after": 176,
+   "zero_area_after": 0
+  },
+  "UCC_NW_Cable": {
+   "area_before_m2": 0.08964695,
+   "area_after_m2": 0.08964695,
+   "loop_tris_before": 250,
+   "zero_area_before": 0,
+   "loop_tris_after": 250,
+   "zero_area_after": 0
+  },
+  "UCC_NW_Paper": {
+   "area_before_m2": 0.07537102,
+   "area_after_m2": 0.07537102,
+   "loop_tris_before": 80,
+   "zero_area_before": 0,
+   "loop_tris_after": 80,
+   "zero_area_after": 0
+  },
+  "UCC_NE_Metal": {
+   "area_before_m2": 0.29095673,
+   "area_after_m2": 0.29095673,
+   "loop_tris_before": 360,
+   "zero_area_before": 0,
+   "loop_tris_after": 360,
+   "zero_area_after": 0
+  },
+  "UCC_NE_Cable": {
+   "area_before_m2": 0.07820686,
+   "area_after_m2": 0.07820686,
+   "loop_tris_before": 250,
+   "zero_area_before": 0,
+   "loop_tris_after": 250,
+   "zero_area_after": 0
+  },
+  "UCC_NE_Paper": {
+   "area_before_m2": 0.08316494,
+   "area_after_m2": 0.08316494,
+   "loop_tris_before": 92,
+   "zero_area_before": 0,
+   "loop_tris_after": 92,
+   "zero_area_after": 0
+  }
+ },
+ "fbx_roundtrip": {
+  "max_bounds_error_m": 0.0,
+  "passed": true,
+  "per_object": {
+   "UCC_SE_Fabric": {
+    "bounds_error_m": 0.0,
+    "triangles": 532,
+    "polygon_sizes": {
+     "3": 532
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 532,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 532,
+    "topology_matches_source": true
+   },
+   "UCC_SE_Metal": {
+    "bounds_error_m": 0.0,
+    "triangles": 192,
+    "polygon_sizes": {
+     "4": 87,
+     "5": 6
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 192,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 192,
+    "topology_matches_source": true
+   },
+   "UCC_SE_Paper": {
+    "bounds_error_m": 0.0,
+    "triangles": 72,
+    "polygon_sizes": {
+     "4": 36
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 72,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 72,
+    "topology_matches_source": true
+   },
+   "UCC_SW_Metal": {
+    "bounds_error_m": 0.0,
+    "triangles": 652,
+    "polygon_sizes": {
+     "4": 254,
+     "10": 18
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 652,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 652,
+    "topology_matches_source": true
+   },
+   "UCC_SW_Paper": {
+    "bounds_error_m": 0.0,
+    "triangles": 96,
+    "polygon_sizes": {
+     "4": 48
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 96,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 96,
+    "topology_matches_source": true
+   },
+   "UCC_NW_Metal": {
+    "bounds_error_m": 0.0,
+    "triangles": 176,
+    "polygon_sizes": {
+     "4": 72,
+     "6": 8
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 176,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 176,
+    "topology_matches_source": true
+   },
+   "UCC_NW_Cable": {
+    "bounds_error_m": 0.0,
+    "triangles": 250,
+    "polygon_sizes": {
+     "4": 110,
+     "5": 10
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 250,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 250,
+    "topology_matches_source": true
+   },
+   "UCC_NW_Paper": {
+    "bounds_error_m": 0.0,
+    "triangles": 80,
+    "polygon_sizes": {
+     "4": 36,
+     "6": 2
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 80,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 80,
+    "topology_matches_source": true
+   },
+   "UCC_NE_Metal": {
+    "bounds_error_m": 0.0,
+    "triangles": 360,
+    "polygon_sizes": {
+     "4": 148,
+     "6": 8,
+     "10": 4
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 360,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 360,
+    "topology_matches_source": true
+   },
+   "UCC_NE_Cable": {
+    "bounds_error_m": 0.0,
+    "triangles": 250,
+    "polygon_sizes": {
+     "4": 110,
+     "5": 10
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 250,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 250,
+    "topology_matches_source": true
+   },
+   "UCC_NE_Paper": {
+    "bounds_error_m": 0.0,
+    "triangles": 92,
+    "polygon_sizes": {
+     "4": 42,
+     "6": 2
+    },
+    "self_intersecting_ngons": 0,
+    "loop_triangles": 92,
+    "zero_area_loop_triangles": 0,
+    "usable_triangles": 92,
+    "topology_matches_source": true
+   }
+  },
+  "imported_mesh_objects": 11,
+  "imported_object_types": [
+   "EMPTY",
+   "MESH"
+  ],
+  "root_found": true,
+  "note": "Blender re-import only; Unity import not run"
+ },
+ "base_blend_unchanged": {
+  "sha256": "b376a97ecb0df8f71e350842f894e98c1f2ef06ff64d44ca0ac75fae84d3cd7a",
+  "unchanged": true
+ },
+ "renders": [
+  {
+   "file": "Renders/UCC_Overview.png",
+   "camera_unity": [
+    0.0,
+    1.95,
+    -1.6
+   ],
+   "look_at_unity": [
+    0.0,
+    1.75,
+    2.4
+   ],
+   "lens_mm": 12,
+   "exists": true,
+   "generated_by_this_run": false
+  },
+  {
+   "file": "Renders/UCC_WallDetail_SE.png",
+   "camera_unity": [
+    0.62,
+    1.72,
+    -1.12
+   ],
+   "look_at_unity": [
+    1.82,
+    1.78,
+    -2.72
+   ],
+   "lens_mm": 20,
+   "exists": true,
+   "generated_by_this_run": false
+  },
+  {
+   "file": "Renders/UCC_Supplementary_SW.png",
+   "camera_unity": [
+    -1.05,
+    1.75,
+    -1.0
+   ],
+   "look_at_unity": [
+    -2.4,
+    1.8,
+    -2.4
+   ],
+   "lens_mm": 16,
+   "exists": true,
+   "generated_by_this_run": false
+  }
+ ],
+ "render_note": "NOT re-rendered (norender run). Stills are from the last full run (full build run of the SE_Fabric export fix, 2026-10-08 12:04); this run changed no visible geometry / UV / shading (welded only zero-area faces; area check below), so they remain valid evidence.",
+ "passed_all": true,
+ "failures": []
+}

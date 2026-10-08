@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="118" result="Failed(Child)" total="118" passed="109" failed="9" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-08 07:49:57Z" end-time="2026-10-08 07:50:08Z" duration="11.1432293">
+  <test-suite type="TestSuite" id="1000" name="BorderRepairStation" fullname="BorderRepairStation" runstate="Runnable" testcasecount="118" result="Failed" site="Child" start-time="2026-10-08 07:49:57Z" end-time="2026-10-08 07:50:08Z" duration="11.143229" total="118" passed="109" failed="9" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1038" name="BorderRepair.FirstOrder.Tests.EditMode.dll" fullname="C:/Users/Administrator/Documents/Codex/clinic-restore/Library/ScriptAssemblies/BorderRepair.FirstOrder.Tests.EditMode.dll" runstate="Runnable" testcasecount="31" result="Failed" site="Child" start-time="2026-10-08 07:49:57Z" end-time="2026-10-08 07:50:07Z" duration="9.778940" total="31" passed="22" failed="9" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="21764" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1039" name="BorderRepair" fullname="BorderRepair" runstate="Runnable" testcasecount="31" result="Failed" site="Child" start-time="2026-10-08 07:49:57Z" end-time="2026-10-08 07:50:07Z" duration="9.778242" total="31" passed="22" failed="9" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1040" name="FirstOrder" fullname="BorderRepair.FirstOrder" runstate="Runnable" testcasecount="31" result="Failed" site="Child" start-time="2026-10-08 07:49:57Z" end-time="2026-10-08 07:50:07Z" duration="9.777790" total="31" passed="22" failed="9" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1041" name="Tests" fullname="BorderRepair.FirstOrder.Tests" runstate="Runnable" testcasecount="31" result="Failed" site="Child" start-time="2026-10-08 07:49:57Z" end-time="2026-10-08 07:50:07Z" duration="9.777383" total="31" passed="22" failed="9" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="ParameterizedFixture" id="1031" name="FirstOrderSceneTests" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" testcasecount="27" result="Failed" site="Child" start-time="2026-10-08 07:49:57Z" end-time="2026-10-08 07:50:06Z" duration="9.040278" total="27" passed="18" failed="9" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-suite type="TestFixture" id="1001" name="FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" testcasecount="9" result="Failed" site="Child" start-time="2026-10-08 07:49:57Z" end-time="2026-10-08 07:50:00Z" duration="2.988042" total="9" passed="6" failed="3" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <failure>
+                  <message><![CDATA[One or more child tests had errors]]></message>
+                </failure>
+                <test-case id="1005" name="BenchPlacements_DoNotPenetrate" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).BenchPlacements_DoNotPenetrate" methodname="BenchPlacements_DoNotPenetrate" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1546328593" result="Failed" start-time="2026-10-08 07:49:57Z" end-time="2026-10-08 07:49:57Z" duration="0.486660" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[  上盖总成翻面放在操作垫上：9 个网格 × 113 个工作台网格，穿入 无；最低顶点 0.9154 m，中心下方表面 0.9040 m；放低 2 mm 碰到表面 False；进出路线（经进场点 (0.032, 1.306, -0.300)）碰到 无：应贴着表面放，没有悬空 2 mm 以上
+  Expected: True
+  But was:  False
+]]></message>
+                    <stack-trace><![CDATA[at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.<BenchPlacements_DoNotPenetrate>g__Check|12_0 (BorderRepair.FirstOrder.FirstOrderPart p, UnityEngine.Vector3 pos, UnityEngine.Quaternion rot, System.ValueTuple`2[T1,T2] approach, System.String what, BorderRepair.FirstOrder.Tests.FirstOrderSceneTests+<>c__DisplayClass12_0& ) [0x00708] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:198
+at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.BenchPlacements_DoNotPenetrate () [0x00060] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:202
+]]></stack-trace>
+                  </failure>
+                </test-case>
+                <test-case id="1009" name="DropZones_SitOnRealBenchObjects_InClearSpace" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).DropZones_SitOnRealBenchObjects_InClearSpace" methodname="DropZones_SitOnRealBenchObjects_InClearSpace" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="461110676" result="Failed" start-time="2026-10-08 07:49:57Z" end-time="2026-10-08 07:49:58Z" duration="0.317314" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[  翻面后最低顶点落在操作垫表面上
+  Expected: 0.0d +/- 0.001500000013038516d
+  But was:  0.01144709438085556d
+]]></message>
+                    <stack-trace><![CDATA[at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.DropZones_SitOnRealBenchObjects_InClearSpace () [0x0014d] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:268
+]]></stack-trace>
+                  </failure>
+                </test-case>
+                <test-case id="1004" name="FaultKit_MountedOnRealParts" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).FaultKit_MountedOnRealParts" methodname="FaultKit_MountedOnRealParts" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1335013587" result="Passed" start-time="2026-10-08 07:49:58Z" end-time="2026-10-08 07:49:58Z" duration="0.313087" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1010" name="Flow_UsesExistingDockController" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Flow_UsesExistingDockController" methodname="Flow_UsesExistingDockController" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="732503084" result="Passed" start-time="2026-10-08 07:49:58Z" end-time="2026-10-08 07:49:58Z" duration="0.300903" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1003" name="Parts_AreRealMeshesExceptLabelledPlaceholders" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Parts_AreRealMeshesExceptLabelledPlaceholders" methodname="Parts_AreRealMeshesExceptLabelledPlaceholders" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1634315782" result="Passed" start-time="2026-10-08 07:49:58Z" end-time="2026-10-08 07:49:58Z" duration="0.303256" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1002" name="RealObjects_UsedByTheOrderExist" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).RealObjects_UsedByTheOrderExist" methodname="RealObjects_UsedByTheOrderExist" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1681051616" result="Passed" start-time="2026-10-08 07:49:58Z" end-time="2026-10-08 07:49:59Z" duration="0.307074" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1008" name="Robot_SitsOnDockAnchor_FacingTheBench" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Robot_SitsOnDockAnchor_FacingTheBench" methodname="Robot_SitsOnDockAnchor_FacingTheBench" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1409571021" result="Passed" start-time="2026-10-08 07:49:59Z" end-time="2026-10-08 07:49:59Z" duration="0.303233" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1006" name="SourceArt_NotModified" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).SourceArt_NotModified" methodname="SourceArt_NotModified" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="2114361360" result="Failed" start-time="2026-10-08 07:49:59Z" end-time="2026-10-08 07:49:59Z" duration="0.335664" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[  Assets/RobotV4/Model/robot-final.fbx
+  String lengths are both 32. Strings differ at index 0.
+  Expected: "80b94f89c3dfbd62e03214e7487e5d96"
+  But was:  "b47c9c43006cbef29e820d022d37560b"
+  -----------^
+]]></message>
+                    <stack-trace><![CDATA[at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.SourceArt_NotModified () [0x000aa] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:223
+]]></stack-trace>
+                  </failure>
+                </test-case>
+                <test-case id="1007" name="SourcePrefabs_NotModified" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).SourcePrefabs_NotModified" methodname="SourcePrefabs_NotModified" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1388938138" result="Passed" start-time="2026-10-08 07:49:59Z" end-time="2026-10-08 07:50:00Z" duration="0.305004" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1011" name="FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" testcasecount="9" result="Failed" site="Child" start-time="2026-10-08 07:50:00Z" end-time="2026-10-08 07:50:03Z" duration="3.032351" total="9" passed="6" failed="3" inconclusive="0" skipped="0" asserts="0">
+                <properties>
+                  <property name="childIndex" value="2" />
+                </properties>
+                <failure>
+                  <message><![CDATA[One or more child tests had errors]]></message>
+                </failure>
+                <test-case id="1015" name="BenchPlacements_DoNotPenetrate" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).BenchPlacements_DoNotPenetrate" methodname="BenchPlacements_DoNotPenetrate" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="933563407" result="Failed" start-time="2026-10-08 07:50:00Z" end-time="2026-10-08 07:50:00Z" duration="0.413726" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[  上盖总成翻面放在操作垫上：9 个网格 × 113 个工作台网格，穿入 无；最低顶点 0.9154 m，中心下方表面 0.9040 m；放低 2 mm 碰到表面 False；进出路线（经进场点 (0.032, 1.306, -0.300)）碰到 无：应贴着表面放，没有悬空 2 mm 以上
+  Expected: True
+  But was:  False
+]]></message>
+                    <stack-trace><![CDATA[at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.<BenchPlacements_DoNotPenetrate>g__Check|12_0 (BorderRepair.FirstOrder.FirstOrderPart p, UnityEngine.Vector3 pos, UnityEngine.Quaternion rot, System.ValueTuple`2[T1,T2] approach, System.String what, BorderRepair.FirstOrder.Tests.FirstOrderSceneTests+<>c__DisplayClass12_0& ) [0x00708] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:198
+at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.BenchPlacements_DoNotPenetrate () [0x00060] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:202
+]]></stack-trace>
+                  </failure>
+                </test-case>
+                <test-case id="1019" name="DropZones_SitOnRealBenchObjects_InClearSpace" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).DropZones_SitOnRealBenchObjects_InClearSpace" methodname="DropZones_SitOnRealBenchObjects_InClearSpace" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="133095883" result="Failed" start-time="2026-10-08 07:50:00Z" end-time="2026-10-08 07:50:00Z" duration="0.323292" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[  翻面后最低顶点落在操作垫表面上
+  Expected: 0.0d +/- 0.001500000013038516d
+  But was:  0.01144709438085556d
+]]></message>
+                    <stack-trace><![CDATA[at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.DropZones_SitOnRealBenchObjects_InClearSpace () [0x0014d] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:268
+]]></stack-trace>
+                  </failure>
+                </test-case>
+                <test-case id="1014" name="FaultKit_MountedOnRealParts" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).FaultKit_MountedOnRealParts" methodname="FaultKit_MountedOnRealParts" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="541539304" result="Passed" start-time="2026-10-08 07:50:00Z" end-time="2026-10-08 07:50:01Z" duration="0.339247" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1020" name="Flow_UsesExistingDockController" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Flow_UsesExistingDockController" methodname="Flow_UsesExistingDockController" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1317873413" result="Passed" start-time="2026-10-08 07:50:01Z" end-time="2026-10-08 07:50:01Z" duration="0.321397" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1013" name="Parts_AreRealMeshesExceptLabelledPlaceholders" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Parts_AreRealMeshesExceptLabelledPlaceholders" methodname="Parts_AreRealMeshesExceptLabelledPlaceholders" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1149698624" result="Passed" start-time="2026-10-08 07:50:01Z" end-time="2026-10-08 07:50:01Z" duration="0.323719" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1012" name="RealObjects_UsedByTheOrderExist" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).RealObjects_UsedByTheOrderExist" methodname="RealObjects_UsedByTheOrderExist" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1856379405" result="Passed" start-time="2026-10-08 07:50:01Z" end-time="2026-10-08 07:50:02Z" duration="0.321001" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1018" name="Robot_SitsOnDockAnchor_FacingTheBench" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Robot_SitsOnDockAnchor_FacingTheBench" methodname="Robot_SitsOnDockAnchor_FacingTheBench" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1653028846" result="Passed" start-time="2026-10-08 07:50:02Z" end-time="2026-10-08 07:50:02Z" duration="0.335219" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1016" name="SourceArt_NotModified" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).SourceArt_NotModified" methodname="SourceArt_NotModified" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="867851616" result="Failed" start-time="2026-10-08 07:50:02Z" end-time="2026-10-08 07:50:02Z" duration="0.336531" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[  Assets/RobotV4/Model/robot-final.fbx
+  String lengths are both 32. Strings differ at index 0.
+  Expected: "80b94f89c3dfbd62e03214e7487e5d96"
+  But was:  "b47c9c43006cbef29e820d022d37560b"
+  -----------^
+]]></message>
+                    <stack-trace><![CDATA[at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.SourceArt_NotModified () [0x000aa] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:223
+]]></stack-trace>
+                  </failure>
+                </test-case>
+                <test-case id="1017" name="SourcePrefabs_NotModified" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).SourcePrefabs_NotModified" methodname="SourcePrefabs_NotModified" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="2084252687" result="Passed" start-time="2026-10-08 07:50:02Z" end-time="2026-10-08 07:50:03Z" duration="0.314714" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1021" name="FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;)" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" testcasecount="9" result="Failed" site="Child" start-time="2026-10-08 07:50:03Z" end-time="2026-10-08 07:50:06Z" duration="3.018269" total="9" passed="6" failed="3" inconclusive="0" skipped="0" asserts="0">
+                <properties>
+                  <property name="childIndex" value="3" />
+                </properties>
+                <failure>
+                  <message><![CDATA[One or more child tests had errors]]></message>
+                </failure>
+                <test-case id="1025" name="BenchPlacements_DoNotPenetrate" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).BenchPlacements_DoNotPenetrate" methodname="BenchPlacements_DoNotPenetrate" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="133555776" result="Failed" start-time="2026-10-08 07:50:03Z" end-time="2026-10-08 07:50:03Z" duration="0.412967" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[  上盖总成翻面放在操作垫上：9 个网格 × 113 个工作台网格，穿入 无；最低顶点 0.9154 m，中心下方表面 0.9040 m；放低 2 mm 碰到表面 False；进出路线（经进场点 (0.074, 1.306, -0.305)）碰到 无：应贴着表面放，没有悬空 2 mm 以上
+  Expected: True
+  But was:  False
+]]></message>
+                    <stack-trace><![CDATA[at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.<BenchPlacements_DoNotPenetrate>g__Check|12_0 (BorderRepair.FirstOrder.FirstOrderPart p, UnityEngine.Vector3 pos, UnityEngine.Quaternion rot, System.ValueTuple`2[T1,T2] approach, System.String what, BorderRepair.FirstOrder.Tests.FirstOrderSceneTests+<>c__DisplayClass12_0& ) [0x00708] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:198
+at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.BenchPlacements_DoNotPenetrate () [0x00060] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:202
+]]></stack-trace>
+                  </failure>
+                </test-case>
+                <test-case id="1029" name="DropZones_SitOnRealBenchObjects_InClearSpace" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).DropZones_SitOnRealBenchObjects_InClearSpace" methodname="DropZones_SitOnRealBenchObjects_InClearSpace" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="484992457" result="Failed" start-time="2026-10-08 07:50:03Z" end-time="2026-10-08 07:50:04Z" duration="0.321771" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[  翻面后最低顶点落在操作垫表面上
+  Expected: 0.0d +/- 0.001500000013038516d
+  But was:  0.01144716888666153d
+]]></message>
+                    <stack-trace><![CDATA[at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.DropZones_SitOnRealBenchObjects_InClearSpace () [0x0014d] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:268
+]]></stack-trace>
+                  </failure>
+                </test-case>
+                <test-case id="1024" name="FaultKit_MountedOnRealParts" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).FaultKit_MountedOnRealParts" methodname="FaultKit_MountedOnRealParts" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1642241665" result="Passed" start-time="2026-10-08 07:50:04Z" end-time="2026-10-08 07:50:04Z" duration="0.315391" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1030" name="Flow_UsesExistingDockController" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Flow_UsesExistingDockController" methodname="Flow_UsesExistingDockController" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1306464926" result="Passed" start-time="2026-10-08 07:50:04Z" end-time="2026-10-08 07:50:04Z" duration="0.320652" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1023" name="Parts_AreRealMeshesExceptLabelledPlaceholders" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Parts_AreRealMeshesExceptLabelledPlaceholders" methodname="Parts_AreRealMeshesExceptLabelledPlaceholders" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="776833126" result="Passed" start-time="2026-10-08 07:50:04Z" end-time="2026-10-08 07:50:04Z" duration="0.320738" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1022" name="RealObjects_UsedByTheOrderExist" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).RealObjects_UsedByTheOrderExist" methodname="RealObjects_UsedByTheOrderExist" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1378254976" result="Passed" start-time="2026-10-08 07:50:04Z" end-time="2026-10-08 07:50:05Z" duration="0.319419" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1028" name="Robot_SitsOnDockAnchor_FacingTheBench" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).Robot_SitsOnDockAnchor_FacingTheBench" methodname="Robot_SitsOnDockAnchor_FacingTheBench" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="622811683" result="Passed" start-time="2026-10-08 07:50:05Z" end-time="2026-10-08 07:50:05Z" duration="0.326490" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1026" name="SourceArt_NotModified" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).SourceArt_NotModified" methodname="SourceArt_NotModified" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="1329782700" result="Failed" start-time="2026-10-08 07:50:05Z" end-time="2026-10-08 07:50:05Z" duration="0.340666" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[  Assets/RobotV4/Model/robot-final.fbx
+  String lengths are both 32. Strings differ at index 0.
+  Expected: "80b94f89c3dfbd62e03214e7487e5d96"
+  But was:  "b47c9c43006cbef29e820d022d37560b"
+  -----------^
+]]></message>
+                    <stack-trace><![CDATA[at BorderRepair.FirstOrder.Tests.FirstOrderSceneTests.SourceArt_NotModified () [0x000aa] in C:\Users\Administrator\Documents\Codex\clinic-restore\Assets\BorderRepair\FirstOrder\Tests\EditMode\FirstOrderSceneTests.cs:223
+]]></stack-trace>
+                  </failure>
+                </test-case>
+                <test-case id="1027" name="SourcePrefabs_NotModified" fullname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests(&quot;Assets/BorderRepair/FirstOrder/Scenes...&quot;).SourcePrefabs_NotModified" methodname="SourcePrefabs_NotModified" classname="BorderRepair.FirstOrder.Tests.FirstOrderSceneTests" runstate="Runnable" seed="984817225" result="Passed" start-time="2026-10-08 07:50:05Z" end-time="2026-10-08 07:50:06Z" duration="0.337079" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1032" name="SliceSceneTests" fullname="BorderRepair.FirstOrder.Tests.SliceSceneTests" classname="BorderRepair.FirstOrder.Tests.SliceSceneTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-08 07:50:06Z" end-time="2026-10-08 07:50:07Z" duration="0.736582" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1033" name="BundledFont_IsDynamic_AndIncludesData" fullname="BorderRepair.FirstOrder.Tests.SliceSceneTests.BundledFont_IsDynamic_AndIncludesData" methodname="BundledFont_IsDynamic_AndIncludesData" classname="BorderRepair.FirstOrder.Tests.SliceSceneTests" runstate="Runnable" seed="1726493474" result="Passed" start-time="2026-10-08 07:50:06Z" end-time="2026-10-08 07:50:06Z" duration="0.007587" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1037" name="OriginalScenes_HaveNoSliceComponents" fullname="BorderRepair.FirstOrder.Tests.SliceSceneTests.OriginalScenes_HaveNoSliceComponents" classname="BorderRepair.FirstOrder.Tests.SliceSceneTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-08 07:50:06Z" end-time="2026-10-08 07:50:06Z" duration="0.517226" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1035" name="OriginalScenes_HaveNoSliceComponents(&quot;Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity&quot;)" fullname="BorderRepair.FirstOrder.Tests.SliceSceneTests.OriginalScenes_HaveNoSliceComponents(&quot;Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity&quot;)" methodname="OriginalScenes_HaveNoSliceComponents" classname="BorderRepair.FirstOrder.Tests.SliceSceneTests" runstate="Runnable" seed="2013873357" result="Passed" start-time="2026-10-08 07:50:06Z" end-time="2026-10-08 07:50:06Z" duration="0.302471" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1036" name="OriginalScenes_HaveNoSliceComponents(&quot;Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity&quot;)" fullname="BorderRepair.FirstOrder.Tests.SliceSceneTests.OriginalScenes_HaveNoSliceComponents(&quot;Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity&quot;)" methodname="OriginalScenes_HaveNoSliceComponents" classname="BorderRepair.FirstOrder.Tests.SliceSceneTests" runstate="Runnable" seed="1719603585" result="Passed" start-time="2026-10-08 07:50:06Z" end-time="2026-10-08 07:50:06Z" duration="0.213730" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1034" name="SliceScene_IsWired" fullname="BorderRepair.FirstOrder.Tests.SliceSceneTests.SliceScene_IsWired" methodname="SliceScene_IsWired" classname="BorderRepair.FirstOrder.Tests.SliceSceneTests" runstate="Runnable" seed="893512696" result="Passed" start-time="2026-10-08 07:50:06Z" end-time="2026-10-08 07:50:07Z" duration="0.209602" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1120" name="BorderRepair.Tests.EditMode.dll" fullname="C:/Users/Administrator/Documents/Codex/clinic-restore/Library/ScriptAssemblies/BorderRepair.Tests.EditMode.dll" runstate="Runnable" testcasecount="65" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.422749" total="65" passed="65" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="21764" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1121" name="BorderRepair" fullname="BorderRepair" runstate="Runnable" testcasecount="65" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.420367" total="65" passed="65" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1122" name="Tests" fullname="BorderRepair.Tests" runstate="Runnable" testcasecount="65" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.419484" total="65" passed="65" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1042" name="DiagnosticScreenAssetTests" fullname="BorderRepair.Tests.DiagnosticScreenAssetTests" classname="BorderRepair.Tests.DiagnosticScreenAssetTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.087494" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1048" name="DefaultSceneDoesNotReferenceTheScreenPresets" fullname="BorderRepair.Tests.DiagnosticScreenAssetTests.DefaultSceneDoesNotReferenceTheScreenPresets" methodname="DefaultSceneDoesNotReferenceTheScreenPresets" classname="BorderRepair.Tests.DiagnosticScreenAssetTests" runstate="Runnable" seed="1310490599" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.004059" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1047" name="NarrativeTesterUsesPresetsAndScreenMeshFitsTheRect" fullname="BorderRepair.Tests.DiagnosticScreenAssetTests.NarrativeTesterUsesPresetsAndScreenMeshFitsTheRect" methodname="NarrativeTesterUsesPresetsAndScreenMeshFitsTheRect" classname="BorderRepair.Tests.DiagnosticScreenAssetTests" runstate="Runnable" seed="1712661808" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.072683" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1043" name="ShaderCompilesWithoutErrors" fullname="BorderRepair.Tests.DiagnosticScreenAssetTests.ShaderCompilesWithoutErrors" methodname="ShaderCompilesWithoutErrors" classname="BorderRepair.Tests.DiagnosticScreenAssetTests" runstate="Runnable" seed="1686660708" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.002568" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1045" name="ShaderUsesOnlyObjectUvNotScreenCoordinates" fullname="BorderRepair.Tests.DiagnosticScreenAssetTests.ShaderUsesOnlyObjectUvNotScreenCoordinates" methodname="ShaderUsesOnlyObjectUvNotScreenCoordinates" classname="BorderRepair.Tests.DiagnosticScreenAssetTests" runstate="Runnable" seed="165607950" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001021" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1046" name="ThreePresetsHaveDistinctStateColors" fullname="BorderRepair.Tests.DiagnosticScreenAssetTests.ThreePresetsHaveDistinctStateColors" methodname="ThreePresetsHaveDistinctStateColors" classname="BorderRepair.Tests.DiagnosticScreenAssetTests" runstate="Runnable" seed="1379411616" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.003245" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1044" name="UrpSubshaderHasForwardAndDepthPasses" fullname="BorderRepair.Tests.DiagnosticScreenAssetTests.UrpSubshaderHasForwardAndDepthPasses" methodname="UrpSubshaderHasForwardAndDepthPasses" classname="BorderRepair.Tests.DiagnosticScreenAssetTests" runstate="Runnable" seed="729289857" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.002307" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1049" name="NarrativeCaseTests" fullname="BorderRepair.Tests.NarrativeCaseTests" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.044974" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1059" name="CluesUnlockOnlyThroughSpecificActionsInOrder" fullname="BorderRepair.Tests.NarrativeCaseTests.CluesUnlockOnlyThroughSpecificActionsInOrder" methodname="CluesUnlockOnlyThroughSpecificActionsInOrder" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="1498997339" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.006946" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1051" name="DefaultShiftIsUnchanged" fullname="BorderRepair.Tests.NarrativeCaseTests.DefaultShiftIsUnchanged" methodname="DefaultShiftIsUnchanged" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="26251873" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.016026" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1056" name="DisassemblyOrderIsEnforced" fullname="BorderRepair.Tests.NarrativeCaseTests.DisassemblyOrderIsEnforced" methodname="DisassemblyOrderIsEnforced" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="539121940" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001305" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1063" name="EachEndingCompletesWithoutRightOrWrong" fullname="BorderRepair.Tests.NarrativeCaseTests.EachEndingCompletesWithoutRightOrWrong" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.003167" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1060" name="EachEndingCompletesWithoutRightOrWrong(&quot;restore_limits&quot;)" fullname="BorderRepair.Tests.NarrativeCaseTests.EachEndingCompletesWithoutRightOrWrong(&quot;restore_limits&quot;)" methodname="EachEndingCompletesWithoutRightOrWrong" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="941786620" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.002180" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1061" name="EachEndingCompletesWithoutRightOrWrong(&quot;keep_params&quot;)" fullname="BorderRepair.Tests.NarrativeCaseTests.EachEndingCompletesWithoutRightOrWrong(&quot;keep_params&quot;)" methodname="EachEndingCompletesWithoutRightOrWrong" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="1286213380" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000219" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1062" name="EachEndingCompletesWithoutRightOrWrong(&quot;give_log&quot;)" fullname="BorderRepair.Tests.NarrativeCaseTests.EachEndingCompletesWithoutRightOrWrong(&quot;give_log&quot;)" methodname="EachEndingCompletesWithoutRightOrWrong" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="1243686514" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000180" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1055" name="IntakeTextDoesNotRevealTheTruth" fullname="BorderRepair.Tests.NarrativeCaseTests.IntakeTextDoesNotRevealTheTruth" methodname="IntakeTextDoesNotRevealTheTruth" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="581339992" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000386" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1057" name="InternalPartsCannotBeScannedBeforeOpening" fullname="BorderRepair.Tests.NarrativeCaseTests.InternalPartsCannotBeScannedBeforeOpening" methodname="InternalPartsCannotBeScannedBeforeOpening" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="1681083525" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000273" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1065" name="JudgedCaseRejectsEndingsAndStillUsesDiagnosis" fullname="BorderRepair.Tests.NarrativeCaseTests.JudgedCaseRejectsEndingsAndStillUsesDiagnosis" methodname="JudgedCaseRejectsEndingsAndStillUsesDiagnosis" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="1985029538" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001790" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1067" name="JudgedValidationIsUnchangedForOldCases" fullname="BorderRepair.Tests.NarrativeCaseTests.JudgedValidationIsUnchangedForOldCases" methodname="JudgedValidationIsUnchangedForOldCases" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="1108157971" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001378" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1058" name="ModuleIsTestedBeforeItCanBeReplaced" fullname="BorderRepair.Tests.NarrativeCaseTests.ModuleIsTestedBeforeItCanBeReplaced" methodname="ModuleIsTestedBeforeItCanBeReplaced" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="465994507" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000330" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1050" name="NarrativeAssetsValidateWithStableIds" fullname="BorderRepair.Tests.NarrativeCaseTests.NarrativeAssetsValidateWithStableIds" methodname="NarrativeAssetsValidateWithStableIds" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="546806652" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.002393" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1054" name="PrefabHasPartsAndSnapTargetsForEverySteppedPoint" fullname="BorderRepair.Tests.NarrativeCaseTests.PrefabHasPartsAndSnapTargetsForEverySteppedPoint" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.005116" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1052" name="PrefabHasPartsAndSnapTargetsForEverySteppedPoint(&quot;Assets/BorderRepair/Prefabs/Items/Narrative/Item_WorkerProsthetic_Placeholder.prefab&quot;)" fullname="BorderRepair.Tests.NarrativeCaseTests.PrefabHasPartsAndSnapTargetsForEverySteppedPoint(&quot;Assets/BorderRepair/Prefabs/Items/Narrative/Item_WorkerProsthetic_Placeholder.prefab&quot;)" methodname="PrefabHasPartsAndSnapTargetsForEverySteppedPoint" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="462803644" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.003852" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1053" name="PrefabHasPartsAndSnapTargetsForEverySteppedPoint(&quot;Assets/BorderRepair/Prefabs/Items/Narrative/Item_WorkerProsthetic_v2.prefab&quot;)" fullname="BorderRepair.Tests.NarrativeCaseTests.PrefabHasPartsAndSnapTargetsForEverySteppedPoint(&quot;Assets/BorderRepair/Prefabs/Items/Narrative/Item_WorkerProsthetic_v2.prefab&quot;)" methodname="PrefabHasPartsAndSnapTargetsForEverySteppedPoint" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="557411012" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000237" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1066" name="SummaryCountsExcludeNarrativeCase" fullname="BorderRepair.Tests.NarrativeCaseTests.SummaryCountsExcludeNarrativeCase" methodname="SummaryCountsExcludeNarrativeCase" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="234112503" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000540" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1064" name="UnknownEndingIsRejected" fullname="BorderRepair.Tests.NarrativeCaseTests.UnknownEndingIsRejected" methodname="UnknownEndingIsRejected" classname="BorderRepair.Tests.NarrativeCaseTests" runstate="Runnable" seed="1309215780" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000278" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1068" name="PrototypeAssetTests" fullname="BorderRepair.Tests.PrototypeAssetTests" classname="BorderRepair.Tests.PrototypeAssetTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.003082" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1071" name="CaseInspectionPointsExistOnPrefabsWithColliders" fullname="BorderRepair.Tests.PrototypeAssetTests.CaseInspectionPointsExistOnPrefabsWithColliders" methodname="CaseInspectionPointsExistOnPrefabsWithColliders" classname="BorderRepair.Tests.PrototypeAssetTests" runstate="Runnable" seed="1203409327" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000791" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1070" name="EachCaseCoversADifferentJudgement" fullname="BorderRepair.Tests.PrototypeAssetTests.EachCaseCoversADifferentJudgement" methodname="EachCaseCoversADifferentJudgement" classname="BorderRepair.Tests.PrototypeAssetTests" runstate="Runnable" seed="1038921138" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000545" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1072" name="PrototypeSceneIsInBuildSettings" fullname="BorderRepair.Tests.PrototypeAssetTests.PrototypeSceneIsInBuildSettings" methodname="PrototypeSceneIsInBuildSettings" classname="BorderRepair.Tests.PrototypeAssetTests" runstate="Runnable" seed="823737970" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000574" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1069" name="ShiftHasThreeValidCases" fullname="BorderRepair.Tests.PrototypeAssetTests.ShiftHasThreeValidCases" methodname="ShiftHasThreeValidCases" classname="BorderRepair.Tests.PrototypeAssetTests" runstate="Runnable" seed="24579162" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000330" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1073" name="RepairSessionTests" fullname="BorderRepair.Tests.RepairSessionTests" classname="BorderRepair.Tests.RepairSessionTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.006063" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1075" name="CannotSkipSteps" fullname="BorderRepair.Tests.RepairSessionTests.CannotSkipSteps" methodname="CannotSkipSteps" classname="BorderRepair.Tests.RepairSessionTests" runstate="Runnable" seed="1195776114" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001373" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1079" name="FullShiftReachesSummaryAndRestartResets" fullname="BorderRepair.Tests.RepairSessionTests.FullShiftReachesSummaryAndRestartResets" methodname="FullShiftReachesSummaryAndRestartResets" classname="BorderRepair.Tests.RepairSessionTests" runstate="Runnable" seed="1441916" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001365" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1076" name="ScanRequiresScanModeAndDiagnosisRequiresAllKeyFindings" fullname="BorderRepair.Tests.RepairSessionTests.ScanRequiresScanModeAndDiagnosisRequiresAllKeyFindings" methodname="ScanRequiresScanModeAndDiagnosisRequiresAllKeyFindings" classname="BorderRepair.Tests.RepairSessionTests" runstate="Runnable" seed="353220656" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000439" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1074" name="StartsInIntakeWithFirstCase" fullname="BorderRepair.Tests.RepairSessionTests.StartsInIntakeWithFirstCase" methodname="StartsInIntakeWithFirstCase" classname="BorderRepair.Tests.RepairSessionTests" runstate="Runnable" seed="36833722" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000237" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1080" name="ValidateDetectsBrokenCaseData" fullname="BorderRepair.Tests.RepairSessionTests.ValidateDetectsBrokenCaseData" methodname="ValidateDetectsBrokenCaseData" classname="BorderRepair.Tests.RepairSessionTests" runstate="Runnable" seed="1885046746" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000548" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1078" name="WrongDecisionStillEndsCase" fullname="BorderRepair.Tests.RepairSessionTests.WrongDecisionStillEndsCase" methodname="WrongDecisionStillEndsCase" classname="BorderRepair.Tests.RepairSessionTests" runstate="Runnable" seed="1236103690" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000534" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1077" name="WrongDiagnosisGivesFeedbackAndStays" fullname="BorderRepair.Tests.RepairSessionTests.WrongDiagnosisGivesFeedbackAndStays" methodname="WrongDiagnosisGivesFeedbackAndStays" classname="BorderRepair.Tests.RepairSessionTests" runstate="Runnable" seed="1307493245" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000420" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1081" name="ShaderLabAssetTests" fullname="BorderRepair.Tests.ShaderLabAssetTests" classname="BorderRepair.Tests.ShaderLabAssetTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.044064" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1087" name="FormalPrefabsDoNotReferenceLabMaterials" fullname="BorderRepair.Tests.ShaderLabAssetTests.FormalPrefabsDoNotReferenceLabMaterials" methodname="FormalPrefabsDoNotReferenceLabMaterials" classname="BorderRepair.Tests.ShaderLabAssetTests" runstate="Runnable" seed="2104132432" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.011765" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1086" name="OverlayDoesNotCastShadowsOrWriteDepth" fullname="BorderRepair.Tests.ShaderLabAssetTests.OverlayDoesNotCastShadowsOrWriteDepth" methodname="OverlayDoesNotCastShadowsOrWriteDepth" classname="BorderRepair.Tests.ShaderLabAssetTests" runstate="Runnable" seed="841519048" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.002146" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1090" name="PlayableScenesDoNotEnableDiagnosticOverlay" fullname="BorderRepair.Tests.ShaderLabAssetTests.PlayableScenesDoNotEnableDiagnosticOverlay" classname="BorderRepair.Tests.ShaderLabAssetTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.021728" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1088" name="PlayableScenesDoNotEnableDiagnosticOverlay(&quot;Assets/BorderRepair/Scenes/RepairStation_Prototype.unity&quot;)" fullname="BorderRepair.Tests.ShaderLabAssetTests.PlayableScenesDoNotEnableDiagnosticOverlay(&quot;Assets/BorderRepair/Scenes/RepairStation_Prototype.unity&quot;)" methodname="PlayableScenesDoNotEnableDiagnosticOverlay" classname="BorderRepair.Tests.ShaderLabAssetTests" runstate="Runnable" seed="1755434413" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.010584" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1089" name="PlayableScenesDoNotEnableDiagnosticOverlay(&quot;Assets/BorderRepair/Scenes/Narrative_WorkerHand.unity&quot;)" fullname="BorderRepair.Tests.ShaderLabAssetTests.PlayableScenesDoNotEnableDiagnosticOverlay(&quot;Assets/BorderRepair/Scenes/Narrative_WorkerHand.unity&quot;)" methodname="PlayableScenesDoNotEnableDiagnosticOverlay" classname="BorderRepair.Tests.ShaderLabAssetTests" runstate="Runnable" seed="1251767056" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.010363" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1084" name="ShaderCompilesWithoutErrors" fullname="BorderRepair.Tests.ShaderLabAssetTests.ShaderCompilesWithoutErrors" classname="BorderRepair.Tests.ShaderLabAssetTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001854" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1082" name="ShaderCompilesWithoutErrors(&quot;BorderRepair/WornSurface&quot;)" fullname="BorderRepair.Tests.ShaderLabAssetTests.ShaderCompilesWithoutErrors(&quot;BorderRepair/WornSurface&quot;)" methodname="ShaderCompilesWithoutErrors" classname="BorderRepair.Tests.ShaderLabAssetTests" runstate="Runnable" seed="519355228" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000905" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1083" name="ShaderCompilesWithoutErrors(&quot;BorderRepair/DiagnosticOverlay&quot;)" fullname="BorderRepair.Tests.ShaderLabAssetTests.ShaderCompilesWithoutErrors(&quot;BorderRepair/DiagnosticOverlay&quot;)" methodname="ShaderCompilesWithoutErrors" classname="BorderRepair.Tests.ShaderLabAssetTests" runstate="Runnable" seed="834931955" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000288" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1085" name="WornMaterialsCastShadowsAndHaveDepthPasses" fullname="BorderRepair.Tests.ShaderLabAssetTests.WornMaterialsCastShadowsAndHaveDepthPasses" methodname="WornMaterialsCastShadowsAndHaveDepthPasses" classname="BorderRepair.Tests.ShaderLabAssetTests" runstate="Runnable" seed="1885008028" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.004948" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1091" name="Unit07DockEditModeTests" fullname="BorderRepair.Tests.Unit07DockEditModeTests" classname="BorderRepair.Tests.Unit07DockEditModeTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.066382" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1098" name="ClampOpensAwayFromRailWithUnityAngleOnly" fullname="BorderRepair.Tests.Unit07DockEditModeTests.ClampOpensAwayFromRailWithUnityAngleOnly" methodname="ClampOpensAwayFromRailWithUnityAngleOnly" classname="BorderRepair.Tests.Unit07DockEditModeTests" runstate="Runnable" seed="252999236" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.022890" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1096" name="DockCollidersKeepRemovalCorridorsClear" fullname="BorderRepair.Tests.Unit07DockEditModeTests.DockCollidersKeepRemovalCorridorsClear" methodname="DockCollidersKeepRemovalCorridorsClear" classname="BorderRepair.Tests.Unit07DockEditModeTests" runstate="Runnable" seed="1906570760" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.006001" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1092" name="DockModelImportedWithSevenUrpMaterials" fullname="BorderRepair.Tests.Unit07DockEditModeTests.DockModelImportedWithSevenUrpMaterials" methodname="DockModelImportedWithSevenUrpMaterials" classname="BorderRepair.Tests.Unit07DockEditModeTests" runstate="Runnable" seed="1804624886" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.015491" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1093" name="PlaceholderIsNotImported" fullname="BorderRepair.Tests.Unit07DockEditModeTests.PlaceholderIsNotImported" methodname="PlaceholderIsNotImported" classname="BorderRepair.Tests.Unit07DockEditModeTests" runstate="Runnable" seed="126679887" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.004060" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1095" name="ProxiesOnlyOnTheListedParts" fullname="BorderRepair.Tests.Unit07DockEditModeTests.ProxiesOnlyOnTheListedParts" methodname="ProxiesOnlyOnTheListedParts" classname="BorderRepair.Tests.Unit07DockEditModeTests" runstate="Runnable" seed="75811061" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001534" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1097" name="RobotRootAlignsWithAnchorAndPadsSitUnderHardpoints" fullname="BorderRepair.Tests.Unit07DockEditModeTests.RobotRootAlignsWithAnchorAndPadsSitUnderHardpoints" methodname="RobotRootAlignsWithAnchorAndPadsSitUnderHardpoints" classname="BorderRepair.Tests.Unit07DockEditModeTests" runstate="Runnable" seed="1617397862" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.007078" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1099" name="RotorAxesMatchIdleHoverClip" fullname="BorderRepair.Tests.Unit07DockEditModeTests.RotorAxesMatchIdleHoverClip" methodname="RotorAxesMatchIdleHoverClip" classname="BorderRepair.Tests.Unit07DockEditModeTests" runstate="Runnable" seed="608217795" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.005709" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1094" name="UnityAnglesComeFromFbxProperties" fullname="BorderRepair.Tests.Unit07DockEditModeTests.UnityAnglesComeFromFbxProperties" methodname="UnityAnglesComeFromFbxProperties" classname="BorderRepair.Tests.Unit07DockEditModeTests" runstate="Runnable" seed="265392141" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000636" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1100" name="WorkerHandPolishAssetTests" fullname="BorderRepair.Tests.WorkerHandPolishAssetTests" classname="BorderRepair.Tests.WorkerHandPolishAssetTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.131366" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1101" name="DefaultSceneHasNoPolishComponents" fullname="BorderRepair.Tests.WorkerHandPolishAssetTests.DefaultSceneHasNoPolishComponents" methodname="DefaultSceneHasNoPolishComponents" classname="BorderRepair.Tests.WorkerHandPolishAssetTests" runstate="Runnable" seed="1398179955" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.044352" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1105" name="EverySoundCueIsNonEmptyAndShort" fullname="BorderRepair.Tests.WorkerHandPolishAssetTests.EverySoundCueIsNonEmptyAndShort" methodname="EverySoundCueIsNonEmptyAndShort" classname="BorderRepair.Tests.WorkerHandPolishAssetTests" runstate="Runnable" seed="1462885687" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.027741" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1106" name="MainOperationCuesDifferMeasurably" fullname="BorderRepair.Tests.WorkerHandPolishAssetTests.MainOperationCuesDifferMeasurably" methodname="MainOperationCuesDifferMeasurably" classname="BorderRepair.Tests.WorkerHandPolishAssetTests" runstate="Runnable" seed="1284720406" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.014471" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1102" name="NarrativeSceneHasEveryPolishComponent" fullname="BorderRepair.Tests.WorkerHandPolishAssetTests.NarrativeSceneHasEveryPolishComponent" methodname="NarrativeSceneHasEveryPolishComponent" classname="BorderRepair.Tests.WorkerHandPolishAssetTests" runstate="Runnable" seed="1827415463" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.039980" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1104" name="PrefabKeepsPlaceholderMaterials" fullname="BorderRepair.Tests.WorkerHandPolishAssetTests.PrefabKeepsPlaceholderMaterials" methodname="PrefabKeepsPlaceholderMaterials" classname="BorderRepair.Tests.WorkerHandPolishAssetTests" runstate="Runnable" seed="1433419447" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000620" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1103" name="SealHasLitLabelQuadsForIntactAndTorn" fullname="BorderRepair.Tests.WorkerHandPolishAssetTests.SealHasLitLabelQuadsForIntactAndTorn" methodname="SealHasLitLabelQuadsForIntactAndTorn" classname="BorderRepair.Tests.WorkerHandPolishAssetTests" runstate="Runnable" seed="1424663634" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.002022" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1107" name="WorkerHandV2AssetTests" fullname="BorderRepair.Tests.WorkerHandV2AssetTests" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.034475" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1109" name="CaseUsesV2WithUnchangedStepsAndText" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.CaseUsesV2WithUnchangedStepsAndText" methodname="CaseUsesV2WithUnchangedStepsAndText" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="1747767029" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000806" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1119" name="DefaultSceneHasNoToolAnimation" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.DefaultSceneHasNoToolAnimation" methodname="DefaultSceneHasNoToolAnimation" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="1148012247" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.010916" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1115" name="EveryAnimatedStepHasAnAnchorOnItsPart" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.EveryAnimatedStepHasAnAnchorOnItsPart" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.003414" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1110" name="EveryAnimatedStepHasAnAnchorOnItsPart(&quot;fastener_a&quot;,Screwdriver)" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.EveryAnimatedStepHasAnAnchorOnItsPart(&quot;fastener_a&quot;,Screwdriver)" methodname="EveryAnimatedStepHasAnAnchorOnItsPart" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="1144909532" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.002194" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1111" name="EveryAnimatedStepHasAnAnchorOnItsPart(&quot;fastener_b&quot;,Screwdriver)" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.EveryAnimatedStepHasAnAnchorOnItsPart(&quot;fastener_b&quot;,Screwdriver)" methodname="EveryAnimatedStepHasAnAnchorOnItsPart" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="304994692" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000164" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1112" name="EveryAnimatedStepHasAnAnchorOnItsPart(&quot;shell&quot;,Pry)" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.EveryAnimatedStepHasAnAnchorOnItsPart(&quot;shell&quot;,Pry)" methodname="EveryAnimatedStepHasAnAnchorOnItsPart" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="1775753904" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000100" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1113" name="EveryAnimatedStepHasAnAnchorOnItsPart(&quot;force_limiter&quot;,Probe)" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.EveryAnimatedStepHasAnAnchorOnItsPart(&quot;force_limiter&quot;,Probe)" methodname="EveryAnimatedStepHasAnAnchorOnItsPart" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="1447976963" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000108" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1114" name="EveryAnimatedStepHasAnAnchorOnItsPart(&quot;data_port&quot;,Plug)" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.EveryAnimatedStepHasAnAnchorOnItsPart(&quot;data_port&quot;,Plug)" methodname="EveryAnimatedStepHasAnAnchorOnItsPart" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="265191137" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000086" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1116" name="SnapTargetsLieOnTheTray" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.SnapTargetsLieOnTheTray" methodname="SnapTargetsLieOnTheTray" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="1280483329" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.000707" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1118" name="ToolRigsHaveTipAtOriginAndNoShadows" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.ToolRigsHaveTipAtOriginAndNoShadows" methodname="ToolRigsHaveTipAtOriginAndNoShadows" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="1439320776" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.004922" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1108" name="V2KeepsPointIdsHierarchyAndColliders" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.V2KeepsPointIdsHierarchyAndColliders" methodname="V2KeepsPointIdsHierarchyAndColliders" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="1971281516" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001184" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1117" name="V2UsesUrpLitMaterialsWithTextures" fullname="BorderRepair.Tests.WorkerHandV2AssetTests.V2UsesUrpLitMaterialsWithTextures" methodname="V2UsesUrpLitMaterialsWithTextures" classname="BorderRepair.Tests.WorkerHandV2AssetTests" runstate="Runnable" seed="1895807781" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.010834" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1134" name="BorderRepair.TwoNight.Tests.EditMode.dll" fullname="C:/Users/Administrator/Documents/Codex/clinic-restore/Library/ScriptAssemblies/BorderRepair.TwoNight.Tests.EditMode.dll" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.092892" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="21764" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1135" name="BorderRepair" fullname="BorderRepair" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.092582" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1136" name="TwoNight" fullname="BorderRepair.TwoNight" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.092400" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1137" name="Tests" fullname="BorderRepair.TwoNight.Tests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.092222" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1123" name="TwoNightCoreTests" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.091949" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1130" name="Delete_RemovesOnlyThisSlicesCheckpoint" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests.Delete_RemovesOnlyThisSlicesCheckpoint" methodname="Delete_RemovesOnlyThisSlicesCheckpoint" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" seed="1195356447" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.019391" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1124" name="Ledger_CorrectSettlement_Is800_AndOnlyOnce" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests.Ledger_CorrectSettlement_Is800_AndOnlyOnce" methodname="Ledger_CorrectSettlement_Is800_AndOnlyOnce" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" seed="349687494" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001970" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1125" name="Ledger_WrongDecision_PostsNothing_AndCanStillSettleLater" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests.Ledger_WrongDecision_PostsNothing_AndCanStillSettleLater" methodname="Ledger_WrongDecision_PostsNothing_AndCanStillSettleLater" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" seed="74195605" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001292" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1129" name="Load_MissingCorruptVersionDuplicate_AreHandled" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests.Load_MissingCorruptVersionDuplicate_AreHandled" methodname="Load_MissingCorruptVersionDuplicate_AreHandled" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" seed="615133309" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.028478" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1132" name="MeshClearance_SegmentCrossing_IsTwoSided_AndNoMirrorFalsePositive" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests.MeshClearance_SegmentCrossing_IsTwoSided_AndNoMirrorFalsePositive" methodname="MeshClearance_SegmentCrossing_IsTwoSided_AndNoMirrorFalsePositive" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" seed="378899303" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.012464" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1126" name="Phases_OutOfOrder_AreRejected_WithoutChangingState" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests.Phases_OutOfOrder_AreRejected_WithoutChangingState" methodname="Phases_OutOfOrder_AreRejected_WithoutChangingState" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" seed="1328834255" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.001948" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1127" name="Save_OnlyAtSafeNightEnd" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests.Save_OnlyAtSafeNightEnd" methodname="Save_OnlyAtSafeNightEnd" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" seed="1763383396" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.003294" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1128" name="Save_RoundTrip_AndRepeatedContinue_DoNotAddMoney" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests.Save_RoundTrip_AndRepeatedContinue_DoNotAddMoney" methodname="Save_RoundTrip_AndRepeatedContinue_DoNotAddMoney" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" seed="178506283" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.009556" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1131" name="Save_WriteFailure_ReturnsReadableMessage" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests.Save_WriteFailure_ReturnsReadableMessage" methodname="Save_WriteFailure_ReturnsReadableMessage" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" seed="913620084" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.007221" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[[TwoNight] 保存失败：当文件已存在时，无法创建该文件。（存档位置：C:\Users\ADMINI~1\AppData\Local\Temp\TwoNightTests_8bb92e0a70a14e8d97f9c0d480006e35\checkpoint.json）
+]]></output>
+              </test-case>
+              <test-case id="1133" name="Tooltip_Placement_AvoidsButtonsAndEdges" fullname="BorderRepair.TwoNight.Tests.TwoNightCoreTests.Tooltip_Placement_AvoidsButtonsAndEdges" methodname="Tooltip_Placement_AvoidsButtonsAndEdges" classname="BorderRepair.TwoNight.Tests.TwoNightCoreTests" runstate="Runnable" seed="164990357" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.004144" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1155" name="WorkbenchArea.Tests.EditMode.dll" fullname="C:/Users/Administrator/Documents/Codex/clinic-restore/Library/ScriptAssemblies/WorkbenchArea.Tests.EditMode.dll" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:08Z" duration="0.837936" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="21764" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1156" name="WorkbenchArea" fullname="WorkbenchArea" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:08Z" duration="0.837483" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1157" name="Tests" fullname="WorkbenchArea.Tests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:08Z" duration="0.837240" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1142" name="WorkbenchAreaAssetTests" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:08Z" duration="0.836961" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1145" name="Bench_TopIs90cm" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Bench_TopIs90cm" methodname="Bench_TopIs90cm" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="1065627358" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.045498" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1154" name="CoverParkingBox_HasPlacementMargin" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.CoverParkingBox_HasPlacementMargin" methodname="CoverParkingBox_HasPlacementMargin" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="1976275630" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.040149" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1143" name="Import_CountsMatchBlenderStats" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Import_CountsMatchBlenderStats" methodname="Import_CountsMatchBlenderStats" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="476507655" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.053905" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1144" name="Import_EveryObjectHasRoleAndKeyPropsSurvive" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Import_EveryObjectHasRoleAndKeyPropsSurvive" methodname="Import_EveryObjectHasRoleAndKeyPropsSurvive" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="2132703230" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.039788" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1153" name="Placeholder_AllPartsClearlyLabelled" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Placeholder_AllPartsClearlyLabelled" methodname="Placeholder_AllPartsClearlyLabelled" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="1575849772" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.034451" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1148" name="Prefab_ScrewZonesDoNotOverlap" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Prefab_ScrewZonesDoNotOverlap" methodname="Prefab_ScrewZonesDoNotOverlap" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="92097513" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.032500" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1147" name="Prefab_StaticCollisionAndInspectZones" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Prefab_StaticCollisionAndInspectZones" methodname="Prefab_StaticCollisionAndInspectZones" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="605126169" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.035667" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1146" name="Red_OnlyOnFaultIndicators" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Red_OnlyOnFaultIndicators" methodname="Red_OnlyOnFaultIndicators" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="790550491" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:07Z" duration="0.037861" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1150" name="Scene_HasTwoFixedCamerasLightsAndPlaceholderDemo" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Scene_HasTwoFixedCamerasLightsAndPlaceholderDemo" methodname="Scene_HasTwoFixedCamerasLightsAndPlaceholderDemo" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="585229456" result="Passed" start-time="2026-10-08 07:50:07Z" end-time="2026-10-08 07:50:08Z" duration="0.217703" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1151" name="Scene_WarmKeyLightDominatesAndTonemapped" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Scene_WarmKeyLightDominatesAndTonemapped" methodname="Scene_WarmKeyLightDominatesAndTonemapped" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="842531608" result="Passed" start-time="2026-10-08 07:50:08Z" end-time="2026-10-08 07:50:08Z" duration="0.218814" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1149" name="Space_CentralWorkAreaAndHandZonesClear" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Space_CentralWorkAreaAndHandZonesClear" methodname="Space_CentralWorkAreaAndHandZonesClear" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="1223288878" result="Passed" start-time="2026-10-08 07:50:08Z" end-time="2026-10-08 07:50:08Z" duration="0.041864" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1152" name="Toolbox_LowerTierExplicitlyBlockedByUpperTier" fullname="WorkbenchArea.Tests.WorkbenchAreaAssetTests.Toolbox_LowerTierExplicitlyBlockedByUpperTier" methodname="Toolbox_LowerTierExplicitlyBlockedByUpperTier" classname="WorkbenchArea.Tests.WorkbenchAreaAssetTests" runstate="Runnable" seed="27351485" result="Passed" start-time="2026-10-08 07:50:08Z" end-time="2026-10-08 07:50:08Z" duration="0.036185" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: C:/Users/Administrator/AppData/LocalLow/DefaultCompany/BorderRepairStation\TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

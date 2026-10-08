@@ -1,0 +1,47 @@
+{
+    "timestampUtc": "2026-10-08T07:25:47.2367514Z",
+    "scene": "Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity",
+    "baselineSource": "Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity",
+    "benchPosition": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 2.3499999046325685
+    },
+    "dockPosition": {
+        "x": -2.7300000190734865,
+        "y": -1.0666681669608668e-15,
+        "z": 2.4925782327045455e-8
+    },
+    "robotSeat": {
+        "x": -2.7300002574920656,
+        "y": 0.7200000286102295,
+        "z": 2.4925782327045455e-8
+    },
+    "receive": {
+        "x": 1.840000033378601,
+        "y": 1.065999984741211,
+        "z": -0.6000000238418579
+    },
+    "deliver": {
+        "x": 1.840000033378601,
+        "y": 1.065999984741211,
+        "z": 0.6000000238418579
+    },
+    "environmentRenderers": 161,
+    "hiddenLegacyObjects": 23,
+    "migratedRoots": [
+        "WorkbenchArea",
+        "Unit07ServiceDock",
+        "UNIT07_RobotV4_DockReady",
+        "FO_NewBearing_L (故障美术包：新轴承)",
+        "FO_Drop_Mat",
+        "FO_Drop_PartsTray",
+        "Bench_WorkLamp_Spot (warm)",
+        "Dock_ServiceLight (warm-neutral)"
+    ],
+    "limitations": [
+        "Placement/build report only; dynamic paths and full two-night flow require subsequent PlayMode regression.",
+        "Customer items still use the existing prototype inspection/transfer mechanism.",
+        "No human mouse or VR walk-through performed by this builder."
+    ]
+}

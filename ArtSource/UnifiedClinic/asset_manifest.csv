@@ -1,0 +1,151 @@
+name,module,role,material,triangles,pivot_unity,bounds_min_unity,bounds_max_unity,size_unity,parent,props
+Arm_Cable,UC_MonitorArm,animated_child,M_UC_Rubber,36,1.0 1.45 3.27,0.2921 1.3891 2.9721,1.0062 1.5577 3.2945,0.7142 0.1686 0.3224,Arm_Link1,uc_note=cosmetic; follows Link1 only (skin it or hide while animating)
+Arm_Carriage,UC_MonitorArm,animated,M_UC_DarkSteel,40,1.0 1.45 3.27,0.95 1.36 3.225,1.05 1.54 3.36,0.1 0.18 0.135,WB_MonitorArm,"uc_anim=slide; uc_slide_axis_unity_world=[0.0, 1.0, 0.0]; uc_note=height adjust on the rail; uc_range=[-0.25, 0.25]"
+Arm_Head,UC_MonitorArm,animated,M_UC_DarkSteel,68,0.3 1.45 3.2,0.22 1.348 3.148,0.38 1.48 3.23,0.16 0.132 0.082,Arm_Link2,"uc_anim=rotate; uc_hinge_axis_unity_world=[0.0, 1.0, 0.0]; uc_hinge_pivot_unity=[0.3, 1.45, 3.2]; uc_range=[-54.0, 76.0]"
+Arm_Link1,UC_MonitorArm,animated,M_UC_Ivory,40,1.0 1.45 3.27,0.71 1.405 2.94,1.0265 1.495 3.2929,0.3165 0.09 0.3529,Arm_Carriage,"uc_anim=rotate; uc_hinge_axis_unity_world=[0.0, 1.0, 0.0]; uc_hinge_pivot_unity=[1.0, 1.45, 3.27]; uc_range=[-98.0, 8.0]"
+Arm_Link2,UC_MonitorArm,animated,M_UC_Ivory,68,0.75 1.45 2.98,0.265 1.475 2.945,0.785 1.535 3.235,0.52 0.06 0.29,Arm_Link1,"uc_anim=rotate; uc_hinge_axis_unity_world=[0.0, 1.0, 0.0]; uc_hinge_pivot_unity=[0.75, 1.45, 2.98]; uc_range=[-170.0, 18.0]"
+Arm_Monitor,UC_MonitorArm,animated,M_UC_Ivory,36,0.3 1.37 3.17,0.1 1.21 2.97,0.5 1.51 3.17,0.4 0.3 0.2,Arm_Head,"uc_anim=rotate; uc_hinge_axis_unity_world=[1.0, 0.0, 0.0]; uc_hinge_pivot_unity=[0.3, 1.37, 3.17]; uc_note=screen faces -Z (toward the player at the bench) in the default pose; uc_range=[-44.0, 44.0]"
+Arm_Monitor_Screen,UC_MonitorArm,animated_child,M_UC_Screen,12,0.3 1.37 3.17,0.14 1.24 2.958,0.46 1.48 2.97,0.32 0.24 0.012,Arm_Monitor,
+Bed_Base,UC_Surgery,static,M_UC_DarkSteel,136,-0.1 0.0 -0.2,-0.43 0.0 -1.15,0.23 0.7 0.75,0.66 0.7 1.9,UC_Surgery,uc_note=static surgery bed base
+Bed_Pads,UC_Surgery,static,M_UC_Vinyl,60,-0.1 0.74 -0.2,-0.4 0.74 -1.13,0.2 0.9 0.73,0.6 0.16 1.86,UC_Surgery,
+Bed_Rails,UC_Surgery,static,M_UC_Steel,320,-0.1 0.7 -0.2,-0.465 0.7 -1.16,0.265 1.0173 0.76,0.73 0.3173 1.92,UC_Surgery,
+Bed_Shell,UC_Surgery,static,M_UC_Ivory,84,-0.1 0.0 -0.2,-0.43 0.0 -1.15,0.23 0.74 0.75,0.66 0.74 1.9,UC_Surgery,
+Bed_Straps,UC_Surgery,static,M_UC_Rubber,72,-0.1 0.85 -0.2,-0.43 0.7 -0.78,0.23 0.856 -0.02,0.66 0.156 0.76,UC_Surgery,
+Ceiling_Beams,UC_Shell,ceiling,M_UC_DarkSteel,48,0.0 3.0 0.0,-3.2 2.84 -3.2,3.2 3.0 3.2,6.4 0.16 6.4,UC_Shell,
+Ceiling_Slab,UC_Shell,ceiling,M_UC_Wall,28,0.0 3.0 0.0,-3.6 3.0 -3.6,3.6 3.12 3.6,7.2 0.12 7.2,UC_Shell,
+Center_InstrumentCart,UC_Surgery,movable_prop,M_UC_Steel,188,-0.1 0.0 -1.6,-0.35 0.07 -1.79,0.2079 0.93 -1.41,0.5579 0.86 0.38,UC_Surgery,"uc_note=rolling cart; keep at bed foot, outside aisles"
+Clutter_Center_Cloth,UC_Clutter,clutter,M_UC_Cloth,60,0.0143 0.5 -1.2349,-0.2015 0.5 -1.7,0.23 0.879 -0.7698,0.4315 0.379 0.9302,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_Center_DarkSteel,UC_Clutter,clutter,M_UC_DarkSteel,36,-0.07 0.575 -1.58,-0.26 0.575 -1.71,0.12 0.93 -1.45,0.38 0.355 0.26,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_Center_Ivory,UC_Clutter,clutter,M_UC_Ivory,100,-0.1079 0.57 -1.595,-0.2657 0.57 -1.73,0.05 1.1 -1.46,0.3158 0.53 0.27,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_Center_Orange,UC_Clutter,clutter,M_UC_Orange,28,-0.08 0.9 -1.69,-0.105 0.9 -1.715,-0.055 1.004 -1.665,0.05 0.104 0.05,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_Center_Red,UC_Clutter,clutter,M_UC_Red,28,-0.25 0.9 -1.68,-0.285 0.9 -1.715,-0.215 1.06 -1.645,0.07 0.16 0.07,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_Center_Rubber,UC_Clutter,clutter,M_UC_Rubber,600,-0.1 0.0 -0.6602,-0.7847 0.0 -1.805,0.5847 2.95 0.4847,1.3694 2.95 2.2897,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_Center_Steel,UC_Clutter,clutter,M_UC_Steel,48,-0.0025 0.934 -1.535,-0.0859 0.934 -1.6009,0.0809 0.946 -1.4691,0.1669 0.012 0.1318,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_East_Cloth,UC_Clutter,clutter,M_UC_Cloth,36,1.95 0.95 0.9,1.7861 0.95 0.7398,2.1139 0.979 1.0602,0.3277 0.029 0.3203,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_East_DarkSteel,UC_Clutter,clutter,M_UC_DarkSteel,704,2.4024 0.005 0.6741,1.4248 0.005 -1.36,3.38 1.94 2.7082,1.9552 1.935 4.0682,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_East_Ivory,UC_Clutter,clutter,M_UC_Ivory,680,2.64 0.105 -0.124,1.91 0.105 -1.348,3.37 1.945 1.1,1.46 1.84 2.448,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_East_PaintGreen,UC_Clutter,clutter,M_UC_PaintGreen,154,2.64 0.0 -0.04,1.91 0.0 -1.35,3.37 1.945 1.27,1.46 1.945 2.62,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_East_Red,UC_Clutter,clutter,M_UC_Red,60,2.645 0.105 -0.27,1.98 0.105 -1.24,3.31 1.525 0.7,1.33 1.42 1.94,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_East_Rubber,UC_Clutter,clutter,M_UC_Rubber,36,1.7825 0.3121 0.1506,1.6104 0.3121 0.0415,1.9546 1.0573 0.2597,0.3442 0.7452 0.2181,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_East_Steel,UC_Clutter,clutter,M_UC_Steel,240,2.61 0.198 0.01,1.898 0.198 -1.16,3.322 1.476 1.18,1.424 1.278 2.34,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_North_DarkSteel,UC_Clutter,clutter,M_UC_DarkSteel,24,1.3 0.005 2.42,1.0596 0.005 2.1796,1.5404 0.295 2.6604,0.4808 0.29 0.4808,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_North_PaintGreen,UC_Clutter,clutter,M_UC_PaintGreen,12,-1.25 0.0 2.75,-1.4621 0.0 2.5379,-1.0379 0.34 2.9621,0.4243 0.34 0.4243,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_North_Red,UC_Clutter,clutter,M_UC_Red,12,1.3 0.0 2.42,1.0737 0.0 2.1937,1.5263 0.3 2.6463,0.4525 0.3 0.4525,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_North_Rubber,UC_Clutter,clutter,M_UC_Rubber,106,0.0 2.2467 3.3013,-1.3025 2.2467 3.2887,1.3025 2.4131 3.314,2.6051 0.1664 0.0253,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_North_Steel,UC_Clutter,clutter,M_UC_Steel,12,-1.3603 0.189 2.6397,-1.407 0.189 2.593,-1.3136 0.219 2.6864,0.0933 0.03 0.0933,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_South_Cloth,UC_Clutter,clutter,M_UC_Cloth,64,-1.1223 0.73 -3.295,-1.4146 0.73 -3.36,-0.83 1.68 -3.23,0.5846 0.95 0.13,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_South_DarkSteel,UC_Clutter,clutter,M_UC_DarkSteel,248,0.015 0.05 -3.155,-1.32 0.05 -3.4,1.35 1.82 -2.91,2.67 1.77 0.49,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_South_PaintGreen,UC_Clutter,clutter,M_UC_PaintGreen,36,-1.12 0.0 -3.1,-1.31 0.0 -3.2807,-0.93 0.44 -2.9193,0.38 0.44 0.3614,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_South_Red,UC_Clutter,clutter,M_UC_Red,28,-0.8 0.21 -3.31,-0.865 0.21 -3.375,-0.735 0.63 -3.245,0.13 0.42 0.13,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_West_DarkSteel,UC_Clutter,clutter,M_UC_DarkSteel,704,-2.2245 0.005 -0.0288,-3.01 0.005 -2.7516,-1.439 1.96 2.6941,1.571 1.955 5.4457,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_West_Ivory,UC_Clutter,clutter,M_UC_Ivory,628,-2.3402 0.105 -0.3359,-2.9692 0.105 -2.7577,-1.7112 1.965 2.086,1.258 1.86 4.8437,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_West_PaintGreen,UC_Clutter,clutter,M_UC_PaintGreen,60,-2.3485 0.0 -2.0559,-3.0 0.0 -2.7719,-1.6971 1.565 -1.34,1.3029 1.565 1.4319,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_West_Red,UC_Clutter,clutter,M_UC_Red,36,-2.3794 0.105 -0.1732,-2.7648 0.105 -2.4749,-1.994 1.565 2.1284,0.7707 1.46 4.6033,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_West_Rubber,UC_Clutter,clutter,M_UC_Rubber,422,-2.7478 0.0 0.6408,-3.3114 0.0 -1.007,-2.1841 2.1356 2.2886,1.1273 2.1356 3.2956,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Clutter_West_Steel,UC_Clutter,clutter,M_UC_Steel,84,-2.3518 0.186 -2.1171,-2.711 0.186 -2.4763,-1.9926 1.5 -1.7579,0.7184 1.314 0.7184,UC_Clutter,uc_note=non-interactive dressing merged by material; collision not required
+Corridor_Lamp,UC_Door,light_fixture,M_UC_LampWarm,12,0.0 2.4 -4.5,-0.3 2.4 -4.55,0.3 2.45 -4.45,0.6 0.05 0.1,UC_Door,
+Corridor_Stub,UC_Door,static,M_UC_Wall,48,0.0 0.0 -3.6,-0.95 0.0 -5.2,0.95 2.6 -3.7,1.9 2.6 1.5,UC_Door,
+Door_Button,UC_Door,interactive,M_UC_Red,28,0.865 1.3 -3.32,0.84 1.275 -3.3325,0.89 1.325 -3.3075,0.05 0.05 0.025,UC_Door,uc_note=door open/close button; press axis unity -Z
+Door_CautionPlate,UC_Door,decal,M_UC_Paper,12,-0.95 1.55 -3.377,-1.1 1.5125 -3.377,-0.8 1.5875 -3.374,0.3 0.075 0.003,UC_Door,
+Door_ControlPanel,UC_Door,static,M_UC_DarkSteel,12,0.865 1.1 -3.4,0.8 1.1 -3.4,0.93 1.45 -3.33,0.13 0.35 0.07,UC_Door,
+Door_Frame,UC_Door,static,M_UC_DarkSteel,48,0.0 0.0 -3.4,-0.8 0.0 -3.62,0.8 2.35 -3.32,1.6 2.35 0.3,UC_Door,uc_note=clear opening 1.20 x 2.20 m
+Door_FrameHazard,UC_Door,decal,M_UC_Hazard,24,0.0 0.0 -3.4,-0.74 0.05 -3.34,0.74 2.15 -3.336,1.48 2.1 0.004,UC_Door,
+Door_Lamp,UC_Door,status_light,M_UC_LampWarm,12,0.0 2.39 -3.315,-0.28 2.375 -3.32,0.28 2.405 -3.31,0.56 0.03 0.01,UC_Door,uc_note=amber lamp above entrance; program may toggle emission
+Door_LampHousing,UC_Door,static,M_UC_DarkSteel,12,0.0 2.37 -3.4,-0.32 2.37 -3.4,0.32 2.45 -3.32,0.64 0.08 0.08,UC_Door,
+Door_Leaf_L,UC_Door,animated,M_UC_DarkSteel,24,-0.945 0.0 -3.66,-1.26 0.01 -3.69,-0.63 2.25 -3.62,0.63 2.24 0.07,UC_Door,"uc_anim=slide; uc_slide_axis_unity_world=[-1.0, 0.0, 0.0]; uc_state_default=open; uc_close_offset_unity=[0.63, 0.0, 0.0]; uc_travel_m=0.63; uc_note=moves on the corridor side of the wall; closing = translate by uc_close_offset_unity"
+Door_Leaf_R,UC_Door,animated,M_UC_DarkSteel,24,0.945 0.0 -3.66,0.63 0.01 -3.69,1.26 2.25 -3.62,0.63 2.24 0.07,UC_Door,"uc_anim=slide; uc_slide_axis_unity_world=[1.0, 0.0, 0.0]; uc_state_default=open; uc_close_offset_unity=[-0.63, 0.0, 0.0]; uc_travel_m=0.63; uc_note=moves on the corridor side of the wall; closing = translate by uc_close_offset_unity"
+Door_SignClinic,UC_Door,decal,M_UC_Paper,12,0.0 2.6 -3.605,-0.4 2.5 -3.608,0.4 2.7 -3.605,0.8 0.2 0.003,UC_Door,
+Floor_DoorHazard,UC_Shell,floor_decal,M_UC_Hazard,12,0.0 0.0 -3.34,-0.6 0.0 -3.4,0.6 0.003 -3.28,1.2 0.003 0.12,UC_Shell,
+Floor_Grates,UC_Shell,floor_decal,M_UC_Grate,60,-0.275 0.0 -0.525,-1.9 0.0 -2.85,1.35 0.003 1.8,3.25 0.003 4.65,UC_Shell,"uc_note=flush 3 mm plates, walkable"
+Floor_Main,UC_Shell,static,M_UC_Floor,40,0.0 0.0 0.0,-3.6 -0.1 -5.0,3.6 0.0 3.6,7.2 0.1 8.6,UC_Shell,"uc_note=walkable; top at y=0; closed slab, no holes"
+Floor_SurgeryRing,UC_Shell,floor_decal,M_UC_Orange,408,-0.1 0.0 -0.2,-1.3716 0.0 -1.4716,1.1716 0.002 1.0716,2.5432 0.002 2.5432,UC_Shell,
+Gantry_Boom_Cutter,UC_Surgery,animated,M_UC_Ivory,52,-0.575 2.3 -1.0227,-0.63 2.02 -1.0777,-0.2277 2.35 -0.8477,0.4023 0.33 0.23,UC_Surgery,"uc_anim=rotate; uc_hinge_axis_unity_world=[0.0, 1.0, 0.0]; uc_hinge_pivot_unity=[-0.575, 2.3, -1.0227]; uc_note=boom yaws about the carriage; range written by checks (uc_yaw_range_deg); uc_yaw_range_deg=30"
+Gantry_Boom_Drill,UC_Surgery,animated,M_UC_Ivory,52,0.375 2.3 0.6227,0.0235 2.02 0.2435,0.4315 2.35 0.6792,0.408 0.33 0.4357,UC_Surgery,"uc_anim=rotate; uc_hinge_axis_unity_world=[0.0, 1.0, 0.0]; uc_hinge_pivot_unity=[0.375, 2.3, 0.6227]; uc_note=boom yaws about the carriage; range written by checks (uc_yaw_range_deg); uc_yaw_range_deg=12"
+Gantry_Boom_Gripper,UC_Surgery,animated,M_UC_Ivory,52,-0.575 2.3 0.6227,-0.6315 2.02 0.2435,-0.2235 2.35 0.6792,0.408 0.33 0.4357,UC_Surgery,"uc_anim=rotate; uc_hinge_axis_unity_world=[0.0, 1.0, 0.0]; uc_hinge_pivot_unity=[-0.575, 2.3, 0.6227]; uc_note=boom yaws about the carriage; range written by checks (uc_yaw_range_deg); uc_yaw_range_deg=17"
+Gantry_Boom_Probe,UC_Surgery,animated,M_UC_Ivory,52,0.85 2.3 -0.2,0.0312 2.02 -0.4488,0.905 2.35 -0.145,0.8738 0.33 0.3038,UC_Surgery,"uc_anim=rotate; uc_hinge_axis_unity_world=[0.0, 1.0, 0.0]; uc_hinge_pivot_unity=[0.85, 2.3, -0.2]; uc_note=boom yaws about the carriage; range written by checks (uc_yaw_range_deg); uc_yaw_range_deg=22"
+Gantry_Boom_Scanner,UC_Surgery,animated,M_UC_Ivory,52,-1.05 2.3 -0.2,-1.105 2.02 -0.4488,-0.2312 2.35 -0.145,0.8738 0.33 0.3038,UC_Surgery,"uc_anim=rotate; uc_hinge_axis_unity_world=[0.0, 1.0, 0.0]; uc_hinge_pivot_unity=[-1.05, 2.3, -0.2]; uc_note=boom yaws about the carriage; range written by checks (uc_yaw_range_deg); uc_yaw_range_deg=16"
+Gantry_Boom_Suction,UC_Surgery,animated,M_UC_Ivory,52,0.375 2.3 -1.0227,0.0277 2.02 -1.0777,0.43 2.35 -0.8477,0.4023 0.33 0.23,UC_Surgery,"uc_anim=rotate; uc_hinge_axis_unity_world=[0.0, 1.0, 0.0]; uc_hinge_pivot_unity=[0.375, 2.3, -1.0227]; uc_note=boom yaws about the carriage; range written by checks (uc_yaw_range_deg); uc_yaw_range_deg=30"
+Gantry_Boom_SurgicalLamp,UC_Surgery,animated,M_UC_Ivory,52,-0.1 2.3 0.75,-0.155 2.02 -0.095,-0.045 2.35 0.805,0.11 0.33 0.9,UC_Surgery,"uc_anim=rotate; uc_hinge_axis_unity_world=[0.0, 1.0, 0.0]; uc_hinge_pivot_unity=[-0.1, 2.3, 0.75]; uc_note=boom yaws about the carriage; range written by checks (uc_yaw_range_deg); uc_yaw_range_deg=4"
+Gantry_Carriage_Cutter,UC_Surgery,static,M_UC_DarkSteel,24,-0.575 2.45 -1.0227,-0.6893 2.27 -1.1407,-0.4607 2.56 -0.9048,0.2286 0.29 0.2359,UC_Surgery,
+Gantry_Carriage_Drill,UC_Surgery,static,M_UC_DarkSteel,24,0.375 2.45 0.6227,0.2607 2.27 0.5048,0.4893 2.56 0.7407,0.2286 0.29 0.2359,UC_Surgery,
+Gantry_Carriage_Gripper,UC_Surgery,static,M_UC_DarkSteel,24,-0.575 2.45 0.6227,-0.6893 2.27 0.5048,-0.4607 2.56 0.7407,0.2286 0.29 0.2359,UC_Surgery,
+Gantry_Carriage_Probe,UC_Surgery,static,M_UC_DarkSteel,24,0.85 2.45 -0.2,0.76 2.27 -0.28,0.94 2.56 -0.12,0.18 0.29 0.16,UC_Surgery,
+Gantry_Carriage_Scanner,UC_Surgery,static,M_UC_DarkSteel,24,-1.05 2.45 -0.2,-1.14 2.27 -0.28,-0.96 2.56 -0.12,0.18 0.29 0.16,UC_Surgery,
+Gantry_Carriage_Suction,UC_Surgery,static,M_UC_DarkSteel,24,0.375 2.45 -1.0227,0.2607 2.27 -1.1407,0.4893 2.56 -0.9048,0.2286 0.29 0.2359,UC_Surgery,
+Gantry_Carriage_SurgicalLamp,UC_Surgery,static,M_UC_DarkSteel,24,-0.1 2.45 0.75,-0.18 2.27 0.66,-0.02 2.56 0.84,0.16 0.29 0.18,UC_Surgery,
+Gantry_Hangers,UC_Surgery,static,M_UC_DarkSteel,144,-0.1 3.0 -0.2,-0.8818 2.48 -0.9818,0.6818 3.0 0.5818,1.5635 0.52 1.5635,UC_Surgery,
+Gantry_Ring,UC_Surgery,static,M_UC_DarkSteel,704,-0.1 2.45 -0.2,-1.105 2.4024 -1.205,0.905 2.4976 0.805,2.01 0.0953 2.01,UC_Surgery,uc_note=overhead circular tool gantry; underside 2.40 m
+Shell_Cables,UC_Shell,static,M_UC_Rubber,1032,0.0 2.4 0.0,-3.3613 2.3067 -3.2679,3.3613 2.5294 3.2679,6.7227 0.2227 6.5357,UC_Shell,
+Shell_LampHousings,UC_Shell,static,M_UC_DarkSteel,60,0.0 2.3 0.0,-2.7082 2.3 -2.7082,3.38 2.4 2.7082,6.0882 0.1 5.4164,UC_Shell,
+Shell_LampTubes,UC_Shell,light_fixture,M_UC_LampWarm,100,0.0 2.3 0.0,-2.629 2.2694 -2.629,3.308 2.3006 2.629,5.937 0.0312 5.258,UC_Shell,uc_note=emissive; Unity: add warm area/spot lights at these fixtures
+Shell_PatchPlates,UC_Shell,static,M_UC_Steel,552,0.0 1.0 0.0,-2.3957 0.27 -3.378,3.378 2.12 2.6785,5.7737 1.85 6.0565,UC_Shell,
+Shell_Pipes,UC_Shell,static,M_UC_Pipe,348,0.0 2.6 0.0,-3.4016 0.1112 -3.3423,3.4016 2.7825 3.405,6.8032 2.6713 6.7474,UC_Shell,
+South_NoteBoard,UC_Storage,decal,M_UC_Paper,12,-1.1 1.95 -3.377,-1.3 1.82 -3.377,-0.9 2.08 -3.374,0.4 0.26 0.003,UC_Storage,
+Storage_EastShelves,UC_Storage,static,M_UC_Steel,216,3.02 0.0 0.0,3.02 0.0 -1.3,3.39 2.0 1.3,0.37 2.0 2.6,UC_Storage,
+Storage_LimbShelf,UC_Storage,static,M_UC_Steel,108,-2.2486 0.0 -2.2486,-2.8626 0.0 -2.8626,-1.6205 1.9 -1.6205,1.2421 1.9 1.2421,UC_Storage,
+Storage_LimbShelf_Chart,UC_Storage,decal,M_UC_Paper,12,-2.3879 2.05 -2.3879,-2.5293 1.85 -2.5293,-2.2444 2.25 -2.2444,0.285 0.4 0.285,UC_Storage,
+Storage_Lockers,UC_Storage,static,M_UC_PaintGreen,12,1.17 0.0 -3.165,0.96 0.0 -3.39,1.38 1.86 -2.94,0.42 1.86 0.45,UC_Storage,
+Storage_Lockers_Photo,UC_Storage,decal,M_UC_Paper,12,1.06 1.25 -2.935,1.025 1.215 -2.935,1.095 1.285 -2.932,0.07 0.07 0.003,UC_Storage,
+Storage_NECabinet,UC_Storage,static,M_UC_PaintGreen,12,1.8031 0.0 2.6517,1.4001 0.0 2.2486,2.2132 1.95 3.0618,0.8132 1.95 0.8132,UC_Storage,
+Storage_NECabinet_Hazard,UC_Storage,decal,M_UC_Hazard,12,1.6405 0.0 2.489,1.393 0.0 2.2415,1.8915 0.1 2.74,0.4985 0.1 0.4985,UC_Storage,
+Storage_NWCabinet,UC_Storage,static,M_UC_PaintGreen,12,-1.8031 0.0 2.6517,-2.2132 0.0 2.2486,-1.4001 1.9 3.0618,0.8132 1.9 0.8132,UC_Storage,
+Storage_NWCabinet_Note,UC_Storage,decal,M_UC_Paper,12,-1.538 1.55 2.5986,-1.6016 1.46 2.5329,-1.4722 1.64 2.6623,0.1294 0.18 0.1294,UC_Storage,
+Storage_RedToolChest,UC_Storage,static,M_UC_Red,12,-2.5456 0.0 1.9092,-2.9486 0.08 1.4991,-2.1355 1.0 2.3122,0.8132 0.92 0.8132,UC_Storage,
+Tool_Cutter,UC_Surgery,animated,M_UC_Ivory,40,-0.28 2.02 -0.9,-0.32 1.68 -0.945,-0.24 2.02 -0.855,0.08 0.34 0.09,Gantry_Boom_Cutter,"uc_anim=slide+rotate; uc_slide_axis_unity_world=[0.0, -1.0, 0.0]; uc_travel_m=0.57; uc_parked_tip_y=1.62; uc_note=slides down toward the bed; also follows its boom yaw"
+Tool_Cutter_Blade,UC_Surgery,animated_child,M_UC_Steel,36,-0.28 2.02 -0.9,-0.283 1.62 -0.9428,-0.277 1.71 -0.8572,0.006 0.09 0.0856,Tool_Cutter,
+Tool_Drill,UC_Surgery,animated,M_UC_Ivory,40,0.08 2.02 0.3,0.035 1.72 0.255,0.175 2.02 0.345,0.14 0.3 0.09,Gantry_Boom_Drill,"uc_anim=slide+rotate; uc_slide_axis_unity_world=[0.0, -1.0, 0.0]; uc_travel_m=0.53; uc_parked_tip_y=1.58; uc_note=slides down toward the bed; also follows its boom yaw"
+Tool_Drill_Bit,UC_Surgery,animated_child,M_UC_Steel,20,0.08 2.02 0.3,0.07 1.58 0.2913,0.09 1.7 0.3087,0.02 0.12 0.0173,Tool_Drill,
+Tool_Gripper,UC_Surgery,animated,M_UC_DarkSteel,64,-0.28 2.02 0.3,-0.34 1.62 0.265,-0.22 2.02 0.335,0.12 0.4 0.07,Gantry_Boom_Gripper,"uc_anim=slide+rotate; uc_slide_axis_unity_world=[0.0, -1.0, 0.0]; uc_travel_m=0.57; uc_parked_tip_y=1.62; uc_note=slides down toward the bed; also follows its boom yaw"
+Tool_Probe,UC_Surgery,animated,M_UC_DarkSteel,44,0.08 2.02 -0.4,0.0661 1.64 -0.416,0.1239 2.02 -0.384,0.0577 0.38 0.032,Gantry_Boom_Probe,"uc_anim=slide+rotate; uc_slide_axis_unity_world=[0.0, -1.0, 0.0]; uc_travel_m=0.59; uc_parked_tip_y=1.64; uc_note=slides down toward the bed; also follows its boom yaw"
+Tool_Probe_Tip,UC_Surgery,animated_child,M_UC_Steel,16,0.08 2.02 -0.4,0.106 1.64 -0.4048,0.115 1.68 -0.3952,0.009 0.04 0.0095,Tool_Probe,
+Tool_Scanner,UC_Surgery,animated,M_UC_Ivory,40,-0.28 2.02 -0.4,-0.36 1.74 -0.46,-0.2 2.02 -0.34,0.16 0.28 0.12,Gantry_Boom_Scanner,"uc_anim=slide+rotate; uc_slide_axis_unity_world=[0.0, -1.0, 0.0]; uc_travel_m=0.69; uc_parked_tip_y=1.74; uc_note=slides down toward the bed; also follows its boom yaw"
+Tool_Scanner_Lens,UC_Surgery,animated_child,M_UC_Screen,12,-0.28 2.02 -0.4,-0.33 1.735 -0.44,-0.23 1.745 -0.36,0.1 0.01 0.08,Tool_Scanner,
+Tool_Suction,UC_Surgery,animated,M_UC_Ivory,48,0.08 2.02 -0.9,0.05 1.56 -0.93,0.11 2.02 -0.87,0.06 0.46 0.06,Gantry_Boom_Suction,"uc_anim=slide+rotate; uc_slide_axis_unity_world=[0.0, -1.0, 0.0]; uc_travel_m=0.55; uc_parked_tip_y=1.6; uc_note=slides down toward the bed; also follows its boom yaw"
+Tool_Suction_Hose,UC_Surgery,animated_child,M_UC_Rubber,86,0.08 2.02 -0.9,0.0097 1.75 -0.9662,0.1525 2.3296 -0.8263,0.1428 0.5795 0.1399,Tool_Suction,
+Tool_SurgicalLamp,UC_Surgery,animated,M_UC_DarkSteel,80,-0.1 2.02 -0.05,-0.4 1.9086 -0.27,0.12 2.02 0.17,0.52 0.1114 0.44,Gantry_Boom_SurgicalLamp,"uc_anim=slide+rotate; uc_slide_axis_unity_world=[0.0, -1.0, 0.0]; uc_travel_m=0.845; uc_parked_tip_y=1.895; uc_note=slides down toward the bed; also follows its boom yaw"
+Tool_SurgicalLamp_Light,UC_Surgery,animated_child,M_UC_LampWarm,44,-0.1 2.02 -0.05,-0.27 1.9 -0.22,0.07 1.905 0.12,0.34 0.005 0.34,Tool_SurgicalLamp,
+Trade_CRT_BackVent,UC_Trade,static,M_UC_DarkSteel,84,1.656 1.15 0.0,1.648 1.07 -0.09,1.66 1.23 0.09,0.012 0.16 0.18,UC_Trade,
+Trade_CRT_Base,UC_Trade,static,M_UC_DarkSteel,12,1.88 0.95 0.0,1.76 0.95 -0.14,2.02 1.0 0.14,0.26 0.05 0.28,UC_Trade,
+Trade_CRT_Body,UC_Trade,interactive,M_UC_Ivory,72,1.88 0.95 0.0,1.66 1.0 -0.17,2.07 1.3 0.17,0.41 0.3 0.34,UC_Trade,"uc_note=stationary desktop CRT; screen normal +X (toward operator), vents on -X face (toward room)"
+Trade_CRT_Keyboard,UC_Trade,interactive,M_UC_Ivory,12,2.14 0.95 0.0,2.075 0.953 -0.19,2.205 0.983 0.19,0.13 0.03 0.38,UC_Trade,
+Trade_CRT_Screen,UC_Trade,interactive,M_UC_Screen,12,2.055 1.15 0.0,2.04 1.03 -0.14,2.055 1.27 0.14,0.015 0.24 0.28,UC_Trade,"uc_screen_normal_unity=[1.0, 0.0, 0.0]; uc_note=emissive screen; program writes job / cargo status here"
+Trade_CargoLabel,UC_Trade,decal,M_UC_Paper,12,2.548 0.2 -1.18,2.545 0.16 -1.29,2.548 0.24 -1.07,0.003 0.08 0.22,UC_Trade,
+Trade_Counter,UC_Trade,static,M_UC_PaintGreen,60,1.9 0.0 -1.0,1.62 0.0 -2.0819,2.9819 0.9 0.95,1.3619 0.9 3.0319,UC_Trade,uc_note=customer side faces -X (room); operator side +X with knee space
+Trade_CounterHazard,UC_Trade,decal,M_UC_Hazard,24,1.62 0.0 -1.0,1.6 0.08 -2.096,2.5859 0.16 0.95,0.9859 0.08 3.046,UC_Trade,
+Trade_CounterPanels,UC_Trade,static,M_UC_Red,72,1.62 0.0 -1.0,1.605 0.2 -2.0218,2.5152 0.78 0.85,0.9102 0.58 2.8718,UC_Trade,
+Trade_CounterShelf,UC_Trade,static,M_UC_DarkSteel,48,1.9 0.0 -1.0,1.64 0.0 -2.0536,2.9394 0.33 0.93,1.2994 0.33 2.9836,UC_Trade,
+Trade_CounterTop,UC_Trade,static,M_UC_Steel,36,1.9 0.95 -1.0,1.495 0.9 -2.1243,3.0243 0.95 0.97,1.5293 0.05 3.0943,UC_Trade,"uc_note=counter top y=0.95, closed solid"
+Trade_Ledger,UC_Trade,decal,M_UC_Paper,12,2.1 0.95 -0.3,2.0 0.95 -0.4,2.2 0.953 -0.2,0.2 0.003 0.2,UC_Trade,
+Trade_Note,UC_Trade,decal,M_UC_Paper,12,2.12 0.951 0.32,2.05 0.951 0.25,2.19 0.954 0.39,0.14 0.003 0.14,UC_Trade,
+Trade_Pad_Deliver,UC_Trade,logical_pad,M_UC_Rubber,12,1.84 0.956 0.6,1.67 0.95 0.4,2.01 0.956 0.8,0.34 0.006 0.4,UC_Trade,uc_note=outgoing repaired-object pad top surface; cargo spawn anchor at pivot
+Trade_Pad_Deliver_Frame,UC_Trade,decal,M_UC_Steel,48,1.84 0.95 0.6,1.64 0.95 0.37,2.04 0.954 0.83,0.4 0.004 0.46,Trade_Pad_Deliver,
+Trade_Pad_Deliver_Label,UC_Trade,decal,M_UC_Paper,12,1.84 0.95 0.89,1.79 0.95 0.74,1.89 0.953 1.04,0.1 0.003 0.3,Trade_Pad_Deliver,
+Trade_Pad_Receive,UC_Trade,logical_pad,M_UC_Rubber,12,1.84 0.956 -0.6,1.67 0.95 -0.8,2.01 0.956 -0.4,0.34 0.006 0.4,UC_Trade,uc_note=incoming next-job pad top surface; cargo spawn anchor at pivot
+Trade_Pad_Receive_Frame,UC_Trade,decal,M_UC_Orange,48,1.84 0.95 -0.6,1.64 0.95 -0.83,2.04 0.954 -0.37,0.4 0.004 0.46,Trade_Pad_Receive,
+Trade_Pad_Receive_Label,UC_Trade,decal,M_UC_Paper,12,1.84 0.95 -0.89,1.79 0.95 -1.04,1.89 0.953 -0.74,0.1 0.003 0.3,Trade_Pad_Receive,
+Trade_ShelfLabel,UC_Trade,decal,M_UC_Paper,12,3.018 0.95 0.7,3.015 0.915 0.6,3.018 0.985 0.8,0.003 0.07 0.2,UC_Trade,
+Trade_Sign,UC_Trade,decal,M_UC_Paper,12,1.618 0.62 0.0,1.615 0.545 -0.15,1.618 0.695 0.15,0.003 0.15 0.3,UC_Trade,
+Trade_StatusLamp_Deliver,UC_Trade,status_light,M_UC_Screen,12,1.58 1.17 0.79,1.575 1.14 0.755,1.585 1.2 0.825,0.01 0.06 0.07,UC_Trade,"uc_states=EMPTY=off,CARGO=on,READY=blink; uc_note=faces the room (-X); program toggles emission"
+Trade_StatusLamp_Receive,UC_Trade,status_light,M_UC_LampWarm,12,1.58 1.17 -0.79,1.575 1.14 -0.825,1.585 1.2 -0.755,0.01 0.06 0.07,UC_Trade,"uc_states=EMPTY=off,CARGO=on,READY=blink; uc_note=faces the room (-X); program toggles emission"
+Trade_Stool,UC_Trade,movable_prop,M_UC_Steel,104,2.52 0.0 0.0,2.3866 -0.0022 -0.1316,2.6534 0.6822 0.1341,0.2669 0.6844 0.2657,UC_Trade,uc_note=operator stool; must stay inside trade_operator zone (x 2.235..3.00)
+Trade_Stool_Seat,UC_Trade,static,M_UC_Wood,36,2.52 0.7 0.0,2.34 0.675 -0.1712,2.7 0.725 0.1712,0.36 0.05 0.3424,Trade_Stool,
+Unit07_CageLamp,UC_Unit07Zone,status_light,M_UC_LampWarm,28,-3.24 1.93 0.0,-3.275 1.88 -0.035,-3.205 1.98 0.035,0.07 0.1 0.07,UC_Unit07Zone,uc_note=amber cage lamp; dock work light
+Unit07_CageLampFrame,UC_Unit07Zone,static,M_UC_DarkSteel,84,-3.24 1.93 0.0,-3.32 1.86 -0.06,-3.185 2.0 0.06,0.135 0.14 0.12,UC_Unit07Zone,
+Unit07_CrateLabel_OldBrg,UC_Unit07Zone,decal,M_UC_Paper,12,-2.588 0.22 -1.53,-2.588 0.175 -1.65,-2.585 0.265 -1.41,0.003 0.09 0.24,UC_Unit07Zone,
+Unit07_Label,UC_Unit07Zone,decal,M_UC_Paper,12,-3.277 2.075 0.0,-3.277 2.025 -0.2,-3.274 2.125 0.2,0.003 0.1 0.4,UC_Unit07Zone,
+Unit07_ParkingMarks,UC_Unit07Zone,floor_decal,M_UC_Hazard,36,-2.79 0.0 0.0,-3.3 0.0 -1.05,-2.28 0.002 1.05,1.02 0.002 2.1,UC_Unit07Zone,uc_note=parking zone = dock + robot + 0.10 m margin
+Unit07_Schematic,UC_Unit07Zone,decal,M_UC_Paper,12,-3.377 1.8 0.0,-3.377 1.56 -0.18,-3.374 2.04 0.18,0.003 0.48 0.36,UC_Unit07Zone,
+Unit07_WallFrame,UC_Unit07Zone,static,M_UC_DarkSteel,128,-3.4 0.0 0.0,-3.4 0.0 -1.02,-3.28 2.15 1.02,0.12 2.15 2.04,UC_Unit07Zone,uc_note=wall service frame behind the dock; keeps rear-cassette corridor clear
+Unit07_WorkZoneMarks,UC_Unit07Zone,floor_decal,M_UC_Orange,96,-1.66 0.0 -0.005,-1.68 0.0 -0.95,-1.64 0.002 0.94,0.04 0.002 1.89,UC_Unit07Zone,uc_note=dashed line: front edge of dock work zone
+WB_MonitorArm,UC_MonitorArm,static,M_UC_DarkSteel,36,1.0 0.98 3.4,0.94 0.95 3.36,1.06 2.05 3.4,0.12 1.1 0.04,UC_MonitorArm,uc_note=wall rail; root of the reusable monitor-support asset. Mount plate on wall plane z=3.40
+Wall_E,UC_Shell,static,M_UC_Wall,48,3.4 0.0 0.0,3.378 0.0 -1.4912,3.6 3.0 1.4912,0.222 3.0 2.9823,UC_Shell,uc_note=modular wall side E; inner face at apothem 3.40
+Wall_N,UC_Shell,static,M_UC_Wall,12,0.0 0.0 3.4,-1.4912 0.0 3.4,1.4912 3.0 3.6,2.9823 3.0 0.2,UC_Shell,uc_note=modular wall side N; inner face at apothem 3.40
+Wall_NE,UC_Shell,static,M_UC_Wall,48,2.4042 0.0 2.4042,1.4083 0.0 1.4083,3.6 3.0 3.6,2.1917 3.0 2.1917,UC_Shell,uc_note=modular wall side NE; inner face at apothem 3.40
+Wall_NW,UC_Shell,static,M_UC_Wall,48,-2.4042 0.0 2.4042,-3.6 0.0 1.4083,-1.4083 3.0 3.6,2.1917 3.0 2.1917,UC_Shell,uc_note=modular wall side NW; inner face at apothem 3.40
+Wall_S,UC_Shell,static,M_UC_Wall,36,-0.0 0.0 -3.4,-1.4912 0.0 -3.6,1.4912 3.0 -3.4,2.9823 3.0 0.2,UC_Shell,uc_note=modular wall side S; inner face at apothem 3.40
+Wall_SE,UC_Shell,static,M_UC_Wall,48,2.4042 0.0 -2.4042,1.4083 0.0 -3.6,3.6 3.0 -1.4083,2.1917 3.0 2.1917,UC_Shell,uc_note=modular wall side SE; inner face at apothem 3.40
+Wall_SE_Notes,UC_Storage,decal,M_UC_Paper,12,2.8122 1.55 -1.9636,2.7252 1.43 -2.0485,2.897 1.67 -1.8767,0.1718 0.24 0.1718,UC_Storage,
+Wall_SW,UC_Shell,static,M_UC_Wall,48,-2.4042 0.0 -2.4042,-3.6 0.0 -3.6,-1.4083 3.0 -1.4083,2.1917 3.0 2.1917,UC_Shell,uc_note=modular wall side SW; inner face at apothem 3.40
+Wall_Trim,UC_Shell,static,M_UC_DarkSteel,312,0.0 0.0 0.0,-3.4752 0.0 -3.4752,3.4752 3.0 3.4752,6.9504 3.0 6.9504,UC_Shell,
+Wall_W,UC_Shell,static,M_UC_Wall,48,-3.4 0.0 0.0,-3.6 0.0 -1.4912,-3.378 3.0 1.4912,0.222 3.0 2.9823,UC_Shell,uc_note=modular wall side W; inner face at apothem 3.40
+Wall_W_Tag,UC_Storage,decal,M_UC_Paper,12,-3.377 1.4 1.1,-3.377 1.35 1.05,-3.374 1.45 1.15,0.003 0.1 0.1,UC_Storage,

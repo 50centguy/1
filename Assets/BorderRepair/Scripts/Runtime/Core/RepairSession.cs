@@ -167,6 +167,15 @@ namespace BorderRepair.Core
 
         public void Restart() => StartShift();
 
+        public bool RetryCurrentCase()
+        {
+            if ((Stage != RepairStage.Result && Stage != RepairStage.Summary) || records.Count == 0) return false;
+            records.RemoveAt(records.Count - 1);
+            ShiftEndTime = 0f;
+            BeginCase(CaseIndex);
+            return true;
+        }
+
         public bool AcceptItem()
         {
             if (!RequireStage(RepairStage.Intake, "接收物品")) return false;

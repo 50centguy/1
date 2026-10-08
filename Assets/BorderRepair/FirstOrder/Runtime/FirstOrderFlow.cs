@@ -63,6 +63,8 @@ namespace BorderRepair.FirstOrder
         [SerializeField] float turnSeconds = 1.2f;         // 搬运途中转向（上盖翻面、轴承放平 / 转回装配朝向）
         [SerializeField] float cleanLayerSeconds = 0.2f;
         [SerializeField] float carryClearance = 0.03f;     // 搬运时零件包围球最低点高过沿途障碍物的余量
+        [Tooltip("Maximum carried-part origin speed in metres/second. Zero preserves legacy animation timing.")]
+        [Min(0f)] [SerializeField] float maxCarrySpeed;
         [Tooltip("新轴承从轴承盒取走时的进场点（盒子上方被挡住时用；构建时规划）")]
         [SerializeField] bool newBearingUseApproach;
         [SerializeField] Vector3 newBearingApproach;
@@ -107,6 +109,7 @@ namespace BorderRepair.FirstOrder
         public Transform EngineLHinge => engineLHinge;
         public Transform EngineRHinge => engineRHinge;
         public float TravelHeight => travelHeight;
+        public float MaxCarrySpeed => maxCarrySpeed;
         public IEnumerable<FirstOrderPart> TrackedParts => new[] { latchOuter, latchRear, cover, clog, bearing, newBearing }.Where(p => p != null);
 
         public bool ClogCleared => clog == null || clog.Location == PartLocation.Cleared;
@@ -127,6 +130,21 @@ namespace BorderRepair.FirstOrder
 
         public (bool use, Vector3 point) NewBearingBenchApproach => (newBearingUseApproach, newBearingApproach);
         public void ConfigureNewBearingApproach(bool use, Vector3 approach) { newBearingUseApproach = use; newBearingApproach = approach; }
+
+        public void ConfigureCarrySpeed(float metersPerSecond)
+        {
+            if (metersPerSecond < 0 || float.IsNaN(metersPerSecond) || float.IsInfinity(metersPerSecond))
+                throw new ArgumentOutOfRangeException(nameof(metersPerSecond));
+            maxCarrySpeed = metersPerSecond;
+        }
+
+        public float CarryDuration(float minimumSeconds, float distance, float rotationDegrees = 0, float pivotRadius = 0)
+        {
+            if (maxCarrySpeed <= 0) return minimumSeconds;
+            // SmoothStep peaks at 1.5; rotation occupies the middle 60%, so its peak factor is 2.5.
+            float pathSpeed = 1.5f * distance + 2.5f * rotationDegrees * Mathf.Deg2Rad * pivotRadius;
+            return Mathf.Max(minimumSeconds, pathSpeed / maxCarrySpeed);
+        }
 
         /// <summary>接入故障美术包：进气口堵塞（可清理）、按层清理的渲染器、要关掉的原轴承渲染器、上盖内侧保养标记。</summary>
         public void ConfigureFaultKit(FirstOrderPart clogPart, Renderer[] layers, Renderer originalBearing, Renderer label, Vector3 labelNormalLocal)
@@ -395,11 +413,12 @@ namespace BorderRepair.FirstOrder
         IEnumerator MoveTo(Transform t, Vector3 target)
         {
             Vector3 a = t.position;
+            float seconds = Carrying != null ? CarryDuration(moveSeconds, Vector3.Distance(a, target)) : moveSeconds;
             float time = 0f;
-            while (time < moveSeconds)
+            while (time < seconds)
             {
                 time += Time.deltaTime;
-                t.position = Vector3.Lerp(a, target, Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(time / moveSeconds)));
+                t.position = Vector3.Lerp(a, target, Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(time / seconds)));
                 yield return null;
             }
             t.position = target;
@@ -413,6 +432,8 @@ namespace BorderRepair.FirstOrder
         {
             Quaternion r0 = t.rotation;
             Vector3 c0 = t.position + r0 * pivot, c1 = target + targetRot * pivot;
+            if (Carrying != null)
+                seconds = CarryDuration(seconds, Vector3.Distance(c0, c1), Quaternion.Angle(r0, targetRot), pivot.magnitude);
             float time = 0f;
             while (time < seconds)
             {

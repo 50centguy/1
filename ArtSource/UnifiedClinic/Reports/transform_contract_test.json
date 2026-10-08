@@ -1,0 +1,427 @@
+{
+ "fbx": "Export\\UnifiedClinic_Environment.fbx",
+ "anchors": [
+  {
+   "name": "Entrance",
+   "expected_unity": [
+    0.0,
+    0.0,
+    -3.25
+   ],
+   "reimported_unity": [
+    -0.0,
+    -0.0,
+    -3.25
+   ],
+   "error_m": 1e-06
+  },
+  {
+   "name": "PlayerStart",
+   "expected_unity": [
+    0.0,
+    0.0,
+    -2.6
+   ],
+   "reimported_unity": [
+    -0.0,
+    -0.0,
+    -2.6
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "Workbench",
+   "expected_unity": [
+    0.0,
+    0.0,
+    1.95
+   ],
+   "reimported_unity": [
+    -0.0,
+    0.0,
+    1.95
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "WorkbenchArea_Root",
+   "expected_unity": [
+    0.0,
+    0.0,
+    2.35
+   ],
+   "reimported_unity": [
+    -0.0,
+    0.0,
+    2.35
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "Dock_Root",
+   "expected_unity": [
+    -2.73,
+    0.0,
+    0.0
+   ],
+   "reimported_unity": [
+    -2.73,
+    0.0,
+    -0.0
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "DockRobot",
+   "expected_unity": [
+    -2.73,
+    0.72,
+    0.0
+   ],
+   "reimported_unity": [
+    -2.73,
+    0.72,
+    -0.0
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "DockWorkStand",
+   "expected_unity": [
+    -1.95,
+    0.0,
+    0.0
+   ],
+   "reimported_unity": [
+    -1.95,
+    0.0,
+    -0.0
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "SurgeryBed",
+   "expected_unity": [
+    -0.1,
+    0.85,
+    -0.2
+   ],
+   "reimported_unity": [
+    -0.1,
+    0.85,
+    -0.2
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "SurgeryStand_W",
+   "expected_unity": [
+    -0.85,
+    0.0,
+    -0.2
+   ],
+   "reimported_unity": [
+    -0.85,
+    -0.0,
+    -0.2
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "SurgeryStand_E",
+   "expected_unity": [
+    0.52,
+    0.0,
+    -0.2
+   ],
+   "reimported_unity": [
+    0.52,
+    -0.0,
+    -0.2
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "TradeOperator",
+   "expected_unity": [
+    2.52,
+    0.72,
+    0.0
+   ],
+   "reimported_unity": [
+    2.52,
+    0.72,
+    -0.0
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "TradeOperatorEye",
+   "expected_unity": [
+    2.52,
+    1.25,
+    0.0
+   ],
+   "reimported_unity": [
+    2.52,
+    1.25,
+    -0.0
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "TradeCustomer",
+   "expected_unity": [
+    1.35,
+    0.0,
+    0.0
+   ],
+   "reimported_unity": [
+    1.35,
+    0.0,
+    -0.0
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "TradeReceive",
+   "expected_unity": [
+    1.84,
+    0.956,
+    -0.6
+   ],
+   "reimported_unity": [
+    1.84,
+    0.956,
+    -0.6
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "TradeDeliver",
+   "expected_unity": [
+    1.84,
+    0.956,
+    0.6
+   ],
+   "reimported_unity": [
+    1.84,
+    0.956,
+    0.6
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "TradeScreen",
+   "expected_unity": [
+    2.055,
+    1.15,
+    0.0
+   ],
+   "reimported_unity": [
+    2.055,
+    1.15,
+    -0.0
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "ToolPark_SurgicalLamp",
+   "expected_unity": [
+    -0.1,
+    1.895,
+    -0.05
+   ],
+   "reimported_unity": [
+    -0.1,
+    1.895,
+    -0.05
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "ToolPark_Drill",
+   "expected_unity": [
+    0.08,
+    1.58,
+    0.3
+   ],
+   "reimported_unity": [
+    0.08,
+    1.58,
+    0.3
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "ToolPark_Gripper",
+   "expected_unity": [
+    -0.28,
+    1.62,
+    0.3
+   ],
+   "reimported_unity": [
+    -0.28,
+    1.62,
+    0.3
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "ToolPark_Scanner",
+   "expected_unity": [
+    -0.28,
+    1.74,
+    -0.4
+   ],
+   "reimported_unity": [
+    -0.28,
+    1.74,
+    -0.4
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "ToolPark_Probe",
+   "expected_unity": [
+    0.08,
+    1.64,
+    -0.4
+   ],
+   "reimported_unity": [
+    0.08,
+    1.64,
+    -0.4
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "ToolPark_Cutter",
+   "expected_unity": [
+    -0.28,
+    1.62,
+    -0.9
+   ],
+   "reimported_unity": [
+    -0.28,
+    1.62,
+    -0.9
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "ToolPark_Suction",
+   "expected_unity": [
+    0.08,
+    1.6,
+    -0.9
+   ],
+   "reimported_unity": [
+    0.08,
+    1.6,
+    -0.9
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "Cam_Overview",
+   "expected_unity": [
+    2.6,
+    2.75,
+    -2.9
+   ],
+   "reimported_unity": [
+    2.6,
+    2.75,
+    -2.9
+   ],
+   "error_m": 1e-06
+  },
+  {
+   "name": "Cam_Entrance",
+   "expected_unity": [
+    0.0,
+    1.62,
+    -3.1
+   ],
+   "reimported_unity": [
+    -0.0,
+    1.62,
+    -3.1
+   ],
+   "error_m": 1e-06
+  },
+  {
+   "name": "Cam_Bench",
+   "expected_unity": [
+    0.2,
+    1.7,
+    1.45
+   ],
+   "reimported_unity": [
+    0.2,
+    1.7,
+    1.45
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "Cam_Dock",
+   "expected_unity": [
+    -1.3,
+    1.7,
+    -0.9
+   ],
+   "reimported_unity": [
+    -1.3,
+    1.7,
+    -0.9
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "Cam_Surgery",
+   "expected_unity": [
+    -1.05,
+    1.75,
+    -1.75
+   ],
+   "reimported_unity": [
+    -1.05,
+    1.75,
+    -1.75
+   ],
+   "error_m": 0.0
+  },
+  {
+   "name": "Cam_TradeOperator",
+   "expected_unity": [
+    2.58,
+    1.25,
+    0.0
+   ],
+   "reimported_unity": [
+    2.58,
+    1.25,
+    -0.0
+   ],
+   "error_m": 0.0
+  }
+ ],
+ "max_error_m": 1e-06,
+ "passed": true,
+ "reimported_mesh_objects": 150,
+ "floor_bounds_unity": [
+  [
+   -3.6,
+   -0.1,
+   -5.0
+  ],
+  [
+   3.6,
+   0.0,
+   3.6
+  ]
+ ],
+ "note": "Blender-side round trip only. The Unity mapping u = (-bx, bz, -by) for this exporter setting was measured earlier for WorkbenchArea / Unit07ServiceDock; it is NOT re-measured in Unity by this task."
+}

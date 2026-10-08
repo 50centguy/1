@@ -1,0 +1,208 @@
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/AuditRecheck/RecheckCommon.cs:25: public static void OpenSceneB() => EditorSceneManager.OpenScene(SceneB, OpenSceneMode.Single);
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/AuditRecheck/RecheckTray.cs:44: OpenSceneB();
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantBuild.cs:33: public const string SourceScene = "Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity";
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantBuild.cs:180: if (!AssetDatabase.CopyAsset(SourceScene, VerifyScene)) throw new Exception("复制七号场景失败");
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantBuild.cs:181: var scene = EditorSceneManager.OpenScene(VerifyScene, OpenSceneMode.Single);
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantBuild.cs:204: md.AppendLine($"- 生成 {DateTime.Now:yyyy-MM-dd HH:mm}，Unity {Application.unityVersion}，场景 `{VerifyScene}`（发布场景 `{SourceScene}` 的副本；原托盘在副本里停用，换成变体）。");
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantBuild.cs:232: EditorSceneManager.MarkSceneDirty(scene);
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantDiag.cs:34: EditorSceneManager.OpenScene("Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity", OpenSceneMode.Single);
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantHandProbe.cs:21: EditorSceneManager.OpenScene(Scene, OpenSceneMode.Single);
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantJawDepth.cs:23: EditorSceneManager.OpenScene(TrayVariantBuild.VerifyScene, OpenSceneMode.Single);
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantSearch.cs:54: EditorSceneManager.OpenScene(Scene, OpenSceneMode.Single);
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantShots.cs:22: Shoot(TrayVariantBuild.SourceScene, "before");
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantShots.cs:28: static void Shoot(string scenePath, string tag)
+Assets/BorderRepair/Art/Unit07TrayVariant/Editor/TrayVariantShots.cs:30: EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+Assets/BorderRepair/Art/Unit07TrayVariant/Tests/VariantMotionTests.cs:49: var scene = EditorSceneManager.OpenScene(Scene, OpenSceneMode.Additive);
+Assets/BorderRepair/Art/Unit07TrayVariant/Tests/VariantMotionTests.cs:144: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(VariantMeshCache.Scene, new LoadSceneParameters(LoadSceneMode.Single));
+Assets/BorderRepair/FirstOrder/Editor/DustFiberQA/DustFiberRunner.cs:54: EditorSceneManager.OpenScene(LayoutABScenes.SceneB, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/DustFiberQA/FiberVariants.cs:34: EditorSceneManager.OpenScene(LayoutABScenes.SceneB, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/FaultArtQA/FaultArtAudit.cs:26: EditorSceneManager.OpenScene(scene, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/FaultArtQA/FaultArtLookSetup.cs:42: static void Setup(string id, string scenePath, StringBuilder log)
+Assets/BorderRepair/FirstOrder/Editor/FaultArtQA/FaultArtLookSetup.cs:44: var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/FaultArtQA/FaultArtProbeDiag.cs:30: EditorSceneManager.OpenScene(LayoutABScenes.SceneB, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/FaultArtQA/FaultArtQARunner.cs:48: EditorSceneManager.OpenScene(q.Split(',')[0] == "A" ? LayoutABScenes.SceneA : LayoutABScenes.SceneB, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/FirstOrderAcceptanceRunner.cs:38: EditorSceneManager.OpenScene(FirstOrderSceneBuilder.ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/FirstOrderAcceptanceRunner.cs:143: sb.AppendLine($"- 场景：`{FirstOrderSceneBuilder.ScenePath}`");
+Assets/BorderRepair/FirstOrder/Editor/FirstOrderSceneBuilder.cs:24: public const string ScenePath = Root + "/Scenes/Unit07FirstOrder_Test.unity";
+Assets/BorderRepair/FirstOrder/Editor/FirstOrderSceneBuilder.cs:42: public string scenePath = ScenePath;
+Assets/BorderRepair/FirstOrder/Editor/FirstOrderSceneBuilder.cs:288: Directory.CreateDirectory(Path.GetDirectoryName(L.scenePath));
+Assets/BorderRepair/FirstOrder/Editor/FirstOrderSceneBuilder.cs:289: EditorSceneManager.SaveScene(scene, L.scenePath);
+Assets/BorderRepair/FirstOrder/Editor/FirstOrderSceneBuilder.cs:290: Note($"测试场景：{L.scenePath}");
+Assets/BorderRepair/FirstOrder/Editor/LayoutAB/LayoutABRunner.cs:54: EditorSceneManager.OpenScene(id == "A" ? LayoutABScenes.SceneA : LayoutABScenes.SceneB, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/LayoutAB/LayoutABScenes.cs:16: public const string SceneDir = FirstOrderSceneBuilder.Root + "/Scenes/LayoutAB";
+Assets/BorderRepair/FirstOrder/Editor/LayoutAB/LayoutABScenes.cs:17: public const string SceneA = SceneDir + "/Unit07FirstOrder_LayoutA.unity";
+Assets/BorderRepair/FirstOrder/Editor/LayoutAB/LayoutABScenes.cs:18: public const string SceneB = SceneDir + "/Unit07FirstOrder_LayoutB.unity";
+Assets/BorderRepair/FirstOrder/Editor/LayoutAB/LayoutABScenes.cs:32: id = "A", scenePath = SceneA, buildLog = "LayoutAB/build_log_A.txt",
+Assets/BorderRepair/FirstOrder/Editor/LayoutAB/LayoutABScenes.cs:45: id = "B", scenePath = SceneB, buildLog = "LayoutAB/build_log_B.txt",
+Assets/BorderRepair/FirstOrder/Editor/LayoutAB/LayoutAudit.cs:15: EditorSceneManager.OpenScene(FirstOrderSceneBuilder.ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/LayoutAB/LayoutGeometry.cs:47: EditorSceneManager.OpenScene(id == "A" ? LayoutABScenes.SceneA : LayoutABScenes.SceneB, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/LayoutAB/LayoutPlanner.cs:212: EditorSceneManager.OpenScene(FirstOrderSceneBuilder.ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:20: /// 构建只用 BuildScenes 里写明的场景，不读 EditorBuildSettings（那里还是旧三物件原型和 SampleScene）。
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:24: public const string SceneDir = FirstOrderSceneBuilder.Root + "/Scenes/Slice";
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:25: public const string ScenePath = SceneDir + "/TwoNightSlice.unity";
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:33: public static readonly string[] BuildScenes = { ScenePath };
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:39: Directory.CreateDirectory(SceneDir);
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:40: AssetDatabase.DeleteAsset(ScenePath);
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:41: if (!AssetDatabase.CopyAsset(LayoutABScenes.SceneB, ScenePath)) throw new Exception("复制布局 B 场景失败：" + LayoutABScenes.SceneB);
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:44: var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:61: EditorSceneManager.MarkSceneDirty(scene);
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:66: $"切片场景 {ScenePath}\n来源 {LayoutABScenes.SceneB}（副本；原场景不改）\n字体 {FontPath}（{font.name}，dynamic {font.dynamic}）\n" +
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:69: Debug.Log("[TwoNightSlice] 场景已生成：" + ScenePath);
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:93: if (!File.Exists(ScenePath)) BuildSceneNoExit();
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:107: scenes = BuildScenes,
+Assets/BorderRepair/FirstOrder/Editor/Slice/TwoNightSlice.cs:127: foreach (var sc in BuildScenes) sb.AppendLine("  - " + sc);
+Assets/BorderRepair/FirstOrder/Tests/EditMode/FirstOrderSceneTests.cs:16: readonly string ScenePath;
+Assets/BorderRepair/FirstOrder/Tests/EditMode/FirstOrderSceneTests.cs:17: public FirstOrderSceneTests(string scenePath) { ScenePath = scenePath; }   // 正式首单测试场景 + 布局 A/B 两个测试副本
+Assets/BorderRepair/FirstOrder/Tests/EditMode/FirstOrderSceneTests.cs:22: [SetUp] public void Open() => EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Tests/EditMode/SliceSceneTests.cs:35: EditorSceneManager.OpenScene(Slice, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Tests/EditMode/SliceSceneTests.cs:56: EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+Assets/BorderRepair/FirstOrder/Tests/PlayMode/FirstOrderPlayTests.cs:24: readonly string ScenePath;
+Assets/BorderRepair/FirstOrder/Tests/PlayMode/FirstOrderPlayTests.cs:25: public FirstOrderPlayTests(string scenePath) { ScenePath = scenePath; }   // 正式首单测试场景 + 布局 A/B 两个测试副本
+Assets/BorderRepair/FirstOrder/Tests/PlayMode/FirstOrderPlayTests.cs:33: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(ScenePath, new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single));
+Assets/BorderRepair/FirstOrder/Tests/PlayMode/SlicePlayTests.cs:29: const string ScenePath = "Assets/BorderRepair/FirstOrder/Scenes/Slice/TwoNightSlice.unity";
+Assets/BorderRepair/FirstOrder/Tests/PlayMode/SlicePlayTests.cs:44: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(ScenePath, new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single));
+Assets/BorderRepair/FirstOrder/Tests/PlayMode/SlicePlayTests.cs:196: sb.AppendLine($"- {DateTime.Now:yyyy-MM-dd HH:mm}，Unity {Application.unityVersion}，屏幕 {Screen.width}×{Screen.height}，场景 `{ScenePath}`");
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:27: public const string ScenePath = "Assets/BorderRepair/Scenes/Narrative_WorkerHand.unity";
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:34: EditorSceneManager.OpenScene(ScenePath);
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:45: EditorSceneManager.OpenScene(ScenePath);
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:51: if (!File.Exists(ScenePath))
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:56: if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) EditorSceneManager.OpenScene(ScenePath);
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:65: if (!File.Exists(PrototypeBuilder.ScenePath)) throw new FileNotFoundException("缺少默认原型场景，请先运行 Border Repair > Build Prototype", PrototypeBuilder.ScenePath);
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:111: if (overwrite || !File.Exists(ScenePath)) BuildScene();
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:113: Debug.Log($"[BorderRepair] 叙事竖切“工人义手”生成完成（overwrite={overwrite}）：{ScenePath}");
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:120: if (File.Exists(ScenePath)) AssetDatabase.DeleteAsset(ScenePath);
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:121: if (!AssetDatabase.CopyAsset(PrototypeBuilder.ScenePath, ScenePath)) throw new IOException("复制场景失败：" + ScenePath);
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:122: var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:124: // OpenScene 会卸载未被引用的资源，打开前持有的营业数据可能已失效，这里重新加载
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:140: WorkerHandPolishBuilder.ApplyToOpenScene(true);
+Assets/BorderRepair/Scripts/Editor/NarrativeSliceBuilder.cs:142: if (!EditorSceneManager.SaveScene(scene)) throw new IOException("场景保存失败：" + ScenePath);
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:31: public const string ScenePath = Root + "/Scenes/RepairStation_Prototype.unity";
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:54: static void MenuOpenScene()
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:56: if (!File.Exists(ScenePath)) { EditorUtility.DisplayDialog("边境维修站", "场景尚未生成，请先执行 Border Repair > Build Prototype。", "好"); return; }
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:57: if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) EditorSceneManager.OpenScene(ScenePath);
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:70: foreach (var dir in new[] { MaterialDir, PrefabDir, CaseDir, Path.GetDirectoryName(ScenePath).Replace('\\', '/') })
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:90: bool sceneExists = File.Exists(ScenePath);
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:94: if (!EditorSceneManager.SaveScene(scene, ScenePath)) throw new IOException("场景保存失败：" + ScenePath);
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:98: EditorSceneManager.OpenScene(ScenePath);
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:104: Debug.Log($"[BorderRepair] 原型生成完成（overwrite={overwrite}，场景{(overwrite || !sceneExists ? "已生成" : "已存在，未改动")}）：{ScenePath}");
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:362: if (scenes.Exists(s => s.path == ScenePath)) return;
+Assets/BorderRepair/Scripts/Editor/PrototypeBuilder.cs:363: scenes.Insert(0, new EditorBuildSettingsScene(ScenePath, true));
+Assets/BorderRepair/Scripts/Editor/ShaderLabBuilder.cs:34: public const string ScenePath = "Assets/BorderRepair/Scenes/ShaderLab_Surfaces.unity";
+Assets/BorderRepair/Scripts/Editor/ShaderLabBuilder.cs:41: EditorSceneManager.OpenScene(ScenePath);
+Assets/BorderRepair/Scripts/Editor/ShaderLabBuilder.cs:49: EditorSceneManager.OpenScene(ScenePath);
+Assets/BorderRepair/Scripts/Editor/ShaderLabBuilder.cs:55: if (!File.Exists(ScenePath)) { EditorUtility.DisplayDialog("ShaderLab", "场景尚未生成，请先执行 Build ShaderLab。", "好"); return; }
+Assets/BorderRepair/Scripts/Editor/ShaderLabBuilder.cs:56: if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) EditorSceneManager.OpenScene(ScenePath);
+Assets/BorderRepair/Scripts/Editor/ShaderLabBuilder.cs:103: if (rebuildScene || !File.Exists(ScenePath)) BuildScene();
+Assets/BorderRepair/Scripts/Editor/ShaderLabBuilder.cs:104: Debug.Log($"[BorderRepair] ShaderLab 生成完成：{ScenePath}");
+Assets/BorderRepair/Scripts/Editor/ShaderLabBuilder.cs:350: if (!EditorSceneManager.SaveScene(scene, ScenePath)) throw new IOException("场景保存失败：" + ScenePath);
+Assets/BorderRepair/Scripts/Editor/TesterScreenBuilder.cs:47: var scene = EditorSceneManager.OpenScene(NarrativeSliceBuilder.ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/TesterScreenBuilder.cs:51: EditorSceneManager.MarkSceneDirty(scene);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:35: public const string SceneDir = "Assets/BorderRepair/Scenes/Slice";
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:36: public const string MenuPath = SceneDir + "/" + TwoNightScenes.Menu + ".unity";
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:37: public const string CounterPath = SceneDir + "/" + TwoNightScenes.Counter + ".unity";
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:38: public const string RobotPath = SceneDir + "/" + TwoNightScenes.Robot + ".unity";
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:65: var keep = EditorBuildSettings.scenes.Where(e => !BuildScenes.Contains(e.path)).ToList();
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:66: EditorBuildSettings.scenes = BuildScenes.Select(x => new EditorBuildSettingsScene(x, true)).Concat(keep).ToArray();
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:83: if (!AssetDatabase.CopyAsset(PrototypeBuilder.CaseDir + "/Case_01_Communicator.asset", CasePath)) throw new Exception("复制通讯器案例失败");
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:106: Directory.CreateDirectory(SceneDir);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:108: if (!AssetDatabase.CopyAsset(PrototypeBuilder.ScenePath, CounterPath)) throw new Exception("复制原型场景失败");
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:109: var scene = EditorSceneManager.OpenScene(CounterPath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:119: EditorSceneManager.MarkSceneDirty(scene);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:150: Directory.CreateDirectory(SceneDir);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:152: if (!AssetDatabase.CopyAsset(LayoutABScenes.SceneB, RobotPath)) throw new Exception("复制布局 B 场景失败");
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:153: var scene = EditorSceneManager.OpenScene(RobotPath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:222: EditorSceneManager.MarkSceneDirty(scene);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:444: public static readonly string[] BuildScenes = { MenuPath, CounterPath, RobotPath, TwoNightSlice.ScenePath };
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:459: report = BuildPipeline.BuildPlayer(new BuildPlayerOptions { scenes = BuildScenes, locationPathName = dir + "/TwoNightSlice.exe", target = BuildTarget.StandaloneWindows64, targetGroup = BuildTargetGroup.Standalone });
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightBuilder.cs:471: for (int k = 0; k < BuildScenes.Length; k++) sb.AppendLine($"  {k}. {BuildScenes[k]}" + (k == 3 ? "（七号鼠标核心，回归测试入口：exe 加 -twoNightCore）" : ""));
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightGripProbe.cs:20: EditorSceneManager.OpenScene(TwoNightBuilder.RobotPath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightGripRollProbe.cs:30: EditorSceneManager.OpenScene(TwoNightBuilder.RobotPath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightGripShots.cs:13: EditorSceneManager.OpenScene(TwoNightBuilder.RobotPath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightJawProbe.cs:19: EditorSceneManager.OpenScene(TwoNightBuilder.RobotPath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/TwoNight/TwoNightShelfProbe.cs:14: EditorSceneManager.OpenScene(TwoNightBuilder.RobotPath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/Unit07Dock/Unit07DockBuilder.cs:33: public const string ScenePath = "Assets/BorderRepair/Scenes/Unit07Dock_Test.unity";
+Assets/BorderRepair/Scripts/Editor/Unit07Dock/Unit07DockBuilder.cs:313: EditorSceneManager.SaveScene(scene, ScenePath);
+Assets/BorderRepair/Scripts/Editor/Unit07Dock/Unit07DockBuilder.cs:314: Note($"测试场景：{ScenePath}；七号根对齐 Dock_RobotAnchor {anchor.position:F3}，缩放 1，正面 +Z");
+Assets/BorderRepair/Scripts/Editor/Unit07Dock/Unit07DockPlayCapture.cs:33: EditorSceneManager.OpenScene(Unit07DockBuilder.ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/WorkerHandPolishBuilder.cs:36: EditorSceneManager.OpenScene(NarrativeSliceBuilder.ScenePath);
+Assets/BorderRepair/Scripts/Editor/WorkerHandPolishBuilder.cs:47: EditorSceneManager.OpenScene(NarrativeSliceBuilder.ScenePath);
+Assets/BorderRepair/Scripts/Editor/WorkerHandPolishBuilder.cs:56: if (!File.Exists(NarrativeSliceBuilder.ScenePath))
+Assets/BorderRepair/Scripts/Editor/WorkerHandPolishBuilder.cs:57: throw new FileNotFoundException("叙事场景不存在，请先运行 Border Repair > Narrative > Build Worker Hand Slice", NarrativeSliceBuilder.ScenePath);
+Assets/BorderRepair/Scripts/Editor/WorkerHandPolishBuilder.cs:61: var scene = EditorSceneManager.OpenScene(NarrativeSliceBuilder.ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/WorkerHandPolishBuilder.cs:62: ApplyToOpenScene(overwrite, ring);
+Assets/BorderRepair/Scripts/Editor/WorkerHandPolishBuilder.cs:63: if (!EditorSceneManager.SaveScene(scene)) throw new IOException("场景保存失败：" + NarrativeSliceBuilder.ScenePath);
+Assets/BorderRepair/Scripts/Editor/WorkerHandPolishBuilder.cs:104: internal static void ApplyToOpenScene(bool overwrite, Material ring = null)
+Assets/BorderRepair/Scripts/Editor/WorkerHandPolishBuilder.cs:124: EditorSceneManager.MarkSceneDirty(root.gameObject.scene);
+Assets/BorderRepair/Scripts/Editor/WorkerHandV2AssetBuilder.cs:64: EditorSceneManager.OpenScene(NarrativeSliceBuilder.ScenePath);
+Assets/BorderRepair/Scripts/Editor/WorkerHandV2AssetBuilder.cs:317: var scene = EditorSceneManager.OpenScene(NarrativeSliceBuilder.ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/WorkerHandV2AssetBuilder.cs:351: EditorSceneManager.MarkSceneDirty(scene);
+Assets/BorderRepair/Scripts/Editor/WorkerHandV2AssetBuilder.cs:352: if (!EditorSceneManager.SaveScene(scene)) throw new IOException("场景保存失败：" + NarrativeSliceBuilder.ScenePath);
+Assets/BorderRepair/Scripts/Editor/WorkerHandV2AssetBuilder.cs:356: static void SetSkinEnabled(bool enabled, UnityEngine.SceneManagement.Scene? openScene = null)
+Assets/BorderRepair/Scripts/Editor/WorkerHandV2AssetBuilder.cs:358: var scene = openScene ?? EditorSceneManager.OpenScene(NarrativeSliceBuilder.ScenePath, OpenSceneMode.Single);
+Assets/BorderRepair/Scripts/Editor/WorkerHandV2AssetBuilder.cs:361: if (openScene == null)
+Assets/BorderRepair/Scripts/Editor/WorkerHandV2AssetBuilder.cs:363: EditorSceneManager.MarkSceneDirty(scene);
+Assets/BorderRepair/Scripts/Runtime/TwoNight/TwoNightCounterDirector.cs:152: SceneManager.LoadScene(TwoNightScenes.Robot);
+Assets/BorderRepair/Scripts/Runtime/TwoNight/TwoNightMenu.cs:48: if (Array.IndexOf(Environment.GetCommandLineArgs(), "-twoNightCore") >= 0 && !Application.isEditor) { SceneManager.LoadScene(CoreScene); return; }
+Assets/BorderRepair/Scripts/Runtime/TwoNight/TwoNightMenu.cs:77: SceneManager.LoadScene(unifiedClinic ? TwoNightScenes.Clinic : TwoNightScenes.Counter);
+Assets/BorderRepair/Scripts/Runtime/TwoNight/TwoNightMenu.cs:89: SceneManager.LoadScene(unifiedClinic || r.state.unifiedClinic ? TwoNightScenes.Clinic : TwoNightScenes.Robot);
+Assets/BorderRepair/Scripts/Runtime/TwoNight/TwoNightRobotDirector.cs:217: MenuButton = TwoNightUi.Button(endPanel.transform, "Menu", "回到主菜单", font, new Vector2(330, -370), new Vector2(200, 46), () => SceneManager.LoadScene(unifiedClinic ? TwoNightScenes.ClinicMenu : TwoNightScenes.Menu), true);
+Assets/BorderRepair/Tests/EditMode/DiagnosticScreenAssetTests.cs:84: var scene = EditorSceneManager.OpenScene(NarrativeScene, OpenSceneMode.Additive);
+Assets/BorderRepair/Tests/EditMode/PrototypeAssetTests.cs:13: const string ScenePath = "Assets/BorderRepair/Scenes/RepairStation_Prototype.unity";
+Assets/BorderRepair/Tests/EditMode/PrototypeAssetTests.cs:76: Assert.IsNotNull(AssetDatabase.LoadAssetAtPath<SceneAsset>(ScenePath), "场景未生成");
+Assets/BorderRepair/Tests/EditMode/PrototypeAssetTests.cs:78: foreach (var s in EditorBuildSettings.scenes) found |= s.path == ScenePath && s.enabled;
+Assets/BorderRepair/Tests/EditMode/ShaderLabAssetTests.cs:103: public void PlayableScenesDoNotEnableDiagnosticOverlay(string scenePath)
+Assets/BorderRepair/Tests/EditMode/ShaderLabAssetTests.cs:107: string text = File.ReadAllText(scenePath);
+Assets/BorderRepair/Tests/EditMode/ShaderLabAssetTests.cs:108: StringAssert.DoesNotContain(guids[0], text, $"{scenePath} 不应包含 DiagnosticHighlightSettings（保持原风格）");
+Assets/BorderRepair/Tests/PlayMode/CommunicatorFinalTests.cs:19: const string ScenePath = "Assets/BorderRepair/Scenes/RepairStation_Prototype.unity";
+Assets/BorderRepair/Tests/PlayMode/CommunicatorFinalTests.cs:24: public IEnumerator LoadScene()
+Assets/BorderRepair/Tests/PlayMode/CommunicatorFinalTests.cs:27: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(ScenePath, new LoadSceneParameters(LoadSceneMode.Single));
+Assets/BorderRepair/Tests/PlayMode/CommunicatorFinalTests.cs:29: yield return SceneManager.LoadSceneAsync("RepairStation_Prototype");
+Assets/BorderRepair/Tests/PlayMode/CommunicatorFinalTests.cs:119: const string ScenePath = "Assets/BorderRepair/Scenes/RepairStation_Prototype.unity";
+Assets/BorderRepair/Tests/PlayMode/CommunicatorFinalTests.cs:125: public IEnumerator LoadScene()
+Assets/BorderRepair/Tests/PlayMode/CommunicatorFinalTests.cs:128: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(ScenePath, new LoadSceneParameters(LoadSceneMode.Single));
+Assets/BorderRepair/Tests/PlayMode/CommunicatorFinalTests.cs:130: yield return SceneManager.LoadSceneAsync("RepairStation_Prototype");
+Assets/BorderRepair/Tests/PlayMode/NavBeaconFinalTests.cs:18: const string ScenePath = "Assets/BorderRepair/Scenes/RepairStation_Prototype.unity";
+Assets/BorderRepair/Tests/PlayMode/NavBeaconFinalTests.cs:24: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(ScenePath, new LoadSceneParameters(LoadSceneMode.Single));
+Assets/BorderRepair/Tests/PlayMode/NavBeaconFinalTests.cs:26: yield return SceneManager.LoadSceneAsync("RepairStation_Prototype");
+Assets/BorderRepair/Tests/PlayMode/RepairStationPlayModeTests.cs:17: const string ScenePath = "Assets/BorderRepair/Scenes/RepairStation_Prototype.unity";
+Assets/BorderRepair/Tests/PlayMode/RepairStationPlayModeTests.cs:22: public IEnumerator LoadScene()
+Assets/BorderRepair/Tests/PlayMode/RepairStationPlayModeTests.cs:25: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(ScenePath, new LoadSceneParameters(LoadSceneMode.Single));
+Assets/BorderRepair/Tests/PlayMode/RepairStationPlayModeTests.cs:27: yield return SceneManager.LoadSceneAsync("RepairStation_Prototype");
+Assets/BorderRepair/Tests/PlayMode/ShaderLabPlayModeTests.cs:26: public static IEnumerator LoadScene(string path)
+Assets/BorderRepair/Tests/PlayMode/ShaderLabPlayModeTests.cs:29: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(path, new LoadSceneParameters(LoadSceneMode.Single));
+Assets/BorderRepair/Tests/PlayMode/ShaderLabPlayModeTests.cs:31: yield return SceneManager.LoadSceneAsync(Path.GetFileNameWithoutExtension(path));
+Assets/BorderRepair/Tests/PlayMode/ShaderLabPlayModeTests.cs:90: yield return ShaderLabUtil.LoadScene(ShaderLabUtil.LabScene);
+Assets/BorderRepair/Tests/PlayMode/ShaderLabPlayModeTests.cs:433: yield return ShaderLabUtil.LoadScene("Assets/BorderRepair/Scenes/RepairStation_Prototype.unity");
+Assets/BorderRepair/Tests/PlayMode/ShaderLabPlayModeTests.cs:515: yield return ShaderLabUtil.LoadScene(ShaderLabUtil.LabScene);
+Assets/BorderRepair/Tests/PlayMode/Unit07DockPlayModeTests.cs:18: const string ScenePath = "Assets/BorderRepair/Scenes/Unit07Dock_Test.unity";
+Assets/BorderRepair/Tests/PlayMode/Unit07DockPlayModeTests.cs:23: public IEnumerator LoadScene()
+Assets/BorderRepair/Tests/PlayMode/Unit07DockPlayModeTests.cs:26: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(ScenePath, new LoadSceneParameters(LoadSceneMode.Single));
+Assets/BorderRepair/Tests/PlayMode/Unit07DockPlayModeTests.cs:28: yield return SceneManager.LoadSceneAsync("Unit07Dock_Test");
+Assets/BorderRepair/Tests/PlayMode/WorkerHandPlayModeTests.cs:24: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(path, new LoadSceneParameters(LoadSceneMode.Single));
+Assets/BorderRepair/Tests/PlayMode/WorkerHandPlayModeTests.cs:26: yield return SceneManager.LoadSceneAsync(Path.GetFileNameWithoutExtension(path));
+Assets/BorderRepair/Tests/TwoNight/PlayMode/TwoNightMeshCache.cs:44: var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
+Assets/BorderRepair/Tests/TwoNight/PlayMode/TwoNightMotionProbe.cs:48: yield return EditorSceneManager.LoadSceneAsyncInPlayMode("Assets/BorderRepair/Scenes/Slice/" + TwoNightScenes.Robot + ".unity", new LoadSceneParameters(LoadSceneMode.Single));
+Assets/BorderRepair/Tests/TwoNight/PlayMode/TwoNightPlayTests.cs:28: const string SceneDir = "Assets/BorderRepair/Scenes/Slice/";
+Assets/BorderRepair/Tests/TwoNight/PlayMode/TwoNightPlayTests.cs:54: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(SceneDir + name + ".unity", new LoadSceneParameters(LoadSceneMode.Single));
+Assets/BorderRepair/Tests/TwoNight/PlayMode/TwoNightPlayTests.cs:59: /// <summary>等场景切换（导演调用 SceneManager.LoadScene 之后）。</summary>
+Assets/BorderRepair/Tests/TwoNight/PlayMode/TwoNightUiTests.cs:73: yield return EditorSceneManager.LoadSceneAsyncInPlayMode("Assets/BorderRepair/Scenes/Slice/" + TwoNightScenes.Robot + ".unity", new LoadSceneParameters(LoadSceneMode.Single));
+Assets/RobotV4/Editor/RobotV4PlayCheck.cs:22: const string ScenePath = "Assets/RobotV4/Scenes/RobotV4_Acceptance.unity";
+Assets/RobotV4/Editor/RobotV4PlayCheck.cs:37: EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+Assets/WorkbenchArea/Scripts/Editor/WorkbenchAreaBuilder.cs:31: public const string ScenePath = Root + "/Scenes/WorkbenchArea_Test.unity";
+Assets/WorkbenchArea/Scripts/Editor/WorkbenchAreaBuilder.cs:340: EditorSceneManager.SaveScene(scene, ScenePath);
+Assets/WorkbenchArea/Scripts/Editor/WorkbenchAreaBuilder.cs:341: Note($"测试场景 {ScenePath}：游戏镜头 {GameCamPos:F2} 竖直视场 {GameFov}°，近距维修镜头 {CloseCamPos:F2} 竖直视场 {CloseFov}°；" +
+Assets/WorkbenchArea/Scripts/Editor/WorkbenchAreaPlayCapture.cs:34: EditorSceneManager.OpenScene(WorkbenchAreaBuilder.ScenePath, OpenSceneMode.Single);
+Assets/WorkbenchArea/Scripts/Editor/WorkbenchAreaPlayerBuild.cs:26: scenes = new[] { WorkbenchAreaBuilder.ScenePath },
+Assets/WorkbenchArea/Tests/EditMode/WorkbenchAreaAssetTests.cs:15: const string ScenePath = "Assets/WorkbenchArea/Scenes/WorkbenchArea_Test.unity";
+Assets/WorkbenchArea/Tests/EditMode/WorkbenchAreaAssetTests.cs:165: EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+Assets/WorkbenchArea/Tests/EditMode/WorkbenchAreaAssetTests.cs:184: EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+Assets/WorkbenchArea/Tests/PlayMode/WorkbenchAreaPlayTests.cs:21: const string ScenePath = "Assets/WorkbenchArea/Scenes/WorkbenchArea_Test.unity";
+Assets/WorkbenchArea/Tests/PlayMode/WorkbenchAreaPlayTests.cs:42: yield return EditorSceneManager.LoadSceneAsyncInPlayMode(ScenePath, new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single));
+Packages/manifest.json:18: "com.unity.modules.assetbundle": "1.0.0",
+Packages/manifest.json:37: "com.unity.modules.unitywebrequestassetbundle": "1.0.0",
+Packages/packages-lock.json:231: "com.unity.modules.assetbundle": {
+Packages/packages-lock.json:379: "com.unity.modules.unitywebrequestassetbundle": {
+Packages/packages-lock.json:384: "com.unity.modules.assetbundle": "1.0.0",
+Packages/packages-lock.json:412: "com.unity.modules.unitywebrequestassetbundle": "1.0.0",
+Packages/packages-lock.json:415: "com.unity.modules.assetbundle": "1.0.0",
+ProjectSettings/EditorBuildSettings.asset:28: m_UseUCBPForAssetBundles: 0

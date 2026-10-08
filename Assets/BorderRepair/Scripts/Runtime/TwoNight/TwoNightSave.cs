@@ -37,6 +37,8 @@ namespace BorderRepair.TwoNight
             if (s == null) { message = "没有可保存的进度。"; return false; }
             if (s.phase != TwoNightPhase.Night1Ended) { message = "只能在第一晚结束时保存。"; return false; }
             if (s.unit07 == null || !s.unit07.IsSafe) { message = "七号还没安全停靠，不能保存：" + (s.unit07 != null ? s.unit07.WhyUnsafe() : "状态未知") + "。"; return false; }
+            var problems = Validate(s);
+            if (problems.Count > 0) { message = "Checkpoint is inconsistent: " + string.Join("; ", problems); return false; }
             try
             {
                 s.version = TwoNightState.CurrentVersion;
@@ -72,6 +74,15 @@ namespace BorderRepair.TwoNight
             if (s == null) return new SaveLoadResult { status = SaveStatus.Corrupt, message = "存档是空的。" };
             if (s.version != TwoNightState.CurrentVersion)
                 return new SaveLoadResult { status = SaveStatus.VersionMismatch, message = $"存档版本 {s.version} 与当前版本 {TwoNightState.CurrentVersion} 不一致。" };
+            if (!s.communicatorAmountsRecorded)
+            {
+                // Original version-1 saves used the fixed 400 / 100 settlement.
+                s.communicatorIncome = 400;
+                s.communicatorPartsCost = 100;
+                s.communicatorAmountsRecorded = true;
+            }
+            if (s.customerTrades == null) s.customerTrades = new List<ClinicCustomerTrade>();
+            if (s.customerQueueCount <= 0 && s.customerTrades.Count == 0) s.customerQueueCount = 1;
             var problems = Validate(s);
             if (problems.Count > 0) return new SaveLoadResult { status = SaveStatus.Corrupt, message = "存档内容不一致：" + string.Join("；", problems) + "。" };
             if (s.unit07 == null || !s.unit07.IsSafe)
@@ -88,9 +99,56 @@ namespace BorderRepair.TwoNight
             var ids = new HashSet<string>();
             foreach (var t in s.transactions)
                 if (t == null || string.IsNullOrEmpty(t.id) || !ids.Add(t.id)) p.Add("账目 id 为空或重复");
-            if (!s.communicatorSettled || !ids.Contains(TwoNightRun.CommunicatorIncomeId) || !ids.Contains(TwoNightRun.CommunicatorPartsId)) p.Add("通讯器结单记录不完整");
+            var income = s.transactions.Find(t => t != null && t.id == TwoNightRun.CommunicatorIncomeId);
+            var parts = s.transactions.Find(t => t != null && t.id == TwoNightRun.CommunicatorPartsId);
+            bool trackedQueue = s.unifiedClinic && s.customerTrades != null && s.customerTrades.Count > 0;
+            bool firstReturned = trackedQueue && s.customerTrades[0] != null && s.customerTrades[0].returnedUnpaid;
+            int expectedEntries = trackedQueue ? s.customerTrades.FindAll(t => t != null && !t.returnedUnpaid).Count * 2 : 2;
+            bool firstSettlementInvalid = firstReturned ?
+                income != null || parts != null || s.communicatorIncome != 0 || s.communicatorPartsCost != 0 :
+                income == null || parts == null || income.amount != s.communicatorIncome || parts.amount != -s.communicatorPartsCost ||
+                income.night != 1 || parts.night != 1;
+            if (s.transactions.Count != expectedEntries || firstSettlementInvalid || s.communicatorIncome < 0 || s.communicatorPartsCost < 0)
+                p.Add("Invalid communicator settlement amounts or night");
+            if (string.IsNullOrEmpty(s.communicatorCaseId)) p.Add("Missing settled customer case");
+            long cash = s.startingCash;
+            foreach (var t in s.transactions) if (t != null) cash += t.amount;
+            if (s.startingCash < 0 || cash < 0 || cash > int.MaxValue) p.Add("Invalid cash total");
+            if (!s.communicatorSettled || firstSettlementInvalid) p.Add("通讯器结单记录不完整");
             if (!s.ledgerConfirmed || !s.unit07IncidentShown || !s.unit07Registered) p.Add("第一晚流程记录不完整");
             if (s.unit07Repaired) p.Add("七号在第一晚不可能已修好");
+            if (s.unit07WorkOrderId != TwoNightRun.Unit07WorkOrderId) p.Add("Invalid internal work order");
+            if (s.unifiedClinic && (s.communicatorTrade != ClinicTradeState.Delivered || string.IsNullOrEmpty(s.communicatorCaseId)))
+                p.Add("Customer item has not been delivered");
+            // Only a migrated single-case legacy checkpoint may omit trade history.
+            if (s.unifiedClinic && (s.customerQueueCount < 1 || s.customerTrades == null ||
+                (s.customerTrades.Count == 0 && s.customerQueueCount != 1)))
+                p.Add("Customer queue history missing");
+            if (s.unifiedClinic && s.customerTrades != null && s.customerTrades.Count > 0)
+            {
+                var caseIds = new HashSet<string>();
+                if (s.customerTrades.Count != s.customerQueueCount) p.Add("Customer queue incomplete");
+                for (int i = 0; i < s.customerTrades.Count; i++)
+                {
+                    var trade = s.customerTrades[i];
+                    if (trade == null || trade.queueIndex != i || string.IsNullOrEmpty(trade.caseId) || !caseIds.Add(trade.caseId) ||
+                        trade.state != ClinicTradeState.Delivered || trade.income < 0 || trade.partsCost < 0)
+                    { p.Add("Invalid customer trade record"); continue; }
+                    var receipt = s.transactions.Find(t => t != null && t.id == trade.IncomeId);
+                    var cost = s.transactions.Find(t => t != null && t.id == trade.PartsId);
+                    if (trade.returnedUnpaid)
+                    {
+                        if (trade.income != 0 || trade.partsCost != 0 || receipt != null || cost != null ||
+                            (trade.decision != BorderRepair.Data.RepairDecision.Refuse &&
+                             trade.decision != BorderRepair.Data.RepairDecision.RecommendReplacement))
+                            p.Add("Invalid unpaid customer return");
+                    }
+                    else if (trade.decision != BorderRepair.Data.RepairDecision.Repair || receipt == null || cost == null ||
+                        receipt.amount != trade.income || cost.amount != -trade.partsCost || receipt.night != 1 || cost.night != 1)
+                        p.Add("Customer trade receipt mismatch");
+                    if (i == 0 && trade.caseId != s.communicatorCaseId) p.Add("Communicator trade identity mismatch");
+                }
+            }
             if (s.rent <= 0 || s.rentDueNight < 2) p.Add("房租数据无效");
             return p;
         }

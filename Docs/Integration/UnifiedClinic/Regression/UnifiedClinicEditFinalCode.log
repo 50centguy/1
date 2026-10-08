@@ -1,0 +1,1738 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.0/staging' branch; Version is '6000.0.84f1 (78ab6fc243d5) revision 7908207'; Using compiler version '193933523'; Build Type 'Release'
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator" at "2026-10-08T08:53:57.9662964Z"
+OS: 'Windows 11  (10.0.26200) Professional' Language: 'zh' Physical Memory: 65378 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-08T08:53:57Z
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.0.84f1\Editor\Unity.exe
+-batchmode
+-projectPath
+C:\Users\Administrator\Documents\Codex\clinic-int
+-runTests
+-testPlatform
+EditMode
+-testResults
+C:\Users\Administrator\Documents\Codex\clinic-int\Logs\UnifiedClinicEditFinalCode.xml
+-logFile
+C:\Users\Administrator\Documents\Codex\clinic-int\Logs\UnifiedClinicEditFinalCode.log
+Successfully changed project path to: C:\Users\Administrator\Documents\Codex\clinic-int
+C:/Users/Administrator/Documents/Codex/clinic-int
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [27336]  Target information:
+
+Player connection [27336]  * "[IP] 192.168.0.176 [Port] 55504 [Flags] 2 [Guid] 2888625342 [EditorId] 2888625342 [Version] 1048832 [Id] WindowsEditor(7,WIN-1SU0ECNLPV2) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [27336] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [27336] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 35436, path: "C:/Program Files/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              26fdc05bba9f4235800f4c97d771d557
+  Correlation Id:          317e617e98d789f714402b041f4b5cd0
+  External correlation Id: 3462671270710036252
+  Machine Id:              zA3F66iXHPF32y0MH2OuDuccLU8=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Administrator" (connect: 0.00s, validation: 0.00s, handshake: 0.04s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Administrator-notifications" at "2026-10-08T08:53:58.0117366Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 15669642595473-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Module] Licensing Background thread has ended after 0.05s
+[Package Manager] Connected to IPC stream "Upm-15516" after 0.3 seconds.
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Artifact Garbage Collection - Removed 2 unused hashed content filesRefreshing native plugins compatible for Editor in 0.40 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.0.84f1 (78ab6fc243d5)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.0.84f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Administrator/Documents/Codex/clinic-int/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3070 (ID=0x2488)
+    Vendor:   NVIDIA
+    VRAM:     8018 MB
+    Driver:   32.0.16.1088
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.0.84f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.0.84f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.0.84f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56516
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.84f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002551 seconds.
+- Loaded All Assemblies, in  0.317 seconds
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.288 seconds
+Domain Reload Profiling: 604ms
+	BeginReloadAssembly (114ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (30ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (42ms)
+	LoadAllAssembliesAndSetupDomain (120ms)
+		LoadAssemblies (111ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (118ms)
+			TypeCache.Refresh (116ms)
+				TypeCache.ScanAssembly (106ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (289ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (258ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (18ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (53ms)
+			ProcessInitializeOnLoadAttributes (129ms)
+			ProcessInitializeOnLoadMethodAttributes (55ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 56 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.navigation@2.0.14 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.ai.navigation@134dd6a3b97b)
+    com.unity.collab-proxy@2.13.6 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.collab-proxy@4628d2ba6ea4)
+    com.unity.ide.rider@3.0.39 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.ide.rider@4504839d03f7)
+    com.unity.ide.visualstudio@2.0.27 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.ide.visualstudio@dc1ddd4f09b6)
+    com.unity.inputsystem@1.20.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.inputsystem@7a4e1a2a8194)
+    com.unity.timeline@1.8.13 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.timeline@3a22918286f5)
+    com.unity.visualscripting@1.9.12 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.visualscripting@4edfcc09512f)
+    com.unity.searcher@4.9.3 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.searcher@1e17ce91558d)
+    com.unity.burst@1.8.30 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.burst@2f3d916873ea)
+    com.unity.mathematics@1.3.2 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.mathematics@8017b507cc74)
+    com.unity.collections@2.6.8 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.collections@84e8eb3fc12e)
+    com.unity.nuget.mono-cecil@1.11.6 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.5.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.test-framework.performance@8b56083ec0f0)
+  Built-in packages:
+    com.unity.multiplayer.center@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.multiplayer.center@f3fb577b3546)
+    com.unity.render-pipelines.universal@17.0.4 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.render-pipelines.universal@ab605b8cbe5e)
+    com.unity.test-framework@1.6.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.test-framework@082c24152fd4)
+    com.unity.ugui@2.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.ugui@5d6a93c81cc4)
+    com.unity.modules.accessibility@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.ai@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vehicles@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.ext.nunit@2.0.5 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.ext.nunit@031a54704bff)
+    com.unity.render-pipelines.core@17.0.4 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.render-pipelines.core@36dd213002aa)
+    com.unity.shadergraph@17.0.4 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.shadergraph@867249b1c940)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.render-pipelines.universal-config@dd206bf35d04)
+    com.unity.rendering.light-transport@1.0.1 (location: C:\Users\Administrator\Documents\Codex\clinic-int\Library\PackageCache\com.unity.rendering.light-transport@9bd588f963c0)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.02 seconds
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.84f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/Administrator/Documents/Codex/clinic-int
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 0s435ms
+[ 433/1063  0s] WriteResponseFile Library/Bee/artifacts/rsp/4747638433968585886.rsp
+[ 816/1063  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (0.39 seconds), 2 items updated, 1063 evaluated
+AssetDatabase: script compilation time: 0.877191s
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.815 seconds
+Refreshing native plugins compatible for Editor in 1.61 ms, found 4 plugins.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.52 ms, found 4 plugins.
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.554 seconds
+Domain Reload Profiling: 3365ms
+	BeginReloadAssembly (261ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (10ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (137ms)
+	RebuildCommonClasses (29ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (27ms)
+	LoadAllAssembliesAndSetupDomain (482ms)
+		LoadAssemblies (328ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (238ms)
+			TypeCache.Refresh (160ms)
+				TypeCache.ScanAssembly (149ms)
+			BuildScriptInfoCaches (62ms)
+			ResolveRequiredComponents (13ms)
+	FinalizeReload (2555ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (2335ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (13ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (142ms)
+			ProcessInitializeOnLoadAttributes (2015ms)
+			ProcessInitializeOnLoadMethodAttributes (155ms)
+			AfterProcessingInitializeOnLoad (7ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (12ms)
+Asset Pipeline Refresh (id=4fa66468529f2854db97a01af91817d0): Total: 4.797 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2964 ms
+		Asset DB Callback time: managed=58 ms, native=27 ms
+		Scripting: domain reloads=1, domain reload time=815 ms, compile time=879 ms, other=51 ms
+		Project Asset Count: scripts=1446, non-scripts=2556
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 29.318ms
+	ApplyChangesToAssetFolders: 0.779ms
+	Scan: 100.057ms
+	OnSourceAssetsModified: 0.002ms
+	CategorizeAssetsWithTransientArtifact: 56.211ms
+	ProcessAssetsWithTransientArtifactChanges: 69.450ms
+	CategorizeAssets: 41.560ms
+	ImportOutOfDateAssets: 2565.418ms (1684.546ms without children)
+		CompileScripts: 878.892ms
+		ReloadNativeAssets: 0.017ms
+		UnloadImportedAssets: 0.860ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.585ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.517ms
+	PostProcessAllAssets: 58.700ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.001ms
+	UnloadStreamsBegin: 0.371ms
+	PersistCurrentRevisions: 0.131ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 2.886ms
+	Untracked: 1874.714ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 6.102ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-BorderRepairStation
+Unloading 47 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6764 unused Assets / (10.3 MB). Loaded Objects now: 7412.
+Memory consumption went from 195.0 MB to 184.7 MB.
+Total: 11.486800 ms (FindLiveObjects: 0.641100 ms CreateObjectMapping: 0.795200 ms MarkObjects: 5.534500 ms  DeleteObjects: 4.514500 ms)
+
+[Project] Loading completed in 7.065 seconds
+	Project init time: 				6.626 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		0.250 seconds
+		Asset Database init time: 		0.177 seconds
+		Global illumination init time: 	0.002 seconds
+		Assemblies load time: 			0.628 seconds
+		Unity extensions init time: 	0.035 seconds
+		Asset Database refresh time: 	4.797 seconds
+	Scene opening time: 			0.389 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1791449645020,"processId":15516,"projectLoad":7.0649123,"projectInit":6.6259347,"templateInit":0.0,"packageManagerInit":0.2501336,"assetDatabaseInit":0.1774463,"globalIlluminationInit":0.0022445,"assembliesLoad":0.6278313,"unityExtensionsInit":0.0345397,"assetDatabaseRefresh":4.7968676,"sceneOpening":0.3889053}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1791449645020,"processId":15516,"editorVersion":"6000.0.84f1 (78ab6fc243d5)","branch":"6000.0/staging","buildType":"Release","platform":"Windows"}
+Asset Pipeline Refresh (id=b6c08127208d4c74c89fa85cad4e995e): Total: 0.046 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.02 seconds
+Running tests for ExecutionSettings with details:
+targetPlatform = 
+playerHeartbeatTimeout = 600
+filters[0] = 
+   Filter with settings:
+   testMode = EditMode
+   targetPlatform = 
+   testNames = null
+   groupNames = null
+   categoryNames = null
+   assemblyNames = null
+ignoreTests = {}
+featureFlags = null
+
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:InitializeAndExecuteRun (string[]) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/Executer.cs:53)
+UnityEditor.TestTools.TestRunner.CommandLineTest.TestStarter:InitializeAndExecuteRun () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/TestStarter.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/Executer.cs Line: 53)
+
+[UnityConnectServicesConfig] config is NOT valid, switching to default
+Created GICache directory at C:/Users/Administrator/AppData/LocalLow/Unity/Caches/GiCache. Took: 0.024s, timestamps: [7.080 - 7.104]
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 4 unused Assets / (2.1 KB). Loaded Objects now: 7455.
+Memory consumption went from 176.7 MB to 176.7 MB.
+Total: 6.889800 ms (FindLiveObjects: 0.429700 ms CreateObjectMapping: 0.267000 ms MarkObjects: 6.121600 ms  DeleteObjects: 0.070600 ms)
+
+Executing IPrebuildSetup for: Unity.PerformanceTesting.Editor.TestRunBuilder.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<ExecuteMethods>d__8<UnityEngine.TestTools.IPrebuildSetup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:48)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<Execute>d__7<UnityEngine.TestTools.IPrebuildSetup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:34)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteStep () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:173)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteCallback () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:108)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs Line: 48)
+
+Opening scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+Unloading 9 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            38.159 ms
+	Integration:            363.813 ms
+	Integration of assets:  5.512 ms
+	Thread Wait Time:       0.031 ms
+	Total Operation Time:   407.515 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 15093.
+Memory consumption went from 218.2 MB to 218.2 MB.
+Total: 7.835000 ms (FindLiveObjects: 0.642400 ms CreateObjectMapping: 0.380000 ms MarkObjects: 6.783200 ms  DeleteObjects: 0.028600 ms)
+
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3908 unused Assets / (26.2 MB). Loaded Objects now: 7457.
+Memory consumption went from 216.3 MB to 190.1 MB.
+Total: 11.680700 ms (FindLiveObjects: 0.337600 ms CreateObjectMapping: 0.230500 ms MarkObjects: 6.035500 ms  DeleteObjects: 5.076200 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7457.
+Memory consumption went from 189.6 MB to 189.6 MB.
+Total: 6.914200 ms (FindLiveObjects: 0.229100 ms CreateObjectMapping: 0.162600 ms MarkObjects: 6.506300 ms  DeleteObjects: 0.015100 ms)
+
+Asset Pipeline Refresh (id=b7de632859915f2479b0edbbd35650d2): Total: 0.004 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=335ccb3036058b6468910602a24ef361): Total: 0.032 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7457.
+Memory consumption went from 180.6 MB to 180.6 MB.
+Total: 6.803400 ms (FindLiveObjects: 0.267800 ms CreateObjectMapping: 0.171000 ms MarkObjects: 6.352700 ms  DeleteObjects: 0.011100 ms)
+
+Asset Pipeline Refresh (id=b9f309eba87f4684387474b13dcd15e7): Total: 0.005 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7457.
+Memory consumption went from 180.6 MB to 180.6 MB.
+Total: 8.516400 ms (FindLiveObjects: 0.347800 ms CreateObjectMapping: 0.242300 ms MarkObjects: 7.907500 ms  DeleteObjects: 0.017100 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7457.
+Memory consumption went from 178.7 MB to 178.7 MB.
+Total: 7.259200 ms (FindLiveObjects: 0.272000 ms CreateObjectMapping: 0.188900 ms MarkObjects: 6.781000 ms  DeleteObjects: 0.015600 ms)
+
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Cloth.mat using Guid(5cb8cba786563694998ffc6c60373392) (NativeFormatImporter) -> (artifact id: 'fa422eef550d8ac0e2eb650be12f258d') in 0.0063171 seconds
+Refreshing native plugins compatible for Editor in 1.89 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=8b5d2cf62180d6b47adc402b09531700): Total: 0.104 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=d4e2319ffc4cb544ba629139b0f3891b): Total: 0.010 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Textures/T_UCC_PaintAtlas.png using Guid(fc17628d3d623634880184acd121a78c) (TextureImporter) -> (artifact id: '8cdfafe695d127126a08a620dbad3b68') in 0.0056409 seconds
+Refreshing native plugins compatible for Editor in 1.46 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=56061ddb73572aa4d81d4ec180b7aee6): Total: 0.025 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Textures/T_UCC_SoftAtlas.png using Guid(5e1f571b28d94694ca596ffd515d34ec) (TextureImporter) -> (artifact id: 'f61be3f8261baba130aa4a388d09b3e5') in 0.0048274 seconds
+Refreshing native plugins compatible for Editor in 1.35 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5f227ff9c4a50e64ab8b03b6abdbe71a): Total: 0.019 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/UnifiedClinic_ClutterAddon.fbx using Guid(2bdbdb4a24824b941bf8298b93301f7e) (FBXImporter) -> (artifact id: 'c460153af4c7bd7601b87ac3175baa75') in 0.0305868 seconds
+Refreshing native plugins compatible for Editor in 2.13 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=389aa7f1e1ed6bc45afbf515322e33ae): Total: 0.046 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_Fabric.mat using Guid(a146cb4c355227f429c24643f6823f32) (NativeFormatImporter) -> (artifact id: '39abc3b5bd9a91ad5a1a493282d1dacd') in 0.0025891 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_PaintedMetal.mat using Guid(f781227014f3773448975c6994d4fd3e) (NativeFormatImporter) -> (artifact id: '3acced331a7a47c2fa709fc18ec869b2') in 0.0019301 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_Paper.mat using Guid(8df98f84d6b261c4da7cf546f31e4fff) (NativeFormatImporter) -> (artifact id: 'd2e0a9ec4f9729c8ce15db2d70809a17') in 0.0017824 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_Cable.mat using Guid(ad7a666d9f68e19498f6977dc0d90776) (NativeFormatImporter) -> (artifact id: 'a905e66ae82b8d958e8517cc816a1d09') in 0.0016064 seconds
+Refreshing native plugins compatible for Editor in 1.78 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5dbe64adc300bc546b90005591d50bdb): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_RollbackProbe.png using Guid(cf8324f06e895b04b9fcd027cae8a655) (TextureImporter) -> (artifact id: '713026869a877a19050154c3671fb61e') in 0.0105691 seconds
+Refreshing native plugins compatible for Editor in 1.62 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=72bc9701c407d75499fe1254861043be): Total: 0.074 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Fabric.png using Guid(adfb138af99c4d84cb66a069a16d9ee8) (TextureImporter) -> (artifact id: '2efdf36fd4489c0cf8b3e1393e01ff7b') in 0.0025974 seconds
+Refreshing native plugins compatible for Editor in 1.44 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=73361e060d037934b9dc62e0d544f37f): Total: 0.019 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Floor.png using Guid(700aee45f9de75e43aa7049dc058d498) (TextureImporter) -> (artifact id: '78e694a2eac6d35cc992a3872552a402') in 0.004427 seconds
+Refreshing native plugins compatible for Editor in 1.58 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=2104b0723b0add74aa9d0512b2079544): Total: 0.019 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Grate.png using Guid(f4b44fa7d67e42f489bbb56568dd65ae) (TextureImporter) -> (artifact id: 'ed77f3bcdba7e6473234fe23d6d67abd') in 0.0025147 seconds
+Refreshing native plugins compatible for Editor in 1.35 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=86f5f3b8e1d49054184def6b4a1c8822): Total: 0.017 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Hazard.png using Guid(4ed1f4f6f9d129541bd9234f3a766b8d) (TextureImporter) -> (artifact id: '5064e55dbc938811962b63c71a772b1b') in 0.0023294 seconds
+Refreshing native plugins compatible for Editor in 1.36 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=10045f4238e542c49b0c876453643c60): Total: 0.016 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Paper.png using Guid(bd35e049cbae86e4296cc7b4c8d00ca6) (TextureImporter) -> (artifact id: '8ab7734625eecc166d13f9d3d6c7026b') in 0.0097641 seconds
+Refreshing native plugins compatible for Editor in 1.34 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=63c0f0a578cc04b49b8396b5d434cff1): Total: 0.024 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_RollbackProbe.png using Guid(cf8324f06e895b04b9fcd027cae8a655) (TextureImporter) -> (artifact id: '9425e2778a37df9a6f04650c1c754664') in 0.0026652 seconds
+Refreshing native plugins compatible for Editor in 1.33 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b106a91cbab6c7f42800975fc35c0937): Total: 0.039 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Screen.png using Guid(3696c5ce65cf38f4ba3607de502fac92) (TextureImporter) -> (artifact id: '51afc212ef357af2731ac4ef0ed0d4a2') in 0.0031856 seconds
+Refreshing native plugins compatible for Editor in 1.28 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=82925905257b0a1469f7e0df9b07363e): Total: 0.016 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Wall.png using Guid(306f7624d10eb234c81a5fbb8d9958f1) (TextureImporter) -> (artifact id: '9c109a9b2cf709746c528ad7eea88f01') in 0.0039782 seconds
+Refreshing native plugins compatible for Editor in 1.64 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c3c063756a3a10b4babb891fba9e1de6): Total: 0.018 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Worn.png using Guid(84f128b36a55dcd4d841ef354437cd1b) (TextureImporter) -> (artifact id: '3daddfce20b6821d4e91bee4f6bac21b') in 0.0038588 seconds
+Refreshing native plugins compatible for Editor in 1.47 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=f3da35824a8b66346ab5768456a361e8): Total: 0.017 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Screen.mat using Guid(600135cb0defbec49b4d51422ecf9eb5) (NativeFormatImporter) -> (artifact id: '4967f4953a89cd47638c453950dd0684') in 0.0022845 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_PaintGreen.mat using Guid(804d3d8862d13a843a1a8d97242414cf) (NativeFormatImporter) -> (artifact id: 'dbe0a8c36f93732bdef59cb08beb1fcd') in 0.001768 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Red.mat using Guid(836b122a8f7e1a44b90e5a58381b9c7c) (NativeFormatImporter) -> (artifact id: 'cfeec50cd49ebc0a3f29ca0d9b761cee') in 0.0018238 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Rubber.mat using Guid(367c386544997f140aae039477f18892) (NativeFormatImporter) -> (artifact id: 'a47101954a8b90f0c249b06ef7bfb2c7') in 0.0020516 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_LampWarm.mat using Guid(8679c9685f6e53a47904ebd703f6a65f) (NativeFormatImporter) -> (artifact id: 'e8b44f3215fdfcc77e200df0fb11cec8') in 0.0017825 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Vinyl.mat using Guid(b76f29564996c99489adfa76a49d66c9) (NativeFormatImporter) -> (artifact id: 'ab7719efbdd389f98c848559ace7dbf0') in 0.0018491 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Ivory.mat using Guid(98abb88e0a148374e8153f02641f567a) (NativeFormatImporter) -> (artifact id: '23693103b58054cf41dfc13bbad785f3') in 0.0015063 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Grate.mat using Guid(c88b97611ea343841a6ec2e4eefafa6a) (NativeFormatImporter) -> (artifact id: 'e252afaec3212a7f3e2b593ff457bfb1') in 0.0021889 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Hazard.mat using Guid(991a07ba70694c546954b7fc045af151) (NativeFormatImporter) -> (artifact id: '4957e371a1bd67ba85884decff9dcf86') in 0.0024755 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Pipe.mat using Guid(4b23e47ce60308647884ea19b9d74cc2) (NativeFormatImporter) -> (artifact id: '66dd28fb5382ebe9120ca3ccdf1b6b02') in 0.0018282 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Steel.mat using Guid(3ce43e2e5dad0b54fb7d6159633b2e99) (NativeFormatImporter) -> (artifact id: 'de364eab54d2ac50397e5cdccb02c021') in 0.0019492 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Paper.mat using Guid(5cf0ec125f6985b40a0cfc1bb8a4f98d) (NativeFormatImporter) -> (artifact id: 'e4d952c09e1ced15c54d0b5bc0848c19') in 0.0015212 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Cloth.mat using Guid(5cb8cba786563694998ffc6c60373392) (NativeFormatImporter) -> (artifact id: 'e7d81b3d387f74fa80757aa777bab429') in 0.001589 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Floor.mat using Guid(1d8a0d9420dc01441b2509693f7d0419) (NativeFormatImporter) -> (artifact id: 'abdd6113ebf474776d52058a9d06fb67') in 0.0015422 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Wood.mat using Guid(1e155fd6329478948ab33c661d4cc557) (NativeFormatImporter) -> (artifact id: 'c477eda1725a62aa1f3bc713e09f5a83') in 0.0016581 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Wall.mat using Guid(7e54ac40974bfe94cbdeebef85833884) (NativeFormatImporter) -> (artifact id: 'e4cd51d51b453f4a91d8712c2d01cd57') in 0.0016269 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Orange.mat using Guid(8e8de5a283b4ce84a8fc0a8053053cd8) (NativeFormatImporter) -> (artifact id: 'b511faaa99fe6695dc9f876ae859cf61') in 0.0016007 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_DarkSteel.mat using Guid(dea38aa199f33b645bb83406d1ed6125) (NativeFormatImporter) -> (artifact id: '86fa636c2352d2bb235edb858606b212') in 0.0015521 seconds
+Refreshing native plugins compatible for Editor in 1.33 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=9bc8ed3e910cb2d47922a6a26ba5320a): Total: 0.071 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Models/UnifiedClinic_Environment.fbx using Guid(2f3d9eed9faf4574d9a6ce93afa455bb) (FBXImporter) -> (artifact id: '68de626a1bc9798e710ce563a0f447e2') in 0.0783843 seconds
+Refreshing native plugins compatible for Editor in 1.46 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=8956971cd17594745a17097e2d6a5637): Total: 0.094 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Models/UnifiedClinic_MonitorArm.fbx using Guid(5a9456a2017b1eb44ae00104f88e0631) (FBXImporter) -> (artifact id: '591bc1eee149631c26f0334b2a30c88f') in 0.0175685 seconds
+Refreshing native plugins compatible for Editor in 1.40 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=64a3447fab6e150469d493a0f2484b90): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Models/UnifiedClinic_CollisionProxies.fbx using Guid(a78cdb5f3e19e3b40931d2d17e9fb7d5) (FBXImporter) -> (artifact id: '229ebfe05a423cd448075ffecf68934d') in 0.0220758 seconds
+Refreshing native plugins compatible for Editor in 1.38 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=dfe2e195e6dbd6345806f74f7da75533): Total: 0.037 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=490c8737d42f1e3479ca3107a712222f): Total: 0.010 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity'
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity'
+	Deserialize:            12.151 ms
+	Integration:            298.384 ms
+	Integration of assets:  0.990 ms
+	Thread Wait Time:       0.022 ms
+	Total Operation Time:   311.547 ms
+Unloading 1862 unused Assets / (1.8 MB). Loaded Objects now: 12746.
+Memory consumption went from 230.0 MB to 228.2 MB.
+Total: 9.623800 ms (FindLiveObjects: 0.629200 ms CreateObjectMapping: 0.400500 ms MarkObjects: 6.511400 ms  DeleteObjects: 2.081900 ms)
+
+Start importing Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity using Guid(5e112458c20ed84429c792da3a294aa9) (DefaultImporter) -> (artifact id: 'df8b2120b44037dcf32204119d460339') in 0.0014964 seconds
+Refreshing native plugins compatible for Editor in 1.23 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=932f23bcaf21905449191daa1a1dc3d2): Total: 0.036 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Scenes/UnifiedClinic/PrototypeConsole_Import.unity using Guid(4aa97dc4b5271e547873f5c7062ef030) (DefaultImporter) -> (artifact id: '694e6135f554b704cc79a6fe8d9dd58a') in 0.0010291 seconds
+Refreshing native plugins compatible for Editor in 1.45 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=aafa8972b40ef04478ce7922bb2caefb): Total: 0.036 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/BorderRepair/Scenes/UnifiedClinic/PrototypeConsole_Import.unity additively'
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/PrototypeConsole_Import.unity'
+	Deserialize:            8.637 ms
+	Integration:            1.942 ms
+	Integration of assets:  3.291 ms
+	Thread Wait Time:       0.017 ms
+	Total Operation Time:   13.887 ms
+Refreshing native plugins compatible for Editor in 1.55 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5c144750dc225ca4ab93c182ec47a0e2): Total: 0.034 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity using Guid(5e112458c20ed84429c792da3a294aa9) (DefaultImporter) -> (artifact id: 'bf95043997a78273338eb9581e1afe2b') in 0.001061 seconds
+Refreshing native plugins compatible for Editor in 1.40 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=aad533881657a6a4d8d8c42315b31d3c): Total: 0.036 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/BorderRepair/Scenes/Slice/TwoNight_Menu.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/Slice/TwoNight_Menu.unity'
+	Deserialize:            1.211 ms
+	Integration:            155.472 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.013 ms
+	Total Operation Time:   156.697 ms
+Unloading 2954 unused Assets / (43.4 MB). Loaded Objects now: 7487.
+Memory consumption went from 255.9 MB to 212.6 MB.
+Total: 11.385000 ms (FindLiveObjects: 0.506600 ms CreateObjectMapping: 0.337100 ms MarkObjects: 6.905200 ms  DeleteObjects: 3.635200 ms)
+
+Start importing Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity using Guid(d4a3ceae829403d4ca9c554c9d398383) (DefaultImporter) -> (artifact id: '453622ef7a9cb46715546792d5e9fc8a') in 0.0019199 seconds
+Refreshing native plugins compatible for Editor in 1.18 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b8707e906cd4e7a4aa3a7b6941a16376): Total: 0.029 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity using Guid(d4a3ceae829403d4ca9c554c9d398383) (DefaultImporter) -> (artifact id: '4136a3581cbe5a3052ec42548c058318') in 0.0011291 seconds
+Refreshing native plugins compatible for Editor in 1.38 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b22824aa8447b8540963c2a0906b072f): Total: 0.027 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            13.817 ms
+	Integration:            283.392 ms
+	Integration of assets:  2.170 ms
+	Thread Wait Time:       0.029 ms
+	Total Operation Time:   299.408 ms
+Unloading 25 unused Assets / (13.1 KB). Loaded Objects now: 13319.
+Memory consumption went from 233.0 MB to 233.0 MB.
+Total: 8.788700 ms (FindLiveObjects: 0.696000 ms CreateObjectMapping: 0.384000 ms MarkObjects: 7.575400 ms  DeleteObjects: 0.131700 ms)
+
+[UnifiedClinic] Built shared N1/N2 room from current Unit07_Night; original console and robot references retained.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+BorderRepair.TwoNight.EditorTools.UnifiedClinicBuilder:Build () (at Assets/BorderRepair/Scripts/Editor/TwoNight/UnifiedClinicBuilder.cs:95)
+BorderRepair.Art.UnifiedClinic.EditorTools.ClinicGameplayIntegrator:BuildContents (UnityEngine.GameObject) (at Assets/BorderRepair/Art/UnifiedClinic/Editor/ClinicGameplayIntegrator.cs:102)
+BorderRepair.Art.UnifiedClinic.EditorTools.ClinicGameplayIntegrator:Build () (at Assets/BorderRepair/Art/UnifiedClinic/Editor/ClinicGameplayIntegrator.cs:49)
+BorderRepair.Art.UnifiedClinic.Tests.ClinicImportSafetyTests/<>c:<FailureAfterImports_RestoresPublishedResourcesAndSceneBytes>b__3_5 () (at Assets/BorderRepair/Art/UnifiedClinic/Tests/Editor/ClinicImportSafetyTests.cs:143)
+NUnit.Framework.Assert:Throws (NUnit.Framework.Constraints.IResolveConstraint,NUnit.Framework.TestDelegate,string,object[])
+NUnit.Framework.Assert:Throws (System.Type,NUnit.Framework.TestDelegate,string,object[])
+NUnit.Framework.Assert:Throws<System.InvalidOperationException> (NUnit.Framework.TestDelegate,string,object[])
+NUnit.Framework.Assert:Throws<System.InvalidOperationException> (NUnit.Framework.TestDelegate)
+BorderRepair.Art.UnifiedClinic.Tests.ClinicImportSafetyTests:FailureAfterImports_RestoresPublishedResourcesAndSceneBytes (bool) (at Assets/BorderRepair/Art/UnifiedClinic/Tests/Editor/ClinicImportSafetyTests.cs:143)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+NUnit.Framework.Internal.Reflect:InvokeMethod (System.Reflection.MethodInfo,object,object[])
+NUnit.Framework.Internal.MethodWrapper:Invoke (object,object[])
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunNonAsyncTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext)
+UnityEngine.TestTools.UnityTestMethodCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/UnityTestMethodCommand.cs:19)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<>c__DisplayClass2_0:<Execute>b__0 () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:24)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand:CaptureException (NUnit.Framework.Internal.TestResult,System.Action) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:72)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand:ExecuteAndCheckLog (UnityEngine.TestTools.Logging.LogScope,NUnit.Framework.Internal.TestResult,System.Action) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:83)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:24)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:35)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.ImmediateEnumerableCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/ImmediateEnumerableCommand.cs:18)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:219)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestRunner.NUnitExtensions.Runner.DefaultTestWorkItem/<PerformWork>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/DefaultTestWorkItem.cs:50)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEditor.TestTools.TestRunner.EditModeRunner:MoveNextAndUpdateYieldObject () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRunner/EditModeRunner.cs:167)
+UnityEditor.TestTools.TestRunner.EditModeRunner:TestConsumer (UnityEditor.TestTools.TestRunner.TestRunnerStateSerializer) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRunner/EditModeRunner.cs:200)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.EditModeRunTask/<Execute>d__1:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/EditModeRunTask.cs:48)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteStep () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:173)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteCallback () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:108)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: Assets/BorderRepair/Scripts/Editor/TwoNight/UnifiedClinicBuilder.cs Line: 95)
+
+Asset Pipeline Refresh (id=b33515c2278d588409609f5d0f8fecc6): Total: 0.004 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Refreshing native plugins compatible for Editor in 1.72 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=04cc51db65976b04b93d53463fcea6dc): Total: 0.049 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Unloading 7 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2948 unused Assets / (25.6 MB). Loaded Objects now: 7462.
+Memory consumption went from 227.0 MB to 201.4 MB.
+Total: 10.445500 ms (FindLiveObjects: 0.293300 ms CreateObjectMapping: 0.185500 ms MarkObjects: 6.331300 ms  DeleteObjects: 3.634700 ms)
+
+Refreshing native plugins compatible for Editor in 1.25 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=23c5180d2f0f3344a8b09d399958d569): Total: 0.053 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 15 unused Assets / (9.3 KB). Loaded Objects now: 7462.
+Memory consumption went from 195.2 MB to 195.2 MB.
+Total: 6.638200 ms (FindLiveObjects: 0.227200 ms CreateObjectMapping: 0.152300 ms MarkObjects: 6.219700 ms  DeleteObjects: 0.038200 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7462.
+Memory consumption went from 195.1 MB to 195.1 MB.
+Total: 7.857400 ms (FindLiveObjects: 0.359300 ms CreateObjectMapping: 0.373200 ms MarkObjects: 7.113700 ms  DeleteObjects: 0.010400 ms)
+
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Cloth.mat using Guid(5cb8cba786563694998ffc6c60373392) (NativeFormatImporter) -> (artifact id: 'fa422eef550d8ac0e2eb650be12f258d') in 0.0031478 seconds
+Refreshing native plugins compatible for Editor in 1.16 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=edfe003de7bd83c46b2a5acf322ec423): Total: 0.028 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Refreshing native plugins compatible for Editor in 1.64 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c003659f249adf84f9be5b83fec207c3): Total: 0.045 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter using Guid(57e42c8a7bac25244b34870a77c24f97) (DefaultImporter) -> (artifact id: '1f56c7a509d4739facc11c126707a8bf') in 0.0026007 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Textures using Guid(30e7118f198291743a03b5d5f3fa1968) (DefaultImporter) -> (artifact id: 'ccf5a22d6049ad73ddda80403a760473') in 0.0023109 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials using Guid(f08a9668470c3d1498f7bb88c75701d4) (DefaultImporter) -> (artifact id: '3ba28790badc686fc660deff0a5eb325') in 0.0025401 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Textures/T_UCC_PaintAtlas.png using Guid(fc17628d3d623634880184acd121a78c) (TextureImporter) -> (artifact id: '52d4b94e2f695a14ea80f7d958be4ebb') in 0.0044698 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Textures/T_UCC_SoftAtlas.png using Guid(5e1f571b28d94694ca596ffd515d34ec) (TextureImporter) -> (artifact id: '42759c974a274b9b7270f735ac87f462') in 0.0060239 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/UnifiedClinic_ClutterAddon.fbx using Guid(2bdbdb4a24824b941bf8298b93301f7e) (FBXImporter) -> (artifact id: '370067883e01b1e876defb388223c52f') in 0.0421024 seconds
+Refreshing native plugins compatible for Editor in 1.33 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=8f1197fd7d9d6d744ab474af1b27c7d5): Total: 0.153 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Textures/T_UCC_PaintAtlas.png using Guid(fc17628d3d623634880184acd121a78c) (TextureImporter) -> (artifact id: '8cdfafe695d127126a08a620dbad3b68') in 0.0032009 seconds
+Refreshing native plugins compatible for Editor in 1.36 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=3c7c393fb68c5564fabe284ee5c78406): Total: 0.032 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Textures/T_UCC_SoftAtlas.png using Guid(5e1f571b28d94694ca596ffd515d34ec) (TextureImporter) -> (artifact id: 'f61be3f8261baba130aa4a388d09b3e5') in 0.0045579 seconds
+Refreshing native plugins compatible for Editor in 1.37 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b4d15f5aa68ec664784df799eeb8bb71): Total: 0.034 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_Fabric.mat using Guid(a146cb4c355227f429c24643f6823f32) (NativeFormatImporter) -> (artifact id: 'b18322de9d1f3bdf08ca146b547bbed7') in 0.0021101 seconds
+Refreshing native plugins compatible for Editor in 1.72 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=a11517b100ec8ea4d838beb506da6fc3): Total: 0.027 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_Paper.mat using Guid(8df98f84d6b261c4da7cf546f31e4fff) (NativeFormatImporter) -> (artifact id: 'be41661e9aba8759ad503d7268569a59') in 0.0020837 seconds
+Refreshing native plugins compatible for Editor in 1.33 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c3192b39bf98b4a439fab4eb7f633112): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_PaintedMetal.mat using Guid(f781227014f3773448975c6994d4fd3e) (NativeFormatImporter) -> (artifact id: 'ee75eda1b15dac18de9df36fc0125438') in 0.002065 seconds
+Refreshing native plugins compatible for Editor in 1.34 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=fc752018ad324bf40934c335f6050d41): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_Cable.mat using Guid(ad7a666d9f68e19498f6977dc0d90776) (NativeFormatImporter) -> (artifact id: '3c43ee32329267fc02329718fc8b3789') in 0.0019762 seconds
+Refreshing native plugins compatible for Editor in 1.41 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=d50b134efd645d544b5d41ef893fb20b): Total: 0.028 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/UnifiedClinic_ClutterAddon.fbx using Guid(2bdbdb4a24824b941bf8298b93301f7e) (FBXImporter) -> (artifact id: 'c460153af4c7bd7601b87ac3175baa75') in 0.0196688 seconds
+Refreshing native plugins compatible for Editor in 2.05 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=a3a35c5bc9d6ac548be7325e23d349b4): Total: 0.050 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_Fabric.mat using Guid(a146cb4c355227f429c24643f6823f32) (NativeFormatImporter) -> (artifact id: '443a3809d0c159d31aed9d4d137f9f4b') in 0.0021317 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_PaintedMetal.mat using Guid(f781227014f3773448975c6994d4fd3e) (NativeFormatImporter) -> (artifact id: '1c3d3ca3db0c4aecef5c243f427ecdaa') in 0.0018568 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_Paper.mat using Guid(8df98f84d6b261c4da7cf546f31e4fff) (NativeFormatImporter) -> (artifact id: 'c8c304f1e1f7f4e821ab0d61181fbec6') in 0.0015361 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Clutter/Materials/M_UCC_Cable.mat using Guid(ad7a666d9f68e19498f6977dc0d90776) (NativeFormatImporter) -> (artifact id: 'bf6fc0351f4420b59d98e1508b4fe2e3') in 0.0013622 seconds
+Refreshing native plugins compatible for Editor in 1.31 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=569fe1d3fbe00594c8e9a09cd748d6d8): Total: 0.034 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_RollbackProbe.png using Guid(cf8324f06e895b04b9fcd027cae8a655) (TextureImporter) -> (artifact id: '713026869a877a19050154c3671fb61e') in 0.004317 seconds
+Refreshing native plugins compatible for Editor in 1.31 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=e49576a99e5c2fa4988b14ca9d51753b): Total: 0.051 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Fabric.png using Guid(adfb138af99c4d84cb66a069a16d9ee8) (TextureImporter) -> (artifact id: '2efdf36fd4489c0cf8b3e1393e01ff7b') in 0.0023786 seconds
+Refreshing native plugins compatible for Editor in 1.44 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=1d5b8f1212cf9bf478e1b2bb6055dc39): Total: 0.016 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Floor.png using Guid(700aee45f9de75e43aa7049dc058d498) (TextureImporter) -> (artifact id: '78e694a2eac6d35cc992a3872552a402') in 0.0040354 seconds
+Refreshing native plugins compatible for Editor in 1.31 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=21f2c521e7b269f47ade8e4709a9aaaf): Total: 0.017 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Grate.png using Guid(f4b44fa7d67e42f489bbb56568dd65ae) (TextureImporter) -> (artifact id: 'ed77f3bcdba7e6473234fe23d6d67abd') in 0.0024891 seconds
+Refreshing native plugins compatible for Editor in 1.30 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=055d50df541c5304c8ad418c85c367f3): Total: 0.016 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Hazard.png using Guid(4ed1f4f6f9d129541bd9234f3a766b8d) (TextureImporter) -> (artifact id: '5064e55dbc938811962b63c71a772b1b') in 0.0026859 seconds
+Refreshing native plugins compatible for Editor in 1.47 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=653ddf22c35c24d4495c896cf96322a0): Total: 0.016 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Paper.png using Guid(bd35e049cbae86e4296cc7b4c8d00ca6) (TextureImporter) -> (artifact id: '8ab7734625eecc166d13f9d3d6c7026b') in 0.0105406 seconds
+Refreshing native plugins compatible for Editor in 1.51 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=7f2e0a5a2170e1c4781786db9daa9359): Total: 0.025 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_RollbackProbe.png using Guid(cf8324f06e895b04b9fcd027cae8a655) (TextureImporter) -> (artifact id: '9425e2778a37df9a6f04650c1c754664') in 0.0026861 seconds
+Refreshing native plugins compatible for Editor in 1.61 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=db36aba6de4ace14f972ebf344c54b90): Total: 0.030 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Screen.png using Guid(3696c5ce65cf38f4ba3607de502fac92) (TextureImporter) -> (artifact id: '51afc212ef357af2731ac4ef0ed0d4a2') in 0.0032391 seconds
+Refreshing native plugins compatible for Editor in 1.85 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=60d35c0e442c3bb42b3f13fd419a2303): Total: 0.017 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Wall.png using Guid(306f7624d10eb234c81a5fbb8d9958f1) (TextureImporter) -> (artifact id: '9c109a9b2cf709746c528ad7eea88f01') in 0.0041097 seconds
+Refreshing native plugins compatible for Editor in 1.57 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=bdc2ff1d303129c4188f7859cdab0656): Total: 0.018 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Textures/T_UC_Worn.png using Guid(84f128b36a55dcd4d841ef354437cd1b) (TextureImporter) -> (artifact id: '3daddfce20b6821d4e91bee4f6bac21b') in 0.0046331 seconds
+Refreshing native plugins compatible for Editor in 1.56 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=ac9b7b72b5204084b9ec77c944b476ae): Total: 0.021 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Screen.mat using Guid(600135cb0defbec49b4d51422ecf9eb5) (NativeFormatImporter) -> (artifact id: '4967f4953a89cd47638c453950dd0684') in 0.0026158 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_PaintGreen.mat using Guid(804d3d8862d13a843a1a8d97242414cf) (NativeFormatImporter) -> (artifact id: 'dbe0a8c36f93732bdef59cb08beb1fcd') in 0.002007 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Red.mat using Guid(836b122a8f7e1a44b90e5a58381b9c7c) (NativeFormatImporter) -> (artifact id: 'cfeec50cd49ebc0a3f29ca0d9b761cee') in 0.0019313 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Rubber.mat using Guid(367c386544997f140aae039477f18892) (NativeFormatImporter) -> (artifact id: 'a47101954a8b90f0c249b06ef7bfb2c7') in 0.0015621 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_LampWarm.mat using Guid(8679c9685f6e53a47904ebd703f6a65f) (NativeFormatImporter) -> (artifact id: 'e8b44f3215fdfcc77e200df0fb11cec8') in 0.0014375 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Vinyl.mat using Guid(b76f29564996c99489adfa76a49d66c9) (NativeFormatImporter) -> (artifact id: 'ab7719efbdd389f98c848559ace7dbf0') in 0.0019664 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Ivory.mat using Guid(98abb88e0a148374e8153f02641f567a) (NativeFormatImporter) -> (artifact id: '23693103b58054cf41dfc13bbad785f3') in 0.0013841 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Grate.mat using Guid(c88b97611ea343841a6ec2e4eefafa6a) (NativeFormatImporter) -> (artifact id: 'e252afaec3212a7f3e2b593ff457bfb1') in 0.0014322 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Hazard.mat using Guid(991a07ba70694c546954b7fc045af151) (NativeFormatImporter) -> (artifact id: '4957e371a1bd67ba85884decff9dcf86') in 0.0014336 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Pipe.mat using Guid(4b23e47ce60308647884ea19b9d74cc2) (NativeFormatImporter) -> (artifact id: '66dd28fb5382ebe9120ca3ccdf1b6b02') in 0.001562 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Steel.mat using Guid(3ce43e2e5dad0b54fb7d6159633b2e99) (NativeFormatImporter) -> (artifact id: 'de364eab54d2ac50397e5cdccb02c021') in 0.0015188 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Paper.mat using Guid(5cf0ec125f6985b40a0cfc1bb8a4f98d) (NativeFormatImporter) -> (artifact id: 'e4d952c09e1ced15c54d0b5bc0848c19') in 0.0015941 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Cloth.mat using Guid(5cb8cba786563694998ffc6c60373392) (NativeFormatImporter) -> (artifact id: 'e7d81b3d387f74fa80757aa777bab429') in 0.0014394 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Floor.mat using Guid(1d8a0d9420dc01441b2509693f7d0419) (NativeFormatImporter) -> (artifact id: 'abdd6113ebf474776d52058a9d06fb67') in 0.0015934 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Wood.mat using Guid(1e155fd6329478948ab33c661d4cc557) (NativeFormatImporter) -> (artifact id: 'c477eda1725a62aa1f3bc713e09f5a83') in 0.0017646 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Wall.mat using Guid(7e54ac40974bfe94cbdeebef85833884) (NativeFormatImporter) -> (artifact id: 'e4cd51d51b453f4a91d8712c2d01cd57') in 0.0016655 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Orange.mat using Guid(8e8de5a283b4ce84a8fc0a8053053cd8) (NativeFormatImporter) -> (artifact id: 'b511faaa99fe6695dc9f876ae859cf61') in 0.0017897 seconds
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_DarkSteel.mat using Guid(dea38aa199f33b645bb83406d1ed6125) (NativeFormatImporter) -> (artifact id: '86fa636c2352d2bb235edb858606b212') in 0.0018207 seconds
+Refreshing native plugins compatible for Editor in 1.33 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=e201aaa6fc99562498ef14836c42aae8): Total: 0.067 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Models/UnifiedClinic_Environment.fbx using Guid(2f3d9eed9faf4574d9a6ce93afa455bb) (FBXImporter) -> (artifact id: '68de626a1bc9798e710ce563a0f447e2') in 0.0806616 seconds
+Refreshing native plugins compatible for Editor in 1.37 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5888ea951f493a14cb2c457196d43885): Total: 0.096 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Models/UnifiedClinic_MonitorArm.fbx using Guid(5a9456a2017b1eb44ae00104f88e0631) (FBXImporter) -> (artifact id: '591bc1eee149631c26f0334b2a30c88f') in 0.0169839 seconds
+Refreshing native plugins compatible for Editor in 1.38 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=f2cc94211a8e1c8429cf7f018e57e534): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Art/UnifiedClinic/Models/UnifiedClinic_CollisionProxies.fbx using Guid(a78cdb5f3e19e3b40931d2d17e9fb7d5) (FBXImporter) -> (artifact id: '229ebfe05a423cd448075ffecf68934d') in 0.0213627 seconds
+Refreshing native plugins compatible for Editor in 1.35 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=5851c47543ea25b48a99f5add8b4c852): Total: 0.036 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=25f2e44db4e3cd64f9f4237294b62fdd): Total: 0.012 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity'
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity'
+	Deserialize:            11.308 ms
+	Integration:            293.010 ms
+	Integration of assets:  0.767 ms
+	Thread Wait Time:       0.069 ms
+	Total Operation Time:   305.155 ms
+Unloading 1863 unused Assets / (1.8 MB). Loaded Objects now: 12751.
+Memory consumption went from 230.9 MB to 229.1 MB.
+Total: 9.619700 ms (FindLiveObjects: 0.624200 ms CreateObjectMapping: 0.412500 ms MarkObjects: 6.966000 ms  DeleteObjects: 1.616200 ms)
+
+Start importing Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity using Guid(5e112458c20ed84429c792da3a294aa9) (DefaultImporter) -> (artifact id: 'df8b2120b44037dcf32204119d460339') in 0.001609 seconds
+Refreshing native plugins compatible for Editor in 1.40 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c965e08149786c54bbbba9d5d085be5b): Total: 0.035 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Scenes/UnifiedClinic/PrototypeConsole_Import.unity using Guid(f7edb0b3b83378746afdc7a8e23a1419) (DefaultImporter) -> (artifact id: '74b07e5434632b00c978531965d1666b') in 0.0011636 seconds
+Refreshing native plugins compatible for Editor in 1.42 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=c357fcf8fc53b594dabe9014dec72f80): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/BorderRepair/Scenes/UnifiedClinic/PrototypeConsole_Import.unity additively'
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/PrototypeConsole_Import.unity'
+	Deserialize:            7.153 ms
+	Integration:            0.974 ms
+	Integration of assets:  2.141 ms
+	Thread Wait Time:       0.015 ms
+	Total Operation Time:   10.283 ms
+Refreshing native plugins compatible for Editor in 1.40 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=51b9a89e76db6484db546380eed8db05): Total: 0.030 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity using Guid(5e112458c20ed84429c792da3a294aa9) (DefaultImporter) -> (artifact id: '7cf2039c4a5ba39117fb25e9750bc6ed') in 0.0015624 seconds
+Refreshing native plugins compatible for Editor in 1.64 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=b5639b2a17566cc47aff2e167c2e97ba): Total: 0.037 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/BorderRepair/Scenes/Slice/TwoNight_Menu.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/Slice/TwoNight_Menu.unity'
+	Deserialize:            1.007 ms
+	Integration:            158.075 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.099 ms
+	Total Operation Time:   159.183 ms
+Unloading 2954 unused Assets / (43.4 MB). Loaded Objects now: 7487.
+Memory consumption went from 256.3 MB to 212.9 MB.
+Total: 11.407100 ms (FindLiveObjects: 0.547100 ms CreateObjectMapping: 0.592300 ms MarkObjects: 6.650600 ms  DeleteObjects: 3.616300 ms)
+
+Start importing Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity using Guid(d4a3ceae829403d4ca9c554c9d398383) (DefaultImporter) -> (artifact id: '453622ef7a9cb46715546792d5e9fc8a') in 0.0018574 seconds
+Refreshing native plugins compatible for Editor in 1.22 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=755acf8c40f2d244490cc491c1697284): Total: 0.029 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity using Guid(d4a3ceae829403d4ca9c554c9d398383) (DefaultImporter) -> (artifact id: '4136a3581cbe5a3052ec42548c058318') in 0.001213 seconds
+Refreshing native plugins compatible for Editor in 1.56 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=181ce0709437c6e498dc1eafa8024301): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            14.204 ms
+	Integration:            285.282 ms
+	Integration of assets:  2.215 ms
+	Thread Wait Time:       0.037 ms
+	Total Operation Time:   301.738 ms
+Unloading 25 unused Assets / (13.1 KB). Loaded Objects now: 13319.
+Memory consumption went from 233.2 MB to 233.2 MB.
+Total: 8.709200 ms (FindLiveObjects: 0.735700 ms CreateObjectMapping: 0.620900 ms MarkObjects: 7.241200 ms  DeleteObjects: 0.110600 ms)
+
+[UnifiedClinic] Built shared N1/N2 room from current Unit07_Night; original console and robot references retained.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+BorderRepair.TwoNight.EditorTools.UnifiedClinicBuilder:Build () (at Assets/BorderRepair/Scripts/Editor/TwoNight/UnifiedClinicBuilder.cs:95)
+BorderRepair.Art.UnifiedClinic.EditorTools.ClinicGameplayIntegrator:BuildContents (UnityEngine.GameObject) (at Assets/BorderRepair/Art/UnifiedClinic/Editor/ClinicGameplayIntegrator.cs:102)
+BorderRepair.Art.UnifiedClinic.EditorTools.ClinicGameplayIntegrator:Build () (at Assets/BorderRepair/Art/UnifiedClinic/Editor/ClinicGameplayIntegrator.cs:49)
+BorderRepair.Art.UnifiedClinic.Tests.ClinicImportSafetyTests/<>c:<FailureAfterImports_RestoresPublishedResourcesAndSceneBytes>b__3_5 () (at Assets/BorderRepair/Art/UnifiedClinic/Tests/Editor/ClinicImportSafetyTests.cs:143)
+NUnit.Framework.Assert:Throws (NUnit.Framework.Constraints.IResolveConstraint,NUnit.Framework.TestDelegate,string,object[])
+NUnit.Framework.Assert:Throws (System.Type,NUnit.Framework.TestDelegate,string,object[])
+NUnit.Framework.Assert:Throws<System.InvalidOperationException> (NUnit.Framework.TestDelegate,string,object[])
+NUnit.Framework.Assert:Throws<System.InvalidOperationException> (NUnit.Framework.TestDelegate)
+BorderRepair.Art.UnifiedClinic.Tests.ClinicImportSafetyTests:FailureAfterImports_RestoresPublishedResourcesAndSceneBytes (bool) (at Assets/BorderRepair/Art/UnifiedClinic/Tests/Editor/ClinicImportSafetyTests.cs:143)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+NUnit.Framework.Internal.Reflect:InvokeMethod (System.Reflection.MethodInfo,object,object[])
+NUnit.Framework.Internal.MethodWrapper:Invoke (object,object[])
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunNonAsyncTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext)
+UnityEngine.TestTools.UnityTestMethodCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/UnityTestMethodCommand.cs:19)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<>c__DisplayClass2_0:<Execute>b__0 () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:24)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand:CaptureException (NUnit.Framework.Internal.TestResult,System.Action) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:72)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand:ExecuteAndCheckLog (UnityEngine.TestTools.Logging.LogScope,NUnit.Framework.Internal.TestResult,System.Action) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:83)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:24)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:35)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.ImmediateEnumerableCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/ImmediateEnumerableCommand.cs:18)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:219)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestRunner.NUnitExtensions.Runner.DefaultTestWorkItem/<PerformWork>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/DefaultTestWorkItem.cs:50)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEditor.TestTools.TestRunner.EditModeRunner:MoveNextAndUpdateYieldObject () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRunner/EditModeRunner.cs:167)
+UnityEditor.TestTools.TestRunner.EditModeRunner:TestConsumer (UnityEditor.TestTools.TestRunner.TestRunnerStateSerializer) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRunner/EditModeRunner.cs:200)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.EditModeRunTask/<Execute>d__1:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/EditModeRunTask.cs:48)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteStep () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:173)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteCallback () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:108)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: Assets/BorderRepair/Scripts/Editor/TwoNight/UnifiedClinicBuilder.cs Line: 95)
+
+Asset Pipeline Refresh (id=c8a5a99487f4f144a929313f30fb667a): Total: 0.004 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Refreshing native plugins compatible for Editor in 2.10 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=53e79c5ea7d70e14e8b9349ecaacbe22): Total: 0.056 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Unloading 7 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2948 unused Assets / (26.0 MB). Loaded Objects now: 7462.
+Memory consumption went from 227.2 MB to 201.2 MB.
+Total: 10.487300 ms (FindLiveObjects: 0.310500 ms CreateObjectMapping: 0.199600 ms MarkObjects: 6.186200 ms  DeleteObjects: 3.790300 ms)
+
+Refreshing native plugins compatible for Editor in 1.36 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=430056c63f9725444a70815275ce5159): Total: 0.080 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 28 unused Assets / (35.9 KB). Loaded Objects now: 7462.
+Memory consumption went from 195.7 MB to 195.7 MB.
+Total: 7.463800 ms (FindLiveObjects: 0.242600 ms CreateObjectMapping: 0.215800 ms MarkObjects: 6.908800 ms  DeleteObjects: 0.095200 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+	Deserialize:            7.102 ms
+	Integration:            267.483 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.040 ms
+	Total Operation Time:   274.629 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12615.
+Memory consumption went from 216.5 MB to 216.5 MB.
+Total: 7.618800 ms (FindLiveObjects: 0.642400 ms CreateObjectMapping: 0.345100 ms MarkObjects: 6.603900 ms  DeleteObjects: 0.026700 ms)
+
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2623 unused Assets / (6.6 MB). Loaded Objects now: 7458.
+Memory consumption went from 215.5 MB to 209.0 MB.
+Total: 10.514500 ms (FindLiveObjects: 0.269700 ms CreateObjectMapping: 0.158300 ms MarkObjects: 6.731300 ms  DeleteObjects: 3.354200 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+	Deserialize:            6.641 ms
+	Integration:            276.460 ms
+	Integration of assets:  0.086 ms
+	Thread Wait Time:       0.008 ms
+	Total Operation Time:   283.196 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12615.
+Memory consumption went from 216.6 MB to 216.6 MB.
+Total: 7.519500 ms (FindLiveObjects: 0.609100 ms CreateObjectMapping: 0.386000 ms MarkObjects: 6.480600 ms  DeleteObjects: 0.042800 ms)
+
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2618 unused Assets / (5.7 MB). Loaded Objects now: 7462.
+Memory consumption went from 215.3 MB to 209.6 MB.
+Total: 10.893100 ms (FindLiveObjects: 0.274100 ms CreateObjectMapping: 0.184100 ms MarkObjects: 7.530600 ms  DeleteObjects: 2.903200 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+	Deserialize:            6.443 ms
+	Integration:            268.304 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.038 ms
+	Total Operation Time:   274.789 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12615.
+Memory consumption went from 217.4 MB to 217.4 MB.
+Total: 7.673900 ms (FindLiveObjects: 0.781300 ms CreateObjectMapping: 0.354300 ms MarkObjects: 6.504300 ms  DeleteObjects: 0.033300 ms)
+
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2618 unused Assets / (5.7 MB). Loaded Objects now: 7462.
+Memory consumption went from 215.3 MB to 209.6 MB.
+Total: 9.501400 ms (FindLiveObjects: 0.327000 ms CreateObjectMapping: 0.235200 ms MarkObjects: 6.187100 ms  DeleteObjects: 2.751100 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+	Deserialize:            6.621 ms
+	Integration:            269.348 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.015 ms
+	Total Operation Time:   275.986 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12615.
+Memory consumption went from 216.6 MB to 216.6 MB.
+Total: 8.509600 ms (FindLiveObjects: 0.539200 ms CreateObjectMapping: 0.407700 ms MarkObjects: 7.533400 ms  DeleteObjects: 0.028100 ms)
+
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2618 unused Assets / (5.7 MB). Loaded Objects now: 7462.
+Memory consumption went from 215.3 MB to 209.6 MB.
+Total: 10.969200 ms (FindLiveObjects: 0.290500 ms CreateObjectMapping: 0.187800 ms MarkObjects: 6.353300 ms  DeleteObjects: 4.136700 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+	Deserialize:            6.824 ms
+	Integration:            264.697 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.014 ms
+	Total Operation Time:   271.537 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12615.
+Memory consumption went from 216.9 MB to 216.9 MB.
+Total: 7.275500 ms (FindLiveObjects: 0.609100 ms CreateObjectMapping: 0.332800 ms MarkObjects: 6.300100 ms  DeleteObjects: 0.032600 ms)
+
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2618 unused Assets / (5.7 MB). Loaded Objects now: 7462.
+Memory consumption went from 215.6 MB to 210.0 MB.
+Total: 10.607200 ms (FindLiveObjects: 0.301900 ms CreateObjectMapping: 0.261300 ms MarkObjects: 7.024000 ms  DeleteObjects: 3.019100 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+	Deserialize:            6.507 ms
+	Integration:            267.829 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.035 ms
+	Total Operation Time:   274.375 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12615.
+Memory consumption went from 217.0 MB to 217.0 MB.
+Total: 8.282000 ms (FindLiveObjects: 0.628100 ms CreateObjectMapping: 0.366100 ms MarkObjects: 7.258500 ms  DeleteObjects: 0.028600 ms)
+
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2618 unused Assets / (5.6 MB). Loaded Objects now: 7462.
+Memory consumption went from 215.7 MB to 210.1 MB.
+Total: 11.384400 ms (FindLiveObjects: 0.277300 ms CreateObjectMapping: 0.184000 ms MarkObjects: 7.299100 ms  DeleteObjects: 3.622700 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+	Deserialize:            6.997 ms
+	Integration:            264.756 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.100 ms
+	Total Operation Time:   271.855 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12615.
+Memory consumption went from 217.0 MB to 217.0 MB.
+Total: 7.881600 ms (FindLiveObjects: 0.758400 ms CreateObjectMapping: 0.377100 ms MarkObjects: 6.719100 ms  DeleteObjects: 0.025900 ms)
+
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2618 unused Assets / (5.7 MB). Loaded Objects now: 7462.
+Memory consumption went from 215.7 MB to 210.0 MB.
+Total: 10.109400 ms (FindLiveObjects: 0.281100 ms CreateObjectMapping: 0.178200 ms MarkObjects: 6.341700 ms  DeleteObjects: 3.307600 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+	Deserialize:            6.330 ms
+	Integration:            267.295 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.011 ms
+	Total Operation Time:   273.638 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12615.
+Memory consumption went from 217.8 MB to 217.8 MB.
+Total: 9.655400 ms (FindLiveObjects: 0.798400 ms CreateObjectMapping: 0.327000 ms MarkObjects: 8.487600 ms  DeleteObjects: 0.041100 ms)
+
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2618 unused Assets / (5.7 MB). Loaded Objects now: 7462.
+Memory consumption went from 215.7 MB to 210.0 MB.
+Total: 10.361400 ms (FindLiveObjects: 0.280000 ms CreateObjectMapping: 0.177600 ms MarkObjects: 6.431200 ms  DeleteObjects: 3.471600 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+	Deserialize:            6.611 ms
+	Integration:            274.460 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.091 ms
+	Total Operation Time:   281.164 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12615.
+Memory consumption went from 217.0 MB to 217.0 MB.
+Total: 7.801600 ms (FindLiveObjects: 0.633900 ms CreateObjectMapping: 0.477800 ms MarkObjects: 6.663500 ms  DeleteObjects: 0.025500 ms)
+
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2618 unused Assets / (5.7 MB). Loaded Objects now: 7462.
+Memory consumption went from 215.7 MB to 210.0 MB.
+Total: 10.558000 ms (FindLiveObjects: 0.288900 ms CreateObjectMapping: 0.203200 ms MarkObjects: 7.160300 ms  DeleteObjects: 2.904600 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+	Deserialize:            7.510 ms
+	Integration:            279.753 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.017 ms
+	Total Operation Time:   287.283 ms
+Unloading 4 unused Assets / (1.0 KB). Loaded Objects now: 12633.
+Memory consumption went from 219.4 MB to 219.4 MB.
+Total: 8.286500 ms (FindLiveObjects: 0.603300 ms CreateObjectMapping: 0.354100 ms MarkObjects: 7.188900 ms  DeleteObjects: 0.139000 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2621 unused Assets / (14.9 MB). Loaded Objects now: 7459.
+Memory consumption went from 218.3 MB to 203.3 MB.
+Total: 9.889800 ms (FindLiveObjects: 0.280600 ms CreateObjectMapping: 0.180200 ms MarkObjects: 6.256600 ms  DeleteObjects: 3.171700 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+	Deserialize:            6.720 ms
+	Integration:            280.524 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       0.036 ms
+	Total Operation Time:   287.284 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 219.4 MB to 219.4 MB.
+Total: 7.557100 ms (FindLiveObjects: 0.570200 ms CreateObjectMapping: 0.348400 ms MarkObjects: 6.595900 ms  DeleteObjects: 0.041600 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.4 MB). Loaded Objects now: 7459.
+Memory consumption went from 218.0 MB to 203.6 MB.
+Total: 9.772600 ms (FindLiveObjects: 0.286800 ms CreateObjectMapping: 0.184400 ms MarkObjects: 6.055700 ms  DeleteObjects: 3.244800 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+	Deserialize:            7.177 ms
+	Integration:            282.123 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.022 ms
+	Total Operation Time:   289.324 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 219.4 MB to 219.4 MB.
+Total: 7.991900 ms (FindLiveObjects: 0.622200 ms CreateObjectMapping: 0.327700 ms MarkObjects: 7.003400 ms  DeleteObjects: 0.038000 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.7 MB). Loaded Objects now: 7459.
+Memory consumption went from 218.0 MB to 203.3 MB.
+Total: 9.947000 ms (FindLiveObjects: 0.305900 ms CreateObjectMapping: 0.176700 ms MarkObjects: 6.558300 ms  DeleteObjects: 2.905400 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+	Deserialize:            7.358 ms
+	Integration:            280.627 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.042 ms
+	Total Operation Time:   288.031 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 220.1 MB to 220.1 MB.
+Total: 8.036600 ms (FindLiveObjects: 0.601300 ms CreateObjectMapping: 0.353100 ms MarkObjects: 7.056000 ms  DeleteObjects: 0.025000 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.4 MB). Loaded Objects now: 7459.
+Memory consumption went from 218.0 MB to 203.6 MB.
+Total: 10.209300 ms (FindLiveObjects: 0.263000 ms CreateObjectMapping: 0.176700 ms MarkObjects: 6.755700 ms  DeleteObjects: 3.012000 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+	Deserialize:            7.423 ms
+	Integration:            282.278 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.015 ms
+	Total Operation Time:   289.718 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 219.4 MB to 219.4 MB.
+Total: 7.724600 ms (FindLiveObjects: 0.581000 ms CreateObjectMapping: 0.386400 ms MarkObjects: 6.728500 ms  DeleteObjects: 0.028000 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.7 MB). Loaded Objects now: 7459.
+Memory consumption went from 218.0 MB to 203.3 MB.
+Total: 10.656100 ms (FindLiveObjects: 0.265500 ms CreateObjectMapping: 0.146200 ms MarkObjects: 6.437700 ms  DeleteObjects: 3.805300 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+	Deserialize:            7.226 ms
+	Integration:            283.645 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.014 ms
+	Total Operation Time:   290.887 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 220.0 MB to 220.0 MB.
+Total: 8.458000 ms (FindLiveObjects: 0.673100 ms CreateObjectMapping: 0.627600 ms MarkObjects: 7.128800 ms  DeleteObjects: 0.027100 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (13.5 MB). Loaded Objects now: 7459.
+Memory consumption went from 218.7 MB to 205.3 MB.
+Total: 10.558100 ms (FindLiveObjects: 0.280500 ms CreateObjectMapping: 0.178600 ms MarkObjects: 6.232700 ms  DeleteObjects: 3.865200 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+	Deserialize:            8.161 ms
+	Integration:            279.333 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.018 ms
+	Total Operation Time:   287.514 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.0 MB to 222.0 MB.
+Total: 10.031800 ms (FindLiveObjects: 0.759500 ms CreateObjectMapping: 0.340400 ms MarkObjects: 8.885800 ms  DeleteObjects: 0.044400 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.8 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.7 MB to 205.9 MB.
+Total: 10.668600 ms (FindLiveObjects: 0.270000 ms CreateObjectMapping: 0.185500 ms MarkObjects: 6.615100 ms  DeleteObjects: 3.596800 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+	Deserialize:            6.563 ms
+	Integration:            277.111 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.100 ms
+	Total Operation Time:   283.776 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.0 MB to 222.0 MB.
+Total: 7.888800 ms (FindLiveObjects: 0.586200 ms CreateObjectMapping: 0.404600 ms MarkObjects: 6.870600 ms  DeleteObjects: 0.026600 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.7 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.7 MB to 206.0 MB.
+Total: 9.752200 ms (FindLiveObjects: 0.322700 ms CreateObjectMapping: 0.207800 ms MarkObjects: 6.505800 ms  DeleteObjects: 2.715100 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutA.unity'
+	Deserialize:            7.219 ms
+	Integration:            281.945 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.014 ms
+	Total Operation Time:   289.182 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.0 MB to 222.0 MB.
+Total: 7.508000 ms (FindLiveObjects: 0.632800 ms CreateObjectMapping: 0.331800 ms MarkObjects: 6.518000 ms  DeleteObjects: 0.024600 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.7 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.7 MB to 206.0 MB.
+Total: 10.009600 ms (FindLiveObjects: 0.449500 ms CreateObjectMapping: 0.348200 ms MarkObjects: 6.393700 ms  DeleteObjects: 2.817000 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+	Deserialize:            6.863 ms
+	Integration:            286.374 ms
+	Integration of assets:  0.006 ms
+	Thread Wait Time:       0.038 ms
+	Total Operation Time:   293.280 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.0 MB to 222.0 MB.
+Total: 7.744300 ms (FindLiveObjects: 0.633800 ms CreateObjectMapping: 0.325400 ms MarkObjects: 6.755900 ms  DeleteObjects: 0.028400 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2625 unused Assets / (14.9 MB). Loaded Objects now: 7455.
+Memory consumption went from 221.0 MB to 206.1 MB.
+Total: 9.970000 ms (FindLiveObjects: 0.283600 ms CreateObjectMapping: 0.216300 ms MarkObjects: 6.337900 ms  DeleteObjects: 3.131600 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+	Deserialize:            7.496 ms
+	Integration:            283.420 ms
+	Integration of assets:  0.105 ms
+	Thread Wait Time:       0.033 ms
+	Total Operation Time:   291.053 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.1 MB to 222.1 MB.
+Total: 8.335700 ms (FindLiveObjects: 0.691500 ms CreateObjectMapping: 0.332600 ms MarkObjects: 7.280000 ms  DeleteObjects: 0.030400 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.9 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.7 MB to 205.8 MB.
+Total: 10.233300 ms (FindLiveObjects: 0.276900 ms CreateObjectMapping: 0.147800 ms MarkObjects: 6.163700 ms  DeleteObjects: 3.644000 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+	Deserialize:            6.669 ms
+	Integration:            279.316 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.097 ms
+	Total Operation Time:   286.083 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.1 MB to 222.1 MB.
+Total: 7.764300 ms (FindLiveObjects: 0.599800 ms CreateObjectMapping: 0.410400 ms MarkObjects: 6.707300 ms  DeleteObjects: 0.046000 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.9 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.8 MB to 205.8 MB.
+Total: 9.844400 ms (FindLiveObjects: 0.287700 ms CreateObjectMapping: 0.209900 ms MarkObjects: 6.090700 ms  DeleteObjects: 3.255400 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+	Deserialize:            6.969 ms
+	Integration:            284.896 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.013 ms
+	Total Operation Time:   291.880 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.1 MB to 222.1 MB.
+Total: 7.711900 ms (FindLiveObjects: 0.566700 ms CreateObjectMapping: 0.350300 ms MarkObjects: 6.748200 ms  DeleteObjects: 0.046000 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.9 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.8 MB to 205.8 MB.
+Total: 9.637700 ms (FindLiveObjects: 0.288700 ms CreateObjectMapping: 0.171600 ms MarkObjects: 5.981800 ms  DeleteObjects: 3.194900 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+	Deserialize:            7.008 ms
+	Integration:            283.616 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.043 ms
+	Total Operation Time:   290.670 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.1 MB to 222.1 MB.
+Total: 7.977200 ms (FindLiveObjects: 0.590000 ms CreateObjectMapping: 0.336300 ms MarkObjects: 7.021000 ms  DeleteObjects: 0.028900 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (15.0 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.8 MB to 205.8 MB.
+Total: 10.780100 ms (FindLiveObjects: 0.352800 ms CreateObjectMapping: 0.217800 ms MarkObjects: 6.643900 ms  DeleteObjects: 3.564600 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+	Deserialize:            7.039 ms
+	Integration:            280.168 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.024 ms
+	Total Operation Time:   287.233 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.9 MB to 222.9 MB.
+Total: 12.138000 ms (FindLiveObjects: 1.216200 ms CreateObjectMapping: 0.951600 ms MarkObjects: 9.939800 ms  DeleteObjects: 0.029600 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.9 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.8 MB to 205.8 MB.
+Total: 9.619900 ms (FindLiveObjects: 0.274200 ms CreateObjectMapping: 0.182000 ms MarkObjects: 6.018000 ms  DeleteObjects: 3.144300 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+	Deserialize:            6.671 ms
+	Integration:            281.293 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.014 ms
+	Total Operation Time:   287.980 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.1 MB to 222.1 MB.
+Total: 8.114400 ms (FindLiveObjects: 0.569600 ms CreateObjectMapping: 0.323100 ms MarkObjects: 7.192700 ms  DeleteObjects: 0.028400 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.9 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.8 MB to 205.9 MB.
+Total: 9.605100 ms (FindLiveObjects: 0.278500 ms CreateObjectMapping: 0.169400 ms MarkObjects: 5.792000 ms  DeleteObjects: 3.364400 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+	Deserialize:            6.492 ms
+	Integration:            280.983 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       0.037 ms
+	Total Operation Time:   287.515 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.1 MB to 222.1 MB.
+Total: 7.641100 ms (FindLiveObjects: 0.546000 ms CreateObjectMapping: 0.322200 ms MarkObjects: 6.711100 ms  DeleteObjects: 0.061000 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (14.9 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.8 MB to 205.9 MB.
+Total: 9.886200 ms (FindLiveObjects: 0.303700 ms CreateObjectMapping: 0.182300 ms MarkObjects: 6.669900 ms  DeleteObjects: 2.728900 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+	Deserialize:            6.587 ms
+	Integration:            282.281 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.101 ms
+	Total Operation Time:   288.971 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 222.1 MB to 222.1 MB.
+Total: 8.097300 ms (FindLiveObjects: 0.645100 ms CreateObjectMapping: 0.329100 ms MarkObjects: 7.087500 ms  DeleteObjects: 0.034700 ms)
+
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2620 unused Assets / (12.7 MB). Loaded Objects now: 7459.
+Memory consumption went from 220.8 MB to 208.0 MB.
+Total: 9.220100 ms (FindLiveObjects: 0.286100 ms CreateObjectMapping: 0.180600 ms MarkObjects: 5.835000 ms  DeleteObjects: 2.917100 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Unit07FirstOrder_Test.unity'
+	Deserialize:            6.405 ms
+	Integration:            270.059 ms
+	Integration of assets:  0.005 ms
+	Thread Wait Time:       0.031 ms
+	Total Operation Time:   276.500 ms
+Unloading 4 unused Assets / (8.4 MB). Loaded Objects now: 12612.
+Memory consumption went from 228.2 MB to 219.9 MB.
+Total: 8.329400 ms (FindLiveObjects: 0.643200 ms CreateObjectMapping: 0.411400 ms MarkObjects: 6.598500 ms  DeleteObjects: 0.675300 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/LayoutAB/Unit07FirstOrder_LayoutB.unity'
+	Deserialize:            6.786 ms
+	Integration:            188.097 ms
+	Integration of assets:  0.005 ms
+	Thread Wait Time:       0.031 ms
+	Total Operation Time:   194.919 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12633.
+Memory consumption went from 220.1 MB to 220.1 MB.
+Total: 7.261700 ms (FindLiveObjects: 0.537700 ms CreateObjectMapping: 0.378900 ms MarkObjects: 6.314100 ms  DeleteObjects: 0.029500 ms)
+
+Opening scene 'Assets/BorderRepair/FirstOrder/Scenes/Slice/TwoNightSlice.unity'
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/FirstOrder/Scenes/Slice/TwoNightSlice.unity'
+	Deserialize:            11.265 ms
+	Integration:            164.378 ms
+	Integration of assets:  0.744 ms
+	Thread Wait Time:       0.017 ms
+	Total Operation Time:   176.404 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12656.
+Memory consumption went from 228.4 MB to 228.4 MB.
+Total: 7.495600 ms (FindLiveObjects: 0.638400 ms CreateObjectMapping: 0.337000 ms MarkObjects: 6.495100 ms  DeleteObjects: 0.024000 ms)
+
+Opening scene 'Assets/BorderRepair/Scenes/Narrative_WorkerHand.unity additively'
+Loaded scene 'Assets/BorderRepair/Scenes/Narrative_WorkerHand.unity'
+	Deserialize:            17.603 ms
+	Integration:            2.448 ms
+	Integration of assets:  9.609 ms
+	Thread Wait Time:       0.085 ms
+	Total Operation Time:   29.746 ms
+[TwoNight] 保存失败：当文件已存在时，无法创建该文件。（存档位置：C:\Users\ADMINI~1\AppData\Local\Temp\TwoNightTests_7e632a0de960438ca4db92a43fd91947\checkpoint.json）
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+BorderRepair.TwoNight.TwoNightSave:Write (BorderRepair.TwoNight.TwoNightState,string&) (at Assets/BorderRepair/Scripts/Runtime/TwoNight/TwoNightSave.cs:57)
+BorderRepair.TwoNight.Tests.TwoNightCoreTests:Save_WriteFailure_ReturnsReadableMessage () (at Assets/BorderRepair/Tests/TwoNight/EditMode/TwoNightCoreTests.cs:185)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+NUnit.Framework.Internal.Reflect:InvokeMethod (System.Reflection.MethodInfo,object,object[])
+NUnit.Framework.Internal.MethodWrapper:Invoke (object,object[])
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunNonAsyncTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:RunTestMethod (NUnit.Framework.Internal.ITestExecutionContext)
+NUnit.Framework.Internal.Commands.TestMethodCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext)
+UnityEngine.TestTools.UnityTestMethodCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/UnityTestMethodCommand.cs:19)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<>c__DisplayClass2_0:<Execute>b__0 () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:24)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand:CaptureException (NUnit.Framework.Internal.TestResult,System.Action) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:72)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand:ExecuteAndCheckLog (UnityEngine.TestTools.Logging.LogScope,NUnit.Framework.Internal.TestResult,System.Action) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:83)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:24)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:35)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.ImmediateEnumerableCommand:Execute (NUnit.Framework.Internal.ITestExecutionContext) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/ImmediateEnumerableCommand.cs:18)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:219)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestRunner.NUnitExtensions.Runner.DefaultTestWorkItem/<PerformWork>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/DefaultTestWorkItem.cs:50)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<RunChildren>d__17:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:207)
+UnityEngine.TestRunner.NUnitExtensions.Runner.CompositeWorkItem/<PerformWork>d__13:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs:82)
+UnityEditor.TestTools.TestRunner.EditModeRunner:MoveNextAndUpdateYieldObject () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRunner/EditModeRunner.cs:167)
+UnityEditor.TestTools.TestRunner.EditModeRunner:TestConsumer (UnityEditor.TestTools.TestRunner.TestRunnerStateSerializer) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRunner/EditModeRunner.cs:200)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.EditModeRunTask/<Execute>d__1:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/EditModeRunTask.cs:48)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteStep () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:173)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteCallback () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:108)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: Assets/BorderRepair/Scripts/Runtime/TwoNight/TwoNightSave.cs Line: 57)
+
+Opening scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+Unloading 148 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            12.753 ms
+	Integration:            194.169 ms
+	Integration of assets:  0.041 ms
+	Thread Wait Time:       0.011 ms
+	Total Operation Time:   206.973 ms
+Unloading 2138 unused Assets / (4.5 MB). Loaded Objects now: 16294.
+Memory consumption went from 245.7 MB to 241.2 MB.
+Total: 12.148700 ms (FindLiveObjects: 1.386000 ms CreateObjectMapping: 0.551000 ms MarkObjects: 7.978200 ms  DeleteObjects: 2.232200 ms)
+
+Opening scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+Unloading 7 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            11.650 ms
+	Integration:            171.433 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.015 ms
+	Total Operation Time:   183.100 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 16294.
+Memory consumption went from 236.6 MB to 236.6 MB.
+Total: 10.400500 ms (FindLiveObjects: 0.724400 ms CreateObjectMapping: 0.454900 ms MarkObjects: 9.180200 ms  DeleteObjects: 0.040200 ms)
+
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 5110 unused Assets / (27.1 MB). Loaded Objects now: 7456.
+Memory consumption went from 235.0 MB to 207.9 MB.
+Total: 15.205700 ms (FindLiveObjects: 0.540500 ms CreateObjectMapping: 0.423600 ms MarkObjects: 7.935100 ms  DeleteObjects: 6.305500 ms)
+
+Opening scene 'Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity'
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity'
+	Deserialize:            11.481 ms
+	Integration:            285.842 ms
+	Integration of assets:  0.788 ms
+	Thread Wait Time:       0.018 ms
+	Total Operation Time:   298.129 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 12749.
+Memory consumption went from 233.7 MB to 233.7 MB.
+Total: 8.666400 ms (FindLiveObjects: 0.828000 ms CreateObjectMapping: 0.697100 ms MarkObjects: 7.098900 ms  DeleteObjects: 0.041700 ms)
+
+Opening scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+Unloading 20 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity'
+	Deserialize:            14.793 ms
+	Integration:            177.208 ms
+	Integration of assets:  2.888 ms
+	Thread Wait Time:       0.068 ms
+	Total Operation Time:   194.958 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 16070.
+Memory consumption went from 236.4 MB to 236.4 MB.
+Total: 8.884200 ms (FindLiveObjects: 0.678800 ms CreateObjectMapping: 0.446600 ms MarkObjects: 7.728400 ms  DeleteObjects: 0.029700 ms)
+
+Unloading 10 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 4882 unused Assets / (26.4 MB). Loaded Objects now: 7461.
+Memory consumption went from 235.7 MB to 209.3 MB.
+Total: 13.442300 ms (FindLiveObjects: 0.346200 ms CreateObjectMapping: 0.261500 ms MarkObjects: 6.755900 ms  DeleteObjects: 6.077800 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1063 unused Assets / (263.1 KB). Loaded Objects now: 7461.
+Memory consumption went from 201.6 MB to 201.3 MB.
+Total: 8.235700 ms (FindLiveObjects: 0.241700 ms CreateObjectMapping: 0.276500 ms MarkObjects: 6.419600 ms  DeleteObjects: 1.297100 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 201.3 MB to 201.3 MB.
+Total: 7.942200 ms (FindLiveObjects: 0.370900 ms CreateObjectMapping: 0.276600 ms MarkObjects: 7.281200 ms  DeleteObjects: 0.012700 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1063 unused Assets / (263.2 KB). Loaded Objects now: 7461.
+Memory consumption went from 201.6 MB to 201.3 MB.
+Total: 9.058600 ms (FindLiveObjects: 0.235800 ms CreateObjectMapping: 0.130300 ms MarkObjects: 7.766800 ms  DeleteObjects: 0.925000 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 201.3 MB to 201.3 MB.
+Total: 6.691600 ms (FindLiveObjects: 0.227400 ms CreateObjectMapping: 0.131100 ms MarkObjects: 6.320700 ms  DeleteObjects: 0.011700 ms)
+
+Unloading 29 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1765 unused Assets / (2.2 MB). Loaded Objects now: 7461.
+Memory consumption went from 204.7 MB to 202.6 MB.
+Total: 8.630400 ms (FindLiveObjects: 0.574500 ms CreateObjectMapping: 0.146200 ms MarkObjects: 6.526800 ms  DeleteObjects: 1.382200 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 202.6 MB to 202.6 MB.
+Total: 6.819300 ms (FindLiveObjects: 0.234600 ms CreateObjectMapping: 0.244000 ms MarkObjects: 6.329500 ms  DeleteObjects: 0.010400 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1063 unused Assets / (264.2 KB). Loaded Objects now: 7461.
+Memory consumption went from 201.6 MB to 201.3 MB.
+Total: 7.808400 ms (FindLiveObjects: 0.229000 ms CreateObjectMapping: 0.216700 ms MarkObjects: 6.434100 ms  DeleteObjects: 0.928000 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 201.3 MB to 201.3 MB.
+Total: 7.470400 ms (FindLiveObjects: 0.214900 ms CreateObjectMapping: 0.240100 ms MarkObjects: 7.002100 ms  DeleteObjects: 0.012300 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1063 unused Assets / (272.6 KB). Loaded Objects now: 7461.
+Memory consumption went from 201.6 MB to 201.3 MB.
+Total: 8.419100 ms (FindLiveObjects: 0.229300 ms CreateObjectMapping: 0.165100 ms MarkObjects: 6.585500 ms  DeleteObjects: 1.438600 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 201.3 MB to 201.3 MB.
+Total: 6.777400 ms (FindLiveObjects: 0.230400 ms CreateObjectMapping: 0.142300 ms MarkObjects: 6.392800 ms  DeleteObjects: 0.011000 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1063 unused Assets / (263.2 KB). Loaded Objects now: 7461.
+Memory consumption went from 201.6 MB to 201.3 MB.
+Total: 8.300400 ms (FindLiveObjects: 0.253700 ms CreateObjectMapping: 0.164800 ms MarkObjects: 6.951800 ms  DeleteObjects: 0.928500 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 201.3 MB to 201.3 MB.
+Total: 6.400900 ms (FindLiveObjects: 0.230800 ms CreateObjectMapping: 0.140000 ms MarkObjects: 6.019000 ms  DeleteObjects: 0.010400 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1063 unused Assets / (263.5 KB). Loaded Objects now: 7461.
+Memory consumption went from 201.6 MB to 201.3 MB.
+Total: 8.042000 ms (FindLiveObjects: 0.243400 ms CreateObjectMapping: 0.201900 ms MarkObjects: 6.575500 ms  DeleteObjects: 1.020100 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 201.3 MB to 201.3 MB.
+Total: 6.692100 ms (FindLiveObjects: 0.240100 ms CreateObjectMapping: 0.152600 ms MarkObjects: 6.286800 ms  DeleteObjects: 0.011300 ms)
+
+Unloading 21 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1082 unused Assets / (355.7 KB). Loaded Objects now: 7461.
+Memory consumption went from 201.9 MB to 201.6 MB.
+Total: 7.857500 ms (FindLiveObjects: 0.252300 ms CreateObjectMapping: 0.169300 ms MarkObjects: 6.426100 ms  DeleteObjects: 1.009100 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 201.6 MB to 201.6 MB.
+Total: 6.945400 ms (FindLiveObjects: 0.224500 ms CreateObjectMapping: 0.134100 ms MarkObjects: 6.574600 ms  DeleteObjects: 0.011200 ms)
+
+Opening scene 'Assets/WorkbenchArea/Scenes/WorkbenchArea_Test.unity'
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/WorkbenchArea/Scenes/WorkbenchArea_Test.unity'
+	Deserialize:            1.856 ms
+	Integration:            162.671 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.038 ms
+	Total Operation Time:   164.569 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 9489.
+Memory consumption went from 203.0 MB to 203.0 MB.
+Total: 7.716300 ms (FindLiveObjects: 0.391900 ms CreateObjectMapping: 0.294200 ms MarkObjects: 6.999400 ms  DeleteObjects: 0.030100 ms)
+
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1063 unused Assets / (261.4 KB). Loaded Objects now: 7461.
+Memory consumption went from 202.8 MB to 202.5 MB.
+Total: 7.302400 ms (FindLiveObjects: 0.263200 ms CreateObjectMapping: 0.119700 ms MarkObjects: 5.899100 ms  DeleteObjects: 1.019700 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 202.5 MB to 202.5 MB.
+Total: 6.771200 ms (FindLiveObjects: 0.227700 ms CreateObjectMapping: 0.143200 ms MarkObjects: 6.387500 ms  DeleteObjects: 0.011900 ms)
+
+Opening scene 'Assets/WorkbenchArea/Scenes/WorkbenchArea_Test.unity'
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/WorkbenchArea/Scenes/WorkbenchArea_Test.unity'
+	Deserialize:            0.968 ms
+	Integration:            160.736 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.039 ms
+	Total Operation Time:   161.747 ms
+Unloading 1 unused Assets / (0.5 KB). Loaded Objects now: 9489.
+Memory consumption went from 203.1 MB to 203.1 MB.
+Total: 7.889200 ms (FindLiveObjects: 0.372400 ms CreateObjectMapping: 0.294300 ms MarkObjects: 7.193000 ms  DeleteObjects: 0.028700 ms)
+
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1063 unused Assets / (260.4 KB). Loaded Objects now: 7461.
+Memory consumption went from 202.8 MB to 202.5 MB.
+Total: 8.088800 ms (FindLiveObjects: 0.247400 ms CreateObjectMapping: 0.122800 ms MarkObjects: 6.588200 ms  DeleteObjects: 1.129600 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 202.5 MB to 202.5 MB.
+Total: 6.910800 ms (FindLiveObjects: 0.260200 ms CreateObjectMapping: 0.168300 ms MarkObjects: 6.471300 ms  DeleteObjects: 0.009900 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1064 unused Assets / (455.9 KB). Loaded Objects now: 7461.
+Memory consumption went from 203.3 MB to 202.9 MB.
+Total: 8.265500 ms (FindLiveObjects: 0.407700 ms CreateObjectMapping: 0.205800 ms MarkObjects: 6.680300 ms  DeleteObjects: 0.970800 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 7461.
+Memory consumption went from 202.8 MB to 202.8 MB.
+Total: 6.631400 ms (FindLiveObjects: 0.236900 ms CreateObjectMapping: 0.146700 ms MarkObjects: 6.233800 ms  DeleteObjects: 0.013000 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1063 unused Assets / (263.1 KB). Loaded Objects now: 7461.
+Memory consumption went from 203.1 MB to 202.8 MB.
+Total: 8.306500 ms (FindLiveObjects: 0.233000 ms CreateObjectMapping: 0.129000 ms MarkObjects: 6.890000 ms  DeleteObjects: 1.053400 ms)
+
+Saving results to: C:/Users/Administrator/AppData/LocalLow/DefaultCompany/BorderRepairStation\TestResults.xml
+Saving results to: C:\Users\Administrator\Documents\Codex\clinic-int\Logs\UnifiedClinicEditFinalCode.xml
+Executing IPostBuildCleanup for: Unity.PerformanceTesting.Editor.TestRunBuilder.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<ExecuteMethods>d__8<UnityEngine.TestTools.IPostBuildCleanup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:48)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<Execute>d__7<UnityEngine.TestTools.IPostBuildCleanup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:34)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteStep () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:173)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteCallback () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:108)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs Line: 48)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 4 unused Assets / (0.5 KB). Loaded Objects now: 7463.
+Memory consumption went from 201.1 MB to 201.1 MB.
+Total: 8.775700 ms (FindLiveObjects: 0.238100 ms CreateObjectMapping: 0.163200 ms MarkObjects: 8.329400 ms  DeleteObjects: 0.044200 ms)
+
+DisplayProgressbar: Undo
+Test run completed. Exiting with code 2 (Failed). One or more tests failed.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:ExitApplication (UnityEditor.TestTools.TestRunner.CommandLineTest.Executer/ReturnCodes,string) (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/Executer.cs:81)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:ExitIfRunIsCompleted () (at ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/Executer.cs:74)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@082c24152fd4/UnityEditor.TestRunner/CommandLineTest/Executer.cs Line: 81)
+
+[Physics::Module] Cleanup current backned.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Administrator-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Administrator channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+Checking for leaked weakptr:
+  Found no leaked weakptrs.
+[Package Manager] Server process was shutdown
+##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1791449665990,"processId":15516,"allocatedMemory":14425594,"memoryLabels":[{"Default":14269},{"Permanent":15348},{"NewDelete":71905},{"Thread":4230344},{"Manager":29274},{"VertexData":8},{"Geometry":816},{"VFX":-104},{"Texture":296},{"Shader":78795},{"Material":24},{"GfxDevice":55784},{"Animation":392},{"Audio":4040},{"FontEngine":256},{"Physics":2081},{"Serialization":816},{"Input":14824},{"JobScheduler":33024},{"TextLib":160},{"Mono":32},{"MonoCode":64},{"ScriptingNativeRuntime":155060},{"BaseObject":1620112},{"Resource":1304},{"Renderer":2928},{"Transform":4646},{"File":39121},{"WebCam":616},{"Culling":32},{"Terrain":11394},{"Wind":24},{"STL":40},{"String":9342},{"DynamicArray":113888},{"HashMap":94231},{"Utility":2660078},{"Curl":48},{"PoolAlloc":1864},{"AI":104},{"TypeTree":5005},{"ScriptManager":512},{"RuntimeInitializeOnLoadManager":64},{"SpriteAtlas":112},{"GI":7888},{"Director":8240},{"WebRequest":552},{"VR":45969},{"SceneManager":496},{"Video":208},{"LazyScriptCache":32},{"Camera":17},{"Secure":265},{"SerializationCache":1576},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57888},{"StaticSafetyDebugInfo":278528},{"Analytics":336},{"Hierarchy":272},{"CoreStats":12536},{"Identifiers":6192},{"Gui":80},{"EditorUtility":52037},{"VersionControl":4},{"Undo":947},{"AssetDatabase":4627305},{"EditorGi":328},{"UnityConnect":24208},{"Upm":2036},{"DrivenProperties":72},{"LocalIPC":219},{"ProfilerEditor":9746},{"CoreBusinessMetrics":3228},{"Licensing":696},{"AssetReference":32},{"IPCStream":32}]}

@@ -1,0 +1,12 @@
+{
+    "timestampUtc": "2026-10-08T07:25:44.9466390Z",
+    "source": "ArtSource/UnifiedClinicClutter",
+    "triangles": 2752,
+    "meshes": 11,
+    "materials": 4,
+    "textures": 2,
+    "limitations": [
+        "Import/count/material validation only; full-scene geometry and human/VR checks are separate.",
+        "Static wall dressing has no gameplay interactions or physics simulation."
+    ]
+}
