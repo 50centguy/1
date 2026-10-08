@@ -1,6 +1,6 @@
 # 第一晚端盘演出：路线与静态间隙（编辑器构建时检查）
 
-- 生成时间 2026-10-05 01:42；场景 `Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity`（布局 B 副本）。托盘 = `Assets/BorderRepair/Art/Unit07TrayVariant/Prefabs/Dock_PartsTray_HandleRaised.prefab`（提手抬高 45 mm 悬臂变体；原托盘在本场景停用，原维修座预制体不改）。
+- 生成时间 2026-10-08 04:35；场景 `Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity`（布局 B 副本）。托盘 = `Assets/BorderRepair/Art/Unit07TrayVariant/Prefabs/Dock_PartsTray_HandleRaised.prefab`（提手抬高 45 mm 悬臂变体；原托盘在本场景停用，原维修座预制体不改）。
 - 右臂端盘姿态：审计关节 3.17 / 36.33 / -58.63 / 16.35°，夹爪 0.321；挂点用美术交付的握持数据 `Assets/BorderRepair/Art/Unit07TrayVariant/Data/Unit07TrayGripData_HandleRaised.asset`：本地 (-125.27, -129.25, -89.90) mm，旋转 -0.59110, -0.53961, -0.42572, 0.42211；挂点与托盘原位朝向差 0.00°。
 - 规则：只允许爪齿 ↔ 握杆直段接触；其余右手零件 ↔ 托盘全部几何、爪齿 ↔ 盘体 / 立柱都要 ≥ 阈值。测距 MeshClearance（不算边到边、判不出共面重叠，2–5 mm 级是估计）。
 
