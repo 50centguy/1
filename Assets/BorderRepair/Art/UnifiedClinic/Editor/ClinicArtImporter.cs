@@ -182,6 +182,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
                 if (entry.emissionStrength > 0)
                 {
                     if (!ColorUtility.TryParseHtmlString(entry.emissionColor, out var emission)) throw new FormatException(entry.emissionColor);
+                    material.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;   // 否则 URP 校验材质时会把 _EMISSION 关掉（屏幕 / 灯管不亮）
                     material.EnableKeyword("_EMISSION");
                     material.SetColor("_EmissionColor", emission * Mathf.Min(1, entry.emissionStrength));
                     material.SetTexture("_EmissionMap", LoadTexture(entry.emissionMap));

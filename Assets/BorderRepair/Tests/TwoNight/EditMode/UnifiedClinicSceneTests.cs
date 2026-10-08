@@ -10,6 +10,20 @@ namespace BorderRepair.TwoNight.Tests
 {
     public class UnifiedClinicSceneTests
     {
+        /// <summary>屏幕和灯管材质必须真正发光：URP 会按“发光视为黑色”把 _EMISSION 关掉（屏幕没画面、灯管不亮）。</summary>
+        [Test]
+        public void ClinicScreenAndLampMaterials_ActuallyEmit()
+        {
+            foreach (var name in new[] { "M_UC_Screen", "M_UC_LampWarm" })
+            {
+                var m = AssetDatabase.LoadAssetAtPath<Material>("Assets/BorderRepair/Art/UnifiedClinic/Materials/" + name + ".mat");
+                Assert.IsNotNull(m, name);
+                Assert.IsTrue(m.IsKeywordEnabled("_EMISSION"), name + " emission keyword");
+                Assert.AreEqual(MaterialGlobalIlluminationFlags.RealtimeEmissive, m.globalIlluminationFlags & MaterialGlobalIlluminationFlags.RealtimeEmissive, name + " realtime emissive");
+                Assert.Greater(m.GetColor("_EmissionColor").maxColorComponent, 0f, name);
+            }
+        }
+
         [System.Serializable] class AnchorContract { public ContractAnchor[] anchors; }
         [System.Serializable] class ContractAnchor { public string name; public float[] unity_pos; }
 

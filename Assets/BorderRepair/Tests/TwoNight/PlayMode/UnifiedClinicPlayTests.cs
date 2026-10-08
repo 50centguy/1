@@ -549,8 +549,11 @@ namespace BorderRepair.TwoNight.Tests
             yield return null;
             Assert.IsTrue(clinic.InspectionOnBench, "Inspection stage is moved onto the room workbench.");
             var item = clinic.Station.Inspector.CurrentItem;
+            Assert.AreEqual(UnifiedClinicDirector.PadLamp.On, clinic.ReceiveLampState, "Receive pad lamp is on while an item waits.");
+            Assert.AreEqual(UnifiedClinicDirector.PadLamp.Off, clinic.DeliverLampState);
             Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive));
             if (clinic.Counter.DialogueVisible) clinic.Counter.DismissDialogue();
+            Assert.AreEqual(UnifiedClinicDirector.PadLamp.Off, clinic.ReceiveLampState, "Receive pad lamp goes off once the item is picked up.");
             yield return null;
             Assert.IsTrue(clinic.Carrying);
             Assert.AreSame(item, clinic.CarriedItem);
@@ -599,6 +602,9 @@ namespace BorderRepair.TwoNight.Tests
             Assert.IsTrue(clinic.Interact(ClinicTradeAction.Console), "Clicking the workbench resumes repair.");
             Assert.IsTrue(clinic.ConsoleOpen);
             Assert.AreEqual(1, clinic.State.customerTrades.Count);
+            Repair(clinic.Station, RepairDecision.Repair);
+            yield return null;
+            Assert.AreEqual(UnifiedClinicDirector.PadLamp.Blink, clinic.DeliverLampState, "Send-out pad lamp blinks while the repaired item waits.");
             LogAssert.NoUnexpectedReceived();
         }
 

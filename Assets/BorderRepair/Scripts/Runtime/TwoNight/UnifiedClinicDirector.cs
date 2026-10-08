@@ -69,6 +69,10 @@ namespace BorderRepair.TwoNight
         Vector3 itemLocalScale;
         GameObject pendingPreview;
         GameObject carried;
+        Light[] inspectionLights = new Light[0];
+        float[] inspectionLightIntensity = new float[0];
+        Renderer receiveLamp, deliverLamp;
+        MaterialPropertyBlock lampBlock;
         ClinicTradeZone benchZone;
         Collider[] carriedColliders;
         bool[] carriedColliderEnabled;
@@ -116,6 +120,10 @@ namespace BorderRepair.TwoNight
         IEnumerator Start()
         {
             BuildUi();
+            // 交易台状态灯（美术说明：EMPTY 灭、CARGO 亮、READY 闪，由程序驱动发光）
+            receiveLamp = FindLamp("Trade_StatusLamp_Receive");
+            deliverLamp = FindLamp("Trade_StatusLamp_Deliver");
+            lampBlock = new MaterialPropertyBlock();
             benchZone = FindObjectsByType<ClinicTradeZone>(FindObjectsSortMode.None).FirstOrDefault(z => z.Action == ClinicTradeAction.Console);
             if (benchZone != null) benchZone.SetLabel("WORKBENCH");
             if (flow.Rig.Walker != null)
@@ -211,6 +219,7 @@ namespace BorderRepair.TwoNight
             if (!Initialized || State.phase != TwoNightPhase.Night1Counter || TradeState != ClinicTradeState.InRepair || carried != null) return;
             RestoreItem();
             ConsoleOpen = true;
+            for (int i = 0; i < inspectionLights.Length; i++) { inspectionLights[i].intensity = inspectionLightIntensity[i]; inspectionLights[i].enabled = true; }
             if (benchZone != null) benchZone.ShowLabel(false);     // 维修时镜头就在台前，朝向镜头的标签会挡住画面
             LastMessage = null;
             flow.Rig.enabled = false;
@@ -224,6 +233,7 @@ namespace BorderRepair.TwoNight
         public void ShowRoom()
         {
             ConsoleOpen = false;
+            foreach (var l in inspectionLights) l.enabled = false;
             if (benchZone != null) benchZone.ShowLabel(true);
             station.enabled = station.Inspector.enabled = station.Scanner.enabled = false;
             station.View.gameObject.SetActive(false);
@@ -267,6 +277,10 @@ namespace BorderRepair.TwoNight
             cam.backgroundColor = roomCamera.backgroundColor;
             cam.cullingMask = roomCamera.cullingMask;
             cam.farClipPlane = Mathf.Max(cam.farClipPlane, roomCamera.farClipPlane);
+            // 检视灯跟着到了台上：只在台上维修时开，且减弱（原来是给黑底舞台照物件用的，放在房间里会把维修台照得比别处亮很多）
+            inspectionLights = inspectionStage.GetComponentsInChildren<Light>(true);
+            inspectionLightIntensity = inspectionLights.Select(l => l.intensity * .4f).ToArray();
+            foreach (var l in inspectionLights) l.enabled = false;
             stageOnBench = true;
         }
 
@@ -304,6 +318,7 @@ namespace BorderRepair.TwoNight
 
         void LateUpdate()
         {
+            if (lampBlock != null) { DriveLamp(receiveLamp, ReceiveLampState); DriveLamp(deliverLamp, DeliverLampState); }
             // 台上的物件转到任何角度，最低点都贴着台面（不穿进桌子，也不悬空）。本组件执行顺序靠前，检视台随后按新的锚点放镜头。
             if (!stageOnBench || carried != null || station == null) return;
             var item = station.Inspector.CurrentItem;
@@ -312,6 +327,26 @@ namespace BorderRepair.TwoNight
             if (renderers.Length == 0) return;
             float delta = benchTopY + 0.0005f - renderers.Min(r => r.bounds.min.y);
             if (Mathf.Abs(delta) > 1e-4f) inspectionStage.position += Vector3.up * delta;
+        }
+
+        static Renderer FindLamp(string name) =>
+            FindObjectsByType<Renderer>(FindObjectsSortMode.None).FirstOrDefault(r => r.name == name);
+
+        public enum PadLamp { Off, On, Blink }
+        /// <summary>收件台：有物件等着接收 = 亮；交件台：修好 / 待退回的物件等着交出 = 闪；其余熄灭。</summary>
+        public PadLamp ReceiveLampState => State != null && State.phase == TwoNightPhase.Night1Counter && HasPendingCase && carried == null ? PadLamp.On : PadLamp.Off;
+        public PadLamp DeliverLampState => State != null && State.phase == TwoNightPhase.Night1Counter &&
+            (TradeState == ClinicTradeState.ReadyForDelivery || TradeState == ClinicTradeState.ReadyForReturn) ? PadLamp.Blink : PadLamp.Off;
+
+        void DriveLamp(Renderer lamp, PadLamp state)
+        {
+            if (lamp == null) return;
+            bool lit = state == PadLamp.On || state == PadLamp.Blink && Mathf.Repeat(Time.unscaledTime, 1.2f) < .7f;
+            var mat = lamp.sharedMaterial;
+            var color = lit && mat != null && mat.HasProperty("_EmissionColor") ? mat.GetColor("_EmissionColor") : Color.black;
+            lamp.GetPropertyBlock(lampBlock);
+            lampBlock.SetColor("_EmissionColor", color);
+            lamp.SetPropertyBlock(lampBlock);
         }
 
         void PlaceItem(Transform anchor)

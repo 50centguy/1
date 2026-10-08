@@ -209,6 +209,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             RenderSettings.ambientSkyColor = new Color(.08f, .10f, .11f);
             RenderSettings.ambientEquatorColor = new Color(.04f, .05f, .055f);
             RenderSettings.ambientGroundColor = new Color(.025f, .025f, .025f);
+            Debug.Log("[UnifiedClinic] " + ClinicLookTuning.Apply(scene));
             var markerRoot = new GameObject("UnifiedClinic_RuntimeLayout_20261008");
             SceneManager.MoveGameObjectToScene(markerRoot, scene);
             EditorSceneManager.MarkSceneDirty(scene);
