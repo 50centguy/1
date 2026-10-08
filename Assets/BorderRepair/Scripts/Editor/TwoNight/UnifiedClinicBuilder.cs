@@ -56,12 +56,25 @@ namespace BorderRepair.TwoNight.EditorTools
             var itemAnchor = (Transform)inspectorData.FindProperty("itemAnchor").objectReferenceValue;
             var consoleCam = station.Inspector.ViewCamera;
             var cameraOffset = consoleCam.transform.position - itemAnchor.position;
-            itemAnchor.SetParent(anchors.work, false);
+            // Orbiting the item must never rotate bench labels or put the camera inside room geometry.
+            var inspectionStage = new GameObject("ClinicInspectionStage").transform;
+            inspectionStage.SetParent(setup.transform, false);
+            inspectionStage.position = new Vector3(0, 1.2f, 30);
+            itemAnchor.SetParent(inspectionStage, false);
             itemAnchor.localPosition = Vector3.zero;
             itemAnchor.localRotation = Quaternion.identity;
-            consoleCam.transform.SetParent(anchors.camera, false);
+            consoleCam.transform.SetParent(inspectionStage, false);
             consoleCam.transform.localPosition = cameraOffset;
             consoleCam.transform.LookAt(itemAnchor);
+            consoleCam.farClipPlane = 5;
+            consoleCam.clearFlags = CameraClearFlags.SolidColor;
+            consoleCam.backgroundColor = new Color(.06f, .07f, .08f);
+            var front = cameraOffset.normalized;
+            var right = Vector3.Cross(Vector3.up, -front).normalized;
+            InspectionLight(inspectionStage, "InspectionKey", front * .7f - right * .4f + Vector3.up * .4f,
+                new Color(1, .9f, .78f), 2.5f);
+            InspectionLight(inspectionStage, "InspectionFill", front * .4f + right * .6f + Vector3.up * .2f,
+                new Color(.7f, .82f, 1), 1.5f);
             consoleCam.tag = "Untagged";
             foreach (var listener in consoleCam.GetComponents<AudioListener>()) listener.enabled = false;
             foreach (var listener in setup.GetComponentsInChildren<AudioListener>(true)) listener.enabled = false;
@@ -93,6 +106,17 @@ namespace BorderRepair.TwoNight.EditorTools
             EditorSceneManager.OpenScene(ClinicPath, OpenSceneMode.Single);
             ExportBaseline();
             Debug.Log("[UnifiedClinic] Built shared N1/N2 room from current Unit07_Night; original console and robot references retained.");
+        }
+
+        static void InspectionLight(Transform stage, string name, Vector3 position, Color color, float intensity)
+        {
+            var light = new GameObject(name).AddComponent<Light>();
+            light.transform.SetParent(stage, false);
+            light.transform.localPosition = position;
+            light.type = LightType.Point;
+            light.color = color;
+            light.intensity = intensity;
+            light.range = 3;
         }
 
         [Serializable] class Baseline { public string scene; public List<WorldFrame> frames = new List<WorldFrame>(); }
@@ -268,7 +292,7 @@ namespace BorderRepair.TwoNight.EditorTools
             caption.transform.SetParent(anchor, false);
             caption.transform.localPosition = new Vector3(0, 0.12f, 0);
             caption.transform.localScale = Vector3.one * 0.02f;
-            var camera = clinic.Station.Inspector.ViewCamera.transform;
+            var camera = clinic.Robot.Flow.Rig.Cam.transform;
             caption.transform.rotation = Quaternion.LookRotation(caption.transform.position - camera.position, camera.up);
             caption.text = label; caption.fontSize = 40; caption.anchor = TextAnchor.MiddleCenter;
             zone.ConfigureLabel(caption);

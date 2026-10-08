@@ -12,6 +12,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace BorderRepair.TwoNight
 {
@@ -25,6 +26,8 @@ namespace BorderRepair.TwoNight
             public bool passed, retestPassed;
             public float walkedMeters, mouseYawDegrees;
             public bool firstPersonPassed;
+            public bool inspectionMousePassed;
+            public int inspectionScans;
         }
         Report report;
         string output;
@@ -96,7 +99,8 @@ namespace BorderRepair.TwoNight
         IEnumerator Screenshot(string name)
         {
             yield return null;
-            using var frame = new ClinicOffscreenFrame(Camera.main, Screen.width, Screen.height);
+            var camera = FindObjectsByType<Camera>(FindObjectsSortMode.None).Single(c => c.isActiveAndEnabled);
+            using var frame = new ClinicOffscreenFrame(camera, Screen.width, Screen.height);
             frame.Render();
             frame.Render();
             frame.SavePng(Path.Combine(output, "p" + report.phase + "_" + name + ".png"));
@@ -223,11 +227,7 @@ namespace BorderRepair.TwoNight
             yield return ClickZone(ClinicTradeAction.Receive);
             Require(room.TradeState == ClinicTradeState.InRepair, "Physical receive failed.");
             var session = room.Station.Session;
-            Require(session.SetScanMode(true), "Scan mode failed.");
-            foreach (var point in session.CurrentCase.inspectionPoints.Where(p => p.requiredForDiagnosis))
-                Require(room.Station.ScanPoint(point.pointId) == ScanOutcome.NewFinding, "Inspection failed.");
-            Require(session.TryBeginDiagnosis() && session.SubmitDiagnosis(session.CurrentCase.correctDiagnosisId) &&
-                session.SubmitDecision(RepairDecision.Repair), "Authored repair decision failed.");
+            yield return CheckCustomerInspection(room);
             Require(room.State.Cash == 500 && room.State.transactions.Count == 0, "Income before delivery.");
             yield return ClickZone(ClinicTradeAction.Deliver);
             Require(room.State.Cash == 800 && room.State.transactions.Count == 2 && room.Counter.LedgerVisible, "Physical delivery did not settle once.");
@@ -246,12 +246,97 @@ namespace BorderRepair.TwoNight
             yield return driver.Click("Power off", FirstOrderCameraRig.Dock, GameObject.Find("Dock_PowerSwitch_LeverGrip").GetComponent<DockInteractable>(), true);
             yield return WaitUntil(() => flow.Dock.State == DockState.RotorsStopped, "rotors stopped");
             Require(driver.AllPassed, "Real mouse dock acceptance failed.");
-            report.mouseClicks = 2 + driver.Records.Count(r => !string.IsNullOrEmpty(r.screenPoint));
+            report.mouseClicks += 2 + driver.Records.Count(r => !string.IsNullOrEmpty(r.screenPoint));
             Require(room.Robot.CollectSafeState().IsSafe, "Unsafe registration.");
             room.Robot.RegisterButton.onClick.Invoke(); yield return null;
             Require(room.State.phase == TwoNightPhase.Night1Ended && TwoNightSave.Read().status == SaveStatus.Ok, "Safe disk checkpoint not written.");
             Require(SceneManager.GetActiveScene().name == "UnifiedClinic", "Night1 switched rooms.");
             yield return Screenshot("night1_checkpoint");
+        }
+
+        IEnumerator MouseClick(Vector2 position)
+        {
+            mouse.MakeCurrent();
+            InputSystem.QueueStateEvent(mouse, new MouseState { position = position }); yield return null;
+            InputSystem.QueueStateEvent(mouse, new MouseState { position = position }.WithButton(MouseButton.Left)); yield return null;
+            InputSystem.QueueStateEvent(mouse, new MouseState { position = position }); yield return null;
+            yield return null;
+            report.mouseClicks++;
+        }
+
+        IEnumerator ClickButton(Button button)
+        {
+            Require(button != null && button.isActiveAndEnabled && button.interactable, "Inactive UI button.");
+            Canvas.ForceUpdateCanvases();
+            var rect = (RectTransform)button.transform;
+            var canvas = button.GetComponentInParent<Canvas>();
+            var position = RectTransformUtility.WorldToScreenPoint(canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
+                rect.TransformPoint(rect.rect.center));
+            var hits = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current) { position = position }, hits);
+            Require(hits.Count > 0 && hits[0].gameObject.GetComponentInParent<Button>() == button,
+                "UI button is occluded: " + button.name);
+            yield return MouseClick(position);
+        }
+
+        IEnumerator CheckCustomerInspection(UnifiedClinicDirector clinic)
+        {
+            var station = clinic.Station;
+            var inspector = station.Inspector;
+            var session = station.Session;
+            Require(clinic.ConsoleOpen && inspector.isActiveAndEnabled && inspector.InteractionEnabled, "Inspection input not enabled.");
+            while (clinic.Counter.DialogueVisible) yield return ClickButton(clinic.Counter.DialogueButton);
+            var camera = inspector.ViewCamera;
+            Require(camera.isActiveAndEnabled && Vector3.Distance(inspector.LookPoint, clinic.WorkAnchor.position) > 10,
+                "Inspection stage overlaps the physical workbench.");
+            yield return Screenshot("inspection_received");
+            yield return ClickButton(station.View.GetComponentsInChildren<Button>().Single(b => b.name == "ScanButton"));
+            Require(session.ScanModeActive, "Mouse scan toggle failed.");
+            foreach (var info in session.CurrentCase.inspectionPoints.Where(p => p.requiredForDiagnosis))
+            {
+                Require(station.TryGetPoint(info.pointId, out var point), "Missing authored inspection point.");
+                Vector2? position = null;
+                for (int orbit = 0; orbit < 12 && position == null; orbit++)
+                {
+                    Physics.SyncTransforms();
+                    foreach (var collider in point.GetComponentsInChildren<Collider>().Where(c => c.enabled))
+                    {
+                        var bounds = collider.bounds;
+                        for (int sample = 0; sample < 125 && position == null; sample++)
+                        {
+                            var fraction = new Vector3(sample % 5, sample / 5 % 5, sample / 25) / 4f;
+                            var screen = camera.WorldToScreenPoint(bounds.min + Vector3.Scale(bounds.size, Vector3.one * .05f + fraction * .9f));
+                            if (screen.z <= camera.nearClipPlane || screen.z >= camera.farClipPlane || screen.x <= 1 || screen.x >= Screen.width - 1 ||
+                                screen.y <= 1 || screen.y >= Screen.height - 1 || FirstOrderInput.IsOverUI(screen)) continue;
+                            if (station.Scanner.PickPoint(screen, out _) != point) continue;
+                            var obstruction = Physics.RaycastAll(camera.ScreenPointToRay(screen), screen.z, ~0, QueryTriggerInteraction.Ignore)
+                                .Any(h => !h.transform.IsChildOf(inspector.CurrentItem.transform));
+                            if (!obstruction) position = (Vector2)screen;
+                        }
+                    }
+                    if (position == null)
+                    {
+                        var center = new Vector2(Screen.width * .5f, Screen.height * .5f);
+                        InputSystem.QueueStateEvent(mouse, new MouseState { position = center }.WithButton(MouseButton.Right)); yield return null;
+                        InputSystem.QueueStateEvent(mouse, new MouseState { position = center + Vector2.right * 120, delta = Vector2.right * 120 }
+                            .WithButton(MouseButton.Right)); yield return null;
+                        InputSystem.QueueStateEvent(mouse, new MouseState { position = center + Vector2.right * 120 }); yield return null;
+                        for (int frame = 0; frame < 20; frame++) yield return null;
+                    }
+                }
+                Require(position != null, "No visible mouse target for inspection: " + info.pointId);
+                yield return MouseClick(position.Value);
+                Require(session.HasScanned(info.pointId), "Mouse click did not scan " + info.pointId);
+                report.inspectionScans++;
+            }
+            yield return Screenshot("inspection_scanned");
+            yield return ClickButton(station.View.GetComponentsInChildren<Button>().Single(b => b.name == "DiagnoseButton"));
+            Require(session.Stage == RepairStage.Diagnose, "Mouse diagnosis button failed.");
+            yield return ClickButton(station.View.GetComponentsInChildren<Button>().Single(b => b.name == "Option_" + session.CurrentCase.correctDiagnosisId));
+            Require(session.Stage == RepairStage.Decide, "Mouse diagnosis choice failed.");
+            yield return ClickButton(station.View.GetComponentsInChildren<Button>().Single(b => b.name == "RepairButton"));
+            Require(clinic.TradeState == ClinicTradeState.ReadyForDelivery && !clinic.ConsoleOpen, "Mouse repair choice failed.");
+            report.inspectionMousePassed = true;
         }
     }
 }

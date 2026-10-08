@@ -12,7 +12,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
         [MenuItem("Border Repair/Unified Clinic/Build Isolated Windows Player")]
         public static void Build()
         {
-            string output = "Builds/UnifiedClinic-20261008";
+            string output = "Builds/UnifiedClinic-20261008-InspectionFix";
             Directory.CreateDirectory(output);
             var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions {
                 scenes = new[] { UnifiedClinicBuilder.MenuPath, UnifiedClinicBuilder.ClinicPath },

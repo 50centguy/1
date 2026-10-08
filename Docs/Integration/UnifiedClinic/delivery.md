@@ -17,7 +17,7 @@ Date: 2026-10-08. Independent integration is published; main is not merged.
 
 First-person follow-up: the current branch and rebuilt local executable now start both nights in walking mode. The existing 5028a74 controller is migrated without replacing the new room with old scenes. Focused tests pass 19/19; separate native processes verify walking, mouse-look, checkpoint continuation and full repair/retest. Detailed boundaries and controls are in FirstPerson/README.md. Main remains unmerged.
 
-Run C:/Users/Administrator/Documents/Codex/clinic-int/Builds/UnifiedClinic-20261008/BorderRepairClinic.exe. The generated executable is a local build, not a committed binary; rebuild with ClinicPlayerBuilder.BuildBatch when checking out the branch elsewhere.
+Latest inspection-fix player: C:/Users/Administrator/Documents/Codex/clinic-int/Builds/UnifiedClinic-20261008-InspectionFix/BorderRepairClinic.exe. It fixes the physical bench/CONSOLE label obscuring the customer item; see InspectionFix/README.md for actual rendered/pointer checks. The older executable remains available but lacks this fix. The generated executable is a local build, not a committed binary; rebuild with ClinicPlayerBuilder.BuildBatch when checking out the branch elsewhere.
 
 Alternatively, open this worktree as a Unity 6000.0.84f1 project and open Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity. Start Play, then New Game or Continue. Both nights use UnifiedClinic.unity. Receive and deliver through the trade counter; existing diagnostic console functionality is retained. First-night authored content contains one collector case, while the queue supports additional authored cases without inventing them.
 

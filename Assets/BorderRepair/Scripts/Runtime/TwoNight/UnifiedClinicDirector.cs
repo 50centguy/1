@@ -34,7 +34,11 @@ namespace BorderRepair.TwoNight
         public Transform WorkAnchor => workAnchor;
         public Transform DeliveryAnchor => deliveryAnchor;
         public Transform ConsoleCameraAnchor => consoleCameraAnchor;
-        public float TradeSupportWorldY(Transform anchor) => anchor.TransformPoint(Vector3.up * tradeSupportHeight).y;
+        public float TradeSupportWorldY(Transform anchor)
+        {
+            var bench = anchor == workAnchor ? anchor.GetComponentInParent<Renderer>() : null;
+            return bench != null ? bench.bounds.max.y : anchor.TransformPoint(Vector3.up * tradeSupportHeight).y;
+        }
         public bool Initialized { get; private set; }
         public bool ConsoleOpen { get; private set; }
         public string LastMessage { get; private set; }
@@ -175,6 +179,7 @@ namespace BorderRepair.TwoNight
             if (!Initialized || State.phase != TwoNightPhase.Night1Counter || TradeState != ClinicTradeState.InRepair) return;
             RestoreItem();
             ConsoleOpen = true;
+            LastMessage = null;
             flow.Rig.enabled = false;
             roomCamera.enabled = false;
             station.Inspector.ViewCamera.enabled = true;
@@ -189,6 +194,7 @@ namespace BorderRepair.TwoNight
             station.enabled = station.Inspector.enabled = station.Scanner.enabled = false;
             station.View.gameObject.SetActive(false);
             station.Inspector.ViewCamera.enabled = false;
+            if (TradeState == ClinicTradeState.InRepair) PlaceItem(workAnchor);
             roomCamera.enabled = true;
             flow.Rig.enabled = true;
             if (flow.Rig.FirstPersonEnabled) flow.Rig.Walk(true);
@@ -305,6 +311,7 @@ namespace BorderRepair.TwoNight
                 TradeState == ClinicTradeState.ReadyForReturn ? "当前物品待无偿退回（不记维修收入）" :
                 TradeState == ClinicTradeState.ReadyForDelivery ? "当前物品待交付（尚未入账）" : "没有待接收的下一单";
             status.text = $"第 {State.night} 晚　现金 {TwoNightUi.Money(State.Cash)}\n{task}\n{LastMessage}";
+            status.transform.parent.gameObject.SetActive(!ConsoleOpen);
             consoleButton.gameObject.SetActive(!ConsoleOpen && TradeState == ClinicTradeState.InRepair);
             roomButton.gameObject.SetActive(ConsoleOpen);
         }

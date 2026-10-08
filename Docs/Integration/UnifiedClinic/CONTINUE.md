@@ -1,5 +1,7 @@
 # Delivery checkpoint
 
+Customer inspection follow-up: the reported foreground CONSOLE/workbench obstruction is fixed with an isolated close-up stage, local lighting and independent item orbit. Returning to the room restores the same item onto the real bench; reopening preserves findings. Focused input/render regression is 22/22. Latest player is Builds/UnifiedClinic-20261008-InspectionFix/BorderRepairClinic.exe; see InspectionFix/README.md and Native reports for final-build acceptance. This does not authorize restarting modeling, resuming the paused heartbeat or merging main.
+
 First-person follow-up on the same independent integration branch is complete: migrated existing 5028a74 walking/input/camera code, adapted shared-room spawn/colliders and first-night trade/UI, added long-frame step protection. Latest focused PlayMode is 19/19; updated native player passes both independent-process phases including keyboard/mouse input and full internal repair/retest. See FirstPerson/README.md and Native/. Do not restart integration or modeling; the heartbeat remains paused. Earlier full-suite numbers below are historical, not a full-suite rerun after this input follow-up.
 
 2026-10-08: implementation, acceptance and independent-branch publication complete. Implementation commit 43116353fc8dbf67f2d63dad3f6611ba37a929be is verified on origin/integ/unified-clinic-20261008. No Unity, player, Claude or Blender job owned by this task remains. Do not restart modeling or repeat completed scene generation.

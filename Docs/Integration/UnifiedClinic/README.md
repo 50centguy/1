@@ -4,13 +4,15 @@ This is an independent delivery on `integ/unified-clinic-20261008`, not an autom
 
 ## Play and rebuild
 
+Inspection follow-up: customer items now use a separate close-up stage inside the same scene. Item orbit/zoom no longer shares a transform with the physical bench or its CONSOLE label. Room trade feedback is hidden while inspecting. See `InspectionFix/README.md` for actual pointer-input and rendered-visibility checks.
+
 First-person integration follow-up: the shared room now starts in walking mode in both nights. WASD moves, mouse delta looks, Shift walks faster, and C toggles a lowered eye position. The crosshair selects nearby objects (1.3 m reach); Tab/Esc releases the mouse for UI. Fixed repair views remain available and movement keys or the Back/Walk button return to the player's unchanged body location. Diagnostic console, dialogue, ledger, repair manual and night-end panels pause movement. See `FirstPerson/README.md` for the latest input-specific evidence; earlier full-suite and performance reports remain historical results, not a claim that the entire suite was rerun after this follow-up.
 
 - Open `Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity`, then Play and choose New Game or Continue.
 - Both nights use `Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity`. The customer-night console and internal UNIT07 flow are phase-gated rather than loaded into different rooms.
 - The room-side receive/deliver pads are clickable. Receiving opens the existing diagnostic console; returning to the room permits physical handoff. Completing a repair alone does not post income. An unfinished item cannot be delivered. Authored refusal/replacement advice permits an unpaid return.
 - The authored first-night shift currently contains one collector case. The queue implementation supports subsequent authored cases; it does not invent extra customers or narrative content.
-- The playable Windows build is `Builds/UnifiedClinic-20261008/BorderRepairClinic.exe`. See `player_build.txt` for the actual build result, not merely the presence of this path.
+- The latest playable Windows build is `Builds/UnifiedClinic-20261008-InspectionFix/BorderRepairClinic.exe`. The earlier build is retained but does not contain the inspection fix. See `player_build.txt` for the actual build result, not merely the presence of this path.
 - Rebuild the integrated room with `Border Repair/Unified Clinic/Rebuild Shared Gameplay With Clinic Environment` (`ClinicGameplayIntegrator.BuildBatch` in batch mode). Do not call the lower-level `UnifiedClinicBuilder.Build` alone for final art placement.
 - Scene generation replaces the generated shared scene. Back up hand-edited shared scenes before explicitly rebuilding. The integrator rejects unsaved edits in every loaded scene, preflights imports and restores published scenes, generated art/importer metas, reports, build list and prior scene setup if generation fails.
 
