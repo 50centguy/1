@@ -1,0 +1,120 @@
+{
+ "blender": "5.2.2 LTS",
+ "counts": {
+  "triangles": 2772,
+  "mesh_objects": 11,
+  "materials": 4,
+  "textures": 2
+ },
+ "budget": {
+  "triangles": 4000,
+  "mesh_objects": 20,
+  "materials": 4,
+  "textures": 2
+ },
+ "materials": [
+  "M_UCC_Cable",
+  "M_UCC_Fabric",
+  "M_UCC_PaintedMetal",
+  "M_UCC_Paper"
+ ],
+ "textures": {
+  "T_UCC_SoftAtlas.png": {
+   "size": [
+    256,
+    256
+   ],
+   "bytes": 83878
+  },
+  "T_UCC_PaintAtlas.png": {
+   "size": [
+    128,
+    128
+   ],
+   "bytes": 20883
+  }
+ },
+ "triangles_per_material": {
+  "M_UCC_Fabric": 532,
+  "M_UCC_PaintedMetal": 1400,
+  "M_UCC_Paper": 340,
+  "M_UCC_Cable": 500
+ },
+ "fbx_roundtrip": {
+  "max_bounds_error_m": 0.0,
+  "passed": true,
+  "per_object": {
+   "UCC_SE_Fabric": 0.0,
+   "UCC_SE_Metal": 0.0,
+   "UCC_SE_Paper": 0.0,
+   "UCC_SW_Metal": 0.0,
+   "UCC_SW_Paper": 0.0,
+   "UCC_NW_Metal": 0.0,
+   "UCC_NW_Cable": 0.0,
+   "UCC_NW_Paper": 0.0,
+   "UCC_NE_Metal": 0.0,
+   "UCC_NE_Cable": 0.0,
+   "UCC_NE_Paper": 0.0
+  },
+  "imported_mesh_objects": 11,
+  "imported_object_types": [
+   "EMPTY",
+   "MESH"
+  ],
+  "root_found": true,
+  "note": "Blender re-import only; Unity import not run"
+ },
+ "base_blend_unchanged": {
+  "sha256": "b376a97ecb0df8f71e350842f894e98c1f2ef06ff64d44ca0ac75fae84d3cd7a",
+  "unchanged": true
+ },
+ "renders": [
+  {
+   "file": "Renders/UCC_Overview.png",
+   "camera_unity": [
+    0.0,
+    1.95,
+    -1.6
+   ],
+   "look_at_unity": [
+    0.0,
+    1.75,
+    2.4
+   ],
+   "lens_mm": 12,
+   "exists": true
+  },
+  {
+   "file": "Renders/UCC_WallDetail_SE.png",
+   "camera_unity": [
+    0.62,
+    1.72,
+    -1.12
+   ],
+   "look_at_unity": [
+    1.82,
+    1.78,
+    -2.72
+   ],
+   "lens_mm": 20,
+   "exists": true
+  },
+  {
+   "file": "Renders/UCC_Supplementary_SW.png",
+   "camera_unity": [
+    -1.05,
+    1.75,
+    -1.0
+   ],
+   "look_at_unity": [
+    -2.4,
+    1.8,
+    -2.4
+   ],
+   "lens_mm": 16,
+   "exists": true
+  }
+ ],
+ "passed_all": true,
+ "failures": []
+}

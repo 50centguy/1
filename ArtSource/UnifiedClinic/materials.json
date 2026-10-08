@@ -1,0 +1,265 @@
+{
+  "materials": [
+    {
+      "name": "M_UC_Wall",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.3,
+      "smoothness": 0.22,
+      "baseMap": "T_UC_Wall.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        1.2,
+        1.2
+      ]
+    },
+    {
+      "name": "M_UC_Floor",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.25,
+      "smoothness": 0.18,
+      "baseMap": "T_UC_Floor.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        1.2,
+        1.2
+      ]
+    },
+    {
+      "name": "M_UC_DarkSteel",
+      "baseColor": "#333636",
+      "metallic": 0.6,
+      "smoothness": 0.32,
+      "baseMap": "T_UC_Worn.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.6,
+        0.6
+      ]
+    },
+    {
+      "name": "M_UC_Steel",
+      "baseColor": "#757873",
+      "metallic": 0.7,
+      "smoothness": 0.45,
+      "baseMap": "T_UC_Worn.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "M_UC_PaintGreen",
+      "baseColor": "#4C6152",
+      "metallic": 0.2,
+      "smoothness": 0.26,
+      "baseMap": "T_UC_Worn.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.6,
+        0.6
+      ]
+    },
+    {
+      "name": "M_UC_Ivory",
+      "baseColor": "#CCC2A1",
+      "metallic": 0.05,
+      "smoothness": 0.4,
+      "baseMap": "T_UC_Worn.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.4,
+        0.4
+      ]
+    },
+    {
+      "name": "M_UC_Red",
+      "baseColor": "#85261C",
+      "metallic": 0.2,
+      "smoothness": 0.3,
+      "baseMap": "T_UC_Worn.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "M_UC_Orange",
+      "baseColor": "#B2521F",
+      "metallic": 0.1,
+      "smoothness": 0.1,
+      "baseMap": "T_UC_Worn.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "M_UC_Pipe",
+      "baseColor": "#8C5433",
+      "metallic": 0.6,
+      "smoothness": 0.42,
+      "baseMap": "T_UC_Worn.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.4,
+        0.4
+      ]
+    },
+    {
+      "name": "M_UC_Hazard",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.1,
+      "smoothness": 0.2,
+      "baseMap": "T_UC_Hazard.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.5,
+        0.125
+      ]
+    },
+    {
+      "name": "M_UC_Rubber",
+      "baseColor": "#121212",
+      "metallic": 0.0,
+      "smoothness": 0.1,
+      "baseMap": "T_UC_Worn.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.3,
+        0.3
+      ]
+    },
+    {
+      "name": "M_UC_Vinyl",
+      "baseColor": "#3D4F42",
+      "metallic": 0.0,
+      "smoothness": 0.45,
+      "baseMap": "T_UC_Fabric.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.25,
+        0.25
+      ]
+    },
+    {
+      "name": "M_UC_Cloth",
+      "baseColor": "#A8A699",
+      "metallic": 0.0,
+      "smoothness": 0.05,
+      "baseMap": "T_UC_Fabric.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.3,
+        0.3
+      ]
+    },
+    {
+      "name": "M_UC_Wood",
+      "baseColor": "#523624",
+      "metallic": 0.0,
+      "smoothness": 0.2,
+      "baseMap": "T_UC_Worn.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.3,
+        0.3
+      ]
+    },
+    {
+      "name": "M_UC_Grate",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.5,
+      "smoothness": 0.3,
+      "baseMap": "T_UC_Grate.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": [
+        0.4,
+        0.4
+      ]
+    },
+    {
+      "name": "M_UC_Paper",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.08,
+      "baseMap": "T_UC_Paper.png",
+      "emissionMap": "",
+      "emissionColor": "#000000",
+      "emissionStrength": 0.0,
+      "filterMode": "Point",
+      "uvTileMeters": null
+    },
+    {
+      "name": "M_UC_Screen",
+      "baseColor": "#FFFFFF",
+      "metallic": 0.0,
+      "smoothness": 0.7,
+      "baseMap": "T_UC_Screen.png",
+      "emissionMap": "T_UC_Screen.png",
+      "emissionColor": "#FFFFFF",
+      "emissionStrength": 1.6,
+      "filterMode": "Point",
+      "uvTileMeters": null
+    },
+    {
+      "name": "M_UC_LampWarm",
+      "baseColor": "#FFC780",
+      "metallic": 0.0,
+      "smoothness": 0.6,
+      "baseMap": "",
+      "emissionMap": "",
+      "emissionColor": "#FFA852",
+      "emissionStrength": 5.0,
+      "filterMode": "Point",
+      "uvTileMeters": null
+    }
+  ]
+}

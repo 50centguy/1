@@ -1,0 +1,175 @@
+PREFAB 62371050 guid=b88f6fa83b8a4e74c804e4fd92ab8a95 parent=1241494263
+    m_LocalScale.x = 1
+    m_LocalScale.z = 1
+    m_LocalPosition.x = 0.00073
+    m_LocalPosition.y = -0.00003
+    m_LocalPosition.z = 0.00495
+    m_LocalRotation.w = 0.7033682
+    m_LocalRotation.x = 0.7069982
+    m_LocalRotation.y = 0.05221987
+    m_LocalRotation.z = -0.05195987
+    m_LocalEulerAnglesHint.x = 0
+    m_LocalEulerAnglesHint.y = 0
+    m_LocalEulerAnglesHint.z = 0
+    m_Name = UNIT07_FK_BearingWorn
+PREFAB 197030091 guid=c6608a41784d55e4e952b984da5003fb parent=0
+    m_LocalPosition.x = 0.375
+    m_LocalPosition.y = 0
+    m_LocalPosition.z = 0.825
+    m_LocalRotation.w = -0.5609855
+    m_LocalRotation.x = 0.5609856
+    m_LocalRotation.y = 0.43045932
+    m_LocalRotation.z = 0.43045935
+    m_LocalEulerAnglesHint.x = 0
+    m_LocalEulerAnglesHint.y = 0
+    m_LocalEulerAnglesHint.z = 0
+    m_Name = Unit07ServiceDock
+PREFAB 820651796 guid=93ac485e5bcd3ac47a4fc57fa98a9128 parent=977303633
+    m_LocalScale.x = 1
+    m_LocalScale.z = 1
+    m_LocalPosition.x = 0
+    m_LocalPosition.y = 0
+    m_LocalPosition.z = 0
+    m_LocalRotation.w = 1
+    m_LocalRotation.x = 0
+    m_LocalRotation.y = 0
+    m_LocalRotation.z = 0
+    m_LocalEulerAnglesHint.x = 0
+    m_LocalEulerAnglesHint.y = 0
+    m_LocalEulerAnglesHint.z = 0
+    m_Name = UNIT07_FK_IntakeClog
+PREFAB 1063598597 guid=98cd700356060dd48aabc8973c9aad67 parent=1241494033
+    m_LocalScale.x = 1
+    m_LocalScale.z = 1
+    m_LocalPosition.x = 0.06842
+    m_LocalPosition.y = -0.00006
+    m_LocalPosition.z = 0.01115
+    m_LocalRotation.w = 0.7033682
+    m_LocalRotation.x = 0.7069982
+    m_LocalRotation.y = 0.05221987
+    m_LocalRotation.z = -0.05195987
+    m_LocalEulerAnglesHint.x = 0
+    m_LocalEulerAnglesHint.y = 0
+    m_LocalEulerAnglesHint.z = 0
+    m_Name = UNIT07_FK_CoverLabel
+PREFAB 1101211196 guid=30d0ec41d90844a429f4e9b9853c7054 parent=1605421798
+    m_Name = Dock_PartsTray_HandleRaised
+    m_LocalPosition.x = 0.57
+    m_LocalPosition.y = -0.19
+    m_LocalPosition.z = 0.785
+    m_LocalRotation.w = 1
+    m_LocalRotation.x = 0
+    m_LocalRotation.y = -0
+    m_LocalRotation.z = -0
+    m_LocalEulerAnglesHint.x = 0
+    m_LocalEulerAnglesHint.y = 0
+    m_LocalEulerAnglesHint.z = 0
+PREFAB 1241494032 guid=500d946db40a7d54ebe5972c450ecf05 parent=0
+    m_LocalPosition.x = 0.37500012
+    m_LocalPosition.y = 0.7200001
+    m_LocalPosition.z = 0.8249998
+    m_LocalRotation.w = -0.7933534
+    m_LocalRotation.x = 0
+    m_LocalRotation.y = 0.6087614
+    m_LocalRotation.z = 0
+    m_LocalEulerAnglesHint.x = 0
+    m_LocalEulerAnglesHint.y = 0
+    m_LocalEulerAnglesHint.z = 0
+    m_Name = UNIT07_RobotV4_DockReady
+PREFAB 1420025184 guid=97471c7b5bd10e84f9ec2ffdd183289d parent=0
+    m_Name = WorkbenchArea
+    m_LocalPosition.x = 0
+    m_LocalPosition.y = 0
+    m_LocalPosition.z = 0
+    m_LocalRotation.w = 0.7071067
+    m_LocalRotation.x = -0.7071068
+    m_LocalRotation.y = 0
+    m_LocalRotation.z = -0
+    m_LocalEulerAnglesHint.x = 0
+    m_LocalEulerAnglesHint.y = 0
+    m_LocalEulerAnglesHint.z = 0
+PREFAB 1779246127 guid=d90c040c7ae5bcc459ad9a1f8077bd2b parent=822630049
+    m_LocalScale.x = 1
+    m_LocalScale.z = 1
+    m_LocalPosition.x = 0.00073
+    m_LocalPosition.y = -0.00003
+    m_LocalPosition.z = 0.00495
+    m_LocalRotation.w = 0.7033682
+    m_LocalRotation.x = 0.7069982
+    m_LocalRotation.y = 0.05221987
+    m_LocalRotation.z = -0.05195987
+    m_LocalEulerAnglesHint.x = 0
+    m_LocalEulerAnglesHint.y = 0
+    m_LocalEulerAnglesHint.z = 0
+    m_Name = UNIT07_FK_BearingNew
+Dock_ServiceLight (warm-neutral)  p=(-0.10195698, 2.3, 0.5904536) r=(0.44999, 0.5146853, -0.36723155, 0.6306735) s=(1.0, 1.0, 1.0)
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+  "TwoNight_ScreenStatus\uFF08\u5C4F\u5E55\u72B6\u6001\u6587\u5B57\uFF09"  p=(0.0, 0.0, 0.0013652733) r=(-0.0, -0.7071067, -0.7071068, 0.0) s=(0.0008365379, 0.0008365379, 0.0008365379)
+    Text  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+    Bg  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+  "TwoNight_TrayHoldPoint\uFF08\u53F3\u624B\u7AEF\u76D8\u6302\u70B9\uFF09"  p=(-0.12527359, -0.12925345, -0.089898214) r=(-0.5911022, -0.53961205, -0.42572162, 0.42211157) s=(1.0, 1.0, 1.0)
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+"FaultArtLookFix (\u573A\u666F\u9A8C\u6536\u89C2\u611F\u8C03\u6574\uFF1A\u4EC5\u6D4B\u8BD5\u526F\u672C)"  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+  RP_Bench  p=(0.03527105, 1.2039998, -0.45024425) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+  RP_EngineBay  p=(0.26616782, 1.5980885, 0.46102732) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+  Bench_UnderShelfFill (warm, no shadow)  p=(-0.53, 1.62, -0.8) r=(0.47520694, -0.0, -0.0, 0.8798741) s=(1.0, 1.0, 1.0)
+  Dock_InspectionFill (warm, no shadow)  p=(-0.16684127, 1.806831, 0.45385957) r=(0.32682884, 0.6232059, -0.32146353, 0.6336075) s=(1.0, 1.0, 1.0)
+FirstOrderCameraRig  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+  CamPose_EngineRear  p=(0.66762906, 1.5818267, -0.054469615) r=(0.26013187, -0.28612527, 0.08102228, 0.9186399) s=(1.0, 1.0, 1.0)
+  CamPose_Bench  p=(0.0, 1.62, 0.62) r=(-0.020725572, 0.95468664, -0.2888815, -0.068493225) s=(1.0, 1.0, 1.0)
+  CamPose_Record  p=(0.03697444, 1.1345022, -0.30164552) r=(-0.0, 0.83308375, -0.55314684, 0.0) s=(1.0, 1.0, 1.0)
+  CamPose_Compare  p=(-0.578267, 1.1739128, -0.06854348) r=(-0.0, 0.8977281, -0.44055003, 0.0) s=(1.0, 1.0, 1.0)
+  CamPose_Overview  p=(-1.0415032, 2.0, 1.0076501) r=(0.12877603, 0.8467514, -0.23809531, 0.4579732) s=(1.0, 1.0, 1.0)
+  Main Camera  p=(-0.45043355, 1.35, 0.06266203) r=(0.18364388, 0.44357705, -0.093392596, 0.872234) s=(1.0, 1.0, 1.0)
+  CamPose_EngineR  p=(0.16025907, 1.6026961, 1.7043047) r=(0.07413394, 0.9254542, -0.27667165, 0.24797472) s=(1.0, 1.0, 1.0)
+  CamPose_EngineClose  p=(0.13288943, 1.4732442, 0.38673133) r=(0.42057046, 0.43708137, -0.24281648, 0.75704724) s=(1.0, 1.0, 1.0)
+  CamPose_Dock  p=(-0.45043355, 1.35, 0.06266203) r=(0.18364388, 0.44357705, -0.093392596, 0.872234) s=(1.0, 1.0, 1.0)
+  CamPose_EngineL  p=(-0.24551743, 1.6018267, 0.16950184) r=(0.24805695, 0.47905043, -0.14321576, 0.8297395) s=(1.0, 1.0, 1.0)
+Unit07DockFlow  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+"TwoNightRobotDirector\uFF08\u4E24\u665A\uFF1A\u4E03\u53F7\uFF09"  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+?  p=None r=None s=None
+"FO_NewBearing_L (\u6545\u969C\u7F8E\u672F\u5305\uFF1A\u65B0\u8F74\u627F)"  p=(-0.65002817, 0.95049644, -0.26376233) r=(0.592248, 0.46999395, 0.38960057, -0.5258892) s=(1.0, 0.9999999, 0.9999998)
+"SliceUI (\u4E24\u665A\u5207\u7247\u9F20\u6807\u754C\u9762)"  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+?  p=None r=None s=None
+?  p=None r=None s=None
+"FirstOrderFlow (\u4E03\u53F7\u9996\u5355\u539F\u578B\uFF1A\u5360\u4F4D\u4EA4\u4E92\uFF0C\u975E\u6B63\u5F0F\u7EF4\u4FEE\u6D41\u7A0B)"  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+FO_Drop_Mat  p=(0.03527105, 0.9189998, -0.45024425) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+  Landing  p=(0.0, -0.014999986, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+  Marker  p=(0.0, -0.013499975, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(0.27, 0.001, 0.27)
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+  "FO_IntakeClog_L (\u6545\u969C\u7F8E\u672F\u5305\uFF1A\u8FDB\u6C14\u53E3\u5835\u585E)"  p=(-0.00088, 3e-05, -0.00593) r=(0.7069982, 0.05221987, -0.05195987, 0.7033682) s=(1.0, 1.0, 1.0)
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+?  p=None r=None s=None
+"TwoNight_TrayIncident\uFF08\u7B2C\u4E00\u665A\u7AEF\u76D8\u5931\u8861\u6F14\u51FA\uFF09"  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+Bench_WorkLamp_Spot (warm)  p=(0.10989526, 1.4072456, -0.544843) r=(0.5888692, -0.22844161, 0.17829508, 0.75449216) s=(1.0, 1.0, 1.0)
+?  p=None r=None s=None
+EventSystem  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+PostProcess (shared WB profile)  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+?  p=None r=None s=None
+FO_Drop_PartsTray  p=(-0.5065, 0.9189999, -0.25104177) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+  Marker  p=(0.0, -0.013499975, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(0.065, 0.001, 0.065)
+  Landing  p=(0.0, -0.014999986, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+"FO_PartsCarrier (\u53D6\u4E0B\u7684\u96F6\u4EF6\u6302\u5728\u8FD9\u91CC)"  p=(0.0, 0.0, 0.0) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)
+Room_Fill (cool, no shadow)  p=(0.0, 0.0, 0.0) r=(-0.059391182, 0.9254166, -0.3368241, -0.16317594) s=(1.0, 1.0, 1.0)
+Ceiling_Fluo (cool)  p=(0.0, 2.3, -0.25) r=(0.0, 0.0, 0.0, 1.0) s=(1.0, 1.0, 1.0)

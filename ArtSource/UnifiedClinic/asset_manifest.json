@@ -1,0 +1,5001 @@
+{
+ "coordinate_contract": {
+  "unity_axes": "+Y up, +Z north/forward, +X east, metres",
+  "blender_to_unity": "u = (-bx, bz, -by)",
+  "fbx_export": "axis_forward=-Z, axis_up=Y, bake_space_transform=False, FBX_SCALE_UNITS (same as WorkbenchArea / Unit07ServiceDock)",
+  "placement": "Instantiate UnifiedClinic_Environment at Unity (0,0,0); keep the root's imported rotation (Euler -90,0,0). Do not zero it.",
+  "existing_asset_rotation": "root rotation = Quaternion.Euler(0, yaw, 0) * importRotation(Euler(-90,0,0)); yaw from anchors.json",
+  "hinge_axes": "uc_hinge_axis_unity_world / uc_slide_axis_unity_world are WORLD axes with the prefab placed as above; use Transform.RotateAround(pivotWorld, axisWorld, deg) - positive yaw turns +Z toward +X",
+  "verification": "Blender FBX round-trip checked (Reports/transform_contract_test.json). Unity import itself NOT run in this task."
+ },
+ "objects": [
+  {
+   "name": "Arm_Cable",
+   "module": "UC_MonitorArm",
+   "role": "animated_child",
+   "material": "M_UC_Rubber",
+   "triangles": 36,
+   "pivot_unity": [
+    1.0,
+    1.45,
+    3.27
+   ],
+   "bounds_min_unity": [
+    0.2921,
+    1.3891,
+    2.9721
+   ],
+   "bounds_max_unity": [
+    1.0062,
+    1.5577,
+    3.2945
+   ],
+   "size_unity": [
+    0.7142,
+    0.1686,
+    0.3224
+   ],
+   "parent": "Arm_Link1",
+   "props": {
+    "uc_note": "cosmetic; follows Link1 only (skin it or hide while animating)"
+   }
+  },
+  {
+   "name": "Arm_Carriage",
+   "module": "UC_MonitorArm",
+   "role": "animated",
+   "material": "M_UC_DarkSteel",
+   "triangles": 40,
+   "pivot_unity": [
+    1.0,
+    1.45,
+    3.27
+   ],
+   "bounds_min_unity": [
+    0.95,
+    1.36,
+    3.225
+   ],
+   "bounds_max_unity": [
+    1.05,
+    1.54,
+    3.36
+   ],
+   "size_unity": [
+    0.1,
+    0.18,
+    0.135
+   ],
+   "parent": "WB_MonitorArm",
+   "props": {
+    "uc_anim": "slide",
+    "uc_slide_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_note": "height adjust on the rail",
+    "uc_range": [
+     -0.25,
+     0.25
+    ]
+   }
+  },
+  {
+   "name": "Arm_Head",
+   "module": "UC_MonitorArm",
+   "role": "animated",
+   "material": "M_UC_DarkSteel",
+   "triangles": 68,
+   "pivot_unity": [
+    0.3,
+    1.45,
+    3.2
+   ],
+   "bounds_min_unity": [
+    0.22,
+    1.348,
+    3.148
+   ],
+   "bounds_max_unity": [
+    0.38,
+    1.48,
+    3.23
+   ],
+   "size_unity": [
+    0.16,
+    0.132,
+    0.082
+   ],
+   "parent": "Arm_Link2",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     0.3,
+     1.45,
+     3.2
+    ],
+    "uc_range": [
+     -54.0,
+     76.0
+    ]
+   }
+  },
+  {
+   "name": "Arm_Link1",
+   "module": "UC_MonitorArm",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 40,
+   "pivot_unity": [
+    1.0,
+    1.45,
+    3.27
+   ],
+   "bounds_min_unity": [
+    0.71,
+    1.405,
+    2.94
+   ],
+   "bounds_max_unity": [
+    1.0265,
+    1.495,
+    3.2929
+   ],
+   "size_unity": [
+    0.3165,
+    0.09,
+    0.3529
+   ],
+   "parent": "Arm_Carriage",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     1.0,
+     1.45,
+     3.27
+    ],
+    "uc_range": [
+     -98.0,
+     8.0
+    ]
+   }
+  },
+  {
+   "name": "Arm_Link2",
+   "module": "UC_MonitorArm",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 68,
+   "pivot_unity": [
+    0.75,
+    1.45,
+    2.98
+   ],
+   "bounds_min_unity": [
+    0.265,
+    1.475,
+    2.945
+   ],
+   "bounds_max_unity": [
+    0.785,
+    1.535,
+    3.235
+   ],
+   "size_unity": [
+    0.52,
+    0.06,
+    0.29
+   ],
+   "parent": "Arm_Link1",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     0.75,
+     1.45,
+     2.98
+    ],
+    "uc_range": [
+     -170.0,
+     18.0
+    ]
+   }
+  },
+  {
+   "name": "Arm_Monitor",
+   "module": "UC_MonitorArm",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 36,
+   "pivot_unity": [
+    0.3,
+    1.37,
+    3.17
+   ],
+   "bounds_min_unity": [
+    0.1,
+    1.21,
+    2.97
+   ],
+   "bounds_max_unity": [
+    0.5,
+    1.51,
+    3.17
+   ],
+   "size_unity": [
+    0.4,
+    0.3,
+    0.2
+   ],
+   "parent": "Arm_Head",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     0.3,
+     1.37,
+     3.17
+    ],
+    "uc_note": "screen faces -Z (toward the player at the bench) in the default pose",
+    "uc_range": [
+     -44.0,
+     44.0
+    ]
+   }
+  },
+  {
+   "name": "Arm_Monitor_Screen",
+   "module": "UC_MonitorArm",
+   "role": "animated_child",
+   "material": "M_UC_Screen",
+   "triangles": 12,
+   "pivot_unity": [
+    0.3,
+    1.37,
+    3.17
+   ],
+   "bounds_min_unity": [
+    0.14,
+    1.24,
+    2.958
+   ],
+   "bounds_max_unity": [
+    0.46,
+    1.48,
+    2.97
+   ],
+   "size_unity": [
+    0.32,
+    0.24,
+    0.012
+   ],
+   "parent": "Arm_Monitor",
+   "props": {}
+  },
+  {
+   "name": "Bed_Base",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 136,
+   "pivot_unity": [
+    -0.1,
+    0.0,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    -0.43,
+    0.0,
+    -1.15
+   ],
+   "bounds_max_unity": [
+    0.23,
+    0.7,
+    0.75
+   ],
+   "size_unity": [
+    0.66,
+    0.7,
+    1.9
+   ],
+   "parent": "UC_Surgery",
+   "props": {
+    "uc_note": "static surgery bed base"
+   }
+  },
+  {
+   "name": "Bed_Pads",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_Vinyl",
+   "triangles": 60,
+   "pivot_unity": [
+    -0.1,
+    0.74,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    -0.4,
+    0.74,
+    -1.13
+   ],
+   "bounds_max_unity": [
+    0.2,
+    0.9,
+    0.73
+   ],
+   "size_unity": [
+    0.6,
+    0.16,
+    1.86
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Bed_Rails",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_Steel",
+   "triangles": 320,
+   "pivot_unity": [
+    -0.1,
+    0.7,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    -0.465,
+    0.7,
+    -1.16
+   ],
+   "bounds_max_unity": [
+    0.265,
+    1.0173,
+    0.76
+   ],
+   "size_unity": [
+    0.73,
+    0.3173,
+    1.92
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Bed_Shell",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_Ivory",
+   "triangles": 84,
+   "pivot_unity": [
+    -0.1,
+    0.0,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    -0.43,
+    0.0,
+    -1.15
+   ],
+   "bounds_max_unity": [
+    0.23,
+    0.74,
+    0.75
+   ],
+   "size_unity": [
+    0.66,
+    0.74,
+    1.9
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Bed_Straps",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_Rubber",
+   "triangles": 72,
+   "pivot_unity": [
+    -0.1,
+    0.85,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    -0.43,
+    0.7,
+    -0.78
+   ],
+   "bounds_max_unity": [
+    0.23,
+    0.856,
+    -0.02
+   ],
+   "size_unity": [
+    0.66,
+    0.156,
+    0.76
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Ceiling_Beams",
+   "module": "UC_Shell",
+   "role": "ceiling",
+   "material": "M_UC_DarkSteel",
+   "triangles": 48,
+   "pivot_unity": [
+    0.0,
+    3.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.2,
+    2.84,
+    -3.2
+   ],
+   "bounds_max_unity": [
+    3.2,
+    3.0,
+    3.2
+   ],
+   "size_unity": [
+    6.4,
+    0.16,
+    6.4
+   ],
+   "parent": "UC_Shell",
+   "props": {}
+  },
+  {
+   "name": "Ceiling_Slab",
+   "module": "UC_Shell",
+   "role": "ceiling",
+   "material": "M_UC_Wall",
+   "triangles": 28,
+   "pivot_unity": [
+    0.0,
+    3.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.6,
+    3.0,
+    -3.6
+   ],
+   "bounds_max_unity": [
+    3.6,
+    3.12,
+    3.6
+   ],
+   "size_unity": [
+    7.2,
+    0.12,
+    7.2
+   ],
+   "parent": "UC_Shell",
+   "props": {}
+  },
+  {
+   "name": "Center_InstrumentCart",
+   "module": "UC_Surgery",
+   "role": "movable_prop",
+   "material": "M_UC_Steel",
+   "triangles": 188,
+   "pivot_unity": [
+    -0.1,
+    0.0,
+    -1.6
+   ],
+   "bounds_min_unity": [
+    -0.35,
+    0.07,
+    -1.79
+   ],
+   "bounds_max_unity": [
+    0.2079,
+    0.93,
+    -1.41
+   ],
+   "size_unity": [
+    0.5579,
+    0.86,
+    0.38
+   ],
+   "parent": "UC_Surgery",
+   "props": {
+    "uc_note": "rolling cart; keep at bed foot, outside aisles"
+   }
+  },
+  {
+   "name": "Clutter_Center_Cloth",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Cloth",
+   "triangles": 60,
+   "pivot_unity": [
+    0.0143,
+    0.5,
+    -1.2349
+   ],
+   "bounds_min_unity": [
+    -0.2015,
+    0.5,
+    -1.7
+   ],
+   "bounds_max_unity": [
+    0.23,
+    0.879,
+    -0.7698
+   ],
+   "size_unity": [
+    0.4315,
+    0.379,
+    0.9302
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_Center_DarkSteel",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_DarkSteel",
+   "triangles": 36,
+   "pivot_unity": [
+    -0.07,
+    0.575,
+    -1.58
+   ],
+   "bounds_min_unity": [
+    -0.26,
+    0.575,
+    -1.71
+   ],
+   "bounds_max_unity": [
+    0.12,
+    0.93,
+    -1.45
+   ],
+   "size_unity": [
+    0.38,
+    0.355,
+    0.26
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_Center_Ivory",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Ivory",
+   "triangles": 100,
+   "pivot_unity": [
+    -0.1079,
+    0.57,
+    -1.595
+   ],
+   "bounds_min_unity": [
+    -0.2657,
+    0.57,
+    -1.73
+   ],
+   "bounds_max_unity": [
+    0.05,
+    1.1,
+    -1.46
+   ],
+   "size_unity": [
+    0.3158,
+    0.53,
+    0.27
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_Center_Orange",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Orange",
+   "triangles": 28,
+   "pivot_unity": [
+    -0.08,
+    0.9,
+    -1.69
+   ],
+   "bounds_min_unity": [
+    -0.105,
+    0.9,
+    -1.715
+   ],
+   "bounds_max_unity": [
+    -0.055,
+    1.004,
+    -1.665
+   ],
+   "size_unity": [
+    0.05,
+    0.104,
+    0.05
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_Center_Red",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Red",
+   "triangles": 28,
+   "pivot_unity": [
+    -0.25,
+    0.9,
+    -1.68
+   ],
+   "bounds_min_unity": [
+    -0.285,
+    0.9,
+    -1.715
+   ],
+   "bounds_max_unity": [
+    -0.215,
+    1.06,
+    -1.645
+   ],
+   "size_unity": [
+    0.07,
+    0.16,
+    0.07
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_Center_Rubber",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Rubber",
+   "triangles": 600,
+   "pivot_unity": [
+    -0.1,
+    0.0,
+    -0.6602
+   ],
+   "bounds_min_unity": [
+    -0.7847,
+    0.0,
+    -1.805
+   ],
+   "bounds_max_unity": [
+    0.5847,
+    2.95,
+    0.4847
+   ],
+   "size_unity": [
+    1.3694,
+    2.95,
+    2.2897
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_Center_Steel",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Steel",
+   "triangles": 48,
+   "pivot_unity": [
+    -0.0025,
+    0.934,
+    -1.535
+   ],
+   "bounds_min_unity": [
+    -0.0859,
+    0.934,
+    -1.6009
+   ],
+   "bounds_max_unity": [
+    0.0809,
+    0.946,
+    -1.4691
+   ],
+   "size_unity": [
+    0.1669,
+    0.012,
+    0.1318
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_East_Cloth",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Cloth",
+   "triangles": 36,
+   "pivot_unity": [
+    1.95,
+    0.95,
+    0.9
+   ],
+   "bounds_min_unity": [
+    1.7861,
+    0.95,
+    0.7398
+   ],
+   "bounds_max_unity": [
+    2.1139,
+    0.979,
+    1.0602
+   ],
+   "size_unity": [
+    0.3277,
+    0.029,
+    0.3203
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_East_DarkSteel",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_DarkSteel",
+   "triangles": 704,
+   "pivot_unity": [
+    2.4024,
+    0.005,
+    0.6741
+   ],
+   "bounds_min_unity": [
+    1.4248,
+    0.005,
+    -1.36
+   ],
+   "bounds_max_unity": [
+    3.38,
+    1.94,
+    2.7082
+   ],
+   "size_unity": [
+    1.9552,
+    1.935,
+    4.0682
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_East_Ivory",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Ivory",
+   "triangles": 680,
+   "pivot_unity": [
+    2.64,
+    0.105,
+    -0.124
+   ],
+   "bounds_min_unity": [
+    1.91,
+    0.105,
+    -1.348
+   ],
+   "bounds_max_unity": [
+    3.37,
+    1.945,
+    1.1
+   ],
+   "size_unity": [
+    1.46,
+    1.84,
+    2.448
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_East_PaintGreen",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_PaintGreen",
+   "triangles": 154,
+   "pivot_unity": [
+    2.64,
+    0.0,
+    -0.04
+   ],
+   "bounds_min_unity": [
+    1.91,
+    0.0,
+    -1.35
+   ],
+   "bounds_max_unity": [
+    3.37,
+    1.945,
+    1.27
+   ],
+   "size_unity": [
+    1.46,
+    1.945,
+    2.62
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_East_Red",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Red",
+   "triangles": 60,
+   "pivot_unity": [
+    2.645,
+    0.105,
+    -0.27
+   ],
+   "bounds_min_unity": [
+    1.98,
+    0.105,
+    -1.24
+   ],
+   "bounds_max_unity": [
+    3.31,
+    1.525,
+    0.7
+   ],
+   "size_unity": [
+    1.33,
+    1.42,
+    1.94
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_East_Rubber",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Rubber",
+   "triangles": 36,
+   "pivot_unity": [
+    1.7825,
+    0.3121,
+    0.1506
+   ],
+   "bounds_min_unity": [
+    1.6104,
+    0.3121,
+    0.0415
+   ],
+   "bounds_max_unity": [
+    1.9546,
+    1.0573,
+    0.2597
+   ],
+   "size_unity": [
+    0.3442,
+    0.7452,
+    0.2181
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_East_Steel",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Steel",
+   "triangles": 240,
+   "pivot_unity": [
+    2.61,
+    0.198,
+    0.01
+   ],
+   "bounds_min_unity": [
+    1.898,
+    0.198,
+    -1.16
+   ],
+   "bounds_max_unity": [
+    3.322,
+    1.476,
+    1.18
+   ],
+   "size_unity": [
+    1.424,
+    1.278,
+    2.34
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_North_DarkSteel",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_DarkSteel",
+   "triangles": 24,
+   "pivot_unity": [
+    1.3,
+    0.005,
+    2.42
+   ],
+   "bounds_min_unity": [
+    1.0596,
+    0.005,
+    2.1796
+   ],
+   "bounds_max_unity": [
+    1.5404,
+    0.295,
+    2.6604
+   ],
+   "size_unity": [
+    0.4808,
+    0.29,
+    0.4808
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_North_PaintGreen",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_PaintGreen",
+   "triangles": 12,
+   "pivot_unity": [
+    -1.25,
+    0.0,
+    2.75
+   ],
+   "bounds_min_unity": [
+    -1.4621,
+    0.0,
+    2.5379
+   ],
+   "bounds_max_unity": [
+    -1.0379,
+    0.34,
+    2.9621
+   ],
+   "size_unity": [
+    0.4243,
+    0.34,
+    0.4243
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_North_Red",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Red",
+   "triangles": 12,
+   "pivot_unity": [
+    1.3,
+    0.0,
+    2.42
+   ],
+   "bounds_min_unity": [
+    1.0737,
+    0.0,
+    2.1937
+   ],
+   "bounds_max_unity": [
+    1.5263,
+    0.3,
+    2.6463
+   ],
+   "size_unity": [
+    0.4525,
+    0.3,
+    0.4525
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_North_Rubber",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Rubber",
+   "triangles": 106,
+   "pivot_unity": [
+    0.0,
+    2.2467,
+    3.3013
+   ],
+   "bounds_min_unity": [
+    -1.3025,
+    2.2467,
+    3.2887
+   ],
+   "bounds_max_unity": [
+    1.3025,
+    2.4131,
+    3.314
+   ],
+   "size_unity": [
+    2.6051,
+    0.1664,
+    0.0253
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_North_Steel",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Steel",
+   "triangles": 12,
+   "pivot_unity": [
+    -1.3603,
+    0.189,
+    2.6397
+   ],
+   "bounds_min_unity": [
+    -1.407,
+    0.189,
+    2.593
+   ],
+   "bounds_max_unity": [
+    -1.3136,
+    0.219,
+    2.6864
+   ],
+   "size_unity": [
+    0.0933,
+    0.03,
+    0.0933
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_South_Cloth",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Cloth",
+   "triangles": 64,
+   "pivot_unity": [
+    -1.1223,
+    0.73,
+    -3.295
+   ],
+   "bounds_min_unity": [
+    -1.4146,
+    0.73,
+    -3.36
+   ],
+   "bounds_max_unity": [
+    -0.83,
+    1.68,
+    -3.23
+   ],
+   "size_unity": [
+    0.5846,
+    0.95,
+    0.13
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_South_DarkSteel",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_DarkSteel",
+   "triangles": 248,
+   "pivot_unity": [
+    0.015,
+    0.05,
+    -3.155
+   ],
+   "bounds_min_unity": [
+    -1.32,
+    0.05,
+    -3.4
+   ],
+   "bounds_max_unity": [
+    1.35,
+    1.82,
+    -2.91
+   ],
+   "size_unity": [
+    2.67,
+    1.77,
+    0.49
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_South_PaintGreen",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_PaintGreen",
+   "triangles": 36,
+   "pivot_unity": [
+    -1.12,
+    0.0,
+    -3.1
+   ],
+   "bounds_min_unity": [
+    -1.31,
+    0.0,
+    -3.2807
+   ],
+   "bounds_max_unity": [
+    -0.93,
+    0.44,
+    -2.9193
+   ],
+   "size_unity": [
+    0.38,
+    0.44,
+    0.3614
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_South_Red",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Red",
+   "triangles": 28,
+   "pivot_unity": [
+    -0.8,
+    0.21,
+    -3.31
+   ],
+   "bounds_min_unity": [
+    -0.865,
+    0.21,
+    -3.375
+   ],
+   "bounds_max_unity": [
+    -0.735,
+    0.63,
+    -3.245
+   ],
+   "size_unity": [
+    0.13,
+    0.42,
+    0.13
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_West_DarkSteel",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_DarkSteel",
+   "triangles": 704,
+   "pivot_unity": [
+    -2.2245,
+    0.005,
+    -0.0288
+   ],
+   "bounds_min_unity": [
+    -3.01,
+    0.005,
+    -2.7516
+   ],
+   "bounds_max_unity": [
+    -1.439,
+    1.96,
+    2.6941
+   ],
+   "size_unity": [
+    1.571,
+    1.955,
+    5.4457
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_West_Ivory",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Ivory",
+   "triangles": 628,
+   "pivot_unity": [
+    -2.3402,
+    0.105,
+    -0.3359
+   ],
+   "bounds_min_unity": [
+    -2.9692,
+    0.105,
+    -2.7577
+   ],
+   "bounds_max_unity": [
+    -1.7112,
+    1.965,
+    2.086
+   ],
+   "size_unity": [
+    1.258,
+    1.86,
+    4.8437
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_West_PaintGreen",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_PaintGreen",
+   "triangles": 60,
+   "pivot_unity": [
+    -2.3485,
+    0.0,
+    -2.0559
+   ],
+   "bounds_min_unity": [
+    -3.0,
+    0.0,
+    -2.7719
+   ],
+   "bounds_max_unity": [
+    -1.6971,
+    1.565,
+    -1.34
+   ],
+   "size_unity": [
+    1.3029,
+    1.565,
+    1.4319
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_West_Red",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Red",
+   "triangles": 36,
+   "pivot_unity": [
+    -2.3794,
+    0.105,
+    -0.1732
+   ],
+   "bounds_min_unity": [
+    -2.7648,
+    0.105,
+    -2.4749
+   ],
+   "bounds_max_unity": [
+    -1.994,
+    1.565,
+    2.1284
+   ],
+   "size_unity": [
+    0.7707,
+    1.46,
+    4.6033
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_West_Rubber",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Rubber",
+   "triangles": 422,
+   "pivot_unity": [
+    -2.7478,
+    0.0,
+    0.6408
+   ],
+   "bounds_min_unity": [
+    -3.3114,
+    0.0,
+    -1.007
+   ],
+   "bounds_max_unity": [
+    -2.1841,
+    2.1356,
+    2.2886
+   ],
+   "size_unity": [
+    1.1273,
+    2.1356,
+    3.2956
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Clutter_West_Steel",
+   "module": "UC_Clutter",
+   "role": "clutter",
+   "material": "M_UC_Steel",
+   "triangles": 84,
+   "pivot_unity": [
+    -2.3518,
+    0.186,
+    -2.1171
+   ],
+   "bounds_min_unity": [
+    -2.711,
+    0.186,
+    -2.4763
+   ],
+   "bounds_max_unity": [
+    -1.9926,
+    1.5,
+    -1.7579
+   ],
+   "size_unity": [
+    0.7184,
+    1.314,
+    0.7184
+   ],
+   "parent": "UC_Clutter",
+   "props": {
+    "uc_note": "non-interactive dressing merged by material; collision not required"
+   }
+  },
+  {
+   "name": "Corridor_Lamp",
+   "module": "UC_Door",
+   "role": "light_fixture",
+   "material": "M_UC_LampWarm",
+   "triangles": 12,
+   "pivot_unity": [
+    0.0,
+    2.4,
+    -4.5
+   ],
+   "bounds_min_unity": [
+    -0.3,
+    2.4,
+    -4.55
+   ],
+   "bounds_max_unity": [
+    0.3,
+    2.45,
+    -4.45
+   ],
+   "size_unity": [
+    0.6,
+    0.05,
+    0.1
+   ],
+   "parent": "UC_Door",
+   "props": {}
+  },
+  {
+   "name": "Corridor_Stub",
+   "module": "UC_Door",
+   "role": "static",
+   "material": "M_UC_Wall",
+   "triangles": 48,
+   "pivot_unity": [
+    0.0,
+    0.0,
+    -3.6
+   ],
+   "bounds_min_unity": [
+    -0.95,
+    0.0,
+    -5.2
+   ],
+   "bounds_max_unity": [
+    0.95,
+    2.6,
+    -3.7
+   ],
+   "size_unity": [
+    1.9,
+    2.6,
+    1.5
+   ],
+   "parent": "UC_Door",
+   "props": {}
+  },
+  {
+   "name": "Door_Button",
+   "module": "UC_Door",
+   "role": "interactive",
+   "material": "M_UC_Red",
+   "triangles": 28,
+   "pivot_unity": [
+    0.865,
+    1.3,
+    -3.32
+   ],
+   "bounds_min_unity": [
+    0.84,
+    1.275,
+    -3.3325
+   ],
+   "bounds_max_unity": [
+    0.89,
+    1.325,
+    -3.3075
+   ],
+   "size_unity": [
+    0.05,
+    0.05,
+    0.025
+   ],
+   "parent": "UC_Door",
+   "props": {
+    "uc_note": "door open/close button; press axis unity -Z"
+   }
+  },
+  {
+   "name": "Door_CautionPlate",
+   "module": "UC_Door",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    -0.95,
+    1.55,
+    -3.377
+   ],
+   "bounds_min_unity": [
+    -1.1,
+    1.5125,
+    -3.377
+   ],
+   "bounds_max_unity": [
+    -0.8,
+    1.5875,
+    -3.374
+   ],
+   "size_unity": [
+    0.3,
+    0.075,
+    0.003
+   ],
+   "parent": "UC_Door",
+   "props": {}
+  },
+  {
+   "name": "Door_ControlPanel",
+   "module": "UC_Door",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 12,
+   "pivot_unity": [
+    0.865,
+    1.1,
+    -3.4
+   ],
+   "bounds_min_unity": [
+    0.8,
+    1.1,
+    -3.4
+   ],
+   "bounds_max_unity": [
+    0.93,
+    1.45,
+    -3.33
+   ],
+   "size_unity": [
+    0.13,
+    0.35,
+    0.07
+   ],
+   "parent": "UC_Door",
+   "props": {}
+  },
+  {
+   "name": "Door_Frame",
+   "module": "UC_Door",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 48,
+   "pivot_unity": [
+    0.0,
+    0.0,
+    -3.4
+   ],
+   "bounds_min_unity": [
+    -0.8,
+    0.0,
+    -3.62
+   ],
+   "bounds_max_unity": [
+    0.8,
+    2.35,
+    -3.32
+   ],
+   "size_unity": [
+    1.6,
+    2.35,
+    0.3
+   ],
+   "parent": "UC_Door",
+   "props": {
+    "uc_note": "clear opening 1.20 x 2.20 m"
+   }
+  },
+  {
+   "name": "Door_FrameHazard",
+   "module": "UC_Door",
+   "role": "decal",
+   "material": "M_UC_Hazard",
+   "triangles": 24,
+   "pivot_unity": [
+    0.0,
+    0.0,
+    -3.4
+   ],
+   "bounds_min_unity": [
+    -0.74,
+    0.05,
+    -3.34
+   ],
+   "bounds_max_unity": [
+    0.74,
+    2.15,
+    -3.336
+   ],
+   "size_unity": [
+    1.48,
+    2.1,
+    0.004
+   ],
+   "parent": "UC_Door",
+   "props": {}
+  },
+  {
+   "name": "Door_Lamp",
+   "module": "UC_Door",
+   "role": "status_light",
+   "material": "M_UC_LampWarm",
+   "triangles": 12,
+   "pivot_unity": [
+    0.0,
+    2.39,
+    -3.315
+   ],
+   "bounds_min_unity": [
+    -0.28,
+    2.375,
+    -3.32
+   ],
+   "bounds_max_unity": [
+    0.28,
+    2.405,
+    -3.31
+   ],
+   "size_unity": [
+    0.56,
+    0.03,
+    0.01
+   ],
+   "parent": "UC_Door",
+   "props": {
+    "uc_note": "amber lamp above entrance; program may toggle emission"
+   }
+  },
+  {
+   "name": "Door_LampHousing",
+   "module": "UC_Door",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 12,
+   "pivot_unity": [
+    0.0,
+    2.37,
+    -3.4
+   ],
+   "bounds_min_unity": [
+    -0.32,
+    2.37,
+    -3.4
+   ],
+   "bounds_max_unity": [
+    0.32,
+    2.45,
+    -3.32
+   ],
+   "size_unity": [
+    0.64,
+    0.08,
+    0.08
+   ],
+   "parent": "UC_Door",
+   "props": {}
+  },
+  {
+   "name": "Door_Leaf_L",
+   "module": "UC_Door",
+   "role": "animated",
+   "material": "M_UC_DarkSteel",
+   "triangles": 24,
+   "pivot_unity": [
+    -0.945,
+    0.0,
+    -3.66
+   ],
+   "bounds_min_unity": [
+    -1.26,
+    0.01,
+    -3.69
+   ],
+   "bounds_max_unity": [
+    -0.63,
+    2.25,
+    -3.62
+   ],
+   "size_unity": [
+    0.63,
+    2.24,
+    0.07
+   ],
+   "parent": "UC_Door",
+   "props": {
+    "uc_anim": "slide",
+    "uc_slide_axis_unity_world": [
+     -1.0,
+     0.0,
+     0.0
+    ],
+    "uc_state_default": "open",
+    "uc_close_offset_unity": [
+     0.63,
+     0.0,
+     0.0
+    ],
+    "uc_travel_m": 0.63,
+    "uc_note": "moves on the corridor side of the wall; closing = translate by uc_close_offset_unity"
+   }
+  },
+  {
+   "name": "Door_Leaf_R",
+   "module": "UC_Door",
+   "role": "animated",
+   "material": "M_UC_DarkSteel",
+   "triangles": 24,
+   "pivot_unity": [
+    0.945,
+    0.0,
+    -3.66
+   ],
+   "bounds_min_unity": [
+    0.63,
+    0.01,
+    -3.69
+   ],
+   "bounds_max_unity": [
+    1.26,
+    2.25,
+    -3.62
+   ],
+   "size_unity": [
+    0.63,
+    2.24,
+    0.07
+   ],
+   "parent": "UC_Door",
+   "props": {
+    "uc_anim": "slide",
+    "uc_slide_axis_unity_world": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "uc_state_default": "open",
+    "uc_close_offset_unity": [
+     -0.63,
+     0.0,
+     0.0
+    ],
+    "uc_travel_m": 0.63,
+    "uc_note": "moves on the corridor side of the wall; closing = translate by uc_close_offset_unity"
+   }
+  },
+  {
+   "name": "Door_SignClinic",
+   "module": "UC_Door",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    0.0,
+    2.6,
+    -3.605
+   ],
+   "bounds_min_unity": [
+    -0.4,
+    2.5,
+    -3.608
+   ],
+   "bounds_max_unity": [
+    0.4,
+    2.7,
+    -3.605
+   ],
+   "size_unity": [
+    0.8,
+    0.2,
+    0.003
+   ],
+   "parent": "UC_Door",
+   "props": {}
+  },
+  {
+   "name": "Floor_DoorHazard",
+   "module": "UC_Shell",
+   "role": "floor_decal",
+   "material": "M_UC_Hazard",
+   "triangles": 12,
+   "pivot_unity": [
+    0.0,
+    0.0,
+    -3.34
+   ],
+   "bounds_min_unity": [
+    -0.6,
+    0.0,
+    -3.4
+   ],
+   "bounds_max_unity": [
+    0.6,
+    0.003,
+    -3.28
+   ],
+   "size_unity": [
+    1.2,
+    0.003,
+    0.12
+   ],
+   "parent": "UC_Shell",
+   "props": {}
+  },
+  {
+   "name": "Floor_Grates",
+   "module": "UC_Shell",
+   "role": "floor_decal",
+   "material": "M_UC_Grate",
+   "triangles": 60,
+   "pivot_unity": [
+    -0.275,
+    0.0,
+    -0.525
+   ],
+   "bounds_min_unity": [
+    -1.9,
+    0.0,
+    -2.85
+   ],
+   "bounds_max_unity": [
+    1.35,
+    0.003,
+    1.8
+   ],
+   "size_unity": [
+    3.25,
+    0.003,
+    4.65
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "flush 3 mm plates, walkable"
+   }
+  },
+  {
+   "name": "Floor_Main",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Floor",
+   "triangles": 40,
+   "pivot_unity": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.6,
+    -0.1,
+    -5.0
+   ],
+   "bounds_max_unity": [
+    3.6,
+    0.0,
+    3.6
+   ],
+   "size_unity": [
+    7.2,
+    0.1,
+    8.6
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "walkable; top at y=0; closed slab, no holes"
+   }
+  },
+  {
+   "name": "Floor_SurgeryRing",
+   "module": "UC_Shell",
+   "role": "floor_decal",
+   "material": "M_UC_Orange",
+   "triangles": 408,
+   "pivot_unity": [
+    -0.1,
+    0.0,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    -1.3716,
+    0.0,
+    -1.4716
+   ],
+   "bounds_max_unity": [
+    1.1716,
+    0.002,
+    1.0716
+   ],
+   "size_unity": [
+    2.5432,
+    0.002,
+    2.5432
+   ],
+   "parent": "UC_Shell",
+   "props": {}
+  },
+  {
+   "name": "Gantry_Boom_Cutter",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 52,
+   "pivot_unity": [
+    -0.575,
+    2.3,
+    -1.0227
+   ],
+   "bounds_min_unity": [
+    -0.63,
+    2.02,
+    -1.0777
+   ],
+   "bounds_max_unity": [
+    -0.2277,
+    2.35,
+    -0.8477
+   ],
+   "size_unity": [
+    0.4023,
+    0.33,
+    0.23
+   ],
+   "parent": "UC_Surgery",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     -0.575,
+     2.3,
+     -1.0227
+    ],
+    "uc_note": "boom yaws about the carriage; range written by checks (uc_yaw_range_deg)",
+    "uc_yaw_range_deg": 30
+   }
+  },
+  {
+   "name": "Gantry_Boom_Drill",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 52,
+   "pivot_unity": [
+    0.375,
+    2.3,
+    0.6227
+   ],
+   "bounds_min_unity": [
+    0.0235,
+    2.02,
+    0.2435
+   ],
+   "bounds_max_unity": [
+    0.4315,
+    2.35,
+    0.6792
+   ],
+   "size_unity": [
+    0.408,
+    0.33,
+    0.4357
+   ],
+   "parent": "UC_Surgery",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     0.375,
+     2.3,
+     0.6227
+    ],
+    "uc_note": "boom yaws about the carriage; range written by checks (uc_yaw_range_deg)",
+    "uc_yaw_range_deg": 12
+   }
+  },
+  {
+   "name": "Gantry_Boom_Gripper",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 52,
+   "pivot_unity": [
+    -0.575,
+    2.3,
+    0.6227
+   ],
+   "bounds_min_unity": [
+    -0.6315,
+    2.02,
+    0.2435
+   ],
+   "bounds_max_unity": [
+    -0.2235,
+    2.35,
+    0.6792
+   ],
+   "size_unity": [
+    0.408,
+    0.33,
+    0.4357
+   ],
+   "parent": "UC_Surgery",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     -0.575,
+     2.3,
+     0.6227
+    ],
+    "uc_note": "boom yaws about the carriage; range written by checks (uc_yaw_range_deg)",
+    "uc_yaw_range_deg": 17
+   }
+  },
+  {
+   "name": "Gantry_Boom_Probe",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 52,
+   "pivot_unity": [
+    0.85,
+    2.3,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    0.0312,
+    2.02,
+    -0.4488
+   ],
+   "bounds_max_unity": [
+    0.905,
+    2.35,
+    -0.145
+   ],
+   "size_unity": [
+    0.8738,
+    0.33,
+    0.3038
+   ],
+   "parent": "UC_Surgery",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     0.85,
+     2.3,
+     -0.2
+    ],
+    "uc_note": "boom yaws about the carriage; range written by checks (uc_yaw_range_deg)",
+    "uc_yaw_range_deg": 22
+   }
+  },
+  {
+   "name": "Gantry_Boom_Scanner",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 52,
+   "pivot_unity": [
+    -1.05,
+    2.3,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    -1.105,
+    2.02,
+    -0.4488
+   ],
+   "bounds_max_unity": [
+    -0.2312,
+    2.35,
+    -0.145
+   ],
+   "size_unity": [
+    0.8738,
+    0.33,
+    0.3038
+   ],
+   "parent": "UC_Surgery",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     -1.05,
+     2.3,
+     -0.2
+    ],
+    "uc_note": "boom yaws about the carriage; range written by checks (uc_yaw_range_deg)",
+    "uc_yaw_range_deg": 16
+   }
+  },
+  {
+   "name": "Gantry_Boom_Suction",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 52,
+   "pivot_unity": [
+    0.375,
+    2.3,
+    -1.0227
+   ],
+   "bounds_min_unity": [
+    0.0277,
+    2.02,
+    -1.0777
+   ],
+   "bounds_max_unity": [
+    0.43,
+    2.35,
+    -0.8477
+   ],
+   "size_unity": [
+    0.4023,
+    0.33,
+    0.23
+   ],
+   "parent": "UC_Surgery",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     0.375,
+     2.3,
+     -1.0227
+    ],
+    "uc_note": "boom yaws about the carriage; range written by checks (uc_yaw_range_deg)",
+    "uc_yaw_range_deg": 30
+   }
+  },
+  {
+   "name": "Gantry_Boom_SurgicalLamp",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 52,
+   "pivot_unity": [
+    -0.1,
+    2.3,
+    0.75
+   ],
+   "bounds_min_unity": [
+    -0.155,
+    2.02,
+    -0.095
+   ],
+   "bounds_max_unity": [
+    -0.045,
+    2.35,
+    0.805
+   ],
+   "size_unity": [
+    0.11,
+    0.33,
+    0.9
+   ],
+   "parent": "UC_Surgery",
+   "props": {
+    "uc_anim": "rotate",
+    "uc_hinge_axis_unity_world": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "uc_hinge_pivot_unity": [
+     -0.1,
+     2.3,
+     0.75
+    ],
+    "uc_note": "boom yaws about the carriage; range written by checks (uc_yaw_range_deg)",
+    "uc_yaw_range_deg": 4
+   }
+  },
+  {
+   "name": "Gantry_Carriage_Cutter",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 24,
+   "pivot_unity": [
+    -0.575,
+    2.45,
+    -1.0227
+   ],
+   "bounds_min_unity": [
+    -0.6893,
+    2.27,
+    -1.1407
+   ],
+   "bounds_max_unity": [
+    -0.4607,
+    2.56,
+    -0.9048
+   ],
+   "size_unity": [
+    0.2286,
+    0.29,
+    0.2359
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Gantry_Carriage_Drill",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 24,
+   "pivot_unity": [
+    0.375,
+    2.45,
+    0.6227
+   ],
+   "bounds_min_unity": [
+    0.2607,
+    2.27,
+    0.5048
+   ],
+   "bounds_max_unity": [
+    0.4893,
+    2.56,
+    0.7407
+   ],
+   "size_unity": [
+    0.2286,
+    0.29,
+    0.2359
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Gantry_Carriage_Gripper",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 24,
+   "pivot_unity": [
+    -0.575,
+    2.45,
+    0.6227
+   ],
+   "bounds_min_unity": [
+    -0.6893,
+    2.27,
+    0.5048
+   ],
+   "bounds_max_unity": [
+    -0.4607,
+    2.56,
+    0.7407
+   ],
+   "size_unity": [
+    0.2286,
+    0.29,
+    0.2359
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Gantry_Carriage_Probe",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 24,
+   "pivot_unity": [
+    0.85,
+    2.45,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    0.76,
+    2.27,
+    -0.28
+   ],
+   "bounds_max_unity": [
+    0.94,
+    2.56,
+    -0.12
+   ],
+   "size_unity": [
+    0.18,
+    0.29,
+    0.16
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Gantry_Carriage_Scanner",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 24,
+   "pivot_unity": [
+    -1.05,
+    2.45,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    -1.14,
+    2.27,
+    -0.28
+   ],
+   "bounds_max_unity": [
+    -0.96,
+    2.56,
+    -0.12
+   ],
+   "size_unity": [
+    0.18,
+    0.29,
+    0.16
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Gantry_Carriage_Suction",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 24,
+   "pivot_unity": [
+    0.375,
+    2.45,
+    -1.0227
+   ],
+   "bounds_min_unity": [
+    0.2607,
+    2.27,
+    -1.1407
+   ],
+   "bounds_max_unity": [
+    0.4893,
+    2.56,
+    -0.9048
+   ],
+   "size_unity": [
+    0.2286,
+    0.29,
+    0.2359
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Gantry_Carriage_SurgicalLamp",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 24,
+   "pivot_unity": [
+    -0.1,
+    2.45,
+    0.75
+   ],
+   "bounds_min_unity": [
+    -0.18,
+    2.27,
+    0.66
+   ],
+   "bounds_max_unity": [
+    -0.02,
+    2.56,
+    0.84
+   ],
+   "size_unity": [
+    0.16,
+    0.29,
+    0.18
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Gantry_Hangers",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 144,
+   "pivot_unity": [
+    -0.1,
+    3.0,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    -0.8818,
+    2.48,
+    -0.9818
+   ],
+   "bounds_max_unity": [
+    0.6818,
+    3.0,
+    0.5818
+   ],
+   "size_unity": [
+    1.5635,
+    0.52,
+    1.5635
+   ],
+   "parent": "UC_Surgery",
+   "props": {}
+  },
+  {
+   "name": "Gantry_Ring",
+   "module": "UC_Surgery",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 704,
+   "pivot_unity": [
+    -0.1,
+    2.45,
+    -0.2
+   ],
+   "bounds_min_unity": [
+    -1.105,
+    2.4024,
+    -1.205
+   ],
+   "bounds_max_unity": [
+    0.905,
+    2.4976,
+    0.805
+   ],
+   "size_unity": [
+    2.01,
+    0.0953,
+    2.01
+   ],
+   "parent": "UC_Surgery",
+   "props": {
+    "uc_note": "overhead circular tool gantry; underside 2.40 m"
+   }
+  },
+  {
+   "name": "Shell_Cables",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Rubber",
+   "triangles": 1032,
+   "pivot_unity": [
+    0.0,
+    2.4,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.3613,
+    2.3067,
+    -3.2679
+   ],
+   "bounds_max_unity": [
+    3.3613,
+    2.5294,
+    3.2679
+   ],
+   "size_unity": [
+    6.7227,
+    0.2227,
+    6.5357
+   ],
+   "parent": "UC_Shell",
+   "props": {}
+  },
+  {
+   "name": "Shell_LampHousings",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 60,
+   "pivot_unity": [
+    0.0,
+    2.3,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -2.7082,
+    2.3,
+    -2.7082
+   ],
+   "bounds_max_unity": [
+    3.38,
+    2.4,
+    2.7082
+   ],
+   "size_unity": [
+    6.0882,
+    0.1,
+    5.4164
+   ],
+   "parent": "UC_Shell",
+   "props": {}
+  },
+  {
+   "name": "Shell_LampTubes",
+   "module": "UC_Shell",
+   "role": "light_fixture",
+   "material": "M_UC_LampWarm",
+   "triangles": 100,
+   "pivot_unity": [
+    0.0,
+    2.3,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -2.629,
+    2.2694,
+    -2.629
+   ],
+   "bounds_max_unity": [
+    3.308,
+    2.3006,
+    2.629
+   ],
+   "size_unity": [
+    5.937,
+    0.0312,
+    5.258
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "emissive; Unity: add warm area/spot lights at these fixtures"
+   }
+  },
+  {
+   "name": "Shell_PatchPlates",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Steel",
+   "triangles": 552,
+   "pivot_unity": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -2.3957,
+    0.27,
+    -3.378
+   ],
+   "bounds_max_unity": [
+    3.378,
+    2.12,
+    2.6785
+   ],
+   "size_unity": [
+    5.7737,
+    1.85,
+    6.0565
+   ],
+   "parent": "UC_Shell",
+   "props": {}
+  },
+  {
+   "name": "Shell_Pipes",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Pipe",
+   "triangles": 348,
+   "pivot_unity": [
+    0.0,
+    2.6,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.4016,
+    0.1112,
+    -3.3423
+   ],
+   "bounds_max_unity": [
+    3.4016,
+    2.7825,
+    3.405
+   ],
+   "size_unity": [
+    6.8032,
+    2.6713,
+    6.7474
+   ],
+   "parent": "UC_Shell",
+   "props": {}
+  },
+  {
+   "name": "South_NoteBoard",
+   "module": "UC_Storage",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    -1.1,
+    1.95,
+    -3.377
+   ],
+   "bounds_min_unity": [
+    -1.3,
+    1.82,
+    -3.377
+   ],
+   "bounds_max_unity": [
+    -0.9,
+    2.08,
+    -3.374
+   ],
+   "size_unity": [
+    0.4,
+    0.26,
+    0.003
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Storage_EastShelves",
+   "module": "UC_Storage",
+   "role": "static",
+   "material": "M_UC_Steel",
+   "triangles": 216,
+   "pivot_unity": [
+    3.02,
+    0.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    3.02,
+    0.0,
+    -1.3
+   ],
+   "bounds_max_unity": [
+    3.39,
+    2.0,
+    1.3
+   ],
+   "size_unity": [
+    0.37,
+    2.0,
+    2.6
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Storage_LimbShelf",
+   "module": "UC_Storage",
+   "role": "static",
+   "material": "M_UC_Steel",
+   "triangles": 108,
+   "pivot_unity": [
+    -2.2486,
+    0.0,
+    -2.2486
+   ],
+   "bounds_min_unity": [
+    -2.8626,
+    0.0,
+    -2.8626
+   ],
+   "bounds_max_unity": [
+    -1.6205,
+    1.9,
+    -1.6205
+   ],
+   "size_unity": [
+    1.2421,
+    1.9,
+    1.2421
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Storage_LimbShelf_Chart",
+   "module": "UC_Storage",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    -2.3879,
+    2.05,
+    -2.3879
+   ],
+   "bounds_min_unity": [
+    -2.5293,
+    1.85,
+    -2.5293
+   ],
+   "bounds_max_unity": [
+    -2.2444,
+    2.25,
+    -2.2444
+   ],
+   "size_unity": [
+    0.285,
+    0.4,
+    0.285
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Storage_Lockers",
+   "module": "UC_Storage",
+   "role": "static",
+   "material": "M_UC_PaintGreen",
+   "triangles": 12,
+   "pivot_unity": [
+    1.17,
+    0.0,
+    -3.165
+   ],
+   "bounds_min_unity": [
+    0.96,
+    0.0,
+    -3.39
+   ],
+   "bounds_max_unity": [
+    1.38,
+    1.86,
+    -2.94
+   ],
+   "size_unity": [
+    0.42,
+    1.86,
+    0.45
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Storage_Lockers_Photo",
+   "module": "UC_Storage",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    1.06,
+    1.25,
+    -2.935
+   ],
+   "bounds_min_unity": [
+    1.025,
+    1.215,
+    -2.935
+   ],
+   "bounds_max_unity": [
+    1.095,
+    1.285,
+    -2.932
+   ],
+   "size_unity": [
+    0.07,
+    0.07,
+    0.003
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Storage_NECabinet",
+   "module": "UC_Storage",
+   "role": "static",
+   "material": "M_UC_PaintGreen",
+   "triangles": 12,
+   "pivot_unity": [
+    1.8031,
+    0.0,
+    2.6517
+   ],
+   "bounds_min_unity": [
+    1.4001,
+    0.0,
+    2.2486
+   ],
+   "bounds_max_unity": [
+    2.2132,
+    1.95,
+    3.0618
+   ],
+   "size_unity": [
+    0.8132,
+    1.95,
+    0.8132
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Storage_NECabinet_Hazard",
+   "module": "UC_Storage",
+   "role": "decal",
+   "material": "M_UC_Hazard",
+   "triangles": 12,
+   "pivot_unity": [
+    1.6405,
+    0.0,
+    2.489
+   ],
+   "bounds_min_unity": [
+    1.393,
+    0.0,
+    2.2415
+   ],
+   "bounds_max_unity": [
+    1.8915,
+    0.1,
+    2.74
+   ],
+   "size_unity": [
+    0.4985,
+    0.1,
+    0.4985
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Storage_NWCabinet",
+   "module": "UC_Storage",
+   "role": "static",
+   "material": "M_UC_PaintGreen",
+   "triangles": 12,
+   "pivot_unity": [
+    -1.8031,
+    0.0,
+    2.6517
+   ],
+   "bounds_min_unity": [
+    -2.2132,
+    0.0,
+    2.2486
+   ],
+   "bounds_max_unity": [
+    -1.4001,
+    1.9,
+    3.0618
+   ],
+   "size_unity": [
+    0.8132,
+    1.9,
+    0.8132
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Storage_NWCabinet_Note",
+   "module": "UC_Storage",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    -1.538,
+    1.55,
+    2.5986
+   ],
+   "bounds_min_unity": [
+    -1.6016,
+    1.46,
+    2.5329
+   ],
+   "bounds_max_unity": [
+    -1.4722,
+    1.64,
+    2.6623
+   ],
+   "size_unity": [
+    0.1294,
+    0.18,
+    0.1294
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Storage_RedToolChest",
+   "module": "UC_Storage",
+   "role": "static",
+   "material": "M_UC_Red",
+   "triangles": 12,
+   "pivot_unity": [
+    -2.5456,
+    0.0,
+    1.9092
+   ],
+   "bounds_min_unity": [
+    -2.9486,
+    0.08,
+    1.4991
+   ],
+   "bounds_max_unity": [
+    -2.1355,
+    1.0,
+    2.3122
+   ],
+   "size_unity": [
+    0.8132,
+    0.92,
+    0.8132
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Tool_Cutter",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 40,
+   "pivot_unity": [
+    -0.28,
+    2.02,
+    -0.9
+   ],
+   "bounds_min_unity": [
+    -0.32,
+    1.68,
+    -0.945
+   ],
+   "bounds_max_unity": [
+    -0.24,
+    2.02,
+    -0.855
+   ],
+   "size_unity": [
+    0.08,
+    0.34,
+    0.09
+   ],
+   "parent": "Gantry_Boom_Cutter",
+   "props": {
+    "uc_anim": "slide+rotate",
+    "uc_slide_axis_unity_world": [
+     0.0,
+     -1.0,
+     0.0
+    ],
+    "uc_travel_m": 0.57,
+    "uc_parked_tip_y": 1.62,
+    "uc_note": "slides down toward the bed; also follows its boom yaw"
+   }
+  },
+  {
+   "name": "Tool_Cutter_Blade",
+   "module": "UC_Surgery",
+   "role": "animated_child",
+   "material": "M_UC_Steel",
+   "triangles": 36,
+   "pivot_unity": [
+    -0.28,
+    2.02,
+    -0.9
+   ],
+   "bounds_min_unity": [
+    -0.283,
+    1.62,
+    -0.9428
+   ],
+   "bounds_max_unity": [
+    -0.277,
+    1.71,
+    -0.8572
+   ],
+   "size_unity": [
+    0.006,
+    0.09,
+    0.0856
+   ],
+   "parent": "Tool_Cutter",
+   "props": {}
+  },
+  {
+   "name": "Tool_Drill",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 40,
+   "pivot_unity": [
+    0.08,
+    2.02,
+    0.3
+   ],
+   "bounds_min_unity": [
+    0.035,
+    1.72,
+    0.255
+   ],
+   "bounds_max_unity": [
+    0.175,
+    2.02,
+    0.345
+   ],
+   "size_unity": [
+    0.14,
+    0.3,
+    0.09
+   ],
+   "parent": "Gantry_Boom_Drill",
+   "props": {
+    "uc_anim": "slide+rotate",
+    "uc_slide_axis_unity_world": [
+     0.0,
+     -1.0,
+     0.0
+    ],
+    "uc_travel_m": 0.53,
+    "uc_parked_tip_y": 1.58,
+    "uc_note": "slides down toward the bed; also follows its boom yaw"
+   }
+  },
+  {
+   "name": "Tool_Drill_Bit",
+   "module": "UC_Surgery",
+   "role": "animated_child",
+   "material": "M_UC_Steel",
+   "triangles": 20,
+   "pivot_unity": [
+    0.08,
+    2.02,
+    0.3
+   ],
+   "bounds_min_unity": [
+    0.07,
+    1.58,
+    0.2913
+   ],
+   "bounds_max_unity": [
+    0.09,
+    1.7,
+    0.3087
+   ],
+   "size_unity": [
+    0.02,
+    0.12,
+    0.0173
+   ],
+   "parent": "Tool_Drill",
+   "props": {}
+  },
+  {
+   "name": "Tool_Gripper",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_DarkSteel",
+   "triangles": 64,
+   "pivot_unity": [
+    -0.28,
+    2.02,
+    0.3
+   ],
+   "bounds_min_unity": [
+    -0.34,
+    1.62,
+    0.265
+   ],
+   "bounds_max_unity": [
+    -0.22,
+    2.02,
+    0.335
+   ],
+   "size_unity": [
+    0.12,
+    0.4,
+    0.07
+   ],
+   "parent": "Gantry_Boom_Gripper",
+   "props": {
+    "uc_anim": "slide+rotate",
+    "uc_slide_axis_unity_world": [
+     0.0,
+     -1.0,
+     0.0
+    ],
+    "uc_travel_m": 0.57,
+    "uc_parked_tip_y": 1.62,
+    "uc_note": "slides down toward the bed; also follows its boom yaw"
+   }
+  },
+  {
+   "name": "Tool_Probe",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_DarkSteel",
+   "triangles": 44,
+   "pivot_unity": [
+    0.08,
+    2.02,
+    -0.4
+   ],
+   "bounds_min_unity": [
+    0.0661,
+    1.64,
+    -0.416
+   ],
+   "bounds_max_unity": [
+    0.1239,
+    2.02,
+    -0.384
+   ],
+   "size_unity": [
+    0.0577,
+    0.38,
+    0.032
+   ],
+   "parent": "Gantry_Boom_Probe",
+   "props": {
+    "uc_anim": "slide+rotate",
+    "uc_slide_axis_unity_world": [
+     0.0,
+     -1.0,
+     0.0
+    ],
+    "uc_travel_m": 0.59,
+    "uc_parked_tip_y": 1.64,
+    "uc_note": "slides down toward the bed; also follows its boom yaw"
+   }
+  },
+  {
+   "name": "Tool_Probe_Tip",
+   "module": "UC_Surgery",
+   "role": "animated_child",
+   "material": "M_UC_Steel",
+   "triangles": 16,
+   "pivot_unity": [
+    0.08,
+    2.02,
+    -0.4
+   ],
+   "bounds_min_unity": [
+    0.106,
+    1.64,
+    -0.4048
+   ],
+   "bounds_max_unity": [
+    0.115,
+    1.68,
+    -0.3952
+   ],
+   "size_unity": [
+    0.009,
+    0.04,
+    0.0095
+   ],
+   "parent": "Tool_Probe",
+   "props": {}
+  },
+  {
+   "name": "Tool_Scanner",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 40,
+   "pivot_unity": [
+    -0.28,
+    2.02,
+    -0.4
+   ],
+   "bounds_min_unity": [
+    -0.36,
+    1.74,
+    -0.46
+   ],
+   "bounds_max_unity": [
+    -0.2,
+    2.02,
+    -0.34
+   ],
+   "size_unity": [
+    0.16,
+    0.28,
+    0.12
+   ],
+   "parent": "Gantry_Boom_Scanner",
+   "props": {
+    "uc_anim": "slide+rotate",
+    "uc_slide_axis_unity_world": [
+     0.0,
+     -1.0,
+     0.0
+    ],
+    "uc_travel_m": 0.69,
+    "uc_parked_tip_y": 1.74,
+    "uc_note": "slides down toward the bed; also follows its boom yaw"
+   }
+  },
+  {
+   "name": "Tool_Scanner_Lens",
+   "module": "UC_Surgery",
+   "role": "animated_child",
+   "material": "M_UC_Screen",
+   "triangles": 12,
+   "pivot_unity": [
+    -0.28,
+    2.02,
+    -0.4
+   ],
+   "bounds_min_unity": [
+    -0.33,
+    1.735,
+    -0.44
+   ],
+   "bounds_max_unity": [
+    -0.23,
+    1.745,
+    -0.36
+   ],
+   "size_unity": [
+    0.1,
+    0.01,
+    0.08
+   ],
+   "parent": "Tool_Scanner",
+   "props": {}
+  },
+  {
+   "name": "Tool_Suction",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_Ivory",
+   "triangles": 48,
+   "pivot_unity": [
+    0.08,
+    2.02,
+    -0.9
+   ],
+   "bounds_min_unity": [
+    0.05,
+    1.56,
+    -0.93
+   ],
+   "bounds_max_unity": [
+    0.11,
+    2.02,
+    -0.87
+   ],
+   "size_unity": [
+    0.06,
+    0.46,
+    0.06
+   ],
+   "parent": "Gantry_Boom_Suction",
+   "props": {
+    "uc_anim": "slide+rotate",
+    "uc_slide_axis_unity_world": [
+     0.0,
+     -1.0,
+     0.0
+    ],
+    "uc_travel_m": 0.55,
+    "uc_parked_tip_y": 1.6,
+    "uc_note": "slides down toward the bed; also follows its boom yaw"
+   }
+  },
+  {
+   "name": "Tool_Suction_Hose",
+   "module": "UC_Surgery",
+   "role": "animated_child",
+   "material": "M_UC_Rubber",
+   "triangles": 86,
+   "pivot_unity": [
+    0.08,
+    2.02,
+    -0.9
+   ],
+   "bounds_min_unity": [
+    0.0097,
+    1.75,
+    -0.9662
+   ],
+   "bounds_max_unity": [
+    0.1525,
+    2.3296,
+    -0.8263
+   ],
+   "size_unity": [
+    0.1428,
+    0.5795,
+    0.1399
+   ],
+   "parent": "Tool_Suction",
+   "props": {}
+  },
+  {
+   "name": "Tool_SurgicalLamp",
+   "module": "UC_Surgery",
+   "role": "animated",
+   "material": "M_UC_DarkSteel",
+   "triangles": 80,
+   "pivot_unity": [
+    -0.1,
+    2.02,
+    -0.05
+   ],
+   "bounds_min_unity": [
+    -0.4,
+    1.9086,
+    -0.27
+   ],
+   "bounds_max_unity": [
+    0.12,
+    2.02,
+    0.17
+   ],
+   "size_unity": [
+    0.52,
+    0.1114,
+    0.44
+   ],
+   "parent": "Gantry_Boom_SurgicalLamp",
+   "props": {
+    "uc_anim": "slide+rotate",
+    "uc_slide_axis_unity_world": [
+     0.0,
+     -1.0,
+     0.0
+    ],
+    "uc_travel_m": 0.845,
+    "uc_parked_tip_y": 1.895,
+    "uc_note": "slides down toward the bed; also follows its boom yaw"
+   }
+  },
+  {
+   "name": "Tool_SurgicalLamp_Light",
+   "module": "UC_Surgery",
+   "role": "animated_child",
+   "material": "M_UC_LampWarm",
+   "triangles": 44,
+   "pivot_unity": [
+    -0.1,
+    2.02,
+    -0.05
+   ],
+   "bounds_min_unity": [
+    -0.27,
+    1.9,
+    -0.22
+   ],
+   "bounds_max_unity": [
+    0.07,
+    1.905,
+    0.12
+   ],
+   "size_unity": [
+    0.34,
+    0.005,
+    0.34
+   ],
+   "parent": "Tool_SurgicalLamp",
+   "props": {}
+  },
+  {
+   "name": "Trade_CRT_BackVent",
+   "module": "UC_Trade",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 84,
+   "pivot_unity": [
+    1.656,
+    1.15,
+    0.0
+   ],
+   "bounds_min_unity": [
+    1.648,
+    1.07,
+    -0.09
+   ],
+   "bounds_max_unity": [
+    1.66,
+    1.23,
+    0.09
+   ],
+   "size_unity": [
+    0.012,
+    0.16,
+    0.18
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_CRT_Base",
+   "module": "UC_Trade",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 12,
+   "pivot_unity": [
+    1.88,
+    0.95,
+    0.0
+   ],
+   "bounds_min_unity": [
+    1.76,
+    0.95,
+    -0.14
+   ],
+   "bounds_max_unity": [
+    2.02,
+    1.0,
+    0.14
+   ],
+   "size_unity": [
+    0.26,
+    0.05,
+    0.28
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_CRT_Body",
+   "module": "UC_Trade",
+   "role": "interactive",
+   "material": "M_UC_Ivory",
+   "triangles": 72,
+   "pivot_unity": [
+    1.88,
+    0.95,
+    0.0
+   ],
+   "bounds_min_unity": [
+    1.66,
+    1.0,
+    -0.17
+   ],
+   "bounds_max_unity": [
+    2.07,
+    1.3,
+    0.17
+   ],
+   "size_unity": [
+    0.41,
+    0.3,
+    0.34
+   ],
+   "parent": "UC_Trade",
+   "props": {
+    "uc_note": "stationary desktop CRT; screen normal +X (toward operator), vents on -X face (toward room)"
+   }
+  },
+  {
+   "name": "Trade_CRT_Keyboard",
+   "module": "UC_Trade",
+   "role": "interactive",
+   "material": "M_UC_Ivory",
+   "triangles": 12,
+   "pivot_unity": [
+    2.14,
+    0.95,
+    0.0
+   ],
+   "bounds_min_unity": [
+    2.075,
+    0.953,
+    -0.19
+   ],
+   "bounds_max_unity": [
+    2.205,
+    0.983,
+    0.19
+   ],
+   "size_unity": [
+    0.13,
+    0.03,
+    0.38
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_CRT_Screen",
+   "module": "UC_Trade",
+   "role": "interactive",
+   "material": "M_UC_Screen",
+   "triangles": 12,
+   "pivot_unity": [
+    2.055,
+    1.15,
+    0.0
+   ],
+   "bounds_min_unity": [
+    2.04,
+    1.03,
+    -0.14
+   ],
+   "bounds_max_unity": [
+    2.055,
+    1.27,
+    0.14
+   ],
+   "size_unity": [
+    0.015,
+    0.24,
+    0.28
+   ],
+   "parent": "UC_Trade",
+   "props": {
+    "uc_screen_normal_unity": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "uc_note": "emissive screen; program writes job / cargo status here"
+   }
+  },
+  {
+   "name": "Trade_CargoLabel",
+   "module": "UC_Trade",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    2.548,
+    0.2,
+    -1.18
+   ],
+   "bounds_min_unity": [
+    2.545,
+    0.16,
+    -1.29
+   ],
+   "bounds_max_unity": [
+    2.548,
+    0.24,
+    -1.07
+   ],
+   "size_unity": [
+    0.003,
+    0.08,
+    0.22
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_Counter",
+   "module": "UC_Trade",
+   "role": "static",
+   "material": "M_UC_PaintGreen",
+   "triangles": 60,
+   "pivot_unity": [
+    1.9,
+    0.0,
+    -1.0
+   ],
+   "bounds_min_unity": [
+    1.62,
+    0.0,
+    -2.0819
+   ],
+   "bounds_max_unity": [
+    2.9819,
+    0.9,
+    0.95
+   ],
+   "size_unity": [
+    1.3619,
+    0.9,
+    3.0319
+   ],
+   "parent": "UC_Trade",
+   "props": {
+    "uc_note": "customer side faces -X (room); operator side +X with knee space"
+   }
+  },
+  {
+   "name": "Trade_CounterHazard",
+   "module": "UC_Trade",
+   "role": "decal",
+   "material": "M_UC_Hazard",
+   "triangles": 24,
+   "pivot_unity": [
+    1.62,
+    0.0,
+    -1.0
+   ],
+   "bounds_min_unity": [
+    1.6,
+    0.08,
+    -2.096
+   ],
+   "bounds_max_unity": [
+    2.5859,
+    0.16,
+    0.95
+   ],
+   "size_unity": [
+    0.9859,
+    0.08,
+    3.046
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_CounterPanels",
+   "module": "UC_Trade",
+   "role": "static",
+   "material": "M_UC_Red",
+   "triangles": 72,
+   "pivot_unity": [
+    1.62,
+    0.0,
+    -1.0
+   ],
+   "bounds_min_unity": [
+    1.605,
+    0.2,
+    -2.0218
+   ],
+   "bounds_max_unity": [
+    2.5152,
+    0.78,
+    0.85
+   ],
+   "size_unity": [
+    0.9102,
+    0.58,
+    2.8718
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_CounterShelf",
+   "module": "UC_Trade",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 48,
+   "pivot_unity": [
+    1.9,
+    0.0,
+    -1.0
+   ],
+   "bounds_min_unity": [
+    1.64,
+    0.0,
+    -2.0536
+   ],
+   "bounds_max_unity": [
+    2.9394,
+    0.33,
+    0.93
+   ],
+   "size_unity": [
+    1.2994,
+    0.33,
+    2.9836
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_CounterTop",
+   "module": "UC_Trade",
+   "role": "static",
+   "material": "M_UC_Steel",
+   "triangles": 36,
+   "pivot_unity": [
+    1.9,
+    0.95,
+    -1.0
+   ],
+   "bounds_min_unity": [
+    1.495,
+    0.9,
+    -2.1243
+   ],
+   "bounds_max_unity": [
+    3.0243,
+    0.95,
+    0.97
+   ],
+   "size_unity": [
+    1.5293,
+    0.05,
+    3.0943
+   ],
+   "parent": "UC_Trade",
+   "props": {
+    "uc_note": "counter top y=0.95, closed solid"
+   }
+  },
+  {
+   "name": "Trade_Ledger",
+   "module": "UC_Trade",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    2.1,
+    0.95,
+    -0.3
+   ],
+   "bounds_min_unity": [
+    2.0,
+    0.95,
+    -0.4
+   ],
+   "bounds_max_unity": [
+    2.2,
+    0.953,
+    -0.2
+   ],
+   "size_unity": [
+    0.2,
+    0.003,
+    0.2
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_Note",
+   "module": "UC_Trade",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    2.12,
+    0.951,
+    0.32
+   ],
+   "bounds_min_unity": [
+    2.05,
+    0.951,
+    0.25
+   ],
+   "bounds_max_unity": [
+    2.19,
+    0.954,
+    0.39
+   ],
+   "size_unity": [
+    0.14,
+    0.003,
+    0.14
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_Pad_Deliver",
+   "module": "UC_Trade",
+   "role": "logical_pad",
+   "material": "M_UC_Rubber",
+   "triangles": 12,
+   "pivot_unity": [
+    1.84,
+    0.956,
+    0.6
+   ],
+   "bounds_min_unity": [
+    1.67,
+    0.95,
+    0.4
+   ],
+   "bounds_max_unity": [
+    2.01,
+    0.956,
+    0.8
+   ],
+   "size_unity": [
+    0.34,
+    0.006,
+    0.4
+   ],
+   "parent": "UC_Trade",
+   "props": {
+    "uc_note": "outgoing repaired-object pad top surface; cargo spawn anchor at pivot"
+   }
+  },
+  {
+   "name": "Trade_Pad_Deliver_Frame",
+   "module": "UC_Trade",
+   "role": "decal",
+   "material": "M_UC_Steel",
+   "triangles": 48,
+   "pivot_unity": [
+    1.84,
+    0.95,
+    0.6
+   ],
+   "bounds_min_unity": [
+    1.64,
+    0.95,
+    0.37
+   ],
+   "bounds_max_unity": [
+    2.04,
+    0.954,
+    0.83
+   ],
+   "size_unity": [
+    0.4,
+    0.004,
+    0.46
+   ],
+   "parent": "Trade_Pad_Deliver",
+   "props": {}
+  },
+  {
+   "name": "Trade_Pad_Deliver_Label",
+   "module": "UC_Trade",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    1.84,
+    0.95,
+    0.89
+   ],
+   "bounds_min_unity": [
+    1.79,
+    0.95,
+    0.74
+   ],
+   "bounds_max_unity": [
+    1.89,
+    0.953,
+    1.04
+   ],
+   "size_unity": [
+    0.1,
+    0.003,
+    0.3
+   ],
+   "parent": "Trade_Pad_Deliver",
+   "props": {}
+  },
+  {
+   "name": "Trade_Pad_Receive",
+   "module": "UC_Trade",
+   "role": "logical_pad",
+   "material": "M_UC_Rubber",
+   "triangles": 12,
+   "pivot_unity": [
+    1.84,
+    0.956,
+    -0.6
+   ],
+   "bounds_min_unity": [
+    1.67,
+    0.95,
+    -0.8
+   ],
+   "bounds_max_unity": [
+    2.01,
+    0.956,
+    -0.4
+   ],
+   "size_unity": [
+    0.34,
+    0.006,
+    0.4
+   ],
+   "parent": "UC_Trade",
+   "props": {
+    "uc_note": "incoming next-job pad top surface; cargo spawn anchor at pivot"
+   }
+  },
+  {
+   "name": "Trade_Pad_Receive_Frame",
+   "module": "UC_Trade",
+   "role": "decal",
+   "material": "M_UC_Orange",
+   "triangles": 48,
+   "pivot_unity": [
+    1.84,
+    0.95,
+    -0.6
+   ],
+   "bounds_min_unity": [
+    1.64,
+    0.95,
+    -0.83
+   ],
+   "bounds_max_unity": [
+    2.04,
+    0.954,
+    -0.37
+   ],
+   "size_unity": [
+    0.4,
+    0.004,
+    0.46
+   ],
+   "parent": "Trade_Pad_Receive",
+   "props": {}
+  },
+  {
+   "name": "Trade_Pad_Receive_Label",
+   "module": "UC_Trade",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    1.84,
+    0.95,
+    -0.89
+   ],
+   "bounds_min_unity": [
+    1.79,
+    0.95,
+    -1.04
+   ],
+   "bounds_max_unity": [
+    1.89,
+    0.953,
+    -0.74
+   ],
+   "size_unity": [
+    0.1,
+    0.003,
+    0.3
+   ],
+   "parent": "Trade_Pad_Receive",
+   "props": {}
+  },
+  {
+   "name": "Trade_ShelfLabel",
+   "module": "UC_Trade",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    3.018,
+    0.95,
+    0.7
+   ],
+   "bounds_min_unity": [
+    3.015,
+    0.915,
+    0.6
+   ],
+   "bounds_max_unity": [
+    3.018,
+    0.985,
+    0.8
+   ],
+   "size_unity": [
+    0.003,
+    0.07,
+    0.2
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_Sign",
+   "module": "UC_Trade",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    1.618,
+    0.62,
+    0.0
+   ],
+   "bounds_min_unity": [
+    1.615,
+    0.545,
+    -0.15
+   ],
+   "bounds_max_unity": [
+    1.618,
+    0.695,
+    0.15
+   ],
+   "size_unity": [
+    0.003,
+    0.15,
+    0.3
+   ],
+   "parent": "UC_Trade",
+   "props": {}
+  },
+  {
+   "name": "Trade_StatusLamp_Deliver",
+   "module": "UC_Trade",
+   "role": "status_light",
+   "material": "M_UC_Screen",
+   "triangles": 12,
+   "pivot_unity": [
+    1.58,
+    1.17,
+    0.79
+   ],
+   "bounds_min_unity": [
+    1.575,
+    1.14,
+    0.755
+   ],
+   "bounds_max_unity": [
+    1.585,
+    1.2,
+    0.825
+   ],
+   "size_unity": [
+    0.01,
+    0.06,
+    0.07
+   ],
+   "parent": "UC_Trade",
+   "props": {
+    "uc_states": "EMPTY=off,CARGO=on,READY=blink",
+    "uc_note": "faces the room (-X); program toggles emission"
+   }
+  },
+  {
+   "name": "Trade_StatusLamp_Receive",
+   "module": "UC_Trade",
+   "role": "status_light",
+   "material": "M_UC_LampWarm",
+   "triangles": 12,
+   "pivot_unity": [
+    1.58,
+    1.17,
+    -0.79
+   ],
+   "bounds_min_unity": [
+    1.575,
+    1.14,
+    -0.825
+   ],
+   "bounds_max_unity": [
+    1.585,
+    1.2,
+    -0.755
+   ],
+   "size_unity": [
+    0.01,
+    0.06,
+    0.07
+   ],
+   "parent": "UC_Trade",
+   "props": {
+    "uc_states": "EMPTY=off,CARGO=on,READY=blink",
+    "uc_note": "faces the room (-X); program toggles emission"
+   }
+  },
+  {
+   "name": "Trade_Stool",
+   "module": "UC_Trade",
+   "role": "movable_prop",
+   "material": "M_UC_Steel",
+   "triangles": 104,
+   "pivot_unity": [
+    2.52,
+    0.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    2.3866,
+    -0.0022,
+    -0.1316
+   ],
+   "bounds_max_unity": [
+    2.6534,
+    0.6822,
+    0.1341
+   ],
+   "size_unity": [
+    0.2669,
+    0.6844,
+    0.2657
+   ],
+   "parent": "UC_Trade",
+   "props": {
+    "uc_note": "operator stool; must stay inside trade_operator zone (x 2.235..3.00)"
+   }
+  },
+  {
+   "name": "Trade_Stool_Seat",
+   "module": "UC_Trade",
+   "role": "static",
+   "material": "M_UC_Wood",
+   "triangles": 36,
+   "pivot_unity": [
+    2.52,
+    0.7,
+    0.0
+   ],
+   "bounds_min_unity": [
+    2.34,
+    0.675,
+    -0.1712
+   ],
+   "bounds_max_unity": [
+    2.7,
+    0.725,
+    0.1712
+   ],
+   "size_unity": [
+    0.36,
+    0.05,
+    0.3424
+   ],
+   "parent": "Trade_Stool",
+   "props": {}
+  },
+  {
+   "name": "Unit07_CageLamp",
+   "module": "UC_Unit07Zone",
+   "role": "status_light",
+   "material": "M_UC_LampWarm",
+   "triangles": 28,
+   "pivot_unity": [
+    -3.24,
+    1.93,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.275,
+    1.88,
+    -0.035
+   ],
+   "bounds_max_unity": [
+    -3.205,
+    1.98,
+    0.035
+   ],
+   "size_unity": [
+    0.07,
+    0.1,
+    0.07
+   ],
+   "parent": "UC_Unit07Zone",
+   "props": {
+    "uc_note": "amber cage lamp; dock work light"
+   }
+  },
+  {
+   "name": "Unit07_CageLampFrame",
+   "module": "UC_Unit07Zone",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 84,
+   "pivot_unity": [
+    -3.24,
+    1.93,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.32,
+    1.86,
+    -0.06
+   ],
+   "bounds_max_unity": [
+    -3.185,
+    2.0,
+    0.06
+   ],
+   "size_unity": [
+    0.135,
+    0.14,
+    0.12
+   ],
+   "parent": "UC_Unit07Zone",
+   "props": {}
+  },
+  {
+   "name": "Unit07_CrateLabel_OldBrg",
+   "module": "UC_Unit07Zone",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    -2.588,
+    0.22,
+    -1.53
+   ],
+   "bounds_min_unity": [
+    -2.588,
+    0.175,
+    -1.65
+   ],
+   "bounds_max_unity": [
+    -2.585,
+    0.265,
+    -1.41
+   ],
+   "size_unity": [
+    0.003,
+    0.09,
+    0.24
+   ],
+   "parent": "UC_Unit07Zone",
+   "props": {}
+  },
+  {
+   "name": "Unit07_Label",
+   "module": "UC_Unit07Zone",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    -3.277,
+    2.075,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.277,
+    2.025,
+    -0.2
+   ],
+   "bounds_max_unity": [
+    -3.274,
+    2.125,
+    0.2
+   ],
+   "size_unity": [
+    0.003,
+    0.1,
+    0.4
+   ],
+   "parent": "UC_Unit07Zone",
+   "props": {}
+  },
+  {
+   "name": "Unit07_ParkingMarks",
+   "module": "UC_Unit07Zone",
+   "role": "floor_decal",
+   "material": "M_UC_Hazard",
+   "triangles": 36,
+   "pivot_unity": [
+    -2.79,
+    0.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.3,
+    0.0,
+    -1.05
+   ],
+   "bounds_max_unity": [
+    -2.28,
+    0.002,
+    1.05
+   ],
+   "size_unity": [
+    1.02,
+    0.002,
+    2.1
+   ],
+   "parent": "UC_Unit07Zone",
+   "props": {
+    "uc_note": "parking zone = dock + robot + 0.10 m margin"
+   }
+  },
+  {
+   "name": "Unit07_Schematic",
+   "module": "UC_Unit07Zone",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    -3.377,
+    1.8,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.377,
+    1.56,
+    -0.18
+   ],
+   "bounds_max_unity": [
+    -3.374,
+    2.04,
+    0.18
+   ],
+   "size_unity": [
+    0.003,
+    0.48,
+    0.36
+   ],
+   "parent": "UC_Unit07Zone",
+   "props": {}
+  },
+  {
+   "name": "Unit07_WallFrame",
+   "module": "UC_Unit07Zone",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 128,
+   "pivot_unity": [
+    -3.4,
+    0.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.4,
+    0.0,
+    -1.02
+   ],
+   "bounds_max_unity": [
+    -3.28,
+    2.15,
+    1.02
+   ],
+   "size_unity": [
+    0.12,
+    2.15,
+    2.04
+   ],
+   "parent": "UC_Unit07Zone",
+   "props": {
+    "uc_note": "wall service frame behind the dock; keeps rear-cassette corridor clear"
+   }
+  },
+  {
+   "name": "Unit07_WorkZoneMarks",
+   "module": "UC_Unit07Zone",
+   "role": "floor_decal",
+   "material": "M_UC_Orange",
+   "triangles": 96,
+   "pivot_unity": [
+    -1.66,
+    0.0,
+    -0.005
+   ],
+   "bounds_min_unity": [
+    -1.68,
+    0.0,
+    -0.95
+   ],
+   "bounds_max_unity": [
+    -1.64,
+    0.002,
+    0.94
+   ],
+   "size_unity": [
+    0.04,
+    0.002,
+    1.89
+   ],
+   "parent": "UC_Unit07Zone",
+   "props": {
+    "uc_note": "dashed line: front edge of dock work zone"
+   }
+  },
+  {
+   "name": "WB_MonitorArm",
+   "module": "UC_MonitorArm",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 36,
+   "pivot_unity": [
+    1.0,
+    0.98,
+    3.4
+   ],
+   "bounds_min_unity": [
+    0.94,
+    0.95,
+    3.36
+   ],
+   "bounds_max_unity": [
+    1.06,
+    2.05,
+    3.4
+   ],
+   "size_unity": [
+    0.12,
+    1.1,
+    0.04
+   ],
+   "parent": "UC_MonitorArm",
+   "props": {
+    "uc_note": "wall rail; root of the reusable monitor-support asset. Mount plate on wall plane z=3.40"
+   }
+  },
+  {
+   "name": "Wall_E",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Wall",
+   "triangles": 48,
+   "pivot_unity": [
+    3.4,
+    0.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    3.378,
+    0.0,
+    -1.4912
+   ],
+   "bounds_max_unity": [
+    3.6,
+    3.0,
+    1.4912
+   ],
+   "size_unity": [
+    0.222,
+    3.0,
+    2.9823
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "modular wall side E; inner face at apothem 3.40"
+   }
+  },
+  {
+   "name": "Wall_N",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Wall",
+   "triangles": 12,
+   "pivot_unity": [
+    0.0,
+    0.0,
+    3.4
+   ],
+   "bounds_min_unity": [
+    -1.4912,
+    0.0,
+    3.4
+   ],
+   "bounds_max_unity": [
+    1.4912,
+    3.0,
+    3.6
+   ],
+   "size_unity": [
+    2.9823,
+    3.0,
+    0.2
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "modular wall side N; inner face at apothem 3.40"
+   }
+  },
+  {
+   "name": "Wall_NE",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Wall",
+   "triangles": 48,
+   "pivot_unity": [
+    2.4042,
+    0.0,
+    2.4042
+   ],
+   "bounds_min_unity": [
+    1.4083,
+    0.0,
+    1.4083
+   ],
+   "bounds_max_unity": [
+    3.6,
+    3.0,
+    3.6
+   ],
+   "size_unity": [
+    2.1917,
+    3.0,
+    2.1917
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "modular wall side NE; inner face at apothem 3.40"
+   }
+  },
+  {
+   "name": "Wall_NW",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Wall",
+   "triangles": 48,
+   "pivot_unity": [
+    -2.4042,
+    0.0,
+    2.4042
+   ],
+   "bounds_min_unity": [
+    -3.6,
+    0.0,
+    1.4083
+   ],
+   "bounds_max_unity": [
+    -1.4083,
+    3.0,
+    3.6
+   ],
+   "size_unity": [
+    2.1917,
+    3.0,
+    2.1917
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "modular wall side NW; inner face at apothem 3.40"
+   }
+  },
+  {
+   "name": "Wall_S",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Wall",
+   "triangles": 36,
+   "pivot_unity": [
+    -0.0,
+    0.0,
+    -3.4
+   ],
+   "bounds_min_unity": [
+    -1.4912,
+    0.0,
+    -3.6
+   ],
+   "bounds_max_unity": [
+    1.4912,
+    3.0,
+    -3.4
+   ],
+   "size_unity": [
+    2.9823,
+    3.0,
+    0.2
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "modular wall side S; inner face at apothem 3.40"
+   }
+  },
+  {
+   "name": "Wall_SE",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Wall",
+   "triangles": 48,
+   "pivot_unity": [
+    2.4042,
+    0.0,
+    -2.4042
+   ],
+   "bounds_min_unity": [
+    1.4083,
+    0.0,
+    -3.6
+   ],
+   "bounds_max_unity": [
+    3.6,
+    3.0,
+    -1.4083
+   ],
+   "size_unity": [
+    2.1917,
+    3.0,
+    2.1917
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "modular wall side SE; inner face at apothem 3.40"
+   }
+  },
+  {
+   "name": "Wall_SE_Notes",
+   "module": "UC_Storage",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    2.8122,
+    1.55,
+    -1.9636
+   ],
+   "bounds_min_unity": [
+    2.7252,
+    1.43,
+    -2.0485
+   ],
+   "bounds_max_unity": [
+    2.897,
+    1.67,
+    -1.8767
+   ],
+   "size_unity": [
+    0.1718,
+    0.24,
+    0.1718
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  },
+  {
+   "name": "Wall_SW",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Wall",
+   "triangles": 48,
+   "pivot_unity": [
+    -2.4042,
+    0.0,
+    -2.4042
+   ],
+   "bounds_min_unity": [
+    -3.6,
+    0.0,
+    -3.6
+   ],
+   "bounds_max_unity": [
+    -1.4083,
+    3.0,
+    -1.4083
+   ],
+   "size_unity": [
+    2.1917,
+    3.0,
+    2.1917
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "modular wall side SW; inner face at apothem 3.40"
+   }
+  },
+  {
+   "name": "Wall_Trim",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_DarkSteel",
+   "triangles": 312,
+   "pivot_unity": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.4752,
+    0.0,
+    -3.4752
+   ],
+   "bounds_max_unity": [
+    3.4752,
+    3.0,
+    3.4752
+   ],
+   "size_unity": [
+    6.9504,
+    3.0,
+    6.9504
+   ],
+   "parent": "UC_Shell",
+   "props": {}
+  },
+  {
+   "name": "Wall_W",
+   "module": "UC_Shell",
+   "role": "static",
+   "material": "M_UC_Wall",
+   "triangles": 48,
+   "pivot_unity": [
+    -3.4,
+    0.0,
+    0.0
+   ],
+   "bounds_min_unity": [
+    -3.6,
+    0.0,
+    -1.4912
+   ],
+   "bounds_max_unity": [
+    -3.378,
+    3.0,
+    1.4912
+   ],
+   "size_unity": [
+    0.222,
+    3.0,
+    2.9823
+   ],
+   "parent": "UC_Shell",
+   "props": {
+    "uc_note": "modular wall side W; inner face at apothem 3.40"
+   }
+  },
+  {
+   "name": "Wall_W_Tag",
+   "module": "UC_Storage",
+   "role": "decal",
+   "material": "M_UC_Paper",
+   "triangles": 12,
+   "pivot_unity": [
+    -3.377,
+    1.4,
+    1.1
+   ],
+   "bounds_min_unity": [
+    -3.377,
+    1.35,
+    1.05
+   ],
+   "bounds_max_unity": [
+    -3.374,
+    1.45,
+    1.15
+   ],
+   "size_unity": [
+    0.003,
+    0.1,
+    0.1
+   ],
+   "parent": "UC_Storage",
+   "props": {}
+  }
+ ],
+ "collision_proxies": [
+  {
+   "name": "COL_Bed",
+   "center": [
+    -0.1,
+    0.5087,
+    -0.2
+   ],
+   "size": [
+    0.73,
+    1.0173,
+    1.92
+   ],
+   "yaw_deg": 0.0
+  },
+  {
+   "name": "COL_InstrumentCart",
+   "center": [
+    -0.071,
+    0.5,
+    -1.6
+   ],
+   "size": [
+    0.5579,
+    0.86,
+    0.38
+   ],
+   "yaw_deg": 0.0
+  },
+  {
+   "name": "COL_Counter_Long",
+   "center": [
+    1.9,
+    0.475,
+    -0.015
+   ],
+   "size": [
+    0.64,
+    0.95,
+    1.97
+   ],
+   "yaw_deg": 0.0
+  },
+  {
+   "name": "COL_Counter_Angled",
+   "center": [
+    2.3419,
+    0.475,
+    -1.4419
+   ],
+   "size": [
+    0.64,
+    0.95,
+    1.29
+   ],
+   "yaw_deg": 135.0
+  },
+  {
+   "name": "COL_EastShelves",
+   "center": [
+    3.205,
+    1.0,
+    0.0
+   ],
+   "size": [
+    0.37,
+    2.0,
+    2.6
+   ],
+   "yaw_deg": 0.0
+  },
+  {
+   "name": "COL_Lockers",
+   "center": [
+    1.17,
+    0.93,
+    -3.165
+   ],
+   "size": [
+    0.42,
+    1.86,
+    0.45
+   ],
+   "yaw_deg": 0.0
+  },
+  {
+   "name": "COL_RedToolChest",
+   "center": [
+    -2.542,
+    0.54,
+    1.9057
+   ],
+   "size": [
+    0.7,
+    0.92,
+    0.45
+   ],
+   "yaw_deg": -45.0
+  },
+  {
+   "name": "COL_NWCabinet",
+   "center": [
+    -1.8067,
+    0.95,
+    2.6552
+   ],
+   "size": [
+    0.7,
+    1.9,
+    0.45
+   ],
+   "yaw_deg": -45.0
+  },
+  {
+   "name": "COL_NECabinet",
+   "center": [
+    1.8067,
+    0.975,
+    2.6552
+   ],
+   "size": [
+    0.7,
+    1.95,
+    0.45
+   ],
+   "yaw_deg": 45.0
+  },
+  {
+   "name": "COL_LimbShelf",
+   "center": [
+    -2.2415,
+    0.95,
+    -2.2415
+   ],
+   "size": [
+    1.3566,
+    1.9,
+    0.4566
+   ],
+   "yaw_deg": 45.0
+  },
+  {
+   "name": "COL_Unit07Frame",
+   "center": [
+    -3.34,
+    1.075,
+    0.0
+   ],
+   "size": [
+    0.12,
+    2.15,
+    2.04
+   ],
+   "yaw_deg": 0.0
+  },
+  {
+   "name": "COL_Stool",
+   "center": [
+    2.52,
+    0.3614,
+    0.0
+   ],
+   "size": [
+    0.36,
+    0.7272,
+    0.3424
+   ],
+   "yaw_deg": 0.0
+  },
+  {
+   "name": "COL_DoorLeaf_L",
+   "center": [
+    -0.945,
+    1.13,
+    -3.655
+   ],
+   "size": [
+    0.63,
+    2.24,
+    0.07
+   ],
+   "yaw_deg": 0.0
+  },
+  {
+   "name": "COL_DoorLeaf_R",
+   "center": [
+    0.945,
+    1.13,
+    -3.655
+   ],
+   "size": [
+    0.63,
+    2.24,
+    0.07
+   ],
+   "yaw_deg": 0.0
+  },
+  {
+   "name": "COL_Wall_E",
+   "note": "wall prism, inner face at apothem 3.40"
+  },
+  {
+   "name": "COL_Wall_NE",
+   "note": "wall prism, inner face at apothem 3.40"
+  },
+  {
+   "name": "COL_Wall_N",
+   "note": "wall prism, inner face at apothem 3.40"
+  },
+  {
+   "name": "COL_Wall_NW",
+   "note": "wall prism, inner face at apothem 3.40"
+  },
+  {
+   "name": "COL_Wall_W",
+   "note": "wall prism, inner face at apothem 3.40"
+  },
+  {
+   "name": "COL_Wall_SW",
+   "note": "wall prism, inner face at apothem 3.40"
+  },
+  {
+   "name": "COL_Wall_S",
+   "note": "wall prism, inner face at apothem 3.40 (door gap 1.20 m)"
+  },
+  {
+   "name": "COL_Wall_SE",
+   "note": "wall prism, inner face at apothem 3.40"
+  },
+  {
+   "name": "COL_Floor",
+   "note": "octagon slab top y=0"
+  }
+ ]
+}
