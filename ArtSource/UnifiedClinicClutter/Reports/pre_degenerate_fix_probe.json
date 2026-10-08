@@ -1,0 +1,119 @@
+{
+ "UCC_NE_Cable": {
+  "loop_triangles": 250,
+  "zero_area_triangles": 0,
+  "zero_area_polygons": [],
+  "total_area_m2": 0.07820686
+ },
+ "UCC_NE_Metal": {
+  "loop_triangles": 360,
+  "zero_area_triangles": 0,
+  "zero_area_polygons": [],
+  "total_area_m2": 0.29095673
+ },
+ "UCC_NE_Paper": {
+  "loop_triangles": 92,
+  "zero_area_triangles": 0,
+  "zero_area_polygons": [],
+  "total_area_m2": 0.08316494
+ },
+ "UCC_NW_Cable": {
+  "loop_triangles": 250,
+  "zero_area_triangles": 0,
+  "zero_area_polygons": [],
+  "total_area_m2": 0.08964695
+ },
+ "UCC_NW_Metal": {
+  "loop_triangles": 176,
+  "zero_area_triangles": 0,
+  "zero_area_polygons": [],
+  "total_area_m2": 0.21822692
+ },
+ "UCC_NW_Paper": {
+  "loop_triangles": 80,
+  "zero_area_triangles": 0,
+  "zero_area_polygons": [],
+  "total_area_m2": 0.07537102
+ },
+ "UCC_SE_Fabric": {
+  "loop_triangles": 532,
+  "zero_area_triangles": 0,
+  "zero_area_polygons": [],
+  "total_area_m2": 1.94379952
+ },
+ "UCC_SE_Metal": {
+  "loop_triangles": 192,
+  "zero_area_triangles": 0,
+  "zero_area_polygons": [],
+  "total_area_m2": 0.15860791
+ },
+ "UCC_SE_Paper": {
+  "loop_triangles": 72,
+  "zero_area_triangles": 0,
+  "zero_area_polygons": [],
+  "total_area_m2": 0.11957175
+ },
+ "UCC_SW_Metal": {
+  "loop_triangles": 672,
+  "zero_area_triangles": 20,
+  "zero_area_polygons": [
+   {
+    "index": 206,
+    "verts": 4,
+    "y": 0.35
+   },
+   {
+    "index": 207,
+    "verts": 4,
+    "y": 0.35
+   },
+   {
+    "index": 208,
+    "verts": 4,
+    "y": 0.35
+   },
+   {
+    "index": 209,
+    "verts": 4,
+    "y": 0.35
+   },
+   {
+    "index": 210,
+    "verts": 4,
+    "y": 0.35
+   },
+   {
+    "index": 211,
+    "verts": 4,
+    "y": 0.35
+   },
+   {
+    "index": 212,
+    "verts": 4,
+    "y": 0.35
+   },
+   {
+    "index": 213,
+    "verts": 4,
+    "y": 0.35
+   },
+   {
+    "index": 214,
+    "verts": 4,
+    "y": 0.35
+   },
+   {
+    "index": 215,
+    "verts": 4,
+    "y": 0.35
+   }
+  ],
+  "total_area_m2": 0.6654515
+ },
+ "UCC_SW_Paper": {
+  "loop_triangles": 96,
+  "zero_area_triangles": 0,
+  "zero_area_polygons": [],
+  "total_area_m2": 0.20926367
+ }
+}

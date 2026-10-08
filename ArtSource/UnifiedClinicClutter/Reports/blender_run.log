@@ -1,4 +1,4 @@
-00:01.203  blend            | Read blend: "C:\Users\Administrator\Documents\Codex\clinic-art\ArtSource\UnifiedClinic\UnifiedClinic.blend"
+00:01.297  blend            | Read blend: "C:\Users\Administrator\Documents\Codex\clinic-art\ArtSource\UnifiedClinic\UnifiedClinic.blend"
 Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:37:04)
 Error: Shadow buffer full, may result in missing shadows and lower performance. (2462 / 2048)
 Error: Shadow buffer full, may result in missing shadows and lower performance. (2397 / 2048)
@@ -86,12 +86,12 @@ Error: Shadow buffer full, may result in missing shadows and lower performance. 
 Error: Shadow buffer full, may result in missing shadows and lower performance. (2396 / 2048)
 Error: Shadow buffer full, may result in missing shadows and lower performance. (2457 / 2048)
 Error: Shadow buffer full, may result in missing shadows and lower performance. (2392 / 2048)
-Error: Shadow buffer full, may result in mis00:26.719  render           | Saved: 'C:\Users\Administrator\Documents\Codex\clinic-art\ArtSource\UnifiedClinicClutter\Renders\UCC_Overview.png'
-00:27.844  render           | Saved: 'C:\Users\Administrator\Documents\Codex\clinic-art\ArtSource\UnifiedClinicClutter\Renders\UCC_WallDetail_SE.png'
-00:29.125  render           | Saved: 'C:\Users\Administrator\Documents\Codex\clinic-art\ArtSource\UnifiedClinicClutter\Renders\UCC_Supplementary_SW.png'
+Error: Shadow buffer full, may result in mis00:27.406  render           | Saved: 'C:\Users\Administrator\Documents\Codex\clinic-art\ArtSource\UnifiedClinicClutter\Renders\UCC_Overview.png'
+00:28.531  render           | Saved: 'C:\Users\Administrator\Documents\Codex\clinic-art\ArtSource\UnifiedClinicClutter\Renders\UCC_WallDetail_SE.png'
+00:29.750  render           | Saved: 'C:\Users\Administrator\Documents\Codex\clinic-art\ArtSource\UnifiedClinicClutter\Renders\UCC_Supplementary_SW.png'
 
 FBX export starting... 'C:\\Users\\Administrator\\Documents\\Codex\\clinic-art\\ArtSource\\UnifiedClinicClutter\\Export\\UnifiedClinic_ClutterAddon.fbx'
-export finished in 0.0159 sec.
+export finished in 0.0163 sec.
 Info: Saved as "UnifiedClinicClutter.blend"
 FBX version: 7400
 UCC_SUMMARY {"counts": {"triangles": 2772, "mesh_objects": 11, "materials": 4, "textures": 2}, "roundtrip": true, "renders": [true, true, true], "base_unchanged": true, "failures": []}

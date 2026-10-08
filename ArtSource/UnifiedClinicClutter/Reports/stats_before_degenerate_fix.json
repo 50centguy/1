@@ -1,7 +1,7 @@
 {
  "blender": "5.2.2 LTS",
  "counts": {
-  "triangles": 2752,
+  "triangles": 2772,
   "mesh_objects": 11,
   "materials": 4,
   "textures": 2
@@ -36,17 +36,13 @@
  },
  "triangles_per_material": {
   "M_UCC_Fabric": 532,
-  "M_UCC_PaintedMetal": 1380,
+  "M_UCC_PaintedMetal": 1400,
   "M_UCC_Paper": 340,
   "M_UCC_Cable": 500
  },
  "topology": {
   "UCC_SE_Fabric": {
    "triangles": 532,
-   "loop_triangles": 532,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 532,
-   "total_area_m2": 1.94379952,
    "polygon_sizes": {
     "3": 532
    },
@@ -57,10 +53,6 @@
   },
   "UCC_SE_Metal": {
    "triangles": 192,
-   "loop_triangles": 192,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 192,
-   "total_area_m2": 0.15860791,
    "polygon_sizes": {
     "4": 87,
     "5": 6
@@ -72,10 +64,6 @@
   },
   "UCC_SE_Paper": {
    "triangles": 72,
-   "loop_triangles": 72,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 72,
-   "total_area_m2": 0.11957175,
    "polygon_sizes": {
     "4": 36
    },
@@ -85,13 +73,9 @@
    "inconsistent_winding_edges": 0
   },
   "UCC_SW_Metal": {
-   "triangles": 652,
-   "loop_triangles": 652,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 652,
-   "total_area_m2": 0.6654515,
+   "triangles": 672,
    "polygon_sizes": {
-    "4": 254,
+    "4": 264,
     "10": 18
    },
    "self_intersecting_ngons": 0,
@@ -101,10 +85,6 @@
   },
   "UCC_SW_Paper": {
    "triangles": 96,
-   "loop_triangles": 96,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 96,
-   "total_area_m2": 0.20926367,
    "polygon_sizes": {
     "4": 48
    },
@@ -115,10 +95,6 @@
   },
   "UCC_NW_Metal": {
    "triangles": 176,
-   "loop_triangles": 176,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 176,
-   "total_area_m2": 0.21822692,
    "polygon_sizes": {
     "4": 72,
     "6": 8
@@ -130,10 +106,6 @@
   },
   "UCC_NW_Cable": {
    "triangles": 250,
-   "loop_triangles": 250,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 250,
-   "total_area_m2": 0.08964695,
    "polygon_sizes": {
     "4": 110,
     "5": 10
@@ -145,10 +117,6 @@
   },
   "UCC_NW_Paper": {
    "triangles": 80,
-   "loop_triangles": 80,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 80,
-   "total_area_m2": 0.07537102,
    "polygon_sizes": {
     "4": 36,
     "6": 2
@@ -160,10 +128,6 @@
   },
   "UCC_NE_Metal": {
    "triangles": 360,
-   "loop_triangles": 360,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 360,
-   "total_area_m2": 0.29095673,
    "polygon_sizes": {
     "4": 148,
     "6": 8,
@@ -176,10 +140,6 @@
   },
   "UCC_NE_Cable": {
    "triangles": 250,
-   "loop_triangles": 250,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 250,
-   "total_area_m2": 0.07820686,
    "polygon_sizes": {
     "4": 110,
     "5": 10
@@ -191,10 +151,6 @@
   },
   "UCC_NE_Paper": {
    "triangles": 92,
-   "loop_triangles": 92,
-   "zero_area_loop_triangles": 0,
-   "usable_triangles": 92,
-   "total_area_m2": 0.08316494,
    "polygon_sizes": {
     "4": 42,
     "6": 2
@@ -254,17 +210,16 @@
    "pivot_delta_m": 0.0,
    "bounds_delta_m": 0.0,
    "triangles_before": 672,
-   "triangles_after": 652,
+   "triangles_after": 672,
    "polygons_before": {
     "4": 264,
     "10": 18
    },
    "polygons_after": {
-    "4": 254,
+    "4": 264,
     "10": 18
    },
-   "self_intersecting_ngons_before": 0,
-   "documented_exception": "10 zero-area quads (20 loop triangles) between two coincident lathe rings welded away"
+   "self_intersecting_ngons_before": 0
   },
   "UCC_SW_Paper": {
    "pivot_delta_m": 0.0,
@@ -372,108 +327,6 @@
    "self_intersecting_ngons_before": 0
   }
  },
- "degenerate_weld": {
-  "UCC_SW_Metal": {
-   "zero_area_faces_found": 10,
-   "zero_area_face_sizes": [
-    4
-   ],
-   "zero_area_loop_triangles": 20,
-   "faces_removed": 10,
-   "area_before_m2": 0.6654515,
-   "area_after_m2": 0.6654515
-  }
- },
- "area_vs_pre_degenerate_fix": {
-  "UCC_SE_Fabric": {
-   "area_before_m2": 1.94379952,
-   "area_after_m2": 1.94379952,
-   "loop_tris_before": 532,
-   "zero_area_before": 0,
-   "loop_tris_after": 532,
-   "zero_area_after": 0
-  },
-  "UCC_SE_Metal": {
-   "area_before_m2": 0.15860791,
-   "area_after_m2": 0.15860791,
-   "loop_tris_before": 192,
-   "zero_area_before": 0,
-   "loop_tris_after": 192,
-   "zero_area_after": 0
-  },
-  "UCC_SE_Paper": {
-   "area_before_m2": 0.11957175,
-   "area_after_m2": 0.11957175,
-   "loop_tris_before": 72,
-   "zero_area_before": 0,
-   "loop_tris_after": 72,
-   "zero_area_after": 0
-  },
-  "UCC_SW_Metal": {
-   "area_before_m2": 0.6654515,
-   "area_after_m2": 0.6654515,
-   "loop_tris_before": 672,
-   "zero_area_before": 20,
-   "loop_tris_after": 652,
-   "zero_area_after": 0
-  },
-  "UCC_SW_Paper": {
-   "area_before_m2": 0.20926367,
-   "area_after_m2": 0.20926367,
-   "loop_tris_before": 96,
-   "zero_area_before": 0,
-   "loop_tris_after": 96,
-   "zero_area_after": 0
-  },
-  "UCC_NW_Metal": {
-   "area_before_m2": 0.21822692,
-   "area_after_m2": 0.21822692,
-   "loop_tris_before": 176,
-   "zero_area_before": 0,
-   "loop_tris_after": 176,
-   "zero_area_after": 0
-  },
-  "UCC_NW_Cable": {
-   "area_before_m2": 0.08964695,
-   "area_after_m2": 0.08964695,
-   "loop_tris_before": 250,
-   "zero_area_before": 0,
-   "loop_tris_after": 250,
-   "zero_area_after": 0
-  },
-  "UCC_NW_Paper": {
-   "area_before_m2": 0.07537102,
-   "area_after_m2": 0.07537102,
-   "loop_tris_before": 80,
-   "zero_area_before": 0,
-   "loop_tris_after": 80,
-   "zero_area_after": 0
-  },
-  "UCC_NE_Metal": {
-   "area_before_m2": 0.29095673,
-   "area_after_m2": 0.29095673,
-   "loop_tris_before": 360,
-   "zero_area_before": 0,
-   "loop_tris_after": 360,
-   "zero_area_after": 0
-  },
-  "UCC_NE_Cable": {
-   "area_before_m2": 0.07820686,
-   "area_after_m2": 0.07820686,
-   "loop_tris_before": 250,
-   "zero_area_before": 0,
-   "loop_tris_after": 250,
-   "zero_area_after": 0
-  },
-  "UCC_NE_Paper": {
-   "area_before_m2": 0.08316494,
-   "area_after_m2": 0.08316494,
-   "loop_tris_before": 92,
-   "zero_area_before": 0,
-   "loop_tris_after": 92,
-   "zero_area_after": 0
-  }
- },
  "fbx_roundtrip": {
   "max_bounds_error_m": 0.0,
   "passed": true,
@@ -485,9 +338,6 @@
      "3": 532
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 532,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 532,
     "topology_matches_source": true
    },
    "UCC_SE_Metal": {
@@ -498,9 +348,6 @@
      "5": 6
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 192,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 192,
     "topology_matches_source": true
    },
    "UCC_SE_Paper": {
@@ -510,22 +357,16 @@
      "4": 36
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 72,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 72,
     "topology_matches_source": true
    },
    "UCC_SW_Metal": {
     "bounds_error_m": 0.0,
-    "triangles": 652,
+    "triangles": 672,
     "polygon_sizes": {
-     "4": 254,
+     "4": 264,
      "10": 18
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 652,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 652,
     "topology_matches_source": true
    },
    "UCC_SW_Paper": {
@@ -535,9 +376,6 @@
      "4": 48
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 96,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 96,
     "topology_matches_source": true
    },
    "UCC_NW_Metal": {
@@ -548,9 +386,6 @@
      "6": 8
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 176,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 176,
     "topology_matches_source": true
    },
    "UCC_NW_Cable": {
@@ -561,9 +396,6 @@
      "5": 10
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 250,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 250,
     "topology_matches_source": true
    },
    "UCC_NW_Paper": {
@@ -574,9 +406,6 @@
      "6": 2
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 80,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 80,
     "topology_matches_source": true
    },
    "UCC_NE_Metal": {
@@ -588,9 +417,6 @@
      "10": 4
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 360,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 360,
     "topology_matches_source": true
    },
    "UCC_NE_Cable": {
@@ -601,9 +427,6 @@
      "5": 10
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 250,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 250,
     "topology_matches_source": true
    },
    "UCC_NE_Paper": {
@@ -614,9 +437,6 @@
      "6": 2
     },
     "self_intersecting_ngons": 0,
-    "loop_triangles": 92,
-    "zero_area_loop_triangles": 0,
-    "usable_triangles": 92,
     "topology_matches_source": true
    }
   },
@@ -646,8 +466,7 @@
     2.4
    ],
    "lens_mm": 12,
-   "exists": true,
-   "generated_by_this_run": false
+   "exists": true
   },
   {
    "file": "Renders/UCC_WallDetail_SE.png",
@@ -662,8 +481,7 @@
     -2.72
    ],
    "lens_mm": 20,
-   "exists": true,
-   "generated_by_this_run": false
+   "exists": true
   },
   {
    "file": "Renders/UCC_Supplementary_SW.png",
@@ -678,11 +496,9 @@
     -2.4
    ],
    "lens_mm": 16,
-   "exists": true,
-   "generated_by_this_run": false
+   "exists": true
   }
  ],
- "render_note": "NOT re-rendered (norender run). Stills are from the last full run (full build run of the SE_Fabric export fix, 2026-10-08 12:04); this run changed no visible geometry / UV / shading (welded only zero-area faces; area check below), so they remain valid evidence.",
  "passed_all": true,
  "failures": []
 }

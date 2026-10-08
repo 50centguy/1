@@ -26,6 +26,7 @@ import bpy
 import numpy as np
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
+from mathutils.geometry import intersect_line_line_2d
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ART = os.path.dirname(HERE)
@@ -430,7 +431,7 @@ ROOT = None
 OBJ_INFO = {}
 
 
-def make(name, mb, mat, note):
+def make(name, mb, mat, note, triangulate=False, weld_degenerate=False):
     U = [W(mb.w, p) for p in mb.v]
     lo = Vector([min(u[i] for u in U) for i in range(3)])
     hi = Vector([max(u[i] for u in U) for i in range(3)])
@@ -445,7 +446,20 @@ def make(name, mb, mat, note):
             uvl.data[loop_index].uv = fuv[k]
     bm = bmesh.new()
     bm.from_mesh(me)
+    welded = None
+    if weld_degenerate:
+        # a lathe profile with two equal (y, r) points makes two coincident rings joined by zero-area quads; weld only
+        # the vertices of proven zero-area faces (those faces collapse and are dropped, loop UVs of the rest are kept)
+        deg = [f for f in bm.faces if f.calc_area() < 1e-10]
+        nf, area0 = len(bm.faces), sum(f.calc_area() for f in bm.faces)
+        sizes = [len(f.verts) for f in deg]
+        bmesh.ops.remove_doubles(bm, verts=list({v for f in deg for v in f.verts}), dist=1e-6)
+        welded = dict(zero_area_faces_found=len(deg), zero_area_face_sizes=sorted(set(sizes)),
+                      zero_area_loop_triangles=sum(n - 2 for n in sizes), faces_removed=nf - len(bm.faces),
+                      area_before_m2=round(area0, 8), area_after_m2=round(sum(f.calc_area() for f in bm.faces), 8))
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    if triangulate:   # stable, explicit topology for FBX / Unity; loop UVs are carried by bmesh
+        bmesh.ops.triangulate(bm, faces=bm.faces[:], quad_method="FIXED", ngon_method="EAR_CLIP")
     bm.to_mesh(me)
     bm.free()
     for p in me.polygons:
@@ -458,7 +472,7 @@ def make(name, mb, mat, note):
     obj["ucc_wall"] = mb.w
     obj["ucc_note"] = note
     obj["ucc_pivot_unity"] = ",".join("%.4f" % x for x in pivot)
-    OBJ_INFO[name] = dict(wall=mb.w, material=mat, note=note, pivot_unity=r3(pivot))
+    OBJ_INFO[name] = dict(wall=mb.w, material=mat, note=note, pivot_unity=r3(pivot), degenerate_weld=welded)
     return obj
 
 
@@ -472,6 +486,20 @@ def coat_ring(s0, y, hw, dd, back=0.026, n=10, skew=0.0):
         sn = math.sin(th)
         out.append((s0 + skew + hw * math.cos(th), y, back + dd * max(sn, 0.0)))
     return out
+
+
+def cloth_section(path, th):
+    """closed (d, y) outline of a strip of thickness 2*th around the centreline `path`, offset along the mitred
+    2-D normal. (Offsetting along d only made the two outlines cross where the fold runs flat over the hook,
+    giving self-intersecting end caps that Unity's FBX importer discarded.)"""
+    P = [Vector(p) for p in path]
+    off = []
+    for i in range(len(P)):
+        segs = [(P[j + 1] - P[j]).normalized() for j in (i - 1, i) if 0 <= j < len(P) - 1]
+        nrms = [Vector((t.y, -t.x)) for t in segs]
+        nm = sum(nrms, Vector((0, 0))).normalized()
+        off.append(nm * (th / max(min(nm.dot(n) for n in nrms), 0.5)))
+    return [tuple(p - o) for p, o in zip(P, off)] + [tuple(p + o) for p, o in zip(P[::-1], off[::-1])]
 
 
 def hook(mb, s, y):
@@ -505,8 +533,7 @@ def build_se():
     # folded cloth over the middle hook: a draped strip extruded along the wall
     sc = -0.50
     path = [(0.052, 1.70), (0.054, 1.96), (0.062, 2.045), (0.080, 2.082), (0.100, 2.084), (0.116, 2.060), (0.122, 2.000), (0.124, 1.76)]
-    th = 0.011
-    sec = [(d - th, y) for d, y in path] + [(d + th, y) for d, y in path[::-1]]
+    sec = cloth_section(path, 0.011)
     cloth_rings = []
     for k, s in enumerate((sc - 0.12, sc - 0.04, sc + 0.04, sc + 0.12)):
         drop = (0.0, 0.025, 0.010, 0.035)[k]
@@ -529,7 +556,7 @@ def build_se():
         pap.plate(cs, cy, w, h, 0.025, 0.0265, ang, reg)
         for dx in (-1, 1):
             pap.plate(cs + dx * w * 0.42, cy + h * 0.48, 0.05, 0.016, 0.0265, 0.028, ang + dx * 35, "tape")
-    return [("UCC_SE_Fabric", fab, "M_UCC_Fabric", "worn coat, folded cloth and patched shoulder bag on the entrance hook rail"),
+    return [("UCC_SE_Fabric", fab, "M_UCC_Fabric", "worn coat, folded cloth and patched shoulder bag on the entrance hook rail", True),
             ("UCC_SE_Metal", met, "M_UCC_PaintedMetal", "hook rail, hooks, bolts, bag buckle"),
             ("UCC_SE_Paper", pap, "M_UCC_Paper", "taped notes (abstract marks)")]
 
@@ -563,7 +590,7 @@ def build_sw():
                                      (0.96, 1.71, 0.19, 0.14, -2, "note4")):
         pap.plate(cs, cy, w, h, 0.025, 0.0265, ang, reg)
         pap.plate(cs, cy + h * 0.48, 0.06, 0.016, 0.0265, 0.028, ang + 3, "tape")
-    return [("UCC_SW_Metal", met, "M_UCC_PaintedMetal", "strap rack with three reused empty canisters"),
+    return [("UCC_SW_Metal", met, "M_UCC_PaintedMetal", "strap rack with three reused empty canisters", False, True),
             ("UCC_SW_Paper", pap, "M_UCC_Paper", "taped notes and canister tags")]
 
 
@@ -636,6 +663,62 @@ def unity_pts(o):
 
 def bounds(P):
     return [r3([min(p[i] for p in P) for i in range(3)]), r3([max(p[i] for p in P) for i in range(3)])]
+
+
+def topology(o):
+    """polygon size histogram, triangle count, n-gons (n >= 5) whose outline self-intersects in their best-fit plane
+    (what Unity's importer discards), max quad twist, and edges shared by two faces with the same direction (bad winding)."""
+    me = o.data
+    sizes, bad, twist = {}, [], 0.0
+    for p in me.polygons:
+        V = [me.vertices[i].co for i in p.vertices]
+        n = len(V)
+        sizes[str(n)] = sizes.get(str(n), 0) + 1
+        if n < 4:
+            continue
+        nrm = Vector((0, 0, 0))
+        for i in range(n):   # Newell normal
+            a, b = V[i], V[(i + 1) % n]
+            nrm += Vector(((a.y - b.y) * (a.z + b.z), (a.z - b.z) * (a.x + b.x), (a.x - b.x) * (a.y + b.y)))
+        nrm.normalize()
+        if n == 4:
+            twist = max(twist, max(abs((v - V[0]).dot(nrm)) for v in V))
+            continue
+        u = (V[1] - V[0]).normalized()
+        w = nrm.cross(u)
+        P = [Vector(((v - V[0]).dot(u), (v - V[0]).dot(w))) for v in V]
+        for i in range(n):
+            hit = False
+            for j in range(i + 2, n):
+                if i == 0 and j == n - 1:
+                    continue
+                x = intersect_line_line_2d(P[i], P[(i + 1) % n], P[j], P[(j + 1) % n])
+                if x is not None and min((x - q).length for q in (P[i], P[(i + 1) % n], P[j], P[(j + 1) % n])) > 1e-7:
+                    hit = True
+                    break
+            if hit:
+                bad.append(p.index)
+                break
+    dirs = {}
+    for p in me.polygons:
+        vs = list(p.vertices)
+        for i in range(len(vs)):
+            e = (vs[i], vs[(i + 1) % len(vs)])
+            dirs[e] = dirs.get(e, 0) + 1
+    incons = sum(1 for e, c in dirs.items() if c > 1)
+    me.calc_loop_triangles()   # what an importer actually triangulates; Unity drops zero-area triangles
+    zero = sum(1 for t in me.loop_triangles if t.area < ZERO_AREA)
+    return dict(triangles=tri_count(o), loop_triangles=len(me.loop_triangles), zero_area_loop_triangles=zero,
+                usable_triangles=len(me.loop_triangles) - zero, total_area_m2=round(sum(p.area for p in me.polygons), 8),
+                polygon_sizes=dict(sorted(sizes.items(), key=lambda kv: int(kv[0]))),
+                self_intersecting_ngons=len(bad), self_intersecting_ngon_ids=bad, max_quad_nonplanarity_m=round(twist, 5),
+                inconsistent_winding_edges=incons)
+
+
+ZERO_AREA = 1e-10   # m^2, same threshold as the parent's Unity-acceptance probe
+# targeted, documented exceptions to "non-fabric objects identical to the frozen pre-export-fix baseline"
+EXPECTED_TOPOLOGY_CHANGE = {"UCC_SW_Metal": {"polygon_sizes": {"4": 254, "10": 18}, "triangles": 652,
+                                             "why": "10 zero-area quads (20 loop triangles) between two coincident lathe rings welded away"}}
 
 
 def placement_checks(objs):
@@ -794,6 +877,22 @@ def main():
     report = dict(blender=bpy.app.version_string, base_blend=os.path.relpath(BASE_BLEND, HERE))
     sha_before = file_sha(BASE_BLEND)
     base_mtime = os.path.getmtime(BASE_BLEND)
+    prev_renders, prev_render_note = [], "none"
+    if os.path.isfile(os.path.join(HERE, "stats.json")):
+        with open(os.path.join(HERE, "stats.json"), encoding="utf-8") as f:
+            ps = json.load(f)
+        prev_renders = [r for r in (ps.get("renders") or []) if os.path.isfile(os.path.join(HERE, r["file"]))]
+        prev_render_note = ps.get("render_provenance") or "full build run of the SE_Fabric export fix, 2026-10-08 12:04"
+
+    # ---- frozen pre-export-fix baseline (first delivery): pivots / bounds / topology, for the regression comparison ----
+    prev = {}
+    bl = os.path.join(D_REPORT, "pre_export_fix_baseline.json")
+    if os.path.isfile(bl):
+        with open(bl, encoding="utf-8") as f:
+            for nm, b in json.load(f)["objects"].items():
+                prev[nm] = dict(pivot_unity=b["pivot_unity"], unity_bounds=b["unity_bounds"],
+                                topology=dict(triangles=b["triangles"], polygon_sizes=b["polygon_sizes"],
+                                              self_intersecting_ngons=b["self_intersecting_ngons"]))
 
     # ---- phase A: build ----
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -832,6 +931,55 @@ def main():
         tri_per_mat[r["material"]] = tri_per_mat.get(r["material"], 0) + r["triangles"]
     report["triangles_per_material"] = tri_per_mat
 
+    # polygon validity: no self-intersecting / twisted n-gons (n >= 5); fabric fully triangulated; consistent winding
+    topo = {o.name: topology(o) for o in objs}
+    for nm, t in topo.items():
+        if t["self_intersecting_ngons"] or t["inconsistent_winding_edges"]:
+            fails.append("%s invalid polygons %s" % (nm, t))
+    if topo["UCC_SE_Fabric"]["polygon_sizes"] != {"3": topo["UCC_SE_Fabric"]["triangles"]}:
+        fails.append("UCC_SE_Fabric not fully triangulated")
+    report["topology"] = topo
+    if prev:
+        cmp = {}
+        for o in objs:
+            p = prev.get(o.name)
+            if not p:
+                continue
+            piv = [float(x) for x in o["ucc_pivot_unity"].split(",")]
+            bb = bounds(unity_pts(o))
+            cmp[o.name] = dict(pivot_delta_m=round(max(abs(a - b) for a, b in zip(piv, p["pivot_unity"])), 6),
+                               bounds_delta_m=round(max(abs(bb[i][j] - p["unity_bounds"][i][j]) for i in (0, 1) for j in range(3)), 6),
+                               triangles_before=p["topology"]["triangles"], triangles_after=topo[o.name]["triangles"],
+                               polygons_before=p["topology"]["polygon_sizes"], polygons_after=topo[o.name]["polygon_sizes"],
+                               self_intersecting_ngons_before=p["topology"]["self_intersecting_ngons"])
+            if cmp[o.name]["pivot_delta_m"] > 1e-4:
+                fails.append("%s pivot moved %.4f m" % (o.name, cmp[o.name]["pivot_delta_m"]))
+            if o.name != "UCC_SE_Fabric":
+                exp = EXPECTED_TOPOLOGY_CHANGE.get(o.name)
+                want_polys = exp["polygon_sizes"] if exp else cmp[o.name]["polygons_before"]
+                want_tris = exp["triangles"] if exp else cmp[o.name]["triangles_before"]
+                if cmp[o.name]["bounds_delta_m"] > 1e-4 or cmp[o.name]["polygons_after"] != want_polys or topo[o.name]["triangles"] != want_tris:
+                    fails.append("%s changed beyond the documented fixes" % o.name)
+                if exp:
+                    cmp[o.name]["documented_exception"] = exp["why"]
+        report["vs_previous_build"] = cmp
+    # zero-area guard + surface area must match the pre-degenerate-fix probe (no visible area lost)
+    pa = os.path.join(D_REPORT, "pre_degenerate_fix_probe.json")
+    if os.path.isfile(pa):
+        with open(pa, encoding="utf-8") as f:
+            pre = json.load(f)
+        report["area_vs_pre_degenerate_fix"] = {nm: dict(area_before_m2=pre[nm]["total_area_m2"], area_after_m2=topo[nm]["total_area_m2"],
+                                                         loop_tris_before=pre[nm]["loop_triangles"], zero_area_before=pre[nm]["zero_area_triangles"],
+                                                         loop_tris_after=topo[nm]["loop_triangles"], zero_area_after=topo[nm]["zero_area_loop_triangles"])
+                                                for nm in topo if nm in pre}
+        for nm, a in report["area_vs_pre_degenerate_fix"].items():
+            if abs(a["area_after_m2"] - a["area_before_m2"]) > 1e-7:
+                fails.append("%s surface area changed %.8f -> %.8f" % (nm, a["area_before_m2"], a["area_after_m2"]))
+    report["degenerate_weld"] = {nm: OBJ_INFO[nm]["degenerate_weld"] for nm in topo if OBJ_INFO[nm]["degenerate_weld"]}
+    for nm, t in topo.items():
+        if t["zero_area_loop_triangles"]:
+            fails.append("%s has %d zero-area triangles" % (nm, t["zero_area_loop_triangles"]))
+
     export_fbx(OUT_FBX, [ROOT] + objs)
     bpy.ops.wm.save_as_mainfile(filepath=OUT_BLEND, compress=True)
     authored = {r["name"]: r["unity_bounds"] for r in rows}
@@ -850,7 +998,13 @@ def main():
         got = bounds(unity_pts(o))
         err = max(abs(got[a][i] - bb[a][i]) for a in (0, 1) for i in range(3))
         worst = max(worst, err)
-        rt[nm] = round(err, 6)
+        t = topology(o)
+        rt[nm] = dict(bounds_error_m=round(err, 6), triangles=t["triangles"], polygon_sizes=t["polygon_sizes"],
+                      self_intersecting_ngons=t["self_intersecting_ngons"], loop_triangles=t["loop_triangles"],
+                      zero_area_loop_triangles=t["zero_area_loop_triangles"], usable_triangles=t["usable_triangles"],
+                      topology_matches_source=(t["polygon_sizes"] == topo[nm]["polygon_sizes"] and t["triangles"] == topo[nm]["triangles"]))
+        if not rt[nm]["topology_matches_source"] or t["self_intersecting_ngons"] or t["zero_area_loop_triangles"]:
+            fails.append("%s FBX re-import topology differs from source %s" % (nm, rt[nm]))
     root_imp = bpy.data.objects.get(ROOT_NAME)
     report["fbx_roundtrip"] = dict(max_bounds_error_m=round(worst, 6), passed=worst < 1e-3, per_object=rt,
                                    imported_mesh_objects=len(imported),
@@ -877,9 +1031,15 @@ def main():
     report["vs_base_meshes"] = dict(base_mesh_objects_tested=nbase, per_object=bc,
                                     note="BVH triangle overlap + nearest-vertex gap vs every visible base mesh incl. render placeholders "
                                          "PH_* for dock/robot/bench; OV_* check overlays excluded")
-    renders = render_views() if DO_RENDER else []
+    if DO_RENDER:
+        renders = render_views()
+        report["render_note"] = "base UnifiedClinic.blend opened in memory and never saved; RCC_* cameras/light exist only in that session"
+    else:   # norender: keep (not regenerate) the stills of the last full run, and say so
+        renders = [dict(r, generated_by_this_run=False) for r in prev_renders]
+        report["render_note"] = ("NOT re-rendered (norender run). Stills are from the last full run (%s); this run changed no visible "
+                                 "geometry / UV / shading (welded only zero-area faces; area check below), so they remain valid evidence."
+                                 % prev_render_note)
     report["renders"] = renders
-    report["render_note"] = "base UnifiedClinic.blend opened in memory and never saved; RCC_* cameras/light exist only in that session"
 
     sha_after = file_sha(BASE_BLEND)
     report["base_blend_unchanged"] = dict(sha256=sha_before, unchanged=(sha_after == sha_before and os.path.getmtime(BASE_BLEND) == base_mtime))
@@ -888,8 +1048,8 @@ def main():
     report["failures"] = fails
     report["passed_all"] = not fails
     with open(os.path.join(HERE, "stats.json"), "w", encoding="utf-8") as f:
-        json.dump(dict((k, report[k]) for k in ("blender", "counts", "budget", "materials", "textures", "triangles_per_material",
-                                                  "fbx_roundtrip", "base_blend_unchanged", "renders", "passed_all", "failures")), f, indent=1)
+        json.dump(dict((k, report.get(k)) for k in ("blender", "counts", "budget", "materials", "textures", "triangles_per_material",
+                                                  "topology", "vs_previous_build", "degenerate_weld", "area_vs_pre_degenerate_fix", "fbx_roundtrip", "base_blend_unchanged", "renders", "render_note", "passed_all", "failures")), f, indent=1)
     with open(os.path.join(HERE, "placement_bounds.json"), "w", encoding="utf-8") as f:
         json.dump(dict(coordinate_contract=dict(unity_axes="+Y up, +Z north, +X east, metres", blender_to_unity="u = (-bx, bz, -by)",
                                                 fbx_export="axis_forward=-Z, axis_up=Y, bake_space_transform=False, FBX_SCALE_UNITS",
