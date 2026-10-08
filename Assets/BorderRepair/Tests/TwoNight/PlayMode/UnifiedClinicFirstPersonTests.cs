@@ -356,9 +356,10 @@ namespace BorderRepair.TwoNight.Tests
             yield return AimAtZone(zone, true);
             yield return LeftClick();
             Assert.AreEqual(trades + 1, clinic.State.customerTrades.Count, "Actual nearby mouse click receives exactly once.");
-            Assert.IsTrue(clinic.ConsoleOpen);
+            Assert.IsTrue(clinic.Carrying, "Receive picks the item up instead of opening repair.");
+            Assert.IsFalse(clinic.ConsoleOpen);
             Assert.AreEqual(ClinicTradeState.InRepair, clinic.TradeState);
-            Assert.IsFalse(walker.Aiming, "Console/dialogue releases walking control.");
+            Assert.IsFalse(walker.Aiming, "Customer dialogue releases walking control.");
             var before = walker.transform.position;
             float yaw = walker.Yaw;
             walker.LeaveSystemCursor = false;
@@ -368,9 +369,20 @@ namespace BorderRepair.TwoNight.Tests
             Assert.Less(Mathf.Abs(Mathf.DeltaAngle(yaw, walker.Yaw)), .01f, "N1 modal blocks mouse yaw.");
             walker.LeaveSystemCursor = true;
             clinic.Counter.DismissDialogue();
+            for (int i = 0; i < 3; i++) yield return null;
+            Assert.IsTrue(walker.Aiming && clinic.Carrying, "After the dialogue the player walks on, carrying the item.");
+            // 拿着物件沿寻路路径走到维修台，准星对准维修台，真实左键放下：开始在台上维修
+            var bench = UnityEngine.Object.FindObjectsByType<ClinicTradeZone>(FindObjectsSortMode.None).Single(z => z.Action == ClinicTradeAction.Console);
+            yield return WalkPath(grid.Path(walker.transform.position, grid.TradeApproach(bench, true)), "Carry the item to the workbench");
+            yield return AimAtZone(bench, true);
+            yield return LeftClick();
+            Assert.IsFalse(clinic.Carrying, "Real crosshair click on the workbench places the item.");
+            Assert.IsTrue(clinic.ConsoleOpen, "Placing the item starts repair on the bench.");
+            Assert.IsFalse(walker.Aiming, "Bench repair releases walking control.");
+            Note("Carried from receive to workbench and placed");
             clinic.ShowRoom();
             for (int i = 0; i < 3; i++) yield return null;
-            Assert.IsTrue(flow.Rig.Walking && walker.Aiming, "Returning from the console resumes room walking.");
+            Assert.IsTrue(flow.Rig.Walking && walker.Aiming, "Leaving the bench resumes room walking.");
             before = walker.transform.position;
             walker.Look(0, walker.Pitch);
             yield return Keys(.25f, Key.S);

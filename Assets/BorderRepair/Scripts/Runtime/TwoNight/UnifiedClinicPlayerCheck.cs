@@ -226,6 +226,8 @@ namespace BorderRepair.TwoNight
             yield return CheckWalking(room);
             yield return ClickZone(ClinicTradeAction.Receive);
             Require(room.TradeState == ClinicTradeState.InRepair, "Physical receive failed.");
+            Require(room.Carrying && !room.ConsoleOpen, "Receive must pick the item up, not open repair directly.");
+            yield return PlaceOnBenchByCrosshair(room);
             var session = room.Station.Session;
             yield return CheckCustomerInspection(room);
             Require(room.State.Cash == 500 && room.State.transactions.Count == 0, "Income before delivery.");
@@ -279,6 +281,27 @@ namespace BorderRepair.TwoNight
             yield return MouseClick(position);
         }
 
+        /// <summary>拿着收件台的物件走到维修台前（程序给位置和朝向），准星对准维修台，虚拟鼠标真实左键放下。不锁系统鼠标。</summary>
+        IEnumerator PlaceOnBenchByCrosshair(UnifiedClinicDirector clinic)
+        {
+            while (clinic.Counter.DialogueVisible) yield return ClickButton(clinic.Counter.DialogueButton);
+            var rig = clinic.Robot.Flow.Rig;
+            rig.Walker.LeaveSystemCursor = true;
+            rig.Walk(true);
+            rig.Walker.PlaceAt(new Vector3(0f, .02f, 1.95f), 0f);
+            yield return null;
+            rig.Walker.LookAt(clinic.WorkAnchor.GetComponent<Collider>().bounds.center);
+            for (int i = 0; i < 5; i++) yield return null;
+            Require(rig.Walker.Aiming, "Crosshair not aiming at the workbench.");
+            yield return Screenshot("carry_to_bench");
+            var center = new Vector2(Screen.width * .5f, Screen.height * .5f);
+            mouse.MakeCurrent();
+            InputSystem.QueueStateEvent(mouse, new MouseState { position = center }); yield return null;
+            InputSystem.QueueStateEvent(mouse, new MouseState { position = center }.WithButton(MouseButton.Left)); yield return null;
+            InputSystem.QueueStateEvent(mouse, new MouseState { position = center }); yield return null;
+            Require(!clinic.Carrying && clinic.ConsoleOpen, "Crosshair click on the workbench did not place the item.");
+        }
+
         IEnumerator CheckCustomerInspection(UnifiedClinicDirector clinic)
         {
             var station = clinic.Station;
@@ -287,8 +310,8 @@ namespace BorderRepair.TwoNight
             Require(clinic.ConsoleOpen && inspector.isActiveAndEnabled && inspector.InteractionEnabled, "Inspection input not enabled.");
             while (clinic.Counter.DialogueVisible) yield return ClickButton(clinic.Counter.DialogueButton);
             var camera = inspector.ViewCamera;
-            Require(camera.isActiveAndEnabled && Vector3.Distance(inspector.LookPoint, clinic.WorkAnchor.position) > 10,
-                "Inspection stage overlaps the physical workbench.");
+            Require(camera.isActiveAndEnabled && Vector3.Distance(inspector.LookPoint, clinic.WorkAnchor.position) < .6f &&
+                camera.clearFlags == clinic.Robot.Flow.Rig.Cam.clearFlags, "Repair must happen on the room workbench, not an isolated black stage.");
             yield return Screenshot("inspection_received");
             yield return ClickButton(station.View.GetComponentsInChildren<Button>().Single(b => b.name == "ScanButton"));
             Require(session.ScanModeActive, "Mouse scan toggle failed.");

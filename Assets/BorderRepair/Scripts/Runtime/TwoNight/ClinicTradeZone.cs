@@ -14,6 +14,8 @@ namespace BorderRepair.TwoNight
         public void Configure(UnifiedClinicDirector owner, ClinicTradeAction command) { clinic = owner; action = command; }
         public bool Activate() => clinic != null && clinic.Interact(action);
         public void ConfigureLabel(TextMesh label) => caption = label;
+        public void ShowLabel(bool on) { if (caption == null) caption = GetComponentInChildren<TextMesh>(true); if (caption != null) caption.gameObject.SetActive(on); }
+        public void SetLabel(string text) { if (caption == null) caption = GetComponentInChildren<TextMesh>(); if (caption != null) caption.text = text; }
         void LateUpdate()
         {
             var camera = Camera.main;

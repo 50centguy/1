@@ -43,6 +43,8 @@ namespace BorderRepair.Inspection
         public float TargetDistance => targetDistance;
         public float Pitch => pitch;
         public Camera ViewCamera => viewCamera;
+        /// <summary>物品挂载点（统一诊所把检视台整体挪到房间维修台上时用）。</summary>
+        public Transform ItemAnchor => itemAnchor;
 
         Vector3 viewDirection;
         float yaw, pitch, targetYaw, targetPitch;

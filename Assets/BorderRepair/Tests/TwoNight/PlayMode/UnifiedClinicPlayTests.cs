@@ -233,7 +233,15 @@ namespace BorderRepair.TwoNight.Tests
             }
             CaptureScene(Camera.main, "Clinic_N1_Receive");
             yield return ClickZone(clinic, ClinicTradeAction.Receive);
+            // 收件台只是“拿起”：不直接进维修，要放到维修台上才开始
             Assert.AreEqual(ClinicTradeState.InRepair, clinic.State.communicatorTrade);
+            Assert.IsTrue(clinic.Carrying, "Receive picks the item up instead of opening repair.");
+            Assert.IsFalse(clinic.ConsoleOpen);
+            Assert.IsFalse(clinic.Station.View.gameObject.activeInHierarchy);
+            Assert.AreEqual(RepairStage.Intake, clinic.Station.Session.Stage);
+            Assert.IsFalse(clinic.Interact(ClinicTradeAction.Receive));
+            Assert.IsTrue(clinic.Interact(ClinicTradeAction.Console), "Placing the carried item on the workbench starts repair.");
+            Assert.IsFalse(clinic.Carrying);
             Assert.AreEqual(RepairStage.Inspect, clinic.Station.Session.Stage);
             Assert.IsTrue(clinic.ConsoleOpen);
             AssertSingles();
@@ -521,13 +529,86 @@ namespace BorderRepair.TwoNight.Tests
             finally { if (overlay != null) UnityEngine.Object.Destroy(overlay); }
         }
 
+        static Bounds RenderBounds(GameObject go)
+        {
+            var rs = go.GetComponentsInChildren<Renderer>().Where(r => r.enabled && r.gameObject.activeInHierarchy).ToArray();
+            var b = rs[0].bounds; foreach (var r in rs.Skip(1)) b.Encapsulate(r.bounds); return b;
+        }
+
+        /// <summary>第一人称：收件台拿起 → 拿在手上 → 放到维修台 → 在台上维修（相机在房间里、看得到维修台、物件贴着台面）→ 离开 / 回来。程序输入，不是真人试玩。</summary>
+        [UnityTest]
+        public IEnumerator Walking_ReceiveCarriesItem_PlaceOnBench_RepairInRoom()
+        {
+            TwoNightRun.NewGame(null, true);
+            yield return Load();
+            var clinic = UnityEngine.Object.FindFirstObjectByType<UnifiedClinicDirector>();
+            var rig = clinic.Robot.Flow.Rig;
+            Assert.IsNotNull(rig.Walker);
+            rig.Walker.LeaveSystemCursor = true;
+            rig.Walk(true);
+            yield return null;
+            Assert.IsTrue(clinic.InspectionOnBench, "Inspection stage is moved onto the room workbench.");
+            var item = clinic.Station.Inspector.CurrentItem;
+            Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive));
+            if (clinic.Counter.DialogueVisible) clinic.Counter.DismissDialogue();
+            yield return null;
+            Assert.IsTrue(clinic.Carrying);
+            Assert.AreSame(item, clinic.CarriedItem);
+            Assert.IsTrue(item.transform.IsChildOf(rig.Walker.Eye), "Carried item follows the player's view.");
+            Assert.IsTrue(item.GetComponentsInChildren<Collider>(true).All(c => !c.enabled), "Carried item does not block the crosshair.");
+            Assert.IsFalse(clinic.ConsoleOpen);
+            Assert.IsFalse(clinic.Station.View.gameObject.activeInHierarchy, "No repair UI while carrying.");
+            Assert.AreEqual(RepairStage.Intake, clinic.Station.Session.Stage);
+            Assert.IsTrue(rig.Walking);
+            Assert.IsFalse(clinic.Interact(ClinicTradeAction.Receive));
+            Assert.IsFalse(clinic.Interact(ClinicTradeAction.Deliver));
+            Assert.AreEqual(500, clinic.State.Cash);
+            CaptureScene(Camera.main, "Clinic_N1_CarryItem");
+
+            Assert.IsTrue(clinic.Interact(ClinicTradeAction.Console));
+            for (int i = 0; i < 6; i++) yield return null;
+            Assert.IsFalse(clinic.Carrying);
+            Assert.IsTrue(clinic.ConsoleOpen);
+            Assert.AreEqual(RepairStage.Inspect, clinic.Station.Session.Stage);
+            Assert.IsTrue(item.GetComponentsInChildren<Collider>(true).Any(c => c.enabled), "Item colliders return for inspection clicks.");
+            var cam = clinic.Station.Inspector.ViewCamera;
+            Assert.AreEqual(rig.Cam.clearFlags, cam.clearFlags, "Repair view renders the room, not a black stage.");
+            Assert.AreEqual(rig.Cam.cullingMask, cam.cullingMask);
+            var work = clinic.WorkAnchor.position;
+            var b = RenderBounds(item);
+            Assert.Less(new Vector2(b.center.x - work.x, b.center.z - work.z).magnitude, 0.05f, "Item sits at the workbench spot.");
+            Assert.AreEqual(clinic.BenchTopWorldY, b.min.y, 0.003f, "Item rests on the bench top.");
+            Assert.Less(Vector3.Distance(cam.transform.position, work), 2f, "Repair camera is at the workbench.");
+            var benchRenderer = clinic.WorkAnchor.GetComponentInParent<Renderer>();
+            if (benchRenderer != null)
+                Assert.IsTrue(GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(cam), benchRenderer.bounds), "The bench is in the repair view.");
+            CaptureScene(cam, "Clinic_N1_BenchRepair");
+
+            clinic.Station.Inspector.Rotate(new Vector2(70f, 45f));
+            double until = Time.realtimeSinceStartupAsDouble + .8;
+            while (Time.realtimeSinceStartupAsDouble < until) yield return null;
+            Assert.AreEqual(clinic.BenchTopWorldY, RenderBounds(item).min.y, 0.003f, "Turned item still rests on the bench (no sinking/floating).");
+            CaptureScene(cam, "Clinic_N1_BenchRepairTurned");
+
+            var restPos = item.transform.position;
+            clinic.ShowRoom();
+            for (int i = 0; i < 3; i++) yield return null;
+            Assert.IsFalse(clinic.ConsoleOpen);
+            Assert.IsTrue(rig.Walking);
+            Assert.Less(Vector3.Distance(restPos, item.transform.position), 0.003f, "Leaving the bench leaves the item where it lies.");
+            Assert.IsTrue(clinic.Interact(ClinicTradeAction.Console), "Clicking the workbench resumes repair.");
+            Assert.IsTrue(clinic.ConsoleOpen);
+            Assert.AreEqual(1, clinic.State.customerTrades.Count);
+            LogAssert.NoUnexpectedReceived();
+        }
+
         [UnityTest]
         public IEnumerator FailedRepair_RetriesSameOccupiedItem_WithoutReceivingAgain()
         {
             TwoNightRun.NewGame(null, true);
             yield return Load();
             var clinic = UnityEngine.Object.FindFirstObjectByType<UnifiedClinicDirector>();
-            Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive));
+            Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive) && clinic.Interact(ClinicTradeAction.Console), "Receive, then place on the workbench.");
             Repair(clinic.Station, RepairDecision.Refuse);
             yield return null;
             Assert.IsTrue(clinic.Counter.RetryVisible);
@@ -562,6 +643,7 @@ namespace BorderRepair.TwoNight.Tests
             try
             {
                 yield return ClickZone(clinic, ClinicTradeAction.Receive);
+                Assert.IsTrue(clinic.Interact(ClinicTradeAction.Console), "Place the received item on the workbench.");
                 Repair(clinic.Station, RepairDecision.Repair);
                 Assert.AreEqual(RepairStage.Result, session.Stage, "Do not advance to the next item on repair completion.");
                 Assert.AreEqual(0, session.CaseIndex);
@@ -578,6 +660,7 @@ namespace BorderRepair.TwoNight.Tests
                 AssertSupportedItem(clinic, preview.gameObject, clinic.ReceiveAnchor);
                 Assert.IsFalse(clinic.Interact(ClinicTradeAction.Deliver));
                 yield return ClickZone(clinic, ClinicTradeAction.Receive);
+                Assert.IsTrue(clinic.Interact(ClinicTradeAction.Console), "Place the second item on the workbench.");
                 Assert.AreEqual(1, session.CaseIndex);
                 Assert.AreEqual(second.caseId, session.CurrentCase.caseId);
                 Assert.AreEqual(RepairStage.Inspect, session.Stage);
@@ -644,7 +727,7 @@ namespace BorderRepair.TwoNight.Tests
             clinic.State.customerQueueCount = 3;
             try
             {
-                Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive));
+                Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive) && clinic.Interact(ClinicTradeAction.Console), "Receive, then place on the workbench.");
                 Repair(clinic.Station, RepairDecision.Repair);
                 Assert.IsTrue(clinic.Interact(ClinicTradeAction.Deliver));
                 Assert.AreEqual(800, clinic.State.Cash);
@@ -652,7 +735,7 @@ namespace BorderRepair.TwoNight.Tests
                 {
                     Assert.AreEqual(index - 1, session.CaseIndex, "No automatic next intake.");
                     Assert.IsTrue(clinic.HasPendingCase);
-                    Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive));
+                    Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive) && clinic.Interact(ClinicTradeAction.Console), "Receive, then place on the workbench.");
                     Assert.AreSame(index == 1 ? beacon : drone, session.CurrentCase);
                     var correct = index == 1 ? RepairDecision.Refuse : RepairDecision.RecommendReplacement;
                     Assert.IsTrue(session.CurrentCase.FindOutcome(correct).isCorrect);
@@ -705,13 +788,13 @@ namespace BorderRepair.TwoNight.Tests
             clinic.State.customerQueueCount = 2;
             try
             {
-                Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive));
+                Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive) && clinic.Interact(ClinicTradeAction.Console), "Receive, then place on the workbench.");
                 Repair(clinic.Station, RepairDecision.Repair);
                 Assert.IsTrue(clinic.Interact(ClinicTradeAction.Deliver));
                 Assert.AreEqual(800, clinic.State.Cash);
                 if (secondReceived)
                 {
-                    Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive));
+                    Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive) && clinic.Interact(ClinicTradeAction.Console), "Receive, then place on the workbench.");
                     Assert.IsTrue(clinic.Station.Session.SetScanMode(true));
                     var point = beacon.inspectionPoints.First(p => p.requiredForDiagnosis);
                     Assert.AreEqual(ScanOutcome.NewFinding, clinic.Station.ScanPoint(point.pointId));
@@ -734,12 +817,12 @@ namespace BorderRepair.TwoNight.Tests
                 Assert.IsFalse(clinic.ConsoleOpen);
                 Assert.IsTrue(clinic.HasPendingCase);
                 Assert.AreSame(clinic.ReceiveAnchor, clinic.Station.Inspector.CurrentItem.transform.parent);
-                Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive));
+                Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive) && clinic.Interact(ClinicTradeAction.Console), "Receive, then place on the workbench.");
                 Repair(clinic.Station, RepairDecision.Repair);
                 Assert.IsTrue(clinic.Interact(ClinicTradeAction.Deliver));
                 Assert.AreEqual(800, clinic.State.Cash, "Replayed first delivery is not added to retained cash.");
                 Assert.AreEqual(2, clinic.State.transactions.Count);
-                Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive));
+                Assert.IsTrue(clinic.Interact(ClinicTradeAction.Receive) && clinic.Interact(ClinicTradeAction.Console), "Receive, then place on the workbench.");
                 Assert.AreSame(beacon, clinic.Station.Session.CurrentCase);
                 Repair(clinic.Station, RepairDecision.Refuse);
                 Assert.IsTrue(clinic.Interact(ClinicTradeAction.Deliver));

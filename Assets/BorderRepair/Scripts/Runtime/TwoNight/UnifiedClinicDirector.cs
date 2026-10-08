@@ -26,6 +26,10 @@ namespace BorderRepair.TwoNight
         [Tooltip("Local Y offset from receive/delivery anchor to the item's support surface.")]
         [SerializeField] float tradeSupportHeight;
         [SerializeField] Camera roomCamera;
+        [Tooltip("维修台前玩家站的位置（ArtSource/UnifiedClinic/anchors.csv 的 Workbench：台前、面朝北）。台上维修的镜头从这一侧看物件。")]
+        [SerializeField] Vector3 benchStandPoint = new Vector3(0f, 0f, 1.95f);
+        [Tooltip("拿在手上的物件中心相对眼睛的位置（右、上、前，米）")]
+        [SerializeField] Vector3 carryLocalPosition = new Vector3(0.12f, -0.30f, 0.55f);
 
         public RepairStationController Station => station;
         public TwoNightCounterDirector Counter => counter;
@@ -43,6 +47,12 @@ namespace BorderRepair.TwoNight
         public bool ConsoleOpen { get; private set; }
         public string LastMessage { get; private set; }
         public bool RoomWalking => !ConsoleOpen && flow.Rig.Walking;
+        /// <summary>手上拿着从收件台接收的物件（还没放到维修台）。</summary>
+        public bool Carrying => carried != null;
+        public GameObject CarriedItem => carried;
+        /// <summary>原型检视台（物件锚点、检视相机、检视灯）已经挪到房间维修台上：在台上修，不再是房间外的黑底舞台。</summary>
+        public bool InspectionOnBench => stageOnBench;
+        public float BenchTopWorldY => benchTopY;
         public bool HasPendingCase => State != null && State.phase == TwoNightPhase.Night1Counter &&
             (State.ActiveTrade == null || (State.ActiveTrade.state == ClinicTradeState.Delivered &&
                 State.ActiveTrade.queueIndex + 1 < State.customerQueueCount));
@@ -58,6 +68,13 @@ namespace BorderRepair.TwoNight
         Quaternion itemLocalRotation;
         Vector3 itemLocalScale;
         GameObject pendingPreview;
+        GameObject carried;
+        ClinicTradeZone benchZone;
+        Collider[] carriedColliders;
+        bool[] carriedColliderEnabled;
+        Transform inspectionStage;
+        bool stageOnBench;
+        float benchTopY;
 
         public void Configure(RepairStationController s, GameObject setup, TwoNightCounterDirector c,
             TwoNightRobotDirector r, FirstOrderFlow f, FirstOrderInput i, SliceView v,
@@ -81,6 +98,7 @@ namespace BorderRepair.TwoNight
             State.unifiedClinic = true;
             if (State.communicatorSettled) State.communicatorTrade = ClinicTradeState.Delivered;
             bool customerNight = State.phase == TwoNightPhase.Night1Counter || State.phase == TwoNightPhase.Night1Ledger;
+            if (customerNight) MoveInspectionToBench();          // 要在检视台自己的 Awake（按相机与锚点的相对位置定视线）之前
             consoleSetup.SetActive(customerNight);
             counter.gameObject.SetActive(customerNight);
             station.Inspector.enabled = false;
@@ -98,6 +116,8 @@ namespace BorderRepair.TwoNight
         IEnumerator Start()
         {
             BuildUi();
+            benchZone = FindObjectsByType<ClinicTradeZone>(FindObjectsSortMode.None).FirstOrDefault(z => z.Action == ClinicTradeAction.Console);
+            if (benchZone != null) benchZone.SetLabel("WORKBENCH");
             if (flow.Rig.Walker != null)
                 flow.Rig.Walker.CursorRequests.Add(() => ConsoleOpen || counter.LedgerVisible ||
                     counter.RetryVisible || counter.DialogueVisible);
@@ -127,6 +147,8 @@ namespace BorderRepair.TwoNight
             flow.InspectionLocked = true;
             flow.Rig.enabled = active || flow.Rig.Walker != null;
             robotView.gameObject.SetActive(active);
+            // 顾客夜七号流程不启用，它的初始化（会隐藏工作台落点标记）不执行：这里替它隐藏，免得操作垫上一直有一块发光的黄色标记
+            if (!active) foreach (var zone in FindObjectsByType<FirstOrderDropZone>(FindObjectsSortMode.None)) zone.ShowMarker(false);
             robot.gameObject.SetActive(active);
             roomCamera.enabled = true;
         }
@@ -138,6 +160,7 @@ namespace BorderRepair.TwoNight
             switch (action)
             {
                 case ClinicTradeAction.Receive:
+                    if (carried != null) return Refuse("手上已经拿着" + station.Session.CurrentCase.itemName + "，先放到维修台上。");
                     if (!HasPendingCase) return Refuse("当前物品仍在处理中，不能再接收。");
                     if (State.ActiveTrade != null)
                     {
@@ -152,9 +175,17 @@ namespace BorderRepair.TwoNight
                     if (!TwoNightRun.ReceiveCustomer(State, data.caseId, station.Session.CaseIndex, income, partsCost))
                         return Refuse("当前物品仍在处理中，不能再接收。");
                     RestoreItem();
-                    station.Session.AcceptItem();
-                    OpenConsole();
                     counter.CustomerReceived();
+                    if (flow.Rig.Walker != null)
+                    {
+                        // 从收件台拿起来；要拿到维修台上放下才开始维修（以前这里直接进维修）
+                        PickUp();
+                        LastMessage = "拿起了" + data.itemName + "。走到维修台，对准台面左键放下，开始维修。";
+                        RefreshStatus();
+                        return true;
+                    }
+                    station.Session.AcceptItem();                // 没有第一人称的场景：保持原来的“收件即开修”
+                    OpenConsole();
                     return true;
                 case ClinicTradeAction.Deliver:
                     if (!TwoNightRun.DeliverCustomer(State, station.Session.CurrentCase.caseId))
@@ -167,7 +198,8 @@ namespace BorderRepair.TwoNight
                     RefreshStatus();
                     return true;
                 case ClinicTradeAction.Console:
-                    if (TradeState != ClinicTradeState.InRepair) return Refuse("控制台当前没有待维修物品。");
+                    if (carried != null) return PlaceOnBench();
+                    if (TradeState != ClinicTradeState.InRepair) return Refuse("维修台上没有待维修的物品。先到收件台拿一件。");
                     OpenConsole();
                     return true;
                 default: return false;
@@ -176,9 +208,10 @@ namespace BorderRepair.TwoNight
 
         public void OpenConsole()
         {
-            if (!Initialized || State.phase != TwoNightPhase.Night1Counter || TradeState != ClinicTradeState.InRepair) return;
+            if (!Initialized || State.phase != TwoNightPhase.Night1Counter || TradeState != ClinicTradeState.InRepair || carried != null) return;
             RestoreItem();
             ConsoleOpen = true;
+            if (benchZone != null) benchZone.ShowLabel(false);     // 维修时镜头就在台前，朝向镜头的标签会挡住画面
             LastMessage = null;
             flow.Rig.enabled = false;
             roomCamera.enabled = false;
@@ -191,10 +224,11 @@ namespace BorderRepair.TwoNight
         public void ShowRoom()
         {
             ConsoleOpen = false;
+            if (benchZone != null) benchZone.ShowLabel(true);
             station.enabled = station.Inspector.enabled = station.Scanner.enabled = false;
             station.View.gameObject.SetActive(false);
             station.Inspector.ViewCamera.enabled = false;
-            if (TradeState == ClinicTradeState.InRepair) PlaceItem(workAnchor);
+            if (TradeState == ClinicTradeState.InRepair && carried == null && !stageOnBench) PlaceItem(workAnchor);   // 台上维修时物件本来就在台上，原地不动
             roomCamera.enabled = true;
             flow.Rig.enabled = true;
             if (flow.Rig.FirstPersonEnabled) flow.Rig.Walk(true);
@@ -211,6 +245,73 @@ namespace BorderRepair.TwoNight
             LastMessage = station.Session.CurrentCase.itemName + (State.ActiveTrade.returnedUnpaid ?
                 "：" + BorderRepair.Data.RepairDecisionText.Label(State.ActiveTrade.decision) + "，等待无偿退回。" : "已修好，等待交付。");
             RefreshStatus();
+        }
+
+        /// <summary>
+        /// 把原型检视台（物件锚点 + 检视相机 + 两盏检视灯）从房间外的黑底舞台挪到维修台台面上，镜头从台前玩家一侧看，
+        /// 背景、可见层、远裁剪和房间相机一致——维修时看到的是台上的物件和房间，不再是纯黑背景。
+        /// </summary>
+        void MoveInspectionToBench()
+        {
+            var anchor = station != null ? station.Inspector.ItemAnchor : null;
+            if (anchor == null || anchor.parent == null || workAnchor == null || roomCamera == null) return;
+            inspectionStage = anchor.parent;
+            var cam = station.Inspector.ViewCamera;
+            var from = Vector3.ProjectOnPlane(cam.transform.position - anchor.position, Vector3.up);
+            var to = Vector3.ProjectOnPlane(benchStandPoint - workAnchor.position, Vector3.up);
+            if (from.sqrMagnitude > 1e-6f && to.sqrMagnitude > 1e-6f)
+                inspectionStage.rotation = Quaternion.FromToRotation(from.normalized, to.normalized) * inspectionStage.rotation;
+            benchTopY = TradeSupportWorldY(workAnchor);
+            inspectionStage.position += new Vector3(workAnchor.position.x, benchTopY + 0.25f, workAnchor.position.z) - anchor.position;
+            cam.clearFlags = roomCamera.clearFlags;
+            cam.backgroundColor = roomCamera.backgroundColor;
+            cam.cullingMask = roomCamera.cullingMask;
+            cam.farClipPlane = Mathf.Max(cam.farClipPlane, roomCamera.farClipPlane);
+            stageOnBench = true;
+        }
+
+        void PickUp()
+        {
+            var item = station.Inspector.CurrentItem;
+            var eye = flow.Rig.Walker != null ? flow.Rig.Walker.Eye : null;
+            if (item == null || eye == null) return;
+            carried = item;
+            carriedColliders = item.GetComponentsInChildren<Collider>(true);
+            carriedColliderEnabled = carriedColliders.Select(c => c.enabled).ToArray();
+            foreach (var c in carriedColliders) c.enabled = false;     // 拿在手上时不挡准星的射线
+            item.transform.SetParent(eye, true);
+            item.transform.localRotation = itemLocalRotation;
+            var renderers = item.GetComponentsInChildren<Renderer>().Where(r => r.enabled).ToArray();
+            if (renderers.Length > 0)
+            {
+                var b = renderers[0].bounds; foreach (var r in renderers.Skip(1)) b.Encapsulate(r.bounds);
+                item.transform.position += eye.TransformPoint(carryLocalPosition) - b.center;
+            }
+            else item.transform.localPosition = carryLocalPosition;
+        }
+
+        /// <summary>把手上的物件放到维修台上，开始在台上维修。</summary>
+        public bool PlaceOnBench()
+        {
+            if (carried == null) return false;
+            for (int i = 0; i < carriedColliders.Length; i++) if (carriedColliders[i] != null) carriedColliders[i].enabled = carriedColliderEnabled[i];
+            carried = null; carriedColliders = null; carriedColliderEnabled = null;
+            RestoreItem();
+            station.Session.AcceptItem();
+            OpenConsole();
+            return true;
+        }
+
+        void LateUpdate()
+        {
+            // 台上的物件转到任何角度，最低点都贴着台面（不穿进桌子，也不悬空）。本组件执行顺序靠前，检视台随后按新的锚点放镜头。
+            if (!stageOnBench || carried != null || station == null) return;
+            var item = station.Inspector.CurrentItem;
+            if (item == null || item.transform.parent != station.Inspector.ItemAnchor) return;
+            var renderers = item.GetComponentsInChildren<Renderer>().Where(r => r.enabled && r.gameObject.activeInHierarchy).ToArray();
+            if (renderers.Length == 0) return;
+            float delta = benchTopY + 0.0005f - renderers.Min(r => r.bounds.min.y);
+            if (Mathf.Abs(delta) > 1e-4f) inspectionStage.position += Vector3.up * delta;
         }
 
         void PlaceItem(Transform anchor)
@@ -292,6 +393,13 @@ namespace BorderRepair.TwoNight
                 QueryTriggerInteraction.Collide).OrderBy(h => h.distance))
             {
                 if (hit.collider is CharacterController || hit.collider.GetComponent<FirstPersonBlocker>() != null) continue;
+                var onBench = station.Inspector.CurrentItem;
+                if (carried == null && onBench != null && TradeState == ClinicTradeState.InRepair && hit.transform.IsChildOf(onBench.transform))
+                {
+                    if (walking && hit.distance > walker.Reach) Refuse("够不着维修台上的物品，请走近一点。");
+                    else OpenConsole();                          // 点台上的物件：回到台上维修
+                    break;
+                }
                 var zone = hit.collider.GetComponentInParent<ClinicTradeZone>();
                 if (zone != null)
                 {
@@ -306,13 +414,14 @@ namespace BorderRepair.TwoNight
         void RefreshStatus()
         {
             if (status == null) return;
-            string task = HasPendingCase ? "下一件送修物待接收" :
+            string task = carried != null ? "手上：" + station.Session.CurrentCase.itemName + " → 放到维修台上" :
+                HasPendingCase ? "下一件送修物待接收" :
                 TradeState == ClinicTradeState.InRepair ? "当前物品维修中" :
                 TradeState == ClinicTradeState.ReadyForReturn ? "当前物品待无偿退回（不记维修收入）" :
                 TradeState == ClinicTradeState.ReadyForDelivery ? "当前物品待交付（尚未入账）" : "没有待接收的下一单";
             status.text = $"第 {State.night} 晚　现金 {TwoNightUi.Money(State.Cash)}\n{task}\n{LastMessage}";
             status.transform.parent.gameObject.SetActive(!ConsoleOpen);
-            consoleButton.gameObject.SetActive(!ConsoleOpen && TradeState == ClinicTradeState.InRepair);
+            consoleButton.gameObject.SetActive(!ConsoleOpen && TradeState == ClinicTradeState.InRepair && carried == null);
             roomButton.gameObject.SetActive(ConsoleOpen);
         }
 
@@ -331,8 +440,8 @@ namespace BorderRepair.TwoNight
             var panel = TwoNightUi.Panel(tradeUi.transform, "TradeStatus", new Vector2(1, 1), new Vector2(-416, -16), new Vector2(400, 120));
             panel.GetComponent<Image>().raycastTarget = false;
             status = TwoNightUi.Label(panel, "Status", "", font, 18, new Vector2(14, -10), new Vector2(372, 100), TwoNightUi.TextMain);
-            consoleButton = TwoNightUi.Button(tradeUi.transform, "Console", "维修控制台", font, new Vector2(16, -16), new Vector2(170, 44), OpenConsole);
-            roomButton = TwoNightUi.Button(tradeUi.transform, "Room", "返回诊所", font, new Vector2(16, -16), new Vector2(170, 44), ShowRoom);
+            consoleButton = TwoNightUi.Button(tradeUi.transform, "Console", "回到维修台", font, new Vector2(16, -16), new Vector2(170, 44), OpenConsole);
+            roomButton = TwoNightUi.Button(tradeUi.transform, "Room", "离开维修台", font, new Vector2(16, -16), new Vector2(170, 44), ShowRoom);
             TwoNightUi.Button(tradeUi.transform, "Menu", "主菜单", font, new Vector2(16, -70), new Vector2(170, 44), () => SceneManager.LoadScene(TwoNightScenes.ClinicMenu));
             tradeUi.SetActive(State.phase == TwoNightPhase.Night1Counter || State.phase == TwoNightPhase.Night1Ledger);
         }

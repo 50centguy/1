@@ -187,12 +187,24 @@ namespace BorderRepair.TwoNight.Tests
             yield return Click(pixel.Value);
             Assert.AreEqual(1, clinic.State.customerTrades.Count, "Input System receive click accepts exactly one item.");
             Assert.AreEqual(ClinicTradeState.InRepair, clinic.TradeState);
-            Assert.IsTrue(clinic.ConsoleOpen);
+            Assert.IsTrue(clinic.Carrying, "Receive picks the item up; it does not open repair directly.");
+            Assert.IsFalse(clinic.ConsoleOpen);
             if (clinic.Counter.DialogueVisible)
             {
                 yield return ClickButton(clinic.Counter.DialogueButton);
                 Assert.IsFalse(clinic.Counter.DialogueVisible, "Real Continue button click dismisses the customer dialogue.");
             }
+            // 拿着走到维修台前，准星对准维修台，真实左键放下
+            var rig = clinic.Robot.Flow.Rig;
+            rig.Walk(true);
+            rig.Walker.PlaceAt(new Vector3(0f, .02f, 1.95f), 0f);
+            yield return null;
+            rig.Walker.LookAt(clinic.WorkAnchor.GetComponent<Collider>().bounds.center);
+            yield return Settle(5);
+            Assert.IsTrue(rig.Walker.Aiming, "Crosshair aiming at the workbench.");
+            yield return Click(new Vector2(Screen.width * .5f, Screen.height * .5f));
+            Assert.IsFalse(clinic.Carrying, "Real crosshair click on the workbench places the item.");
+            Assert.IsTrue(clinic.ConsoleOpen);
             for (int i = 0; i < 5; i++) yield return null;
             Assert.AreEqual(RepairStage.Inspect, clinic.Station.Session.Stage);
             Assert.IsTrue(camera.enabled && inspector.isActiveAndEnabled && inspector.InteractionEnabled);
@@ -313,8 +325,8 @@ namespace BorderRepair.TwoNight.Tests
             Assert.GreaterOrEqual((float)visible / reference, .65f,
                 "Foreground room geometry/labels hide too much of the item. Visible " + visible + ", item-only " + reference);
             Assert.IsTrue(ItemPixel(FindItemPixel(), out _), "Visible rendered item must also have a clear physics/pointer route.");
-            Assert.Greater(Vector3.Distance(inspector.LookPoint, clinic.WorkAnchor.position), 10,
-                "Inspection item orbit must be isolated from the physical diagnostic bench.");
+            Assert.Less(Vector3.Distance(inspector.LookPoint, clinic.WorkAnchor.position), .6f,
+                "Repair happens on the physical workbench (not on an isolated black stage).");
             Assert.IsFalse(inspector.CurrentItem.transform.IsChildOf(clinic.WorkAnchor), "Orbiting the item must not rotate the physical console label.");
         }
 
@@ -462,7 +474,9 @@ namespace BorderRepair.TwoNight.Tests
             Assert.IsFalse(camera.enabled || inspector.enabled || scanner.enabled);
             Assert.IsTrue(clinic.Robot.Flow.Rig.Cam.enabled);
             Assert.AreSame(item, inspector.CurrentItem);
-            Assert.AreSame(clinic.WorkAnchor, item.transform.parent, "Returning to the room mounts the same item on the physical workbench.");
+            Assert.AreSame(inspectionParent, item.transform.parent, "Leaving the bench keeps the same item lying on the workbench.");
+            var work = clinic.WorkAnchor.position; var c = ItemRenderers().Aggregate(new Bounds(ItemRenderers()[0].bounds.center, Vector3.zero), (a, r) => { a.Encapsulate(r.bounds); return a; }).center;
+            Assert.Less(new Vector2(c.x - work.x, c.z - work.z).magnitude, .05f, "Item stays at the workbench spot.");
             var benchRenderers = ItemRenderers();
             Assert.IsNotEmpty(benchRenderers, "Returned item must keep its visible geometry on the bench.");
             Assert.AreEqual(clinic.TradeSupportWorldY(clinic.WorkAnchor), benchRenderers.Min(r => r.bounds.min.y), .002f,
@@ -472,7 +486,7 @@ namespace BorderRepair.TwoNight.Tests
             yield return Settle(5);
             Assert.IsTrue(clinic.ConsoleOpen && camera.enabled && inspector.enabled && scanner.enabled);
             Assert.AreSame(item, inspector.CurrentItem, "Reopening must not mount a replacement item.");
-            Assert.AreSame(inspectionParent, item.transform.parent, "Reopening restores the original isolated inspection-stage parent.");
+            Assert.AreSame(inspectionParent, item.transform.parent, "Reopening keeps the item on the workbench inspection anchor.");
             Assert.AreEqual(caseId, clinic.Station.Session.CurrentCase.caseId);
             Assert.AreEqual(findings, clinic.Station.Session.FoundRequiredCount);
             Assert.AreEqual(1, clinic.State.customerTrades.Count, "Returning/reopening must not receive the same item again.");
