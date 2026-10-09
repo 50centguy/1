@@ -44,6 +44,8 @@ namespace BorderRepair.TwoNight
             return bench != null ? bench.bounds.max.y : anchor.TransformPoint(Vector3.up * tradeSupportHeight).y;
         }
         public bool Initialized { get; private set; }
+        public string WholeEngineLog { get; private set; }
+        public Vector3 BenchStandPoint => benchStandPoint;
         public bool ConsoleOpen { get; private set; }
         public string LastMessage { get; private set; }
         public bool RoomWalking => !ConsoleOpen && flow.Rig.Walking;
@@ -143,6 +145,11 @@ namespace BorderRepair.TwoNight
                 else station.Inspector.Clear();
                 // Walker Awake runs after this director's early Awake. Select walking once all actors are ready.
                 if (flow.Rig.FirstPersonEnabled) flow.Rig.Walk(true);
+            }
+            if (State.phase == TwoNightPhase.Night2Open)
+            {
+                // 第二晚：整个左引擎卸下来抱到维修台上修（不再让零件自己飞到工作台）
+                WholeEngineLog = ClinicWholeEngine.Enable(flow, workAnchor, benchStandPoint);
             }
             Initialized = true;
             RefreshStatus();

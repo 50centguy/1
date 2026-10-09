@@ -18,6 +18,7 @@ namespace BorderRepair.FirstOrder
         public readonly List<string> jumpViolations = new List<string>();
         public readonly List<string> travelHits = new List<string>();
         readonly Dictionary<FirstOrderPart, Pose> last = new Dictionary<FirstOrderPart, Pose>();
+        readonly Dictionary<FirstOrderPart, bool> lastOnEngine = new Dictionary<FirstOrderPart, bool>();
         const float MaxStep = 0.08f, MaxTurn = 15f;
 
         static bool Shown(Renderer r) => r.enabled && r.gameObject.activeInHierarchy;
@@ -41,7 +42,13 @@ namespace BorderRepair.FirstOrder
             foreach (var p in flow.TrackedParts)
             {
                 var now = new Pose(p.transform.position, p.transform.rotation);
-                if (last.TryGetValue(p, out var prev))
+                // 整引擎维修：还装在引擎上的零件跟着整台引擎走（抱着走、放上台），按引擎本地坐标比，只看零件相对引擎有没有跳
+                var hinge = flow.WholeEngineMode ? flow.EngineLHinge : null;
+                bool onEngine = hinge != null && p.transform.IsChildOf(hinge);
+                if (onEngine) now = new Pose(hinge.InverseTransformPoint(now.position), Quaternion.Inverse(hinge.rotation) * now.rotation);
+                bool sameFrame = !lastOnEngine.TryGetValue(p, out var wasOnEngine) || wasOnEngine == onEngine;   // 换了参照系的那一帧不比
+                lastOnEngine[p] = onEngine;
+                if (sameFrame && last.TryGetValue(p, out var prev))
                 {
                     float d = Vector3.Distance(prev.position, now.position), a = Quaternion.Angle(prev.rotation, now.rotation);
                     if (d > maxStep) { maxStep = d; maxStepWhere = $"{p.partId} {at}"; }

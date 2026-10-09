@@ -35,7 +35,7 @@ namespace BorderRepair.FirstOrder
     /// 进气口堵塞不是一个固定步骤：断电停转后、通电之前随时可以清理；但只清理不算修好，磨损轴承必须找到并更换，否则不能通电复测。
     /// 没有对应资产或动画的部分都是占位，见 Placeholders。
     /// </summary>
-    public class FirstOrderFlow : MonoBehaviour
+    public partial class FirstOrderFlow : MonoBehaviour
     {
         [SerializeField] Unit07DockController dock;
         [SerializeField] FirstOrderCameraRig rig;
@@ -238,6 +238,7 @@ namespace BorderRepair.FirstOrder
         {
             if (hit == null) return Refuse("（无）", "这里没有可操作的东西。");
             if (Busy) return Refuse(hit.name, "上一个动作还没做完。");
+            if (WholeEngineMode && TryWholeEngine(hit, out var wholeEngine)) return wholeEngine;   // 整引擎维修（统一诊所第二晚）
             switch (hit)
             {
                 case DockInteractable di: return ClickDock(di);
@@ -271,6 +272,8 @@ namespace BorderRepair.FirstOrder
                         return dock.Interact(DockAction.PowerSwitch) ? Ok(n, dock.LastMessage) : Refuse(n, dock.LastMessage);
                     if (Step == FoStep.PowerOn)
                     {
+                        var engineBlock = WholeEnginePowerBlock();
+                        if (engineBlock != null) return Refuse(n, engineBlock);
                         if (!ClogCleared) return Refuse(n, PowerRefusal());
                         if (!dock.Interact(DockAction.PowerSwitch)) return Refuse(n, dock.LastMessage);
                         Advance(FoStep.ReleaseAndLift, "恢复供电，涡轮重新转动。点夹具握把：松开，让七号离座。");
@@ -295,6 +298,11 @@ namespace BorderRepair.FirstOrder
             if (proxy == null && engineLHinge != null)
                 proxy = engineLHinge.GetComponentsInChildren<DockInteractable>(true).FirstOrDefault(d => d.action == DockAction.EngineLeft)?.GetComponent<Collider>();
             if (proxy != null) proxy.enabled = false;
+            if (WholeEngineMode)
+            {
+                Advance(FoStep.ReleaseLatches, "左引擎：进气口护栅上糊着积尘和纤维（堵塞）；上盖由外侧和后侧两个锁扣固定。这台要在维修台上修：先拔下左引擎内侧的辅助线缆、松开连接键，再把整个左引擎卸下来，抱到维修台上。");
+                return Ok(n, Message);
+            }
             Advance(FoStep.ReleaseLatches, "左引擎：进气口护栅上糊着积尘和纤维（堵塞），现在已断电停转，可以点进气口清理。" +
                                            "上盖由外侧和后侧两个锁扣固定，拆上盖要先扳开两个锁扣（后侧那个在背面：切到镜头「左引擎背面」）。");
             return Ok(n, Message);
@@ -659,6 +667,8 @@ namespace BorderRepair.FirstOrder
         public string NextHint()
         {
             string clean = ClogCleared ? "" : "；进气口堵塞断电时随时可以点击清理";
+            var whole = WholeEngineHint();
+            if (whole != null) return whole;
             switch (Step)
             {
                 case FoStep.SeatRobot: return "点维修座夹具的黄色握把：张开，让七号落座";

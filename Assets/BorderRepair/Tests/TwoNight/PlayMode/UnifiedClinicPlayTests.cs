@@ -840,6 +840,46 @@ namespace BorderRepair.TwoNight.Tests
             finally { shift.cases = originals; }
         }
 
+        /// <summary>
+        /// 第二晚整引擎维修（程序输入，不是真人试玩）：拔线松键 → 抱下左引擎 → 放到维修台 → 台上清理、拆盖、换轴承、装回 →
+        /// 抱回七号装上 → 接回线缆 → 通电离座复测。穿插拒绝：要拆右引擎、抱着引擎通电、引擎在台上就通电、线缆没接就通电。
+        /// 记录写 Docs/Integration/UnifiedClinic/WholeEngine/whole_engine_order.md，关键时刻截图到 Logs/。
+        /// </summary>
+        [UnityTest]
+        public IEnumerator Night2_WholeEngine_CarryToBench_RepairOnBench_MountBack_Retest()
+        {
+            PrepareNight2();
+            yield return Load();
+            var clinic = UnityEngine.Object.FindFirstObjectByType<UnifiedClinicDirector>();
+            var flow = clinic.Robot.Flow;
+            Assert.IsTrue(flow.WholeEngineMode, "Night2 enables whole-engine repair: " + clinic.WholeEngineLog);
+            flow.Rig.Walker.LeaveSystemCursor = true;
+            var view = UnityEngine.Object.FindFirstObjectByType<BorderRepair.FirstOrder.Slice.SliceView>();
+            if (view != null && view.ManualOpen) view.ToggleManual();
+            var input = UnityEngine.Object.FindFirstObjectByType<FirstOrderInput>();
+            string[] shots = { "hold", "5b", "5c", "6d", "6e", "7d", "8c", "9a", "9b", "9c" };
+            IEnumerator Shot(string name)
+            {
+                if (shots.Any(k => name.Contains("_" + k + " "))) CaptureScene(flow.Rig.Cam, "Clinic_N2_WholeEngine_" + name.Split(' ')[0]);
+                yield break;
+            }
+            var driver = new FirstOrderAcceptanceDriver(flow, input, Shot) { Timeout = 30f };
+            yield return driver.RunFullOrder(resumeAtInspection: true);
+            var sb = new System.Text.StringBuilder("# 第二晚整引擎维修（PlayMode，程序输入，不是真人试玩）\n\n" + clinic.WholeEngineLog +
+                "\n\n| # | 步骤 | 视角 | 目标 | 期望 | 结果 | 步骤 / 引擎 | 说明 |\n|---|---|---|---|---|---|---|---|\n");
+            foreach (var r in driver.Records)
+                sb.AppendLine($"| {r.index} | {r.label} | {r.camera} | {r.target} | {r.expect} | {(r.pass ? "通过" : "**失败**")} | {r.stepAfter} | {r.message?.Replace("|", "/")} {r.screenPoint} |");
+            Directory.CreateDirectory("Docs/Integration/UnifiedClinic/WholeEngine");
+            File.WriteAllText("Docs/Integration/UnifiedClinic/WholeEngine/whole_engine_order.md", sb.ToString(), new System.Text.UTF8Encoding(false));
+            var failed = driver.Records.Where(r => !r.pass).Select(r => r.label + "：" + r.message).ToList();
+            Assert.IsEmpty(failed, string.Join("\n", failed));
+            Assert.IsTrue(flow.RetestPassed, flow.RetestDetail);
+            Assert.AreEqual(EngineMountState.Reconnected, flow.EngineState);
+            var home = flow.EngineHomeWorldPose;
+            Assert.Less(Vector3.Distance(flow.EngineLHinge.position, home.position), .0005f, "Engine is back at its mount.");
+            Assert.AreEqual(800, clinic.State.Cash);
+        }
+
         [UnityTest]
         public IEnumerator CheckpointContinue_SharedNight2_NoCustomerSessionOrDualUi()
         {

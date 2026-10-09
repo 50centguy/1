@@ -15,7 +15,7 @@ namespace BorderRepair.FirstOrder
     /// 找不到这样的点 = 目标被挡住或不在画面里，记为失败，不会绕过镜头直接调用。
     /// 同时穿插“应该被拒绝”的操作，核对拒绝原因、并确认被拒绝的操作不改变任何零件状态。
     /// </summary>
-    public class FirstOrderAcceptanceDriver
+    public partial class FirstOrderAcceptanceDriver
     {
         public class Record
         {
@@ -226,6 +226,7 @@ namespace BorderRepair.FirstOrder
                          B = FirstOrderCameraRig.Bench, O = FirstOrderCameraRig.Overview, ER = FirstOrderCameraRig.EngineR,
                          REC = FirstOrderCameraRig.Record, CMP = FirstOrderCameraRig.Compare, CL = FirstOrderCameraRig.EngineClose;
 
+            if (flow.WholeEngineMode) { yield return RunWholeEngineOrder(); yield break; }   // 整引擎维修（统一诊所第二晚）
             if (!resumeAtInspection)
             {
                 yield return Click("拒绝：通电悬停时碰左上盖", E, flow.Cover, false, "供电");

@@ -552,7 +552,7 @@ namespace BorderRepair.TwoNight.Tests
         }
 
         [UnityTest]
-        public IEnumerator Night2_WalkBehindRobot_ActualCrosshairClickReleasesRearLatch()
+        public IEnumerator Night2_WalkBehindRobot_ActualCrosshairUnplugsEngine_CarryToBench()
         {
             yield return LoadClinic(true);
             var view = UnityEngine.Object.FindFirstObjectByType<SliceView>();
@@ -591,10 +591,31 @@ namespace BorderRepair.TwoNight.Tests
             yield return LeftClick();
             float deadline = Time.realtimeSinceStartup + 10;
             while (flow.Busy && Time.realtimeSinceStartup < deadline) yield return null;
-            Assert.IsFalse(flow.Busy, "Rear-latch operation must finish.");
-            Assert.AreEqual(PartLocation.Released, flow.LatchRear.Location, "Real crosshair click must release the physical rear latch.");
-            Assert.IsTrue(flow.Rig.Walking, "Rear-latch operation must retain walking mode.");
-            Note("Rear latch released");
+            Assert.IsFalse(flow.Busy, "Engine operation must finish.");
+            // 第二晚是整引擎维修：引擎还在七号身上时点它的任何部件都是先拔线松键，锁扣不在七号身上扳
+            Assert.AreEqual(EngineMountState.Unplugged, flow.EngineState, "Real crosshair click on the mounted engine unplugs it: " + flow.Message);
+            Assert.AreEqual(PartLocation.Installed, flow.LatchRear.Location, "Latches are not opened while the engine is on the robot.");
+            Assert.IsTrue(flow.Rig.Walking, "Engine operation must retain walking mode.");
+            Note("Engine unplugged from behind the robot");
+            yield return LeftClick();
+            deadline = Time.realtimeSinceStartup + 10;
+            while (flow.Busy && Time.realtimeSinceStartup < deadline) yield return null;
+            Assert.AreEqual(EngineMountState.InHands, flow.EngineState, "Second real click lifts the whole engine: " + flow.Message);
+
+            // 抱着引擎用 W 走到维修台，准星对准台上落点左键放下
+            grid = new WalkGrid(this);
+            var spot = grid.PickApproach(flow.EngineBenchZone, hit => hit == flow.EngineBenchZone);
+            yield return WalkPath(spot.path, "Carry engine to workbench");
+            walker.LookAt(spot.aim);
+            yield return null;
+            yield return null;
+            Assert.AreEqual(flow.EngineBenchZone, input.Hovered, "Bench spot under the crosshair: " + FirstOrderInput.NameOf(input.Hovered));
+            Assert.IsFalse(input.HoverOutOfReach);
+            yield return LeftClick();
+            deadline = Time.realtimeSinceStartup + 10;
+            while (flow.Busy && Time.realtimeSinceStartup < deadline) yield return null;
+            Assert.AreEqual(EngineMountState.OnBench, flow.EngineState, "Engine placed on the bench: " + flow.Message);
+            Note("Engine carried to the bench with W and real clicks");
         }
 
         // Plan on the current collision world; all execution still goes through W and CharacterController.Move.

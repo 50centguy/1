@@ -51,6 +51,9 @@ namespace BorderRepair.TwoNight
             TwoNightSave.OverrideDirectory = Path.Combine(check.output, "Save");
             check.report = new Report { phase = phase, processId = System.Diagnostics.Process.GetCurrentProcess().Id,
                 startedUtc = DateTime.UtcNow.ToString("O"), checkpoint = TwoNightSave.FilePath, budgetSeconds = phase == 2 ? 300 : 180 };
+            // 没走到写报告就退出时（例如虚拟鼠标点到了界面上的退出按钮），把是谁退出的写下来
+            string quitLog = Path.Combine(check.output, "quit_phase" + phase + ".txt");
+            Application.quitting += () => { if (check.report.finishedUtc == null) File.WriteAllText(quitLog, "退出时还没写报告。调用栈：\n" + Environment.StackTrace); };
             check.StartCoroutine(check.Execute());
         }
 
@@ -201,7 +204,16 @@ namespace BorderRepair.TwoNight
                 yield return null;
                 yield return CheckWalking(clinic);
                 yield return Screenshot("night2_room");
-                var night2Driver = new FirstOrderAcceptanceDriver(clinic.Robot.Flow, input) { VirtualMouse = mouse };
+                string trace = Path.Combine(output, "night2_trace.txt");
+                File.WriteAllText(trace, "");
+                FirstOrderAcceptanceDriver night2Driver = null;
+                IEnumerator Logged(string shot)
+                {
+                    var r = night2Driver.Records.LastOrDefault();
+                    if (r != null) File.AppendAllText(trace, $"#{r.index} {r.label} | {(r.pass ? "通过" : "失败")} | {r.stepAfter} | {r.message} {r.screenPoint}\n");
+                    yield break;
+                }
+                night2Driver = new FirstOrderAcceptanceDriver(clinic.Robot.Flow, input, Logged) { VirtualMouse = mouse, Trace = line => File.AppendAllText(trace, line + "\n") };
                 yield return night2Driver.RunFullOrder(resumeAtInspection: true);
                 report.mouseClicks = night2Driver.Records.Count(r => !string.IsNullOrEmpty(r.screenPoint));
                 report.retestPassed = clinic.Robot.Flow.RetestPassed;
