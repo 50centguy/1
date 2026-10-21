@@ -24,14 +24,23 @@ MonoBehaviour:
     displayName: "\u5929\u7EBF\u6A21\u5757"
     finding: "\u5929\u7EBF\u6839\u90E8\u65AD\u88C2\uFF0C\u5185\u90E8\u9988\u7EBF\u5916\u9732\u3002\u5929\u7EBF\u6A21\u5757\u662F\u6807\u51C6\u53EF\u66F4\u6362\u4EF6\u3002"
     requiredForDiagnosis: 1
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
   - pointId: battery
     displayName: "\u7535\u6C60\u4ED3"
     finding: "\u7535\u6C60\u7535\u538B 3.9V\uFF0C\u89E6\u70B9\u5E72\u51C0\uFF0C\u6B63\u5E38\u3002"
     requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
   - pointId: screen
     displayName: "\u663E\u793A\u5C4F"
     finding: "\u663E\u793A\u6B63\u5E38\uFF0C\u65E0\u574F\u70B9\uFF0C\u6392\u7EBF\u7262\u56FA\u3002"
     requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
   diagnosisOptions:
   - optionId: battery_aging
     label: "\u7535\u6C60\u8001\u5316\uFF0C\u5BFC\u81F4\u4F9B\u7535\u4E0D\u8DB3"
@@ -64,3 +73,7 @@ MonoBehaviour:
     reason: "\u7269\u54C1\u6765\u6E90\u6B63\u5E38\uFF0C\u6545\u969C\u660E\u786E\uFF0C\u4FEE\u8D77\u6765\u4E5F\u7B80\u5355\uFF0C\u6CA1\u6709\u7406\u7531\u62D2\u4FEE\u3002"
     performsPartReplacement: 0
   replacementPointId: antenna
+  scoring: 0
+  clues: []
+  repairSteps: []
+  endings: []
