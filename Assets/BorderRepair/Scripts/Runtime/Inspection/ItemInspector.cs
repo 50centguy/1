@@ -36,6 +36,8 @@ namespace BorderRepair.Inspection
         public event Action<Vector2> Clicked;
 
         public bool InteractionEnabled { get; set; }
+        /// <summary>清洁等连续工具占用左键时，只允许右键旋转；不会在松开左键时触发扫描。</summary>
+        public bool LeftPointerReserved { get; set; }
         public GameObject CurrentItem { get; private set; }
         public float ItemRadius { get; private set; } = 0.2f;
         public float MinDistance { get; private set; }
@@ -212,7 +214,8 @@ namespace BorderRepair.Inspection
                 return;
             }
 
-            bool startPress = (RepairInput.LeftPressed || RepairInput.RightPressed) && !RepairInput.PointerOverUI;
+            if (LeftPointerReserved && !RepairInput.RightHeld) pressActive = dragging = false;
+            bool startPress = ((!LeftPointerReserved && RepairInput.LeftPressed) || RepairInput.RightPressed) && !RepairInput.PointerOverUI;
             if (startPress)
             {
                 pressActive = true;
@@ -222,7 +225,7 @@ namespace BorderRepair.Inspection
 
             if (pressActive)
             {
-                bool held = RepairInput.LeftHeld || RepairInput.RightHeld;
+                bool held = (!LeftPointerReserved && RepairInput.LeftHeld) || RepairInput.RightHeld;
                 if (held)
                 {
                     if (!dragging && (RepairInput.PointerPosition - pressPosition).magnitude > dragThresholdPixels)
@@ -232,7 +235,7 @@ namespace BorderRepair.Inspection
                 }
                 else
                 {
-                    if (!dragging && RepairInput.LeftReleased) Clicked?.Invoke(RepairInput.PointerPosition);
+                    if (!LeftPointerReserved && !dragging && RepairInput.LeftReleased) Clicked?.Invoke(RepairInput.PointerPosition);
                     pressActive = dragging = false;
                 }
             }

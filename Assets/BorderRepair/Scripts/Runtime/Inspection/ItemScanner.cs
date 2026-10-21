@@ -21,6 +21,7 @@ namespace BorderRepair.Inspection
 
         public bool ScanModeActive { get; private set; }
         public bool ScanAllowed { get; set; }
+        public bool InteractionSuppressed { get; set; }
         public InspectionPoint Hovered { get; private set; }
 
         bool showScannedTint = true;
@@ -76,7 +77,7 @@ namespace BorderRepair.Inspection
 
         void Update()
         {
-            if (!ScanAllowed || !ScanModeActive || RepairInput.PointerOverUI)
+            if (InteractionSuppressed || !ScanAllowed || !ScanModeActive || RepairInput.PointerOverUI)
             {
                 SetHover(null);
                 return;
@@ -87,7 +88,7 @@ namespace BorderRepair.Inspection
 
         void OnInspectorClicked(Vector2 screenPosition)
         {
-            if (!ScanAllowed) return;
+            if (InteractionSuppressed || !ScanAllowed) return;
             Raycast(screenPosition, out var point, out bool hitItem);
             if (!ScanModeActive)
             {

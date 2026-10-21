@@ -1,7 +1,7 @@
 {
     "name": "BorderRepair.Art.UnifiedClinic.Editor",
     "rootNamespace": "BorderRepair.Art.UnifiedClinic.EditorTools",
-    "references": ["BorderRepair.TwoNight.Editor", "BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "BorderRepair.Runtime", "Unity.RenderPipelines.Core.Runtime", "Unity.RenderPipelines.Universal.Runtime"],
+    "references": ["BorderRepair.Art.UnifiedClinic.Runtime", "BorderRepair.TwoNight.Editor", "BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "BorderRepair.Runtime", "Unity.Collections", "Unity.RenderPipelines.Core.Runtime", "Unity.RenderPipelines.Universal.Runtime"],
     "includePlatforms": ["Editor"],
     "autoReferenced": true
 }
