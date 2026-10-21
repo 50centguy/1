@@ -1,0 +1,217 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8513712a02de36409a8e6a9ce009e75, type: 3}
+  m_Name: Power_Case
+  m_EditorClassIdentifier: 
+  caseId: repair-prop-power
+  itemName: "\u7EF4\u4FEE\u7535\u6E90"
+  itemPrefab: {fileID: 5464998284598122173, guid: 4c97e10ad4442da48bbd38d739263c96, type: 3}
+  customerName: "\u8857\u533A\u7167\u62A4\u7AD9"
+  customerStatement: "\u660E\u660E\u8FD8\u6709\u7535\uFF0C\u4E00\u63A5\u8D1F\u8F7D\u5C31\u4E2D\u65AD\uFF0C\u4E4B\u524D\u6362\u7535\u6C60\u4E5F\u6CA1\u7528\u3002"
+  intakeNote: "\u4FDD\u7559\u539F\u6709\u6838\u5FC3\u3001\u5BC6\u5C01\u90E8\u4EF6\u548C\u5916\u89C2\u78E8\u635F\u3002\u4EC5\u4F5C\u53EA\u8BFB\u9A8C\u8BC1\uFF0C\u4E0D\u64AD\u653E\u79C1\u4EBA\u5F55\u97F3\uFF0C\u4E0D\u590D\u5236\u3001\u683C\u5F0F\u5316\u6216\u66F4\u6362\u539F\u6838\u5FC3\u3002"
+  inspectionPoints:
+  - pointId: PS_PowerUnit
+    displayName: "\u7EF4\u4FEE\u7535\u6E90"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_LeftServiceCover
+    displayName: "\u7EF4\u4FEE\u4FA7\u76D6"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002\n\u76D6\u677F\u6682\u5B58\u5728\u96F6\u4EF6\u680F\uFF0C\u88C5\u56DE\u65F6\u6062\u590D\u539F\u5B89\u88C5\u4F4D\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_CoverScrew_01
+    displayName: "\u76D6\u677F\u87BA\u948901"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_CoverScrew_02
+    displayName: "\u76D6\u677F\u87BA\u948902"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_CoverScrew_03
+    displayName: "\u76D6\u677F\u87BA\u948903"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_CoverScrew_04
+    displayName: "\u76D6\u677F\u87BA\u948904"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_SealedBatteryCassette
+    displayName: "\u539F\u5BC6\u5C01\u7535\u6C60\u76D2"
+    finding: "\u539F\u6709\u4FDD\u7559\u90E8\u4EF6\uFF0C\u4EC5\u4F9B\u68C0\u67E5\uFF0C\u4E0D\u62C6\u6362\uFF0C\u4E0D\u8BFB\u53D6\u79C1\u4EBA\u5185\u5BB9\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_FrontElectronics
+    displayName: "\u524D\u90E8\u63A7\u5236\u4E0E\u63A5\u53E3\u677F"
+    finding: "\u539F\u6709\u4FDD\u7559\u90E8\u4EF6\uFF0C\u4EC5\u4F9B\u68C0\u67E5\uFF0C\u4E0D\u62C6\u6362\uFF0C\u4E0D\u8BFB\u53D6\u79C1\u4EBA\u5185\u5BB9\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_Fan
+    displayName: "\u6563\u70ED\u98CE\u6247"
+    finding: "\u539F\u6709\u4FDD\u7559\u90E8\u4EF6\uFF0C\u4EC5\u4F9B\u68C0\u67E5\uFF0C\u4E0D\u62C6\u6362\uFF0C\u4E0D\u8BFB\u53D6\u79C1\u4EBA\u5185\u5BB9\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_BatteryServicePlug
+    displayName: "\u7535\u6C60\u670D\u52A1\u63D2\u5934"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_BatteryLead_Connected
+    displayName: "\u7535\u6C60\u670D\u52A1\u8FDE\u63A5\u7EBF\uFF08\u5DF2\u8FDE\u63A5\uFF09"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_BatteryLead_Isolated
+    displayName: "\u7535\u6C60\u670D\u52A1\u8FDE\u63A5\u7EBF\uFF08\u5DF2\u9694\u79BB\uFF09"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_TrayHarnessPlug
+    displayName: "\u8F93\u51FA\u6258\u76D8\u7EBF\u675F\u63D2\u5934"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002\n\u539F\u578B\u4EC5\u6F14\u793A\u5951\u7EA6\u7ED9\u51FA\u7684\u8131\u5EA7\u4F4D\u79FB\uFF1B\u7EBF\u675F\u5B8C\u6574\u505C\u653E\u8DDD\u79BB\u672A\u77E5\uFF0C\u5C1A\u672A\u9A8C\u8BC1\u78B0\u649E\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_TrayHarness_Connected
+    displayName: "\u8F93\u51FA\u6258\u76D8\u7EBF\u675F\uFF08\u5DF2\u8FDE\u63A5\uFF09"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_TrayHarness_Released
+    displayName: "\u8F93\u51FA\u6258\u76D8\u7EBF\u675F\uFF08\u5DF2\u91CA\u653E\uFF09"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_OutputTray
+    displayName: "\u8F93\u51FA\u6258\u76D8"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_TrayScrew_01
+    displayName: "\u6258\u76D8\u56FA\u5B9A\u87BA\u948901"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_TrayScrew_02
+    displayName: "\u6258\u76D8\u56FA\u5B9A\u87BA\u948902"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_OutputModule_Fault
+    displayName: "\u8F93\u51FA\u6A21\u5757\uFF08\u6545\u969C\u4EF6\uFF09"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_OutputModule_New
+    displayName: "\u8F93\u51FA\u6A21\u5757\uFF08\u66FF\u6362\u4EF6\uFF09"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_ModuleScrew_01
+    displayName: "\u6A21\u5757\u56FA\u5B9A\u87BA\u948901"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  - pointId: PS_ModuleScrew_02
+    displayName: "\u6A21\u5757\u56FA\u5B9A\u87BA\u948902"
+    finding: "\u68C0\u67E5\u90E8\u4EF6\u4E0E\u56FA\u5B9A\u8FDE\u63A5\u72B6\u6001\uFF0C\u529F\u80FD\u6545\u969C\u9700\u901A\u8FC7\u7EF4\u4FEE\u53F0\u6D4B\u8BD5\u786E\u8BA4\u3002"
+    requiredForDiagnosis: 0
+    unlocksClueId: 
+    requiresStepId: 
+    blockedFinding: 
+  diagnosisOptions: []
+  correctDiagnosisId: 
+  diagnosisConfirmedText: 
+  estimatedRepairCost: 130
+  repairCostLimit: 0
+  outcomes: []
+  replacementPointId: 
+  scoring: 1
+  clues:
+  - clueId: flow.verified
+    title: "\u590D\u88C5\u4E0E\u590D\u6D4B\u5DF2\u786E\u8BA4"
+    text: "\u539F\u6709\u6838\u5FC3\u4FDD\u7559\uFF0C\u8FDE\u63A5\u3001\u56FA\u5B9A\u4EF6\u548C\u529F\u80FD\u590D\u6D4B\u5747\u5DF2\u901A\u8FC7\u3002"
+    requiredForDecision: 1
+  repairSteps:
+  - stepId: flow.verified
+    action: 2
+    targetPointId: PS_OutputModule_New
+    label: "\u8BB0\u5F55\u590D\u6D4B\u901A\u8FC7"
+    requiredSteps: []
+    requiredClues:
+    - flow.verified
+    resultState: 3
+    sideEffectPointId: 
+    sideEffectState: 0
+    resultText: 
+    blockedText: "\u8BF7\u5148\u6309\u987A\u5E8F\u5B8C\u6210\u62C6\u88C5\u3001\u590D\u88C5\u4E0E\u5168\u90E8\u590D\u6D4B\u3002"
+    unlocksClueId: flow.verified
+  endings:
+  - endingId: return.repaired
+    label: "\u4EA4\u8FD8\u5DF2\u9A8C\u8BC1\u539F\u4EF6"
+    resultTitle: "\u7EF4\u4FEE\u9A8C\u8BC1\u901A\u8FC7"
+    narrative: "\u539F\u6709\u90E8\u4EF6\u4E0E\u79C1\u4EBA\u6570\u636E\u4FDD\u7559\uFF0C\u590D\u88C5\u548C\u529F\u80FD\u590D\u6D4B\u5168\u90E8\u901A\u8FC7\u3002"
+    costs: []
+    requiredClues:
+    - flow.verified
+  - endingId: hold.verified
+    label: "\u4FDD\u7BA1\u539F\u4EF6\uFF0C\u7B49\u5F85\u9886\u53D6"
+    resultTitle: "\u7B49\u5F85\u9886\u53D6"
+    narrative: "\u5DF2\u9A8C\u8BC1\u7684\u539F\u4EF6\u7559\u5728\u7EF4\u4FEE\u53F0\uFF0C\u7B49\u5F85\u7269\u4E3B\u9886\u53D6\u3002"
+    costs: []
+    requiredClues:
+    - flow.verified

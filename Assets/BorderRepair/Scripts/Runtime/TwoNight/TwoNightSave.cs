@@ -72,6 +72,17 @@ namespace BorderRepair.TwoNight
                 return new SaveLoadResult { status = SaveStatus.Corrupt, message = "存档读不出来（" + e.GetType().Name + "）。" };
             }
             if (s == null) return new SaveLoadResult { status = SaveStatus.Corrupt, message = "存档是空的。" };
+            // JsonUtility materializes an empty nested serializable object even for an absent/null field.
+            // The explicit rules version distinguishes that legacy placeholder from enabled stock tracking.
+            if (s.supplyRulesVersion == 0 && s.supplies != null &&
+                (s.supplies.receipts == null || s.supplies.receipts.Count == 0) &&
+                (s.supplies.reservations == null || s.supplies.reservations.Count == 0)) s.supplies = null;
+            if (s.version == 1 && s.supplies == null && s.supplyRulesVersion == 0)
+            {
+                // Explicit migration: old checkpoints had free prototype parts, never purchased stock.
+                s.legacyFreeSupplies = true;
+                s.version = TwoNightState.CurrentVersion;
+            }
             if (s.version != TwoNightState.CurrentVersion)
                 return new SaveLoadResult { status = SaveStatus.VersionMismatch, message = $"存档版本 {s.version} 与当前版本 {TwoNightState.CurrentVersion} 不一致。" };
             if (!s.communicatorAmountsRecorded)
@@ -104,6 +115,7 @@ namespace BorderRepair.TwoNight
             bool trackedQueue = s.unifiedClinic && s.customerTrades != null && s.customerTrades.Count > 0;
             bool firstReturned = trackedQueue && s.customerTrades[0] != null && s.customerTrades[0].returnedUnpaid;
             int expectedEntries = trackedQueue ? s.customerTrades.FindAll(t => t != null && !t.returnedUnpaid).Count * 2 : 2;
+            if (s.supplies?.receipts != null) expectedEntries += s.supplies.receipts.Count;
             bool firstSettlementInvalid = firstReturned ?
                 income != null || parts != null || s.communicatorIncome != 0 || s.communicatorPartsCost != 0 :
                 income == null || parts == null || income.amount != s.communicatorIncome || parts.amount != -s.communicatorPartsCost ||
@@ -149,6 +161,7 @@ namespace BorderRepair.TwoNight
                     if (i == 0 && trade.caseId != s.communicatorCaseId) p.Add("Communicator trade identity mismatch");
                 }
             }
+            ClinicSupplies.Validate(s, p);
             if (s.rent <= 0 || s.rentDueNight < 2) p.Add("房租数据无效");
             return p;
         }

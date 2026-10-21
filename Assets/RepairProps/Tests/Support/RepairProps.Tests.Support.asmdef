@@ -1,0 +1,6 @@
+{
+  "name": "BorderRepair.RepairProps.Tests.Support",
+  "references": ["BorderRepair.Runtime", "BorderRepair.RepairProps.Runtime"],
+  "autoReferenced": false,
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

@@ -1,0 +1,1337 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cf8987c81021704a8ca68779216999a, type: 3}
+  m_Name: Omamori_Flow
+  m_EditorClassIdentifier: 
+  kind: 3
+  repairCase: {fileID: 11400000, guid: 55c56d155a0255240a42ac0a97bb9e5f, type: 2}
+  rootObjectName: OM_Omamori
+  retainedObjectName: OM_MemoryCore
+  completionStepId: flow.verified
+  completionEndingId: return.repaired
+  initialState:
+  - key: power
+    value: 1
+  - key: fixture
+    value: 1
+  - key: module
+    value: 0
+  - key: seat
+    value: 1
+  - key: old.out
+    value: 0
+  - key: new.out
+    value: 1
+  - key: isolated
+    value: 0
+  - key: released
+    value: 0
+  - key: tray
+    value: 0
+  - key: cover
+    value: 0
+  - key: out.OM_CoverScrew_01
+    value: 0
+  - key: out.OM_CoverScrew_02
+    value: 0
+  - key: out.OM_CoverScrew_03
+    value: 0
+  - key: out.OM_CoverScrew_04
+    value: 0
+  - key: out.OM_WakeScrew_01
+    value: 0
+  - key: out.OM_WakeScrew_02
+    value: 0
+  assembled:
+  - key: out.OM_CoverScrew_01
+    value: 0
+  - key: out.OM_CoverScrew_02
+    value: 0
+  - key: out.OM_CoverScrew_03
+    value: 0
+  - key: out.OM_CoverScrew_04
+    value: 0
+  - key: cover
+    value: 0
+  - key: isolated
+    value: 0
+  - key: released
+    value: 0
+  - key: out.OM_WakeScrew_01
+    value: 0
+  - key: out.OM_WakeScrew_02
+    value: 0
+  - key: seat
+    value: 1
+  nodes:
+  - objectName: OM_Omamori
+    displayName: "\u8D5B\u535A\u5FA1\u5B88"
+    motionNote: 
+    hierarchyPath: OM_Omamori
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: OM_RearCover
+    displayName: "\u5FA1\u5B88\u540E\u76D6"
+    motionNote: "\u76D6\u677F\u6682\u5B58\u5728\u96F6\u4EF6\u680F\uFF0C\u88C5\u56DE\u65F6\u6062\u590D\u539F\u5B89\u88C5\u4F4D\u3002"
+    hierarchyPath: OM_Omamori/OM_RearCover
+    immutable: 0
+    movable: 1
+    outKey: cover
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.03}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: OM_CoverScrew_01
+    displayName: "\u76D6\u677F\u87BA\u948901"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_CoverScrew_01
+    immutable: 0
+    movable: 1
+    outKey: out.OM_CoverScrew_01
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.009}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: OM_CoverScrew_02
+    displayName: "\u76D6\u677F\u87BA\u948902"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_CoverScrew_02
+    immutable: 0
+    movable: 1
+    outKey: out.OM_CoverScrew_02
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.009}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: OM_CoverScrew_03
+    displayName: "\u76D6\u677F\u87BA\u948903"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_CoverScrew_03
+    immutable: 0
+    movable: 1
+    outKey: out.OM_CoverScrew_03
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.009}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: OM_CoverScrew_04
+    displayName: "\u76D6\u677F\u87BA\u948904"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_CoverScrew_04
+    immutable: 0
+    movable: 1
+    outKey: out.OM_CoverScrew_04
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.009}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: OM_MemoryCore
+    displayName: "\u539F\u8BB0\u5FC6\u6838\u5FC3"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_MainBoard/OM_MemoryCore
+    immutable: 1
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_MainBoard
+    displayName: "\u539F\u63A7\u5236\u4E3B\u677F"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_MainBoard
+    immutable: 1
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_Coil
+    displayName: "\u611F\u5E94\u7EBF\u5708"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_Coil
+    immutable: 1
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_PowerCell
+    displayName: "\u5BC6\u5C01\u5FAE\u578B\u4F9B\u7535\u76D2"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_PowerCell
+    immutable: 1
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_PowerPlug
+    displayName: "\u5FAE\u578B\u4F9B\u7535\u63D2\u5934"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_PowerPlug
+    immutable: 0
+    movable: 1
+    outKey: isolated
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.004}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_PowerLead_Connected
+    displayName: "\u5FAE\u578B\u4F9B\u7535\u8FDE\u63A5\u7EBF\uFF08\u5DF2\u8FDE\u63A5\uFF09"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_PowerLead_Connected
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: isolated
+    visibleValue: 0
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_PowerLead_Isolated
+    displayName: "\u5FAE\u578B\u4F9B\u7535\u8FDE\u63A5\u7EBF\uFF08\u5DF2\u9694\u79BB\uFF09"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_PowerLead_Isolated
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: isolated
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_WakePlug
+    displayName: "\u5524\u9192\u6A21\u5757\u63D2\u5934"
+    motionNote: "\u6392\u7EBF\u4E0E\u63D2\u5934\u968F\u6A21\u5757\u79FB\u52A8\u4E3A\u539F\u578B\u8054\u52A8\uFF0C\u5C1A\u672A\u9A8C\u8BC1\u8F6F\u7EBF\u626B\u63A0\u4E0E\u78B0\u649E\u3002"
+    hierarchyPath: OM_Omamori/OM_Interior/OM_WakePlug
+    immutable: 0
+    movable: 1
+    outKey: released
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.004}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 1
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_WakeFlex_Connected
+    displayName: "\u5524\u9192\u6A21\u5757\u6392\u7EBF\uFF08\u5DF2\u8FDE\u63A5\uFF09"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_WakeFlex_Connected
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: released
+    visibleValue: 0
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_WakeFlex_Released
+    displayName: "\u5524\u9192\u6A21\u5757\u6392\u7EBF\uFF08\u5DF2\u91CA\u653E\uFF09"
+    motionNote: "\u6392\u7EBF\u4E0E\u63D2\u5934\u968F\u6A21\u5757\u79FB\u52A8\u4E3A\u539F\u578B\u8054\u52A8\uFF0C\u5C1A\u672A\u9A8C\u8BC1\u8F6F\u7EBF\u626B\u63A0\u4E0E\u78B0\u649E\u3002"
+    hierarchyPath: OM_Omamori/OM_Interior/OM_WakeFlex_Released
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 1
+    visibleKey: released
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_WakeModule_Fault
+    displayName: "\u5524\u9192\u6309\u952E\u6A21\u5757\uFF08\u6545\u969C\u4EF6\uFF09"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_WakeModule_Fault
+    immutable: 0
+    movable: 1
+    outKey: old.out
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.022}
+    inventoryOnly: 0
+    hideWhenKey: new.out
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_WakeModule_New
+    displayName: "\u5524\u9192\u6309\u952E\u6A21\u5757\uFF08\u66FF\u6362\u4EF6\uFF09"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_WakeModule_New
+    immutable: 0
+    movable: 1
+    outKey: new.out
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.022}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_WakeScrew_01
+    displayName: "\u6A21\u5757\u56FA\u5B9A\u87BA\u948901"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_WakeScrew_01
+    immutable: 0
+    movable: 1
+    outKey: out.OM_WakeScrew_01
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.005}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: OM_WakeScrew_02
+    displayName: "\u6A21\u5757\u56FA\u5B9A\u87BA\u948902"
+    motionNote: 
+    hierarchyPath: OM_Omamori/OM_Interior/OM_WakeScrew_02
+    immutable: 0
+    movable: 1
+    outKey: out.OM_WakeScrew_02
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.005}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  commands:
+  - id: cover.remove
+    label: "\u53D6\u4E0B\u7EF4\u4FEE\u76D6\u677F"
+    target: OM_RearCover
+    kind: 0
+    tool: 1
+    requires:
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: out.OM_CoverScrew_01
+      value: 1
+    - key: out.OM_CoverScrew_02
+      value: 1
+    - key: out.OM_CoverScrew_03
+      value: 1
+    - key: out.OM_CoverScrew_04
+      value: 1
+    effects:
+    - key: cover
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: cover.install
+    label: "\u76D6\u677F\u5F52\u4F4D"
+    target: OM_RearCover
+    kind: 0
+    tool: 1
+    requires:
+    - key: cover
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: out.OM_CoverScrew_01
+      value: 1
+    - key: out.OM_CoverScrew_02
+      value: 1
+    - key: out.OM_CoverScrew_03
+      value: 1
+    - key: out.OM_CoverScrew_04
+      value: 1
+    - key: out.OM_WakeScrew_01
+      value: 0
+    - key: out.OM_WakeScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    - key: released
+      value: 0
+    - key: isolated
+      value: 0
+    - key: tray
+      value: 0
+    effects:
+    - key: cover
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.OM_CoverScrew_01
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94891"
+    target: OM_CoverScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_CoverScrew_01
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    effects:
+    - key: out.OM_CoverScrew_01
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.OM_CoverScrew_01
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94891"
+    target: OM_CoverScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_CoverScrew_01
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    effects:
+    - key: out.OM_CoverScrew_01
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.OM_CoverScrew_02
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94892"
+    target: OM_CoverScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_CoverScrew_02
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    effects:
+    - key: out.OM_CoverScrew_02
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.OM_CoverScrew_02
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94892"
+    target: OM_CoverScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_CoverScrew_02
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    effects:
+    - key: out.OM_CoverScrew_02
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.OM_CoverScrew_03
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94893"
+    target: OM_CoverScrew_03
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_CoverScrew_03
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    effects:
+    - key: out.OM_CoverScrew_03
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.OM_CoverScrew_03
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94893"
+    target: OM_CoverScrew_03
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_CoverScrew_03
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    effects:
+    - key: out.OM_CoverScrew_03
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.OM_CoverScrew_04
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94894"
+    target: OM_CoverScrew_04
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    effects:
+    - key: out.OM_CoverScrew_04
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.OM_CoverScrew_04
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94894"
+    target: OM_CoverScrew_04
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_CoverScrew_04
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    effects:
+    - key: out.OM_CoverScrew_04
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: isolate
+    label: "\u63E1\u4F4F\u63D2\u5934\u5E76\u65AD\u5F00\u5185\u90E8\u4F9B\u7535"
+    target: OM_PowerPlug
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    effects:
+    - key: isolated
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: supply.connect
+    label: "\u63A5\u56DE\u5185\u90E8\u4F9B\u7535"
+    target: OM_PowerPlug
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: out.OM_WakeScrew_01
+      value: 0
+    - key: out.OM_WakeScrew_02
+      value: 0
+    - key: released
+      value: 0
+    - key: seat
+      value: 1
+    - key: tray
+      value: 0
+    effects:
+    - key: isolated
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: harness.release
+    label: "\u91CA\u653E\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
+    target: OM_WakePlug
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: released
+      value: 0
+    - key: tray
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: isolated
+      value: 1
+    effects:
+    - key: released
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: harness.connect
+    label: "\u63D2\u56DE\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
+    target: OM_WakePlug
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: isolated
+      value: 1
+    - key: out.OM_WakeScrew_01
+      value: 0
+    - key: out.OM_WakeScrew_02
+      value: 0
+    effects:
+    - key: released
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.OM_WakeScrew_01
+    label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
+    target: OM_WakeScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_WakeScrew_01
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.OM_WakeScrew_01
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.OM_WakeScrew_01
+    label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
+    target: OM_WakeScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_WakeScrew_01
+      value: 1
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.OM_WakeScrew_01
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.OM_WakeScrew_02
+    label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
+    target: OM_WakeScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_WakeScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.OM_WakeScrew_02
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.OM_WakeScrew_02
+    label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
+    target: OM_WakeScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.OM_WakeScrew_02
+      value: 1
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.OM_WakeScrew_02
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.remove.old
+    label: "\u53D6\u4E0B\u6545\u969C\u6A21\u5757"
+    target: OM_WakeModule_Fault
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 0
+    - key: seat
+      value: 1
+    - key: old.out
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    - key: out.OM_WakeScrew_01
+      value: 1
+    - key: out.OM_WakeScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 0
+    - key: module
+      value: 1
+    - key: old.out
+      value: 1
+    - key: last.module
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.install.old
+    label: "\u88C5\u56DE\u539F\u6545\u969C\u6A21\u5757"
+    target: OM_WakeModule_Fault
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 1
+    - key: seat
+      value: 0
+    - key: old.out
+      value: 1
+    - key: new.out
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    - key: out.OM_WakeScrew_01
+      value: 1
+    - key: out.OM_WakeScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 1
+    - key: module
+      value: 0
+    - key: old.out
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.remove.new
+    label: "\u53D6\u4E0B\u66FF\u6362\u6A21\u5757"
+    target: OM_WakeModule_New
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 2
+    - key: seat
+      value: 1
+    - key: new.out
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    - key: out.OM_WakeScrew_01
+      value: 1
+    - key: out.OM_WakeScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 0
+    - key: module
+      value: 1
+    - key: new.out
+      value: 1
+    - key: last.module
+      value: 2
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.install.new
+    label: "\u5B89\u88C5\u66FF\u6362\u6A21\u5757"
+    target: OM_WakeModule_New
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 1
+    - key: seat
+      value: 0
+    - key: old.out
+      value: 1
+    - key: new.out
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    - key: out.OM_WakeScrew_01
+      value: 1
+    - key: out.OM_WakeScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 1
+    - key: module
+      value: 2
+    - key: new.out
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: power.off
+    label: "\u5173\u673A\uFF0F\u505C\u6B62\u8F93\u51FA"
+    target: OM_Omamori
+    kind: 1
+    tool: 1
+    requires:
+    - key: power
+      value: 1
+    effects:
+    - key: power
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: fixture.disconnect
+    label: "\u89E3\u9664\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
+    target: OM_Omamori
+    kind: 2
+    tool: 2
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 1
+    effects:
+    - key: fixture
+      value: 0
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: fixture.connect
+    label: "\u63A5\u5165\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
+    target: OM_Omamori
+    kind: 2
+    tool: 2
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: out.OM_CoverScrew_01
+      value: 0
+    - key: out.OM_CoverScrew_02
+      value: 0
+    - key: out.OM_CoverScrew_03
+      value: 0
+    - key: out.OM_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: isolated
+      value: 0
+    - key: released
+      value: 0
+    - key: out.OM_WakeScrew_01
+      value: 0
+    - key: out.OM_WakeScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    effects:
+    - key: fixture
+      value: 1
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: power.on
+    label: "\u5F00\u542F\u6D4B\u8BD5\u4F9B\u7535"
+    target: OM_Omamori
+    kind: 1
+    tool: 1
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 1
+    - key: out.OM_CoverScrew_01
+      value: 0
+    - key: out.OM_CoverScrew_02
+      value: 0
+    - key: out.OM_CoverScrew_03
+      value: 0
+    - key: out.OM_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: isolated
+      value: 0
+    - key: released
+      value: 0
+    - key: out.OM_WakeScrew_01
+      value: 0
+    - key: out.OM_WakeScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    effects:
+    - key: power
+      value: 1
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: test.identity
+    label: "\u53EA\u8BFB\u6838\u5BF9\u8EAB\u4EFD\u4E0E\u8BB0\u5FC6\u6761\u76EE\u4E00\u81F4\u6027"
+    target: OM_Omamori
+    kind: 3
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: identity
+    coreStepId: 
+  - id: test.wake
+    label: "\u5524\u9192\u6309\u952E\u54CD\u5E94\u6D4B\u8BD5"
+    target: OM_Omamori
+    kind: 3
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: wake
+    coreStepId: 
+  - id: complete
+    label: "\u786E\u8BA4\u590D\u88C5\u590D\u6D4B\u5E76\u4EA4\u4ED8\u539F\u4EF6"
+    target: OM_Omamori
+    kind: 5
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    - key: module
+      value: 2
+    - key: diagnosed.identity
+      value: 1
+    - key: diagnosed.wake
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  tests:
+  - id: identity
+    label: "\u53EA\u8BFB\u6838\u5BF9\u8EAB\u4EFD\u4E0E\u8BB0\u5FC6\u6761\u76EE\u4E00\u81F4\u6027"
+    faultFinding: "\u539F\u8EAB\u4EFD\u4E0D\u4E00\u81F4\uFF0C\u8BF7\u4FDD\u7559\u539F\u8BB0\u5FC6\u6838\u5FC3\u3002"
+    passFinding: "\u539F\u8EAB\u4EFD\u4E0E\u8BB0\u5FC6\u6761\u76EE\u4E00\u81F4\uFF0C\u5F55\u97F3\u5185\u5BB9\u4FDD\u6301\u79C1\u5BC6\u3002"
+    functional: 0
+    checksRetainedIdentity: 1
+    consecutivePasses: 1
+  - id: wake
+    label: "\u5524\u9192\u6309\u952E\u54CD\u5E94\u6D4B\u8BD5"
+    faultFinding: "\u5524\u9192\u8109\u51B2\u4E2D\u65AD\uFF0C\u539F\u8EAB\u4EFD\u4ECD\u4FDD\u7559\uFF0C\u8BF7\u68C0\u67E5\u5524\u9192\u6A21\u5757\u7684\u8150\u8680\u75D5\u8FF9\u3002"
+    passFinding: "\u5524\u9192\u54CD\u5E94\u7A33\u5B9A\uFF0C\u672A\u64AD\u653E\u5F55\u97F3\u3002"
+    functional: 1
+    checksRetainedIdentity: 0
+    consecutivePasses: 3

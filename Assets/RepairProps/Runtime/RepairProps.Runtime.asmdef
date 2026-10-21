@@ -1,0 +1,14 @@
+{
+  "name": "BorderRepair.RepairProps.Runtime",
+  "rootNamespace": "BorderRepair.RepairProps",
+  "references": [
+    "BorderRepair.Runtime",
+    "BorderRepair.TwoNight.Runtime",
+    "BorderRepair.FirstOrder.Runtime",
+    "UnityEngine.UI",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.InputSystem"
+  ],
+  "autoReferenced": true
+}

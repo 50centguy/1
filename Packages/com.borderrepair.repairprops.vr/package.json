@@ -1,0 +1,13 @@
+{
+  "name": "com.borderrepair.repairprops.vr",
+  "version": "0.1.0",
+  "displayName": "Border Repair - PC VR Prototype",
+  "description": "Opt-in Quest Link/OpenXR adapter for the existing four-prop clinic. Staged, not headset validated.",
+  "unity": "6000.0",
+  "dependencies": {
+    "com.unity.xr.interaction.toolkit": "3.0.11",
+    "com.unity.xr.openxr": "1.16.1",
+    "com.unity.xr.management": "4.5.4",
+    "com.unity.xr.core-utils": "2.6.0"
+  }
+}

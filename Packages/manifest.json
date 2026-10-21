@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.borderrepair.repairprops.vr": "file:com.borderrepair.repairprops.vr",
     "com.unity.ai.navigation": "2.0.14",
     "com.unity.collab-proxy": "2.13.6",
     "com.unity.ide.rider": "3.0.39",
@@ -43,5 +44,6 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "testables": ["com.borderrepair.repairprops.vr"]
 }

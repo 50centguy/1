@@ -33,9 +33,11 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             var paths = new[] { UnifiedClinicBuilder.ClinicPath, UnifiedClinicBuilder.ClinicPath + ".meta",
                 UnifiedClinicBuilder.MenuPath, UnifiedClinicBuilder.MenuPath + ".meta",
                 "Docs/Integration/UnifiedClinic/gameplay_layout.json", "Logs/UnifiedClinicBaseline.json",
-                "Docs/Integration/UnifiedClinic/ArtImport/clutter_import.json" };
+                "Docs/Integration/UnifiedClinic/ArtImport/clutter_import.json",
+                "Assets/Settings/PC_RPAsset.asset", "Assets/Settings/Mobile_RPAsset.asset" };
             var directories = new[] { "Models", "Textures", "Materials", "Prefabs", "Clutter" }
-                .Select(name => ClinicArtImporter.Root + "/" + name).Append(UnifiedClinicBuilder.SceneDirectory).ToArray();
+                .Select(name => ClinicArtImporter.Root + "/" + name).Append(UnifiedClinicBuilder.SceneDirectory)
+                .Append(ClinicRetroLook.Root).ToArray();
             var existingDirectories = new HashSet<string>(GeneratedDirectories(directories), StringComparer.OrdinalIgnoreCase);
             // Scenes reference imported resources by GUID, so recovery must include their bytes and importer metas.
             var saved = paths.Concat(GeneratedFiles(directories)).Distinct()
@@ -210,6 +212,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             RenderSettings.ambientEquatorColor = new Color(.04f, .05f, .055f);
             RenderSettings.ambientGroundColor = new Color(.025f, .025f, .025f);
             Debug.Log("[UnifiedClinic] " + ClinicLookTuning.Apply(scene));
+            ClinicRetroLook.Apply(scene);
             var markerRoot = new GameObject("UnifiedClinic_RuntimeLayout_20261008");
             SceneManager.MoveGameObjectToScene(markerRoot, scene);
             EditorSceneManager.MarkSceneDirty(scene);

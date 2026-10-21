@@ -1,0 +1,10 @@
+{
+  "name": "BorderRepair.RepairProps.Cosmetics.Tests.EditMode",
+  "rootNamespace": "BorderRepair.RepairProps.Cosmetics.Tests",
+  "references": ["BorderRepair.RepairProps.Cosmetics", "BorderRepair.RepairProps.Runtime", "BorderRepair.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner"],
+  "includePlatforms": ["Editor"],
+  "overrideReferences": true,
+  "precompiledReferences": ["nunit.framework.dll"],
+  "autoReferenced": false,
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

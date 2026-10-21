@@ -1,6 +1,6 @@
 {
     "name": "BorderRepair.Art.UnifiedClinic.Tests",
-    "references": ["BorderRepair.Art.UnifiedClinic.Editor", "BorderRepair.TwoNight.Editor", "UnityEngine.TestRunner", "UnityEditor.TestRunner"],
+    "references": ["BorderRepair.Art.UnifiedClinic.Editor", "BorderRepair.Art.UnifiedClinic.Runtime", "BorderRepair.TwoNight.Editor", "Unity.RenderPipelines.Core.Runtime", "Unity.RenderPipelines.Universal.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner"],
     "includePlatforms": ["Editor"],
     "overrideReferences": true,
     "precompiledReferences": ["nunit.framework.dll"],

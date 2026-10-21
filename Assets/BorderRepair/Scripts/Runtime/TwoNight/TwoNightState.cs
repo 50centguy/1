@@ -56,7 +56,7 @@ namespace BorderRepair.TwoNight
     [Serializable]
     public class TwoNightState
     {
-        public const int CurrentVersion = 1;
+        public const int CurrentVersion = 2;
 
         public int version = CurrentVersion;
         public int night;
@@ -65,6 +65,9 @@ namespace BorderRepair.TwoNight
         public int rent;
         public int rentDueNight;
         public List<TwoNightTransaction> transactions = new List<TwoNightTransaction>();
+        public int supplyRulesVersion;
+        public bool legacyFreeSupplies;
+        public ClinicSupplyState supplies;
 
         public bool communicatorSettled;
         public string communicatorCaseId;

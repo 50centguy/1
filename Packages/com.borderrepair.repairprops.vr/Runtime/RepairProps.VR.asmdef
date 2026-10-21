@@ -1,0 +1,5 @@
+{
+  "name": "BorderRepair.RepairProps.VR",
+  "references": ["BorderRepair.Runtime", "BorderRepair.FirstOrder.Runtime", "BorderRepair.TwoNight.Runtime", "BorderRepair.RepairProps.Runtime", "BorderRepair.RepairProps.Cosmetics", "Unity.XR.Interaction.Toolkit", "Unity.XR.CoreUtils", "Unity.XR.Management", "Unity.InputSystem", "UnityEngine.UI"],
+  "autoReferenced": true
+}

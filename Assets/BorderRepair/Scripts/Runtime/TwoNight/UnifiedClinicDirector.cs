@@ -13,6 +13,9 @@ namespace BorderRepair.TwoNight
     [DefaultExecutionOrder(-500)]
     public class UnifiedClinicDirector : MonoBehaviour
     {
+        /// <summary>第一晚收藏家通讯器（TwoNightBuilder 生成的案例），只有它按通讯器合同记收入和耗材。</summary>
+        public const string CollectorCaseId = "case_n1_collector_communicator";
+
         [SerializeField] RepairStationController station;
         [SerializeField] GameObject consoleSetup;
         [SerializeField] TwoNightCounterDirector counter;
@@ -184,9 +187,11 @@ namespace BorderRepair.TwoNight
                         CacheItemPose();
                     }
                     var data = station.Session.CurrentCase;
-                    // Only the collector has a parts-cost contract. Other authored cases use their existing fee.
-                    int income = station.Session.CaseIndex == 0 ? State.communicatorIncome : data.estimatedRepairCost;
-                    int partsCost = station.Session.CaseIndex == 0 ? State.communicatorPartsCost : 0;
+                    // Only the collector has a parts-cost contract. Other authored cases use their existing fee,
+                    // even in the first slot (e.g. the opt-in repair-props shift).
+                    bool collectorContract = station.Session.CaseIndex == 0 && data.caseId == CollectorCaseId;
+                    int income = collectorContract ? State.communicatorIncome : data.estimatedRepairCost;
+                    int partsCost = collectorContract ? State.communicatorPartsCost : 0;
                     if (!TwoNightRun.ReceiveCustomer(State, data.caseId, station.Session.CaseIndex, income, partsCost))
                         return Refuse("当前物品仍在处理中，不能再接收。");
                     RestoreItem();
@@ -332,7 +337,9 @@ namespace BorderRepair.TwoNight
             if (item == null || item.transform.parent != station.Inspector.ItemAnchor) return;
             var renderers = item.GetComponentsInChildren<Renderer>().Where(r => r.enabled && r.gameObject.activeInHierarchy).ToArray();
             if (renderers.Length == 0) return;
-            float delta = benchTopY + 0.0005f - renderers.Min(r => r.bounds.min.y);
+            float bottom;
+            if (!station.Inspector.TryGetStableSupportBottom(out bottom)) bottom = renderers.Min(r => r.bounds.min.y);
+            float delta = benchTopY + 0.0005f - bottom;
             if (Mathf.Abs(delta) > 1e-4f) inspectionStage.position += Vector3.up * delta;
         }
 
@@ -452,6 +459,8 @@ namespace BorderRepair.TwoNight
                 if (!hit.collider.isTrigger) break;
             }
         }
+
+        public void RefreshEconomyStatus() => RefreshStatus();
 
         void RefreshStatus()
         {

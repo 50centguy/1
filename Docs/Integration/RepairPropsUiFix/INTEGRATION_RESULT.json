@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-18",
+  "project": "D:/uetounity/UnityProjects/BorderRepairStation_repairprops",
+  "status": "installed_native_pointer_and_regression_verified",
+  "runtimeFiles": ["Assets/RepairProps/Runtime/RepairPropStationBridge.cs", "Assets/RepairProps/Runtime/RepairPropContextPanel.cs"],
+  "editMode": {"total": 54, "passed": 54, "failed": 0, "skipped": 0},
+  "playMode": {"total": 21, "passed": 21, "failed": 0, "skipped": 0},
+  "newPointerUiTests": 4,
+  "actualGameViewResolutions": [[1280,720],[1920,1080]],
+  "sourceScenesAndBuildListUnchanged": true,
+  "mainProjectChanged": false,
+  "playerBuildVerified": false,
+  "physicalHeadsetVerified": false,
+  "humanPlayAcceptance": "pending",
+  "residual": "Full PlayMode log includes XR ProjectValidation editor-window exceptions after test-results output during input-settings teardown; not repaired XR package code and not a claim of an error-free editor log.",
+  "evidence": {"edit": "Evidence/edit-final.xml", "play": "Evidence/play-final.xml", "screenshots": "Evidence/*-actual-1280x720.png and *-actual-1920x1080.png"}
+}

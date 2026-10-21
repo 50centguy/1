@@ -1,0 +1,8 @@
+{
+  "name": "BorderRepair.RepairProps.VR.PlayMode",
+  "references": ["BorderRepair.RepairProps.VR", "BorderRepair.RepairProps.Runtime", "BorderRepair.RepairProps.Cosmetics", "BorderRepair.Runtime", "BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "Unity.XR.CoreUtils", "Unity.XR.Interaction.Toolkit", "Unity.InputSystem", "UnityEngine.TestRunner", "UnityEditor.TestRunner"],
+  "overrideReferences": true,
+  "precompiledReferences": ["nunit.framework.dll"],
+  "autoReferenced": false,
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

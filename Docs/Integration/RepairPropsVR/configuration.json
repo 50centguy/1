@@ -1,0 +1,24 @@
+{
+    "utc": "2026-10-18T05:40:31.7141768Z",
+    "scene": "Assets/RepairPropsVR/Scenes/RepairProps_Clinic_VR.unity",
+    "automaticXRStartup": false,
+    "openXRLoader": true,
+    "touchProfile": true,
+    "rigPresent": true,
+    "missingScripts": 0,
+    "requiredIssues": [],
+    "advisoryIssues": [
+        "[Optional] Switch to use InputSystem.XR.PoseControl instead of OpenXR.Input.PoseControl, which will be deprecated in a future release.",
+        "[Optional] Switch to use StickControl thumbsticks instead of Vector2Control, but may break existing projects that have code dependencies to the Vector2Control type. StickControl allows more input options for thumbstick-based control, such as acting as both a combined 2D vector, two independent axes or a four-way Dpad with 4 independent buttons."
+    ],
+    "buildScenePaths": [
+        "Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic_Menu.unity",
+        "Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity",
+        "Assets/BorderRepair/Scenes/Slice/TwoNight_Menu.unity",
+        "Assets/BorderRepair/Scenes/Slice/Night1_Counter.unity",
+        "Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity",
+        "Assets/BorderRepair/FirstOrder/Scenes/Slice/TwoNightSlice.unity",
+        "Assets/BorderRepair/Scenes/RepairStation_Prototype.unity"
+    ],
+    "scope": "Actual editor settings and serialized scene check; not a headset, optical, input-device, comfort or performance acceptance."
+}

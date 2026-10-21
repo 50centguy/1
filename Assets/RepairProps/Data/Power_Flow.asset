@@ -1,0 +1,1601 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cf8987c81021704a8ca68779216999a, type: 3}
+  m_Name: Power_Flow
+  m_EditorClassIdentifier: 
+  kind: 2
+  repairCase: {fileID: 11400000, guid: 65c1f056edeccca4ea5657ee78495f86, type: 2}
+  rootObjectName: PS_PowerUnit
+  retainedObjectName: PS_SealedBatteryCassette
+  completionStepId: flow.verified
+  completionEndingId: return.repaired
+  initialState:
+  - key: power
+    value: 1
+  - key: fixture
+    value: 1
+  - key: module
+    value: 0
+  - key: seat
+    value: 1
+  - key: old.out
+    value: 0
+  - key: new.out
+    value: 1
+  - key: isolated
+    value: 0
+  - key: released
+    value: 0
+  - key: tray
+    value: 0
+  - key: cover
+    value: 0
+  - key: out.PS_CoverScrew_01
+    value: 0
+  - key: out.PS_CoverScrew_02
+    value: 0
+  - key: out.PS_CoverScrew_03
+    value: 0
+  - key: out.PS_CoverScrew_04
+    value: 0
+  - key: out.PS_TrayScrew_01
+    value: 0
+  - key: out.PS_TrayScrew_02
+    value: 0
+  - key: out.PS_ModuleScrew_01
+    value: 0
+  - key: out.PS_ModuleScrew_02
+    value: 0
+  assembled:
+  - key: out.PS_CoverScrew_01
+    value: 0
+  - key: out.PS_CoverScrew_02
+    value: 0
+  - key: out.PS_CoverScrew_03
+    value: 0
+  - key: out.PS_CoverScrew_04
+    value: 0
+  - key: cover
+    value: 0
+  - key: isolated
+    value: 0
+  - key: released
+    value: 0
+  - key: out.PS_TrayScrew_01
+    value: 0
+  - key: out.PS_TrayScrew_02
+    value: 0
+  - key: tray
+    value: 0
+  - key: out.PS_ModuleScrew_01
+    value: 0
+  - key: out.PS_ModuleScrew_02
+    value: 0
+  - key: seat
+    value: 1
+  nodes:
+  - objectName: PS_PowerUnit
+    displayName: "\u7EF4\u4FEE\u7535\u6E90"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: PS_LeftServiceCover
+    displayName: "\u7EF4\u4FEE\u4FA7\u76D6"
+    motionNote: "\u76D6\u677F\u6682\u5B58\u5728\u96F6\u4EF6\u680F\uFF0C\u88C5\u56DE\u65F6\u6062\u590D\u539F\u5B89\u88C5\u4F4D\u3002"
+    hierarchyPath: PS_PowerUnit/PS_LeftServiceCover
+    immutable: 0
+    movable: 1
+    outKey: cover
+    outValue: 1
+    parkingOffset: {x: -0.06, y: 0, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: PS_CoverScrew_01
+    displayName: "\u76D6\u677F\u87BA\u948901"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_CoverScrew_01
+    immutable: 0
+    movable: 1
+    outKey: out.PS_CoverScrew_01
+    outValue: 1
+    parkingOffset: {x: -0.012, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: PS_CoverScrew_02
+    displayName: "\u76D6\u677F\u87BA\u948902"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_CoverScrew_02
+    immutable: 0
+    movable: 1
+    outKey: out.PS_CoverScrew_02
+    outValue: 1
+    parkingOffset: {x: -0.012, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: PS_CoverScrew_03
+    displayName: "\u76D6\u677F\u87BA\u948903"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_CoverScrew_03
+    immutable: 0
+    movable: 1
+    outKey: out.PS_CoverScrew_03
+    outValue: 1
+    parkingOffset: {x: -0.012, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: PS_CoverScrew_04
+    displayName: "\u76D6\u677F\u87BA\u948904"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_CoverScrew_04
+    immutable: 0
+    movable: 1
+    outKey: out.PS_CoverScrew_04
+    outValue: 1
+    parkingOffset: {x: -0.012, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: PS_SealedBatteryCassette
+    displayName: "\u539F\u5BC6\u5C01\u7535\u6C60\u76D2"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_SealedBatteryCassette
+    immutable: 1
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_FrontElectronics
+    displayName: "\u524D\u90E8\u63A7\u5236\u4E0E\u63A5\u53E3\u677F"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_FrontElectronics
+    immutable: 1
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_Fan
+    displayName: "\u6563\u70ED\u98CE\u6247"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_Fan
+    immutable: 1
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_BatteryServicePlug
+    displayName: "\u7535\u6C60\u670D\u52A1\u63D2\u5934"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_BatteryServicePlug
+    immutable: 0
+    movable: 1
+    outKey: isolated
+    outValue: 1
+    parkingOffset: {x: -0.015, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_BatteryLead_Connected
+    displayName: "\u7535\u6C60\u670D\u52A1\u8FDE\u63A5\u7EBF\uFF08\u5DF2\u8FDE\u63A5\uFF09"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_BatteryLead_Connected
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: isolated
+    visibleValue: 0
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_BatteryLead_Isolated
+    displayName: "\u7535\u6C60\u670D\u52A1\u8FDE\u63A5\u7EBF\uFF08\u5DF2\u9694\u79BB\uFF09"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_BatteryLead_Isolated
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: isolated
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_TrayHarnessPlug
+    displayName: "\u8F93\u51FA\u6258\u76D8\u7EBF\u675F\u63D2\u5934"
+    motionNote: "\u539F\u578B\u4EC5\u6F14\u793A\u5951\u7EA6\u7ED9\u51FA\u7684\u8131\u5EA7\u4F4D\u79FB\uFF1B\u7EBF\u675F\u5B8C\u6574\u505C\u653E\u8DDD\u79BB\u672A\u77E5\uFF0C\u5C1A\u672A\u9A8C\u8BC1\u78B0\u649E\u3002"
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_TrayHarnessPlug
+    immutable: 0
+    movable: 1
+    outKey: released
+    outValue: 1
+    parkingOffset: {x: -0.01, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_TrayHarness_Connected
+    displayName: "\u8F93\u51FA\u6258\u76D8\u7EBF\u675F\uFF08\u5DF2\u8FDE\u63A5\uFF09"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_TrayHarness_Connected
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: released
+    visibleValue: 0
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_TrayHarness_Released
+    displayName: "\u8F93\u51FA\u6258\u76D8\u7EBF\u675F\uFF08\u5DF2\u91CA\u653E\uFF09"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_TrayHarness_Released
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: released
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_OutputTray
+    displayName: "\u8F93\u51FA\u6258\u76D8"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_OutputTray
+    immutable: 0
+    movable: 1
+    outKey: tray
+    outValue: 1
+    parkingOffset: {x: -0.2, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_TrayScrew_01
+    displayName: "\u6258\u76D8\u56FA\u5B9A\u87BA\u948901"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_TrayScrew_01
+    immutable: 0
+    movable: 1
+    outKey: out.PS_TrayScrew_01
+    outValue: 1
+    parkingOffset: {x: 0, y: 0.012, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_TrayScrew_02
+    displayName: "\u6258\u76D8\u56FA\u5B9A\u87BA\u948902"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_TrayScrew_02
+    immutable: 0
+    movable: 1
+    outKey: out.PS_TrayScrew_02
+    outValue: 1
+    parkingOffset: {x: 0, y: 0.012, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_OutputModule_Fault
+    displayName: "\u8F93\u51FA\u6A21\u5757\uFF08\u6545\u969C\u4EF6\uFF09"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_OutputTray/PS_OutputModule_Fault
+    immutable: 0
+    movable: 1
+    outKey: old.out
+    outValue: 1
+    parkingOffset: {x: 0, y: 0.04, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: new.out
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_OutputModule_New
+    displayName: "\u8F93\u51FA\u6A21\u5757\uFF08\u66FF\u6362\u4EF6\uFF09"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_OutputTray/PS_OutputModule_New
+    immutable: 0
+    movable: 1
+    outKey: new.out
+    outValue: 1
+    parkingOffset: {x: 0, y: 0.04, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_ModuleScrew_01
+    displayName: "\u6A21\u5757\u56FA\u5B9A\u87BA\u948901"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_OutputTray/PS_ModuleScrew_01
+    immutable: 0
+    movable: 1
+    outKey: out.PS_ModuleScrew_01
+    outValue: 1
+    parkingOffset: {x: 0, y: 0.01, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: PS_ModuleScrew_02
+    displayName: "\u6A21\u5757\u56FA\u5B9A\u87BA\u948902"
+    motionNote: 
+    hierarchyPath: PS_PowerUnit/PS_Interior/PS_OutputTray/PS_ModuleScrew_02
+    immutable: 0
+    movable: 1
+    outKey: out.PS_ModuleScrew_02
+    outValue: 1
+    parkingOffset: {x: 0, y: 0.01, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  commands:
+  - id: cover.remove
+    label: "\u53D6\u4E0B\u7EF4\u4FEE\u76D6\u677F"
+    target: PS_LeftServiceCover
+    kind: 0
+    tool: 1
+    requires:
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: out.PS_CoverScrew_01
+      value: 1
+    - key: out.PS_CoverScrew_02
+      value: 1
+    - key: out.PS_CoverScrew_03
+      value: 1
+    - key: out.PS_CoverScrew_04
+      value: 1
+    effects:
+    - key: cover
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: cover.install
+    label: "\u76D6\u677F\u5F52\u4F4D"
+    target: PS_LeftServiceCover
+    kind: 0
+    tool: 1
+    requires:
+    - key: cover
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: out.PS_CoverScrew_01
+      value: 1
+    - key: out.PS_CoverScrew_02
+      value: 1
+    - key: out.PS_CoverScrew_03
+      value: 1
+    - key: out.PS_CoverScrew_04
+      value: 1
+    - key: out.PS_TrayScrew_01
+      value: 0
+    - key: out.PS_TrayScrew_02
+      value: 0
+    - key: out.PS_ModuleScrew_01
+      value: 0
+    - key: out.PS_ModuleScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    - key: released
+      value: 0
+    - key: isolated
+      value: 0
+    - key: tray
+      value: 0
+    effects:
+    - key: cover
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.PS_CoverScrew_01
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94891"
+    target: PS_CoverScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_CoverScrew_01
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_CoverScrew_01
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.PS_CoverScrew_01
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94891"
+    target: PS_CoverScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_CoverScrew_01
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_CoverScrew_01
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.PS_CoverScrew_02
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94892"
+    target: PS_CoverScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_CoverScrew_02
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_CoverScrew_02
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.PS_CoverScrew_02
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94892"
+    target: PS_CoverScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_CoverScrew_02
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_CoverScrew_02
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.PS_CoverScrew_03
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94893"
+    target: PS_CoverScrew_03
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_CoverScrew_03
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_CoverScrew_03
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.PS_CoverScrew_03
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94893"
+    target: PS_CoverScrew_03
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_CoverScrew_03
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_CoverScrew_03
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.PS_CoverScrew_04
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94894"
+    target: PS_CoverScrew_04
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_CoverScrew_04
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.PS_CoverScrew_04
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94894"
+    target: PS_CoverScrew_04
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_CoverScrew_04
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_CoverScrew_04
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: isolate
+    label: "\u63E1\u4F4F\u63D2\u5934\u5E76\u65AD\u5F00\u5185\u90E8\u4F9B\u7535"
+    target: PS_BatteryServicePlug
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: isolated
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: supply.connect
+    label: "\u63A5\u56DE\u5185\u90E8\u4F9B\u7535"
+    target: PS_BatteryServicePlug
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: out.PS_TrayScrew_01
+      value: 0
+    - key: out.PS_TrayScrew_02
+      value: 0
+    - key: out.PS_ModuleScrew_01
+      value: 0
+    - key: out.PS_ModuleScrew_02
+      value: 0
+    - key: released
+      value: 0
+    - key: seat
+      value: 1
+    - key: tray
+      value: 0
+    effects:
+    - key: isolated
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: harness.release
+    label: "\u91CA\u653E\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
+    target: PS_TrayHarnessPlug
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: released
+      value: 0
+    - key: tray
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: isolated
+      value: 1
+    effects:
+    - key: released
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: harness.connect
+    label: "\u63D2\u56DE\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
+    target: PS_TrayHarnessPlug
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: isolated
+      value: 1
+    - key: out.PS_ModuleScrew_01
+      value: 0
+    - key: out.PS_ModuleScrew_02
+      value: 0
+    effects:
+    - key: released
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: tray.remove
+    label: "\u6CBF\u5BFC\u8F68\u62BD\u51FA\u8F93\u51FA\u6258\u76D8"
+    target: PS_OutputTray
+    kind: 0
+    tool: 1
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: out.PS_TrayScrew_01
+      value: 1
+    - key: out.PS_TrayScrew_02
+      value: 1
+    effects:
+    - key: tray
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: tray.install
+    label: "\u8F93\u51FA\u6258\u76D8\u5F52\u4F4D"
+    target: PS_OutputTray
+    kind: 0
+    tool: 1
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 1
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: out.PS_TrayScrew_01
+      value: 1
+    - key: out.PS_TrayScrew_02
+      value: 1
+    - key: out.PS_ModuleScrew_01
+      value: 0
+    - key: out.PS_ModuleScrew_02
+      value: 0
+    effects:
+    - key: tray
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.PS_TrayScrew_01
+    label: "\u5378\u4E0B\u6258\u76D8\u56FA\u5B9A\u87BA\u94891"
+    target: PS_TrayScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: out.PS_TrayScrew_01
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_TrayScrew_01
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.PS_TrayScrew_01
+    label: "\u88C5\u56DE\u6258\u76D8\u56FA\u5B9A\u87BA\u94891"
+    target: PS_TrayScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: out.PS_TrayScrew_01
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_TrayScrew_01
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.PS_TrayScrew_02
+    label: "\u5378\u4E0B\u6258\u76D8\u56FA\u5B9A\u87BA\u94892"
+    target: PS_TrayScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: out.PS_TrayScrew_02
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_TrayScrew_02
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.PS_TrayScrew_02
+    label: "\u88C5\u56DE\u6258\u76D8\u56FA\u5B9A\u87BA\u94892"
+    target: PS_TrayScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: out.PS_TrayScrew_02
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects:
+    - key: out.PS_TrayScrew_02
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.PS_ModuleScrew_01
+    label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
+    target: PS_ModuleScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_ModuleScrew_01
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 1
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.PS_ModuleScrew_01
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.PS_ModuleScrew_01
+    label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
+    target: PS_ModuleScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_ModuleScrew_01
+      value: 1
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 1
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.PS_ModuleScrew_01
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.PS_ModuleScrew_02
+    label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
+    target: PS_ModuleScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_ModuleScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 1
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.PS_ModuleScrew_02
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.PS_ModuleScrew_02
+    label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
+    target: PS_ModuleScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.PS_ModuleScrew_02
+      value: 1
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 1
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.PS_ModuleScrew_02
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.remove.old
+    label: "\u53D6\u4E0B\u6545\u969C\u6A21\u5757"
+    target: PS_OutputModule_Fault
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 0
+    - key: seat
+      value: 1
+    - key: old.out
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 1
+    - key: isolated
+      value: 1
+    - key: out.PS_ModuleScrew_01
+      value: 1
+    - key: out.PS_ModuleScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 0
+    - key: module
+      value: 1
+    - key: old.out
+      value: 1
+    - key: last.module
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.install.old
+    label: "\u88C5\u56DE\u539F\u6545\u969C\u6A21\u5757"
+    target: PS_OutputModule_Fault
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 1
+    - key: seat
+      value: 0
+    - key: old.out
+      value: 1
+    - key: new.out
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 1
+    - key: isolated
+      value: 1
+    - key: out.PS_ModuleScrew_01
+      value: 1
+    - key: out.PS_ModuleScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 1
+    - key: module
+      value: 0
+    - key: old.out
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.remove.new
+    label: "\u53D6\u4E0B\u66FF\u6362\u6A21\u5757"
+    target: PS_OutputModule_New
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 2
+    - key: seat
+      value: 1
+    - key: new.out
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 1
+    - key: isolated
+      value: 1
+    - key: out.PS_ModuleScrew_01
+      value: 1
+    - key: out.PS_ModuleScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 0
+    - key: module
+      value: 1
+    - key: new.out
+      value: 1
+    - key: last.module
+      value: 2
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.install.new
+    label: "\u5B89\u88C5\u66FF\u6362\u6A21\u5757"
+    target: PS_OutputModule_New
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 1
+    - key: seat
+      value: 0
+    - key: old.out
+      value: 1
+    - key: new.out
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 1
+    - key: isolated
+      value: 1
+    - key: out.PS_ModuleScrew_01
+      value: 1
+    - key: out.PS_ModuleScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 1
+    - key: module
+      value: 2
+    - key: new.out
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: power.off
+    label: "\u5173\u673A\uFF0F\u505C\u6B62\u8F93\u51FA"
+    target: PS_PowerUnit
+    kind: 1
+    tool: 1
+    requires:
+    - key: power
+      value: 1
+    effects:
+    - key: power
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: fixture.disconnect
+    label: "\u89E3\u9664\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
+    target: PS_PowerUnit
+    kind: 2
+    tool: 2
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 1
+    effects:
+    - key: fixture
+      value: 0
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: fixture.connect
+    label: "\u63A5\u5165\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
+    target: PS_PowerUnit
+    kind: 2
+    tool: 2
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: out.PS_CoverScrew_01
+      value: 0
+    - key: out.PS_CoverScrew_02
+      value: 0
+    - key: out.PS_CoverScrew_03
+      value: 0
+    - key: out.PS_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: isolated
+      value: 0
+    - key: released
+      value: 0
+    - key: out.PS_TrayScrew_01
+      value: 0
+    - key: out.PS_TrayScrew_02
+      value: 0
+    - key: tray
+      value: 0
+    - key: out.PS_ModuleScrew_01
+      value: 0
+    - key: out.PS_ModuleScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    effects:
+    - key: fixture
+      value: 1
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: power.on
+    label: "\u5F00\u542F\u6D4B\u8BD5\u4F9B\u7535"
+    target: PS_PowerUnit
+    kind: 1
+    tool: 1
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 1
+    - key: out.PS_CoverScrew_01
+      value: 0
+    - key: out.PS_CoverScrew_02
+      value: 0
+    - key: out.PS_CoverScrew_03
+      value: 0
+    - key: out.PS_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: isolated
+      value: 0
+    - key: released
+      value: 0
+    - key: out.PS_TrayScrew_01
+      value: 0
+    - key: out.PS_TrayScrew_02
+      value: 0
+    - key: tray
+      value: 0
+    - key: out.PS_ModuleScrew_01
+      value: 0
+    - key: out.PS_ModuleScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    effects:
+    - key: power
+      value: 1
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: test.no_load
+    label: "\u7A7A\u8F7D\u8F93\u51FA\u4E0E\u7535\u6C60\u68C0\u67E5"
+    target: PS_PowerUnit
+    kind: 3
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: no_load
+    coreStepId: 
+  - id: test.load
+    label: "\u6807\u51C6\u6A21\u62DF\u8D1F\u8F7D\u6D4B\u8BD5"
+    target: PS_PowerUnit
+    kind: 3
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    - key: pass.no_load
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: load
+    coreStepId: 
+  - id: complete
+    label: "\u786E\u8BA4\u590D\u88C5\u590D\u6D4B\u5E76\u4EA4\u4ED8\u539F\u4EF6"
+    target: PS_PowerUnit
+    kind: 5
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    - key: module
+      value: 2
+    - key: diagnosed.no_load
+      value: 1
+    - key: diagnosed.load
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  tests:
+  - id: no_load
+    label: "\u7A7A\u8F7D\u8F93\u51FA\u4E0E\u7535\u6C60\u68C0\u67E5"
+    faultFinding: "\u7A7A\u8F7D\u68C0\u67E5\u672A\u901A\u8FC7\uFF0C\u8BF7\u4FDD\u7559\u5BC6\u5C01\u7535\u6C60\u76D2\u3002"
+    passFinding: "\u7535\u6C60\u7535\u91CF\u6B63\u5E38\uFF0C\u7A7A\u8F7D\u8F93\u51FA\u6B63\u5E38\u3002"
+    functional: 0
+    checksRetainedIdentity: 0
+    consecutivePasses: 1
+  - id: load
+    label: "\u6807\u51C6\u6A21\u62DF\u8D1F\u8F7D\u6D4B\u8BD5"
+    faultFinding: "\u7535\u6C60\u7535\u91CF\u6B63\u5E38\uFF0C\u4F46\u6807\u51C6\u6A21\u62DF\u8D1F\u8F7D\u4E0B\u8F93\u51FA\u6389\u538B\uFF0C\u8BF7\u68C0\u4FEE\u8F93\u51FA\u6A21\u5757\u3002"
+    passFinding: "\u6807\u51C6\u6A21\u62DF\u8D1F\u8F7D\u4E0B\u8F93\u51FA\u7A33\u5B9A\uFF0C\u8F93\u51FA\u544A\u8B66\u89E3\u9664\u3002"
+    functional: 1
+    checksRetainedIdentity: 0
+    consecutivePasses: 1

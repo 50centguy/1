@@ -1,0 +1,182 @@
+{
+    "totalTriangles": 366649,
+    "totalRenderers": 636,
+    "totalMaterialSlots": 655,
+    "uniqueMaterials": 82,
+    "uniqueTextures": 71,
+    "realtimeLights": 18,
+    "shadowedLights": 3,
+    "textureMB": 138.78880310058595,
+    "modules": [
+        {
+            "name": "机器人/维修座",
+            "renderers": 299,
+            "triangles": 247621,
+            "materialSlots": 299,
+            "uniqueMaterials": 25,
+            "shadowCasters": 299,
+            "staticBatched": 0,
+            "textureMB": 54.709442138671878
+        },
+        {
+            "name": "四件维修道具",
+            "renderers": 45,
+            "triangles": 31886,
+            "materialSlots": 46,
+            "uniqueMaterials": 3,
+            "shadowCasters": 45,
+            "staticBatched": 0,
+            "textureMB": 73.3656005859375
+        },
+        {
+            "name": "手术龙门 V2",
+            "renderers": 36,
+            "triangles": 22548,
+            "materialSlots": 47,
+            "uniqueMaterials": 4,
+            "shadowCasters": 36,
+            "staticBatched": 16,
+            "textureMB": 2.5017852783203127
+        },
+        {
+            "name": "维修台 V2",
+            "renderers": 67,
+            "triangles": 22080,
+            "materialSlots": 71,
+            "uniqueMaterials": 15,
+            "shadowCasters": 67,
+            "staticBatched": 42,
+            "textureMB": 3.149658203125
+        },
+        {
+            "name": "手术台 V2",
+            "renderers": 25,
+            "triangles": 15914,
+            "materialSlots": 28,
+            "uniqueMaterials": 5,
+            "shadowCasters": 25,
+            "staticBatched": 21,
+            "textureMB": 2.5686798095703127
+        },
+        {
+            "name": "其他",
+            "renderers": 22,
+            "triangles": 12366,
+            "materialSlots": 22,
+            "uniqueMaterials": 11,
+            "shadowCasters": 8,
+            "staticBatched": 0,
+            "textureMB": 0.231781005859375
+        },
+        {
+            "name": "房间杂物",
+            "renderers": 45,
+            "triangles": 8346,
+            "materialSlots": 45,
+            "uniqueMaterials": 17,
+            "shadowCasters": 45,
+            "staticBatched": 5,
+            "textureMB": 0.34369468688964846
+        },
+        {
+            "name": "房间外壳/家具",
+            "renderers": 79,
+            "triangles": 5384,
+            "materialSlots": 79,
+            "uniqueMaterials": 16,
+            "shadowCasters": 79,
+            "staticBatched": 0,
+            "textureMB": 0.4017333984375
+        },
+        {
+            "name": "原工作台（未隐藏部分）",
+            "renderers": 18,
+            "triangles": 504,
+            "materialSlots": 18,
+            "uniqueMaterials": 5,
+            "shadowCasters": 18,
+            "staticBatched": 17,
+            "textureMB": 2.0446224212646486
+        }
+    ],
+    "views": [
+        {
+            "name": "房间入口（玩家出生点）",
+            "visibleRenderers": 236,
+            "visibleTriangles": 68350,
+            "visibleMaterialSlots": 250,
+            "visibleShadowCasters": 231
+        },
+        {
+            "name": "手术台旁站立（1.6 m）",
+            "visibleRenderers": 411,
+            "visibleTriangles": 284085,
+            "visibleMaterialSlots": 417,
+            "visibleShadowCasters": 409
+        },
+        {
+            "name": "维修台前站立（1.6 m）",
+            "visibleRenderers": 95,
+            "visibleTriangles": 29284,
+            "visibleMaterialSlots": 99,
+            "visibleShadowCasters": 95
+        }
+    ],
+    "heaviestRenderers": [
+        "机器人/维修座 / Body_Shell : 42005 tris, 1 mats",
+        "机器人/维修座 / FrontBezel : 14088 tris, 1 mats",
+        "机器人/维修座 / ChinFascia : 13406 tris, 1 mats",
+        "机器人/维修座 / Body_LowerModule : 11006 tris, 1 mats",
+        "机器人/维修座 / Engine_LowerCover_L : 9280 tris, 1 mats",
+        "机器人/维修座 / Engine_LowerCover_R : 9280 tris, 1 mats",
+        "机器人/维修座 / ScreenCradle : 7660 tris, 1 mats",
+        "机器人/维修座 / ScreenCassette_Box : 7504 tris, 1 mats",
+        "机器人/维修座 / TopCover : 7288 tris, 1 mats",
+        "机器人/维修座 / FrontBezel_InnerFrame : 6320 tris, 1 mats",
+        "机器人/维修座 / Engine_UpperCover_L : 5760 tris, 1 mats",
+        "机器人/维修座 / Engine_UpperCover_R : 5760 tris, 1 mats",
+        "手术龙门 V2 / BGT_RingCables : 5208 tris, 1 mats",
+        "机器人/维修座 / UNIT07_FK_IntakeClog : 4608 tris, 1 mats",
+        "机器人/维修座 / UNIT07_FK_BearingWorn : 2880 tris, 1 mats"
+    ],
+    "workbenchLeftovers": [
+        "Storage_PartsBins (WB_Storage/WorkbenchArea/ClinicLegacyRoomFrame) : 288 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_PaintGreen_Retro",
+        "Wall_ShelfUpper (WB_Storage/WorkbenchArea/ClinicLegacyRoomFrame) : 36 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Steel_Retro",
+        "Records_BacklogOrder_1 (WB_Records/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Records_BacklogOrder_2 (WB_Records/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Records_BacklogOrder_3 (WB_Records/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Records_BacklogOrder_4 (WB_Records/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Records_PegNote_1 (WB_Records/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Records_PegNote_2 (WB_Records/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Records_PegNote_3 (WB_Records/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Records_PegPhoto (WB_Records/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Storage_BinLabel_1 (WB_Storage/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Storage_BinLabel_2 (WB_Storage/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Storage_BinLabel_3 (WB_Storage/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Storage_BinLabel_4 (WB_Storage/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Storage_BinLabel_5 (WB_Storage/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Storage_BinLabel_6 (WB_Storage/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Paper_Retro",
+        "Wall_Pegboard (WB_Storage/WorkbenchArea/ClinicLegacyRoomFrame) : 12 mesh=Combined Mesh (root: scene)/v6935/sub57 mats=M_WB_Pegboard_Retro",
+        "PLACEHOLDER_Label (ClinicDiagnosticWorkAnchor/ClinicTradeAnchors_PLACEHOLDER/Bench_Top) : 0 mesh=none mats=Font Material"
+    ],
+    "lights": [
+        "Fixture_Unit07Cage Point shadows=None range=1.6",
+        "Fixture_Tube_4 Point shadows=None range=3.2",
+        "CY_DoorSignLight Point shadows=None range=2.4",
+        "Fixture_Door Point shadows=None range=2.6",
+        "Bench_UnderShelfFill (warm, no shadow) Spot shadows=None range=1.2",
+        "Room_Fill (cool, no shadow) Directional shadows=None range=10.0",
+        "ClinicEntranceFill Point shadows=None range=2.8",
+        "BV2_LampLight Spot shadows=Hard range=2.2",
+        "Dock_ServiceLight (warm-neutral) Spot shadows=Soft range=2.6",
+        "CY_CounterNeonLight Point shadows=None range=2.8",
+        "Fixture_BenchFill Point shadows=None range=2.3",
+        "Fixture_Tube_5 Point shadows=None range=3.2",
+        "Fixture_Tube_3 Point shadows=None range=3.2",
+        "Fixture_Tube_2 Point shadows=None range=3.2",
+        "BGT_LampLight Spot shadows=Hard range=3.4",
+        "Dock_InspectionFill (warm, no shadow) Spot shadows=None range=1.2",
+        "ClinicTradeTaskLight Point shadows=None range=2.3",
+        "Fixture_Tube_1 Point shadows=None range=3.2"
+    ]
+}

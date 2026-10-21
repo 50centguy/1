@@ -36,6 +36,8 @@ namespace BorderRepair.Inspection
         public event Action<Vector2> Clicked;
 
         public bool InteractionEnabled { get; set; }
+        /// <summary>清洁等连续工具占用左键时，只允许右键旋转；不会在松开左键时触发扫描。</summary>
+        public bool LeftPointerReserved { get; set; }
         public GameObject CurrentItem { get; private set; }
         public float ItemRadius { get; private set; } = 0.2f;
         public float MinDistance { get; private set; }
@@ -57,10 +59,106 @@ namespace BorderRepair.Inspection
         Vector3 focusLocal, focusLocalCurrent;      // itemAnchor 局部坐标：随物品一起旋转
         float focusYaw, focusPitch, focusDistance, focusRadius;
         Renderer[] itemRenderers = new Renderer[0];
+        bool benchMounted;
+        Vector3[] supportLocalCorners = new Vector3[0];
+        Vector3 anchorRestLocal;
+        float lift;
+        const float HoverClearance = 0.02f;
+
+        public bool BenchMounted => benchMounted;
+        /// <summary>台面模式下物品被拿起的高度（0 = 放在台面上）。</summary>
+        public float Lift => lift;
+
+        // Opt-in for the physical bench: turning the item lifts it off the bench so it can spin freely in the air,
+        // while the camera holds still. Support is measured from the assembled meshes, so parts flying off do not
+        // change how it rests.
+        public void SetBenchMounted(bool enabled)
+        {
+            if (enabled && !benchMounted)
+            {
+                distance = targetDistance = defaultDistance = Mathf.Clamp(defaultDistance * 1.15f, MinDistance, MaxDistance);
+                anchorRestLocal = itemAnchor.localPosition;
+            }
+            if (!enabled && benchMounted) itemAnchor.localPosition = anchorRestLocal;
+            benchMounted = enabled;
+            lift = 0f;
+            supportLocalCorners = new Vector3[0];
+            if (!enabled || CurrentItem == null) return;
+            var corners = new System.Collections.Generic.List<Vector3>();
+            foreach (var filter in CurrentItem.GetComponentsInChildren<MeshFilter>())
+            {
+                var renderer = filter.GetComponent<Renderer>();
+                if (renderer == null || !renderer.enabled || filter.sharedMesh == null) continue;
+                var bounds = filter.sharedMesh.bounds;
+                for (int i = 0; i < 8; i++)
+                {
+                    var corner = bounds.center + Vector3.Scale(bounds.extents,
+                        new Vector3((i & 1) == 0 ? -1 : 1, (i & 2) == 0 ? -1 : 1, (i & 4) == 0 ? -1 : 1));
+                    corners.Add(CurrentItem.transform.InverseTransformPoint(filter.transform.TransformPoint(corner)));
+                }
+            }
+            supportLocalCorners = corners.ToArray();
+        }
+
+        /// <summary>
+        /// 物品放下（未旋转、未拿起）时最低点的世界高度。拿起和转动都不改变它，所以台面贴合不会跟着旋转上下移动镜头。
+        /// </summary>
+        public bool TryGetStableSupportBottom(out float bottom)
+        {
+            bottom = float.PositiveInfinity;
+            if (!TryGetRestExtent(out float restBottom, out _, out _)) return false;
+            bottom = RestPivot().y + restBottom;
+            return true;
+        }
+
+        // Measured in the anchor's unrotated frame around the assembled meshes' centre (the turning pivot):
+        // the pivot itself, the resting bottom below it, and the farthest assembled corner from it (the
+        // clearance any held orientation needs). Hidden alternate-state meshes are left out, so the item
+        // turns about the middle of what the player actually sees.
+        bool TryGetRestExtent(out float restBottom, out float radius, out Vector3 pivotLocal)
+        {
+            restBottom = 0f; radius = 0f; pivotLocal = Vector3.zero;
+            if (!benchMounted || supportLocalCorners.Length == 0 || CurrentItem == null || CurrentItem.transform.parent != itemAnchor) return false;
+            var item = CurrentItem.transform;
+            var box = new Bounds(item.localPosition + item.localRotation * Vector3.Scale(item.localScale, supportLocalCorners[0]), Vector3.zero);
+            foreach (var p in supportLocalCorners)
+                box.Encapsulate(item.localPosition + item.localRotation * Vector3.Scale(item.localScale, p));
+            pivotLocal = box.center;
+            float scale = itemAnchor.lossyScale.y;
+            restBottom = (box.min.y - pivotLocal.y) * scale;
+            foreach (var p in supportLocalCorners)
+            {
+                var local = item.localPosition + item.localRotation * Vector3.Scale(item.localScale, p);
+                radius = Mathf.Max(radius, (local - pivotLocal).magnitude * scale);
+            }
+            return true;
+        }
+
+        Vector3 RestPivot()
+        {
+            var parent = itemAnchor.parent;
+            return parent != null ? parent.TransformPoint(anchorRestLocal) : itemAnchor.position;
+        }
+
+        float TargetLift()
+        {
+            bool turned = dragging || Mathf.Abs(Mathf.DeltaAngle(0f, targetYaw)) > .5f || Mathf.Abs(targetPitch) > .5f
+                || Mathf.Abs(Mathf.DeltaAngle(0f, yaw)) > .5f || Mathf.Abs(pitch) > .5f;
+            if (!turned || !TryGetRestExtent(out float restBottom, out float radius, out _)) return 0f;
+            return Mathf.Max(0f, radius + restBottom) + HoverClearance;
+        }
+
+        public void FrameBenchOverview()
+        {
+            if (!benchMounted) return;
+            targetDistance = defaultDistance = MaxDistance;
+            SnapToTarget();
+        }
 
         public bool HasFocus => hasFocus;
         /// <summary>镜头当前对准的世界坐标（无焦点时就是物品中心）。</summary>
-        public Vector3 LookPoint => itemAnchor.TransformPoint(focusLocalCurrent);
+        public Vector3 LookPoint => itemAnchor.TransformPoint(focusLocalCurrent != Vector3.zero || !TryGetRestExtent(out _, out _, out var pivot)
+            ? focusLocalCurrent : pivot);
         /// <summary>当前生效的最近距离：有焦点时按零件大小和物品挡在镜头前的厚度计算。</summary>
         public float LowerDistanceLimit => hasFocus || focusLocalCurrent != Vector3.zero ? FocusMinDistance() : MinDistance;
 
@@ -107,6 +205,10 @@ namespace BorderRepair.Inspection
         {
             if (CurrentItem != null) Destroy(CurrentItem);
             CurrentItem = null;
+            if (benchMounted) itemAnchor.localPosition = anchorRestLocal;
+            benchMounted = false;
+            lift = 0f;
+            supportLocalCorners = new Vector3[0];
         }
 
         /// <summary>复位视角；有焦点时回到当前焦点的默认角度和距离。</summary>
@@ -185,6 +287,7 @@ namespace BorderRepair.Inspection
         {
             yaw = targetYaw;
             pitch = targetPitch;
+            if (benchMounted) lift = TargetLift();
             if (hasFocus || focusLocalCurrent != Vector3.zero)
             {
                 focusLocalCurrent = focusLocal;
@@ -212,7 +315,8 @@ namespace BorderRepair.Inspection
                 return;
             }
 
-            bool startPress = (RepairInput.LeftPressed || RepairInput.RightPressed) && !RepairInput.PointerOverUI;
+            if (LeftPointerReserved && !RepairInput.RightHeld) pressActive = dragging = false;
+            bool startPress = ((!LeftPointerReserved && RepairInput.LeftPressed) || RepairInput.RightPressed) && !RepairInput.PointerOverUI;
             if (startPress)
             {
                 pressActive = true;
@@ -222,7 +326,7 @@ namespace BorderRepair.Inspection
 
             if (pressActive)
             {
-                bool held = RepairInput.LeftHeld || RepairInput.RightHeld;
+                bool held = (!LeftPointerReserved && RepairInput.LeftHeld) || RepairInput.RightHeld;
                 if (held)
                 {
                     if (!dragging && (RepairInput.PointerPosition - pressPosition).magnitude > dragThresholdPixels)
@@ -232,7 +336,7 @@ namespace BorderRepair.Inspection
                 }
                 else
                 {
-                    if (!dragging && RepairInput.LeftReleased) Clicked?.Invoke(RepairInput.PointerPosition);
+                    if (!LeftPointerReserved && !dragging && RepairInput.LeftReleased) Clicked?.Invoke(RepairInput.PointerPosition);
                     pressActive = dragging = false;
                 }
             }
@@ -246,6 +350,7 @@ namespace BorderRepair.Inspection
             float t = 1f - Mathf.Exp(-smoothing * Time.unscaledDeltaTime);
             yaw = Mathf.Lerp(yaw, targetYaw, t);
             pitch = Mathf.Lerp(pitch, targetPitch, t);
+            if (benchMounted) lift = Mathf.Lerp(lift, TargetLift(), t);
             if (hasFocus || focusLocalCurrent != Vector3.zero)
             {
                 focusLocalCurrent = Vector3.Lerp(focusLocalCurrent, focusLocal, t);
@@ -262,6 +367,16 @@ namespace BorderRepair.Inspection
             Vector3 right = Vector3.Cross(Vector3.up, -viewDirection);
             if (right.sqrMagnitude < 1e-6f) right = Vector3.right;
             itemAnchor.rotation = Quaternion.AngleAxis(pitch, right.normalized) * Quaternion.AngleAxis(yaw, Vector3.up);
+            // 台面模式：绕可见模型的中心转，物品被拿起离开台面；镜头仍按放下时的位置取景，不跟着上下移动
+            if (benchMounted && TryGetRestExtent(out _, out _, out var pivot))
+            {
+                var rest = RestPivot();
+                itemAnchor.position += rest + Vector3.up * lift - itemAnchor.TransformPoint(pivot);
+                var look = focusLocalCurrent != Vector3.zero ? itemAnchor.TransformPoint(focusLocalCurrent) - Vector3.up * lift : rest;
+                viewCamera.transform.position = look + viewDirection * distance;
+                viewCamera.transform.rotation = Quaternion.LookRotation(-viewDirection, Vector3.up);
+                return;
+            }
             // 无焦点时 focusLocalCurrent 为零，TransformPoint 就是锚点位置（与原来相同）
             viewCamera.transform.position = itemAnchor.TransformPoint(focusLocalCurrent) + viewDirection * distance;
             viewCamera.transform.rotation = Quaternion.LookRotation(-viewDirection, Vector3.up);

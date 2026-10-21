@@ -1,0 +1,9 @@
+{
+  "name": "BorderRepair.RepairProps.Cosmetics.Tests.PlayMode",
+  "rootNamespace": "BorderRepair.RepairProps.Cosmetics.Tests",
+  "references": ["BorderRepair.RepairProps.Cosmetics", "BorderRepair.RepairProps.Runtime", "BorderRepair.Runtime", "BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "Unity.InputSystem", "UnityEngine.UI", "UnityEngine.TestRunner", "UnityEditor.TestRunner"],
+  "overrideReferences": true,
+  "precompiledReferences": ["nunit.framework.dll"],
+  "autoReferenced": false,
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

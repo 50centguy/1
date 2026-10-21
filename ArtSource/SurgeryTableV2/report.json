@@ -1,0 +1,556 @@
+{
+ "fbx": "D:\\uetounity\\UnityProjects\\BorderRepairStation_repairprops\\ArtSource\\SurgeryTableV2\\Export\\SurgeryTableV2.fbx",
+ "triangles": 16346,
+ "objects": [
+  {
+   "name": "BST_Base",
+   "tris": 1892,
+   "materials": [
+    "M_BV2_Ivory",
+    "M_BV2_DarkPlastic",
+    "M_BV2_Rubber",
+    "M_BV2_SteelGreen"
+   ],
+   "min": [
+    -0.25,
+    -0.725,
+    0.08
+   ],
+   "max": [
+    0.25,
+    0.725,
+    0.245
+   ]
+  },
+  {
+   "name": "BST_PowerUnit",
+   "tris": 504,
+   "materials": [
+    "M_BV2_Ivory",
+    "M_BV2_DarkPlastic",
+    "M_BV2_LedGreen",
+    "M_BV2_LedRed"
+   ],
+   "min": [
+    0.1,
+    -0.525,
+    0.24
+   ],
+   "max": [
+    0.247,
+    -0.0179,
+    0.36
+   ]
+  },
+  {
+   "name": "BST_Pistons",
+   "tris": 1184,
+   "materials": [
+    "M_BV2_SteelGreen",
+    "M_BV2_SteelBare",
+    "M_BV2_DarkPlastic"
+   ],
+   "min": [
+    -0.152,
+    -0.5013,
+    0.2393
+   ],
+   "max": [
+    0.152,
+    0.5013,
+    0.7
+   ]
+  },
+  {
+   "name": "BST_CableChain",
+   "tris": 792,
+   "materials": [
+    "M_BV2_DarkPlastic"
+   ],
+   "min": [
+    -0.2605,
+    -0.0167,
+    0.2471
+   ],
+   "max": [
+    -0.1182,
+    0.2245,
+    0.6953
+   ]
+  },
+  {
+   "name": "BST_BaseHazard",
+   "tris": 24,
+   "materials": [
+    "M_ST_Hazard"
+   ],
+   "min": [
+    -0.247,
+    -0.66,
+    0.2
+   ],
+   "max": [
+    0.247,
+    0.66,
+    0.225
+   ]
+  },
+  {
+   "name": "BST_Casters",
+   "tris": 1952,
+   "materials": [
+    "M_BV2_SteelBare",
+    "M_BV2_Rubber",
+    "M_BV2_WornRed"
+   ],
+   "min": [
+    -0.278,
+    -0.653,
+    -0.0013
+   ],
+   "max": [
+    0.275,
+    0.6589,
+    0.105
+   ]
+  },
+  {
+   "name": "BST_LabelPlate",
+   "tris": 12,
+   "materials": [
+    "M_ST_Label"
+   ],
+   "min": [
+    -0.1,
+    -0.7265,
+    0.15
+   ],
+   "max": [
+    0.1,
+    -0.7255,
+    0.19
+   ]
+  },
+  {
+   "name": "BST_Column",
+   "tris": 504,
+   "materials": [
+    "M_BV2_Ivory",
+    "M_BV2_Rubber",
+    "M_BV2_SteelBare",
+    "M_BV2_DarkPlastic"
+   ],
+   "min": [
+    -0.15,
+    -0.2,
+    0.24
+   ],
+   "max": [
+    0.15,
+    0.2,
+    0.7
+   ]
+  },
+  {
+   "name": "BST_Hoses",
+   "tris": 1088,
+   "materials": [
+    "M_BV2_WornRed",
+    "M_BV2_SteelBare"
+   ],
+   "min": [
+    -0.2161,
+    -0.4049,
+    0.2695
+   ],
+   "max": [
+    0.2161,
+    0.308,
+    0.7249
+   ]
+  },
+  {
+   "name": "BST_Frame",
+   "tris": 756,
+   "materials": [
+    "M_BV2_SteelGreen"
+   ],
+   "min": [
+    -0.31,
+    -0.93,
+    0.64
+   ],
+   "max": [
+    0.31,
+    0.93,
+    0.745
+   ]
+  },
+  {
+   "name": "BST_Rails",
+   "tris": 1888,
+   "materials": [
+    "M_BV2_SteelBare",
+    "M_BV2_SteelGreen",
+    "M_BV2_DarkPlastic"
+   ],
+   "min": [
+    -0.365,
+    -0.85,
+    0.732
+   ],
+   "max": [
+    0.365,
+    0.85,
+    0.825
+   ]
+  },
+  {
+   "name": "BST_Pad_Legs",
+   "tris": 336,
+   "materials": [
+    "M_ST_Vinyl",
+    "M_BV2_SteelBare",
+    "M_BV2_Rubber"
+   ],
+   "min": [
+    -0.3,
+    -0.93,
+    0.76
+   ],
+   "max": [
+    0.3,
+    -0.32,
+    0.85
+   ]
+  },
+  {
+   "name": "BST_Pad_Seat",
+   "tris": 336,
+   "materials": [
+    "M_ST_Vinyl",
+    "M_BV2_SteelBare",
+    "M_BV2_Rubber"
+   ],
+   "min": [
+    -0.3,
+    -0.31,
+    0.76
+   ],
+   "max": [
+    0.3,
+    0.1,
+    0.85
+   ]
+  },
+  {
+   "name": "BST_Pad_Back",
+   "tris": 392,
+   "materials": [
+    "M_ST_Vinyl",
+    "M_BV2_SteelBare",
+    "M_BV2_Rubber"
+   ],
+   "min": [
+    -0.3,
+    0.11,
+    0.6925
+   ],
+   "max": [
+    0.3,
+    0.68,
+    0.85
+   ]
+  },
+  {
+   "name": "BST_Pad_Head",
+   "tris": 524,
+   "materials": [
+    "M_ST_Vinyl",
+    "M_BV2_SteelBare",
+    "M_BV2_Rubber"
+   ],
+   "min": [
+    -0.2,
+    0.69,
+    0.76
+   ],
+   "max": [
+    0.2,
+    0.93,
+    0.9
+   ]
+  },
+  {
+   "name": "BST_Strap_1_Closed",
+   "tris": 156,
+   "materials": [
+    "M_BV2_DarkPlastic",
+    "M_BV2_SteelBare",
+    "M_BV2_WornRed"
+   ],
+   "min": [
+    -0.315,
+    0.416,
+    0.72
+   ],
+   "max": [
+    0.315,
+    0.484,
+    0.868
+   ]
+  },
+  {
+   "name": "BST_Strap_1_Open",
+   "tris": 144,
+   "materials": [
+    "M_BV2_DarkPlastic",
+    "M_BV2_SteelBare"
+   ],
+   "min": [
+    -0.345,
+    0.416,
+    0.44
+   ],
+   "max": [
+    -0.306,
+    0.484,
+    0.72
+   ]
+  },
+  {
+   "name": "BST_Strap_2_Closed",
+   "tris": 156,
+   "materials": [
+    "M_BV2_DarkPlastic",
+    "M_BV2_SteelBare",
+    "M_BV2_WornRed"
+   ],
+   "min": [
+    -0.315,
+    -0.134,
+    0.72
+   ],
+   "max": [
+    0.315,
+    -0.066,
+    0.868
+   ]
+  },
+  {
+   "name": "BST_Strap_2_Open",
+   "tris": 144,
+   "materials": [
+    "M_BV2_DarkPlastic",
+    "M_BV2_SteelBare"
+   ],
+   "min": [
+    -0.345,
+    -0.134,
+    0.44
+   ],
+   "max": [
+    -0.306,
+    -0.066,
+    0.72
+   ]
+  },
+  {
+   "name": "BST_Strap_3_Closed",
+   "tris": 156,
+   "materials": [
+    "M_BV2_DarkPlastic",
+    "M_BV2_SteelBare",
+    "M_BV2_WornRed"
+   ],
+   "min": [
+    -0.315,
+    -0.654,
+    0.72
+   ],
+   "max": [
+    0.315,
+    -0.586,
+    0.868
+   ]
+  },
+  {
+   "name": "BST_Strap_3_Open",
+   "tris": 144,
+   "materials": [
+    "M_BV2_DarkPlastic",
+    "M_BV2_SteelBare"
+   ],
+   "min": [
+    -0.345,
+    -0.654,
+    0.44
+   ],
+   "max": [
+    -0.306,
+    -0.586,
+    0.72
+   ]
+  },
+  {
+   "name": "BST_Pendant",
+   "tris": 500,
+   "materials": [
+    "M_BV2_Yellow",
+    "M_BV2_DarkPlastic",
+    "M_BV2_Ivory",
+    "M_BV2_LedGreen",
+    "M_BV2_SteelBare"
+   ],
+   "min": [
+    0.344,
+    -0.085,
+    0.5
+   ],
+   "max": [
+    0.378,
+    -0.015,
+    0.66
+   ]
+  },
+  {
+   "name": "BST_PendantCable",
+   "tris": 1212,
+   "materials": [
+    "M_BV2_Rubber"
+   ],
+   "min": [
+    0.3341,
+    -0.0612,
+    0.658
+   ],
+   "max": [
+    0.3682,
+    -0.0388,
+    0.7577
+   ]
+  },
+  {
+   "name": "BST_Tray",
+   "tris": 596,
+   "materials": [
+    "M_BV2_SteelGreen",
+    "M_BV2_SteelBare",
+    "M_BV2_DarkPlastic",
+    "M_BV2_Ivory"
+   ],
+   "min": [
+    -0.24,
+    -0.98,
+    0.75
+   ],
+   "max": [
+    0.314,
+    -0.78,
+    0.975
+   ]
+  },
+  {
+   "name": "BST_IVPole",
+   "tris": 222,
+   "materials": [
+    "M_BV2_SteelBare",
+    "M_BV2_SteelGreen"
+   ],
+   "min": [
+    -0.3733,
+    0.7963,
+    0.735
+   ],
+   "max": [
+    -0.2621,
+    0.9234,
+    1.8628
+   ]
+  },
+  {
+   "name": "BST_IVBag",
+   "tris": 278,
+   "materials": [
+    "M_ST_Bag",
+    "M_ST_Bag"
+   ],
+   "min": [
+    -0.31,
+    0.6978,
+    0.8785
+   ],
+   "max": [
+    -0.1179,
+    0.8797,
+    1.815
+   ]
+  },
+  {
+   "name": "BST_Monitor",
+   "tris": 452,
+   "materials": [
+    "M_BV2_Ivory",
+    "M_BV2_DarkPlastic",
+    "M_BV2_SteelBare"
+   ],
+   "min": [
+    -0.365,
+    0.676,
+    1.21
+   ],
+   "max": [
+    -0.145,
+    0.92,
+    1.39
+   ]
+  },
+  {
+   "name": "BST_Monitor_Screen",
+   "tris": 2,
+   "materials": [
+    "M_ST_Screen"
+   ],
+   "min": [
+    -0.337,
+    0.6795,
+    1.238
+   ],
+   "max": [
+    -0.173,
+    0.6795,
+    1.362
+   ]
+  }
+ ],
+ "interactive": {
+  "BST_Strap_1": {
+   "kind": "strap"
+  },
+  "BST_Strap_2": {
+   "kind": "strap"
+  },
+  "BST_Strap_3": {
+   "kind": "strap"
+  },
+  "BST_Pendant": {
+   "kind": "pendant"
+  },
+  "BST_Tray": {
+   "kind": "tray"
+  }
+ },
+ "body_bounds": {
+  "min": [
+   -0.365,
+   -0.93,
+   -0.001
+  ],
+  "max": [
+   0.365,
+   0.93,
+   1.39
+  ]
+ },
+ "footprint_ok": true
+}

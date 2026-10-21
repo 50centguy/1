@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-18",
+  "project": "D:/uetounity/UnityProjects/BorderRepairStation_repairprops",
+  "status": "prototype_installed_native_related_tests_passed",
+  "editMode": { "total": 54, "passed": 54, "failed": 0 },
+  "playMode": { "total": 17, "passed": 17, "failed": 0 },
+  "paintableExteriorSlots": 11,
+  "shaderFeatureCombinationsRetained": 2,
+  "overlayPixelsPerEditedSlot": 262144,
+  "sourceBaseMapsDownsampled": false,
+  "sourceScenesAndBuildSettingsChanged": false,
+  "mainProjectChanged": false,
+  "physicalHeadsetTested": false,
+  "playerBuildTested": false,
+  "cosmeticsSavePersistence": "current_order_in_memory_only",
+  "manualArtAcceptance": "pending",
+  "evidence": {
+    "source": "Evidence/source_audit.json",
+    "desktop": "Evidence/desktop-panel-preview.png",
+    "vr": "Evidence/vr-cosmetic-simulation.png",
+    "editXml": "Evidence/edit-final.xml",
+    "playXml": "Evidence/play-final.xml"
+  }
+}

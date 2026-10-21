@@ -1,0 +1,803 @@
+{
+ "TradeCounterV2": {
+  "triangles": 12220,
+  "objects": [
+   {
+    "name": "ZC_CashBox",
+    "tris": 160,
+    "materials": [
+     "M_BV2_SteelGreen",
+     "M_BV2_DarkPlastic",
+     "M_BV2_SteelBare",
+     "M_BV2_Brass"
+    ],
+    "min": [
+     2.0445,
+     0.48,
+     0.95
+    ],
+    "max": [
+     2.212,
+     0.76,
+     1.039
+    ]
+   },
+   {
+    "name": "ZC_Cctv",
+    "tris": 132,
+    "materials": [
+     "M_BV2_Ivory",
+     "M_BV2_DarkPlastic",
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     3.0647,
+     0.9457,
+     2.4002
+    ],
+    "max": [
+     3.395,
+     1.1638,
+     2.62
+    ]
+   },
+   {
+    "name": "ZC_Cctv_Led",
+    "tris": 28,
+    "materials": [
+     "M_BV2_LedRed"
+    ],
+    "min": [
+     3.1672,
+     1.0146,
+     2.4993
+    ],
+    "max": [
+     3.1806,
+     1.0275,
+     2.5107
+    ]
+   },
+   {
+    "name": "ZC_Corner",
+    "tris": 736,
+    "materials": [
+     "M_BV2_Ivory",
+     "M_BV2_DarkPlastic",
+     "M_BV2_WornRed",
+     "M_BV2_Rubber",
+     "M_ZN_PaperFlat",
+     "M_BV2_SteelBare",
+     "M_BV2_Ceramic",
+     "M_ZN_Cardboard",
+     "M_ZN_Tape"
+    ],
+    "min": [
+     1.8901,
+     -1.9164,
+     0.95
+    ],
+    "max": [
+     2.8447,
+     -0.8713,
+     1.3904
+    ]
+   },
+   {
+    "name": "ZC_Counter",
+    "tris": 1080,
+    "materials": [
+     "M_BV2_SteelGreen",
+     "M_BV2_SteelBare",
+     "M_ZN_Hazard",
+     "M_BV2_DarkPlastic"
+    ],
+    "min": [
+     1.603,
+     -2.0889,
+     0.0
+    ],
+    "max": [
+     2.9819,
+     0.95,
+     0.9
+    ]
+   },
+   {
+    "name": "ZC_CounterTop",
+    "tris": 184,
+    "materials": [
+     "M_ZN_Stainless",
+     "M_BV2_Rubber"
+    ],
+    "min": [
+     1.576,
+     -2.1271,
+     0.903
+    ],
+    "max": [
+     3.0222,
+     0.97,
+     0.951
+    ]
+   },
+   {
+    "name": "ZC_Desk",
+    "tris": 974,
+    "materials": [
+     "M_BV2_SteelBare",
+     "M_BV2_DarkPlastic",
+     "M_BV2_Hardboard",
+     "M_BV2_Rubber",
+     "M_BV2_WornRed",
+     "M_BV2_Orange"
+    ],
+    "min": [
+     1.58,
+     -0.392,
+     0.92
+    ],
+    "max": [
+     2.19,
+     0.47,
+     1.085
+    ]
+   },
+   {
+    "name": "ZC_Fan",
+    "tris": 92,
+    "materials": [
+     "M_BV2_Ivory",
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     2.0793,
+     0.828,
+     0.95
+    ],
+    "max": [
+     2.1807,
+     0.932,
+     1.11
+    ]
+   },
+   {
+    "name": "ZC_Fan_Head",
+    "tris": 748,
+    "materials": [
+     "M_BV2_Ivory",
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     2.083,
+     0.7882,
+     1.0282
+    ],
+    "max": [
+     2.202,
+     0.9718,
+     1.2118
+    ]
+   },
+   {
+    "name": "ZC_Fan_Blades",
+    "tris": 72,
+    "materials": [
+     "M_ZN_Mint",
+     "M_BV2_DarkPlastic"
+    ],
+    "min": [
+     2.1043,
+     0.8221,
+     1.0415
+    ],
+    "max": [
+     2.1237,
+     0.958,
+     1.1985
+    ]
+   },
+   {
+    "name": "ZC_Keyboard",
+    "tris": 586,
+    "materials": [
+     "M_BV2_Ivory",
+     "M_BV2_DarkPlastic"
+    ],
+    "min": [
+     1.66,
+     -0.17,
+     0.95
+    ],
+    "max": [
+     2.0012,
+     0.1827,
+     0.9954
+    ]
+   },
+   {
+    "name": "ZC_Printer",
+    "tris": 96,
+    "materials": [
+     "M_BV2_Ivory",
+     "M_BV2_DarkPlastic",
+     "M_BV2_LedGreen"
+    ],
+    "min": [
+     2.05,
+     -0.8,
+     0.95
+    ],
+    "max": [
+     2.21,
+     -0.54,
+     1.045
+    ]
+   },
+   {
+    "name": "ZC_Prints",
+    "tris": 72,
+    "materials": [
+     "M_ZN_CounterPrints"
+    ],
+    "min": [
+     1.6055,
+     -1.8812,
+     0.1562
+    ],
+    "max": [
+     3.373,
+     1.04,
+     2.51
+    ]
+   },
+   {
+    "name": "ZC_Racking",
+    "tris": 576,
+    "materials": [
+     "M_BV2_SteelGreen",
+     "M_BV2_SteelBare",
+     "M_BV2_DarkPlastic"
+    ],
+    "min": [
+     3.015,
+     -1.31,
+     0.0
+    ],
+    "max": [
+     3.4,
+     1.31,
+     2.0
+    ]
+   },
+   {
+    "name": "ZC_ShelfGoods",
+    "tris": 5148,
+    "materials": [
+     "M_BV2_Ivory",
+     "M_BV2_DarkPlastic",
+     "M_BV2_SteelBare",
+     "M_BV2_Yellow",
+     "M_BV2_Rubber",
+     "M_ZN_Bag",
+     "M_ZN_Cardboard",
+     "M_ZN_Tape",
+     "M_BV2_WornRed",
+     "M_BV2_Orange",
+     "M_ZN_Mint"
+    ],
+    "min": [
+     1.938,
+     -1.24,
+     0.098
+    ],
+    "max": [
+     3.38,
+     1.1818,
+     2.06
+    ]
+   },
+   {
+    "name": "ZC_StatusPods",
+    "tris": 344,
+    "materials": [
+     "M_BV2_DarkPlastic",
+     "M_BV2_SteelGreen",
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     1.5645,
+     -0.842,
+     0.95
+    ],
+    "max": [
+     1.664,
+     0.842,
+     1.222
+    ]
+   },
+   {
+    "name": "ZC_Stool",
+    "tris": 458,
+    "materials": [
+     "M_BV2_SteelBare",
+     "M_ZN_Vinyl",
+     "M_BV2_DarkPlastic"
+    ],
+    "min": [
+     2.338,
+     -0.182,
+     -0.0021
+    ],
+    "max": [
+     2.702,
+     0.182,
+     0.715
+    ]
+   },
+   {
+    "name": "ZC_TagStrings",
+    "tris": 168,
+    "materials": [
+     "M_ZN_Tape"
+    ],
+    "min": [
+     2.4352,
+     -1.8646,
+     0.2731
+    ],
+    "max": [
+     3.0609,
+     1.0006,
+     1.6605
+    ]
+   },
+   {
+    "name": "ZC_TariffBoard",
+    "tris": 68,
+    "materials": [
+     "M_BV2_DarkPlastic",
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     3.369,
+     -0.82,
+     2.0
+    ],
+    "max": [
+     3.395,
+     0.82,
+     2.52
+    ]
+   },
+   {
+    "name": "ZC_Terminal",
+    "tris": 304,
+    "materials": [
+     "M_BV2_Ivory",
+     "M_BV2_DarkPlastic",
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     1.978,
+     -0.172,
+     0.95
+    ],
+    "max": [
+     2.205,
+     0.172,
+     1.28
+    ]
+   },
+   {
+    "name": "ZC_Terminal_Glass",
+    "tris": 2,
+    "materials": [
+     "M_ZN_TermGlass"
+    ],
+    "min": [
+     1.985,
+     -0.13,
+     1.025
+    ],
+    "max": [
+     1.985,
+     0.13,
+     1.23
+    ]
+   },
+   {
+    "name": "ZC_Tray_In",
+    "tris": 96,
+    "materials": [
+     "M_BV2_Orange",
+     "M_BV2_Rubber",
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     1.64,
+     -0.83,
+     0.95
+    ],
+    "max": [
+     2.04,
+     -0.37,
+     0.976
+    ]
+   },
+   {
+    "name": "ZC_Tray_Out",
+    "tris": 96,
+    "materials": [
+     "M_BV2_SteelGreen",
+     "M_BV2_Rubber",
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     1.64,
+     0.37,
+     0.95
+    ],
+    "max": [
+     2.04,
+     0.83,
+     0.976
+    ]
+   }
+  ]
+ },
+ "DockCornerV2": {
+  "triangles": 3668,
+  "objects": [
+   {
+    "name": "ZD_Cabinet",
+    "tris": 500,
+    "materials": [
+     "M_BV2_SteelGreen",
+     "M_BV2_DarkPlastic",
+     "M_BV2_SteelBare",
+     "M_BV2_Yellow",
+     "M_BV2_WornRed"
+    ],
+    "min": [
+     -3.28,
+     0.4,
+     1.05
+    ],
+    "max": [
+     -3.067,
+     0.92,
+     1.76
+    ]
+   },
+   {
+    "name": "ZD_CableTray",
+    "tris": 308,
+    "materials": [
+     "M_BV2_SteelBare",
+     "M_BV2_Rubber",
+     "M_BV2_DarkPlastic",
+     "M_BV2_Orange"
+    ],
+    "min": [
+     -3.28,
+     -1.05,
+     2.1941
+    ],
+    "max": [
+     -3.09,
+     1.1687,
+     2.46
+    ]
+   },
+   {
+    "name": "ZD_ChargeLamp",
+    "tris": 36,
+    "materials": [
+     "M_ZN_LampAmber"
+    ],
+    "min": [
+     -3.094,
+     0.662,
+     1.4324
+    ],
+    "max": [
+     -3.086,
+     0.678,
+     1.4476
+    ]
+   },
+   {
+    "name": "ZD_Clipboard",
+    "tris": 44,
+    "materials": [
+     "M_BV2_Hardboard",
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     -3.28,
+     -0.95,
+     1.08
+    ],
+    "max": [
+     -3.26,
+     -0.77,
+     1.3726
+    ]
+   },
+   {
+    "name": "ZD_Conduit",
+    "tris": 192,
+    "materials": [
+     "M_BV2_Rubber",
+     "M_BV2_SteelBare",
+     "M_BV2_DarkPlastic"
+    ],
+    "min": [
+     -3.28,
+     -0.205,
+     0.005
+    ],
+    "max": [
+     -3.1131,
+     0.9827,
+     2.4052
+    ]
+   },
+   {
+    "name": "ZD_DripPan",
+    "tris": 74,
+    "materials": [
+     "M_BV2_SteelBare",
+     "M_ZN_Oil",
+     "M_ZN_Rag"
+    ],
+    "min": [
+     -2.84,
+     -0.19,
+     0.006
+    ],
+    "max": [
+     -2.44,
+     0.17,
+     0.037
+    ]
+   },
+   {
+    "name": "ZD_ErrLamp",
+    "tris": 36,
+    "materials": [
+     "M_BV2_DarkPlastic"
+    ],
+    "min": [
+     -3.094,
+     0.752,
+     1.4324
+    ],
+    "max": [
+     -3.086,
+     0.768,
+     1.4476
+    ]
+   },
+   {
+    "name": "ZD_Extinguisher",
+    "tris": 338,
+    "materials": [
+     "M_BV2_WornRed",
+     "M_BV2_SteelBare",
+     "M_BV2_Rubber",
+     "M_BV2_DarkPlastic"
+    ],
+    "min": [
+     -3.28,
+     -0.9454,
+     0.42
+    ],
+    "max": [
+     -3.1023,
+     -0.7746,
+     0.885
+    ]
+   },
+   {
+    "name": "ZD_FloorMat",
+    "tris": 12,
+    "materials": [
+     "M_ZN_FloorMat"
+    ],
+    "min": [
+     -3.24,
+     -0.92,
+     0.0
+    ],
+    "max": [
+     -2.38,
+     0.92,
+     0.006
+    ]
+   },
+   {
+    "name": "ZD_Lamp",
+    "tris": 168,
+    "materials": [
+     "M_BV2_DarkPlastic",
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     -3.28,
+     -0.075,
+     1.87
+    ],
+    "max": [
+     -3.1897,
+     0.075,
+     1.99
+    ]
+   },
+   {
+    "name": "ZD_Lamp_Glass",
+    "tris": 52,
+    "materials": [
+     "M_BV2_Bulb"
+    ],
+    "min": [
+     -3.25,
+     -0.04,
+     1.891
+    ],
+    "max": [
+     -3.2,
+     0.04,
+     1.969
+    ]
+   },
+   {
+    "name": "ZD_Meters",
+    "tris": 4,
+    "materials": [
+     "M_BV2_MeterFace"
+    ],
+    "min": [
+     -3.0848,
+     0.525,
+     1.525
+    ],
+    "max": [
+     -3.0848,
+     0.815,
+     1.595
+    ]
+   },
+   {
+    "name": "ZD_Plate",
+    "tris": 124,
+    "materials": [
+     "M_BV2_SteelBare"
+    ],
+    "min": [
+     -3.28,
+     -0.27,
+     2.08
+    ],
+    "max": [
+     -3.269,
+     0.27,
+     2.27
+    ]
+   },
+   {
+    "name": "ZD_Prints",
+    "tris": 12,
+    "materials": [
+     "M_ZN_DockPrints"
+    ],
+    "min": [
+     -3.278,
+     -0.9425,
+     1.08
+    ],
+    "max": [
+     -3.0975,
+     0.755,
+     2.2725
+    ]
+   },
+   {
+    "name": "ZD_RunLamp",
+    "tris": 36,
+    "materials": [
+     "M_BV2_LedGreen"
+    ],
+    "min": [
+     -3.094,
+     0.572,
+     1.4324
+    ],
+    "max": [
+     -3.086,
+     0.588,
+     1.4476
+    ]
+   },
+   {
+    "name": "ZD_Seal",
+    "tris": 2,
+    "materials": [
+     "M_BV2_SealTape"
+    ],
+    "min": [
+     -3.0975,
+     0.8519,
+     1.4387
+    ],
+    "max": [
+     -3.0975,
+     0.9341,
+     1.5613
+    ]
+   },
+   {
+    "name": "ZD_Spares",
+    "tris": 356,
+    "materials": [
+     "M_BV2_SteelBare",
+     "M_ZN_Mint",
+     "M_BV2_DarkPlastic",
+     "M_BV2_Ivory",
+     "M_ZN_Bag",
+     "M_BV2_Orange",
+     "M_BV2_WornRed"
+    ],
+    "min": [
+     -3.283,
+     0.4,
+     1.7551
+    ],
+    "max": [
+     -3.11,
+     0.94,
+     2.01
+    ]
+   },
+   {
+    "name": "ZD_Stencil",
+    "tris": 2,
+    "materials": [
+     "M_BV2_AssetStencil"
+    ],
+    "min": [
+     -3.0975,
+     0.52,
+     1.0825
+    ],
+    "max": [
+     -3.0975,
+     0.82,
+     1.1575
+    ]
+   },
+   {
+    "name": "ZD_Umbilical",
+    "tris": 1372,
+    "materials": [
+     "M_BV2_Rubber",
+     "M_BV2_SteelBare",
+     "M_BV2_Ivory",
+     "M_BV2_Orange"
+    ],
+    "min": [
+     -3.28,
+     -0.6725,
+     1.014
+    ],
+    "max": [
+     -3.123,
+     -0.413,
+     1.5314
+    ]
+   }
+  ]
+ },
+ "zone_hits": []
+}

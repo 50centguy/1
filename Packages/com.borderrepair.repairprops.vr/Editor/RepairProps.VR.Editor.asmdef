@@ -1,0 +1,6 @@
+{
+  "name": "BorderRepair.RepairProps.VR.Editor",
+  "references": ["BorderRepair.RepairProps.VR", "BorderRepair.Runtime", "BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "Unity.XR.Interaction.Toolkit", "Unity.XR.CoreUtils", "Unity.XR.Management", "Unity.XR.Management.Editor", "Unity.XR.OpenXR", "Unity.XR.OpenXR.Editor", "UnityEngine.UI"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

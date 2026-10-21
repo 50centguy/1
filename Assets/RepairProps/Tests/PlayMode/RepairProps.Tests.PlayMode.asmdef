@@ -1,0 +1,8 @@
+{
+  "name": "BorderRepair.RepairProps.Tests.PlayMode",
+  "references": ["BorderRepair.Runtime", "BorderRepair.RepairProps.Runtime", "BorderRepair.RepairProps.Tests.Support", "BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "UnityEngine.TestRunner", "UnityEditor.TestRunner"],
+  "overrideReferences": true,
+  "precompiledReferences": ["nunit.framework.dll"],
+  "autoReferenced": false,
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

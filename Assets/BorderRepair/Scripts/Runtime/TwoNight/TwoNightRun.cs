@@ -97,10 +97,18 @@ namespace BorderRepair.TwoNight
                 (s.ActiveTrade.state != ClinicTradeState.ReadyForDelivery && s.ActiveTrade.state != ClinicTradeState.ReadyForReturn)) return false;
             var trade = s.ActiveTrade;
             if (s.HasTransaction(trade.IncomeId) || s.HasTransaction(trade.PartsId)) return false;
+            if (s.supplies != null && !trade.returnedUnpaid && !ClinicSupplies.HasAllocation(s, caseId)) return false;
+            if (s.supplies != null && ((long)s.Cash + trade.income - trade.partsCost > int.MaxValue ||
+                (long)s.Cash + trade.income - trade.partsCost < 0)) return false;
             if (!trade.returnedUnpaid)
             {
                 Post(s, trade.IncomeId, trade.income, caseId + " · 维修收入", 1);
                 Post(s, trade.PartsId, -trade.partsCost, caseId + " · 耗材与配件", 1);
+            }
+            if (s.supplies != null)
+            {
+                if (trade.returnedUnpaid) ClinicSupplies.Release(s, caseId);
+                else ClinicSupplies.Deliver(s, caseId);
             }
             trade.state = ClinicTradeState.Delivered;
             if (trade.queueIndex == 0)

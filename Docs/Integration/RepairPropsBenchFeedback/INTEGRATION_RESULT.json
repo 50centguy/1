@@ -1,0 +1,19 @@
+{
+  "project": "D:/uetounity/UnityProjects/BorderRepairStation_repairprops",
+  "scene": "Assets/RepairProps/Scenes/RepairProps_Clinic.unity",
+  "implemented": ["fixed-support camera orbit", "screw exit and table parking animation", "cover and module table parking", "return animation", "parked-part picking", "table fixture clearance", "initial overview fitting"],
+  "editMode": {"passed": 54, "failed": 0, "skipped": 0, "run": "feedback-edit-delivery"},
+  "playMode": {"passed": 23, "failed": 0, "skipped": 0, "run": "feedback-verified-rotation"},
+  "fourOrderSceneE2E": "passed",
+  "allFourParkingLayoutsFit": true,
+  "desktopSceneUnchanged": true,
+  "vrSceneUnchanged": true,
+  "buildSettingsUnchanged": true,
+  "mainProjectEdited": false,
+  "artSourcesEdited": false,
+  "humanAcceptance": "pending",
+  "physicalHeadsetAcceptance": "not performed",
+  "playerBuild": "not performed",
+  "knownResidual": "Previously known XR Project Validation SettingsWindow/InputSettings-null exception during test-editor teardown; passing tests are not an error-free-editor-log claim.",
+  "simulationBoundary": "Logical repair state remains synchronous. Animated proxies are not a free-hand rigidbody tool simulation."
+}

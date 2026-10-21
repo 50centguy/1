@@ -25,6 +25,7 @@ namespace BorderRepair
         public Tools.RepairToolAnimator ToolAnimator => toolAnimator;
         /// <summary>工具动画进行中：不接受新的零件单击、换工具和扫描切换，避免同一步被重复触发。</summary>
         public bool InputLocked => toolAnimator != null && toolAnimator.Busy;
+        public bool CleaningActive { get; set; }
         public ItemInspector Inspector => inspector;
         public ItemScanner Scanner => scanner;
         public RepairUIView View => view;
@@ -95,7 +96,7 @@ namespace BorderRepair
         void Update()
         {
             if (Session == null) return;
-            if (RepairInput.ToggleScanPressed && Session.Stage != RepairStage.Summary && !InputLocked) Session.ToggleScanMode();
+            if (RepairInput.ToggleScanPressed && Session.Stage != RepairStage.Summary && !InputLocked && !CleaningActive) Session.ToggleScanMode();
             if (RepairInput.ResetViewPressed && inspector.InteractionEnabled) inspector.ResetView();
             view.SetTimer(Session.ShiftDuration, shift.targetDurationSeconds);
         }
@@ -109,7 +110,7 @@ namespace BorderRepair
         /// <summary>选择维修工具（null = 空手）。选工具时关闭扫描模式；两者互斥。</summary>
         public void SelectTool(RepairActionType? tool)
         {
-            if (Session == null || InputLocked) return;
+            if (Session == null || InputLocked || CleaningActive) return;
             if (tool.HasValue && Session.Stage != RepairStage.Inspect)
             {
                 view.ShowFeedback("接收物品后才能动手维修。", FeedbackKind.Warning);
@@ -133,7 +134,7 @@ namespace BorderRepair
         /// </summary>
         public bool ClickPoint(string pointId)
         {
-            if (Session == null || InputLocked) return false;
+            if (Session == null || InputLocked || CleaningActive) return false;
             if (!ActiveTool.HasValue)
             {
                 Session.ReportScan(pointId);

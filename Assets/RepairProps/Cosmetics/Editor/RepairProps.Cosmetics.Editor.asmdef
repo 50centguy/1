@@ -1,0 +1,6 @@
+{
+  "name": "BorderRepair.RepairProps.Cosmetics.Editor",
+  "references": ["BorderRepair.RepairProps.Cosmetics", "BorderRepair.RepairProps.Runtime"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

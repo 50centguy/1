@@ -1,0 +1,2494 @@
+{
+    "scope": "Editor asset import and neutral renders; not target-device performance or VR acceptance",
+    "items": [
+        {
+            "id": "Receiver",
+            "sourceHash": "ec213d84ca11c687e5786737c5f3e3ca08e0112f095e7db336ab94dce67f8618",
+            "meshes": 51,
+            "trianglesAllStates": 34748,
+            "trianglesDefault": 31360,
+            "materialCount": 6,
+            "renderersDefault": 43,
+            "materialSlotsDefault": 44,
+            "createdMaterialAssets": 6,
+            "sizeMeters": {
+                "x": 0.14517998695373536,
+                "y": 0.19604001939296723,
+                "z": 0.04779999330639839
+            },
+            "boundTextureProfilerBytes": 128724303,
+            "previewRendered": true,
+            "previewPixelRange": 1.0,
+            "problems": [],
+            "hierarchy": [
+                "Receiver/RX_CoverScrew_01",
+                "Receiver/RX_CoverScrew_02",
+                "Receiver/RX_CoverScrew_03",
+                "Receiver/RX_CoverScrew_04",
+                "Receiver/RX_Exterior/RX_BottomFoot",
+                "Receiver/RX_Exterior/RX_Button_A",
+                "Receiver/RX_Exterior/RX_Button_B",
+                "Receiver/RX_Exterior/RX_Button_C",
+                "Receiver/RX_Exterior/RX_ButtonBezels",
+                "Receiver/RX_Exterior/RX_CornerGuard_L",
+                "Receiver/RX_Exterior/RX_CornerGuard_R",
+                "Receiver/RX_Exterior/RX_FrontShell",
+                "Receiver/RX_Exterior/RX_GrilleFrame",
+                "Receiver/RX_Exterior/RX_GrilleInsert",
+                "Receiver/RX_Exterior/RX_HingeKnuckle_Front",
+                "Receiver/RX_Exterior/RX_HingeKnuckle_Rear",
+                "Receiver/RX_Exterior/RX_RearShell",
+                "Receiver/RX_Exterior/RX_ScreenBezel",
+                "Receiver/RX_Exterior/RX_ScreenGlass",
+                "Receiver/RX_Exterior/RX_SideJack_R",
+                "Receiver/RX_Exterior/RX_SideRail_L",
+                "Receiver/RX_Exterior/RX_SideRail_R",
+                "Receiver/RX_Exterior/RX_StripLatch",
+                "Receiver/RX_Exterior/RX_TopRail_Front",
+                "Receiver/RX_Exterior/RX_TopRail_Rear",
+                "Receiver/RX_FX/RX_LightCurtain_Locked",
+                "Receiver/RX_FX/RX_LightCurtain_Noise",
+                "Receiver/RX_FX/RX_ScreenState_Locked",
+                "Receiver/RX_FX/RX_ScreenState_Noise",
+                "Receiver/RX_HingePin",
+                "Receiver/RX_HousingInner",
+                "Receiver/RX_Internals/RX_BatteryLead_Connected",
+                "Receiver/RX_Internals/RX_BatteryLead_Isolated",
+                "Receiver/RX_Internals/RX_InnerCarrier",
+                "Receiver/RX_Internals/RX_InnerCarrier/RX_AntennaFlex",
+                "Receiver/RX_Internals/RX_InnerCarrier/RX_BatteryCassette",
+                "Receiver/RX_Internals/RX_InnerCarrier/RX_DisplayFlex",
+                "Receiver/RX_Internals/RX_InnerCarrier/RX_EmitterFlex",
+                "Receiver/RX_Internals/RX_InnerCarrier/RX_FrontBoard",
+                "Receiver/RX_Internals/RX_InnerCarrier/RX_Mainboard",
+                "Receiver/RX_Internals/RX_InnerCarrier/RX_OpticalEmitter",
+                "Receiver/RX_Internals/RX_RF_Daughterboard_Fault",
+                "Receiver/RX_Internals/RX_RF_Daughterboard_New",
+                "Receiver/RX_Internals/RX_RFCoax_Connected",
+                "Receiver/RX_Internals/RX_RFCoax_Released",
+                "Receiver/RX_Internals/RX_RFScrew_01",
+                "Receiver/RX_Internals/RX_RFScrew_02",
+                "Receiver/RX_RearCover",
+                "Receiver/RX_TestLead",
+                "Receiver/RX_TopDeck",
+                "Receiver/RX_TopStrip_Hinge/RX_TopStrip"
+            ],
+            "textures": [
+                {
+                    "name": "RK_RX_Exterior_V2_ao",
+                    "format": "RGBA_BC7_UNorm",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_RX_Exterior_V2_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 4096,
+                    "height": 4096,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_RX_Exterior_V2_metallicSmoothness_URP",
+                    "format": "RGBA_BC7_UNorm",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_RX_Exterior_V2_normal",
+                    "format": "RG_BC5_UNorm",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": true
+                },
+                {
+                    "name": "RK_RX_Interior_ao",
+                    "format": "RGBA_BC7_UNorm",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_RX_Interior_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_RX_Interior_metallicSmoothness_URP",
+                    "format": "RGBA_BC7_UNorm",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_RX_Interior_normal",
+                    "format": "RG_BC5_UNorm",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": true
+                },
+                {
+                    "name": "RX_LightCurtain_Locked_V2",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "RX_LightCurtain_Noise_V2",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "RX_ScreenState_Locked",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "RX_ScreenState_Noise",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                }
+            ]
+        },
+        {
+            "id": "Cartridge",
+            "sourceHash": "fc846d482cfc55852c50427d518e1f5401bedb0157900174ae0b6aa48ef0db2f",
+            "meshes": 53,
+            "trianglesAllStates": 16752,
+            "trianglesDefault": 14446,
+            "materialCount": 49,
+            "renderersDefault": 49,
+            "materialSlotsDefault": 60,
+            "createdMaterialAssets": 49,
+            "sizeMeters": {
+                "x": 0.08000000566244126,
+                "y": 0.011659547686576844,
+                "z": 0.04616175591945648
+            },
+            "boundTextureProfilerBytes": 23893006,
+            "previewRendered": true,
+            "previewPixelRange": 1.0,
+            "problems": [],
+            "hierarchy": [
+                "Cartridge/MC_BaseTray",
+                "Cartridge/MC_BaseTray/MC_BaseTray_Seats",
+                "Cartridge/MC_BaseTray/MC_DataCore",
+                "Cartridge/MC_CoverScrew_01",
+                "Cartridge/MC_CoverScrew_02",
+                "Cartridge/MC_CoverScrew_03",
+                "Cartridge/MC_CoverScrew_04",
+                "Cartridge/MC_Exterior/MC_ext_BaseScrew_A_p11",
+                "Cartridge/MC_Exterior/MC_ext_BaseScrew_B_p17",
+                "Cartridge/MC_Exterior/MC_ext_BaseScrew_C_p23",
+                "Cartridge/MC_Exterior/MC_ext_BaseScrew_D_p24",
+                "Cartridge/MC_Exterior/MC_ext_CoverStripe_Red_p65",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p19",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p32",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p66",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p67",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p68",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p69",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p70",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p73",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p74",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p75",
+                "Cartridge/MC_Exterior/MC_ext_Detail_p76",
+                "Cartridge/MC_Exterior/MC_ext_EdgeStrip_A_p27",
+                "Cartridge/MC_Exterior/MC_ext_EdgeStrip_B_p29",
+                "Cartridge/MC_Exterior/MC_ext_EdgeStrip_C_p59",
+                "Cartridge/MC_Exterior/MC_ext_EdgeStrip_D_p61",
+                "Cartridge/MC_Exterior/MC_ext_Guard_Body_p10",
+                "Cartridge/MC_Exterior/MC_ext_Guard_Collar_p15",
+                "Cartridge/MC_Exterior/MC_ext_Guard_Lower_p16",
+                "Cartridge/MC_Exterior/MC_ext_Guard_Upper_p06",
+                "Cartridge/MC_Exterior/MC_ext_SideRail_Front_Cap_p12",
+                "Cartridge/MC_Exterior/MC_ext_SideRail_Front_p01",
+                "Cartridge/MC_Exterior/MC_ext_SideRail_Rear_p04",
+                "Cartridge/MC_Exterior/MC_ext_StatusLED_p28",
+                "Cartridge/MC_Exterior/MC_ext_TailBlock_A_p02",
+                "Cartridge/MC_Exterior/MC_ext_TailBlock_B_p03",
+                "Cartridge/MC_Exterior/MC_ext_TailCorner_Inner_p18",
+                "Cartridge/MC_Exterior/MC_ext_TailCorner_p08",
+                "Cartridge/MC_Exterior/MC_ext_TailRib_A_p30",
+                "Cartridge/MC_Exterior/MC_ext_TailRib_B_p31",
+                "Cartridge/MC_Exterior/MC_ext_TailScrew_A_p21",
+                "Cartridge/MC_Exterior/MC_ext_TailScrew_B_p22",
+                "Cartridge/MC_FX/MC_StatusLED_Fail",
+                "Cartridge/MC_FX/MC_StatusLED_OK",
+                "Cartridge/MC_Internals/MC_BoardJumper_Connected",
+                "Cartridge/MC_Internals/MC_BoardJumper_Released",
+                "Cartridge/MC_Internals/MC_IFScrew_01",
+                "Cartridge/MC_Internals/MC_IFScrew_02",
+                "Cartridge/MC_Internals/MC_InterfaceBoard_Fault",
+                "Cartridge/MC_Internals/MC_InterfaceBoard_New",
+                "Cartridge/MC_TopCover",
+                "Cartridge/MC_TopCover/MC_ext_Detail_p63"
+            ],
+            "textures": [
+                {
+                    "name": "MC_StatusLED_Fail",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "MC_StatusLED_OK",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_MC_Interior_ao",
+                    "format": "RGBA_BC7_UNorm",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_MC_Interior_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_MC_Interior_metallicSmoothness_URP",
+                    "format": "RGBA_BC7_UNorm",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_MC_Interior_normal",
+                    "format": "RG_BC5_UNorm",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": true
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_0_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_1_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_10_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_11_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_12_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_13_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_14_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_15_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_16_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_17_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_18_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_19_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_2_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_20_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_21_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_22_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_23_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_24_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_25_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_26_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_27_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_28_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_29_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_3_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_30_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_31_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_32_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_4_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_5_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_59_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_6_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_61_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_63_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_65_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_66_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_67_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_68_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_69_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_7_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_70_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_73_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_74_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_75_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_76_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_8_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "sci-fi_device_3d_model_tripo_part_9_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                }
+            ]
+        },
+        {
+            "id": "Omamori",
+            "sourceHash": "082cf8fd5532a3c8023b4bc49d7e30bf4b0ccb252f4f838351eeb017794748dc",
+            "meshes": 130,
+            "trianglesAllStates": 26602,
+            "trianglesDefault": 24250,
+            "materialCount": 110,
+            "renderersDefault": 127,
+            "materialSlotsDefault": 140,
+            "createdMaterialAssets": 110,
+            "sizeMeters": {
+                "x": 0.07955065369606018,
+                "y": 0.1062208041548729,
+                "z": 0.023497074842453004
+            },
+            "boundTextureProfilerBytes": 24006208,
+            "previewRendered": true,
+            "previewPixelRange": 1.0,
+            "problems": [],
+            "hierarchy": [
+                "Omamori/OM_CoverScrew_01",
+                "Omamori/OM_CoverScrew_02",
+                "Omamori/OM_CoverScrew_03",
+                "Omamori/OM_CoverScrew_04",
+                "Omamori/OM_Exterior/OM_ext_CoilGuard_Disc_p00",
+                "Omamori/OM_Exterior/OM_ext_FrontPlate_p08",
+                "Omamori/OM_Exterior/OM_ext_RearHalfShell_p03",
+                "Omamori/OM_Exterior/OM_ext_Seg_p01",
+                "Omamori/OM_Exterior/OM_ext_Seg_p02",
+                "Omamori/OM_Exterior/OM_ext_Seg_p04",
+                "Omamori/OM_Exterior/OM_ext_Seg_p05",
+                "Omamori/OM_Exterior/OM_ext_Seg_p06",
+                "Omamori/OM_Exterior/OM_ext_Seg_p07",
+                "Omamori/OM_Exterior/OM_ext_Seg_p09",
+                "Omamori/OM_Exterior/OM_ext_Seg_p10",
+                "Omamori/OM_Exterior/OM_ext_Seg_p11",
+                "Omamori/OM_Exterior/OM_ext_Seg_p12",
+                "Omamori/OM_Exterior/OM_ext_Seg_p13",
+                "Omamori/OM_Exterior/OM_ext_Seg_p14",
+                "Omamori/OM_Exterior/OM_ext_Seg_p15",
+                "Omamori/OM_Exterior/OM_ext_Seg_p16",
+                "Omamori/OM_Exterior/OM_ext_Seg_p17",
+                "Omamori/OM_Exterior/OM_ext_Seg_p18",
+                "Omamori/OM_Exterior/OM_ext_Seg_p19",
+                "Omamori/OM_Exterior/OM_ext_Seg_p20",
+                "Omamori/OM_Exterior/OM_ext_Seg_p21",
+                "Omamori/OM_Exterior/OM_ext_Seg_p22",
+                "Omamori/OM_Exterior/OM_ext_Seg_p24",
+                "Omamori/OM_Exterior/OM_ext_Seg_p25",
+                "Omamori/OM_Exterior/OM_ext_Seg_p26",
+                "Omamori/OM_Exterior/OM_ext_Seg_p27",
+                "Omamori/OM_Exterior/OM_ext_Seg_p28",
+                "Omamori/OM_Exterior/OM_ext_Seg_p29",
+                "Omamori/OM_Exterior/OM_ext_Seg_p30",
+                "Omamori/OM_Exterior/OM_ext_Seg_p31",
+                "Omamori/OM_Exterior/OM_ext_Seg_p32",
+                "Omamori/OM_Exterior/OM_ext_Seg_p33",
+                "Omamori/OM_Exterior/OM_ext_Seg_p34",
+                "Omamori/OM_Exterior/OM_ext_Seg_p35",
+                "Omamori/OM_Exterior/OM_ext_Seg_p36",
+                "Omamori/OM_Exterior/OM_ext_Seg_p37",
+                "Omamori/OM_Exterior/OM_ext_Seg_p38",
+                "Omamori/OM_Exterior/OM_ext_Seg_p39",
+                "Omamori/OM_Exterior/OM_ext_Seg_p40",
+                "Omamori/OM_Exterior/OM_ext_Seg_p41",
+                "Omamori/OM_Exterior/OM_ext_Seg_p42",
+                "Omamori/OM_Exterior/OM_ext_Seg_p43",
+                "Omamori/OM_Exterior/OM_ext_Seg_p44",
+                "Omamori/OM_Exterior/OM_ext_Seg_p45",
+                "Omamori/OM_Exterior/OM_ext_Seg_p46",
+                "Omamori/OM_Exterior/OM_ext_Seg_p47",
+                "Omamori/OM_Exterior/OM_ext_Seg_p48",
+                "Omamori/OM_Exterior/OM_ext_Seg_p49",
+                "Omamori/OM_Exterior/OM_ext_Seg_p50",
+                "Omamori/OM_Exterior/OM_ext_Seg_p51",
+                "Omamori/OM_Exterior/OM_ext_Seg_p52",
+                "Omamori/OM_Exterior/OM_ext_Seg_p53",
+                "Omamori/OM_Exterior/OM_ext_Seg_p54",
+                "Omamori/OM_Exterior/OM_ext_Seg_p55",
+                "Omamori/OM_Exterior/OM_ext_Seg_p56",
+                "Omamori/OM_Exterior/OM_ext_Seg_p57",
+                "Omamori/OM_Exterior/OM_ext_Seg_p58",
+                "Omamori/OM_Exterior/OM_ext_Seg_p59",
+                "Omamori/OM_Exterior/OM_ext_Seg_p60",
+                "Omamori/OM_Exterior/OM_ext_Seg_p61",
+                "Omamori/OM_Exterior/OM_ext_Seg_p62",
+                "Omamori/OM_Exterior/OM_ext_Seg_p63",
+                "Omamori/OM_Exterior/OM_ext_Seg_p64",
+                "Omamori/OM_Exterior/OM_ext_Seg_p65",
+                "Omamori/OM_Exterior/OM_ext_Seg_p66",
+                "Omamori/OM_Exterior/OM_ext_Seg_p67",
+                "Omamori/OM_Exterior/OM_ext_Seg_p68",
+                "Omamori/OM_Exterior/OM_ext_Seg_p69",
+                "Omamori/OM_Exterior/OM_ext_Seg_p70",
+                "Omamori/OM_Exterior/OM_ext_Seg_p71",
+                "Omamori/OM_Exterior/OM_ext_Seg_p72",
+                "Omamori/OM_Exterior/OM_ext_Seg_p73",
+                "Omamori/OM_Exterior/OM_ext_Seg_p74",
+                "Omamori/OM_Exterior/OM_ext_Seg_p75",
+                "Omamori/OM_Exterior/OM_ext_Seg_p76",
+                "Omamori/OM_Exterior/OM_ext_Seg_p77",
+                "Omamori/OM_Exterior/OM_ext_Seg_p78",
+                "Omamori/OM_Exterior/OM_ext_Seg_p79",
+                "Omamori/OM_Exterior/OM_ext_Seg_p80",
+                "Omamori/OM_Exterior/OM_ext_Seg_p81",
+                "Omamori/OM_Exterior/OM_ext_Seg_p82",
+                "Omamori/OM_Exterior/OM_ext_Seg_p83",
+                "Omamori/OM_Exterior/OM_ext_Seg_p84",
+                "Omamori/OM_Exterior/OM_ext_Seg_p85",
+                "Omamori/OM_Exterior/OM_ext_Seg_p86",
+                "Omamori/OM_Exterior/OM_ext_Seg_p87",
+                "Omamori/OM_Exterior/OM_ext_Seg_p88",
+                "Omamori/OM_Exterior/OM_ext_Seg_p89",
+                "Omamori/OM_Exterior/OM_ext_Seg_p90",
+                "Omamori/OM_Exterior/OM_ext_Seg_p91",
+                "Omamori/OM_Exterior/OM_ext_Seg_p92",
+                "Omamori/OM_Exterior/OM_ext_Seg_p93",
+                "Omamori/OM_Exterior/OM_ext_Seg_p94",
+                "Omamori/OM_Exterior/OM_ext_Seg_p95",
+                "Omamori/OM_Exterior/OM_ext_Seg_p96",
+                "Omamori/OM_Exterior/OM_ext_Seg_p97",
+                "Omamori/OM_Exterior/OM_ext_Seg_p98",
+                "Omamori/OM_Exterior/OM_ext_Seg_p99",
+                "Omamori/OM_Exterior/OM_ext_Seg_p100",
+                "Omamori/OM_Exterior/OM_ext_Seg_p101",
+                "Omamori/OM_Exterior/OM_ext_Seg_p102",
+                "Omamori/OM_Exterior/OM_ext_Seg_p103",
+                "Omamori/OM_Exterior/OM_ext_Seg_p104",
+                "Omamori/OM_Exterior/OM_ext_Seg_p105",
+                "Omamori/OM_Exterior/OM_ext_Seg_p106",
+                "Omamori/OM_Exterior/OM_ext_Seg_p107",
+                "Omamori/OM_Exterior/OM_ext_Seg_p108",
+                "Omamori/OM_Interior/OM_Coil",
+                "Omamori/OM_Interior/OM_CoilLeads",
+                "Omamori/OM_Interior/OM_DisplayFlex",
+                "Omamori/OM_Interior/OM_InnerFrame",
+                "Omamori/OM_Interior/OM_MainBoard",
+                "Omamori/OM_Interior/OM_MainBoard/OM_MemoryCore",
+                "Omamori/OM_Interior/OM_PowerCell",
+                "Omamori/OM_Interior/OM_PowerLead_Connected",
+                "Omamori/OM_Interior/OM_PowerLead_Isolated",
+                "Omamori/OM_Interior/OM_PowerPlug",
+                "Omamori/OM_Interior/OM_WakeFlex_Connected",
+                "Omamori/OM_Interior/OM_WakeFlex_Released",
+                "Omamori/OM_Interior/OM_WakeModule_Fault",
+                "Omamori/OM_Interior/OM_WakeModule_New",
+                "Omamori/OM_Interior/OM_WakePlug",
+                "Omamori/OM_Interior/OM_WakeScrew_01",
+                "Omamori/OM_Interior/OM_WakeScrew_02",
+                "Omamori/OM_RearCover"
+            ],
+            "textures": [
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_0_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_1_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_10_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_100_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_101_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_102_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_103_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_104_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_105_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_106_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_107_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_108_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_11_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_12_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_13_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_14_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_15_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_16_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_17_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_18_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_19_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_2_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_20_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_21_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_22_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_23_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_24_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_25_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_26_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_27_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_28_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_29_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_3_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_30_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_31_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_32_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_33_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_34_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_35_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_36_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_37_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_38_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_39_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_4_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_40_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_41_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_42_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_43_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_44_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_45_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_46_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_47_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_48_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_49_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_5_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_50_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_51_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_52_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_53_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_54_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_55_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_56_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_57_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_58_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_59_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_6_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_60_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_61_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_62_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_63_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_64_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_65_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_66_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_67_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_68_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_69_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_7_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_70_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_71_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_72_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_73_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_74_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_75_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_76_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_77_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_78_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_79_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_8_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_80_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_81_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_82_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_83_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_84_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_85_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_86_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_87_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_88_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_89_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_9_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_90_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_91_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_92_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_93_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_94_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_95_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_96_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_97_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_98_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "futuristic_gadget_3d_model_tripo_part_99_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_OmamoriInterior_ao",
+                    "format": "RGBA_BC7_UNorm",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_OmamoriInterior_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_OmamoriInterior_metallicSmoothness_URP",
+                    "format": "RGBA_BC7_UNorm",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_OmamoriInterior_normal",
+                    "format": "RG_BC5_UNorm",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": true
+                }
+            ]
+        },
+        {
+            "id": "Power",
+            "sourceHash": "cce8072f8188049abcdaa5b9e7206b50e35596e6585f262db71a51a8c1f4ea7a",
+            "meshes": 71,
+            "trianglesAllStates": 43306,
+            "trianglesDefault": 35866,
+            "materialCount": 52,
+            "renderersDefault": 68,
+            "materialSlotsDefault": 76,
+            "createdMaterialAssets": 52,
+            "sizeMeters": {
+                "x": 0.2116682231426239,
+                "y": 0.250129759311676,
+                "z": 0.1724647730588913
+            },
+            "boundTextureProfilerBytes": 62259227,
+            "previewRendered": true,
+            "previewPixelRange": 1.0,
+            "problems": [],
+            "hierarchy": [
+                "Power/PS_CoverScrew_01",
+                "Power/PS_CoverScrew_02",
+                "Power/PS_CoverScrew_03",
+                "Power/PS_CoverScrew_04",
+                "Power/PS_Exterior/PS_ext_Display_Detail_p51",
+                "Power/PS_Exterior/PS_ext_Display_p37",
+                "Power/PS_Exterior/PS_ext_Foot_FL_p27",
+                "Power/PS_Exterior/PS_ext_Foot_FR_p09",
+                "Power/PS_Exterior/PS_ext_Foot_RL_p13",
+                "Power/PS_Exterior/PS_ext_Foot_RR_p26",
+                "Power/PS_Exterior/PS_ext_FrontScrew_1_p17",
+                "Power/PS_Exterior/PS_ext_FrontScrew_2_p18",
+                "Power/PS_Exterior/PS_ext_FrontScrew_3_p43",
+                "Power/PS_Exterior/PS_ext_FrontScrew_4_p45",
+                "Power/PS_Exterior/PS_ext_HandlePivotBlock_L_p01",
+                "Power/PS_Exterior/PS_ext_HandlePivotBlock_R_p00",
+                "Power/PS_Exterior/PS_ext_HandlePivotBracket_L_p31",
+                "Power/PS_Exterior/PS_ext_HandlePivotBracket_R_p32",
+                "Power/PS_Exterior/PS_ext_HandlePivotScrew_L1_p33",
+                "Power/PS_Exterior/PS_ext_HandlePivotScrew_L2_p36",
+                "Power/PS_Exterior/PS_ext_HandlePivotScrew_R1_p34",
+                "Power/PS_Exterior/PS_ext_HandlePivotScrew_R2_p35",
+                "Power/PS_Exterior/PS_ext_Knob_1_p06",
+                "Power/PS_Exterior/PS_ext_Knob_2_p08",
+                "Power/PS_Exterior/PS_ext_Knob_3_p07",
+                "Power/PS_Exterior/PS_ext_OutputSwitch_Base_p30",
+                "Power/PS_Exterior/PS_ext_OutputSwitch_Detail_p50",
+                "Power/PS_Exterior/PS_ext_OutputSwitch_Guard_p02",
+                "Power/PS_Exterior/PS_ext_OutputSwitch_Lever_p15",
+                "Power/PS_Exterior/PS_ext_PortA_Bezel_p11",
+                "Power/PS_Exterior/PS_ext_PortA_Core_p44",
+                "Power/PS_Exterior/PS_ext_PortA_Ring_p03",
+                "Power/PS_Exterior/PS_ext_PortB_Body_p10",
+                "Power/PS_Exterior/PS_ext_PortB_PinL_p38",
+                "Power/PS_Exterior/PS_ext_PortB_PinR_p39",
+                "Power/PS_Exterior/PS_ext_PortB_Pins_p42",
+                "Power/PS_Exterior/PS_ext_RearLabel_p20",
+                "Power/PS_Exterior/PS_ext_RearLamp_L_p25",
+                "Power/PS_Exterior/PS_ext_RearLamp_R_p04",
+                "Power/PS_Exterior/PS_ext_RearPlate_p46",
+                "Power/PS_Exterior/PS_ext_RearPort_Body_p16",
+                "Power/PS_Exterior/PS_ext_RearPort_Cap_p12",
+                "Power/PS_Exterior/PS_ext_RearPort_Plate_p41",
+                "Power/PS_Exterior/PS_ext_RearVentStrip_p40",
+                "Power/PS_Exterior/PS_ext_Shell_p21",
+                "Power/PS_Exterior/PS_ext_StatusLamp_Bezel_p05",
+                "Power/PS_Exterior/PS_ext_StatusLamp_Lens_p22",
+                "Power/PS_FuseCap",
+                "Power/PS_Handle",
+                "Power/PS_Interior/PS_BatteryBracketScrew",
+                "Power/PS_Interior/PS_BatteryLead_Connected",
+                "Power/PS_Interior/PS_BatteryLead_Isolated",
+                "Power/PS_Interior/PS_BatteryServicePlug",
+                "Power/PS_Interior/PS_Fan",
+                "Power/PS_Interior/PS_Fan/PS_Fan_Rotor",
+                "Power/PS_Interior/PS_FanCable",
+                "Power/PS_Interior/PS_FrontElectronics",
+                "Power/PS_Interior/PS_InnerFrame",
+                "Power/PS_Interior/PS_OutputTray",
+                "Power/PS_Interior/PS_OutputTray/PS_ModuleScrew_01",
+                "Power/PS_Interior/PS_OutputTray/PS_ModuleScrew_02",
+                "Power/PS_Interior/PS_OutputTray/PS_OutputModule_Fault",
+                "Power/PS_Interior/PS_OutputTray/PS_OutputModule_New",
+                "Power/PS_Interior/PS_SealedBatteryCassette",
+                "Power/PS_Interior/PS_TrayHarness_Connected",
+                "Power/PS_Interior/PS_TrayHarness_Released",
+                "Power/PS_Interior/PS_TrayHarnessPlug",
+                "Power/PS_Interior/PS_TrayScrew_01",
+                "Power/PS_Interior/PS_TrayScrew_02",
+                "Power/PS_LeftServiceCover",
+                "Power/PS_LeftServiceCover/PS_LeftServiceCover_BackingMesh"
+            ],
+            "textures": [
+                {
+                    "name": "RK_PowerInterior_ao",
+                    "format": "RGBA_BC7_UNorm",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_PowerInterior_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_PowerInterior_metallicSmoothness_URP",
+                    "format": "RGBA_BC7_UNorm",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": false
+                },
+                {
+                    "name": "RK_PowerInterior_normal",
+                    "format": "RG_BC5_UNorm",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": false,
+                    "normalMap": true
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_0_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_1_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_10_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_11_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_12_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_13_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_14_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_15_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_16_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_17_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_18_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_19_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_2_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_20_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_21_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 2048,
+                    "height": 2048,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_22_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_23_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_24_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_25_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_26_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_27_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_28_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_29_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_3_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_30_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_31_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_32_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_33_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_34_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_35_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_36_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_37_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 512,
+                    "height": 512,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_38_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_39_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_4_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_40_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_41_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 256,
+                    "height": 256,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_42_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_43_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_44_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_45_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_46_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 1024,
+                    "height": 1024,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_47_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_48_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_5_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 64,
+                    "height": 64,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_50_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 32,
+                    "height": 32,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_51_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_6_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_7_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_8_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                },
+                {
+                    "name": "rugged_device_3d_model_tripo_part_9_basecolor",
+                    "format": "RGBA_BC7_SRGB",
+                    "width": 128,
+                    "height": 128,
+                    "readable": false,
+                    "sRGB": true,
+                    "normalMap": false
+                }
+            ]
+        }
+    ]
+}

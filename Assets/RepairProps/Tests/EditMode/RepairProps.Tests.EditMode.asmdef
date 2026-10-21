@@ -1,0 +1,9 @@
+{
+  "name": "BorderRepair.RepairProps.Tests.EditMode",
+  "references": ["BorderRepair.Runtime", "BorderRepair.RepairProps.Runtime", "BorderRepair.TwoNight.Runtime", "BorderRepair.RepairProps.Tests.Support", "UnityEngine.TestRunner", "UnityEditor.TestRunner"],
+  "includePlatforms": ["Editor"],
+  "overrideReferences": true,
+  "precompiledReferences": ["nunit.framework.dll"],
+  "autoReferenced": false,
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

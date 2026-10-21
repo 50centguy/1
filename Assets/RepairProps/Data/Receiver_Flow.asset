@@ -1,0 +1,1397 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cf8987c81021704a8ca68779216999a, type: 3}
+  m_Name: Receiver_Flow
+  m_EditorClassIdentifier: 
+  kind: 0
+  repairCase: {fileID: 11400000, guid: 234b1b55946e71a4da62986a4e34117b, type: 2}
+  rootObjectName: RX_SignalReceiver
+  retainedObjectName: RX_Mainboard
+  completionStepId: flow.verified
+  completionEndingId: return.repaired
+  initialState:
+  - key: power
+    value: 1
+  - key: fixture
+    value: 1
+  - key: module
+    value: 0
+  - key: seat
+    value: 1
+  - key: old.out
+    value: 0
+  - key: new.out
+    value: 1
+  - key: isolated
+    value: 0
+  - key: released
+    value: 0
+  - key: tray
+    value: 0
+  - key: cover
+    value: 0
+  - key: out.RX_CoverScrew_01
+    value: 0
+  - key: out.RX_CoverScrew_02
+    value: 0
+  - key: out.RX_CoverScrew_03
+    value: 0
+  - key: out.RX_CoverScrew_04
+    value: 0
+  - key: out.RX_RFScrew_01
+    value: 0
+  - key: out.RX_RFScrew_02
+    value: 0
+  - key: strip
+    value: 0
+  assembled:
+  - key: out.RX_CoverScrew_01
+    value: 0
+  - key: out.RX_CoverScrew_02
+    value: 0
+  - key: out.RX_CoverScrew_03
+    value: 0
+  - key: out.RX_CoverScrew_04
+    value: 0
+  - key: cover
+    value: 0
+  - key: isolated
+    value: 0
+  - key: released
+    value: 0
+  - key: out.RX_RFScrew_01
+    value: 0
+  - key: out.RX_RFScrew_02
+    value: 0
+  - key: seat
+    value: 1
+  nodes:
+  - objectName: RX_SignalReceiver
+    displayName: "\u4FE1\u53F7\u63A5\u6536\u5668"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_RearCover
+    displayName: "\u540E\u76D6"
+    motionNote: "\u76D6\u677F\u6682\u5B58\u5728\u96F6\u4EF6\u680F\uFF0C\u88C5\u56DE\u65F6\u6062\u590D\u539F\u5B89\u88C5\u4F4D\u3002"
+    hierarchyPath: RX_SignalReceiver/RX_RearCover
+    immutable: 0
+    movable: 1
+    outKey: cover
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.06}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_CoverScrew_01
+    displayName: "\u76D6\u677F\u87BA\u948901"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_CoverScrew_01
+    immutable: 0
+    movable: 1
+    outKey: out.RX_CoverScrew_01
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.012}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_CoverScrew_02
+    displayName: "\u76D6\u677F\u87BA\u948902"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_CoverScrew_02
+    immutable: 0
+    movable: 1
+    outKey: out.RX_CoverScrew_02
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.012}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_CoverScrew_03
+    displayName: "\u76D6\u677F\u87BA\u948903"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_CoverScrew_03
+    immutable: 0
+    movable: 1
+    outKey: out.RX_CoverScrew_03
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.012}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_CoverScrew_04
+    displayName: "\u76D6\u677F\u87BA\u948904"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_CoverScrew_04
+    immutable: 0
+    movable: 1
+    outKey: out.RX_CoverScrew_04
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.012}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_Mainboard
+    displayName: "\u539F\u89E3\u7801\u4E0E\u8BB0\u5F55\u4E3B\u677F"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_Internals/RX_InnerCarrier/RX_Mainboard
+    immutable: 1
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: RX_BatteryCassette
+    displayName: "\u5BC6\u5C01\u7535\u6C60\u76D2"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_Internals/RX_InnerCarrier/RX_BatteryCassette
+    immutable: 1
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: RX_BatteryLead_Connected
+    displayName: "\u7535\u6C60\u8FDE\u63A5\u7EBF\uFF08\u5DF2\u8FDE\u63A5\uFF09"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_Internals/RX_BatteryLead_Connected
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: isolated
+    visibleValue: 0
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: RX_BatteryLead_Isolated
+    displayName: "\u7535\u6C60\u8FDE\u63A5\u7EBF\uFF08\u5DF2\u9694\u79BB\uFF09"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_Internals/RX_BatteryLead_Isolated
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: isolated
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: RX_RFCoax_Connected
+    displayName: "\u5C04\u9891\u540C\u8F74\u7EBF\uFF08\u5DF2\u8FDE\u63A5\uFF09"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_Internals/RX_RFCoax_Connected
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: released
+    visibleValue: 0
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: RX_RFCoax_Released
+    displayName: "\u5C04\u9891\u540C\u8F74\u7EBF\uFF08\u5DF2\u91CA\u653E\uFF09"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_Internals/RX_RFCoax_Released
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: released
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: RX_RF_Daughterboard_Fault
+    displayName: "\u5C04\u9891\u63A5\u53E3\u5C0F\u677F\uFF08\u6545\u969C\u4EF6\uFF09"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_Internals/RX_RF_Daughterboard_Fault
+    immutable: 0
+    movable: 1
+    outKey: old.out
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.025}
+    inventoryOnly: 0
+    hideWhenKey: new.out
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: RX_RF_Daughterboard_New
+    displayName: "\u5C04\u9891\u63A5\u53E3\u5C0F\u677F\uFF08\u66FF\u6362\u4EF6\uFF09"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_Internals/RX_RF_Daughterboard_New
+    immutable: 0
+    movable: 1
+    outKey: new.out
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: -0.025}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: RX_RFScrew_01
+    displayName: "\u6A21\u5757\u56FA\u5B9A\u87BA\u948901"
+    motionNote: "\u62C6\u5378\u884C\u7A0B\u672A\u77E5\uFF1A\u539F\u578B\u4EC5\u6536\u7EB3\u81F3\u96F6\u4EF6\u680F\uFF0C\u4E0D\u8868\u793A\u5DF2\u9A8C\u8BC1\u79FB\u52A8\u8DDD\u79BB\u6216\u78B0\u649E\u3002"
+    hierarchyPath: RX_SignalReceiver/RX_Internals/RX_RFScrew_01
+    immutable: 0
+    movable: 1
+    outKey: out.RX_RFScrew_01
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: RX_RFScrew_02
+    displayName: "\u6A21\u5757\u56FA\u5B9A\u87BA\u948902"
+    motionNote: "\u62C6\u5378\u884C\u7A0B\u672A\u77E5\uFF1A\u539F\u578B\u4EC5\u6536\u7EB3\u81F3\u96F6\u4EF6\u680F\uFF0C\u4E0D\u8868\u793A\u5DF2\u9A8C\u8BC1\u79FB\u52A8\u8DDD\u79BB\u6216\u78B0\u649E\u3002"
+    hierarchyPath: RX_SignalReceiver/RX_Internals/RX_RFScrew_02
+    immutable: 0
+    movable: 1
+    outKey: out.RX_RFScrew_02
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: RX_TestLead
+    displayName: "\u6D4B\u8BD5\u8FDE\u63A5\u7EBF"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_TestLead
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: fixture
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_ScreenState_Noise
+    displayName: "\u566A\u58F0\u663E\u793A"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_FX/RX_ScreenState_Noise
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: display.signal
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_ScreenState_Locked
+    displayName: "\u9501\u9891\u663E\u793A"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_FX/RX_ScreenState_Locked
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: display.signal
+    visibleValue: 2
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_LightCurtain_Noise
+    displayName: "\u566A\u58F0\u5149\u5E55"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_FX/RX_LightCurtain_Noise
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: curtain
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_LightCurtain_Locked
+    displayName: "\u9501\u9891\u5149\u5E55"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_FX/RX_LightCurtain_Locked
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: curtain
+    visibleValue: 2
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: RX_TopStrip_Hinge
+    displayName: "\u9876\u90E8\u6D3B\u52A8\u62A4\u6761"
+    motionNote: 
+    hierarchyPath: RX_SignalReceiver/RX_TopStrip_Hinge
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: strip
+    rotationAxis: {x: 0, y: 0, z: -1}
+    rotationDegrees: 90
+    inspectRequires: []
+  commands:
+  - id: cover.remove
+    label: "\u53D6\u4E0B\u7EF4\u4FEE\u76D6\u677F"
+    target: RX_RearCover
+    kind: 0
+    tool: 1
+    requires:
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: out.RX_CoverScrew_01
+      value: 1
+    - key: out.RX_CoverScrew_02
+      value: 1
+    - key: out.RX_CoverScrew_03
+      value: 1
+    - key: out.RX_CoverScrew_04
+      value: 1
+    effects:
+    - key: cover
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: cover.install
+    label: "\u76D6\u677F\u5F52\u4F4D"
+    target: RX_RearCover
+    kind: 0
+    tool: 1
+    requires:
+    - key: cover
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: out.RX_CoverScrew_01
+      value: 1
+    - key: out.RX_CoverScrew_02
+      value: 1
+    - key: out.RX_CoverScrew_03
+      value: 1
+    - key: out.RX_CoverScrew_04
+      value: 1
+    - key: out.RX_RFScrew_01
+      value: 0
+    - key: out.RX_RFScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    - key: released
+      value: 0
+    - key: isolated
+      value: 0
+    - key: tray
+      value: 0
+    effects:
+    - key: cover
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.RX_CoverScrew_01
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94891"
+    target: RX_CoverScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_CoverScrew_01
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects:
+    - key: out.RX_CoverScrew_01
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.RX_CoverScrew_01
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94891"
+    target: RX_CoverScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_CoverScrew_01
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects:
+    - key: out.RX_CoverScrew_01
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.RX_CoverScrew_02
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94892"
+    target: RX_CoverScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_CoverScrew_02
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects:
+    - key: out.RX_CoverScrew_02
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.RX_CoverScrew_02
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94892"
+    target: RX_CoverScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_CoverScrew_02
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects:
+    - key: out.RX_CoverScrew_02
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.RX_CoverScrew_03
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94893"
+    target: RX_CoverScrew_03
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_CoverScrew_03
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects:
+    - key: out.RX_CoverScrew_03
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.RX_CoverScrew_03
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94893"
+    target: RX_CoverScrew_03
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_CoverScrew_03
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects:
+    - key: out.RX_CoverScrew_03
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.RX_CoverScrew_04
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94894"
+    target: RX_CoverScrew_04
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects:
+    - key: out.RX_CoverScrew_04
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.RX_CoverScrew_04
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94894"
+    target: RX_CoverScrew_04
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_CoverScrew_04
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects:
+    - key: out.RX_CoverScrew_04
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: isolate
+    label: "\u63E1\u4F4F\u63D2\u5934\u5E76\u65AD\u5F00\u5185\u90E8\u4F9B\u7535"
+    target: RX_BatteryLead_Connected
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects:
+    - key: isolated
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: supply.connect
+    label: "\u63A5\u56DE\u5185\u90E8\u4F9B\u7535"
+    target: RX_BatteryLead_Isolated
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: out.RX_RFScrew_01
+      value: 0
+    - key: out.RX_RFScrew_02
+      value: 0
+    - key: released
+      value: 0
+    - key: seat
+      value: 1
+    - key: tray
+      value: 0
+    effects:
+    - key: isolated
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: harness.release
+    label: "\u91CA\u653E\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
+    target: RX_RFCoax_Connected
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: released
+      value: 0
+    - key: tray
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: isolated
+      value: 1
+    effects:
+    - key: released
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: harness.connect
+    label: "\u63D2\u56DE\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
+    target: RX_RFCoax_Released
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: isolated
+      value: 1
+    - key: out.RX_RFScrew_01
+      value: 0
+    - key: out.RX_RFScrew_02
+      value: 0
+    effects:
+    - key: released
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.RX_RFScrew_01
+    label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
+    target: RX_RFScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_RFScrew_01
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.RX_RFScrew_01
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.RX_RFScrew_01
+    label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
+    target: RX_RFScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_RFScrew_01
+      value: 1
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.RX_RFScrew_01
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.RX_RFScrew_02
+    label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
+    target: RX_RFScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_RFScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.RX_RFScrew_02
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.RX_RFScrew_02
+    label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
+    target: RX_RFScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.RX_RFScrew_02
+      value: 1
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    effects:
+    - key: out.RX_RFScrew_02
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.remove.old
+    label: "\u53D6\u4E0B\u6545\u969C\u6A21\u5757"
+    target: RX_RF_Daughterboard_Fault
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 0
+    - key: seat
+      value: 1
+    - key: old.out
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    - key: out.RX_RFScrew_01
+      value: 1
+    - key: out.RX_RFScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 0
+    - key: module
+      value: 1
+    - key: old.out
+      value: 1
+    - key: last.module
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.install.old
+    label: "\u88C5\u56DE\u539F\u6545\u969C\u6A21\u5757"
+    target: RX_RF_Daughterboard_Fault
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 1
+    - key: seat
+      value: 0
+    - key: old.out
+      value: 1
+    - key: new.out
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    - key: out.RX_RFScrew_01
+      value: 1
+    - key: out.RX_RFScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 1
+    - key: module
+      value: 0
+    - key: old.out
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.remove.new
+    label: "\u53D6\u4E0B\u66FF\u6362\u6A21\u5757"
+    target: RX_RF_Daughterboard_New
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 2
+    - key: seat
+      value: 1
+    - key: new.out
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    - key: out.RX_RFScrew_01
+      value: 1
+    - key: out.RX_RFScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 0
+    - key: module
+      value: 1
+    - key: new.out
+      value: 1
+    - key: last.module
+      value: 2
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.install.new
+    label: "\u5B89\u88C5\u66FF\u6362\u6A21\u5757"
+    target: RX_RF_Daughterboard_New
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 1
+    - key: seat
+      value: 0
+    - key: old.out
+      value: 1
+    - key: new.out
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: isolated
+      value: 1
+    - key: out.RX_RFScrew_01
+      value: 1
+    - key: out.RX_RFScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 1
+    - key: module
+      value: 2
+    - key: new.out
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: strip.deploy
+    label: "\u5C55\u5F00\u9876\u90E8\u62A4\u6761"
+    target: RX_TopStrip_Hinge
+    kind: 6
+    tool: 1
+    requires:
+    - key: strip
+      value: 0
+    effects:
+    - key: strip
+      value: 1
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: strip.fold
+    label: "\u6536\u8D77\u9876\u90E8\u62A4\u6761"
+    target: RX_TopStrip_Hinge
+    kind: 6
+    tool: 1
+    requires:
+    - key: strip
+      value: 1
+    effects:
+    - key: strip
+      value: 0
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: power.off
+    label: "\u5173\u673A\uFF0F\u505C\u6B62\u8F93\u51FA"
+    target: RX_SignalReceiver
+    kind: 1
+    tool: 1
+    requires:
+    - key: power
+      value: 1
+    effects:
+    - key: power
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: fixture.disconnect
+    label: "\u89E3\u9664\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
+    target: RX_SignalReceiver
+    kind: 2
+    tool: 2
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 1
+    effects:
+    - key: fixture
+      value: 0
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: fixture.connect
+    label: "\u63A5\u5165\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
+    target: RX_SignalReceiver
+    kind: 2
+    tool: 2
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: out.RX_CoverScrew_01
+      value: 0
+    - key: out.RX_CoverScrew_02
+      value: 0
+    - key: out.RX_CoverScrew_03
+      value: 0
+    - key: out.RX_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: isolated
+      value: 0
+    - key: released
+      value: 0
+    - key: out.RX_RFScrew_01
+      value: 0
+    - key: out.RX_RFScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    effects:
+    - key: fixture
+      value: 1
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: power.on
+    label: "\u5F00\u542F\u6D4B\u8BD5\u4F9B\u7535"
+    target: RX_SignalReceiver
+    kind: 1
+    tool: 1
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 1
+    - key: out.RX_CoverScrew_01
+      value: 0
+    - key: out.RX_CoverScrew_02
+      value: 0
+    - key: out.RX_CoverScrew_03
+      value: 0
+    - key: out.RX_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: isolated
+      value: 0
+    - key: released
+      value: 0
+    - key: out.RX_RFScrew_01
+      value: 0
+    - key: out.RX_RFScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    effects:
+    - key: power
+      value: 1
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: test.signal
+    label: "\u6807\u51C6\u4FE1\u53F7\u4E0E\u9501\u9891\u6D4B\u8BD5"
+    target: RX_SignalReceiver
+    kind: 3
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: signal
+    coreStepId: 
+  - id: test.identity
+    label: "\u53EA\u8BFB\u6838\u5BF9\u539F\u8C03\u8C10\u8BB0\u5F55\u8EAB\u4EFD"
+    target: RX_SignalReceiver
+    kind: 3
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: identity
+    coreStepId: 
+  - id: complete
+    label: "\u786E\u8BA4\u590D\u88C5\u590D\u6D4B\u5E76\u4EA4\u4ED8\u539F\u4EF6"
+    target: RX_SignalReceiver
+    kind: 5
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    - key: module
+      value: 2
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  tests:
+  - id: signal
+    label: "\u6807\u51C6\u4FE1\u53F7\u4E0E\u9501\u9891\u6D4B\u8BD5"
+    faultFinding: "\u663E\u793A\u4E0E\u7535\u6C60\u54CD\u5E94\u6B63\u5E38\uFF0C\u5C04\u9891\u8F93\u5165\u65E0\u6CD5\u9501\u5B9A\u6807\u51C6\u4FE1\u53F7\u3002\u8BF7\u68C0\u67E5\u5C04\u9891\u5C0F\u677F\u7684\u8F93\u5165\u63D2\u5EA7\u3002"
+    passFinding: "\u6807\u51C6\u4FE1\u53F7\u5DF2\u9501\u5B9A\uFF0C\u63A5\u6536\u54CD\u5E94\u7A33\u5B9A\uFF0C\u539F\u6709\u547C\u53EB\u65F6\u6BB5\u4FDD\u7559\u3002"
+    functional: 1
+    checksRetainedIdentity: 0
+    consecutivePasses: 1
+  - id: identity
+    label: "\u53EA\u8BFB\u6838\u5BF9\u539F\u8C03\u8C10\u8BB0\u5F55\u8EAB\u4EFD"
+    faultFinding: "\u539F\u8C03\u8C10\u8BB0\u5F55\u8EAB\u4EFD\u4E0D\u4E00\u81F4\uFF0C\u8BF7\u4FDD\u7559\u539F\u4E3B\u677F\u3002"
+    passFinding: "\u539F\u8C03\u8C10\u8BB0\u5F55\u8EAB\u4EFD\u4E00\u81F4\uFF0C\u672A\u6253\u5F00\u8BB0\u5F55\u5185\u5BB9\u3002"
+    functional: 0
+    checksRetainedIdentity: 1
+    consecutivePasses: 1

@@ -1,0 +1,1081 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cf8987c81021704a8ca68779216999a, type: 3}
+  m_Name: Cartridge_Flow
+  m_EditorClassIdentifier: 
+  kind: 1
+  repairCase: {fileID: 11400000, guid: 268494a7eafe7554c92d56c37b9dae08, type: 2}
+  rootObjectName: MC_MemoryCartridge
+  retainedObjectName: MC_DataCore
+  completionStepId: flow.verified
+  completionEndingId: return.repaired
+  initialState:
+  - key: power
+    value: 1
+  - key: fixture
+    value: 1
+  - key: module
+    value: 0
+  - key: seat
+    value: 1
+  - key: old.out
+    value: 0
+  - key: new.out
+    value: 1
+  - key: isolated
+    value: 0
+  - key: released
+    value: 0
+  - key: tray
+    value: 0
+  - key: cover
+    value: 0
+  - key: out.MC_CoverScrew_01
+    value: 0
+  - key: out.MC_CoverScrew_02
+    value: 0
+  - key: out.MC_CoverScrew_03
+    value: 0
+  - key: out.MC_CoverScrew_04
+    value: 0
+  - key: out.MC_IFScrew_01
+    value: 0
+  - key: out.MC_IFScrew_02
+    value: 0
+  assembled:
+  - key: out.MC_CoverScrew_01
+    value: 0
+  - key: out.MC_CoverScrew_02
+    value: 0
+  - key: out.MC_CoverScrew_03
+    value: 0
+  - key: out.MC_CoverScrew_04
+    value: 0
+  - key: cover
+    value: 0
+  - key: released
+    value: 0
+  - key: out.MC_IFScrew_01
+    value: 0
+  - key: out.MC_IFScrew_02
+    value: 0
+  - key: seat
+    value: 1
+  nodes:
+  - objectName: MC_MemoryCartridge
+    displayName: "\u8BB0\u5FC6\u5361\u5323"
+    motionNote: 
+    hierarchyPath: MC_MemoryCartridge
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: MC_TopCover
+    displayName: "\u5361\u5323\u9876\u76D6"
+    motionNote: "\u76D6\u677F\u6682\u5B58\u5728\u96F6\u4EF6\u680F\uFF0C\u88C5\u56DE\u65F6\u6062\u590D\u539F\u5B89\u88C5\u4F4D\u3002"
+    hierarchyPath: MC_MemoryCartridge/MC_TopCover
+    immutable: 0
+    movable: 1
+    outKey: cover
+    outValue: 1
+    parkingOffset: {x: 0, y: 0.025, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: MC_CoverScrew_01
+    displayName: "\u76D6\u677F\u87BA\u948901"
+    motionNote: "\u62C6\u5378\u884C\u7A0B\u672A\u77E5\uFF1A\u539F\u578B\u4EC5\u6536\u7EB3\u81F3\u96F6\u4EF6\u680F\uFF0C\u4E0D\u8868\u793A\u5DF2\u9A8C\u8BC1\u79FB\u52A8\u8DDD\u79BB\u6216\u78B0\u649E\u3002"
+    hierarchyPath: MC_MemoryCartridge/MC_CoverScrew_01
+    immutable: 0
+    movable: 1
+    outKey: out.MC_CoverScrew_01
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: MC_CoverScrew_02
+    displayName: "\u76D6\u677F\u87BA\u948902"
+    motionNote: "\u62C6\u5378\u884C\u7A0B\u672A\u77E5\uFF1A\u539F\u578B\u4EC5\u6536\u7EB3\u81F3\u96F6\u4EF6\u680F\uFF0C\u4E0D\u8868\u793A\u5DF2\u9A8C\u8BC1\u79FB\u52A8\u8DDD\u79BB\u6216\u78B0\u649E\u3002"
+    hierarchyPath: MC_MemoryCartridge/MC_CoverScrew_02
+    immutable: 0
+    movable: 1
+    outKey: out.MC_CoverScrew_02
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: MC_CoverScrew_03
+    displayName: "\u76D6\u677F\u87BA\u948903"
+    motionNote: "\u62C6\u5378\u884C\u7A0B\u672A\u77E5\uFF1A\u539F\u578B\u4EC5\u6536\u7EB3\u81F3\u96F6\u4EF6\u680F\uFF0C\u4E0D\u8868\u793A\u5DF2\u9A8C\u8BC1\u79FB\u52A8\u8DDD\u79BB\u6216\u78B0\u649E\u3002"
+    hierarchyPath: MC_MemoryCartridge/MC_CoverScrew_03
+    immutable: 0
+    movable: 1
+    outKey: out.MC_CoverScrew_03
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: MC_CoverScrew_04
+    displayName: "\u76D6\u677F\u87BA\u948904"
+    motionNote: "\u62C6\u5378\u884C\u7A0B\u672A\u77E5\uFF1A\u539F\u578B\u4EC5\u6536\u7EB3\u81F3\u96F6\u4EF6\u680F\uFF0C\u4E0D\u8868\u793A\u5DF2\u9A8C\u8BC1\u79FB\u52A8\u8DDD\u79BB\u6216\u78B0\u649E\u3002"
+    hierarchyPath: MC_MemoryCartridge/MC_CoverScrew_04
+    immutable: 0
+    movable: 1
+    outKey: out.MC_CoverScrew_04
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: MC_DataCore
+    displayName: "\u539F\u6570\u636E\u6838\u5FC3"
+    motionNote: 
+    hierarchyPath: MC_MemoryCartridge/MC_BaseTray/MC_DataCore
+    immutable: 1
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: MC_BoardJumper_Connected
+    displayName: "\u677F\u95F4\u8FDE\u63A5\u6392\u7EBF\uFF08\u5DF2\u8FDE\u63A5\uFF09"
+    motionNote: 
+    hierarchyPath: MC_MemoryCartridge/MC_Internals/MC_BoardJumper_Connected
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: released
+    visibleValue: 0
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: MC_BoardJumper_Released
+    displayName: "\u677F\u95F4\u8FDE\u63A5\u6392\u7EBF\uFF08\u5DF2\u91CA\u653E\uFF09"
+    motionNote: 
+    hierarchyPath: MC_MemoryCartridge/MC_Internals/MC_BoardJumper_Released
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: released
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: MC_InterfaceBoard_Fault
+    displayName: "\u5361\u5323\u63A5\u53E3\u677F\uFF08\u6545\u969C\u4EF6\uFF09"
+    motionNote: 
+    hierarchyPath: MC_MemoryCartridge/MC_Internals/MC_InterfaceBoard_Fault
+    immutable: 0
+    movable: 1
+    outKey: old.out
+    outValue: 1
+    parkingOffset: {x: 0.036, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: new.out
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: MC_InterfaceBoard_New
+    displayName: "\u5361\u5323\u63A5\u53E3\u677F\uFF08\u66FF\u6362\u4EF6\uFF09"
+    motionNote: 
+    hierarchyPath: MC_MemoryCartridge/MC_Internals/MC_InterfaceBoard_New
+    immutable: 0
+    movable: 1
+    outKey: new.out
+    outValue: 1
+    parkingOffset: {x: 0.036, y: 0, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: MC_IFScrew_01
+    displayName: "\u6A21\u5757\u56FA\u5B9A\u87BA\u948901"
+    motionNote: "\u62C6\u5378\u884C\u7A0B\u672A\u77E5\uFF1A\u539F\u578B\u4EC5\u6536\u7EB3\u81F3\u96F6\u4EF6\u680F\uFF0C\u4E0D\u8868\u793A\u5DF2\u9A8C\u8BC1\u79FB\u52A8\u8DDD\u79BB\u6216\u78B0\u649E\u3002"
+    hierarchyPath: MC_MemoryCartridge/MC_Internals/MC_IFScrew_01
+    immutable: 0
+    movable: 1
+    outKey: out.MC_IFScrew_01
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: MC_IFScrew_02
+    displayName: "\u6A21\u5757\u56FA\u5B9A\u87BA\u948902"
+    motionNote: "\u62C6\u5378\u884C\u7A0B\u672A\u77E5\uFF1A\u539F\u578B\u4EC5\u6536\u7EB3\u81F3\u96F6\u4EF6\u680F\uFF0C\u4E0D\u8868\u793A\u5DF2\u9A8C\u8BC1\u79FB\u52A8\u8DDD\u79BB\u6216\u78B0\u649E\u3002"
+    hierarchyPath: MC_MemoryCartridge/MC_Internals/MC_IFScrew_02
+    immutable: 0
+    movable: 1
+    outKey: out.MC_IFScrew_02
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 1
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: 
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires:
+    - key: cover
+      value: 1
+  - objectName: MC_StatusLED_Fail
+    displayName: "\u8BC6\u522B\u5F02\u5E38\u6307\u793A"
+    motionNote: 
+    hierarchyPath: MC_MemoryCartridge/MC_FX/MC_StatusLED_Fail
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: display.read
+    visibleValue: 1
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  - objectName: MC_StatusLED_OK
+    displayName: "\u8BC6\u522B\u6B63\u5E38\u6307\u793A"
+    motionNote: 
+    hierarchyPath: MC_MemoryCartridge/MC_FX/MC_StatusLED_OK
+    immutable: 0
+    movable: 0
+    outKey: 
+    outValue: 1
+    parkingOffset: {x: 0, y: 0, z: 0}
+    inventoryOnly: 0
+    hideWhenKey: 
+    hideWhenValue: 0
+    followsRemovedWakeModule: 0
+    visibleKey: display.read
+    visibleValue: 2
+    rotationKey: 
+    rotationAxis: {x: 0, y: 1, z: 0}
+    rotationDegrees: 0
+    inspectRequires: []
+  commands:
+  - id: cover.remove
+    label: "\u53D6\u4E0B\u7EF4\u4FEE\u76D6\u677F"
+    target: MC_TopCover
+    kind: 0
+    tool: 1
+    requires:
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: out.MC_CoverScrew_01
+      value: 1
+    - key: out.MC_CoverScrew_02
+      value: 1
+    - key: out.MC_CoverScrew_03
+      value: 1
+    - key: out.MC_CoverScrew_04
+      value: 1
+    effects:
+    - key: cover
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: cover.install
+    label: "\u76D6\u677F\u5F52\u4F4D"
+    target: MC_TopCover
+    kind: 0
+    tool: 1
+    requires:
+    - key: cover
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: out.MC_CoverScrew_01
+      value: 1
+    - key: out.MC_CoverScrew_02
+      value: 1
+    - key: out.MC_CoverScrew_03
+      value: 1
+    - key: out.MC_CoverScrew_04
+      value: 1
+    - key: out.MC_IFScrew_01
+      value: 0
+    - key: out.MC_IFScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    - key: released
+      value: 0
+    - key: isolated
+      value: 0
+    - key: tray
+      value: 0
+    effects:
+    - key: cover
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.MC_CoverScrew_01
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94891"
+    target: MC_CoverScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_CoverScrew_01
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    effects:
+    - key: out.MC_CoverScrew_01
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.MC_CoverScrew_01
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94891"
+    target: MC_CoverScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_CoverScrew_01
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    effects:
+    - key: out.MC_CoverScrew_01
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.MC_CoverScrew_02
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94892"
+    target: MC_CoverScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_CoverScrew_02
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    effects:
+    - key: out.MC_CoverScrew_02
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.MC_CoverScrew_02
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94892"
+    target: MC_CoverScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_CoverScrew_02
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    effects:
+    - key: out.MC_CoverScrew_02
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.MC_CoverScrew_03
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94893"
+    target: MC_CoverScrew_03
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_CoverScrew_03
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    effects:
+    - key: out.MC_CoverScrew_03
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.MC_CoverScrew_03
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94893"
+    target: MC_CoverScrew_03
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_CoverScrew_03
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    effects:
+    - key: out.MC_CoverScrew_03
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.MC_CoverScrew_04
+    label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94894"
+    target: MC_CoverScrew_04
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    effects:
+    - key: out.MC_CoverScrew_04
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.MC_CoverScrew_04
+    label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94894"
+    target: MC_CoverScrew_04
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_CoverScrew_04
+      value: 1
+    - key: cover
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    effects:
+    - key: out.MC_CoverScrew_04
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: harness.release
+    label: "\u91CA\u653E\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
+    target: MC_BoardJumper_Connected
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: released
+      value: 0
+    - key: tray
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    effects:
+    - key: released
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: harness.connect
+    label: "\u63D2\u56DE\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
+    target: MC_BoardJumper_Released
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: out.MC_IFScrew_01
+      value: 0
+    - key: out.MC_IFScrew_02
+      value: 0
+    effects:
+    - key: released
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.MC_IFScrew_01
+    label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
+    target: MC_IFScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_IFScrew_01
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    effects:
+    - key: out.MC_IFScrew_01
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.MC_IFScrew_01
+    label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
+    target: MC_IFScrew_01
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_IFScrew_01
+      value: 1
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    effects:
+    - key: out.MC_IFScrew_01
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: remove.MC_IFScrew_02
+    label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
+    target: MC_IFScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_IFScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    effects:
+    - key: out.MC_IFScrew_02
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: install.MC_IFScrew_02
+    label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
+    target: MC_IFScrew_02
+    kind: 0
+    tool: 0
+    requires:
+    - key: out.MC_IFScrew_02
+      value: 1
+    - key: seat
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    effects:
+    - key: out.MC_IFScrew_02
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.remove.old
+    label: "\u53D6\u4E0B\u6545\u969C\u6A21\u5757"
+    target: MC_InterfaceBoard_Fault
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 0
+    - key: seat
+      value: 1
+    - key: old.out
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: out.MC_IFScrew_01
+      value: 1
+    - key: out.MC_IFScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 0
+    - key: module
+      value: 1
+    - key: old.out
+      value: 1
+    - key: last.module
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.install.old
+    label: "\u88C5\u56DE\u539F\u6545\u969C\u6A21\u5757"
+    target: MC_InterfaceBoard_Fault
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 1
+    - key: seat
+      value: 0
+    - key: old.out
+      value: 1
+    - key: new.out
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: out.MC_IFScrew_01
+      value: 1
+    - key: out.MC_IFScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 1
+    - key: module
+      value: 0
+    - key: old.out
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.remove.new
+    label: "\u53D6\u4E0B\u66FF\u6362\u6A21\u5757"
+    target: MC_InterfaceBoard_New
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 2
+    - key: seat
+      value: 1
+    - key: new.out
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: out.MC_IFScrew_01
+      value: 1
+    - key: out.MC_IFScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 0
+    - key: module
+      value: 1
+    - key: new.out
+      value: 1
+    - key: last.module
+      value: 2
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: module.install.new
+    label: "\u5B89\u88C5\u66FF\u6362\u6A21\u5757"
+    target: MC_InterfaceBoard_New
+    kind: 0
+    tool: 2
+    requires:
+    - key: module
+      value: 1
+    - key: seat
+      value: 0
+    - key: old.out
+      value: 1
+    - key: new.out
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.read
+      value: 1
+    - key: cover
+      value: 1
+    - key: released
+      value: 1
+    - key: tray
+      value: 0
+    - key: out.MC_IFScrew_01
+      value: 1
+    - key: out.MC_IFScrew_02
+      value: 1
+    effects:
+    - key: seat
+      value: 1
+    - key: module
+      value: 2
+    - key: new.out
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: power.off
+    label: "\u5173\u673A\uFF0F\u505C\u6B62\u8F93\u51FA"
+    target: MC_MemoryCartridge
+    kind: 1
+    tool: 1
+    requires:
+    - key: power
+      value: 1
+    effects:
+    - key: power
+      value: 0
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+  - id: fixture.disconnect
+    label: "\u9000\u51FA\u53EA\u8BFB\u6D4B\u8BD5\u5EA7"
+    target: MC_MemoryCartridge
+    kind: 2
+    tool: 2
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 1
+    effects:
+    - key: fixture
+      value: 0
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: fixture.connect
+    label: "\u63A5\u5165\u53EA\u8BFB\u6D4B\u8BD5\u5EA7"
+    target: MC_MemoryCartridge
+    kind: 2
+    tool: 2
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: out.MC_CoverScrew_01
+      value: 0
+    - key: out.MC_CoverScrew_02
+      value: 0
+    - key: out.MC_CoverScrew_03
+      value: 0
+    - key: out.MC_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: released
+      value: 0
+    - key: out.MC_IFScrew_01
+      value: 0
+    - key: out.MC_IFScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    effects:
+    - key: fixture
+      value: 1
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: power.on
+    label: "\u5F00\u542F\u6D4B\u8BD5\u4F9B\u7535"
+    target: MC_MemoryCartridge
+    kind: 1
+    tool: 1
+    requires:
+    - key: power
+      value: 0
+    - key: fixture
+      value: 1
+    - key: out.MC_CoverScrew_01
+      value: 0
+    - key: out.MC_CoverScrew_02
+      value: 0
+    - key: out.MC_CoverScrew_03
+      value: 0
+    - key: out.MC_CoverScrew_04
+      value: 0
+    - key: cover
+      value: 0
+    - key: released
+      value: 0
+    - key: out.MC_IFScrew_01
+      value: 0
+    - key: out.MC_IFScrew_02
+      value: 0
+    - key: seat
+      value: 1
+    effects:
+    - key: power
+      value: 1
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  - id: test.read
+    label: "\u53EA\u8BFB\u8BC6\u522B\u4E0E\u6570\u636E\u5757\u4E00\u81F4\u6027\u6D4B\u8BD5"
+    target: MC_MemoryCartridge
+    kind: 3
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: read
+    coreStepId: 
+  - id: complete
+    label: "\u786E\u8BA4\u590D\u88C5\u590D\u6D4B\u5E76\u4EA4\u4ED8\u539F\u4EF6"
+    target: MC_MemoryCartridge
+    kind: 5
+    tool: 2
+    requires:
+    - key: power
+      value: 1
+    - key: fixture
+      value: 1
+    - key: module
+      value: 2
+    - key: diagnosed.read
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+  tests:
+  - id: read
+    label: "\u53EA\u8BFB\u8BC6\u522B\u4E0E\u6570\u636E\u5757\u4E00\u81F4\u6027\u6D4B\u8BD5"
+    faultFinding: "\u8BC6\u522B\u95F4\u6B47\u4E2D\u65AD\uFF0C\u53EF\u8BFB\u6570\u636E\u5757\u4ECD\u4FDD\u7559\u539F\u8EAB\u4EFD\uFF0C\u63A5\u53E3\u89E6\u70B9\u5B58\u5728\u635F\u4F24\u3002"
+    passFinding: "\u591A\u6B21\u8BC6\u522B\u4E0E\u53EA\u8BFB\u4E00\u81F4\u6027\u9A8C\u8BC1\u901A\u8FC7\uFF0C\u672A\u590D\u5236\u3001\u5199\u5165\u6216\u683C\u5F0F\u5316\u5185\u5BB9\u3002"
+    functional: 1
+    checksRetainedIdentity: 1
+    consecutivePasses: 1

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 232a9dcba365837459f83d39394a04f0, type: 3}
+  m_Name: RepairProps_Shift
+  m_EditorClassIdentifier: 
+  shiftTitle: "\u8FB9\u5883\u7EF4\u4FEE\u7AD9\uFF1A\u4FDD\u7559\u539F\u4EF6"
+  targetDurationSeconds: 300
+  cases:
+  - {fileID: 11400000, guid: 234b1b55946e71a4da62986a4e34117b, type: 2}
+  - {fileID: 11400000, guid: 268494a7eafe7554c92d56c37b9dae08, type: 2}
+  - {fileID: 11400000, guid: 65c1f056edeccca4ea5657ee78495f86, type: 2}
+  - {fileID: 11400000, guid: 55c56d155a0255240a42ac0a97bb9e5f, type: 2}
