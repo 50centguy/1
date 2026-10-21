@@ -1,6 +1,6 @@
 {
     "name": "BorderRepair.Art.UnifiedClinic.Runtime",
     "rootNamespace": "BorderRepair.Art.UnifiedClinic",
-    "references": ["BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime"],
+    "references": ["BorderRepair.TwoNight.Runtime", "BorderRepair.FirstOrder.Runtime", "Unity.RenderPipelines.Core.Runtime", "Unity.RenderPipelines.Universal.Runtime"],
     "autoReferenced": true
 }
