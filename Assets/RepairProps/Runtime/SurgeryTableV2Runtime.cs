@@ -31,7 +31,7 @@ namespace BorderRepair.RepairProps
         GameObject table;
         Transform back, head, tray;
         Quaternion backRest, headRest, trayRest;
-        Vector3 headDir;
+        Vector3 headDir, floor;
         float pose, trayAmount, traySign = 1;
         UnifiedClinicDirector clinic;
         GameObject promptCanvas;
@@ -47,6 +47,19 @@ namespace BorderRepair.RepairProps
         public SurgeryTableControl Aimed { get; private set; }
         public IEnumerable<SurgeryTableControl> Controls => table != null ? table.GetComponentsInChildren<SurgeryTableControl>(true) : Enumerable.Empty<SurgeryTableControl>();
         public bool StrapClosed(SurgeryTableControl strap) => straps.TryGetValue(strap, out var s) && s.closed.activeSelf;
+        public int StrapsClosed => straps.Values.Count(s => s.closed.activeSelf);
+        /// <summary>The swinging instrument tray (the operation sets parts on it).</summary>
+        public Transform Tray => tray;
+        public int StrapCount => straps.Count;
+        /// <summary>Table frame for things that use it (the surgery patient): the floor point under the table's centre,
+        /// the head direction, the right side (where the hand pendant hangs) and the pad surface height.</summary>
+        public Vector3 Floor => floor;
+        public Vector3 HeadDir => headDir;
+        public Vector3 Right => Vector3.Cross(Vector3.up, headDir).normalized;
+        public const float PadTop = .85f;
+        /// <summary>Current back-section angle above flat, in degrees (0 flat, 38 chair), and the head cushion's.</summary>
+        public float BackAngle => BackChair * pose;
+        public float HeadAngle => (BackChair + HeadRelative) * pose;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetHooks() { SceneManager.sceneLoaded -= OnSceneLoaded; Current = null; }
@@ -67,7 +80,7 @@ namespace BorderRepair.RepairProps
             Current = this;
             var all = gameObject.scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Transform>(true)).ToList();
             var prefab = Resources.Load<GameObject>(PrefabResource);
-            if (prefab == null || !TryBedFrame(gameObject.scene, out var floor, out headDir))
+            if (prefab == null || !TryBedFrame(gameObject.scene, out floor, out headDir))
             {
                 Debug.LogWarning("[SurgeryTableV2] " + (prefab == null ? "Resources/" + PrefabResource + " missing (run Border Repair > Repair Props > Build Surgery Table V2)" : "no Bed_Base in scene") + "; keeping the old bed.");
                 return;
@@ -152,6 +165,9 @@ namespace BorderRepair.RepairProps
             {
                 case SurgeryControlKind.Pendant: ChairPose = !ChairPose; break;
                 case SurgeryControlKind.Tray: TrayOut = !TrayOut; break;
+                case SurgeryControlKind.Patient:
+                    if (SurgeryCloseupRuntime.Current != null) SurgeryCloseupRuntime.Current.Open();   // the operation happens close up
+                    break;
                 case SurgeryControlKind.Arms:
                 case SurgeryControlKind.Lamp:
                     if (SurgeryGantryV2Runtime.Current != null) SurgeryGantryV2Runtime.Current.Activate(control.Kind);
@@ -192,12 +208,7 @@ namespace BorderRepair.RepairProps
             {
                 var camera = rig.Cam;
                 var ray = camera.ScreenPointToRay(new Vector2(Screen.width * .5f, Screen.height * .5f));
-                foreach (var hit in Physics.RaycastAll(ray, walker.Reach, ~0, QueryTriggerInteraction.Ignore).OrderBy(h => h.distance))
-                {
-                    if (hit.collider is CharacterController || hit.collider.name.StartsWith("COL_", StringComparison.Ordinal)) continue;
-                    Aimed = hit.collider.GetComponentInParent<SurgeryTableControl>();
-                    break;
-                }
+                Aimed = ControlAlong(ray, walker.Reach);
                 if (Aimed != null && RepairInput.LeftPressed && !walker.ClickConsumedThisFrame) Activate(Aimed);
             }
             if (promptCanvas != null)
@@ -209,6 +220,18 @@ namespace BorderRepair.RepairProps
                     prompt.sizeDelta = new Vector2(promptText.preferredWidth + 24, 30);
                 }
             }
+        }
+
+        /// <summary>The table control (or the patient's surgery site) the crosshair ray points at: the first real
+        /// surface along it, skipping the player's capsule and the room's invisible COL_ blockers.</summary>
+        public static SurgeryTableControl ControlAlong(Ray ray, float reach)
+        {
+            foreach (var hit in Physics.RaycastAll(ray, reach, ~0, QueryTriggerInteraction.Ignore).OrderBy(h => h.distance))
+            {
+                if (hit.collider is CharacterController || hit.collider.name.StartsWith("COL_", StringComparison.Ordinal)) continue;
+                return hit.collider.GetComponentInParent<SurgeryTableControl>();
+            }
+            return null;
         }
 
         void BuildPrompt()

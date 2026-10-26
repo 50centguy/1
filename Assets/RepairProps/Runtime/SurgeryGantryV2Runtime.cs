@@ -16,7 +16,7 @@ namespace BorderRepair.RepairProps
     public sealed class SurgeryGantryV2Runtime : MonoBehaviour
     {
         public const string PrefabResource = "SurgeryGantryV2";
-        const float ParkShoulder = -10, ParkElbow = 75, DeployShoulder = 45, DeployElbow = -80;
+        const float ParkShoulder = -10, ParkElbow = 75, DeployShoulder = 45, DeployElbow = -80, WorkDip = 14;
 
         sealed class Arm
         {
@@ -24,7 +24,7 @@ namespace BorderRepair.RepairProps
             public Transform shoulder, fore, spin;
             public Quaternion shoulderRest, foreRest, spinRest;
             public Vector3 pitchAxis, foldAxis, spinAxis;   // world, at rest
-            public float spinAngle;
+            public float spinAngle, work, workTarget;
         }
 
         public static SurgeryGantryV2Runtime Current { get; private set; }
@@ -43,6 +43,26 @@ namespace BorderRepair.RepairProps
         public Light Lamp => lamp;
         public int HiddenCount => hidden.Count;
         public Transform ToolTip(string tool) => arms.FirstOrDefault(a => a.tool == tool)?.fore;
+        public IEnumerable<string> Tools => arms.Select(a => a.tool);
+
+        /// <summary>Lowers one deployed arm a little further, as if working on the patient (the operation's steps).</summary>
+        public void Work(string tool, bool on)
+        {
+            var arm = arms.FirstOrDefault(a => a.tool == tool);
+            if (arm != null) arm.workTarget = on ? 1 : 0;
+        }
+
+        /// <summary>World point at the working end of a tool arm: the bottom of its forearm's geometry.</summary>
+        public Vector3 TipPoint(string tool)
+        {
+            var arm = arms.FirstOrDefault(a => a.tool == tool);
+            if (arm == null) return Vector3.zero;
+            var renderers = arm.fore.GetComponentsInChildren<Renderer>();
+            if (renderers.Length == 0) return arm.fore.position;
+            var b = renderers[0].bounds;
+            foreach (var r in renderers.Skip(1)) b.Encapsulate(r.bounds);
+            return new Vector3(b.center.x, b.min.y, b.center.z);
+        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetHooks() { SceneManager.sceneLoaded -= OnSceneLoaded; Current = null; }
@@ -139,7 +159,9 @@ namespace BorderRepair.RepairProps
                 var a = arms[i];
                 // Deployed arms breathe a little, each on its own phase, so the rig never looks frozen.
                 float sway = t * 1.5f * Mathf.Sin(time * .8f + i * 1.7f);
-                var shoulderTurn = Quaternion.AngleAxis(Mathf.Lerp(ParkShoulder, DeployShoulder, t) + sway, a.pitchAxis);
+                a.work = Mathf.MoveTowards(a.work, a.workTarget, Time.unscaledDeltaTime * 1.6f);
+                float dip = t * Mathf.SmoothStep(0, 1, a.work) * WorkDip;
+                var shoulderTurn = Quaternion.AngleAxis(Mathf.Lerp(ParkShoulder, DeployShoulder, t) + sway + dip, a.pitchAxis);
                 a.shoulder.rotation = shoulderTurn * a.shoulderRest;
                 // The forearm hangs from the upper arm (a child of the shoulder): its rest axis moves with the shoulder.
                 var foreTurn = Quaternion.AngleAxis(Mathf.Lerp(ParkElbow, DeployElbow, t) - sway, shoulderTurn * a.foldAxis);

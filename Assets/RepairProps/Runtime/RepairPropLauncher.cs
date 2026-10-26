@@ -23,7 +23,8 @@ namespace BorderRepair.RepairProps
         Button icon, shopEntry, menuEntry;
         Text shopNote;
         RepairPropEconomyController shop;
-        Button directorMenu;
+        Button directorMenu, nightEnd;
+        UnifiedClinicDirector director;
         CanvasGroup directorMenuGroup;
         bool open;
 
@@ -34,6 +35,12 @@ namespace BorderRepair.RepairProps
 
         /// <summary>The desktop clinic the player left for the main menu; the menu's "back to the clinic" returns here.</summary>
         public static string ReturnScenePath { get; private set; }
+
+        /// <summary>True when the menu's "continue" into night 2 is bringing the player back to this clinic: that run
+        /// is kept instead of the scene's usual fresh start.</summary>
+        public static bool Resuming(Scene scene) =>
+            ReturnScenePath != null && string.Equals(scene.path, ReturnScenePath, System.StringComparison.OrdinalIgnoreCase) &&
+            TwoNightRun.Current != null && TwoNightRun.Current.phase == TwoNightPhase.Night2Open;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetHooks() { SceneManager.sceneLoaded -= OnSceneLoaded; Current = null; ReturnScenePath = null; }
@@ -102,7 +109,7 @@ namespace BorderRepair.RepairProps
         void Start()
         {
             shop = FindObjectsByType<RepairPropEconomyController>(FindObjectsSortMode.None).FirstOrDefault(c => c.gameObject.scene == gameObject.scene);
-            var director = FindObjectsByType<UnifiedClinicDirector>(FindObjectsSortMode.None).FirstOrDefault(c => c.gameObject.scene == gameObject.scene);
+            director = FindObjectsByType<UnifiedClinicDirector>(FindObjectsSortMode.None).FirstOrDefault(c => c.gameObject.scene == gameObject.scene);
             if (director != null)
             {
                 directorMenu = director.GetComponentsInChildren<Button>(true).FirstOrDefault(b => b.name == "Menu");
@@ -147,6 +154,13 @@ namespace BorderRepair.RepairProps
 
         void Update()
         {
+            // Night 1 ends with "back to the main menu" on the robot director's end panel (built only once the robot
+            // part of the night starts); its "continue" then returns here for night 2 instead of the main game's clinic.
+            if (nightEnd == null && director != null && director.Robot != null && director.Robot.MenuButton != null)
+            {
+                nightEnd = director.Robot.MenuButton;
+                nightEnd.onClick.AddListener(() => ReturnScenePath = gameObject.scene.path);
+            }
             // The launcher follows the director's HUD: shown while that HUD is (the trade phases), hidden in the shop.
             bool hud = directorMenu == null || directorMenu.gameObject.activeInHierarchy;
             bool show = hud && (shop == null || !shop.IsOpen);

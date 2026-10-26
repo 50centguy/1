@@ -186,10 +186,13 @@ namespace BorderRepair.RepairProps.Cosmetics
             try
             {
                 // Hosted by the desktop repair workspace: shown only on its appearance page, docked in its slot.
+                // While that workspace is hidden (the parts shop is over it) the editor hides too, instead of
+                // falling back to its standalone corner.
                 bool hosted = !vr && RepairPropWorkspaceLayout.Hosting;
+                bool workspace = !vr && RepairPropWorkspaceLayout.Host != null;
                 var slot = hosted ? RepairPropWorkspaceLayout.AppearanceSlot : null;
                 root.gameObject.SetActive(isActiveAndEnabled && (vr ||
-                    owner.Clinic != null && owner.Clinic.ConsoleOpen && owner.Flow != null && (!hosted || slot != null)));
+                    owner.Clinic != null && owner.Clinic.ConsoleOpen && owner.Flow != null && (!workspace || slot != null)));
                 if (hosted) collapsed = false;
                 header.gameObject.SetActive(!hosted);
                 modes[0].GetComponentInChildren<Text>().text = hosted ? "浏览" : "维修";

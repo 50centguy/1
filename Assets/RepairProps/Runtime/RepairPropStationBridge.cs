@@ -66,6 +66,8 @@ namespace BorderRepair.RepairProps
         void Start()
         {
             flow = GetComponent<RepairPropFlow>();
+            if (Application.isPlaying && flow != null && flow.Definition != null && flow.Definition.kind == RepairPropKind.Omamori && GetComponent<OmamoriCord>() == null)
+                gameObject.AddComponent<OmamoriCord>();
             foreach (var candidate in FindObjectsByType<RepairStationController>(FindObjectsSortMode.None))
             {
                 var item = candidate.Inspector != null ? candidate.Inspector.CurrentItem : null;

@@ -45,6 +45,8 @@ namespace BorderRepair.RepairProps
                 if (!canvas.isRootCanvas || canvas.renderMode == RenderMode.WorldSpace) continue;
                 // The workspace and the AR layer style themselves.
                 if (canvas.GetComponentInParent<RepairPropContextPanel>(true) != null || canvas.GetComponentInParent<RepairPropArOverlay>(true) != null) continue;
+                if (canvas.GetComponentInParent<SurgeryCloseupPanel>(true) != null || canvas.GetComponentInParent<SurgeryCloseupOverlay>(true) != null) continue;
+                if (canvas.GetComponentInParent<RobotNightWorkspace>(true) != null) continue;
                 Skin(canvas.transform);
             }
         }

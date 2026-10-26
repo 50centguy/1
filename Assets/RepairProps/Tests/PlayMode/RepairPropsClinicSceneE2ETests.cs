@@ -478,7 +478,8 @@ namespace BorderRepair.RepairProps.Tests
 #if UNITY_EDITOR
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/RepairProps/Prefabs/" + kind + ".prefab");
             Assert.That(prefab, Is.Not.Null);
-            var actual = item.GetComponentsInChildren<MeshFilter>(true).Select(m => m.sharedMesh).ToArray();
+            // The omamori's soft cord is runtime geometry beside the prefab's meshes, not part of them.
+            var actual = item.GetComponentsInChildren<MeshFilter>(true).Where(m => m.name != "OmamoriCord_Runtime").Select(m => m.sharedMesh).ToArray();
             var expected = prefab.GetComponentsInChildren<MeshFilter>(true).Select(m => m.sharedMesh).ToArray();
             Assert.That(actual, Is.Not.Empty);
             Assert.That(actual.All(m => m != null), Is.True, kind + " has missing imported geometry.");

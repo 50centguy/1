@@ -62,7 +62,7 @@ namespace BorderRepair.RepairProps.Cosmetics
                 case RepairPropKind.Receiver: return name=="RX_FrontShell"||name=="RX_RearShell"||name=="RX_RearCover"||name=="RX_TopStrip";
                 case RepairPropKind.Cartridge: return name=="MC_BaseTray"||name=="MC_TopCover";
                 case RepairPropKind.Power: return name=="PS_ext_Shell_p21"||name=="PS_LeftServiceCover";
-                case RepairPropKind.Omamori: return name=="OM_ext_FrontPlate_p08"||name=="OM_ext_RearHalfShell_p03"||name=="OM_RearCover";
+                case RepairPropKind.Omamori: return name=="OM_ext_Shell"||name=="OM_ext_Face"||name=="OM_RearCover";
                 default: return false;
             }
         }

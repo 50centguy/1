@@ -123,8 +123,9 @@ namespace BorderRepair.RepairProps
             var table = clinic.WorkAnchor.GetComponentInParent<Renderer>();
             if (table == null) return;
             var tableBounds = table.bounds;
+            // The omamori's soft cord swings and drapes; it must not reserve tabletop space.
             var body = VisualBounds(gameObject.GetComponentsInChildren<Renderer>()
-                .Where(r => r.enabled && r.gameObject.activeInHierarchy));
+                .Where(r => r.enabled && r.gameObject.activeInHierarchy && r.name != OmamoriCord.VisualName));
             body.Expand(.035f);
             var occupied = new List<Bounds> { body };
             var front = Vector3.ProjectOnPlane(clinic.BenchStandPoint - clinic.WorkAnchor.position, Vector3.up).normalized;

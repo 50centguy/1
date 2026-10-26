@@ -13,7 +13,7 @@ namespace BorderRepair.RepairProps.Cosmetics.Tests
             { RepairPropKind.Receiver, new[] { "RX_FrontShell", "RX_RearShell", "RX_RearCover", "RX_TopStrip" } },
             { RepairPropKind.Cartridge, new[] { "MC_BaseTray", "MC_TopCover" } },
             { RepairPropKind.Power, new[] { "PS_ext_Shell_p21", "PS_LeftServiceCover" } },
-            { RepairPropKind.Omamori, new[] { "OM_ext_FrontPlate_p08", "OM_ext_RearHalfShell_p03", "OM_RearCover" } }
+            { RepairPropKind.Omamori, new[] { "OM_ext_Shell", "OM_ext_Face", "OM_RearCover" } }
         };
 
         [Test]

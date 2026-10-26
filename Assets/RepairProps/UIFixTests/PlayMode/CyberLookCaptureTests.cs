@@ -453,7 +453,180 @@ namespace BorderRepair.RepairProps.UI.Tests
             loaded = SceneManager.GetActiveScene();
         }
 
+        [UnityTest]
+        public IEnumerator Shop_FromLauncher_OverWorkspace_KeepsAppearanceClosed()
+        {
+            Assert.That(clinic.Interact(ClinicTradeAction.Receive), Is.True, clinic.LastMessage);
+            bridge = clinic.Station.Inspector.CurrentItem.GetComponent<RepairPropStationBridge>();
+            yield return Until(() => Flow.Session != null, "Bridge must attach.");
+            clinic.Counter.DismissDialogue();
+            Assert.That(clinic.Interact(ClinicTradeAction.Console), Is.True, clinic.LastMessage);
+            yield return Until(() => bridge.CanInteract, "Bench must be interactive.");
+            for (int i = 0; i < 20; i++) yield return null;
+            var launcher = RepairPropLauncher.Current;
+            launcher.Toggle(true);
+            launcher.ShopEntry.onClick.Invoke();
+            Assert.That(Object.FindFirstObjectByType<RepairPropEconomyController>().IsOpen, Is.True, "The shop opens over the workspace.");
+            for (int i = 0; i < 20; i++) yield return null;
+            yield return Shoot("20-shop-over-workspace", View);
+            DumpCanvases("20-shop-over-workspace");
+            Assert.That(Object.FindObjectsByType<RectTransform>(FindObjectsSortMode.None).Any(r => r.name == "外观面板" && r.gameObject.activeInHierarchy),
+                Is.False, "Opening the parts shop must not pop the appearance editor out of the hidden workspace.");
+        }
+
+        [UnityTest]
+        public IEnumerator Night2_PlayerView_UiTour()
+        {
+            var s = TwoNightRun.NewGame(null, true);
+            TwoNightRun.ReceiveCommunicator(s, "case_n1_collector_communicator");
+            TwoNightRun.CompleteCommunicatorRepair(s, true, s.communicatorCaseId);
+            TwoNightRun.DeliverCommunicator(s, s.communicatorCaseId, null);
+            TwoNightRun.ConfirmLedger(s);
+            TwoNightRun.Set(s);
+            clinic.BeginRobotNight();
+            yield return Until(() => clinic.Robot.MenuButton != null, "The robot part of night 1 builds its end panel.");
+            for (int i = 0; i < 3; i++) yield return null;
+            TwoNightRun.FinishIncident(s);
+            Assert.That(TwoNightRun.RegisterUnit07(s, new Unit07SafeState { seated = true, clamped = true,
+                powerOff = true, rotorsStopped = true, trayStowed = true, robotUpright = true }, out _), Is.True);
+            // Night 1 ended in this clinic and was saved; its end panel goes to the menu, and "continue" must bring the
+            // player back here for night 2 (not to the main game's clinic, and not reset to a fresh night 1).
+            Assert.That(TwoNightSave.Write(s, out _), Is.True);
+            clinic.Robot.MenuButton.onClick.Invoke();
+            yield return Until(() => SceneManager.GetActiveScene().name == TwoNightScenes.ClinicMenu, "The night-end button opens the clinic menu.");
+            Assert.That(RepairPropLauncher.ReturnScenePath, Is.EqualTo(ScenePath), "Leaving from the night-end panel remembers this clinic.");
+            yield return null;
+            var menu = Object.FindFirstObjectByType<TwoNightMenu>();
+            Assert.That(menu.ContinueButton.interactable, Is.True);
+            menu.ContinueButton.onClick.Invoke();
+            yield return Until(() => SceneManager.GetActiveScene().path == ScenePath, "Continue returns to the desktop clinic.");
+            loaded = SceneManager.GetActiveScene();
+            yield return Until(() => (clinic = Object.FindFirstObjectByType<UnifiedClinicDirector>()) != null && clinic.Initialized, "Night 2 clinic must initialize.");
+            Assert.That(clinic.State.phase, Is.EqualTo(TwoNightPhase.Night2Open));
+            var rig = clinic.Robot.Flow.Rig;
+            rig.Walker.LeaveSystemCursor = true;
+            for (int i = 0; i < 40; i++) yield return null;
+            // Night 2 wears the bench workspace's layout: the right-hand column and the guide band replace the old
+            // slice bars, which stay alive (hidden) behind it.
+            var workspace = RobotNightWorkspace.Current;
+            Assert.That(workspace != null && workspace.Visible, Is.True, "The night-2 workspace column is shown.");
+            var oldStatus = Object.FindObjectsByType<RectTransform>(FindObjectsSortMode.None).First(r => r.name == "Status" && r.GetComponentInParent<BorderRepair.FirstOrder.Slice.SliceView>() != null);
+            Assert.That(oldStatus.GetComponent<Canvas>() != null && !oldStatus.GetComponent<Canvas>().enabled, Is.True, "The old status bar is hidden.");
+            StringAssert.StartsWith("提示 // 下一步：", workspace.GuideText);
+            StringAssert.Contains("步骤", workspace.StepText);
+            yield return Shoot("30-night2-manual", rig.Cam); DumpCanvases("30-night2-manual");
+            var manualCorners = new Vector3[4]; var columnCorners = new Vector3[4];
+            Object.FindFirstObjectByType<BorderRepair.FirstOrder.Slice.SliceView>().ManualPanelRect.GetWorldCorners(manualCorners);
+            workspace.PanelRectTransform.GetWorldCorners(columnCorners);
+            Assert.That(manualCorners[2].x, Is.LessThanOrEqualTo(columnCorners[0].x), "The manual sits left of the column, not under it.");
+            workspace.ManualButton.onClick.Invoke();
+            Assert.That(Object.FindFirstObjectByType<BorderRepair.FirstOrder.Slice.SliceView>().ManualOpen, Is.False, "The column's manual button closes the manual.");
+            yield return Shoot("31-night2-walk", rig.Cam);
+            foreach (var view in new[] { BorderRepair.FirstOrder.FirstOrderCameraRig.Dock, BorderRepair.FirstOrder.FirstOrderCameraRig.EngineL, BorderRepair.FirstOrder.FirstOrderCameraRig.Bench })
+            {
+                workspace.ViewButton(view).onClick.Invoke();
+                yield return Until(() => rig.Current == view, "The column's view button moves the camera to " + view);
+                for (int i = 0; i < 60; i++) yield return null;
+                yield return Shoot("32-night2-" + view, rig.Cam);
+            }
+            Assert.That(workspace.BackButton.interactable, Is.True, "From a preset view the column offers the way back to walking.");
+            workspace.BackButton.onClick.Invoke();
+            yield return Until(() => rig.Walking, "Back returns to walking.");
+        }
+
+        static void DumpCanvases(string state)
+        {
+            if (string.IsNullOrEmpty(Folder)) return;
+            var lines = Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None)
+                .Where(c => c.isRootCanvas && c.enabled && c.gameObject.activeInHierarchy && c.renderMode != RenderMode.WorldSpace)
+                .OrderBy(c => c.sortingOrder)
+                .Select(c => c.sortingOrder + "  " + PathOf(c.transform) + "\n    " + string.Join(" | ",
+                    c.GetComponentsInChildren<UnityEngine.UI.Text>().Where(t => t.isActiveAndEnabled && t.text.Length > 0)
+                        .Select(t => t.name + "=" + t.text.Replace("\n", "⏎")).Take(14)));
+            Directory.CreateDirectory(Folder);
+            File.WriteAllText(Path.Combine(Folder, state + "-canvases.txt"), string.Join("\n", lines));
+        }
+
+        static string PathOf(Transform t) => t.parent == null ? t.name : PathOf(t.parent) + "/" + t.name;
+
         Camera View => clinic.Station.Inspector.ViewCamera;
+
+        [UnityTest]
+        public IEnumerator Assistant_Unit07HaulsPartsAndTalks()
+        {
+            var assistant = ClinicAssistantRuntime.Current;
+            Assert.That(assistant != null, Is.True, "The UNIT 07 assistant installs with the clinic scene.");
+            yield return Until(() => assistant.Engaged, "It works while the counter is open on night 1.");
+            var robot = assistant.Robot;
+            Vector3 home = robot.position; Quaternion homeRotation = robot.rotation;
+            var tray = Object.FindFirstObjectByType<TrayIncident>(FindObjectsInactive.Include).Tray;
+            var overlay = robot.GetComponent<TrayCarryOverlay>();
+            yield return Until(() => assistant.Line.StartsWith("七号上线"), "It greets the player.");
+            // The fixture's own parts order (SetUp) is hauled first; let that run finish.
+            for (float t = 0; t < 60f && (assistant.Busy || assistant.Hauls == 0); t += Time.unscaledDeltaTime) yield return null;
+            Assert.That(assistant.Hauls, Is.EqualTo(1), "The fixture's order was hauled.");
+            Assert.That(Vector3.Distance(robot.position, home), Is.LessThan(.001f), "Back on its dock spot.");
+            var room = clinic.Robot.Flow.Rig.Cam;
+            var cam = Object.Instantiate(room.gameObject, room.transform.position, room.transform.rotation).GetComponent<Camera>();
+            foreach (Transform child in cam.transform) Object.Destroy(child.gameObject);
+            foreach (var listener in cam.GetComponents<AudioListener>()) Object.Destroy(listener);
+            cam.enabled = false;
+            var screen = robot.GetComponentsInChildren<Renderer>().First(r => r.name == "ScreenContent_Animated").transform.position;
+            // Floor plan as the room really stands at runtime (replacement kits included), for checking the flight lanes:
+            // orthographic, from just under the lamps, north up. 1280x720: x = 640 + X * 97.3, y = 360 - Z * 97.3.
+            cam.orthographic = true; cam.orthographicSize = 3.7f; cam.nearClipPlane = .01f;
+            cam.transform.SetPositionAndRotation(new Vector3(0, 2.2f, 0), Quaternion.LookRotation(Vector3.down, Vector3.forward));
+            yield return Shoot("39-assistant-plan", cam);
+            cam.orthographic = false;
+            yield return Shoot("41-assistant-greet-hud", room);
+
+            // A parts order sends it to the counter and on to the bench with the crate on its tray.
+            var cart = ClinicSupplies.Products.Take(1).ToDictionary(p => p.Id, p => 1);
+            Assert.That(ClinicSupplies.Purchase(clinic.State, cart, Guid.NewGuid().ToString("N"), out string reason), Is.True, reason);
+            yield return Until(() => assistant.Busy, "A purchase sends UNIT 07 for the parts.");
+            Assert.That(tray.Taken, Is.True, "It carries its parts tray.");
+            // Two vantage points in turn: from the south over the surgery bed, and from the counter across the north lane.
+            var views = new[] { (new Vector3(0f, 2.55f, -2.8f), new Vector3(0f, .6f, .4f)), (new Vector3(2.4f, 2.1f, -2.4f), new Vector3(-.6f, 1.0f, 1.2f)),
+                (new Vector3(.6f, 1.9f, -.6f), new Vector3(1.6f, 1.0f, 1.4f)) };
+            float start = Time.realtimeSinceStartup, nextShot = 1.5f;
+            int shot = 0;
+            while (assistant.Busy && Time.realtimeSinceStartup - start < 70f)
+            {
+                if (Time.realtimeSinceStartup - start > nextShot && shot < 12)
+                {
+                    var view = views[shot % views.Length];
+                    cam.transform.position = view.Item1; cam.transform.LookAt(view.Item2);
+                    yield return Shoot("42-assistant-haul-" + (shot++).ToString("00"), cam);
+                    nextShot += 2.2f;
+                }
+                yield return null;
+            }
+            Assert.That(assistant.Busy, Is.False, "The run finishes.");
+            Assert.That(assistant.Hauls, Is.EqualTo(2));
+            Assert.That(assistant.BenchCrate != null && assistant.BenchCrate.transform.position.z > 2.2f, Is.True, "The crate is left on the bench.");
+            Assert.That(Vector3.Distance(robot.position, home), Is.LessThan(.001f), "Back on its dock spot.");
+            Assert.That(Quaternion.Angle(robot.rotation, homeRotation), Is.LessThan(.1f));
+            Assert.That(tray.Taken, Is.False, "The tray is back on the dock shelf.");
+            Assert.That(overlay.RightWeight + overlay.LeftWeight + overlay.JawOpen, Is.EqualTo(0).Within(1e-4f), "Arms handed back to the Animator.");
+            var crate = assistant.BenchCrate.transform.position;
+            cam.transform.position = crate + new Vector3(-.2f, .55f, -.75f); cam.transform.LookAt(crate);
+            yield return Shoot("43-assistant-crate-on-bench", cam);
+
+            cam.transform.position = screen + new Vector3(.95f, .12f, .35f); cam.transform.LookAt(screen);
+            yield return Shoot("45-assistant-home-face", cam);
+
+            // Talking to it: a hint for the next step, then small talk (its lines wait while a call is on the line).
+            var calls = ClinicCallRuntime.Current;
+            for (int i = 0; i < 40 && calls != null && calls.Active; i++) { calls.Pickup(); calls.Advance(); yield return null; }
+            yield return new WaitForSecondsRealtime(1.3f);
+            for (float t = 0; t < 30f && assistant.Line.Length > 0; t += Time.unscaledDeltaTime) yield return null;   // let queued lines play out
+            assistant.Talk();
+            yield return Until(() => assistant.Line.Length > 0, "It answers when clicked.");
+            Assert.That(assistant.Card.gameObject.activeSelf, Is.True);
+            yield return new WaitForSecondsRealtime(1.2f);
+            yield return Shoot("44-assistant-talk", room);
+            Object.Destroy(cam.gameObject);
+        }
 
         IEnumerator Shoot(string state, Camera camera)
         {
