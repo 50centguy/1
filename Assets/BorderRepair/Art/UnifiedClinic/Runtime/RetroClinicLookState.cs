@@ -17,7 +17,10 @@ namespace BorderRepair.Art.UnifiedClinic
             public LayerMask volumeMask;
             public bool postProcessing;
         }
+        /// <summary>One renderer slot rebound to a clinic shell material; <c>previous</c> is the exact binding it replaced.</summary>
+        [Serializable] public struct ShellSlot { public Renderer renderer; public int slot; public Material previous, shell; }
         public List<MaterialPair> materials = new List<MaterialPair>();
+        public List<ShellSlot> shellSlots = new List<ShellSlot>();
         public List<LightState> lights = new List<LightState>();
         public List<CameraState> cameras = new List<CameraState>();
         public AmbientMode ambientMode;

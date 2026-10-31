@@ -87,6 +87,8 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
                         volumeMask = data.volumeLayerMask, postProcessing = data.renderPostProcessing });
                 }
             }
+            // Shell bindings are sticky: a scene that was rebound to the shell materials keeps them across re-apply.
+            bool keepShell = state.shellSlots.Count > 0 || state.materials.Any(p => IsShellMaterial(p.styled));
             RestoreMaterialBindings(scene, state);
             var sources = Components<Renderer>(scene).SelectMany(r => r.sharedMaterials).Where(IsSurface).Distinct().ToArray();
             var materialMap = new Dictionary<Material, Material>();
@@ -104,7 +106,8 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
                 TuneMaterial(styled, source, textures);
                 EditorUtility.SetDirty(styled);
                 materialMap.Add(source, styled);
-                if (!state.materials.Any(p => p.original == source))
+                // Match the exact pair: one original may legitimately own several styled partners (Retro variant + shell).
+                if (!state.materials.Any(p => p.original == source && p.styled == styled))
                     state.materials.Add(new RetroClinicLookState.MaterialPair { original = source, styled = styled });
             }
             foreach (var renderer in Components<Renderer>(scene))
@@ -120,6 +123,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
                     PrefabUtility.RecordPrefabInstancePropertyModifications(renderer);
                 }
             }
+            if (keepShell) BindShellSlots(scene, state, LoadShellMaterials(), false, out _);
             ConfigureVolume(state.transform, "Room grading", RetroClinicCamera.RoomVolumeLayer, roomProfile);
             ConfigureVolume(state.transform, "Inspection grading", RetroClinicCamera.InspectionVolumeLayer, inspectionProfile);
             RenderSettings.ambientMode = AmbientMode.Trilight;
@@ -299,7 +303,13 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
 
         static void RestoreMaterialBindings(Scene scene, RetroClinicLookState state)
         {
-            var original = state.materials.Where(p => p.styled != null).ToDictionary(p => p.styled, p => p.original);
+            // 1) shell slots back to the exact material they replaced (normally the Retro variant);
+            // 2) every styled material (Retro variants and any stray shell binding) back to its original.
+            UndoShellSlots(state);
+            var original = new Dictionary<Material, Material>();
+            foreach (var pair in state.materials)
+                if (pair.styled != null && pair.original != null && !original.ContainsKey(pair.styled))
+                    original.Add(pair.styled, pair.original);
             foreach (var renderer in Components<Renderer>(scene))
             {
                 var materials = renderer.sharedMaterials;
@@ -331,6 +341,287 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
                 data.renderPostProcessing = camera.postProcessing;
             }
             Object.DestroyImmediate(state.gameObject);
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // Clinic shell: floor / wall / ceiling rebound from their Retro variants to BorderRepair/ClinicShell.
+        // Every rebound slot is recorded (renderer, slot, exact previous material) so UnbindShell and
+        // Restore put back precisely what was there; the (original, shell) pairs are recorded as well so a
+        // full Restore still reaches the original even if a slot record were lost.
+        // ------------------------------------------------------------------------------------------
+        public const string ShellShaderName = "BorderRepair/ClinicShell";
+        public const string ShellRoot = "Assets/BorderRepair/Art/UnifiedClinic/Shell";
+        public const string ShellFloorPath = ShellRoot + "/M_UC_Shell_Floor.mat";
+        public const string ShellWallPath = ShellRoot + "/M_UC_Shell_Wall.mat";
+        public const string ShellCeilingPath = ShellRoot + "/M_UC_Shell_Ceiling.mat";
+        public const string FloorSourcePath = "Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Floor.mat";
+        public const string WallSourcePath = "Assets/BorderRepair/Art/UnifiedClinic/Materials/M_UC_Wall.mat";
+        const float ShellWallThickness = 0.20f;   // build_unified_clinic.py: WT
+        const float ShellDefaultApothem = 3.40f;  // build_unified_clinic.py: A
+        public static readonly string[] ShellScenePaths =
+        {
+            "Assets/RepairProps/Scenes/RepairProps_Clinic.unity",
+            "Assets/RepairPropsVR/Scenes/RepairProps_Clinic_VR.unity",
+        };
+
+        public sealed class ShellMaterials { public Material floor, wall, ceiling; }
+
+        public struct ShellBindResult
+        {
+            public int slots, floorSlots, wallSlots, ceilingSlots;
+            public bool measured;
+            public Vector4 roomCenter;   // xyz world; y = floor top
+            public float apothem;
+        }
+
+        public static ShellMaterials LoadShellMaterials()
+        {
+            var shader = Shader.Find(ShellShaderName);
+            if (shader == null) throw new InvalidOperationException("Clinic shell shader is missing: " + ShellShaderName);
+            if (ShaderUtil.ShaderHasError(shader)) throw new InvalidOperationException("Clinic shell shader compile errors: " +
+                string.Join("; ", ShaderUtil.GetShaderMessages(shader).Select(m => m.message)));
+            Material Load(string path)
+            {
+                var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+                if (material == null) throw new InvalidOperationException("Clinic shell material is missing: " + path);
+                if (material.shader != shader)
+                    throw new InvalidOperationException(path + " must use " + ShellShaderName + " (has " + (material.shader != null ? material.shader.name : "none") + ")");
+                return material;
+            }
+            return new ShellMaterials { floor = Load(ShellFloorPath), wall = Load(ShellWallPath), ceiling = Load(ShellCeilingPath) };
+        }
+
+        public static bool IsShellMaterial(Material material)
+        {
+            if (material == null) return false;
+            string path = AssetDatabase.GetAssetPath(material);
+            return path == ShellFloorPath || path == ShellWallPath || path == ShellCeilingPath;
+        }
+
+        static bool IsCeilingRenderer(Renderer renderer)
+        {
+            if (renderer.name.StartsWith("Ceiling", StringComparison.Ordinal)) return true;
+            var size = renderer.bounds.size;   // fallback: a large flat slab that carries the wall material
+            return size.y < 0.3f && size.x > 3f && size.z > 3f;
+        }
+
+        static Bounds Encapsulate(Bounds? accumulated, Bounds bounds)
+        {
+            if (!accumulated.HasValue) return bounds;
+            var result = accumulated.Value;
+            result.Encapsulate(bounds);
+            return result;
+        }
+
+        /// <summary>Rebinds the Retro variants of M_UC_Floor / M_UC_Wall in an already-styled scene to the shell
+        /// materials. Idempotent. With <paramref name="configureMaterials"/> the measured room centre / apothem are
+        /// written into the (shared) shell material assets.</summary>
+        public static ShellBindResult BindShell(Scene scene, bool configureMaterials = true)
+        {
+            var state = FindState(scene);
+            if (state == null) throw new InvalidOperationException("Scene " + scene.path + " has no " + StateName + "; apply the Retro look first.");
+            var shells = LoadShellMaterials();
+            BindShellSlots(scene, state, shells, configureMaterials, out var result);
+            EditorUtility.SetDirty(state);
+            return result;
+        }
+
+        static void BindShellSlots(Scene scene, RetroClinicLookState state, ShellMaterials shells, bool configureMaterials, out ShellBindResult result)
+        {
+            result = default;
+            UndoShellSlots(state);   // always start from the exact pre-shell bindings
+            var styledToOriginal = new Dictionary<Material, Material>();
+            foreach (var pair in state.materials)
+                if (pair.styled != null && pair.original != null && !IsShellMaterial(pair.styled) && !styledToOriginal.ContainsKey(pair.styled))
+                    styledToOriginal.Add(pair.styled, pair.original);
+
+            Bounds? wallBounds = null, floorBounds = null;
+            int floorSlots = 0, wallSlots = 0, ceilingSlots = 0;
+            foreach (var renderer in Components<Renderer>(scene))
+            {
+                var materials = renderer.sharedMaterials;
+                bool changed = false;
+                for (int i = 0; i < materials.Length; i++)
+                {
+                    var current = materials[i];
+                    if (current == null || !styledToOriginal.TryGetValue(current, out var original)) continue;
+                    string originalPath = AssetDatabase.GetAssetPath(original);
+                    Material shell;
+                    if (originalPath == FloorSourcePath)
+                    {
+                        shell = shells.floor;
+                        floorSlots++;
+                        floorBounds = Encapsulate(floorBounds, renderer.bounds);
+                    }
+                    else if (originalPath == WallSourcePath)
+                    {
+                        if (IsCeilingRenderer(renderer)) { shell = shells.ceiling; ceilingSlots++; }
+                        else
+                        {
+                            shell = shells.wall;
+                            wallSlots++;
+                            if (!renderer.name.StartsWith("Corridor", StringComparison.Ordinal))
+                                wallBounds = Encapsulate(wallBounds, renderer.bounds);
+                        }
+                    }
+                    else continue;
+                    materials[i] = shell;
+                    changed = true;
+                    state.shellSlots.Add(new RetroClinicLookState.ShellSlot { renderer = renderer, slot = i, previous = current, shell = shell });
+                    if (!state.materials.Any(p => p.original == original && p.styled == shell))
+                        state.materials.Add(new RetroClinicLookState.MaterialPair { original = original, styled = shell });
+                }
+                if (changed)
+                {
+                    renderer.sharedMaterials = materials;
+                    PrefabUtility.RecordPrefabInstancePropertyModifications(renderer);
+                }
+            }
+            result.slots = state.shellSlots.Count;
+            result.floorSlots = floorSlots;
+            result.wallSlots = wallSlots;
+            result.ceilingSlots = ceilingSlots;
+
+            if (!wallBounds.HasValue)
+            {
+                if (configureMaterials) Debug.LogWarning("[ClinicShell] No octagon wall renderers found in " + scene.path + "; room centre not measured.");
+                return;
+            }
+            // Octagon walls: outer faces sit at apothem + wall thickness on both axes, so the combined bounds are
+            // centred on the room and their half-extent minus the thickness is the inner apothem.
+            var walls = wallBounds.Value;
+            float apothem = Mathf.Min(walls.extents.x, walls.extents.z) - ShellWallThickness;
+            if (apothem < 2f || apothem > 6f || Mathf.Abs(walls.extents.x - walls.extents.z) > 0.05f)
+            {
+                Debug.LogWarning($"[ClinicShell] Wall bounds in {scene.path} do not look like the octagon room " +
+                                 $"(extents {walls.extents.x:F3} x {walls.extents.z:F3}); apothem falls back to {ShellDefaultApothem} m.");
+                apothem = ShellDefaultApothem;
+            }
+            float floorY = floorBounds.HasValue ? floorBounds.Value.max.y : walls.min.y;
+            result.measured = true;
+            result.roomCenter = new Vector4(walls.center.x, floorY, walls.center.z, 0f);
+            result.apothem = apothem;
+            if (configureMaterials)
+                foreach (var material in new[] { shells.floor, shells.wall, shells.ceiling })
+                {
+                    material.SetVector("_RoomCenter", result.roomCenter);
+                    material.SetFloat("_RoomApothem", apothem);
+                    EditorUtility.SetDirty(material);
+                }
+        }
+
+        static void UndoShellSlots(RetroClinicLookState state)
+        {
+            for (int k = state.shellSlots.Count - 1; k >= 0; k--)
+            {
+                var record = state.shellSlots[k];
+                if (record.renderer == null) continue;
+                var materials = record.renderer.sharedMaterials;
+                if (record.slot < 0 || record.slot >= materials.Length || materials[record.slot] != record.shell) continue;
+                materials[record.slot] = record.previous;
+                record.renderer.sharedMaterials = materials;
+                PrefabUtility.RecordPrefabInstancePropertyModifications(record.renderer);
+            }
+            state.shellSlots.Clear();
+        }
+
+        /// <summary>Puts every shell slot back to the exact material it replaced and forgets the shell pairs.
+        /// Returns the number of slots changed.</summary>
+        public static int UnbindShell(Scene scene)
+        {
+            var state = FindState(scene);
+            if (state == null) return 0;
+            int count = state.shellSlots.Count;
+            UndoShellSlots(state);
+            // Shell bindings without a slot record (hand edits): back to that original's Retro variant.
+            var retroOf = new Dictionary<Material, Material>();
+            var shellOriginal = new Dictionary<Material, Material>();
+            foreach (var pair in state.materials)
+            {
+                if (pair.original == null || pair.styled == null) continue;
+                if (IsShellMaterial(pair.styled)) { if (!shellOriginal.ContainsKey(pair.styled)) shellOriginal.Add(pair.styled, pair.original); }
+                else if (!retroOf.ContainsKey(pair.original)) retroOf.Add(pair.original, pair.styled);
+            }
+            foreach (var renderer in Components<Renderer>(scene))
+            {
+                var materials = renderer.sharedMaterials;
+                bool changed = false;
+                for (int i = 0; i < materials.Length; i++)
+                    if (materials[i] != null && shellOriginal.TryGetValue(materials[i], out var original))
+                    {
+                        materials[i] = retroOf.TryGetValue(original, out var retro) ? retro : original;
+                        changed = true;
+                        count++;
+                    }
+                if (changed) { renderer.sharedMaterials = materials; PrefabUtility.RecordPrefabInstancePropertyModifications(renderer); }
+            }
+            state.materials.RemoveAll(p => IsShellMaterial(p.styled));
+            EditorUtility.SetDirty(state);
+            return count;
+        }
+
+        /// <summary>Menu only (never run automatically): rebinds the Retro wall/floor/ceiling copies in the
+        /// RepairProps clinic and its VR copy to the shell materials and saves both scenes.</summary>
+        [MenuItem("Border Repair/Clinic Base/Retro Look/Bind Clinic Shell Materials (RepairProps + VR)", priority = 2001)]
+        public static void BindShellToScenes()
+        {
+            RejectUnsavedScenes();
+            LoadShellMaterials();   // fail before touching any scene
+            var setup = EditorSceneManager.GetSceneManagerSetup();
+            ShellBindResult? reference = null;
+            try
+            {
+                foreach (string path in ShellScenePaths)
+                {
+                    var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+                    if (FindState(scene) == null)
+                    {
+                        Debug.LogError("[ClinicShell] " + path + ": no " + StateName + " - skipped (apply the Retro look first).");
+                        continue;
+                    }
+                    // The shell materials are shared: the first measured scene writes the room centre, later scenes are checked against it.
+                    var result = BindShell(scene, !reference.HasValue);
+                    if (result.measured)
+                    {
+                        if (!reference.HasValue) reference = result;
+                        else if (Vector4.Distance(reference.Value.roomCenter, result.roomCenter) > 0.01f || Mathf.Abs(reference.Value.apothem - result.apothem) > 0.01f)
+                            Debug.LogWarning($"[ClinicShell] {path}: room centre {result.roomCenter} / apothem {result.apothem:F3} differs from " +
+                                             $"{reference.Value.roomCenter} / {reference.Value.apothem:F3}; the shared shell materials keep the first values.");
+                    }
+                    EditorSceneManager.MarkSceneDirty(scene);
+                    EditorSceneManager.SaveScene(scene);
+                    Debug.Log($"[ClinicShell] {path}: {result.slots} slots (floor {result.floorSlots}, wall {result.wallSlots}, ceiling {result.ceilingSlots}); " +
+                              $"room centre {result.roomCenter}, apothem {result.apothem:F3}");
+                }
+                AssetDatabase.SaveAssets();
+            }
+            finally
+            {
+                if (setup.Any(s => s.isLoaded && !string.IsNullOrEmpty(s.path))) EditorSceneManager.RestoreSceneManagerSetup(setup);
+            }
+        }
+
+        [MenuItem("Border Repair/Clinic Base/Retro Look/Unbind Clinic Shell Materials (RepairProps + VR)", priority = 2001)]
+        public static void UnbindShellFromScenes()
+        {
+            RejectUnsavedScenes();
+            var setup = EditorSceneManager.GetSceneManagerSetup();
+            try
+            {
+                foreach (string path in ShellScenePaths)
+                {
+                    var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+                    if (FindState(scene) == null) continue;
+                    int count = UnbindShell(scene);
+                    EditorSceneManager.MarkSceneDirty(scene);
+                    EditorSceneManager.SaveScene(scene);
+                    Debug.Log($"[ClinicShell] {path}: {count} slots restored to their Retro variants.");
+                }
+            }
+            finally
+            {
+                if (setup.Any(s => s.isLoaded && !string.IsNullOrEmpty(s.path))) EditorSceneManager.RestoreSceneManagerSetup(setup);
+            }
         }
 
         [MenuItem("Border Repair/Clinic Base/Retro Look/Restore Previous Look", priority = 2000)]
