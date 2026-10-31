@@ -15,6 +15,32 @@ namespace BorderRepair.RepairProps.Editor
         [MenuItem("Border Repair/Repair Props/Build Cases And Adapters")]
         public static void BuildAll() { BuildCases(); }
 
+        // Flow and case data only: for catalog changes that add no model nodes, so the prefabs stay untouched.
+        [MenuItem("Border Repair/Repair Props/Rebuild Flow Data Only")]
+        public static void RebuildFlowData()
+        {
+            foreach (RepairPropKind kind in Enum.GetValues(typeof(RepairPropKind)))
+            {
+                var repairCase = AssetDatabase.LoadAssetAtPath<RepairCaseData>(DataPath + "/" + kind + "_Case.asset");
+                var definition = AssetDatabase.LoadAssetAtPath<RepairPropFlowDefinition>(DataPath + "/" + kind + "_Flow.asset");
+                if (repairCase == null || definition == null) throw new InvalidOperationException("Run Build Cases And Adapters first: " + kind);
+                var prefab = repairCase.itemPrefab;
+                var authored = RepairPropFlowCatalog.Create(kind, repairCase);
+                var before = new HashSet<string>(definition.nodes.ConvertAll(n => n.objectName));
+                if (!before.SetEquals(authored.nodes.ConvertAll(n => n.objectName)))
+                    throw new InvalidOperationException(kind + ": model nodes changed; use Build Cases And Adapters.");
+                EditorUtility.CopySerialized(authored, definition);
+                UnityEngine.Object.DestroyImmediate(authored);
+                repairCase.itemPrefab = prefab;
+                var errors = new List<string>();
+                definition.Validate(errors); repairCase.Validate(errors);
+                if (errors.Count > 0) throw new InvalidOperationException(string.Join("\n", errors));
+                EditorUtility.SetDirty(repairCase); EditorUtility.SetDirty(definition);
+            }
+            AssetDatabase.SaveAssets();
+            Debug.Log("[RepairProps] Rebuilt flow and case data (prefabs untouched).");
+        }
+
         // Assets: Data/{Receiver,Cartridge,Power,Omamori}_{Case,Flow}.asset and RepairProps_Shift.asset.
         // Parent creates/imports the four model prefabs first. Re-running updates assets in place, preserving GUIDs.
         public static RepairShiftData BuildCases()

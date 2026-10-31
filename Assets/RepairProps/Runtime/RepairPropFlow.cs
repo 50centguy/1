@@ -44,6 +44,25 @@ namespace BorderRepair.RepairProps
         public bool IsAssembled => initialized && Matches(definition.assembled);
         public void Configure(RepairPropFlowDefinition value) { definition = value; }
 
+        // Which of the pool's faults this order carries. 0 rolls one at random; tests pin a fault (1-based).
+        public static int FaultOverride;
+        public PropFault ActiveFault => definition != null && definition.HasFaultPool
+            ? definition.faults[Mathf.Clamp(GetState("fault"), 1, definition.faults.Count) - 1] : null;
+        public bool FaultFixed => ActiveFault == null ? GetState("module") == 2 : Matches(ActiveFault.fixedWhen);
+        // A repair was attempted since the item was last found faulty: a fix command ran, or a replacement went in.
+        public bool RepairAttempted => definition.HasFaultPool ? GetState("repaired") == 1 : GetState("module") == 2;
+
+        /// <summary>Rolls (or applies <see cref="FaultOverride"/>) the order's fault before anything is measured.</summary>
+        public void RollFault()
+        {
+            if (!initialized || !definition.HasFaultPool || history.Count > 0) return;
+            int count = definition.faults.Count;
+            state["fault"] = FaultOverride > 0 ? Mathf.Clamp(FaultOverride, 1, count) : UnityEngine.Random.Range(1, count + 1);
+        }
+
+        /// <summary>The probe's last reading: 0 not measured, 1 normal, 2 abnormal.</summary>
+        public int Reading(PropProbe probe) => GetState("meter." + probe.id);
+
         // The shared station keeps ownership of its queue. Standalone callers get a one-item core session.
         public void Initialize(RepairPropFlowDefinition value, Transform root, RepairSession session = null)
         {
@@ -136,7 +155,7 @@ namespace BorderRepair.RepairProps
         string DescribeBlock(PropCommand c)
         {
             if (c.effects.Count > 0 && Matches(c.effects)) return DescribeCurrent(c);
-            if (c.kind == PropCommandKind.Manipulate)
+            if (c.kind == PropCommandKind.Manipulate || c.kind == PropCommandKind.Measure)
             {
                 // The initial tests need power and the fixture, so missing diagnosis outranks the isolation advice.
                 string diagnosis = DescribeMissingDiagnosis(c.requires);
@@ -232,6 +251,7 @@ namespace BorderRepair.RepairProps
                 case "power": return on ? "测试供电未开启：请先“" + Label("power.on") + "”。" : "请先关机。";
                 case "fixture": return on ? "外部测试连接未接入：请先“" + Label("fixture.connect") + "”。" : "请先解除外部测试连接。";
                 case "strip": return on ? "请先展开顶部护条。" : "请先收起顶部护条。";
+                case "repaired": return on ? "还没有做任何处理。" : "已经处理过了。";
                 default: return "尚不能进行这项操作，前置步骤未完成。";
             }
         }
@@ -262,6 +282,7 @@ namespace BorderRepair.RepairProps
                 foreach (var e in c.effects) state[e.key] = e.value;
                 history.Add(c.id);
                 if (c.kind == PropCommandKind.Test) RunTest(definition.FindTest(c.testId));
+                else if (c.kind == PropCommandKind.Measure) RunProbe(definition.FindProbe(c.probeId));
                 else Say(c.label, FeedbackKind.Info);
                 ApplyVisuals();
                 Changed?.Invoke();
@@ -286,13 +307,29 @@ namespace BorderRepair.RepairProps
             return result;
         }
 
+        /// <summary>What the probe would read now: true when its fault is this order's and is not fixed yet.</summary>
+        public bool ProbeReadsAbnormal(PropProbe probe)
+        {
+            var fault = definition.FindFault(probe.fault);
+            return fault != null && fault == ActiveFault && !Matches(fault.fixedWhen);
+        }
+
+        void RunProbe(PropProbe probe)
+        {
+            bool abnormal = ProbeReadsAbnormal(probe);
+            state["meter." + probe.id] = abnormal ? 2 : 1;
+            Say(abnormal ? probe.abnormalReading : probe.normalReading, abnormal ? FeedbackKind.Warning : FeedbackKind.Info);
+        }
+
         void RunTest(PropTest test)
         {
             PropTestResult result;
+            bool retest = RepairAttempted;
+            state["last.retest"] = retest ? 1 : 0;
             try
             {
                 result = TestProbe != null ? TestProbe.Measure(this, test)
-                    : new PropTestResult(!test.functional || GetState("module") == 2, RetainedPartsIntact(), true);
+                    : new PropTestResult(!test.functional || FaultFixed, RetainedPartsIntact(), true);
             }
             catch (Exception e)
             {
@@ -306,8 +343,15 @@ namespace BorderRepair.RepairProps
             {
                 ClearTestPasses();
                 state["retest.failed"] = 1;
-                if (GetState("module") == 2) FailedRetests++;
-                Say(WithStory(result.message ?? test.faultFinding, test, false), FeedbackKind.Warning);
+                if (retest) FailedRetests++;
+                string finding = result.message ?? (test.functional && ActiveFault != null ? ActiveFault.symptom : test.faultFinding);
+                if (test.functional && ActiveFault != null)
+                {
+                    // The complaint is still there: the guide goes back to opening up and measuring.
+                    if (retest) { state["repaired"] = 0; finding = "症状没有变化，刚才的处理没解决问题。\n" + finding; }
+                    else if (!string.IsNullOrEmpty(definition.suspectHint)) finding += "\n" + definition.suspectHint;
+                }
+                Say(WithStory(finding, test, false), FeedbackKind.Warning);
                 return;
             }
             int count = GetState("count." + test.id) + 1;

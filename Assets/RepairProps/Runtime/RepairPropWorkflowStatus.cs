@@ -25,9 +25,52 @@ namespace BorderRepair.RepairProps
             if (flow.Completed) return RepairPropPhase.Delivery;
             if (flow.Session.Stage != RepairStage.Inspect || flow.Session.CurrentCase != flow.Definition.repairCase) return RepairPropPhase.Intake;
             if (!InitialDiagnosisDone(flow)) return RepairPropPhase.InitialTest;
-            int module = flow.GetState("module");
-            if (module == 2) return !flow.IsAssembled ? RepairPropPhase.Reassembly : AllTestsPassed(flow) ? RepairPropPhase.Delivery : RepairPropPhase.Retest;
-            return module == 1 ? RepairPropPhase.Replacement : RepairPropPhase.SafeDisassembly;
+            if (flow.GetState("module") == 1) return RepairPropPhase.Replacement;
+            if (flow.RepairAttempted) return !flow.IsAssembled ? RepairPropPhase.Reassembly : AllTestsPassed(flow) ? RepairPropPhase.Delivery : RepairPropPhase.Retest;
+            return RepairPropPhase.SafeDisassembly;
+        }
+
+        // ---- Fault pool (symptom-led diagnosis): open up, measure the suspects, then walk the found fault's route. ----
+
+        /// <summary>The fault a meter reading has pointed at, or null while every measured suspect reads normal.</summary>
+        public static PropFault FoundFault(RepairPropFlow flow)
+        {
+            var probe = flow.Definition.probes.FirstOrDefault(p => flow.Reading(p) == 2);
+            return probe != null ? flow.Definition.FindFault(probe.fault) : null;
+        }
+
+        /// <summary>"射频同轴线接头：异常 · 电池连接线：未测 …", one entry per suspect.</summary>
+        public static string SuspectList(RepairPropFlow flow) => string.Join("　", flow.Definition.probes.Select(p =>
+            p.suspect + "：" + (flow.Reading(p) == 2 ? "异常" : flow.Reading(p) == 1 ? "正常" : "未测")));
+
+        static bool CoverStep(PropCommand c) => c.id == "cover.remove" ||
+            c.id.StartsWith("remove.", StringComparison.Ordinal) && c.requires.Any(r => r.key == "cover" && r.value == 0);
+
+        static IEnumerable<PropCommand> Route(RepairPropFlow flow, PropFault fault) =>
+            fault.route.SelectMany(step => flow.Definition.commands.Where(c => c.id == step ||
+                (step.EndsWith(".") || step.EndsWith("_")) && c.id.StartsWith(step, StringComparison.Ordinal)));
+
+        // What the guide offers while the item is open and not yet repaired, in order of preference.
+        static IEnumerable<PropCommand> PoolOpenSteps(RepairPropFlow flow)
+        {
+            var d = flow.Definition;
+            if (flow.GetState("cover") == 0) return d.commands.Where(CoverStep);
+            var found = FoundFault(flow);
+            if (found != null) return Route(flow, found);
+            var measure = d.commands.Where(c => c.kind == PropCommandKind.Measure && flow.Reading(d.FindProbe(c.probeId)) == 0);
+            // A suspect that cannot be measured as things stand (a lead already unplugged) is put back first.
+            var putBack = d.commands.Where(c => IsAny(c.id, ReassemblyIds) && c.id != "module.install.new" && c.id != "cover.install" && !CoverScrewInstall(c));
+            return measure.Concat(putBack);
+        }
+
+        static bool CoverScrewInstall(PropCommand c) => c.id.StartsWith("install.", StringComparison.Ordinal) && c.requires.Any(r => r.key == "cover" && r.value == 0);
+
+        static PropCommand PoolReplacementStep(RepairPropFlow flow)
+        {
+            // A board taken out on a hunch goes back unless the meter found it bad.
+            var found = FoundFault(flow);
+            bool replace = found != null && found.route.Contains("module.install.new");
+            return flow.Definition.FindCommand(replace ? "module.install.new" : "module.install.old");
         }
 
         public static bool InitialDiagnosisDone(RepairPropFlow flow) => flow.Definition.tests.All(t => flow.GetState("diagnosed." + t.id) == 1);
@@ -59,6 +102,24 @@ namespace BorderRepair.RepairProps
                     if (flow.CanExecute(command.id, command.target, command.tool, out string reason))
                         return "整件保持组装、接入外部测试连接并通电，运行“" + pending[0].label + "”" + rest + "。初测全部完成后才能拆解。";
                     return reason + (pending.Count > 0 ? "（初测还差 " + pending.Count + " 项）" : "");
+                }
+                case RepairPropPhase.SafeDisassembly when d.HasFaultPool:
+                {
+                    bool failed = flow.GetState("retest.failed") == 1 && flow.GetState("last.retest") == 1;
+                    if (flow.GetState("power") != 0 || flow.GetState("fixture") != 0)
+                        return (failed ? "复测没通过，症状还在。" : "初测完成，症状已记下。") + "关机并解除外部测试连接，开盖用万用表排查。";
+                    var steps = PoolOpenSteps(flow).ToList();
+                    if (flow.GetState("cover") == 0) return "开盖排查：" + Suggest(flow, steps, "没有可执行的开盖操作。");
+                    var found = FoundFault(flow);
+                    if (found != null) return "测量找到原因：" + found.label + "。" + Suggest(flow, steps, "");
+                    return "用万用表逐个测量嫌疑部位（" + SuspectList(flow) + "）。" + Suggest(flow, steps, "");
+                }
+                case RepairPropPhase.Replacement when d.HasFaultPool:
+                {
+                    var step = PoolReplacementStep(flow);
+                    if (step.id == "module.install.new" && flow.CommandPolicy != null && !flow.CommandPolicy.ReplacementAvailable)
+                    { flow.CanExecute(step.id, step.target, step.tool, out string shortage); return shortage; }
+                    return Suggest(flow, new[] { step }, "") is string s && s.Length > 0 ? s : flow.CanExecute(step.id, step.target, step.tool, out string blocker) ? "" : blocker;
                 }
                 case RepairPropPhase.SafeDisassembly:
                 case RepairPropPhase.Replacement:
@@ -119,6 +180,8 @@ namespace BorderRepair.RepairProps
                 case RepairPropPhase.SafeDisassembly:
                 case RepairPropPhase.Replacement:
                     if (flow.GetState("power") != 0 || flow.GetState("fixture") != 0) return Setup("power.off", "fixture.disconnect").FirstOrDefault();
+                    if (d.HasFaultPool)
+                        return flow.GetState("module") == 1 ? (Ready(PoolReplacementStep(flow)) ? PoolReplacementStep(flow) : null) : PoolOpenSteps(flow).FirstOrDefault(Ready);
                     return d.commands.Where(c => IsAny(c.id, DisassemblyIds) || c.id == "module.install.new").FirstOrDefault(Ready);
                 case RepairPropPhase.Reassembly:
                     return d.commands.Where(c => IsAny(c.id, ReassemblyIds)).OrderBy(ReassemblyRank).FirstOrDefault(Ready)
@@ -224,7 +287,7 @@ namespace BorderRepair.RepairProps
                 var test = flow.Definition.FindTest(id.Substring(5));
                 if (test == null) continue;
                 entries.Add(new Entry { testId = test.id, label = test.label, message = flow.LastFeedback,
-                    passed = flow.LastTestPassed, retest = flow.GetState("module") == 2 });
+                    passed = flow.LastTestPassed, retest = flow.GetState("last.retest") == 1 });
                 Recorded?.Invoke();
             }
         }

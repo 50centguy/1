@@ -512,6 +512,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: cover.install
     label: "\u76D6\u677F\u5F52\u4F4D"
     target: OM_RearCover
@@ -554,6 +556,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.OM_CoverScrew_01
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94891"
     target: OM_CoverScrew_01
@@ -578,6 +582,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.OM_CoverScrew_01
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94891"
     target: OM_CoverScrew_01
@@ -602,6 +608,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.OM_CoverScrew_02
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94892"
     target: OM_CoverScrew_02
@@ -626,6 +634,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.OM_CoverScrew_02
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94892"
     target: OM_CoverScrew_02
@@ -650,6 +660,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.OM_CoverScrew_03
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94893"
     target: OM_CoverScrew_03
@@ -674,6 +686,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.OM_CoverScrew_03
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94893"
     target: OM_CoverScrew_03
@@ -698,6 +712,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.OM_CoverScrew_04
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94894"
     target: OM_CoverScrew_04
@@ -722,6 +738,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.OM_CoverScrew_04
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94894"
     target: OM_CoverScrew_04
@@ -746,6 +764,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: isolate
     label: "\u63E1\u4F4F\u63D2\u5934\u5E76\u65AD\u5F00\u5185\u90E8\u4F9B\u7535"
     target: OM_PowerPlug
@@ -770,6 +790,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: supply.connect
     label: "\u63A5\u56DE\u5185\u90E8\u4F9B\u7535"
     target: OM_PowerPlug
@@ -804,6 +826,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: harness.release
     label: "\u91CA\u653E\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
     target: OM_WakePlug
@@ -832,6 +856,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: harness.connect
     label: "\u63D2\u56DE\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
     target: OM_WakePlug
@@ -866,6 +892,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.OM_WakeScrew_01
     label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
     target: OM_WakeScrew_01
@@ -898,6 +926,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.OM_WakeScrew_01
     label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
     target: OM_WakeScrew_01
@@ -930,6 +960,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.OM_WakeScrew_02
     label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
     target: OM_WakeScrew_02
@@ -962,6 +994,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.OM_WakeScrew_02
     label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
     target: OM_WakeScrew_02
@@ -994,6 +1028,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.remove.old
     label: "\u53D6\u4E0B\u6545\u969C\u6A21\u5757"
     target: OM_WakeModule_Fault
@@ -1038,6 +1074,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.install.old
     label: "\u88C5\u56DE\u539F\u6545\u969C\u6A21\u5757"
     target: OM_WakeModule_Fault
@@ -1082,6 +1120,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.remove.new
     label: "\u53D6\u4E0B\u66FF\u6362\u6A21\u5757"
     target: OM_WakeModule_New
@@ -1126,6 +1166,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.install.new
     label: "\u5B89\u88C5\u66FF\u6362\u6A21\u5757"
     target: OM_WakeModule_New
@@ -1167,9 +1209,13 @@ MonoBehaviour:
       value: 2
     - key: new.out
       value: 0
+    - key: repaired
+      value: 1
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: power.off
     label: "\u5173\u673A\uFF0F\u505C\u6B62\u8F93\u51FA"
     target: OM_Omamori
@@ -1184,6 +1230,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: fixture.disconnect
     label: "\u89E3\u9664\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
     target: OM_Omamori
@@ -1200,6 +1248,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: fixture.connect
     label: "\u63A5\u5165\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
     target: OM_Omamori
@@ -1236,6 +1286,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: power.on
     label: "\u5F00\u542F\u6D4B\u8BD5\u4F9B\u7535"
     target: OM_Omamori
@@ -1272,6 +1324,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: test.identity
     label: "\u53EA\u8BFB\u6838\u5BF9\u8EAB\u4EFD\u4E0E\u8BB0\u5FC6\u6761\u76EE\u4E00\u81F4\u6027"
     target: OM_Omamori
@@ -1286,6 +1340,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: identity
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: test.wake
     label: "\u5524\u9192\u6309\u952E\u54CD\u5E94\u6D4B\u8BD5"
     target: OM_Omamori
@@ -1300,6 +1356,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: wake
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: complete
     label: "\u786E\u8BA4\u590D\u88C5\u590D\u6D4B\u5E76\u4EA4\u4ED8\u539F\u4EF6"
     target: OM_Omamori
@@ -1320,6 +1378,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   tests:
   - id: identity
     label: "\u53EA\u8BFB\u6838\u5BF9\u8EAB\u4EFD\u4E0E\u8BB0\u5FC6\u6761\u76EE\u4E00\u81F4\u6027"
@@ -1335,3 +1395,6 @@ MonoBehaviour:
     functional: 1
     checksRetainedIdentity: 0
     consecutivePasses: 3
+  faults: []
+  probes: []
+  suspectHint: 

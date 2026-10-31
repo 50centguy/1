@@ -35,7 +35,7 @@ namespace BorderRepair.EditorTools
 
         static string Fbx(string group) => $"{ModelDir}/SalvageDrone_{group}.fbx";
 
-        [MenuItem("Border Repair/Assets/Build SalvageDrone (from Blender export)", priority = 42)]
+        [MenuItem("Border Repair/Old/Assets/Build SalvageDrone (from Blender export)", priority = 10042)]
         static void MenuBuild() => Build();
 
         public static void BuildFromCommandLine() => Build();

@@ -6,7 +6,9 @@ using UnityEngine;
 namespace BorderRepair.RepairProps
 {
     public enum RepairPropKind { Receiver, Cartridge, Power, Omamori }
-    public enum PropCommandKind { Manipulate, Power, Fixture, Test, Inspect, Complete, Pose }
+    public enum PropCommandKind { Manipulate, Power, Fixture, Test, Inspect, Complete, Pose, Measure }
+    // How the hand performs a command on the bench (RepairPropGesture). Auto derives it from the command itself.
+    public enum PropFeel { Auto, Tap, Unscrew, Screw, Pry, Seat, Unplug, Plug, SlideOut, SlideIn, Scrub, Crimp, Probe }
 
     [Serializable]
     public struct PropCondition
@@ -29,6 +31,8 @@ namespace BorderRepair.RepairProps
         public bool invalidatesTests;
         public string testId;
         public string coreStepId;
+        public string probeId;
+        public PropFeel feel;
     }
 
     [Serializable]
@@ -67,6 +71,33 @@ namespace BorderRepair.RepairProps
         public int consecutivePasses = 1;
     }
 
+    // One possible cause of the item's complaint. A flow with a fault pool has one active fault per order (state
+    // "fault", 1-based); its functional test passes once that fault's fixedWhen holds, and reports only the symptom.
+    [Serializable]
+    public sealed class PropFault
+    {
+        public string id;
+        public string label;
+        [TextArea] public string symptom;
+        public List<PropCondition> fixedWhen = new List<PropCondition>();
+        // Commands (ids, or prefixes ending in '.' / '_') the visor guide walks once this fault is found.
+        public List<string> route = new List<string>();
+    }
+
+    // A meter reading on one suspect. It reads abnormal while its fault is active and not yet fixed.
+    [Serializable]
+    public sealed class PropProbe
+    {
+        public string id;
+        public string suspect;
+        public string fault;
+        [TextArea] public string normalReading;
+        [TextArea] public string abnormalReading;
+        // What the meter's display shows; "a|b" flickers between the two (a loose contact).
+        public string normalDisplay;
+        public string abnormalDisplay;
+    }
+
     [CreateAssetMenu(menuName = "Border Repair/Repair Prop Flow")]
     public sealed class RepairPropFlowDefinition : ScriptableObject
     {
@@ -81,8 +112,14 @@ namespace BorderRepair.RepairProps
         public List<PropNode> nodes = new List<PropNode>();
         public List<PropCommand> commands = new List<PropCommand>();
         public List<PropTest> tests = new List<PropTest>();
+        public List<PropFault> faults = new List<PropFault>();
+        public List<PropProbe> probes = new List<PropProbe>();
+        [TextArea] public string suspectHint;
 
+        public bool HasFaultPool => faults.Count > 0;
         public PropCommand FindCommand(string id) => commands.Find(c => c.id == id);
+        public PropFault FindFault(string id) => faults.Find(f => f.id == id);
+        public PropProbe FindProbe(string id) => probes.Find(p => p.id == id);
         public PropNode FindNode(string objectName) => nodes.Find(n => n.objectName == objectName);
         public PropTest FindTest(string id) => tests.Find(t => t.id == id);
 
@@ -106,12 +143,20 @@ namespace BorderRepair.RepairProps
                 if (!ids.Add(c.id)) errors.Add("Duplicate command: " + c.id);
                 var n = FindNode(c.target);
                 if (n == null) errors.Add("Unknown target: " + c.target);
-                if (n != null && n.immutable && c.kind != PropCommandKind.Inspect)
+                if (n != null && n.immutable && c.kind != PropCommandKind.Inspect && c.kind != PropCommandKind.Measure)
                     errors.Add("Only inspection is allowed on retained parts: " + c.target);
                 if (c.kind == PropCommandKind.Test && FindTest(c.testId) == null)
                     errors.Add("Unknown test: " + c.testId);
+                if (c.kind == PropCommandKind.Measure && FindProbe(c.probeId) == null)
+                    errors.Add("Unknown probe: " + c.probeId);
             }
             if (tests.Count == 0) errors.Add("No retest defined.");
+            foreach (var p in probes)
+                if (FindFault(p.fault) == null) errors.Add("Probe " + p.id + " names an unknown fault: " + p.fault);
+            foreach (var fault in faults)
+                foreach (var step in fault.route)
+                    if (!commands.Exists(c => c.id == step || (step.EndsWith(".") || step.EndsWith("_")) && c.id.StartsWith(step, StringComparison.Ordinal)))
+                        errors.Add("Fault " + fault.id + " routes through an unknown command: " + step);
             return before == errors.Count;
         }
     }

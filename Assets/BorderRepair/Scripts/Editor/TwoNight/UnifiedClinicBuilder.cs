@@ -20,7 +20,7 @@ namespace BorderRepair.TwoNight.EditorTools
         public const string MenuPath = SceneDirectory + "/UnifiedClinic_Menu.unity";
         const string ScratchPath = SceneDirectory + "/PrototypeConsole_Import.unity";
 
-        [MenuItem("Border Repair/Two-Night Slice/Build Unified Clinic From Current N2 Snapshot")]
+        [MenuItem("Border Repair/Old/Two-Night Slice/Build Unified Clinic From Current N2 Snapshot", priority = 10500)]
         public static void Build()
         {
             EnsureFolder(SceneDirectory);

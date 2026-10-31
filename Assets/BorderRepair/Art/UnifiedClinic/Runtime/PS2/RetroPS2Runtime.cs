@@ -13,7 +13,7 @@ namespace BorderRepair.Art.UnifiedClinic.PS2
 {
     /// <summary>
     /// Play-mode-only hookup for the two desktop clinic scenes: marks their RetroClinicCameras for the PS2 pass
-    /// and shows a small collapsible "画面" panel (F8). Nothing is written to scenes, prefabs or saves; the object
+    /// and shows a small collapsible "画面" panel ("=" key). Nothing is written to scenes, prefabs or saves; the object
     /// lives in the loaded desktop scene and everything it added is removed when it is destroyed.
     /// </summary>
     [AddComponentMenu("")]
@@ -146,7 +146,7 @@ namespace BorderRepair.Art.UnifiedClinic.PS2
         void Update()
         {
             var kb = Keyboard.current;
-            if (kb != null && kb.f8Key.wasPressedThisFrame && !FirstOrderInput.TextInputFocused) SetExpanded(!expanded);
+            if (kb != null && kb.equalsKey.wasPressedThisFrame && !FirstOrderInput.TextInputFocused) SetExpanded(!expanded);
             if (Time.unscaledTime >= nextScan) Scan();
             if (expanded && Readability() != lastReadability) Refresh();
         }
@@ -293,7 +293,7 @@ namespace BorderRepair.Art.UnifiedClinic.PS2
                 rootImage.enabled = expanded; // collapsed: only the small tab receives pointer hits
                 var root = (RectTransform)rootImage.transform;
                 root.sizeDelta = new Vector2(expanded ? 320 : 92, root.sizeDelta.y);
-                tab.text = expanded ? "画面 · 收起 (F8)" : "画面 F8";
+                tab.text = expanded ? "画面 · 收起 (=)" : "画面 =";
                 if (!expanded) return;
 
                 bool on = RetroPS2Settings.Enabled;

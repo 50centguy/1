@@ -42,7 +42,7 @@ namespace BorderRepair.Art.Unit07TrayVariant.EditorTools
         static readonly float[] CarryJoints = { 3.16558f, 36.33465f, -58.62568f, 16.34933f };
         const float LeanDeg = 4f, Clear = 0.010f, Guide = 0.002f, Grip = 0.002f, BarContactSlack = 0.0015f;
 
-        [MenuItem("Border Repair/Unit07 Tray Variant/Build All (import, prefab, verification scene, report)")]
+        [MenuItem("Border Repair/Old/Unit07 Tray Variant/Build All (import, prefab, verification scene, report)", priority = 10500)]
         public static void BuildAll()
         {
             Import();

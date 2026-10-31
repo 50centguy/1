@@ -30,7 +30,7 @@ namespace BorderRepair.EditorTools
             (new Color(0.55f, 0.66f, 0.8f), new Color(0.06f, 0.08f, 0.11f)),         // LOG：冷白
         };
 
-        [MenuItem("Border Repair/Narrative/Apply Tester Screen Shader (create missing)", priority = 67)]
+        [MenuItem("Border Repair/Old/Narrative/Apply Tester Screen Shader (create missing)", priority = 10067)]
         static void MenuApply()
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;

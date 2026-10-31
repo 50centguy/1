@@ -257,12 +257,14 @@ namespace BorderRepair.RepairProps
         void RefreshRows(RepairPropFlow flow)
         {
             var shown=new HashSet<(int,string)>();
+            // The electric screwdriver holds the bench while it runs; a hand gesture gives way to any other press.
+            bool handsBusy=owner.Gesture!=null && owner.Gesture.AutoRunning;
             string next=RepairPropWorkflowStatus.NextCommand(flow)?.id;
             var focusBatch=batches.FirstOrDefault(b=>b.members.Any(m=>m.id==next));
             foreach(var batch in batches)
             {
                 bool on=batch==focusBatch,ready=batch.members.Any(m=>Ready(flow,m));
-                batch.button.interactable=ready && owner.CanInteract;
+                batch.button.interactable=ready && owner.CanInteract && !handsBusy;
                 batch.button.targetGraphic.color=on ? Accent:ready ? ReadyBg:IdleBg;
                 RepairPropCyberStyle.SetFrame(batch.button,on ? RepairPropCyberStyle.Hot:ready ? Accent:Rule);
                 batch.text.color=on ? Color.black:ready ? Ink:Dim;
@@ -274,7 +276,7 @@ namespace BorderRepair.RepairProps
                 if(command==null) continue;
                 var state=RepairPropWorkflowStatus.CommandState(flow,command,out string reason);
                 bool ready=state==RepairPropCommandState.Available;
-                row.button.interactable=ready && owner.CanInteract;
+                row.button.interactable=ready && owner.CanInteract && !handsBusy;
                 bool focus=ready && command.id==next;
                 row.button.targetGraphic.color=focus ? Accent:ready ? (command.kind==PropCommandKind.Complete ? DeliverBg:ReadyBg):IdleBg;
                 RepairPropCyberStyle.SetFrame(row.button,focus ? RepairPropCyberStyle.Hot:ready ? (command.kind==PropCommandKind.Complete ? Ok:Accent):Rule);
@@ -436,6 +438,13 @@ namespace BorderRepair.RepairProps
         {
             if(!owner.CanInteract) return;
             var flow=owner.Flow;string root=flow.Definition.rootObjectName;
+            // With hand feel on, a screw set goes to the electric screwdriver: the screws spin out (or in) in turn.
+            if(!batch.pair && owner.Gesture!=null && RepairPropFeel.Enabled)
+            {
+                var ready=batch.members.Where(m=>Ready(flow,m)).ToList();
+                owner.Gesture.RunAuto(ready,m=>Ready(flow,m) && owner.SelectTarget(m.target) && owner.ExecuteFromPanel(m.id),()=>{owner.SelectTarget(root);dirty=true;});
+                return;
+            }
             foreach(var member in batch.members)
             {
                 if(!Ready(flow,member)) continue;
@@ -449,7 +458,7 @@ namespace BorderRepair.RepairProps
         void AddCommand(PropCommand c,bool wholeItem,int section)
         {
             var command=c;
-            var button=Button(content,c.label,()=>{if(wholeItem) owner.ExecuteWholeItemFromPanel(command.id);else owner.ExecuteFromPanel(command.id);},0,48,16);
+            var button=Button(content,c.label,()=>owner.Perform(command.id,wholeItem),0,48,16);
             var strip=Rect("状态条",button.transform);strip.anchorMin=Vector2.zero;strip.anchorMax=new Vector2(0,1);strip.pivot=new Vector2(0,.5f);strip.sizeDelta=new Vector2(4,0);
             var stripImage=strip.gameObject.AddComponent<Image>();stripImage.raycastTarget=false;
             commands.Add(c.id,button);

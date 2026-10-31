@@ -53,7 +53,7 @@ namespace BorderRepair.FirstOrder.EditorTools
 
         static Layout L = new Layout();
 
-        [MenuItem("Border Repair/Unit07 First Order/Build Test Scene")]
+        [MenuItem("Border Repair/Old/Unit07 First Order/Build Test Scene", priority = 10500)]
         public static void Build()
         {
             BuildWith(new Layout());

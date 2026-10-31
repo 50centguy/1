@@ -28,7 +28,7 @@ namespace BorderRepair.EditorTools
         const string PlaceholderMatDir = "Assets/BorderRepair/Art/Materials";
         const string ToggleName = "CollapseToggle";
 
-        [MenuItem("Border Repair/Narrative/Apply Worker Hand Polish (create missing)", priority = 63)]
+        [MenuItem("Border Repair/Old/Narrative/Apply Worker Hand Polish (create missing)", priority = 10063)]
         static void MenuApply()
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
@@ -36,7 +36,7 @@ namespace BorderRepair.EditorTools
             EditorSceneManager.OpenScene(NarrativeSliceBuilder.ScenePath);
         }
 
-        [MenuItem("Border Repair/Narrative/Reapply Worker Hand Polish (overwrite polish objects)", priority = 64)]
+        [MenuItem("Border Repair/Old/Narrative/Reapply Worker Hand Polish (overwrite polish objects)", priority = 10064)]
         static void MenuReapply()
         {
             if (!EditorUtility.DisplayDialog("重新应用打磨",

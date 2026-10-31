@@ -32,7 +32,7 @@ namespace BorderRepair.FirstOrder.EditorTools.LayoutAB
 
         static LayoutABRunner() { EditorApplication.playModeStateChanged += OnPlayMode; }
 
-        [MenuItem("Border Repair/Unit07 First Order/Layout A-B/Run Mouse Walkthrough (A then B)")]
+        [MenuItem("Border Repair/Old/Unit07 First Order/Layout A-B/Run Mouse Walkthrough (A then B)", priority = 10500)]
         public static void Begin()
         {
             Directory.CreateDirectory(Path.Combine(OutDir, "Screenshots"));

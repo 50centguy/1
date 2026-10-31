@@ -113,6 +113,8 @@ namespace BorderRepair.TwoNight
         public int queueIndex, income, partsCost;
         public ClinicTradeState state;
         public bool returnedUnpaid;
+        // Repaired without a stocked part (a cleaned or re-crimped contact), so delivery needs no part allocation.
+        public bool noPartUsed;
         public BorderRepair.Data.RepairDecision decision;
         public string IncomeId => queueIndex == 0 ? TwoNightRun.CommunicatorIncomeId : $"N1-CASE-{queueIndex}-{caseId}-INCOME";
         public string PartsId => queueIndex == 0 ? TwoNightRun.CommunicatorPartsId : $"N1-CASE-{queueIndex}-{caseId}-PARTS";

@@ -51,7 +51,7 @@ namespace BorderRepair.FirstOrder.EditorTools.LayoutAB
             };
         }
 
-        [MenuItem("Border Repair/Unit07 First Order/Layout A-B/Build Scene Copies")]
+        [MenuItem("Border Repair/Old/Unit07 First Order/Layout A-B/Build Scene Copies", priority = 10500)]
         public static void BuildBoth()
         {
             FirstOrderSceneBuilder.BuildWith(LayoutA());

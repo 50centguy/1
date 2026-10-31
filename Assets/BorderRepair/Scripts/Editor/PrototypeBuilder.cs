@@ -33,14 +33,14 @@ namespace BorderRepair.EditorTools
         static readonly Vector3 AnchorPosition = new Vector3(0f, 1.15f, 0.35f);
         static readonly Vector3 CameraDirection = new Vector3(0f, 0.42f, -1f).normalized;
 
-        [MenuItem("Border Repair/Build Prototype (create missing)", priority = 0)]
+        [MenuItem("Border Repair/Old/Build Prototype (create missing)", priority = 10000)]
         static void MenuBuild()
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
             Build(false);
         }
 
-        [MenuItem("Border Repair/Rebuild Prototype (overwrite generated)", priority = 1)]
+        [MenuItem("Border Repair/Old/Rebuild Prototype (overwrite generated)", priority = 10001)]
         static void MenuRebuild()
         {
             if (!EditorUtility.DisplayDialog("重新生成原型",
@@ -50,7 +50,7 @@ namespace BorderRepair.EditorTools
             Build(true);
         }
 
-        [MenuItem("Border Repair/Open Prototype Scene", priority = 20)]
+        [MenuItem("Border Repair/Old/Open Prototype Scene", priority = 10020)]
         static void MenuOpenScene()
         {
             if (!File.Exists(ScenePath)) { EditorUtility.DisplayDialog("边境维修站", "场景尚未生成，请先执行 Border Repair > Build Prototype。", "好"); return; }

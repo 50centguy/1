@@ -33,7 +33,9 @@ namespace BorderRepair.RepairProps
             reason = null;
             if (command.id == "module.install.new" && ClinicSupplies.Available(state, Sku) < 1)
                 reason = "缺少" + ClinicSupplies.Find(Sku).Name + "，请打开配件采购。";
-            if ((command.id == "complete" || command.id == "module.remove.new") && !ClinicSupplies.HasAllocation(state, caseId, Sku))
+            // A fault fixed without a part (cleaned or re-crimped) delivers with no allocation.
+            bool partInside = flow.GetState("module") == 2;
+            if ((command.id == "complete" && partInside || command.id == "module.remove.new") && !ClinicSupplies.HasAllocation(state, caseId, Sku))
                 reason = "当前替换件没有领用记录，请核对库存。";
             return reason == null;
         }
@@ -41,6 +43,8 @@ namespace BorderRepair.RepairProps
         {
             if (!CanExecute(flow, command, out reason)) return false;
             if (command.id == "module.install.new") return ClinicSupplies.Reserve(state, caseId, Sku, out reason);
+            if (command.id == "complete" && flow.GetState("module") != 2 && state.ActiveTrade != null && state.ActiveTrade.caseId == caseId)
+                state.ActiveTrade.noPartUsed = true;
             if (command.id == "module.remove.new" && !ClinicSupplies.Release(state, caseId))
             { reason = "配件回库失败，未改变安装状态。"; return false; }
             return true;

@@ -52,7 +52,7 @@ namespace BorderRepair.EditorTools
             public MaterialSpec[] materials;
         }
 
-        [MenuItem("Border Repair/Assets/Build Communicator (from Blender export)", priority = 40)]
+        [MenuItem("Border Repair/Old/Assets/Build Communicator (from Blender export)", priority = 10040)]
         static void MenuBuild() => Build();
 
         public static void BuildFromCommandLine() => Build();

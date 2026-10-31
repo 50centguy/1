@@ -564,6 +564,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: cover.install
     label: "\u76D6\u677F\u5F52\u4F4D"
     target: PS_LeftServiceCover
@@ -610,6 +612,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.PS_CoverScrew_01
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94891"
     target: PS_CoverScrew_01
@@ -634,6 +638,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.PS_CoverScrew_01
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94891"
     target: PS_CoverScrew_01
@@ -658,6 +664,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.PS_CoverScrew_02
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94892"
     target: PS_CoverScrew_02
@@ -682,6 +690,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.PS_CoverScrew_02
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94892"
     target: PS_CoverScrew_02
@@ -706,6 +716,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.PS_CoverScrew_03
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94893"
     target: PS_CoverScrew_03
@@ -730,6 +742,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.PS_CoverScrew_03
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94893"
     target: PS_CoverScrew_03
@@ -754,6 +768,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.PS_CoverScrew_04
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94894"
     target: PS_CoverScrew_04
@@ -778,6 +794,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.PS_CoverScrew_04
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94894"
     target: PS_CoverScrew_04
@@ -802,6 +820,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: isolate
     label: "\u63E1\u4F4F\u63D2\u5934\u5E76\u65AD\u5F00\u5185\u90E8\u4F9B\u7535"
     target: PS_BatteryServicePlug
@@ -826,6 +846,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: supply.connect
     label: "\u63A5\u56DE\u5185\u90E8\u4F9B\u7535"
     target: PS_BatteryServicePlug
@@ -864,6 +886,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: harness.release
     label: "\u91CA\u653E\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
     target: PS_TrayHarnessPlug
@@ -892,6 +916,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: harness.connect
     label: "\u63D2\u56DE\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
     target: PS_TrayHarnessPlug
@@ -926,6 +952,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: tray.remove
     label: "\u6CBF\u5BFC\u8F68\u62BD\u51FA\u8F93\u51FA\u6258\u76D8"
     target: PS_OutputTray
@@ -958,6 +986,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: tray.install
     label: "\u8F93\u51FA\u6258\u76D8\u5F52\u4F4D"
     target: PS_OutputTray
@@ -990,12 +1020,18 @@ MonoBehaviour:
       value: 0
     - key: out.PS_ModuleScrew_02
       value: 0
+    - key: out.PS_ModuleScrew_01
+      value: 0
+    - key: out.PS_ModuleScrew_02
+      value: 0
     effects:
     - key: tray
       value: 0
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.PS_TrayScrew_01
     label: "\u5378\u4E0B\u6258\u76D8\u56FA\u5B9A\u87BA\u94891"
     target: PS_TrayScrew_01
@@ -1026,6 +1062,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.PS_TrayScrew_01
     label: "\u88C5\u56DE\u6258\u76D8\u56FA\u5B9A\u87BA\u94891"
     target: PS_TrayScrew_01
@@ -1056,6 +1094,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.PS_TrayScrew_02
     label: "\u5378\u4E0B\u6258\u76D8\u56FA\u5B9A\u87BA\u94892"
     target: PS_TrayScrew_02
@@ -1086,6 +1126,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.PS_TrayScrew_02
     label: "\u88C5\u56DE\u6258\u76D8\u56FA\u5B9A\u87BA\u94892"
     target: PS_TrayScrew_02
@@ -1116,6 +1158,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.PS_ModuleScrew_01
     label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
     target: PS_ModuleScrew_01
@@ -1148,6 +1192,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.PS_ModuleScrew_01
     label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
     target: PS_ModuleScrew_01
@@ -1180,6 +1226,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.PS_ModuleScrew_02
     label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
     target: PS_ModuleScrew_02
@@ -1212,6 +1260,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.PS_ModuleScrew_02
     label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
     target: PS_ModuleScrew_02
@@ -1244,6 +1294,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.remove.old
     label: "\u53D6\u4E0B\u6545\u969C\u6A21\u5757"
     target: PS_OutputModule_Fault
@@ -1288,6 +1340,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.install.old
     label: "\u88C5\u56DE\u539F\u6545\u969C\u6A21\u5757"
     target: PS_OutputModule_Fault
@@ -1332,6 +1386,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.remove.new
     label: "\u53D6\u4E0B\u66FF\u6362\u6A21\u5757"
     target: PS_OutputModule_New
@@ -1376,6 +1432,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.install.new
     label: "\u5B89\u88C5\u66FF\u6362\u6A21\u5757"
     target: PS_OutputModule_New
@@ -1417,9 +1475,13 @@ MonoBehaviour:
       value: 2
     - key: new.out
       value: 0
+    - key: repaired
+      value: 1
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: power.off
     label: "\u5173\u673A\uFF0F\u505C\u6B62\u8F93\u51FA"
     target: PS_PowerUnit
@@ -1434,6 +1496,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: fixture.disconnect
     label: "\u89E3\u9664\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
     target: PS_PowerUnit
@@ -1450,6 +1514,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: fixture.connect
     label: "\u63A5\u5165\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
     target: PS_PowerUnit
@@ -1492,6 +1558,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: power.on
     label: "\u5F00\u542F\u6D4B\u8BD5\u4F9B\u7535"
     target: PS_PowerUnit
@@ -1534,6 +1602,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: test.no_load
     label: "\u7A7A\u8F7D\u8F93\u51FA\u4E0E\u7535\u6C60\u68C0\u67E5"
     target: PS_PowerUnit
@@ -1548,6 +1618,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: no_load
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: test.load
     label: "\u6807\u51C6\u6A21\u62DF\u8D1F\u8F7D\u6D4B\u8BD5"
     target: PS_PowerUnit
@@ -1564,6 +1636,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: load
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: complete
     label: "\u786E\u8BA4\u590D\u88C5\u590D\u6D4B\u5E76\u4EA4\u4ED8\u539F\u4EF6"
     target: PS_PowerUnit
@@ -1584,6 +1658,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   tests:
   - id: no_load
     label: "\u7A7A\u8F7D\u8F93\u51FA\u4E0E\u7535\u6C60\u68C0\u67E5"
@@ -1599,3 +1675,6 @@ MonoBehaviour:
     functional: 1
     checksRetainedIdentity: 0
     consecutivePasses: 1
+  faults: []
+  probes: []
+  suspectHint: 

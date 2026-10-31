@@ -24,7 +24,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             public string[] migratedRoots, limitations;
         }
 
-        [MenuItem("Border Repair/Unified Clinic/Rebuild Shared Gameplay With Clinic Environment")]
+        [MenuItem("Border Repair/Clinic Base/Rebuild Shared Gameplay With Clinic Environment", priority = 2000)]
         public static void Build()
         {
             if (Enumerable.Range(0, SceneManager.sceneCount).Any(i => SceneManager.GetSceneAt(i).isDirty))

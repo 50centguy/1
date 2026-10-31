@@ -56,7 +56,7 @@ namespace BorderRepair.EditorTools
         [Serializable] class ToolEntry { public string kind; public string group; public string glove; public float grip; }
         [Serializable] class AnchorFile { public AnchorEntry[] anchors; public SnapEntry[] snaps; public ToolEntry[] tools; }
 
-        [MenuItem("Border Repair/Narrative/Build Worker Hand v2 (from Blender export)", priority = 65)]
+        [MenuItem("Border Repair/Old/Narrative/Build Worker Hand v2 (from Blender export)", priority = 10065)]
         static void MenuBuild()
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
@@ -64,7 +64,7 @@ namespace BorderRepair.EditorTools
             EditorSceneManager.OpenScene(NarrativeSliceBuilder.ScenePath);
         }
 
-        [MenuItem("Border Repair/Narrative/Use Placeholder Worker Hand (rollback)", priority = 66)]
+        [MenuItem("Border Repair/Old/Narrative/Use Placeholder Worker Hand (rollback)", priority = 10066)]
         static void MenuRollback()
         {
             var placeholder = AssetDatabase.LoadAssetAtPath<GameObject>(NarrativeSliceBuilder.PrefabPath);

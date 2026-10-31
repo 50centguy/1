@@ -18,7 +18,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
         const string ShaderPath = "Assets/BorderRepair/Art/UnifiedClinic/Runtime/PS2/Resources/" + RetroPS2CameraEffect.ShaderResource + ".shader";
         const string VRScenePath = "Assets/RepairPropsVR/Scenes/RepairProps_Clinic_VR.unity";
 
-        [MenuItem("Border Repair/Unified Clinic/Retro Look/PS2 Static Check (read-only)")]
+        [MenuItem("Border Repair/Clinic Base/Retro Look/PS2 Static Check (read-only)", priority = 2000)]
         public static void RunFromMenu()
         {
             var lines = Run(out bool ok);
@@ -115,7 +115,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
     {
         public override void OnInspectorGUI()
         {
-            EditorGUILayout.HelpBox("运行时设置，不写入场景或存档。F8 打开游戏内面板。", MessageType.Info);
+            EditorGUILayout.HelpBox("运行时设置，不写入场景或存档。= 键打开游戏内面板。", MessageType.Info);
             using (new EditorGUILayout.HorizontalScope())
             {
                 foreach (RetroPS2Preset preset in Enum.GetValues(typeof(RetroPS2Preset)))

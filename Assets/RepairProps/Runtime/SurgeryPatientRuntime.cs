@@ -20,7 +20,7 @@ namespace BorderRepair.RepairProps
     //   operation holds him: SurgeryProcedureRuntime). While secured his right forearm carries a clickable surgery site
     //   (it opens the close-up surgery view). His right forearm is a detailed cyber arm on a body-side socket
     //   (SurgeryCyberArm), so the operation can take it apart part by part.
-    // Begin() starts it (F7 in the editor / development builds); visual only, no colliders, nothing saved.
+    // Begin() starts it (the "-" key in the editor / development builds); visual only, no colliders, nothing saved.
     [AddComponentMenu("")]
     public sealed class SurgeryPatientRuntime : MonoBehaviour
     {
@@ -149,7 +149,7 @@ namespace BorderRepair.RepairProps
 
         void Update()
         {
-            if (Debug.isDebugBuild && Keyboard.current != null && Keyboard.current.f7Key.wasPressedThisFrame) Begin();
+            if (Debug.isDebugBuild && Keyboard.current != null && Keyboard.current.minusKey.wasPressedThisFrame && !BorderRepair.FirstOrder.FirstOrderInput.TextInputFocused) Begin();
             ShowHint();
             if (phase == Phase.Idle || patient == null || Table == null) return;
             phaseTime += Time.deltaTime;

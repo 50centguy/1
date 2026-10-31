@@ -9,7 +9,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
 {
     public static class ClinicPlayerBuilder
     {
-        [MenuItem("Border Repair/Unified Clinic/Build Isolated Windows Player")]
+        [MenuItem("Border Repair/Old/Unified Clinic/Build Isolated Windows Player", priority = 10500)]
         public static void Build()
         {
             string output = "Builds/UnifiedClinic-20261008-InspectionFix";

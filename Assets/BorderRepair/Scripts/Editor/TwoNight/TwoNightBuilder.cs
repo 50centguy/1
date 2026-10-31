@@ -53,7 +53,7 @@ namespace BorderRepair.TwoNight.EditorTools
 
         static Font LoadFont() => TwoNightSlice.EnsureFont();
 
-        [MenuItem("Border Repair/Two-Night Slice/Build Night Scenes (Menu, Counter, Unit07)")]
+        [MenuItem("Border Repair/Old/Two-Night Slice/Build Night Scenes (Menu, Counter, Unit07)", priority = 10500)]
         public static void BuildAll()
         {
             EnsureData();
@@ -443,7 +443,7 @@ namespace BorderRepair.TwoNight.EditorTools
 
         public static readonly string[] BuildScenes = { MenuPath, CounterPath, RobotPath, TwoNightSlice.ScenePath };
 
-        [MenuItem("Border Repair/Two-Night Slice/Build Windows Player (Night 1 → Night 2)")]
+        [MenuItem("Border Repair/Old/Two-Night Slice/Build Windows Player (Night 1 → Night 2)", priority = 10500)]
         public static void BuildWindows()
         {
             string tag = DateTime.Now.ToString("yyyyMMdd-HHmm");

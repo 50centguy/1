@@ -24,7 +24,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
         public const string FixtureRoot = "ClinicFixtureLights（灯具补光，程序生成）";
         static readonly Color Warm = new Color(1f, .78f, .55f);
 
-        [MenuItem("Border Repair/Unified Clinic/Apply Lighting And Emission Tuning")]
+        [MenuItem("Border Repair/Clinic Base/Apply Lighting And Emission Tuning", priority = 2000)]
         public static void ApplyToClinicScene()
         {
             var scene = EditorSceneManager.OpenScene(TwoNight.EditorTools.UnifiedClinicBuilder.ClinicPath, OpenSceneMode.Single);

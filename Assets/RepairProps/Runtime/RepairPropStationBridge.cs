@@ -23,6 +23,7 @@ namespace BorderRepair.RepairProps
         public RepairPropBenchPresentation BenchPresentation { get; private set; }
         public RepairPropContextPanel ContextPanel { get; private set; }
         public RepairPropArOverlay ArOverlay { get; private set; }
+        public RepairPropGesture Gesture { get; private set; }
         public RepairStationController Station => station;
         public string SelectedTarget => selectedTarget;
         public RepairPropFlow Flow => flow != null ? flow : GetComponent<RepairPropFlow>();
@@ -84,6 +85,8 @@ namespace BorderRepair.RepairProps
             if (station == null || station.Session == null || station.Scanner == null || station.Inspector == null)
                 throw new ArgumentException("A configured repair station is required.");
             flow.Initialize(flow.Definition, transform, station.Session);
+            // Each order of a fault-pool item carries one of its faults, picked when it reaches the bench.
+            if (Application.isPlaying) flow.RollFault();
             TestJournal = new RepairPropTestJournal(flow);
             selectedTarget = flow.Definition.rootObjectName;
             EnsurePickingColliders();
@@ -112,6 +115,10 @@ namespace BorderRepair.RepairProps
                 UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(visor, gameObject.scene);
                 ArOverlay = visor.AddComponent<RepairPropArOverlay>();
                 ArOverlay.Initialize(this);
+                var hands = new GameObject("RepairPropGesture_Runtime");
+                UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(hands, gameObject.scene);
+                Gesture = hands.AddComponent<RepairPropGesture>();
+                Gesture.Initialize(this);
             }
             OnFeedback("维修物品已接入，原有部件与私人记录保留。", FeedbackKind.Info);
         }
@@ -158,7 +165,7 @@ namespace BorderRepair.RepairProps
                 foreach (var c in flow.Definition.commands)
                     if (c.target == selectedTarget && flow.CanExecute(c.id, c.target, station.ActiveTool.Value, out _))
                     { ready = c; count++; }
-                if (count == 1) ExecuteSelected(ready.id);
+                if (count == 1) Perform(ready.id, false);
             }
         }
 
@@ -201,6 +208,22 @@ namespace BorderRepair.RepairProps
             return flow.TryExecute(command.id, root, station.ActiveTool.Value);
         }
 
+        /// <summary>What a player's press does: a command with a hand motion (RepairPropFeel) starts its gesture and runs
+        /// when the motion finishes; anything else runs at once. ExecuteFromPanel / ExecuteWholeItemFromPanel stay the
+        /// immediate, guarded entry points the gesture commits through.</summary>
+        public bool Perform(string commandId, bool wholeItem)
+        {
+            if (!CanInteract) return false;
+            var command = Flow.Definition.FindCommand(commandId);
+            if (command == null) return false;
+            bool Run() => wholeItem ? ExecuteWholeItemFromPanel(commandId) : ExecuteFromPanel(commandId);
+            if (Gesture == null || !RepairPropFeel.Enabled || RepairPropFeel.For(command) == PropFeel.Tap) return Run();
+            if (wholeItem ? command.target != Flow.Definition.rootObjectName : command.target != selectedTarget) return false;
+            if (!Flow.CanExecute(command.id, command.target, command.tool, out _)) return Run();
+            station.SelectTool(command.tool);
+            return Gesture.Begin(command, () => CanInteract && (wholeItem || SelectTarget(command.target)) && Run());
+        }
+
         public void SelectToolFromPanel(RepairActionType? tool)
         { if (CanInteract) station.SelectTool(tool); }
 
@@ -217,6 +240,7 @@ namespace BorderRepair.RepairProps
         {
             if (ContextPanel != null) Destroy(ContextPanel.gameObject);
             if (ArOverlay != null) Destroy(ArOverlay.gameObject);
+            if (Gesture != null) Destroy(Gesture.gameObject);
             TestJournal?.Dispose();
             if (!attached || station == null) return;
             station.Inspector.Clicked -= OnInspectorClicked;

@@ -32,7 +32,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             "Assets/BorderRepair/Prefabs/Items/Item_SalvageDrone_Final.prefab"
         };
 
-        [MenuItem("Border Repair/Cleaning/Install Customer Item Cleaning")]
+        [MenuItem("Border Repair/Clinic Base/Cleaning/Install Customer Item Cleaning", priority = 2000)]
         public static void Install()
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Exit Play Mode before installing cleaning.");
@@ -102,7 +102,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             catch (Exception e) { Debug.LogException(e); EditorApplication.Exit(1); }
         }
 
-        [MenuItem("Border Repair/Cleaning/Build Preview Player")]
+        [MenuItem("Border Repair/Old/Cleaning/Build Preview Player", priority = 10500)]
         public static void BuildPlayer()
         {
             const string output = "Builds/UnifiedClinic-20261011-Cleaning";
@@ -276,7 +276,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             }
         }
 
-        [MenuItem("Border Repair/Cleaning/Remove Customer Item Cleaning")]
+        [MenuItem("Border Repair/Clinic Base/Cleaning/Remove Customer Item Cleaning", priority = 2000)]
         public static void Uninstall()
         {
             foreach(string path in Prefabs)

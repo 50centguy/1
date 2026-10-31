@@ -31,7 +31,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             public string[] limitations;
         }
 
-        [MenuItem("Border Repair/Unified Clinic/Audit Saved Scene")]
+        [MenuItem("Border Repair/Old/Unified Clinic/Audit Saved Scene", priority = 10500)]
         public static void Run()
         {
             string path = Argument("-clinicScene", "Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity");

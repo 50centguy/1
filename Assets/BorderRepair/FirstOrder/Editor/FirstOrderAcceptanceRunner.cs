@@ -28,7 +28,7 @@ namespace BorderRepair.FirstOrder.EditorTools
 
         static FirstOrderAcceptanceRunner() { EditorApplication.playModeStateChanged += OnPlayMode; }
 
-        [MenuItem("Border Repair/Unit07 First Order/Run Program Acceptance")]
+        [MenuItem("Border Repair/Old/Unit07 First Order/Run Program Acceptance", priority = 10500)]
         public static void Begin()
         {
             Directory.CreateDirectory(Path.Combine(OutDir, "Screenshots"));

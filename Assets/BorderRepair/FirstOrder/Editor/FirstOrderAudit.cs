@@ -18,7 +18,7 @@ namespace BorderRepair.FirstOrder.EditorTools
         public const string BenchPrefab = "Assets/WorkbenchArea/Prefabs/WorkbenchArea.prefab";
         public const string OutDir = "Docs/Integration/Unit07FirstOrder";
 
-        [MenuItem("Border Repair/Unit07 First Order/Audit Real Objects")]
+        [MenuItem("Border Repair/Old/Unit07 First Order/Audit Real Objects", priority = 10500)]
         public static void Run()
         {
             Directory.CreateDirectory(OutDir);

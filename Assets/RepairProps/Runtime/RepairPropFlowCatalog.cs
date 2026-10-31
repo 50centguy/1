@@ -29,7 +29,7 @@ namespace BorderRepair.RepairProps
         {
             b.Root("RX_SignalReceiver", "RX_Mainboard");
             b.Test("signal", "标准信号与锁频测试", true,
-                "显示与电池响应正常，射频输入无法锁定标准信号。请检查射频小板的输入插座。",
+                "标准信号测试未通过。",
                 "标准信号已锁定，接收响应稳定，原有呼叫时段保留。");
             b.Test("identity", "只读核对原调谐记录身份", false,
                 "原调谐记录身份不一致，请保留原主板。", "原调谐记录身份一致，未打开记录内容。", true);
@@ -55,6 +55,32 @@ namespace BorderRepair.RepairProps
                 new[] { C("strip", 0) }, new[] { C("strip", 1) });
             b.Command("strip.fold", "收起顶部护条", "RX_TopStrip_Hinge", PropCommandKind.Pose, RepairActionType.OpenHousing,
                 new[] { C("strip", 1) }, new[] { C("strip", 0) });
+            // Fault pool (easy diagnosis): the signal test reports only the symptom; a meter on each suspect finds the cause.
+            // All three are the same seawater soaking, so the story holds whichever one the order carries.
+            b.Fault("board", "射频接口小板损坏",
+                "开机正常，屏幕上只有噪声：信号强度读数一直是 0，标准信号完全锁不上。",
+                new[] { C("module", 2) }, "isolate", "harness.release", "remove.RX_RFScrew_", "module.remove.old", "module.install.new");
+            b.Fault("coax", "射频同轴线接头氧化",
+                "能锁上标准信号，但信号很弱（−68 dB，正常约 −40 dB），几秒就丢一次锁，画面时有时无。",
+                new[] { C("fixed.coax", 1) }, "isolate", "harness.release", "fix.coax");
+            b.Fault("lead", "电池连接线端子松动",
+                "锁频正常，可几秒后屏幕一闪、整机重启；轻敲外壳也会重启。",
+                new[] { C("fixed.lead", 1) }, "isolate", "fix.lead");
+            b.SuspectHint("可能的原因：射频同轴线接头、电池连接线、射频接口小板。关机开盖后，用万用表逐个测量。");
+            b.Probe("coax", "射频同轴线接头", "coax", "RX_RFCoax_Connected", "测量 · 同轴线接头接触电阻", "0.2 Ω", "18.0 Ω",
+                "射频同轴线接头：接触电阻 0.2 Ω，正常（应小于 1 Ω）。",
+                "射频同轴线接头：接触电阻 18 Ω，偏高（应小于 1 Ω）。接头表面发暗、有盐蚀，清洁触点就行，不用换件。",
+                C("released", 0));
+            b.Probe("lead", "电池连接线", "lead", "RX_BatteryLead_Connected", "测量 · 电池连接线通断", "0.1 Ω", "0.1 Ω|OL",
+                "电池连接线：通断稳定，晃动时读数不跳，正常。",
+                "电池连接线：一晃动，读数就在通和断之间跳。端子压接松了，重新压紧就行。",
+                C("isolated", 0));
+            b.Probe("board", "射频接口小板", "board", "RX_Mainboard", "测量 · 射频小板输入阻抗（主板测试点）", "50.0 Ω", "OL",
+                "射频接口小板：输入阻抗 50 Ω，正常。",
+                "射频接口小板：输入端开路（正常约 50 Ω）。小板坏了，要换一块新的射频接口小板。",
+                C("seat", 1), C("released", 0));
+            b.Fix("fix.coax", "清洁同轴接头触点（去盐蚀）", "RX_RFCoax_Released", "coax", PropFeel.Scrub, C("cover", 1), C("isolated", 1), C("released", 1));
+            b.Fix("fix.lead", "重新压紧电池连接线端子", "RX_BatteryLead_Isolated", "lead", PropFeel.Crimp, C("cover", 1), C("isolated", 1));
         }
 
         static void Cartridge(Author b)
@@ -184,6 +210,33 @@ namespace BorderRepair.RepairProps
                 if (effects != null) c.effects.AddRange(effects);
                 d.commands.Add(c);
                 return c;
+            }
+            public void Fault(string id, string label, string symptom, PropCondition[] fixedWhen, params string[] route)
+            {
+                Initial("fault", 1); Initial("repaired", 0);
+                d.faults.Add(new PropFault { id = id, label = label, symptom = symptom, fixedWhen = new List<PropCondition>(fixedWhen), route = new List<string>(route) });
+            }
+            public void SuspectHint(string text) { d.suspectHint = text; }
+            // A meter reading taken with the item off, unplugged from the bench and open. It changes nothing.
+            public void Probe(string id, string suspect, string fault, string target, string label, string normalDisplay, string abnormalDisplay,
+                string normal, string abnormal, params PropCondition[] req)
+            {
+                d.probes.Add(new PropProbe { id = id, suspect = suspect, fault = fault, normalReading = normal, abnormalReading = abnormal,
+                    normalDisplay = normalDisplay, abnormalDisplay = abnormalDisplay });
+                var c = Command("measure." + id, label, target, PropCommandKind.Measure, RepairActionType.ServiceModule, req);
+                c.requires.Add(C("power", 0)); c.requires.Add(C("fixture", 0)); c.requires.Add(C("cover", 1));
+                c.requires.AddRange(diagnosis);
+                c.invalidatesTests = false;
+                c.probeId = id;
+            }
+            // A repair that needs no part: done once, it counts as the attempt the retest then judges.
+            public void Fix(string id, string label, string target, string fault, PropFeel feel, params PropCondition[] req)
+            {
+                Initial("fixed." + fault, 0);
+                var c = Service(id, label, target, RepairActionType.ServiceModule, req);
+                c.feel = feel;
+                c.requires.Add(C("fixed." + fault, 0));
+                c.effects.Add(C("fixed." + fault, 1)); c.effects.Add(C("repaired", 1));
             }
             PropCommand Service(string id, string label, string target, RepairActionType tool, params PropCondition[] req)
             {
@@ -319,6 +372,7 @@ namespace BorderRepair.RepairProps
                         RepairActionType.ServiceModule, C("module", 1), C("seat", 0), C("old.out", 1), C("new.out", 1));
                     install.requires.AddRange(access); install.requires.AddRange(screwsOut);
                     install.effects.Add(C("seat", 1)); install.effects.Add(C("module", module)); install.effects.Add(C(key, 0));
+                    if (replacement) install.effects.Add(C("repaired", 1));
                 }
                 d.assembled.Add(C("seat", 1));
                 // A module that rides on a tray goes back with it only once it is screwed down; otherwise the tray could
@@ -360,9 +414,16 @@ namespace BorderRepair.RepairProps
                     test.testId = t.id;
                     if (d.kind == RepairPropKind.Power && t.id == "load") test.requires.Add(C("pass.no_load", 1));
                 }
+                // With a fault pool the passing retest is the proof of repair; not every fault needs the new module.
                 var complete = Command("complete", "确认复装复测并交付原件", d.rootObjectName, PropCommandKind.Complete,
-                    RepairActionType.ServiceModule, new[] { C("power", 1), C("fixture", 1), C("module", 2) });
+                    RepairActionType.ServiceModule, d.HasFaultPool ? new[] { C("power", 1), C("fixture", 1) } : new[] { C("power", 1), C("fixture", 1), C("module", 2) });
                 complete.requires.AddRange(diagnosis);
+                if (d.HasFaultPool)
+                {
+                    // The original module may well be good: it is "the original", not "the faulty one".
+                    d.FindCommand("module.remove.old").label = "取下原模块";
+                    d.FindCommand("module.install.old").label = "装回原模块";
+                }
                 ConfigureCase();
             }
             void ConfigureCase()
@@ -371,7 +432,7 @@ namespace BorderRepair.RepairProps
                 c.caseId = "repair-prop-" + d.kind.ToString().ToLowerInvariant();
                 c.itemName = RepairPropText.Item(d.kind);
                 c.customerName = d.kind == RepairPropKind.Receiver ? "夜班管线巡检员" : d.kind == RepairPropKind.Cartridge ? "二手义体商" : d.kind == RepairPropKind.Power ? "街区照护站" : "夜班护理员";
-                c.customerStatement = d.kind == RepairPropKind.Receiver ? "能开机，却只剩噪声。请保留原来的频段和约定呼叫时段。" : d.kind == RepairPropKind.Cartridge ? "识别总是中断。请恢复可读性，保留原来的校准参数与记录。" : d.kind == RepairPropKind.Power ? "明明还有电，一接负载就中断，之前换电池也没用。" : "它几乎唤不醒了。请保留旧录音和我的原身份。";
+                c.customerStatement = d.kind == RepairPropKind.Receiver ? "能开机，可信号就是不对劲。请保留原来的频段和约定呼叫时段。" : d.kind == RepairPropKind.Cartridge ? "识别总是中断。请恢复可读性，保留原来的校准参数与记录。" : d.kind == RepairPropKind.Power ? "明明还有电，一接负载就中断，之前换电池也没用。" : "它几乎唤不醒了。请保留旧录音和我的原身份。";
                 c.intakeNote = "保留原有核心、密封部件和外观磨损。仅作只读验证，不播放私人录音，不复制、格式化或更换原核心。";
                 // Placeholder fees: midpoints of the flow design's planning estimates, pending the user's pricing decision.
                 c.estimatedRepairCost = d.kind == RepairPropKind.Receiver ? 75 : d.kind == RepairPropKind.Power ? 130 : 65;

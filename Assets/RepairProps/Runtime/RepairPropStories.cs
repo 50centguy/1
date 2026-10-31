@@ -29,7 +29,7 @@ namespace BorderRepair.RepairProps
             {
                 ("RX_RearCover", "后盖内侧用记号笔写着「07-B」，边上有几道磕痕，像是被安全帽灯反复碰过。"),
                 ("RX_BatteryCassette", "电池盒背面贴着一条胶带，手写：「哥 02:10 别关」。"),
-                ("RX_RF_Daughterboard_Fault", "射频插座里有白色的盐结晶：这台机器在海水里泡过。故障就在这里。"),
+                ("RX_RF_Daughterboard_Fault", "射频插座边上有一圈白色盐渍：这台机器在海水里泡过。坏没坏，要用表量。"),
                 ("RX_Mainboard", "记录区完好。按规定只核对身份，不打开记录内容。"),
                 ("RX_TopStrip_Hinge", "护条上贴着一张褪色的港务安全贴：「下井前报呼号」。"),
             },
@@ -73,7 +73,7 @@ namespace BorderRepair.RepairProps
             {
                 case RepairPropKind.Receiver when testId == "signal":
                     return pass ? "另：02:10 频段收到一次自动应答握手，呼号仍是「巡检 07-B」，发信方登记为 NSP 自动巡检单元。"
-                        : "射频插座有盐蚀。";
+                        : "机身缝隙里有干掉的盐渍：这台机器泡过海水。";
                 case RepairPropKind.Cartridge when testId == "read":
                     return pass ? "校准块完整：一只做了很多年装卸的手留下的抓握节拍。"
                         : "属主标记：LUO.Y（装卸 3 组），状态：雇主已远程释放。";

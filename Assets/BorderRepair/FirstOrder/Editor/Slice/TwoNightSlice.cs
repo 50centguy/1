@@ -32,7 +32,7 @@ namespace BorderRepair.FirstOrder.EditorTools.Slice
         /// <summary>构建用的明确场景列表：只有切片场景。</summary>
         public static readonly string[] BuildScenes = { ScenePath };
 
-        [MenuItem("Border Repair/Two-Night Slice/Build Slice Scene")]
+        [MenuItem("Border Repair/Old/Two-Night Slice/Build Slice Scene", priority = 10500)]
         public static void BuildScene()
         {
             var font = EnsureFont();
@@ -87,7 +87,7 @@ namespace BorderRepair.FirstOrder.EditorTools.Slice
             return AssetDatabase.LoadAssetAtPath<Font>(FontPath);
         }
 
-        [MenuItem("Border Repair/Two-Night Slice/Build Windows Player")]
+        [MenuItem("Border Repair/Old/Two-Night Slice/Build Windows Player", priority = 10500)]
         public static void BuildWindows()
         {
             if (!File.Exists(ScenePath)) BuildSceneNoExit();

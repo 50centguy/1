@@ -97,7 +97,7 @@ namespace BorderRepair.TwoNight
                 (s.ActiveTrade.state != ClinicTradeState.ReadyForDelivery && s.ActiveTrade.state != ClinicTradeState.ReadyForReturn)) return false;
             var trade = s.ActiveTrade;
             if (s.HasTransaction(trade.IncomeId) || s.HasTransaction(trade.PartsId)) return false;
-            if (s.supplies != null && !trade.returnedUnpaid && !ClinicSupplies.HasAllocation(s, caseId)) return false;
+            if (s.supplies != null && !trade.returnedUnpaid && !trade.noPartUsed && !ClinicSupplies.HasAllocation(s, caseId)) return false;
             if (s.supplies != null && ((long)s.Cash + trade.income - trade.partsCost > int.MaxValue ||
                 (long)s.Cash + trade.income - trade.partsCost < 0)) return false;
             if (!trade.returnedUnpaid)

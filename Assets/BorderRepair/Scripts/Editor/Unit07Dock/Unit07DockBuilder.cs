@@ -41,7 +41,7 @@ namespace BorderRepair.EditorTools
         static readonly List<string> ImportMessages = new List<string>();
         static readonly StringBuilder Log = new StringBuilder();
 
-        [MenuItem("Border Repair/Unit07 Dock/Build Phase 1")]
+        [MenuItem("Border Repair/Old/Unit07 Dock/Build Phase 1", priority = 10500)]
         public static void BuildAll()
         {
             ImportMessages.Clear();

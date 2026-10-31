@@ -25,7 +25,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
         public const string ReportDirectory = "Docs/Integration/UnifiedClinic/RetroLook";
         static readonly string[] Pipelines = { "Assets/Settings/PC_RPAsset.asset", "Assets/Settings/Mobile_RPAsset.asset" };
 
-        [MenuItem("Border Repair/Unified Clinic/Retro Look/Apply Soft Japanese 3D Look")]
+        [MenuItem("Border Repair/Clinic Base/Retro Look/Apply Soft Japanese 3D Look", priority = 2000)]
         public static void ApplyToScene()
         {
             RejectUnsavedScenes();
@@ -333,7 +333,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             Object.DestroyImmediate(state.gameObject);
         }
 
-        [MenuItem("Border Repair/Unified Clinic/Retro Look/Restore Previous Look")]
+        [MenuItem("Border Repair/Clinic Base/Retro Look/Restore Previous Look", priority = 2000)]
         public static void RestoreToScene()
         {
             RejectUnsavedScenes();
@@ -343,7 +343,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             EditorSceneManager.SaveScene(scene);
         }
 
-        [MenuItem("Border Repair/Unified Clinic/Retro Look/Build Preview Player")]
+        [MenuItem("Border Repair/Old/Unified Clinic/Retro Look/Build Preview Player", priority = 10500)]
         public static void BuildPlayer()
         {
             string output = "Builds/UnifiedClinic-20261009-RetroLook";

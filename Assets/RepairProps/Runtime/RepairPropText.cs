@@ -48,7 +48,7 @@ namespace BorderRepair.RepairProps
                 string stem = name.Substring(0, name.Length - suffix.Length);
                 if (!parts.TryGetValue(stem, out var label)) break;
                 return label + (suffix == "_Connected" ? "（已连接）" : suffix == "_Isolated" ? "（已隔离）"
-                    : suffix == "_Released" ? "（已释放）" : suffix == "_Fault" ? "（故障件）" : "（替换件）");
+                    : suffix == "_Released" ? "（已释放）" : suffix == "_Fault" ? (kind == RepairPropKind.Receiver ? "（原件）" : "（故障件）") : "（替换件）");
             }
             if (name.Contains("Screw_"))
             {

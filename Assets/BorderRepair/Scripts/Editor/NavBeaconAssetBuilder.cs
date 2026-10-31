@@ -36,7 +36,7 @@ namespace BorderRepair.EditorTools
 
         static string Fbx(string group) => $"{ModelDir}/NavBeacon_{group}.fbx";
 
-        [MenuItem("Border Repair/Assets/Build NavBeacon (from Blender export)", priority = 41)]
+        [MenuItem("Border Repair/Old/Assets/Build NavBeacon (from Blender export)", priority = 10041)]
         static void MenuBuild() => Build();
 
         public static void BuildFromCommandLine() => Build();

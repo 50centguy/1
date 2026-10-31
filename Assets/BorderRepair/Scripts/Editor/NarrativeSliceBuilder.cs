@@ -26,7 +26,7 @@ namespace BorderRepair.EditorTools
         public const string ShiftPath = DataDir + "/Shift_Narrative_WorkerHand.asset";
         public const string ScenePath = "Assets/BorderRepair/Scenes/Narrative_WorkerHand.unity";
 
-        [MenuItem("Border Repair/Narrative/Build Worker Hand Slice (create missing)", priority = 60)]
+        [MenuItem("Border Repair/Old/Narrative/Build Worker Hand Slice (create missing)", priority = 10060)]
         static void MenuBuild()
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
@@ -34,7 +34,7 @@ namespace BorderRepair.EditorTools
             EditorSceneManager.OpenScene(ScenePath);
         }
 
-        [MenuItem("Border Repair/Narrative/Rebuild Worker Hand Slice (overwrite generated)", priority = 61)]
+        [MenuItem("Border Repair/Old/Narrative/Rebuild Worker Hand Slice (overwrite generated)", priority = 10061)]
         static void MenuRebuild()
         {
             if (!EditorUtility.DisplayDialog("重新生成叙事竖切",
@@ -45,7 +45,7 @@ namespace BorderRepair.EditorTools
             EditorSceneManager.OpenScene(ScenePath);
         }
 
-        [MenuItem("Border Repair/Narrative/Open Worker Hand Scene", priority = 62)]
+        [MenuItem("Border Repair/Old/Narrative/Open Worker Hand Scene", priority = 10062)]
         static void MenuOpen()
         {
             if (!File.Exists(ScenePath))

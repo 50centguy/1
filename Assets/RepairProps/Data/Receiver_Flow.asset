@@ -53,6 +53,14 @@ MonoBehaviour:
     value: 0
   - key: strip
     value: 0
+  - key: fault
+    value: 1
+  - key: repaired
+    value: 0
+  - key: fixed.coax
+    value: 0
+  - key: fixed.lead
+    value: 0
   assembled:
   - key: out.RX_CoverScrew_01
     value: 0
@@ -316,7 +324,7 @@ MonoBehaviour:
     - key: cover
       value: 1
   - objectName: RX_RF_Daughterboard_Fault
-    displayName: "\u5C04\u9891\u63A5\u53E3\u5C0F\u677F\uFF08\u6545\u969C\u4EF6\uFF09"
+    displayName: "\u5C04\u9891\u63A5\u53E3\u5C0F\u677F\uFF08\u539F\u4EF6\uFF09"
     motionNote: 
     hierarchyPath: RX_SignalReceiver/RX_Internals/RX_RF_Daughterboard_Fault
     immutable: 0
@@ -544,6 +552,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: cover.install
     label: "\u76D6\u677F\u5F52\u4F4D"
     target: RX_RearCover
@@ -586,6 +596,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.RX_CoverScrew_01
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94891"
     target: RX_CoverScrew_01
@@ -610,6 +622,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.RX_CoverScrew_01
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94891"
     target: RX_CoverScrew_01
@@ -634,6 +648,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.RX_CoverScrew_02
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94892"
     target: RX_CoverScrew_02
@@ -658,6 +674,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.RX_CoverScrew_02
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94892"
     target: RX_CoverScrew_02
@@ -682,6 +700,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.RX_CoverScrew_03
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94893"
     target: RX_CoverScrew_03
@@ -706,6 +726,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.RX_CoverScrew_03
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94893"
     target: RX_CoverScrew_03
@@ -730,6 +752,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.RX_CoverScrew_04
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94894"
     target: RX_CoverScrew_04
@@ -754,6 +778,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.RX_CoverScrew_04
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94894"
     target: RX_CoverScrew_04
@@ -778,6 +804,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: isolate
     label: "\u63E1\u4F4F\u63D2\u5934\u5E76\u65AD\u5F00\u5185\u90E8\u4F9B\u7535"
     target: RX_BatteryLead_Connected
@@ -802,6 +830,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: supply.connect
     label: "\u63A5\u56DE\u5185\u90E8\u4F9B\u7535"
     target: RX_BatteryLead_Isolated
@@ -836,6 +866,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: harness.release
     label: "\u91CA\u653E\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
     target: RX_RFCoax_Connected
@@ -864,6 +896,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: harness.connect
     label: "\u63D2\u56DE\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
     target: RX_RFCoax_Released
@@ -898,6 +932,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.RX_RFScrew_01
     label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
     target: RX_RFScrew_01
@@ -930,6 +966,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.RX_RFScrew_01
     label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
     target: RX_RFScrew_01
@@ -962,6 +1000,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.RX_RFScrew_02
     label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
     target: RX_RFScrew_02
@@ -994,6 +1034,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.RX_RFScrew_02
     label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
     target: RX_RFScrew_02
@@ -1026,8 +1068,10 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.remove.old
-    label: "\u53D6\u4E0B\u6545\u969C\u6A21\u5757"
+    label: "\u53D6\u4E0B\u539F\u6A21\u5757"
     target: RX_RF_Daughterboard_Fault
     kind: 0
     tool: 2
@@ -1070,8 +1114,10 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.install.old
-    label: "\u88C5\u56DE\u539F\u6545\u969C\u6A21\u5757"
+    label: "\u88C5\u56DE\u539F\u6A21\u5757"
     target: RX_RF_Daughterboard_Fault
     kind: 0
     tool: 2
@@ -1114,6 +1160,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.remove.new
     label: "\u53D6\u4E0B\u66FF\u6362\u6A21\u5757"
     target: RX_RF_Daughterboard_New
@@ -1158,6 +1206,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.install.new
     label: "\u5B89\u88C5\u66FF\u6362\u6A21\u5757"
     target: RX_RF_Daughterboard_New
@@ -1199,9 +1249,13 @@ MonoBehaviour:
       value: 2
     - key: new.out
       value: 0
+    - key: repaired
+      value: 1
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: strip.deploy
     label: "\u5C55\u5F00\u9876\u90E8\u62A4\u6761"
     target: RX_TopStrip_Hinge
@@ -1216,6 +1270,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: strip.fold
     label: "\u6536\u8D77\u9876\u90E8\u62A4\u6761"
     target: RX_TopStrip_Hinge
@@ -1230,6 +1286,144 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
+  - id: measure.coax
+    label: "\u6D4B\u91CF \xB7 \u540C\u8F74\u7EBF\u63A5\u5934\u63A5\u89E6\u7535\u963B"
+    target: RX_RFCoax_Connected
+    kind: 7
+    tool: 2
+    requires:
+    - key: released
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: cover
+      value: 1
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+    probeId: coax
+    feel: 0
+  - id: measure.lead
+    label: "\u6D4B\u91CF \xB7 \u7535\u6C60\u8FDE\u63A5\u7EBF\u901A\u65AD"
+    target: RX_BatteryLead_Connected
+    kind: 7
+    tool: 2
+    requires:
+    - key: isolated
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: cover
+      value: 1
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+    probeId: lead
+    feel: 0
+  - id: measure.board
+    label: "\u6D4B\u91CF \xB7 \u5C04\u9891\u5C0F\u677F\u8F93\u5165\u963B\u6297\uFF08\u4E3B\u677F\u6D4B\u8BD5\u70B9\uFF09"
+    target: RX_Mainboard
+    kind: 7
+    tool: 2
+    requires:
+    - key: seat
+      value: 1
+    - key: released
+      value: 0
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: cover
+      value: 1
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    effects: []
+    invalidatesTests: 0
+    testId: 
+    coreStepId: 
+    probeId: board
+    feel: 0
+  - id: fix.coax
+    label: "\u6E05\u6D01\u540C\u8F74\u63A5\u5934\u89E6\u70B9\uFF08\u53BB\u76D0\u8680\uFF09"
+    target: RX_RFCoax_Released
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: released
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: fixed.coax
+      value: 0
+    effects:
+    - key: fixed.coax
+      value: 1
+    - key: repaired
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+    probeId: 
+    feel: 10
+  - id: fix.lead
+    label: "\u91CD\u65B0\u538B\u7D27\u7535\u6C60\u8FDE\u63A5\u7EBF\u7AEF\u5B50"
+    target: RX_BatteryLead_Isolated
+    kind: 0
+    tool: 2
+    requires:
+    - key: cover
+      value: 1
+    - key: isolated
+      value: 1
+    - key: power
+      value: 0
+    - key: fixture
+      value: 0
+    - key: diagnosed.signal
+      value: 1
+    - key: diagnosed.identity
+      value: 1
+    - key: fixed.lead
+      value: 0
+    effects:
+    - key: fixed.lead
+      value: 1
+    - key: repaired
+      value: 1
+    invalidatesTests: 1
+    testId: 
+    coreStepId: 
+    probeId: 
+    feel: 11
   - id: power.off
     label: "\u5173\u673A\uFF0F\u505C\u6B62\u8F93\u51FA"
     target: RX_SignalReceiver
@@ -1244,6 +1438,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: fixture.disconnect
     label: "\u89E3\u9664\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
     target: RX_SignalReceiver
@@ -1260,6 +1456,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: fixture.connect
     label: "\u63A5\u5165\u5916\u90E8\u6D4B\u8BD5\u8FDE\u63A5\uFF0F\u8D1F\u8F7D"
     target: RX_SignalReceiver
@@ -1296,6 +1494,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: power.on
     label: "\u5F00\u542F\u6D4B\u8BD5\u4F9B\u7535"
     target: RX_SignalReceiver
@@ -1332,6 +1532,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: test.signal
     label: "\u6807\u51C6\u4FE1\u53F7\u4E0E\u9501\u9891\u6D4B\u8BD5"
     target: RX_SignalReceiver
@@ -1346,6 +1548,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: signal
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: test.identity
     label: "\u53EA\u8BFB\u6838\u5BF9\u539F\u8C03\u8C10\u8BB0\u5F55\u8EAB\u4EFD"
     target: RX_SignalReceiver
@@ -1360,6 +1564,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: identity
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: complete
     label: "\u786E\u8BA4\u590D\u88C5\u590D\u6D4B\u5E76\u4EA4\u4ED8\u539F\u4EF6"
     target: RX_SignalReceiver
@@ -1370,8 +1576,6 @@ MonoBehaviour:
       value: 1
     - key: fixture
       value: 1
-    - key: module
-      value: 2
     - key: diagnosed.signal
       value: 1
     - key: diagnosed.identity
@@ -1380,10 +1584,12 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   tests:
   - id: signal
     label: "\u6807\u51C6\u4FE1\u53F7\u4E0E\u9501\u9891\u6D4B\u8BD5"
-    faultFinding: "\u663E\u793A\u4E0E\u7535\u6C60\u54CD\u5E94\u6B63\u5E38\uFF0C\u5C04\u9891\u8F93\u5165\u65E0\u6CD5\u9501\u5B9A\u6807\u51C6\u4FE1\u53F7\u3002\u8BF7\u68C0\u67E5\u5C04\u9891\u5C0F\u677F\u7684\u8F93\u5165\u63D2\u5EA7\u3002"
+    faultFinding: "\u6807\u51C6\u4FE1\u53F7\u6D4B\u8BD5\u672A\u901A\u8FC7\u3002"
     passFinding: "\u6807\u51C6\u4FE1\u53F7\u5DF2\u9501\u5B9A\uFF0C\u63A5\u6536\u54CD\u5E94\u7A33\u5B9A\uFF0C\u539F\u6709\u547C\u53EB\u65F6\u6BB5\u4FDD\u7559\u3002"
     functional: 1
     checksRetainedIdentity: 0
@@ -1395,3 +1601,64 @@ MonoBehaviour:
     functional: 0
     checksRetainedIdentity: 1
     consecutivePasses: 1
+  faults:
+  - id: board
+    label: "\u5C04\u9891\u63A5\u53E3\u5C0F\u677F\u635F\u574F"
+    symptom: "\u5F00\u673A\u6B63\u5E38\uFF0C\u5C4F\u5E55\u4E0A\u53EA\u6709\u566A\u58F0\uFF1A\u4FE1\u53F7\u5F3A\u5EA6\u8BFB\u6570\u4E00\u76F4\u662F
+      0\uFF0C\u6807\u51C6\u4FE1\u53F7\u5B8C\u5168\u9501\u4E0D\u4E0A\u3002"
+    fixedWhen:
+    - key: module
+      value: 2
+    route:
+    - isolate
+    - harness.release
+    - remove.RX_RFScrew_
+    - module.remove.old
+    - module.install.new
+  - id: coax
+    label: "\u5C04\u9891\u540C\u8F74\u7EBF\u63A5\u5934\u6C27\u5316"
+    symptom: "\u80FD\u9501\u4E0A\u6807\u51C6\u4FE1\u53F7\uFF0C\u4F46\u4FE1\u53F7\u5F88\u5F31\uFF08\u221268
+      dB\uFF0C\u6B63\u5E38\u7EA6 \u221240 dB\uFF09\uFF0C\u51E0\u79D2\u5C31\u4E22\u4E00\u6B21\u9501\uFF0C\u753B\u9762\u65F6\u6709\u65F6\u65E0\u3002"
+    fixedWhen:
+    - key: fixed.coax
+      value: 1
+    route:
+    - isolate
+    - harness.release
+    - fix.coax
+  - id: lead
+    label: "\u7535\u6C60\u8FDE\u63A5\u7EBF\u7AEF\u5B50\u677E\u52A8"
+    symptom: "\u9501\u9891\u6B63\u5E38\uFF0C\u53EF\u51E0\u79D2\u540E\u5C4F\u5E55\u4E00\u95EA\u3001\u6574\u673A\u91CD\u542F\uFF1B\u8F7B\u6572\u5916\u58F3\u4E5F\u4F1A\u91CD\u542F\u3002"
+    fixedWhen:
+    - key: fixed.lead
+      value: 1
+    route:
+    - isolate
+    - fix.lead
+  probes:
+  - id: coax
+    suspect: "\u5C04\u9891\u540C\u8F74\u7EBF\u63A5\u5934"
+    fault: coax
+    normalReading: "\u5C04\u9891\u540C\u8F74\u7EBF\u63A5\u5934\uFF1A\u63A5\u89E6\u7535\u963B
+      0.2 \u03A9\uFF0C\u6B63\u5E38\uFF08\u5E94\u5C0F\u4E8E 1 \u03A9\uFF09\u3002"
+    abnormalReading: "\u5C04\u9891\u540C\u8F74\u7EBF\u63A5\u5934\uFF1A\u63A5\u89E6\u7535\u963B
+      18 \u03A9\uFF0C\u504F\u9AD8\uFF08\u5E94\u5C0F\u4E8E 1 \u03A9\uFF09\u3002\u63A5\u5934\u8868\u9762\u53D1\u6697\u3001\u6709\u76D0\u8680\uFF0C\u6E05\u6D01\u89E6\u70B9\u5C31\u884C\uFF0C\u4E0D\u7528\u6362\u4EF6\u3002"
+    normalDisplay: "0.2 \u03A9"
+    abnormalDisplay: "18.0 \u03A9"
+  - id: lead
+    suspect: "\u7535\u6C60\u8FDE\u63A5\u7EBF"
+    fault: lead
+    normalReading: "\u7535\u6C60\u8FDE\u63A5\u7EBF\uFF1A\u901A\u65AD\u7A33\u5B9A\uFF0C\u6643\u52A8\u65F6\u8BFB\u6570\u4E0D\u8DF3\uFF0C\u6B63\u5E38\u3002"
+    abnormalReading: "\u7535\u6C60\u8FDE\u63A5\u7EBF\uFF1A\u4E00\u6643\u52A8\uFF0C\u8BFB\u6570\u5C31\u5728\u901A\u548C\u65AD\u4E4B\u95F4\u8DF3\u3002\u7AEF\u5B50\u538B\u63A5\u677E\u4E86\uFF0C\u91CD\u65B0\u538B\u7D27\u5C31\u884C\u3002"
+    normalDisplay: "0.1 \u03A9"
+    abnormalDisplay: "0.1 \u03A9|OL"
+  - id: board
+    suspect: "\u5C04\u9891\u63A5\u53E3\u5C0F\u677F"
+    fault: board
+    normalReading: "\u5C04\u9891\u63A5\u53E3\u5C0F\u677F\uFF1A\u8F93\u5165\u963B\u6297
+      50 \u03A9\uFF0C\u6B63\u5E38\u3002"
+    abnormalReading: "\u5C04\u9891\u63A5\u53E3\u5C0F\u677F\uFF1A\u8F93\u5165\u7AEF\u5F00\u8DEF\uFF08\u6B63\u5E38\u7EA6
+      50 \u03A9\uFF09\u3002\u5C0F\u677F\u574F\u4E86\uFF0C\u8981\u6362\u4E00\u5757\u65B0\u7684\u5C04\u9891\u63A5\u53E3\u5C0F\u677F\u3002"
+    normalDisplay: "50.0 \u03A9"
+    abnormalDisplay: OL
+  suspectHint: "\u53EF\u80FD\u7684\u539F\u56E0\uFF1A\u5C04\u9891\u540C\u8F74\u7EBF\u63A5\u5934\u3001\u7535\u6C60\u8FDE\u63A5\u7EBF\u3001\u5C04\u9891\u63A5\u53E3\u5C0F\u677F\u3002\u5173\u673A\u5F00\u76D6\u540E\uFF0C\u7528\u4E07\u7528\u8868\u9010\u4E2A\u6D4B\u91CF\u3002"

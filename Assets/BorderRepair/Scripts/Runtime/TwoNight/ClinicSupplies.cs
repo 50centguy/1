@@ -220,7 +220,7 @@ namespace BorderRepair.TwoNight
             }
             foreach (var count in units.Values) if (count < 0 || count > MaxStock) errors.Add("Invalid supply stock total");
             foreach (var trade in s.customerTrades)
-                if (trade != null && !trade.returnedUnpaid && trade.state == ClinicTradeState.Delivered && !cases.Contains(trade.caseId))
+                if (trade != null && !trade.returnedUnpaid && !trade.noPartUsed && trade.state == ClinicTradeState.Delivered && !cases.Contains(trade.caseId))
                     errors.Add("Delivered order missing consumed part");
         }
     }

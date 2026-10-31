@@ -399,6 +399,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: cover.install
     label: "\u76D6\u677F\u5F52\u4F4D"
     target: MC_TopCover
@@ -439,6 +441,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.MC_CoverScrew_01
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94891"
     target: MC_CoverScrew_01
@@ -461,6 +465,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.MC_CoverScrew_01
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94891"
     target: MC_CoverScrew_01
@@ -483,6 +489,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.MC_CoverScrew_02
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94892"
     target: MC_CoverScrew_02
@@ -505,6 +513,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.MC_CoverScrew_02
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94892"
     target: MC_CoverScrew_02
@@ -527,6 +537,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.MC_CoverScrew_03
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94893"
     target: MC_CoverScrew_03
@@ -549,6 +561,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.MC_CoverScrew_03
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94893"
     target: MC_CoverScrew_03
@@ -571,6 +585,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.MC_CoverScrew_04
     label: "\u5378\u4E0B\u76D6\u677F\u87BA\u94894"
     target: MC_CoverScrew_04
@@ -593,6 +609,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.MC_CoverScrew_04
     label: "\u88C5\u56DE\u76D6\u677F\u87BA\u94894"
     target: MC_CoverScrew_04
@@ -615,6 +633,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: harness.release
     label: "\u91CA\u653E\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
     target: MC_BoardJumper_Connected
@@ -639,6 +659,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: harness.connect
     label: "\u63D2\u56DE\u5E26\u5B9A\u4F4D\u7684\u4FE1\u53F7\uFF0F\u6A21\u5757\u63A5\u5934"
     target: MC_BoardJumper_Released
@@ -669,6 +691,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.MC_IFScrew_01
     label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
     target: MC_IFScrew_01
@@ -697,6 +721,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.MC_IFScrew_01
     label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94891"
     target: MC_IFScrew_01
@@ -725,6 +751,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: remove.MC_IFScrew_02
     label: "\u5378\u4E0B\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
     target: MC_IFScrew_02
@@ -753,6 +781,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: install.MC_IFScrew_02
     label: "\u88C5\u56DE\u6A21\u5757\u56FA\u5B9A\u87BA\u94892"
     target: MC_IFScrew_02
@@ -781,6 +811,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.remove.old
     label: "\u53D6\u4E0B\u6545\u969C\u6A21\u5757"
     target: MC_InterfaceBoard_Fault
@@ -821,6 +853,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.install.old
     label: "\u88C5\u56DE\u539F\u6545\u969C\u6A21\u5757"
     target: MC_InterfaceBoard_Fault
@@ -861,6 +895,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.remove.new
     label: "\u53D6\u4E0B\u66FF\u6362\u6A21\u5757"
     target: MC_InterfaceBoard_New
@@ -901,6 +937,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: module.install.new
     label: "\u5B89\u88C5\u66FF\u6362\u6A21\u5757"
     target: MC_InterfaceBoard_New
@@ -938,9 +976,13 @@ MonoBehaviour:
       value: 2
     - key: new.out
       value: 0
+    - key: repaired
+      value: 1
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: power.off
     label: "\u5173\u673A\uFF0F\u505C\u6B62\u8F93\u51FA"
     target: MC_MemoryCartridge
@@ -955,6 +997,8 @@ MonoBehaviour:
     invalidatesTests: 1
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: fixture.disconnect
     label: "\u9000\u51FA\u53EA\u8BFB\u6D4B\u8BD5\u5EA7"
     target: MC_MemoryCartridge
@@ -971,6 +1015,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: fixture.connect
     label: "\u63A5\u5165\u53EA\u8BFB\u6D4B\u8BD5\u5EA7"
     target: MC_MemoryCartridge
@@ -1005,6 +1051,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: power.on
     label: "\u5F00\u542F\u6D4B\u8BD5\u4F9B\u7535"
     target: MC_MemoryCartridge
@@ -1039,6 +1087,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: test.read
     label: "\u53EA\u8BFB\u8BC6\u522B\u4E0E\u6570\u636E\u5757\u4E00\u81F4\u6027\u6D4B\u8BD5"
     target: MC_MemoryCartridge
@@ -1053,6 +1103,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: read
     coreStepId: 
+    probeId: 
+    feel: 0
   - id: complete
     label: "\u786E\u8BA4\u590D\u88C5\u590D\u6D4B\u5E76\u4EA4\u4ED8\u539F\u4EF6"
     target: MC_MemoryCartridge
@@ -1071,6 +1123,8 @@ MonoBehaviour:
     invalidatesTests: 0
     testId: 
     coreStepId: 
+    probeId: 
+    feel: 0
   tests:
   - id: read
     label: "\u53EA\u8BFB\u8BC6\u522B\u4E0E\u6570\u636E\u5757\u4E00\u81F4\u6027\u6D4B\u8BD5"
@@ -1079,3 +1133,6 @@ MonoBehaviour:
     functional: 1
     checksRetainedIdentity: 1
     consecutivePasses: 1
+  faults: []
+  probes: []
+  suspectHint: 

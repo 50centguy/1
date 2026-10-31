@@ -33,7 +33,7 @@ namespace BorderRepair.EditorTools
         public const string ProfilePath = Root + "/DiagnosticHighlightProfile.asset";
         public const string ScenePath = "Assets/BorderRepair/Scenes/ShaderLab_Surfaces.unity";
 
-        [MenuItem("Border Repair/ShaderLab/Build ShaderLab (create missing)", priority = 80)]
+        [MenuItem("Border Repair/Old/ShaderLab/Build ShaderLab (create missing)", priority = 10080)]
         static void MenuBuild()
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
@@ -41,7 +41,7 @@ namespace BorderRepair.EditorTools
             EditorSceneManager.OpenScene(ScenePath);
         }
 
-        [MenuItem("Border Repair/ShaderLab/Rebuild ShaderLab Scene", priority = 81)]
+        [MenuItem("Border Repair/Old/ShaderLab/Rebuild ShaderLab Scene", priority = 10081)]
         static void MenuRebuild()
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
@@ -49,14 +49,14 @@ namespace BorderRepair.EditorTools
             EditorSceneManager.OpenScene(ScenePath);
         }
 
-        [MenuItem("Border Repair/ShaderLab/Open ShaderLab Scene", priority = 82)]
+        [MenuItem("Border Repair/Old/ShaderLab/Open ShaderLab Scene", priority = 10082)]
         static void MenuOpen()
         {
             if (!File.Exists(ScenePath)) { EditorUtility.DisplayDialog("ShaderLab", "场景尚未生成，请先执行 Build ShaderLab。", "好"); return; }
             if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) EditorSceneManager.OpenScene(ScenePath);
         }
 
-        [MenuItem("Border Repair/ShaderLab/Reset Highlight Profile To Defaults", priority = 83)]
+        [MenuItem("Border Repair/Old/ShaderLab/Reset Highlight Profile To Defaults", priority = 10083)]
         public static void ResetProfileStyles()
         {
             var profile = AssetDatabase.LoadAssetAtPath<DiagnosticHighlightProfile>(ProfilePath);
