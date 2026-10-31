@@ -50,7 +50,7 @@ Material:
     - _FloorNewSmoothness: 0.5
     - _FloorSlabJitter: 0.065
     - _FloorSlabSize: 1.2
-    - _FloorSmoothness: 0.36
+    - _FloorSmoothness: 0.42
     - _FloorStainDark: 0.22
     - _FloorStainDark2: 0.25
     - _FloorStainScale: 4
@@ -84,10 +84,10 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CeilColor: {r: 0.25, g: 0.27, b: 0.26, a: 1}
-    - _FloorColor: {r: 0.30999997, g: 0.33999997, b: 0.31999996, a: 1}
-    - _FloorNewColor: {r: 0.38999996, g: 0.42999998, b: 0.39999998, a: 1}
+    - _FloorColor: {r: 0.2, g: 0.215, b: 0.225, a: 1}
+    - _FloorNewColor: {r: 0.27, g: 0.285, b: 0.295, a: 1}
     - _RoomCenter: {r: 0, g: 0.00000043213367, b: 0, a: 0}
-    - _WallLowerColor: {r: 0.16999996, g: 0.25999996, b: 0.20999995, a: 1}
+    - _WallLowerColor: {r: 0.21, g: 0.29, b: 0.24, a: 1}
     - _WallPrimerColor: {r: 0.47999996, g: 0.47999996, b: 0.45999992, a: 1}
     - _WallScratchColor: {r: 0.37999994, g: 0.40999997, b: 0.37999994, a: 1}
     - _WallStripeColor: {r: 0.089999996, g: 0.10999996, b: 0.09999997, a: 1}

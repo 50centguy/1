@@ -16,8 +16,8 @@ Shader "BorderRepair/ClinicShell"
         _Seed("随机种子", Float) = 0
 
         [Header(Floor)]
-        _FloorColor("地面：旧环氧底色 (sRGB)", Color) = (0.31, 0.34, 0.32, 1)
-        _FloorNewColor("地面：新替换板颜色 (sRGB)", Color) = (0.39, 0.43, 0.40, 1)
+        _FloorColor("地面：旧环氧底色 (sRGB)", Color) = (0.20, 0.215, 0.225, 1)
+        _FloorNewColor("地面：新替换板颜色 (sRGB)", Color) = (0.27, 0.285, 0.295, 1)
         _FloorSlabSize("地面：板尺寸 (m，贴图一板一张)", Float) = 1.2
         _FloorJointWidth("地面：切缝宽 (m)", Float) = 0.008
         _FloorJointDark("地面：切缝亮度倍数", Range(0, 1)) = 0.55
@@ -33,11 +33,11 @@ Shader "BorderRepair/ClinicShell"
         _FloorStainDark2("F3 重油污再压暗", Range(0, 0.6)) = 0.25
         _FloorFootDark("F4 墙脚 0~0.09 m 压暗", Range(0, 0.8)) = 0.40
         _FloorFootDark2("F4 墙脚 0.09~0.25 m 压暗", Range(0, 0.8)) = 0.20
-        _FloorSmoothness("地面光滑度", Range(0, 1)) = 0.36
+        _FloorSmoothness("地面光滑度", Range(0, 1)) = 0.42
         _FloorNewSmoothness("新板光滑度", Range(0, 1)) = 0.50
 
         [Header(Wall)]
-        _WallLowerColor("墙：下段深绿半光漆 (sRGB)", Color) = (0.17, 0.26, 0.21, 1)
+        _WallLowerColor("墙：下段深绿半光漆 (sRGB)", Color) = (0.21, 0.29, 0.24, 1)
         _WallUpperColor("墙：上段浅灰绿亚光 (sRGB)", Color) = (0.36, 0.42, 0.39, 1)
         _WallStripeColor("墙：腰线 (sRGB)", Color) = (0.09, 0.11, 0.10, 1)
         _WallPrimerColor("墙：底漆灰 (sRGB)", Color) = (0.48, 0.48, 0.46, 1)
