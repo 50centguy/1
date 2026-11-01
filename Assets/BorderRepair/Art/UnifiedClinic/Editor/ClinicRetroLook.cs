@@ -63,8 +63,11 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
                 AssetDatabase.CreateAsset(diffusionMaterial, Root + "/Diffusion.mat");
             }
             var bindings = Pipelines.Select(p => InstallRenderer(p, diffusionMaterial)).ToArray();
-            var roomProfile = Profile(RoomProfilePath, false);
-            var inspectionProfile = Profile(InspectionProfilePath, true);
+            var gradingSettings = RetroGradingSettings.Load();
+            var roomGrading = RetroGradingSettings.Resolve(gradingSettings, false);
+            var inspectionGrading = RetroGradingSettings.Resolve(gradingSettings, true);
+            var roomProfile = Profile(RoomProfilePath, false, roomGrading);
+            var inspectionProfile = Profile(InspectionProfilePath, true, inspectionGrading);
 
             var state = FindState(scene);
             bool firstApply = state == null;
@@ -124,8 +127,8 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
                 }
             }
             if (keepShell) BindShellSlots(scene, state, LoadShellMaterials(), false, out _);
-            ConfigureVolume(state.transform, "Room grading", RetroClinicCamera.RoomVolumeLayer, roomProfile);
-            ConfigureVolume(state.transform, "Inspection grading", RetroClinicCamera.InspectionVolumeLayer, inspectionProfile);
+            ConfigureVolume(state.transform, "Room grading", RetroClinicCamera.RoomVolumeLayer, roomProfile, roomGrading);
+            ConfigureVolume(state.transform, "Inspection grading", RetroClinicCamera.InspectionVolumeLayer, inspectionProfile, inspectionGrading);
             RenderSettings.ambientMode = AmbientMode.Trilight;
             RenderSettings.ambientSkyColor = new Color(.18f, .22f, .245f);
             RenderSettings.ambientEquatorColor = new Color(.105f, .135f, .15f);
@@ -255,17 +258,17 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             return new RetroClinicCamera.RendererBinding { pipeline = pipeline, rendererIndex = index };
         }
 
-        static VolumeProfile Profile(string path, bool inspection)
+        static VolumeProfile Profile(string path, bool inspection, RetroGradingSettings.Grading grading)
         {
             var profile = AssetDatabase.LoadAssetAtPath<VolumeProfile>(path);
-            if (profile != null) return profile; // Preserve artist edits when the scene is rebuilt.
+            // Preserve artist edits when the scene is rebuilt; only the RetroGradingSettings fields are re-written (ConfigureVolume).
+            if (profile != null) return profile;
             profile = ScriptableObject.CreateInstance<VolumeProfile>();
             profile.name = inspection ? "RetroClinic Inspection (clear)" : "RetroClinic Room (soft)";
             AssetDatabase.CreateAsset(profile, path);
             T Add<T>() where T : VolumeComponent => profile.Add<T>(true);
             Add<Tonemapping>().mode.Override(TonemappingMode.Neutral);
             var grade = Add<ColorAdjustments>();
-            grade.postExposure.Override(inspection ? .25f : .35f);
             grade.contrast.Override(inspection ? 3f : 5f);
             grade.saturation.Override(inspection ? -5f : -9f);
             var balance = Add<WhiteBalance>(); balance.temperature.Override(-3f); balance.tint.Override(-1f);
@@ -273,22 +276,70 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             ranges.shadows.Override(new Vector4(.94f, 1.015f, 1.045f, .025f));
             ranges.midtones.Override(new Vector4(1f, 1f, 1f, .015f));
             ranges.highlights.Override(new Vector4(1.025f, 1.008f, .98f, 0));
-            var bloom = Add<Bloom>(); bloom.intensity.Override(inspection ? .10f : .24f);
-            bloom.threshold.Override(1.05f); bloom.scatter.Override(.63f); bloom.clamp.Override(12f);
+            Add<Bloom>();
             var grain = Add<FilmGrain>(); grain.type.Override(FilmGrainLookup.Thin1);
-            grain.intensity.Override(inspection ? .008f : .028f); grain.response.Override(.85f);
-            var vignette = Add<Vignette>(); vignette.intensity.Override(inspection ? .07f : .13f);
+            grain.response.Override(.85f);
+            var vignette = Add<Vignette>();
             vignette.smoothness.Override(.55f); vignette.color.Override(new Color(.018f, .025f, .03f));
             Add<DepthOfField>().mode.Override(DepthOfFieldMode.Off);
             Add<MotionBlur>().intensity.Override(0);
             Add<ChromaticAberration>().intensity.Override(0);
+            ApplyGrading(profile, grading);
             foreach (var component in profile.components) { AssetDatabase.AddObjectToAsset(component, profile); EditorUtility.SetDirty(component); }
             EditorUtility.SetDirty(profile);
             return profile;
         }
 
-        static void ConfigureVolume(Transform parent, string name, int layer, VolumeProfile profile)
+        /// <summary>Writes only the RetroGradingSettings fields; every other profile parameter is left alone.</summary>
+        static void ApplyGrading(VolumeProfile profile, RetroGradingSettings.Grading grading)
         {
+            if (profile.TryGet<ColorAdjustments>(out var grade))
+            {
+                grade.postExposure.Override(grading.postExposure);
+                EditorUtility.SetDirty(grade);
+            }
+            else Debug.LogWarning("[RetroClinic] " + profile.name + " has no ColorAdjustments; postExposure not applied.");
+            if (profile.TryGet<Bloom>(out var bloom))
+            {
+                bloom.intensity.Override(grading.bloomIntensity);
+                bloom.threshold.Override(grading.bloomThreshold);
+                bloom.scatter.Override(grading.bloomScatter);
+                bloom.clamp.Override(grading.bloomClamp);
+                EditorUtility.SetDirty(bloom);
+            }
+            else Debug.LogWarning("[RetroClinic] " + profile.name + " has no Bloom; bloom settings not applied.");
+            if (profile.TryGet<Vignette>(out var vignette))
+            {
+                vignette.intensity.Override(grading.vignetteIntensity);
+                EditorUtility.SetDirty(vignette);
+            }
+            else Debug.LogWarning("[RetroClinic] " + profile.name + " has no Vignette; vignette intensity not applied.");
+            if (profile.TryGet<FilmGrain>(out var grain))
+            {
+                grain.intensity.Override(grading.grainIntensity);
+                EditorUtility.SetDirty(grain);
+            }
+            else Debug.LogWarning("[RetroClinic] " + profile.name + " has no FilmGrain; grain intensity not applied.");
+        }
+
+        /// <summary>Pushes the settings into the two existing profile assets. They are shared by every clinic scene, so no scene is opened or re-applied.</summary>
+        public static void ApplyGradingToProfiles(RetroGradingSettings settings)
+        {
+            void Push(string path, bool inspection)
+            {
+                var profile = AssetDatabase.LoadAssetAtPath<VolumeProfile>(path);
+                if (profile == null) { Debug.LogWarning("[RetroClinic] Volume profile not found: " + path); return; }
+                ApplyGrading(profile, RetroGradingSettings.Resolve(settings, inspection));
+                EditorUtility.SetDirty(profile);
+            }
+            Push(RoomProfilePath, false);
+            Push(InspectionProfilePath, true);
+        }
+
+        static void ConfigureVolume(Transform parent, string name, int layer, VolumeProfile profile, RetroGradingSettings.Grading grading)
+        {
+            ApplyGrading(profile, grading);
+            EditorUtility.SetDirty(profile);
             var child = parent.Find(name);
             if (child == null) { child = new GameObject(name).transform; child.SetParent(parent, false); }
             child.gameObject.layer = layer;

@@ -53,6 +53,25 @@ namespace BorderRepair.Art.UnifiedClinic.Tests
         }
 
         [Test]
+        public void GradingFallsBackToBuiltInValuesWhenAssetOrFieldIsUnusable()
+        {
+            Assert.AreEqual(0f, RetroGradingSettings.Resolve(null, false).postExposure);
+            Assert.AreEqual(.1f, RetroGradingSettings.Resolve(null, true).postExposure);
+            var settings = ScriptableObject.CreateInstance<RetroGradingSettings>();
+            try
+            {
+                Assert.AreEqual(0f, RetroGradingSettings.Resolve(settings, false).postExposure);
+                Assert.AreEqual(.1f, RetroGradingSettings.Resolve(settings, true).postExposure);
+                settings.room.postExposure = float.NaN;
+                settings.inspection = null;
+                Assert.AreEqual(0f, RetroGradingSettings.Resolve(settings, false).postExposure);
+                Assert.AreEqual(.24f, RetroGradingSettings.Resolve(settings, false).bloomIntensity);
+                Assert.AreEqual(.1f, RetroGradingSettings.Resolve(settings, true).postExposure);
+            }
+            finally { Object.DestroyImmediate(settings); }
+        }
+
+        [Test]
         public void InspectionCameraUsesClearProfileAndDiffusionShaderCompiles()
         {
             var setup = EditorSceneManager.GetSceneManagerSetup();
