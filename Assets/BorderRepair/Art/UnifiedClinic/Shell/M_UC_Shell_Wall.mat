@@ -83,14 +83,14 @@ Material:
     - _WallUpperSmoothness: 0.12
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _CeilColor: {r: 0.24999997, g: 0.26999995, b: 0.25999996, a: 1}
-    - _FloorColor: {r: 0.2, g: 0.215, b: 0.225, a: 1}
-    - _FloorNewColor: {r: 0.27, g: 0.285, b: 0.295, a: 1}
+    - _CeilColor: {r: 0.165, g: 0.18, b: 0.175, a: 1}
+    - _FloorColor: {r: 0.12, g: 0.128, b: 0.138, a: 1}
+    - _FloorNewColor: {r: 0.17, g: 0.18, b: 0.192, a: 1}
     - _RoomCenter: {r: 0, g: 0.00000043213367, b: 0, a: 0}
-    - _WallLowerColor: {r: 0.21, g: 0.29, b: 0.24, a: 1}
-    - _WallPrimerColor: {r: 0.48, g: 0.48, b: 0.46, a: 1}
-    - _WallScratchColor: {r: 0.38, g: 0.41, b: 0.38, a: 1}
+    - _WallLowerColor: {r: 0.165, g: 0.225, b: 0.185, a: 1}
+    - _WallPrimerColor: {r: 0.34, g: 0.34, b: 0.32, a: 1}
+    - _WallScratchColor: {r: 0.27, g: 0.29, b: 0.27, a: 1}
     - _WallStripeColor: {r: 0.09, g: 0.11, b: 0.1, a: 1}
-    - _WallUpperColor: {r: 0.36, g: 0.42, b: 0.39, a: 1}
+    - _WallUpperColor: {r: 0.245, g: 0.285, b: 0.265, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
