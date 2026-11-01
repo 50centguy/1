@@ -437,6 +437,427 @@ namespace BorderRepair.RepairProps.UI.Tests
             Object.Destroy(cam.gameObject);
         }
 
+        static readonly (string sign, Vector3[] from)[] HoloVantages =
+        {
+            ("PJ_Door", new[] { new Vector3(0f, 1.6f, -1.1f), new Vector3(-1.2f, 1.6f, -1.6f), new Vector3(1.0f, 1.6f, -1.6f), new Vector3(0f, 1.6f, 1.0f) }),
+            ("PJ_Hours", new[] { new Vector3(-1.06f, 1.6f, -1.1f), new Vector3(.2f, 1.6f, -1.2f), new Vector3(-2f, 1.6f, -1.6f) }),
+            ("PJ_Receive", new[] { new Vector3(1.0f, 1.6f, -1.8f), new Vector3(.2f, 1.6f, -2.4f), new Vector3(1.1f, 1.6f, -.9f) }),
+            ("PJ_PriceList", new[] { new Vector3(.45f, 1.6f, .1f), new Vector3(.5f, 1.6f, -1.4f), new Vector3(.5f, 1.6f, 1.4f), new Vector3(-1.2f, 1.6f, 0f) }),
+            ("PJ_Workbench", new[] { new Vector3(.1f, 1.6f, 1.35f), new Vector3(-1.2f, 1.6f, 1.6f), new Vector3(1.1f, 1.6f, 1.6f), new Vector3(0f, 1.6f, 0f) }),
+            ("PJ_Pad_Receive", new[] { new Vector3(.9f, 1.6f, -.62f), new Vector3(.6f, 1.6f, -1.5f), new Vector3(.6f, 1.6f, .2f) }),
+            ("PJ_Pad_Deliver", new[] { new Vector3(.9f, 1.6f, .62f), new Vector3(.6f, 1.6f, -.2f), new Vector3(.6f, 1.6f, 1.5f) }),
+        };
+
+        // The panels' depth test against the room. Each sign is rendered three times in one frame from where a player
+        // stands: light off, depth tested, and with ZTest Always as the "nothing ever hides it" baseline. Pixels the
+        // baseline lights and the depth tested render does not are the ones something in the room cuts off.
+        [UnityTest]
+        public IEnumerator ProjectedSigns_PeopleOcclude_WallClutterDoesNot()
+        {
+            var signage = ClinicSignageRuntime.Current;
+            Assert.That(signage != null, Is.True);
+            yield return Until(() => signage.SignNames.Count >= 7, "Projections are built once the kits are placed.");
+            yield return new WaitForSecondsRealtime(1.5f);   // past the staggered materialise
+            var npcs = ClinicNpcRuntime.Current;
+            yield return Until(() => npcs.Customer != null && !npcs.Customer.Walking, "A customer stands at the counter.");
+            foreach (var renderer in npcs.Customer.GetComponentsInChildren<Renderer>())
+                foreach (var material in renderer.sharedMaterials)
+                    if (material != null) Assert.That(material.renderQueue, Is.LessThanOrEqualTo(2500), renderer.name + " must write depth to hide a hologram.");
+            var room = clinic.Robot.Flow.Rig.Cam;
+            var cam = Object.Instantiate(room.gameObject, room.transform.position, room.transform.rotation).GetComponent<Camera>();
+            foreach (Transform child in cam.transform) Object.Destroy(child.gameObject);
+            foreach (var listener in cam.GetComponents<AudioListener>()) Object.Destroy(listener);
+            cam.enabled = false;
+            bool wasPs2 = RetroPS2Settings.Enabled;
+            RetroPS2Settings.Enabled = false;   // measure the raw picture: the PS2 dither would read as coverage changes
+            var report = new System.Text.StringBuilder();
+            var scene = Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None);
+            // The customer stands at the pad, which is the wanted occlusion: this table is about the room itself.
+            npcs.Customer.gameObject.SetActive(false);
+            foreach (var (sign, from) in HoloVantages)
+            {
+                var graphics = signage.SignRoot(sign).GetComponentsInChildren<UnityEngine.UI.Graphic>(true);
+                Assert.That(graphics.Any(g => g is HoloWidget), Is.True, sign + " carries a motion graphic.");
+                var centre = signage.SignRoot(sign).GetComponentInChildren<Canvas>(true).transform.position;
+                foreach (var at in from)
+                {
+                    cam.transform.position = at; cam.transform.LookAt(centre);
+                    float blocked = HoloBlockedFraction(cam, graphics, out int lit);
+                    report.AppendLine($"{sign} from {at}: {blocked:P1} blocked of {lit} px{(blocked > .005f ? "  <- " + HoloBlockers(scene, at, signage.SignRoot(sign)) : "")}");
+                }
+            }
+            npcs.Customer.gameObject.SetActive(true);
+
+            // A person standing between the viewer and the door sign, 40 % of the way along the sight line. The sign's lower
+            // edge is 2.37 m up, so from eye height (1.6 m) a person that far along would have to be over 1.9 m tall to touch
+            // it at all. The feet stay on the floor and the camera height is solved instead, from the person's measured
+            // height, so that the line to the panel's centre passes through their head.
+            const float personAlongSightLine = .4f, headOnBody = .92f;
+            var person = Object.Instantiate(npcs.Customer.gameObject);
+            foreach (var script in person.GetComponentsInChildren<MonoBehaviour>()) script.enabled = false;
+            var doorCanvas = (RectTransform)signage.SignRoot("PJ_Door").GetComponentInChildren<Canvas>(true).transform;
+            var doorCentre = doorCanvas.position;
+            var doorGraphics = signage.SignRoot("PJ_Door").GetComponentsInChildren<UnityEngine.UI.Graphic>(true);
+            var doorFloor = new Vector3(0f, 0f, -1.1f);
+            var personFloor = Vector3.Lerp(doorFloor, new Vector3(doorCentre.x, 0f, doorCentre.z), personAlongSightLine);
+            person.transform.SetPositionAndRotation(personFloor, Quaternion.LookRotation(doorFloor - personFloor, Vector3.up));
+            yield return null;   // let the clone's renderers register and take their pose
+            var personRenderers = person.GetComponentsInChildren<Renderer>();
+            Bounds PersonBounds()
+            {
+                var all = personRenderers[0].bounds;
+                foreach (var r in personRenderers) all.Encapsulate(r.bounds);
+                return all;
+            }
+            float headHeight = PersonBounds().max.y * headOnBody;
+            var doorFrom = doorFloor + Vector3.up * Mathf.Max(.35f, (headHeight - personAlongSightLine * doorCentre.y) / (1f - personAlongSightLine));
+            cam.transform.position = doorFrom; cam.transform.LookAt(doorCentre);
+            person.SetActive(false);
+            var doorClear = HoloMap.Measure(cam, doorGraphics);
+            person.SetActive(true);
+            yield return null;
+            float personCoverage = doorClear.CoveredBy(HoloMasks.Measure(cam, personRenderers, doorCanvas));
+            var doorCorners = new Vector3[4];
+            doorCanvas.GetWorldCorners(doorCorners);
+            string doorPlacement = $"camera {doorFrom:F3}, person root {person.transform.position:F3}, person bounds {PersonBounds().min:F3} to {PersonBounds().max:F3}, panel centre {doorCentre:F3}, panel corners {doorCorners[0]:F3} to {doorCorners[2]:F3}, silhouette on {personCoverage:P1} of the panel";
+            if (personCoverage < .05f) Debug.LogWarning("[HoloOcclusion] The person does not cover the door sign: " + doorPlacement);
+            var doorPerson = HoloSplit.Measure(cam, doorGraphics, personRenderers, doorCanvas, doorClear);
+            report.AppendLine($"PJ_Door, person: {doorPerson}; blocked with nobody there: {doorClear.BlockedFraction:P1}; {doorPlacement}");
+
+            // A thin slab through the plane of the door sign, one end in front of it and the other between it and the
+            // wall: the same frame must hide the sign behind the front end and draw the sign over the back end.
+            var slab = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            slab.name = "Slab (stand-in)"; Object.Destroy(slab.GetComponent<Collider>());
+            slab.transform.localScale = new Vector3(.5f, .2f, .01f);
+            slab.transform.SetPositionAndRotation(doorCentre, doorCanvas.rotation * Quaternion.Euler(0f, 25f, 0f));
+            person.SetActive(false);
+            var doorSlab = HoloSplit.Measure(cam, doorGraphics, new[] { slab.GetComponent<Renderer>() }, doorCanvas, doorClear);
+            report.AppendLine($"PJ_Door, slab through its plane: {doorSlab}");
+            Object.Destroy(slab);
+            person.SetActive(true);
+
+            // A held box close to the camera at the bench sign.
+            var benchCanvas = (RectTransform)signage.SignRoot("PJ_Workbench").GetComponentInChildren<Canvas>(true).transform;
+            var benchCentre = benchCanvas.position;
+            var box = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            box.name = "HeldBox (stand-in)"; Object.Destroy(box.GetComponent<Collider>());
+            box.transform.localScale = new Vector3(.3f, .2f, .3f);
+            var benchFrom = new Vector3(.1f, 1.6f, 1.35f);
+            cam.transform.position = benchFrom; cam.transform.LookAt(benchCentre);
+            var benchGraphics = signage.SignRoot("PJ_Workbench").GetComponentsInChildren<UnityEngine.UI.Graphic>(true);
+            box.SetActive(false);
+            person.SetActive(false);
+            var benchClear = HoloMap.Measure(cam, benchGraphics);
+            box.SetActive(true);
+            box.transform.position = Vector3.Lerp(benchFrom, benchCentre, .35f) + new Vector3(.12f, 0f, 0f);
+            var benchBox = HoloSplit.Measure(cam, benchGraphics, new[] { box.GetComponent<Renderer>() }, benchCanvas, benchClear);
+            report.AppendLine($"PJ_Workbench, held box: {benchBox}; blocked with nothing there: {benchClear.BlockedFraction:P1}");
+            person.SetActive(true);
+            RetroPS2Settings.Enabled = wasPs2;
+
+            Debug.Log("[HoloOcclusion]\n" + report);
+            if (!string.IsNullOrEmpty(Folder)) { Directory.CreateDirectory(Folder); File.WriteAllText(Path.Combine(Folder, "holo-occlusion.txt"), report.ToString()); }
+
+            // The pictures, with the PS2 pass as the player sees them.
+            cam.transform.position = doorFrom; cam.transform.LookAt(doorCentre);
+            box.SetActive(false);
+            yield return Shoot("50-holo-door-person", cam);
+            box.SetActive(true);
+            person.SetActive(false);
+            cam.transform.position = benchFrom; cam.transform.LookAt(benchCentre);
+            yield return Shoot("51-holo-bench-box", cam);
+            box.SetActive(false);
+            yield return Shoot("52-holo-bench-clear", cam);
+            cam.transform.position = new Vector3(.35f, 1.58f, -1.55f); cam.transform.LookAt(npcs.Customer.transform.position + Vector3.up * .9f);
+            yield return Shoot("53-holo-pad-customer", cam);
+            Object.Destroy(person); Object.Destroy(box); Object.Destroy(cam.gameObject);
+
+            // Last, so a failure still leaves the report and the pictures, and the PS2 pass back on for the next test.
+            doorPerson.AssertInFrontHides($"a person in front of the door sign ({doorPlacement})");
+            doorSlab.AssertInFrontHides("the front end of the slab");
+            doorSlab.AssertBehindDoesNotHide("the back end of the slab");
+            benchBox.AssertInFrontHides("a carried box in front of the bench sign");
+        }
+
+        // Motion graphics only ever use the room the text leaves, and the two signs read from across the room stay big
+        // enough to read. Glyph extents come from the text generator, so this holds for the fonts' real metrics.
+        [UnityTest]
+        public IEnumerator ProjectedSigns_Graphics_StayOffTheText()
+        {
+            var signage = ClinicSignageRuntime.Current;
+            Assert.That(signage != null, Is.True);
+            yield return Until(() => signage.SignNames.Count >= 7, "Projections are built once the kits are placed.");
+            foreach (var sign in signage.SignNames)
+            {
+                var texts = signage.SignRoot(sign).GetComponentsInChildren<UnityEngine.UI.Text>(true);
+                Assert.That(texts, Is.Not.Empty, sign + " has lettering.");
+                foreach (var text in texts)
+                {
+                    var content = (RectTransform)text.transform.parent;
+                    var ink = HoloInk(text, content);
+                    Assert.That(ink.width, Is.GreaterThan(0f), $"{sign} '{text.text}' generated no glyphs.");
+                    // The small hours panel keeps a visible 4 mm between its fill bar and its lettering.
+                    if (sign == "PJ_Hours") ink = Rect.MinMaxRect(ink.xMin - 4f, ink.yMin - 4f, ink.xMax + 4f, ink.yMax + 4f);
+                    foreach (var widget in content.GetComponentsInChildren<HoloWidget>(true))
+                    {
+                        var corners = new Vector3[4];
+                        widget.rectTransform.GetWorldCorners(corners);
+                        Vector2 min = content.InverseTransformPoint(corners[0]), max = content.InverseTransformPoint(corners[2]);
+                        var area = Rect.MinMaxRect(min.x, min.y, max.x, max.y);
+                        Assert.That(area.Overlaps(ink), Is.False, $"{sign}: {widget.WidgetKind} {area} draws over '{text.text}' {ink}.");
+                    }
+                    // 288 virtual lines put ~12 mm in a virtual pixel at 3 m, and glyphs under ~4 of them are noise.
+                    if (sign == "PJ_Door" || sign == "PJ_PriceList")
+                        Assert.That(text.fontSize, Is.GreaterThanOrEqualTo(50), $"{sign} '{text.text}' is too small to read across the room.");
+                }
+            }
+        }
+
+        // The rectangle in `content` that a Text's glyphs actually cover. A fresh generator, so signs that are switched
+        // off (the workbench and the pads until the director shows them) get measured too.
+        static Rect HoloInk(UnityEngine.UI.Text text, RectTransform content)
+        {
+            var settings = text.GetGenerationSettings(text.rectTransform.rect.size);
+            var generator = new TextGenerator();
+            generator.Populate(text.text, settings);
+            var verts = generator.verts;
+            float unit = 1f / Mathf.Max(settings.scaleFactor, .0001f);
+            bool any = false;
+            Vector2 min = default, max = default;
+            for (int i = 0; i + 3 < verts.Count; i += 4)
+            {
+                Vector2 a = verts[i].position, c = verts[i + 2].position;
+                if (Mathf.Abs((c.x - a.x) * (c.y - a.y)) < 1f) continue;   // spaces and the generator's end padding
+                foreach (var corner in new[] { a, c })
+                {
+                    Vector2 p = content.InverseTransformPoint(text.rectTransform.TransformPoint(corner * unit));
+                    min = any ? Vector2.Min(min, p) : p;
+                    max = any ? Vector2.Max(max, p) : p;
+                    any = true;
+                }
+            }
+            return any ? Rect.MinMaxRect(min.x, min.y, max.x, max.y) : default;
+        }
+
+        // Motion graphics: every widget animates from one static mesh, the frames differ, and the pictures over time.
+        [UnityTest]
+        public IEnumerator ProjectedSigns_MotionGraphics_AnimateWithoutRebuilding()
+        {
+            var signage = ClinicSignageRuntime.Current;
+            Assert.That(signage != null, Is.True);
+            yield return Until(() => signage.SignNames.Count >= 7, "Projections are built once the kits are placed.");
+            yield return new WaitForSecondsRealtime(1.5f);
+            var widgets = signage.SignNames.SelectMany(n => signage.SignRoot(n).GetComponentsInChildren<HoloWidget>(true)).ToArray();
+            Assert.That(widgets.Length, Is.GreaterThan(7 * 8), "Each panel has 8 corner bars plus its graphics.");
+            yield return null;
+            var builds = widgets.Select(w => w.MeshBuilds).ToArray();
+            var room = clinic.Robot.Flow.Rig.Cam;
+            var cam = Object.Instantiate(room.gameObject, room.transform.position, room.transform.rotation).GetComponent<Camera>();
+            foreach (Transform child in cam.transform) Object.Destroy(child.gameObject);
+            foreach (var listener in cam.GetComponents<AudioListener>()) Object.Destroy(listener);
+            cam.enabled = false;
+            var shots = new (string name, string sign, Vector3 from)[]
+            {
+                ("60-motion-door", "PJ_Door", new Vector3(0f, 1.6f, -1.3f)),
+                ("61-motion-hours", "PJ_Hours", new Vector3(-1.06f, 1.7f, -2.2f)),
+                ("62-motion-receive", "PJ_Receive", new Vector3(.9f, 1.6f, -1.7f)),
+                ("63-motion-prices", "PJ_PriceList", new Vector3(.45f, 1.6f, 0f)),
+                ("64-motion-bench", "PJ_Workbench", new Vector3(.1f, 1.6f, 1.6f)),
+                ("65-motion-pad", "PJ_Pad_Receive", new Vector3(.95f, 1.3f, -.62f)),
+            };
+            foreach (var shot in shots)
+            {
+                var centre = signage.SignRoot(shot.sign).GetComponentInChildren<Canvas>(true).transform.position;
+                cam.transform.position = shot.from; cam.transform.LookAt(centre);
+                for (int frame = 0; frame < 3; frame++)
+                {
+                    yield return Shoot(shot.name + "-t" + frame, cam);
+                    yield return new WaitForSecondsRealtime(1.1f);
+                }
+            }
+            for (int i = 0; i < widgets.Length; i++)
+                Assert.That(widgets[i].MeshBuilds, Is.EqualTo(builds[i]), widgets[i].name + " must not rebuild its mesh to animate.");
+            Object.Destroy(cam.gameObject);
+        }
+
+        // Fraction of the panel's lit pixels that the depth test removes, for the current camera.
+        static float HoloBlockedFraction(Camera cam, UnityEngine.UI.Graphic[] graphics, out int lit)
+        {
+            var map = HoloMap.Measure(cam, graphics);
+            lit = map.LitCount;
+            return map.BlockedFraction;
+        }
+
+        const int HoloWidth = 640, HoloHeight = 360;
+
+        static Color32[] HoloGrab(Camera cam)
+        {
+            var target = RenderTexture.GetTemporary(HoloWidth, HoloHeight, 24, RenderTextureFormat.ARGB32);
+            var previousTarget = cam.targetTexture; var previousActive = RenderTexture.active;
+            cam.targetTexture = target; cam.Render(); cam.targetTexture = previousTarget;
+            var read = new Texture2D(HoloWidth, HoloHeight, TextureFormat.RGBA32, false);
+            RenderTexture.active = target; read.ReadPixels(new Rect(0, 0, HoloWidth, HoloHeight), 0, 0);
+            var pixels = read.GetPixels32();
+            RenderTexture.active = previousActive; RenderTexture.ReleaseTemporary(target); Object.Destroy(read);
+            return pixels;
+        }
+
+        // Per pixel: which ones the panel lights, and which of those the depth test removes. Three renders within one
+        // frame, so the panels' animation, the room's lamps and the camera are identical: light off, the panel as it is
+        // really set up, and with ZTest Always as the "nothing ever hides it" baseline. The middle one keeps the material's
+        // own _ZTest, so a panel switched to drawing through things shows up here as nothing being blocked.
+        sealed class HoloMap
+        {
+            public bool[] Lit, Blocked;
+            public int LitCount => Lit.Count(p => p);
+            public float BlockedFraction { get { int lit = LitCount; return lit == 0 ? 0f : Blocked.Count(p => p) / (float)lit; } }
+
+            public static HoloMap Measure(Camera cam, UnityEngine.UI.Graphic[] graphics)
+            {
+                var materials = graphics.Select(g => g.material).Distinct().ToArray();
+                Color32[] Render(bool lightOff, bool throughEverything)
+                {
+                    var intensity = materials.Select(m => m.GetFloat("_Intensity")).ToArray();
+                    var test = materials.Select(m => m.GetFloat("_ZTest")).ToArray();
+                    foreach (var m in materials)
+                    {
+                        if (lightOff) m.SetFloat("_Intensity", 0f);
+                        if (throughEverything) m.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
+                    }
+                    var pixels = HoloGrab(cam);
+                    for (int i = 0; i < materials.Length; i++) { materials[i].SetFloat("_Intensity", intensity[i]); materials[i].SetFloat("_ZTest", test[i]); }
+                    return pixels;
+                }
+                var off = Render(true, false);
+                var tested = Render(false, false);
+                var always = Render(false, true);
+                int Delta(Color32 a, Color32 b) => Mathf.Abs(a.r - b.r) + Mathf.Abs(a.g - b.g) + Mathf.Abs(a.b - b.b);
+                var map = new HoloMap { Lit = new bool[off.Length], Blocked = new bool[off.Length] };
+                for (int i = 0; i < off.Length; i++)
+                {
+                    map.Lit[i] = Delta(always[i], off[i]) >= 8;
+                    // Lower than the lit test: the same faint plate adds very little over a bright hat or vest.
+                    map.Blocked[i] = map.Lit[i] && Delta(always[i], tested[i]) >= 4;
+                }
+                return map;
+            }
+
+            // How much of this panel's light the subject's silhouette lands on, in front of the panel or behind it.
+            public float CoveredBy(HoloMasks subject)
+            {
+                int lit = LitCount;
+                if (lit == 0) return 0f;
+                int covered = 0;
+                for (int i = 0; i < Lit.Length; i++) if (Lit[i] && subject.All[i]) covered++;
+                return covered / (float)lit;
+            }
+        }
+
+        // Where a stand-in is on screen, judged by the depth buffer rather than by assuming where it stands. It draws
+        // white on its own over black, then again with an opaque black sheet in the plane of the panel's backmost layer:
+        // whatever stays white has to be in front of the panel.
+        sealed class HoloMasks
+        {
+            public bool[] All, InFront;
+
+            public static HoloMasks Measure(Camera cam, Renderer[] subject, RectTransform panel)
+            {
+                const int maskLayer = 31;
+                var white = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+                white.SetColor("_BaseColor", Color.white);
+                var black = new Material(white);
+                black.SetColor("_BaseColor", Color.black);
+                black.SetFloat("_Cull", 0f);
+                var sheet = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                Object.Destroy(sheet.GetComponent<Collider>());
+                sheet.layer = maskLayer;
+                // The glow plate sits 12 canvas units (mm) behind the lettering; 1.3x so the sheet covers the whole panel.
+                sheet.transform.SetPositionAndRotation(panel.TransformPoint(0f, 0f, 12f), panel.rotation);
+                sheet.transform.localScale = new Vector3(panel.rect.width * .0013f, panel.rect.height * .0013f, 1f);
+                sheet.GetComponent<Renderer>().sharedMaterial = black;
+
+                var layers = subject.Select(r => r.gameObject.layer).ToArray();
+                var looks = subject.Select(r => r.sharedMaterials).ToArray();
+                for (int i = 0; i < subject.Length; i++)
+                {
+                    subject[i].gameObject.layer = maskLayer;
+                    subject[i].sharedMaterials = Enumerable.Repeat(white, looks[i].Length).ToArray();
+                }
+                int mask = cam.cullingMask; var clear = cam.clearFlags; var background = cam.backgroundColor;
+                cam.cullingMask = 1 << maskLayer; cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = Color.black;
+
+                var withSheet = HoloGrab(cam);
+                sheet.SetActive(false);
+                var alone = HoloGrab(cam);
+
+                cam.cullingMask = mask; cam.clearFlags = clear; cam.backgroundColor = background;
+                for (int i = 0; i < subject.Length; i++) { subject[i].gameObject.layer = layers[i]; subject[i].sharedMaterials = looks[i]; }
+                Object.Destroy(sheet); Object.Destroy(white); Object.Destroy(black);
+                return new HoloMasks { All = alone.Select(p => p.r > 64).ToArray(), InFront = withSheet.Select(p => p.r > 64).ToArray() };
+            }
+        }
+
+        // The panel's light under a stand-in, split by which side of the panel the stand-in is on. Pixels the room already
+        // hides with the stand-in gone are left out, so what remains is the stand-in's doing alone.
+        sealed class HoloSplit
+        {
+            int total, frontLit, frontBlocked, behindLit, behindBlocked;
+
+            public static HoloSplit Measure(Camera cam, UnityEngine.UI.Graphic[] graphics, Renderer[] subject, RectTransform panel, HoloMap clear)
+            {
+                // The stand-in draws black here (same depth, same silhouette). Over a lit surface the graded picture
+                // compresses a faint plate's added light below the map's thresholds, and hidden plate pixels stop counting.
+                var black = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+                black.SetColor("_BaseColor", Color.black);
+                var looks = subject.Select(r => r.sharedMaterials).ToArray();
+                for (int i = 0; i < subject.Length; i++) subject[i].sharedMaterials = Enumerable.Repeat(black, looks[i].Length).ToArray();
+                var map = HoloMap.Measure(cam, graphics);
+                for (int i = 0; i < subject.Length; i++) subject[i].sharedMaterials = looks[i];
+                Object.Destroy(black);
+                var masks = HoloMasks.Measure(cam, subject, panel);
+                var split = new HoloSplit { total = clear.LitCount };
+                for (int i = 0; i < map.Lit.Length; i++)
+                {
+                    if (!clear.Lit[i] || clear.Blocked[i] || !masks.All[i]) continue;
+                    if (masks.InFront[i]) { split.frontLit++; if (map.Blocked[i]) split.frontBlocked++; }
+                    else { split.behindLit++; if (map.Blocked[i]) split.behindBlocked++; }
+                }
+                return split;
+            }
+
+            static float Share(int part, int whole) => whole == 0 ? 0f : part / (float)whole;
+
+            public override string ToString() =>
+                $"in front covers {frontLit} of {total} lit px, {Share(frontBlocked, frontLit):P1} of them hidden; behind covers {behindLit} px, {Share(behindBlocked, behindLit):P1} of them hidden";
+
+            // At least 5 % of the panel, or the stand-in is not really in the way and the measurement says nothing. 85 %, not
+            // 100 %: the clear map comes from an earlier frame, so the panel's sway moves a few pixels at the silhouette's edge.
+            public void AssertInFrontHides(string what)
+            {
+                Assert.That(frontLit, Is.GreaterThanOrEqualTo(Mathf.Max(1, total / 20)), $"The check needs {what} to cover the panel: {this}");
+                Assert.That(Share(frontBlocked, frontLit), Is.GreaterThanOrEqualTo(.85f), $"The hologram must not draw through {what}: {this}");
+            }
+
+            public void AssertBehindDoesNotHide(string what)
+            {
+                Assert.That(behindLit, Is.GreaterThanOrEqualTo(Mathf.Max(1, total / 100)), $"The check needs {what} to sit behind the panel: {this}");
+                Assert.That(Share(behindBlocked, behindLit), Is.LessThanOrEqualTo(.1f), $"The hologram must draw over {what}: {this}");
+            }
+        }
+
+        // Which scene renderers' boxes the sight line to the panel passes through, for the report.
+        static string HoloBlockers(Renderer[] scene, Vector3 from, GameObject sign)
+        {
+            var canvas = (RectTransform)sign.GetComponentInChildren<Canvas>(true).transform;
+            var corners = new Vector3[4];
+            canvas.GetWorldCorners(corners);
+            var targets = corners.Select(c => Vector3.Lerp(c, canvas.position, .1f)).Append(canvas.position).ToArray();
+            var names = scene.Where(r => r != null && r.enabled && r.gameObject.activeInHierarchy && !r.forceRenderingOff && !r.transform.IsChildOf(sign.transform)
+                    && r.GetComponent<CanvasRenderer>() == null && targets.Any(t => r.bounds.IntersectRay(new Ray(from, t - from), out float d) && d < (t - from).magnitude - .02f))
+                .Select(r => r.name).Distinct().Take(8);
+            return string.Join(", ", names);
+        }
+
         [UnityTest]
         public IEnumerator MainMenu_FromLauncher_ReturnsToThisClinic()
         {

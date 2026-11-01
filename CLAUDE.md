@@ -66,7 +66,8 @@
 实现集中在 `Assets/RepairProps/Runtime/ClinicSignageRuntime.cs` 和 `Assets/RepairProps/Cyber/Resources/BorderRepairCyber/HoloPanel.shader`。
 
 - 面板离墙漂浮 0.10–0.24 m，**不贴墙面**（贴墙会被管线、层板挡住）。
-- shader 用 `ZTest Always` 画在场景几何体之上，所以场景里的东西不会遮挡文字。
+- shader 是 `ZTest LEqual`（`_ZTest` 属性）：NPC、手、搬运物正常挡住投影；墙面杂物靠上面的离墙距离避开，不靠关深度测试。个别面板被杂物切到时，加大那块的 lift。
+- 动态图形是 `HoloWidget`（`Assets/RepairProps/Runtime/HoloWidget.cs`）：每个一块静态四边形，种类和参数写在 uv1/uv2，图形和动画全在 shader 里，不每帧重建网格。默认 PS2 预设 288 行、24 级色阶，3 m 外一个虚拟像素约 12 mm，图形细节要按这个尺寸定。
 - 动效参照 `reference-library`（Arasaka 脑机终端 / CP2077 加密传输 / Destiny 星门与诊断报告 / 未来交通导视）：**静止时文字锐利、几乎无色散**；色散只出现在故障的那一条带上；扫描亮带很淡（增益 0.15、周期 9 s）；撕裂罕见（全房间合计约 0.27 次/秒）。
 - 可读性第一：任何时候文字都要能读。不做全屏噪点、不做持续强闪烁。
 - 层次靠**细边框 + 四角 L 形括号**，不靠把底板调亮。
