@@ -54,7 +54,9 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             // Worn charm: small pale specks of lint and skin oil, the lightest of the four.
             new DirtProfile { path = "Assets/RepairProps/Prefabs/Omamori.prefab", isShell = DirtProfile.Named("OM_ext_Shell", "OM_ext_Face", "OM_RearCover"),
                 color = new Color(.39f, .335f, .265f), opacity = .75f, smoothness = .05f, frequency = 7.5f, cover = .38f, settle = .08f, seed = 113.1f },
-            // UNIT 07: oil and dust over the armour, heaviest where it collects on top.
+            // UNIT 07: oil and dust over the armour, heaviest where it collects on top. Scenery on purpose, not a
+            // chore: the cleaning tool only ever binds the item standing on the bench, so these shells stay dirty
+            // for good. Wiring them into the controller would turn the shop's own robot into 29 extra surfaces.
             new DirtProfile { path = "Assets/BorderRepair/Prefabs/Unit07Dock/UNIT07_RobotV4_DockReady.prefab", isShell = IsRobotArmour, optional = true,
                 color = new Color(.14f, .115f, .085f), opacity = .85f, smoothness = .15f, frequency = 4f, cover = .42f, settle = .18f, seed = 157.3f },
         };
