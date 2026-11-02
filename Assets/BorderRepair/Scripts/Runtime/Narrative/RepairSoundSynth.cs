@@ -11,7 +11,11 @@ namespace BorderRepair.Narrative
     {
         public const int Rate = 44100;
 
-        public enum Cue { None, Unscrew, SealTear, OpenCover, ProbeWarning, DataRead, Probe, Replace, Deny }
+        // 新值只能加在末尾：RepairFeedbackFx.StepCue 把枚举按整数序列化在资产里。
+        public enum Cue { None, Unscrew, SealTear, OpenCover, ProbeWarning, DataRead, Probe, Replace, Deny, CleanWipe, CleanScrape, CleanDust, CleanDone }
+
+        /// <summary>这个音是首尾相接的循环素材（用 AudioSource.loop 播放，不用 PlayOneShot）。</summary>
+        public static bool Loops(Cue cue) => cue == Cue.CleanWipe;
 
         public static AudioClip Create(Cue cue)
         {
@@ -26,6 +30,10 @@ namespace BorderRepair.Narrative
                 case Cue.Probe: data = Probe(); break;
                 case Cue.Replace: data = Replace(); break;
                 case Cue.Deny: data = Deny(); break;
+                case Cue.CleanWipe: data = CleanWipe(); break;
+                case Cue.CleanScrape: data = CleanScrape(); break;
+                case Cue.CleanDust: data = CleanDust(); break;
+                case Cue.CleanDone: data = CleanDone(); break;
                 default: return null;
             }
             Normalize(data, 0.8f);
@@ -150,6 +158,88 @@ namespace BorderRepair.Narrative
         {
             var d = Buffer(0.2f);
             Tone(d, 0f, 0.16f, 180f, 0.6f, true);
+            return d;
+        }
+
+        /// <summary>抹布摩擦（循环）：带通噪声 + 三个来回的力度起伏。尾部与开头等功率交叉淡化，循环接缝听不出来。</summary>
+        static float[] CleanWipe()
+        {
+            const float body = 0.84f, fade = 0.1f;
+            var d = Buffer(body + fade);
+            var rng = new System.Random(31);
+            float low = 0f, band = 0f;
+            for (int i = 0; i < d.Length; i++)
+            {
+                float time = i / (float)Rate;
+                float stroke = 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(Mathf.PI * time * 3f / body));
+                float grain = 0.75f + 0.25f * Mathf.PerlinNoise(time * 140f, 0.7f);
+                float n = (float)(rng.NextDouble() * 2 - 1);
+                low += 0.42f * (n - low);
+                band += 0.12f * (low - band);
+                d[i] = (low - band) * stroke * grain;
+            }
+            int length = Mathf.CeilToInt(body * Rate), overlap = d.Length - length;
+            var loop = new float[length];
+            Array.Copy(d, loop, length);
+            for (int j = 0; j < overlap; j++)
+            {
+                float k = (j + 0.5f) / overlap;
+                loop[j] = d[j] * Mathf.Sin(k * Mathf.PI * 0.5f) + d[length + j] * Mathf.Cos(k * Mathf.PI * 0.5f);
+            }
+            return loop;
+        }
+
+        /// <summary>刮硬污渍：一串不均匀的细小“咔”（中频共振）+ 粗糙的噪声底，颗粒感强。</summary>
+        static float[] CleanScrape()
+        {
+            const float seconds = 0.28f;
+            var d = Buffer(seconds);
+            var rng = new System.Random(41);
+            for (float t = 0f; t < 0.25f; t += 0.011f + (float)rng.NextDouble() * 0.016f)
+            {
+                float gain = (0.35f + 0.65f * (float)rng.NextDouble()) * (1f - 0.35f * t / 0.25f);
+                Click(d, t, 0.003f + (float)rng.NextDouble() * 0.004f, 900f + (float)rng.NextDouble() * 1100f, gain, rng);
+            }
+            float lp = 0f;
+            for (int i = 0; i < d.Length; i++)
+            {
+                float time = i / (float)Rate;
+                float env = Mathf.Clamp01(time / 0.012f) * Mathf.Clamp01((seconds - time) / 0.06f);
+                float n = (float)(rng.NextDouble() * 2 - 1);
+                lp += 0.3f * (n - lp);
+                d[i] += (n - lp) * 0.16f * env * (0.5f + 0.5f * Mathf.PerlinNoise(time * 260f, 0.2f));
+            }
+            return d;
+        }
+
+        /// <summary>吹灰 / 刷子扫过：高通噪声的一口气（快起慢收），带轻微颤动和几粒飞走的灰尘声。</summary>
+        static float[] CleanDust()
+        {
+            const float seconds = 0.36f;
+            var d = Buffer(seconds);
+            var rng = new System.Random(57);
+            float lp = 0f;
+            for (int i = 0; i < d.Length; i++)
+            {
+                float time = i / (float)Rate, k = time / seconds;
+                float env = Mathf.Sin(Mathf.PI * Mathf.Pow(k, 0.6f));
+                float n = (float)(rng.NextDouble() * 2 - 1);
+                lp += 0.55f * (n - lp);
+                d[i] = (n - lp) * env * env * (0.7f + 0.3f * Mathf.Sin(2f * Mathf.PI * time * (38f + 30f * k)));
+            }
+            for (int i = 0; i < 5; i++)
+                Click(d, 0.05f + i * 0.055f + (float)rng.NextDouble() * 0.02f, 0.002f, 5200f + (float)rng.NextDouble() * 2200f, 0.18f, rng);
+            return d;
+        }
+
+        /// <summary>清洁完成：一声轻“嗒”，接上行的两记金属“叮”（G6→C7），干净利落。</summary>
+        static float[] CleanDone()
+        {
+            var d = Buffer(0.52f);
+            var rng = new System.Random(61);
+            Click(d, 0f, 0.004f, 2600f, 0.35f, rng);
+            Ping(d, 0.012f, 0.18f, new[] { 1568f, 3136f, 4704f }, 0.5f);
+            Ping(d, 0.12f, 0.38f, new[] { 2093f, 4186f, 6272f }, 0.62f);
             return d;
         }
 

@@ -162,11 +162,27 @@ namespace BorderRepair.RepairProps
             {
                 PropCommand ready = null;
                 int count = 0;
+                string why = null;
+                bool whyIsPending = false;
                 foreach (var c in flow.Definition.commands)
-                    if (c.target == selectedTarget && flow.CanExecute(c.id, c.target, station.ActiveTool.Value, out _))
-                    { ready = c; count++; }
+                {
+                    if (c.target != selectedTarget) continue;
+                    if (flow.CanExecute(c.id, c.target, station.ActiveTool.Value, out string reason)) { ready = c; count++; continue; }
+                    // Prefer the reason of a step still to do, using this tool, over "already done".
+                    if (c.tool != station.ActiveTool.Value) continue;
+                    bool pending = c.effects.Count == 0 || !flow.Matches(c.effects);
+                    if (why == null || pending && !whyIsPending) { why = reason; whyIsPending = pending; }
+                }
                 if (count == 1) Perform(ready.id, false);
+                else RejectClick(count > 1 ? "这个部位有 " + count + " 项可做，请在右侧面板选一项。" : why ?? "这个部位用不上当前工具，换一件试试。");
             }
+        }
+
+        // A click with a tool that does nothing must say why. Not a flow rejection: no penalty, and the flow state is untouched.
+        void RejectClick(string reason)
+        {
+            if (station.View != null) station.View.ShowFeedback(reason, FeedbackKind.Warning);
+            if (Gesture != null) Gesture.PlayDeny();
         }
 
         public bool SelectTarget(string objectName)

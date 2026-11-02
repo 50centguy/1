@@ -19,7 +19,7 @@ namespace BorderRepair.RepairProps
         static readonly Color Amber = RepairPropCyberStyle.Amber, Dim = RepairPropCyberStyle.AmberDim, Ok = RepairPropCyberStyle.Ok,
             Warn = RepairPropCyberStyle.Warn, Hot = RepairPropCyberStyle.Hot, Bad = RepairPropCyberStyle.Bad;
         static Sprite ringSprite, dotSprite, crustSprite;
-        static AudioClip tickClip, clackClip, pingClip, hissClip, popClip, slideClip, beepClip, warnClip;
+        static AudioClip tickClip, clackClip, pingClip, popClip, slideClip, beepClip, warnClip, scrapeClip, dustClip, doneClip, denyClip;
 
         RepairPropStationBridge owner;
         Canvas canvas;
@@ -38,7 +38,8 @@ namespace BorderRepair.RepairProps
         float travel;
         bool moves, reservedBefore, reserving, blockedPress, wasHeld;
         int ticksPlayed;
-        float flashUntil, lastScrub;
+        float flashUntil, lastScrub, pulse, nextDeny;
+        string lastMessage;
         readonly List<PropCommand> autoQueue = new List<PropCommand>();
         Func<PropCommand, bool> autoCommit;
         Action autoDone;
@@ -99,6 +100,7 @@ namespace BorderRepair.RepairProps
             var holster = new Vector2(local.x > 0 ? -170f : 170f, -40f);
             logic = new RepairPropGestureLogic(feel, exit, holster);
             ticksPlayed = 0; blockedPress = RepairPropFeelInput.LeftHeld; wasHeld = blockedPress;
+            pulse = 0f; lastMessage = null;
             Reserve(true);
             Show(feel, command);
             return true;
@@ -113,6 +115,36 @@ namespace BorderRepair.RepairProps
             Reserve(false);
             flashUntil = 0f;
             if (widget != null) widget.gameObject.SetActive(false);
+        }
+
+        /// <summary>Skips the hand motion in progress and commits it through the same guarded path a finished motion takes
+        /// (the flow still decides). A running screw batch commits its remaining screws in order. False when nothing runs.</summary>
+        public bool CompleteNow()
+        {
+            if (autoCurrent != null)
+            {
+                int guard = autoQueue.Count + 1;
+                while (autoCurrent != null && guard-- > 0)
+                {
+                    Restore();
+                    var command = autoCurrent;
+                    autoCommit(command);
+                    if (autoCurrent == command) NextAuto();
+                }
+                Play(pingClip, 1.1f, .6f);
+                return true;
+            }
+            if (current == null || logic == null) return false;
+            Finish();
+            return true;
+        }
+
+        /// <summary>The low buzz of a refused action; repeats at most every .7 s.</summary>
+        public void PlayDeny()
+        {
+            if (Time.unscaledTime < nextDeny) return;
+            nextDeny = Time.unscaledTime + .7f;
+            Play(denyClip, 1f, .8f);
         }
 
         /// <summary>The electric screwdriver: each screw spins for a moment and then commits, in order.</summary>
@@ -176,6 +208,12 @@ namespace BorderRepair.RepairProps
             Pose(logic.Progress, camera);
             Sound();
             Draw(now);
+            // A slip says what to do instead (Draw shows the line); this is the sound that goes with it.
+            if (logic.Message != null && logic.Message != lastMessage) PlayDeny();
+            lastMessage = logic.Message;
+            // Each beat of the motion (a ratchet click, a scrub stroke) kicks the widget a little.
+            pulse = Mathf.MoveTowards(pulse, 0f, Time.unscaledDeltaTime * 6f);
+            widget.localScale = Vector3.one * (1f + .07f * pulse);
             if (logic.Done) Finish();
         }
 
@@ -216,7 +254,7 @@ namespace BorderRepair.RepairProps
                 case PropFeel.Seat: case PropFeel.Plug: case PropFeel.Crimp: Play(clackClip, 1f, .9f); break;
                 case PropFeel.Unplug: Play(popClip, 1.3f, .7f); break;
                 case PropFeel.SlideOut: case PropFeel.SlideIn: Play(slideClip, 1f, .7f); break;
-                case PropFeel.Scrub: Play(pingClip, 1.4f, .5f); break;
+                case PropFeel.Scrub: Play(doneClip, 1f, .85f); break;
             }
             run();
         }
@@ -313,12 +351,18 @@ namespace BorderRepair.RepairProps
         {
             if (logic.Ticks <= ticksPlayed) return;
             ticksPlayed = logic.Ticks;
+            pulse = 1f;
             switch (Feel)
             {
                 case PropFeel.Unscrew: case PropFeel.Screw: Play(tickClip, .9f + logic.Progress * .5f, .6f); break;
                 case PropFeel.Unplug: if (!logic.Done) Play(clackClip, 1.4f, .6f); break;
                 case PropFeel.Scrub:
-                    if (Time.unscaledTime - lastScrub > .06f) { lastScrub = Time.unscaledTime; Play(hissClip, UnityEngine.Random.Range(.85f, 1.2f), .45f); }
+                    // The crust scrapes off, then the last of it brushes away, climbing as the contact comes clean.
+                    if (Time.unscaledTime - lastScrub > .16f)
+                    {
+                        lastScrub = Time.unscaledTime;
+                        Play(logic.Progress < .6f ? scrapeClip : dustClip, UnityEngine.Random.Range(.9f, 1.05f) + logic.Progress * .3f, .55f);
+                    }
                     break;
                 case PropFeel.Probe:
                     var probeData = owner.Flow.Definition.FindProbe(current.probeId);
@@ -590,7 +634,10 @@ namespace BorderRepair.RepairProps
             tickClip = Clip("tick", .03f, (t, n) => Mathf.Exp(-t * 900f) * (Mathf.Sin(t * 2f * Mathf.PI * 3400f) * .6f + n * .5f));
             clackClip = Clip("clack", .07f, (t, n) => Mathf.Exp(-t * 260f) * (Mathf.Sin(t * 2f * Mathf.PI * 1250f) * .7f + n * .45f));
             pingClip = Clip("ping", .25f, (t, n) => Mathf.Exp(-t * 18f) * (Mathf.Sin(t * 2f * Mathf.PI * 2600f) * .5f + Mathf.Sin(t * 2f * Mathf.PI * 4150f) * .3f));
-            hissClip = Clip("hiss", .07f, (t, n) => Mathf.Sin(Mathf.PI * t / .07f) * n * .7f);
+            scrapeClip = RepairSoundSynth.Create(RepairSoundSynth.Cue.CleanScrape);
+            dustClip = RepairSoundSynth.Create(RepairSoundSynth.Cue.CleanDust);
+            doneClip = RepairSoundSynth.Create(RepairSoundSynth.Cue.CleanDone);
+            denyClip = RepairSoundSynth.Create(RepairSoundSynth.Cue.Deny);
             beepClip = Clip("beep", .14f, (t, n) => Mathf.Clamp01(t * 200f) * Mathf.Clamp01((.14f - t) * 60f) * Mathf.Sign(Mathf.Sin(t * 2f * Mathf.PI * 2000f)) * .35f);
             popClip = RepairSoundSynth.Create(RepairSoundSynth.Cue.OpenCover);
             slideClip = RepairSoundSynth.Create(RepairSoundSynth.Cue.Replace);

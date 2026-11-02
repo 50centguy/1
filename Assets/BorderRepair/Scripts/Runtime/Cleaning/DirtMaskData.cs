@@ -68,6 +68,15 @@ namespace BorderRepair.Cleaning
             return changed;
         }
 
+        /// <summary>笔刷中心处还剩多少污垢（0 干净 .. 1 最厚）：决定这一下听起来是刮、是擦、还是扫灰。</summary>
+        public float RemainingAt(Vector2 uv)
+        {
+            if (!float.IsFinite(uv.x) || !float.IsFinite(uv.y)) return 0;
+            int x = Mathf.Clamp((int)(uv.x * Resolution), 0, Resolution - 1);
+            int y = Mathf.Clamp((int)(uv.y * Resolution), 0, Resolution - 1);
+            return remaining[y * Resolution + x];
+        }
+
         public bool SameIsland(Vector2 a, Vector2 b)
         {
             int region = RegionAt(a);

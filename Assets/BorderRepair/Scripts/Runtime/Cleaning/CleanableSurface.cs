@@ -29,6 +29,7 @@ namespace BorderRepair.Cleaning
         MeshFilter visualMesh;
         Mesh originalMesh;
         bool dirty, completed;
+        int tier;
         static readonly int MaskId = Shader.PropertyToID("_CleaningMask");
         public float Progress => data?.Progress ?? 0;
         public bool IsClean => data != null && Progress >= completionThreshold;
@@ -38,6 +39,12 @@ namespace BorderRepair.Cleaning
         public bool Ready => data != null && target != null && probe != null;
         public event Action<float> ProgressChanged;
         public event Action Cleaned;
+        /// <summary>进度向上跨过一个 10% 档（参数 1..10）。音效和反馈挂在这里，不挂每次笔刷更新。</summary>
+        public event Action<int> ProgressTier;
+
+        public float RemainingAt(Vector2 uv) => data != null ? data.RemainingAt(uv) : 0;
+        /// <summary>prefab 里序列化的是旧值；手感数值由清洁控制器统一设定。</summary>
+        public void SetCompletionThreshold(float value) => completionThreshold = Mathf.Clamp(value, .5f, 1);
 
         public void SetDirtAppearance(Color color, float opacity, float smoothness)
         {
@@ -122,14 +129,21 @@ namespace BorderRepair.Cleaning
             return true;
         }
 
-        public void ResetDirt() { if (data == null) return; data.Reset(); completed = false; dirty = true; Notify(); }
+        public void ResetDirt() { if (data == null) return; data.Reset(); completed = false; dirty = true; tier = 0; Notify(); }
         public void CleanAll() { if (data == null) return; data.Clear(); dirty = true; Notify(); }
         public string ExportMask() => data?.Export();
-        public bool ImportMask(string encoded) { if (data == null || !data.Import(encoded)) return false; dirty = true; completed = false; Notify(); return true; }
+        public bool ImportMask(string encoded)
+        {
+            if (data == null || !data.Import(encoded)) return false;
+            dirty = true; completed = false; tier = Mathf.FloorToInt(Progress * 10); Notify();
+            return true;
+        }
 
         void Notify()
         {
             ProgressChanged?.Invoke(Progress);
+            int now = Mathf.FloorToInt(Progress * 10);
+            if (now > tier) { tier = now; ProgressTier?.Invoke(now); }
             if (IsClean && !completed) { completed = true; Cleaned?.Invoke(); }
         }
 
@@ -158,7 +172,7 @@ namespace BorderRepair.Cleaning
             foreach (var material in replacements.Keys) DestroyOwned(material);
             replacements.Clear(); selectedSlots.Clear();
             DestroyOwned(probeObject); DestroyOwned(mask);
-            probe = null; probeObject = null; mask = null; data = null; dirty = completed = false;
+            probe = null; probeObject = null; mask = null; data = null; dirty = completed = false; tier = 0;
         }
         static void DestroyOwned(UnityEngine.Object obj)
         {

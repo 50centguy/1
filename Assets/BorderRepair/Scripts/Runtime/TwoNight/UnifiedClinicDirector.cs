@@ -65,7 +65,11 @@ namespace BorderRepair.TwoNight
         public TwoNightState State => TwoNightRun.Current;
 
         GameObject tradeUi;
-        GameObject crosshair;
+        GameObject crosshair, aimHintBox;
+        Text aimHintText;
+        float nextAimProbe, nextDeny;
+        AudioSource denySpeaker;
+        static AudioClip denyClip;
         Text status;
         Button consoleButton, roomButton;
         Transform itemParent;
@@ -225,6 +229,31 @@ namespace BorderRepair.TwoNight
                 default: return false;
             }
         }
+
+        /// <summary>
+        /// 这个交易动作现在为什么不能做（能做时为 null）。只读：准星提示用它区分“现在能做”和“条件不满足”。
+        /// 条件与 <see cref="Interact"/> 一致，真正执行时仍由 Interact 判定。
+        /// </summary>
+        public string WhyNot(ClinicTradeAction action)
+        {
+            if (!Initialized || State == null) return "还在准备。";
+            if (State.phase != TwoNightPhase.Night1Counter) return "没有待接收的下一单。七号是内部工单。";
+            switch (action)
+            {
+                case ClinicTradeAction.Receive:
+                    if (carried != null) return "手上已经拿着" + station.Session.CurrentCase.itemName + "，先放到维修台上。";
+                    return HasPendingCase ? null : "当前物品仍在处理中，不能再接收。";
+                case ClinicTradeAction.Deliver:
+                    return DeliverLampState != PadLamp.Off ? null : (carried != null || HasPendingCase ? "没有修好的物品可以交付。" : station.Session.CurrentCase.itemName + "尚未修好，不能交付。");
+                case ClinicTradeAction.Console:
+                    if (carried != null) return null;
+                    return TradeState == ClinicTradeState.InRepair ? null : "维修台上没有待维修的物品。先到收件台拿一件。";
+                default: return "这里没有可做的操作。";
+            }
+        }
+
+        static string ActionLabel(ClinicTradeAction action) =>
+            action == ClinicTradeAction.Receive ? "接收物品" : action == ClinicTradeAction.Deliver ? "交付物品" : "到维修台维修";
 
         public void OpenConsole()
         {
@@ -425,12 +454,81 @@ namespace BorderRepair.TwoNight
             tradeUi.SetActive(false);
         }
 
-        bool Refuse(string message) { LastMessage = message; RefreshStatus(); return false; }
+        bool Refuse(string message)
+        {
+            LastMessage = message; RefreshStatus();
+            PlayDeny();
+            return false;
+        }
+
+        void PlayDeny()
+        {
+            if (Time.unscaledTime < nextDeny) return;
+            nextDeny = Time.unscaledTime + .3f;
+            if (denySpeaker == null)
+            {
+                denySpeaker = gameObject.AddComponent<AudioSource>();
+                denySpeaker.playOnAwake = false; denySpeaker.spatialBlend = 0;
+            }
+            if (denyClip == null) denyClip = BorderRepair.Narrative.RepairSoundSynth.Create(BorderRepair.Narrative.RepairSoundSynth.Cue.Deny);
+            denySpeaker.PlayOneShot(denyClip, .6f);
+        }
+
+        // 准星提示：对着能做的东西显示绿点和“左键：…”；条件不满足时显示琥珀色和原因。十分之一秒查一次，不每帧打射线。
+        void UpdateAimHint()
+        {
+            if (crosshair == null) return;
+            bool aiming = Initialized && State != null && State.phase == TwoNightPhase.Night1Counter && RoomWalking &&
+                flow.Rig.Walker != null && flow.Rig.Walker.Aiming && !counter.LedgerVisible && !counter.RetryVisible && !counter.DialogueVisible;
+            if (!aiming) { ShowAimHint(null, false); return; }
+            if (Time.unscaledTime < nextAimProbe) return;
+            nextAimProbe = Time.unscaledTime + .1f;
+            var walker = flow.Rig.Walker;
+            var center = new Vector2(Screen.width * .5f, Screen.height * .5f);
+            foreach (var hit in Physics.RaycastAll(roomCamera.ScreenPointToRay(center), 8, ~0, QueryTriggerInteraction.Collide).OrderBy(h => h.distance))
+            {
+                if (hit.collider is CharacterController || hit.collider.GetComponent<FirstPersonBlocker>() != null) continue;
+                var onBench = station.Inspector.CurrentItem;
+                if (carried == null && onBench != null && TradeState == ClinicTradeState.InRepair && hit.transform.IsChildOf(onBench.transform))
+                {
+                    if (hit.distance > walker.Reach) ShowAimHint("够不着：走近一点", false);
+                    else ShowAimHint("左键：回到台上维修", true);
+                    return;
+                }
+                var zone = hit.collider.GetComponentInParent<ClinicTradeZone>();
+                if (zone != null)
+                {
+                    string why = WhyNot(zone.Action);
+                    if (why != null) ShowAimHint(why, false);
+                    else if (hit.distance > walker.Reach) ShowAimHint("够不着：走近一点", false);
+                    else ShowAimHint("左键：" + ActionLabel(zone.Action), true);
+                    return;
+                }
+                if (!hit.collider.isTrigger) break;
+            }
+            ShowAimHint(null, false);
+        }
+
+        void ShowAimHint(string text, bool can)
+        {
+            if (aimHintBox == null) return;
+            var image = crosshair.GetComponent<Image>();
+            image.color = text == null ? new Color(.95f, .93f, .88f, .85f) : can ? new Color(.62f, .96f, .58f, 1f) : new Color(1f, .68f, .32f, 1f);
+            ((RectTransform)crosshair.transform).sizeDelta = text == null ? new Vector2(6, 6) : new Vector2(10, 10);
+            bool show = text != null;
+            if (aimHintBox.activeSelf != show) aimHintBox.SetActive(show);
+            if (!show) return;
+            aimHintText.color = image.color;
+            if (aimHintText.text == text) return;
+            aimHintText.text = text;
+            ((RectTransform)aimHintBox.transform).sizeDelta = new Vector2(aimHintText.preferredWidth + 24, 28);
+        }
 
         void Update()
         {
             if (crosshair != null)
                 crosshair.SetActive(RoomWalking && flow.Rig.Walker.Aiming);
+            UpdateAimHint();
             if (!Initialized || State == null || ConsoleOpen || State.phase != TwoNightPhase.Night1Counter ||
                 counter.LedgerVisible || counter.RetryVisible || counter.DialogueVisible || !RepairInput.LeftPressed) return;
             var walker = flow.Rig.Walker;
@@ -488,6 +586,20 @@ namespace BorderRepair.TwoNight
             crosshairRect.sizeDelta = new Vector2(6, 6);
             crosshair.GetComponent<Image>().raycastTarget = false;
             crosshair.GetComponent<Image>().color = new Color(.95f, .93f, .88f, .85f);
+            aimHintBox = new GameObject("TradeAimHint", typeof(RectTransform), typeof(Image));
+            aimHintBox.transform.SetParent(tradeUi.transform, false);
+            var hintRect = (RectTransform)aimHintBox.transform;
+            hintRect.anchorMin = hintRect.anchorMax = new Vector2(.5f, .5f); hintRect.pivot = new Vector2(.5f, 1f);
+            hintRect.anchoredPosition = new Vector2(0, -22); hintRect.sizeDelta = new Vector2(240, 28);
+            var hintBack = aimHintBox.GetComponent<Image>(); hintBack.raycastTarget = false; hintBack.color = new Color(0, 0, 0, .62f);
+            var hintLabel = new GameObject("Text", typeof(RectTransform), typeof(Text));
+            hintLabel.transform.SetParent(aimHintBox.transform, false);
+            var labelRect = (RectTransform)hintLabel.transform;
+            labelRect.anchorMin = Vector2.zero; labelRect.anchorMax = Vector2.one; labelRect.offsetMin = labelRect.offsetMax = Vector2.zero;
+            aimHintText = hintLabel.GetComponent<Text>();
+            aimHintText.font = font; aimHintText.fontSize = 15; aimHintText.alignment = TextAnchor.MiddleCenter; aimHintText.raycastTarget = false;
+            aimHintText.horizontalOverflow = HorizontalWrapMode.Overflow;
+            aimHintBox.SetActive(false);
             var panel = TwoNightUi.Panel(tradeUi.transform, "TradeStatus", new Vector2(1, 1), new Vector2(-416, -16), new Vector2(400, 120));
             panel.GetComponent<Image>().raycastTarget = false;
             status = TwoNightUi.Label(panel, "Status", "", font, 18, new Vector2(14, -10), new Vector2(372, 100), TwoNightUi.TextMain);

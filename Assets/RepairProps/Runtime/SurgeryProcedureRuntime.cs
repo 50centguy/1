@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BorderRepair.Core;
+using BorderRepair.Narrative;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -63,6 +64,9 @@ namespace BorderRepair.RepairProps
         Quaternion carryFromRot;
         LineRenderer beam;
         Material beamMaterial;
+        readonly Dictionary<RepairSoundSynth.Cue, AudioClip> clips = new Dictionary<RepairSoundSynth.Cue, AudioClip>();
+        AudioSource speaker, suction;
+        float nextDeny;
 
         public IReadOnlyList<Command> Commands => commands;
         public Command Find(string id) => commands.Find(c => c.id == id);
@@ -121,6 +125,52 @@ namespace BorderRepair.RepairProps
             beam.positionCount = 2; beam.widthMultiplier = .0035f; beam.useWorldSpace = true;
             beam.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             beam.enabled = false;
+            var audioHost = new GameObject("SurgeryAudio");
+            audioHost.transform.SetParent(transform, false);
+            AudioSource Source()
+            {
+                var source = audioHost.AddComponent<AudioSource>();
+                source.playOnAwake = false; source.spatialBlend = .6f; source.dopplerLevel = 0;
+                source.rolloffMode = AudioRolloffMode.Linear; source.minDistance = 1; source.maxDistance = 12;
+                return source;
+            }
+            speaker = Source();
+            suction = Source();
+            suction.loop = true; suction.volume = 0; suction.clip = Clip(RepairSoundSynth.Cue.CleanWipe);
+        }
+
+        // ------------------------------------------------------------------------------------------------ sound
+        AudioClip Clip(RepairSoundSynth.Cue cue)
+        {
+            if (!clips.TryGetValue(cue, out var clip)) clips[cue] = clip = RepairSoundSynth.Create(cue);
+            return clip;
+        }
+
+        void PlayAt(RepairSoundSynth.Cue cue, string target, float volume = .7f)
+        {
+            if (speaker == null) return;
+            if (target != null) speaker.transform.position = TargetPoint(target);
+            speaker.PlayOneShot(Clip(cue), volume);
+        }
+
+        static RepairSoundSynth.Cue StartCue(Command c)
+        {
+            switch (c.id)
+            {
+                case "scan": return RepairSoundSynth.Cue.DataRead;
+                case "cover.remove": case "forearm.remove": return RepairSoundSynth.Cue.OpenCover;
+                case "tape.cut": return RepairSoundSynth.Cue.SealTear;
+                case "battery.isolate": case "neural.release": case "neural.connect": case "forearm.fit": return RepairSoundSynth.Cue.Replace;
+                case "test.link": return RepairSoundSynth.Cue.Probe;
+            }
+            return c.tool == "Drill" ? RepairSoundSynth.Cue.Unscrew : RepairSoundSynth.Cue.None;
+        }
+
+        void StopSuction()
+        {
+            if (suction == null) return;
+            suction.volume = 0;
+            suction.Stop();
         }
 
         // ------------------------------------------------------------------------------------------------ authoring
@@ -404,6 +454,12 @@ namespace BorderRepair.RepairProps
         {
             LastMessage = text; LastKind = kind;
             Feedback?.Invoke(text, kind);
+            // Every Warning here is a refused action, with its reason on the panel.
+            if (kind == FeedbackKind.Warning && Time.unscaledTime >= nextDeny)
+            {
+                nextDeny = Time.unscaledTime + .4f;
+                PlayAt(RepairSoundSynth.Cue.Deny, null);
+            }
         }
 
         // ------------------------------------------------------------------------------------------------ running
@@ -426,6 +482,15 @@ namespace BorderRepair.RepairProps
         }
 
         public void CancelQueue() => queue.Clear();
+
+        /// <summary>Takes the running command to the end of its motion: it finishes next frame through the normal path,
+        /// with its effects, result and events. Nothing else is skipped. False when no command runs.</summary>
+        public bool FastForward()
+        {
+            if (running == null) return false;
+            runTime = running.seconds;
+            return true;
+        }
 
         void Pump()
         {
@@ -467,6 +532,13 @@ namespace BorderRepair.RepairProps
                     carryFrom = newArm.position; carryFromRot = newArm.rotation;
                     break;
             }
+            var startCue = StartCue(c);
+            if (startCue != RepairSoundSynth.Cue.None) PlayAt(startCue, c.target);
+            if (c.id == "socket.clean" && suction != null)
+            {
+                speaker.transform.position = TargetPoint(c.target);
+                suction.volume = .5f; suction.pitch = .82f; suction.Play();
+            }
             Changed?.Invoke();
             if (c.seconds <= 0) Finish();
         }
@@ -478,6 +550,7 @@ namespace BorderRepair.RepairProps
             float t = Progress;
             Animate(running, t);
             Beam(running, t);
+            if (suction != null && suction.isPlaying) suction.pitch = Mathf.Lerp(.82f, 1.28f, t);
             if (t >= 1) Finish();
         }
 
@@ -500,6 +573,8 @@ namespace BorderRepair.RepairProps
                     break;
             }
             Apply();
+            if (c.id == "socket.clean") StopSuction();
+            if (c.id == "socket.clean" || c.id == "complete" || c.id == "test.link" && Get("linked") == 1) PlayAt(RepairSoundSynth.Cue.CleanDone, c.target, .85f);
             LastResult = result ?? c.label;
             Say(LastResult, c.id == "test.link" && Get("linked") == 0 ? FeedbackKind.Info : FeedbackKind.Success);
             StepDone?.Invoke(c);
@@ -746,6 +821,7 @@ namespace BorderRepair.RepairProps
         {
             if (phase != SurgeryPatientRuntime.Phase.WalkIn) return;
             if (running != null && running.tool != null && Gantry != null) Gantry.Work(running.tool, false);
+            StopSuction();
             running = null; started = false; LastResult = null; LastMessage = null;
             queue.Clear(); inspected.Clear(); links.Clear(); state.Clear();
             state["arm"] = 1;
@@ -761,6 +837,7 @@ namespace BorderRepair.RepairProps
             if (Patient != null) Patient.PhaseChanged -= OnPatientPhase;
             if (oldArm != null && Patient != null && oldArm != Patient.CyberArm) Destroy(oldArm.gameObject);
             if (beamMaterial != null) Destroy(beamMaterial);
+            foreach (var clip in clips.Values) if (clip != null) Destroy(clip);
             if (Current == this) { Current = null; SurgeryPatientRuntime.HoldOnTable = null; }
         }
     }

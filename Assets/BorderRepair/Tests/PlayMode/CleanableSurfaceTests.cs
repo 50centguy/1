@@ -33,6 +33,13 @@ namespace BorderRepair.Tests
             Assert.Greater(a.Progress,0); Assert.AreEqual(0,b.Progress);
             a.CleanAll(); a.CleanAll(); Assert.AreEqual(1,completed);
             a.ResetDirt(); Assert.AreEqual(0,a.Progress); a.CleanAll(); Assert.AreEqual(2,completed);
+            // Sound and feedback hang on these: one event per tier crossed, none per brush update, none on the way back down.
+            a.ResetDirt();
+            var tiers=new System.Collections.Generic.List<int>(); a.ProgressTier+=t=>tiers.Add(t);
+            a.Wipe(new Vector2(.5f,.5f),.001f,1); Assert.AreEqual(0,tiers.Count,"A tiny wipe crosses no tier.");
+            a.CleanAll(); Assert.AreEqual(new[] {10},tiers.ToArray());
+            a.ResetDirt(); Assert.AreEqual(1,tiers.Count,"Resetting raises no tier.");
+            a.CleanAll(); Assert.AreEqual(2,tiers.Count);
             var renderer=first.GetComponent<Renderer>(); var ownedMask=a.MaskTexture;
             Object.Destroy(a); yield return null;
             Assert.AreSame(original,renderer.sharedMaterial);
