@@ -74,6 +74,9 @@ namespace BorderRepair.RepairProps
             modelRoot = root;
             foreach (var t in root.GetComponentsInChildren<Transform>(true))
             {
+                // Runtime-only helpers (the cleaning probes and occluders) hang under the part but are not model
+                // objects: leaving them out keeps the name map to authored nodes and free of duplicate names.
+                if (t.hideFlags != HideFlags.None) continue;
                 if (objects.ContainsKey(t.name)) throw new ArgumentException("Ambiguous model object: " + t.name);
                 objects.Add(t.name, t);
             }

@@ -4,8 +4,14 @@ using UnityEngine;
 
 namespace BorderRepair.Cleaning
 {
-    /// <summary>Per-instance dirt. Authored assets stay untouched; the visual and dedicated probe share a readable UV1 copy.</summary>
-    [DisallowMultipleComponent]
+    /// <summary>
+    /// Per-instance dirt. Authored assets stay untouched; the visual and dedicated probe share a readable UV1 copy.
+    /// Two ways to show it. Replacement (the customer items): swaps the renderer's mesh and materials for the dirt shader.
+    /// Overlay (the repair props, whose shells appearance editing owns): the renderer is left exactly as authored and the
+    /// dirt is drawn over it each frame, so it adds no component, mesh or material slot to the item.
+    /// An overlay stays dormant until a cleaning controller is present: a scene with no way to wipe it shows no dirt.
+    /// </summary>
+    [DisallowMultipleComponent, DefaultExecutionOrder(1100)]   // draws after the bench presentation has posed its parts
     public sealed class CleanableSurface : MonoBehaviour
     {
         [SerializeField] Renderer target;
@@ -19,6 +25,12 @@ namespace BorderRepair.Cleaning
         [SerializeField, Range(0, 1)] float dirtAmount = .95f;
         [SerializeField, Range(0, 1)] float dirtSmoothness = .07f;
         [SerializeField, Range(.5f, 1)] float completionThreshold = .97f;
+        [SerializeField] bool overlay;
+        [SerializeField] byte[] bakedDirt;
+        [SerializeField] int overlayBakeVersion;
+        static bool overlayHost;
+        Material overlayMaterial;
+        Renderer standIn;
         readonly Dictionary<Material, Material> replacements = new Dictionary<Material, Material>();
         readonly HashSet<int> selectedSlots = new HashSet<int>();
         DirtMaskData data;
@@ -63,8 +75,37 @@ namespace BorderRepair.Cleaning
             Release();
             target = renderer; probeMesh = readableProbe; dirtTemplate = template; resolution = size;
             uvCoverage = coverage; materialSlots = slots; triangleSlots = triangleMaterialSlots;
+            overlay = false; bakedDirt = null; overlayBakeVersion = 0;
             if (Application.isPlaying && isActiveAndEnabled) Initialize();
         }
+
+        /// <summary>Overlay form: <paramref name="template"/> is an overlay material, <paramref name="dirt"/> the baked starting dirt per texel.</summary>
+        public void ConfigureOverlay(Renderer renderer, Mesh readableProbe, Material template, int size, byte[] coverage, int[] slots, int[] triangleMaterialSlots, byte[] dirt, int bakeVersion)
+        {
+            Configure(renderer, readableProbe, template, size, coverage, slots, triangleMaterialSlots);
+            Release();
+            overlay = true; bakedDirt = dirt; overlayBakeVersion = bakeVersion;
+            if (Application.isPlaying && isActiveAndEnabled) Initialize();
+        }
+
+        /// <summary>The installer's "nothing to do" test: complete overlay data from this bake version.</summary>
+        public bool OverlayInstalled(int bakeVersion) => overlay && overlayBakeVersion == bakeVersion && target != null && probeMesh != null && dirtTemplate != null &&
+            uvCoverage != null && uvCoverage.Length == resolution * resolution && bakedDirt != null && bakedDirt.Length == uvCoverage.Length;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetOverlayHost() => overlayHost = false;
+
+        /// <summary>A cleaning controller came or went. Surfaces that were enabled before it arrived wake up here.</summary>
+        public static void SetOverlayHost(bool present)
+        {
+            overlayHost = present;
+            if (!present) return;
+            foreach (var surface in FindObjectsByType<CleanableSurface>(FindObjectsSortMode.None))
+                if (surface.overlay) surface.Initialize();
+        }
+
+        /// <summary>While the bench shows a parked copy of this part, the dirt follows the copy. Null returns it to the part.</summary>
+        public void SetVisualStandIn(Renderer renderer) => standIn = renderer;
 
         void OnEnable() { if (Application.isPlaying) Initialize(); }
         void OnDisable() { SetProbeEnabled(false); }
@@ -75,9 +116,20 @@ namespace BorderRepair.Cleaning
             if (data != null) return;
             if (target == null || probeMesh == null || dirtTemplate == null || !probeMesh.isReadable ||
                 uvCoverage == null || uvCoverage.Length != resolution * resolution || materialSlots == null) return;
-            data = new DirtMaskData(resolution, uvCoverage);
+            if (overlay && !overlayHost) return;
+            data = overlay ? new DirtMaskData(resolution, uvCoverage, bakedDirt) : new DirtMaskData(resolution, uvCoverage);
             mask = new Texture2D(resolution, resolution, TextureFormat.RGBA32, false, true)
                 { name = name + "_CleaningMask_Runtime", wrapMode = TextureWrapMode.Clamp, filterMode = FilterMode.Bilinear, hideFlags = HideFlags.DontSave };
+            if (overlay)
+            {
+                block = new MaterialPropertyBlock();
+                overlayMaterial = new Material(dirtTemplate) { name = name + "_DirtOverlay_Runtime", hideFlags = HideFlags.DontSave };
+                overlayMaterial.SetColor("_DirtColor", dirtColor); overlayMaterial.SetFloat("_DirtAmount", dirtAmount); overlayMaterial.SetFloat("_DirtSmoothness", dirtSmoothness);
+                selectedSlots.UnionWith(materialSlots);
+                CreateProbe();
+                Upload();
+                return;
+            }
             visualMesh = target.GetComponent<MeshFilter>();
             if (visualMesh == null) { data = null; DestroyOwned(mask); mask = null; return; }
             originalMesh = visualMesh.sharedMesh;
@@ -102,11 +154,21 @@ namespace BorderRepair.Cleaning
                 replacements.Add(styled, original); materials[slot] = styled;
             }
             target.sharedMaterials = materials;
-            probeObject = new GameObject("CleaningProbe_Runtime") { layer = 2, hideFlags = HideFlags.DontSave };
+            CreateProbe();
+            Upload();
+        }
+
+        // Runtime probes are parented under the part, so their names land in every walk of the item's hierarchy.
+        // A fixed name made them ambiguous for name-keyed lookups (RepairPropFlow rejects duplicate object names),
+        // so each probe gets its own suffix instead.
+        static int runtimeProbeSerial;
+
+        void CreateProbe()
+        {
+            probeObject = new GameObject("CleaningProbe_Runtime_" + ++runtimeProbeSerial) { layer = 2, hideFlags = HideFlags.DontSave };
             probeObject.transform.SetParent(target.transform, false);
             probe = probeObject.AddComponent<MeshCollider>(); probe.sharedMesh = probeMesh; probe.convex = false;
             probe.enabled = false;
-            Upload();
         }
 
         public void SetProbeEnabled(bool value) { if (probe != null) probe.enabled = value && isActiveAndEnabled && target != null && target.enabled; }
@@ -147,12 +209,28 @@ namespace BorderRepair.Cleaning
             if (IsClean && !completed) { completed = true; Cleaned?.Invoke(); }
         }
 
-        void LateUpdate() { if (dirty) Upload(); }
+        void LateUpdate()
+        {
+            if (dirty) Upload();
+            if (overlayMaterial != null) DrawOverlay();
+        }
+
+        void DrawOverlay()
+        {
+            if (Progress >= 1) return;   // nothing left to show: a clean part costs no draw
+            var shown = standIn != null ? standIn : target;
+            if (shown == null || !shown.enabled || !shown.gameObject.activeInHierarchy) return;
+            var pose = shown.transform.localToWorldMatrix;
+            foreach (int slot in materialSlots)
+                Graphics.DrawMesh(probeMesh, pose, overlayMaterial, shown.gameObject.layer, null, slot, block, UnityEngine.Rendering.ShadowCastingMode.Off, true);
+        }
+
         public void Upload()
         {
             if (mask == null || target == null) return;
             mask.SetPixels32(data.Pixels); mask.Apply(false, false);
-            target.GetPropertyBlock(block); block.SetTexture(MaskId, mask); target.SetPropertyBlock(block);
+            if (overlay) block.SetTexture(MaskId, mask);
+            else { target.GetPropertyBlock(block); block.SetTexture(MaskId, mask); target.SetPropertyBlock(block); }
             dirty = false;
         }
 
@@ -171,8 +249,8 @@ namespace BorderRepair.Cleaning
             }
             foreach (var material in replacements.Keys) DestroyOwned(material);
             replacements.Clear(); selectedSlots.Clear();
-            DestroyOwned(probeObject); DestroyOwned(mask);
-            probe = null; probeObject = null; mask = null; data = null; dirty = completed = false; tier = 0;
+            DestroyOwned(probeObject); DestroyOwned(mask); DestroyOwned(overlayMaterial);
+            probe = null; probeObject = null; mask = null; data = null; overlayMaterial = null; standIn = null; dirty = completed = false; tier = 0;
         }
         static void DestroyOwned(UnityEngine.Object obj)
         {

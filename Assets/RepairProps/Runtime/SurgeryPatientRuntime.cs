@@ -149,7 +149,8 @@ namespace BorderRepair.RepairProps
 
         void Update()
         {
-            if (Debug.isDebugBuild && Keyboard.current != null && Keyboard.current.minusKey.wasPressedThisFrame && !BorderRepair.FirstOrder.FirstOrderInput.TextInputFocused) Begin();
+            // No debug gate: until the night flow can send a patient in, this is the only way to one, and the F1 sheet lists it in every build.
+            if (Keyboard.current != null && Keyboard.current.minusKey.wasPressedThisFrame && !BorderRepair.FirstOrder.FirstOrderInput.TextInputFocused) Begin();
             ShowHint();
             if (phase == Phase.Idle || patient == null || Table == null) return;
             phaseTime += Time.deltaTime;

@@ -5498,6 +5498,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1465115174480726356, guid: 91020ff38cae1244cae5290b5e4a37c4, type: 3}
+--- !u!1 &436270599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 436270601}
+  - component: {fileID: 436270600}
+  m_Layer: 0
+  m_Name: ClinicCleaning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &436270600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436270599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9391250672155884689c27e80d094939, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brushRadiusUV: 0.06
+  strengthPerSecond: 3.2
+  completionThreshold: 0.93
+--- !u!4 &436270601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436270599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &440951741
 GameObject:
   m_ObjectHideFlags: 0
@@ -23319,3 +23366,4 @@ SceneRoots:
   - {fileID: 1622420756}
   - {fileID: 499183953}
   - {fileID: 2082745785}
+  - {fileID: 436270601}

@@ -13,10 +13,14 @@ namespace BorderRepair.Cleaning
         public Renderer Target => target;
         public Mesh ProbeMesh => readableMesh;
         public void Configure(Renderer renderer, Mesh mesh) { target = renderer; readableMesh = mesh; }
+        // One probe per occluder, all parented under their part: a fixed name collided with its siblings and made
+        // name-keyed hierarchy walks ambiguous (RepairPropFlow refuses duplicate object names).
+        static int runtimeProbeSerial;
+
         void OnEnable()
         {
             if (!Application.isPlaying || probe != null || target == null || readableMesh == null || !readableMesh.isReadable) return;
-            probeObject = new GameObject("CleaningOccluder_Runtime") { layer = 2, hideFlags = HideFlags.DontSave };
+            probeObject = new GameObject("CleaningOccluder_Runtime_" + ++runtimeProbeSerial) { layer = 2, hideFlags = HideFlags.DontSave };
             probeObject.transform.SetParent(target.transform, false);
             probe = probeObject.AddComponent<MeshCollider>(); probe.sharedMesh = readableMesh; probe.convex = false; probe.enabled = false;
         }

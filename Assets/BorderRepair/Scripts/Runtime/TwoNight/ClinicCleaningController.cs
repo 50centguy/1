@@ -58,7 +58,8 @@ namespace BorderRepair.TwoNight
         public bool Available => Clinic != null && Clinic.Initialized && Clinic.ConsoleOpen &&
             Clinic.Station != null && Clinic.Station.Session != null && Clinic.Station.Session.Stage == RepairStage.Inspect &&
             Clinic.Station.Inspector.isActiveAndEnabled && Clinic.Station.Inspector.InteractionEnabled &&
-            !Clinic.Station.InputLocked && !Clinic.Counter.DialogueVisible && surfaces.Length > 0;
+            !Clinic.Station.InputLocked && !Clinic.Counter.DialogueVisible && surfaces.Length > 0 &&
+            (Cleaning || !Clinic.Station.CleaningActive);   // appearance editing and the shop hold the same claim
 
         /// <summary>现在不能清洁的原因；能清洁时为 null。</summary>
         public string UnavailableReason
@@ -71,6 +72,7 @@ namespace BorderRepair.TwoNight
                 if (Clinic.Counter.DialogueVisible) return "先听完顾客说话。";
                 if (Clinic.Station.Session == null || Clinic.Station.Session.Stage != RepairStage.Inspect) return "只有检查阶段才能清洁。";
                 if (Clinic.Station.InputLocked) return "工具正在动作，等它结束。";
+                if (Clinic.Station.CleaningActive) return "外观编辑或商店还开着，先关掉。";
                 return "现在不能清洁。";
             }
         }
@@ -91,6 +93,8 @@ namespace BorderRepair.TwoNight
         }
 
         public void Configure(UnifiedClinicDirector clinic) { Clinic = clinic; }
+
+        void OnEnable() => CleanableSurface.SetOverlayHost(true);
 
         void Start()
         {
@@ -538,6 +542,7 @@ namespace BorderRepair.TwoNight
 
         void OnDisable()
         {
+            CleanableSurface.SetOverlayHost(false);
             SetCleaning(false);
             wipeGain = 0;
             if (wipeLoop != null) { wipeLoop.volume = 0; wipeLoop.Stop(); }

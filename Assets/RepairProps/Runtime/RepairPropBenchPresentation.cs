@@ -18,6 +18,7 @@ namespace BorderRepair.RepairProps
             public Vector3 homePosition, parkedPosition, startPosition, exitDirection;
             public Quaternion homeRotation, parkedRotation, startRotation;
             public Renderer[] originals, visuals;
+            public BorderRepair.Cleaning.CleanableSurface[] surfaces;
             public Collider[] colliders;
             public Collider[] proxyColliders;
             public bool[] rendererEnabled, colliderEnabled;
@@ -49,8 +50,9 @@ namespace BorderRepair.RepairProps
                 var renderers = source.GetComponentsInChildren<MeshRenderer>(true)
                     .Where(r => MovableOwner(r.transform) == source && r.GetComponent<MeshFilter>()?.sharedMesh != null).Cast<Renderer>().ToArray();
                 if (renderers.Length == 0) continue;
+                // Ignore Raycast colliders are the cleaning probes: the cleaning controller owns those, not this part's picking state.
                 var colliders = source.GetComponentsInChildren<Collider>(true)
-                    .Where(c => MovableOwner(c.transform) == source).ToArray();
+                    .Where(c => MovableOwner(c.transform) == source && c.gameObject.layer != 2).ToArray();
                 var proxy = new GameObject(node.objectName + "_BenchVisual").transform;
                 proxy.SetParent(parkingRoot.transform, false);
                 proxy.SetPositionAndRotation(source.position, source.rotation);
@@ -73,6 +75,7 @@ namespace BorderRepair.RepairProps
                 var part = new Part { node = node, source = source, proxy = proxy,
                     homePosition = flow.InstalledLocalPosition(node.objectName), homeRotation = flow.InstalledLocalRotation(node.objectName),
                     originals = renderers, colliders = colliders,
+                    surfaces = renderers.Select(r => r.GetComponent<BorderRepair.Cleaning.CleanableSurface>()).ToArray(),
                     rendererEnabled = renderers.Select(r => r.enabled).ToArray(),
                     colliderEnabled = colliders.Select(c => c.enabled).ToArray(),
                     visuals = proxy.GetComponentsInChildren<Renderer>(), proxyColliders = proxy.GetComponentsInChildren<Collider>(),
@@ -298,7 +301,10 @@ namespace BorderRepair.RepairProps
         static void HideOriginal(Part part, bool hidden)
         {
             for (int i = 0; i < part.originals.Length; i++)
+            {
                 if (part.originals[i] != null) part.originals[i].enabled = !hidden && part.rendererEnabled[i];
+                if (part.surfaces[i] != null) part.surfaces[i].SetVisualStandIn(hidden ? part.visuals[i] : null);   // a parked cover stays as dirty as it was
+            }
             for (int i = 0; i < part.colliders.Length; i++)
                 if (part.colliders[i] != null) part.colliders[i].enabled = !hidden && part.colliderEnabled[i];
         }

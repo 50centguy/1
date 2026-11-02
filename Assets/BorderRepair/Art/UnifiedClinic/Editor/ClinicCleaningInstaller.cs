@@ -14,7 +14,7 @@ using UnityEngine.SceneManagement;
 
 namespace BorderRepair.Art.UnifiedClinic.EditorTools
 {
-    public static class ClinicCleaningInstaller
+    public static partial class ClinicCleaningInstaller
     {
         public const string Root = "Assets/BorderRepair/Cleaning";
         public const string TemplatePath = Root + "/DirtSurface_Template.mat";

@@ -14,11 +14,18 @@ namespace BorderRepair.Cleaning
         double initialMass, remainingMass;
         public float Progress => initialMass <= 0 ? 1 : Mathf.Clamp01(1 - (float)(remainingMass / initialMass));
 
-        public DirtMaskData(int resolution, byte[] usedTexels, int seed = 23)
+        public DirtMaskData(int resolution, byte[] usedTexels, int seed = 23) : this(resolution, usedTexels, seed, null) { }
+
+        /// <summary>Starts from dirt baked per texel by the installer (0 = this texel was never dirty) instead of UV-space noise.</summary>
+        public DirtMaskData(int resolution, byte[] usedTexels, byte[] bakedDirt) : this(resolution, usedTexels, 23, bakedDirt) { }
+
+        DirtMaskData(int resolution, byte[] usedTexels, int seed, byte[] bakedDirt)
         {
             if (resolution < 8 || resolution > 512) throw new ArgumentOutOfRangeException(nameof(resolution));
             if (usedTexels == null || usedTexels.Length != resolution * resolution)
                 throw new ArgumentException("UV coverage must match mask resolution.", nameof(usedTexels));
+            if (bakedDirt != null && bakedDirt.Length != usedTexels.Length)
+                throw new ArgumentException("Baked dirt must match mask resolution.", nameof(bakedDirt));
             Resolution = resolution;
             coverage = (byte[])usedTexels.Clone();
             regions = BuildRegions(coverage, resolution);
@@ -28,10 +35,14 @@ namespace BorderRepair.Cleaning
                 for (int x = 0; x < resolution; x++)
                 {
                     int i = y * resolution + x;
-                    float u = (x + .5f) / resolution, v = (y + .5f) / resolution;
-                    float noise = Mathf.PerlinNoise(u * 9 + seed * .71f, v * 9 + seed * .31f);
-                    float streak = Mathf.PerlinNoise(u * 33 + seed, v * 3 + seed);
-                    initial[i] = coverage[i] == 0 ? 0 : Mathf.Clamp01(.12f + .75f * Mathf.SmoothStep(0, 1, (noise - .28f) / .46f) + streak * .13f);
+                    if (bakedDirt != null) initial[i] = coverage[i] == 0 ? 0 : bakedDirt[i] / 255f;
+                    else
+                    {
+                        float u = (x + .5f) / resolution, v = (y + .5f) / resolution;
+                        float noise = Mathf.PerlinNoise(u * 9 + seed * .71f, v * 9 + seed * .31f);
+                        float streak = Mathf.PerlinNoise(u * 33 + seed, v * 3 + seed);
+                        initial[i] = coverage[i] == 0 ? 0 : Mathf.Clamp01(.12f + .75f * Mathf.SmoothStep(0, 1, (noise - .28f) / .46f) + streak * .13f);
+                    }
                     initialMass += initial[i] * coverage[i] / 255.0;
                 }
             Reset();
