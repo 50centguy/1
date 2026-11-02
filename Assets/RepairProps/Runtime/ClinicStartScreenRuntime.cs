@@ -26,6 +26,7 @@ namespace BorderRepair.RepairProps
         readonly System.Func<bool> holdCursor = () => true;
         Text[] rows;
         Image[] blocks;
+        RectTransform[] rowRects;
         GameObject host;
         FirstPersonWalker walker;
         bool finished;
@@ -76,6 +77,7 @@ namespace BorderRepair.RepairProps
 
             rows = new Text[MenuItems.Length];
             blocks = new Image[MenuItems.Length];
+            rowRects = new RectTransform[MenuItems.Length];
             const float menuTop = -304, rowHeight = 44;
             for (int i = 0; i < MenuItems.Length; i++) BuildRow(i, font, left, menuTop - i * rowHeight, rowHeight);
 
@@ -96,6 +98,7 @@ namespace BorderRepair.RepairProps
         {
             var hit = ClinicHelpRuntime.Box("Item" + index, transform, RepairPropCyberStyle.Clear);
             Place(hit, x, y, 300, height);
+            rowRects[index] = hit;
             var graphic = hit.GetComponent<Image>();
             graphic.raycastTarget = true;
 
@@ -137,6 +140,21 @@ namespace BorderRepair.RepairProps
         void Update()
         {
             if (finished) return;
+            // 鼠标自己在这里判，不走 uGUI 的 Button：这个页面是凭空建的，能不能收到指针事件取决于场景里
+            // 有没有带正确输入模块的 EventSystem，而试玩包实测点击完全没反应。直接用 Input System 读，
+            // 和其它操作一致，也不受覆盖层挡射线的影响。
+            var mouse = Mouse.current;
+            if (mouse != null && rowRects != null)
+            {
+                Vector2 point = mouse.position.ReadValue();
+                for (int i = 0; i < rowRects.Length; i++)
+                {
+                    if (rowRects[i] == null || !RectTransformUtility.RectangleContainsScreenPoint(rowRects[i], point, null)) continue;
+                    if (SelectedIndex != i) Select(i);
+                    if (mouse.leftButton.wasPressedThisFrame) Activate(i);
+                    break;
+                }
+            }
             var keyboard = Keyboard.current;
             if (keyboard != null)
             {
