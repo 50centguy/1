@@ -100,6 +100,12 @@ namespace BorderRepair.RepairProps
             shopNote = RepairPropCyberStyle.Caption(shopEntry.transform, "", font, 12, RepairPropCyberStyle.Dim, TextAnchor.MiddleRight);
             var noteRect = shopNote.rectTransform; noteRect.anchorMin = Vector2.zero; noteRect.anchorMax = Vector2.one; noteRect.offsetMin = Vector2.zero; noteRect.offsetMax = new Vector2(-10, 0);
             menuEntry = Entry(menu, "02  主菜单", -44, font, OpenMainMenu); menuEntry.name = "主菜单";
+            // A player built without the clinic menu scene has nowhere to go: no entry, and the window closes up around the shop.
+            if (!Application.CanStreamedLevelBeLoaded(TwoNightScenes.ClinicMenu))
+            {
+                menuEntry.gameObject.SetActive(false);
+                menu.sizeDelta = new Vector2(220, 80);
+            }
             RepairPropCyberStyle.Caption(menu, "ESC / 再点图标收起", font, 12, RepairPropCyberStyle.AmberDim, TextAnchor.MiddleLeft).rectTransform.anchoredPosition = new Vector2(0, 0);
             var hint = menu.GetChild(menu.childCount - 1) as RectTransform;
             hint.anchorMin = hint.anchorMax = new Vector2(0, 0); hint.pivot = new Vector2(0, 0); hint.anchoredPosition = new Vector2(10, 6); hint.sizeDelta = new Vector2(200, 16);

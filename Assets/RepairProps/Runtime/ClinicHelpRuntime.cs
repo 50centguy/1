@@ -34,20 +34,20 @@ namespace BorderRepair.RepairProps
                 new[] { null, "动手" },
                 new[] { "鼠标左键", "操作准星对着的东西" },
                 new[] { "右键拖动 / 滚轮", "在维修台和手术近景里转动、缩放" },
-                new[] { "Esc", "打开手册；维修时是取消动作、退出近景" },
-                new[] { "1 – 4", "切换固定机位（按移动键回到行走）" },
+                new[] { "Esc", "松开光标；关闭手册；维修或手术时取消动作、退出近景" },
+                new[] { "1 – 4", "停靠七号时切换固定机位（按移动键回到行走）" },
                 new[] { "C（在维修台）", "拿起 / 放下清洁工具（物品有污渍时）" },
                 new[] { "T", "接听 / 跳过来电" },
                 new[] { "-", "叫病人罗亚进诊所" },
+                new[] { "=", "展开 / 收起 PS2 画面设置" },
+                new[] { "F3", "调试信息（七号维修夜）" },
                 new[] { "F1", "打开 / 关闭这张帮助" },
             };
             if (devKeys)
             {
                 rows.Add(new[] { null, "试玩快捷键" });
-                rows.Add(new[] { "F4", "立刻清除所有污渍和灰尘" });
+                rows.Add(new[] { "F4", "立刻清除当前维修物品上的污渍和灰尘" });
                 rows.Add(new[] { "F5", "快捷完成当前这一步（做不了会说明原因）" });
-                rows.Add(new[] { "=", "展开 / 收起 PS2 画面设置" });
-                rows.Add(new[] { "F3", "调试信息（七号维修夜）" });
             }
             return rows.ToArray();
         }
@@ -57,6 +57,7 @@ namespace BorderRepair.RepairProps
         Text nowText;
         CanvasGroup tagGroup;
         float tagUntil, nextNowRefresh;
+        bool wasBlocked;
 
         public bool HelpVisible => help != null && help.activeSelf;
 
@@ -82,9 +83,13 @@ namespace BorderRepair.RepairProps
 
         void Update()
         {
+            // The F1 tag's time starts when the start screen closes: under that page nobody could see it.
+            bool blocked = ClinicStartScreenRuntime.Blocking;
+            if (wasBlocked && !blocked) tagUntil = Time.unscaledTime + TagSeconds;
+            wasBlocked = blocked;
             UpdateUi();
             var keyboard = Keyboard.current;
-            if (keyboard == null || FirstOrderInput.TextInputFocused) return;
+            if (blocked || keyboard == null || FirstOrderInput.TextInputFocused) return;
             if (keyboard.f1Key.wasPressedThisFrame) ToggleHelp();
         }
 
@@ -127,7 +132,7 @@ namespace BorderRepair.RepairProps
         void UpdateUi()
         {
             float now = Time.unscaledTime;
-            bool tagVisible = now < tagUntil && !HelpVisible;
+            bool tagVisible = now < tagUntil && !HelpVisible && !ClinicStartScreenRuntime.Blocking;
             if (canvas == null)
             {
                 if (!tagVisible) return;

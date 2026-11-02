@@ -26,6 +26,9 @@ namespace BorderRepair.Art.UnifiedClinic.PS2
 
         public static RetroPS2Runtime Current { get; private set; }
 
+        /// <summary>While true the "=" key does nothing. Set by the start screen, whose assembly references this one.</summary>
+        public static bool ToggleKeyBlocked { get; set; }
+
         readonly List<RetroPS2CameraEffect> owned = new List<RetroPS2CameraEffect>();
         readonly List<FirstPersonWalker> cursorOwners = new List<FirstPersonWalker>();
         readonly List<GameObject> roots = new List<GameObject>();
@@ -52,6 +55,7 @@ namespace BorderRepair.Art.UnifiedClinic.PS2
             SceneManager.sceneLoaded -= OnSceneLoaded;
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
             Current = null;
+            ToggleKeyBlocked = false;
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -146,7 +150,7 @@ namespace BorderRepair.Art.UnifiedClinic.PS2
         void Update()
         {
             var kb = Keyboard.current;
-            if (kb != null && kb.equalsKey.wasPressedThisFrame && !FirstOrderInput.TextInputFocused) SetExpanded(!expanded);
+            if (!ToggleKeyBlocked && kb != null && kb.equalsKey.wasPressedThisFrame && !FirstOrderInput.TextInputFocused) SetExpanded(!expanded);
             if (Time.unscaledTime >= nextScan) Scan();
             if (expanded && Readability() != lastReadability) Refresh();
         }

@@ -13,7 +13,7 @@ using UnityEngine.UI;
 namespace BorderRepair.RepairProps
 {
     // Playtest keys, in the editor and development builds only (a release build never installs this; F1 is ClinicHelpRuntime, in every build):
-    //   F4  cleans every dirty CleanableSurface, through its normal completion event
+    //   F4  cleans the current repair item's dirty surfaces (ClinicCleaningController.Surfaces), through their normal completion event
     //   F5  completes the current step of whatever is going on, one step per press
     // F5 never writes state itself. Every branch calls the entry point the player's own action reaches, and that entry
     // point still judges: bench commands go through RepairPropStationBridge and RepairPropFlow.CanExecute, surgery through
@@ -38,7 +38,7 @@ namespace BorderRepair.RepairProps
         Text toastText;
         CanvasGroup toastGroup;
         AudioSource speaker;
-        AudioClip denyClip, doneClip;
+        AudioClip denyClip;
         float toastUntil;
 
         public string LastMessage { get; private set; }
@@ -65,30 +65,29 @@ namespace BorderRepair.RepairProps
         {
             UpdateUi();
             var keyboard = Keyboard.current;
-            if (keyboard == null || FirstOrderInput.TextInputFocused) return;
+            if (ClinicStartScreenRuntime.Blocking || keyboard == null || FirstOrderInput.TextInputFocused) return;
             if (keyboard.f4Key.wasPressedThisFrame) CleanAll();
             if (keyboard.f5Key.wasPressedThisFrame) CompleteStep();
         }
 
         // ------------------------------------------------------------------------------------------------ F4
-        /// <summary>Cleans every dirty surface through CleanAll: their Cleaned events carry the sound and the visuals.</summary>
+        /// <summary>Cleans the dirty surfaces of the item the cleaning controller has bound, through CleanAll: the controller
+        /// hears their Cleaned events and plays the finish. Everything else stays as it is: UNIT 07's dirt is scenery, and
+        /// a surface outside the controller has no way to get its dirt back.</summary>
         public bool CleanAll()
         {
-            var surfaces = FindObjectsByType<CleanableSurface>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            var dirty = surfaces.Where(s => s.Ready && !s.IsClean).ToList();
+            var cleaning = FindFirstObjectByType<ClinicCleaningController>();
+            var surfaces = cleaning != null ? cleaning.Surfaces.Where(s => s != null && s.Ready).ToList() : new System.Collections.Generic.List<CleanableSurface>();
+            var dirty = surfaces.Where(s => !s.IsClean).ToList();
             if (dirty.Count == 0)
             {
-                Report(new Result(false, surfaces.Length == 0
-                    ? "F4：这里没有带污渍的物品。接一件物品再试。触点和接口清洁用 F5。"
-                    : "F4：已经全部干净了。"));
+                Report(new Result(false, surfaces.Count == 0
+                    ? "F4：当前没有可清洁的维修物品，接一件带污渍的物品再试。七号身上的污渍是布景，不清。触点和接口清洁用 F5。"
+                    : "F4：当前维修物品已经全部干净了。"));
                 return false;
             }
-            // The clinic's cleaning controller voices the surfaces on its bench; anything else gets the same finish from here.
-            var cleaning = FindFirstObjectByType<ClinicCleaningController>();
-            bool voiced = cleaning != null && dirty.Any(s => cleaning.Surfaces.Contains(s));
             foreach (var surface in dirty) surface.CleanAll();
-            if (!voiced) Play(ref doneClip, RepairSoundSynth.Cue.CleanDone, .9f);
-            Report(new Result(true, "F4：清除了 " + dirty.Count + " 处污渍。"));
+            Report(new Result(true, "F4：清除了当前维修物品的 " + dirty.Count + " 处污渍。"));
             return true;
         }
 
@@ -358,7 +357,6 @@ namespace BorderRepair.RepairProps
         void OnDestroy()
         {
             if (denyClip != null) Destroy(denyClip);
-            if (doneClip != null) Destroy(doneClip);
             if (Current == this) Current = null;
         }
     }

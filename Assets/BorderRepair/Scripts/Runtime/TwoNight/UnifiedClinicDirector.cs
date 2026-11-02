@@ -605,7 +605,14 @@ namespace BorderRepair.TwoNight
             status = TwoNightUi.Label(panel, "Status", "", font, 18, new Vector2(14, -10), new Vector2(372, 100), TwoNightUi.TextMain);
             consoleButton = TwoNightUi.Button(tradeUi.transform, "Console", "回到维修台", font, new Vector2(16, -16), new Vector2(170, 44), OpenConsole);
             roomButton = TwoNightUi.Button(tradeUi.transform, "Room", "离开维修台", font, new Vector2(16, -16), new Vector2(170, 44), ShowRoom);
-            TwoNightUi.Button(tradeUi.transform, "Menu", "主菜单", font, new Vector2(16, -70), new Vector2(170, 44), () => SceneManager.LoadScene(TwoNightScenes.ClinicMenu));
+            var menuButton = TwoNightUi.Button(tradeUi.transform, "Menu", "主菜单", font, new Vector2(16, -70), new Vector2(170, 44), () => SceneManager.LoadScene(TwoNightScenes.ClinicMenu));
+            // Not in this player: invisible and dead, but left active. RepairPropLauncher reads this button's activeInHierarchy
+            // to decide whether its own HUD shows, so turning it off would take the parts shop away too.
+            if (!Application.CanStreamedLevelBeLoaded(TwoNightScenes.ClinicMenu))
+            {
+                var menuGroup = menuButton.gameObject.AddComponent<CanvasGroup>();
+                menuGroup.alpha = 0; menuGroup.blocksRaycasts = false; menuGroup.interactable = false;
+            }
             tradeUi.SetActive(State.phase == TwoNightPhase.Night1Counter || State.phase == TwoNightPhase.Night1Ledger);
         }
     }

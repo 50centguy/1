@@ -29,6 +29,7 @@ namespace BorderRepair.RepairProps.Tests
                 CollectionAssert.Contains(drawn, ClinicStartScreenRuntime.Title);
                 CollectionAssert.Contains(drawn, ClinicStartScreenRuntime.Subtitle);
                 foreach (var item in ClinicStartScreenRuntime.MenuItems) CollectionAssert.Contains(drawn, item);
+                Assert.IsFalse(string.Join("\n", drawn).Contains("Esc"), "Esc does nothing on this page, so the page must not offer it.");
             }
             finally
             {

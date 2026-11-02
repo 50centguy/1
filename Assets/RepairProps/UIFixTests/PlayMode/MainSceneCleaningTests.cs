@@ -176,6 +176,36 @@ namespace BorderRepair.RepairProps.UI.Tests
             Assert.That(cleaning.Available, Is.True);
         }
 
+        [UnityTest]
+        public IEnumerator F4CleansTheBoundItemAndLeavesTheSceneryDirty()
+        {
+            var keysHost = new GameObject("F4TestKeys");
+            try
+            {
+                var keys = keysHost.AddComponent<ClinicDevKeysRuntime>();
+                yield return ReceiveAndBench();
+                yield return Until(() => cleaning.Surfaces.Count > 0, "Surfaces must bind.");
+                var bound = cleaning.Surfaces.ToArray();
+                // Whatever is dirty outside the controller when F4 runs: UNIT 07's shells, per the installer.
+                var scenery = Object.FindObjectsByType<CleanableSurface>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                    .Where(s => s.Ready && !s.IsClean && !bound.Contains(s)).ToArray();
+                Assert.That(scenery.Length, Is.GreaterThan(0), "The scene must have dirty surfaces outside the bench item, or this proves nothing.");
+                var before = scenery.Select(s => s.Progress).ToArray();
+
+                Assert.That(keys.CleanAll(), Is.True, keys.LastMessage);
+                Assert.That(cleaning.AllClean, Is.True, "F4 finishes the bound item.");
+                for (int i = 0; i < scenery.Length; i++)
+                {
+                    Assert.That(scenery[i].IsClean, Is.False, scenery[i].name + " is scenery: F4 must leave it dirty.");
+                    Assert.That(scenery[i].Progress, Is.EqualTo(before[i]), scenery[i].name + " is scenery: F4 must not touch it.");
+                }
+
+                Assert.That(keys.CleanAll(), Is.False, "Nothing left to clean is a refusal.");
+                Assert.That(keys.LastMessage, Does.Contain("当前维修物品已经全部干净"));
+            }
+            finally { Object.Destroy(keysHost); }
+        }
+
         IEnumerator ReceiveAndBench()
         {
             Assert.That(clinic.Interact(ClinicTradeAction.Receive), Is.True, clinic.LastMessage);

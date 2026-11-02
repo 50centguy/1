@@ -256,7 +256,7 @@ namespace BorderRepair.RepairProps
             if (mode == Mode.Idle) { Trigger(); return; }
             float now = Time.unscaledTime;
             var keyboard = Keyboard.current;
-            bool key = keyboard != null && keyboard.tKey.wasPressedThisFrame;
+            bool key = !ClinicStartScreenRuntime.Blocking && keyboard != null && keyboard.tKey.wasPressedThisFrame;
             switch (mode)
             {
                 case Mode.Ringing:
@@ -295,6 +295,10 @@ namespace BorderRepair.RepairProps
 
         void Trigger()
         {
+            // Nothing rings behind the title page, and the baseline moves with the clock while it is up, so every
+            // "seconds since the scene started" delay below is measured from the moment the page closes.
+            // First line on purpose: the early return below must not stop the baseline from following.
+            if (ClinicStartScreenRuntime.Blocking) { sceneStart = Time.unscaledTime; return; }
             var state = TwoNightRun.Current;
             if (state == null || clinic == null || !clinic.Initialized) return;
             float now = Time.unscaledTime;

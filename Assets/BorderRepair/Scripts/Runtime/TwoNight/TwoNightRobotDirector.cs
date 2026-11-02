@@ -65,6 +65,9 @@ namespace BorderRepair.TwoNight
         { flow = f; input = i; view = v; incident = t; economy = e; font = fnt; }
         public void ConfigureUnified() => unifiedClinic = true;
 
+        // unifiedClinic only picks which menu this scene belongs to; whether that menu shipped is the build's scene list.
+        bool MenuInBuild => Application.CanStreamedLevelBeLoaded(unifiedClinic ? TwoNightScenes.ClinicMenu : TwoNightScenes.Menu);
+
         void Start()
         {
             BuildUi();
@@ -162,9 +165,9 @@ namespace BorderRepair.TwoNight
                 RestoreFailed = true;
                 flow.enabled = false;
                 SetSliceHud(false);
-                ShowCaption("安全状态恢复失败。维修已锁定，请返回主菜单重新读取检查点。");
-                MenuButton.gameObject.SetActive(true);
-                endText.text = "安全状态恢复失败。七号维修已锁定。\n返回主菜单检查存档后再试。";
+                ShowCaption(MenuInBuild ? "安全状态恢复失败。维修已锁定，请返回主菜单重新读取检查点。" : "安全状态恢复失败。维修已锁定，请退出游戏。");
+                MenuButton.gameObject.SetActive(MenuInBuild);
+                endText.text = MenuInBuild ? "安全状态恢复失败。七号维修已锁定。\n返回主菜单检查存档后再试。" : "安全状态恢复失败。七号维修已锁定。\n这个试玩包没有主菜单，请退出游戏。";
                 QuitButton.gameObject.SetActive(true);
                 RetrySaveButton.gameObject.SetActive(false);
                 endPanel.SetActive(true);
@@ -243,10 +246,20 @@ namespace BorderRepair.TwoNight
                 "<b>第一晚结束</b>\n\n" +
                 $"现金 {TwoNightUi.Money(s.Cash)}。房租 {TwoNightUi.Money(s.rent)}，第 {s.rentDueNight} 晚打烊前到期，还差 {TwoNightUi.Money(s.RentShortfall)}。\n" +
                 $"七号：已停靠、夹紧、断电，叶轮停稳。内部维修单 {s.unit07WorkOrderId} 已登记，明天开盖检查。\n\n" +
-                (saved ? $"<color=#9FD49F>{msg}</color>（{TwoNightSave.FilePath}）\n下次从主菜单选“继续”，进入第二晚。"
-                       : $"<color=#F2B95A>{msg}</color>\n可以再试一次保存；不保存的话，下次要从第一晚重新开始。");
+                EndPanelHint(saved, MenuInBuild, msg, TwoNightSave.FilePath);
             RetrySaveButton.gameObject.SetActive(!saved && s.phase == TwoNightPhase.Night1Ended);
             endPanel.SetActive(true);
+        }
+
+        /// <summary>The end panel's last lines. Without a menu scene in this player there is no "continue", so it says where the build stops.</summary>
+        public static string EndPanelHint(bool saved, bool menuInBuild, string msg, string savePath)
+        {
+            if (menuInBuild)
+                return saved ? $"<color=#9FD49F>{msg}</color>（{savePath}）\n下次从主菜单选“继续”，进入第二晚。"
+                             : $"<color=#F2B95A>{msg}</color>\n可以再试一次保存；不保存的话，下次要从第一晚重新开始。";
+            const string buildEnds = "这个试玩包到第一晚结束为止，没有第二晚，也不能读档。";
+            return saved ? $"<color=#9FD49F>{msg}</color>（{savePath}）\n{buildEnds}可以退出游戏了。"
+                         : $"<color=#F2B95A>{msg}</color>\n{buildEnds}可以再试一次保存，也可以直接退出游戏。";
         }
 
         void ShowCaption(string line) { if (caption != null) caption.text = line; }
@@ -281,6 +294,7 @@ namespace BorderRepair.TwoNight
             endPanel = TwoNightUi.Panel(root.transform, "NightEnd", new Vector2(0.5f, 0.5f), new Vector2(-400, 220), new Vector2(800, 440)).gameObject;
             endText = TwoNightUi.Label(endPanel.transform, "Body", "", font, 20, new Vector2(30, -26), new Vector2(740, 300), TwoNightUi.TextMain);
             MenuButton = TwoNightUi.Button(endPanel.transform, "Menu", "回到主菜单", font, new Vector2(330, -370), new Vector2(200, 46), () => SceneManager.LoadScene(unifiedClinic ? TwoNightScenes.ClinicMenu : TwoNightScenes.Menu), true);
+            MenuButton.gameObject.SetActive(MenuInBuild);
             QuitButton = TwoNightUi.Button(endPanel.transform, "Quit", "退出游戏", font, new Vector2(550, -370), new Vector2(200, 46), Application.Quit);
             RetrySaveButton = TwoNightUi.Button(endPanel.transform, "RetrySave", "再试一次保存", font, new Vector2(30, -370), new Vector2(200, 46), SaveNow);
             endPanel.SetActive(false);

@@ -14,6 +14,7 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
         const string ClinicScene = "Assets/RepairProps/Scenes/RepairProps_Clinic.unity";
         const string OutputDir = "Builds/ClinicHolo";
         const string ExeName = "BorderRepairClinic.exe";
+        const string BurstDebugDir = "BorderRepairStation_BurstDebugInformation_DoNotShip";
 
         [MenuItem("Border Repair/Clinic Preview/Build Windows Player (holo clinic)", priority = 10500)]
         public static void Build()
@@ -38,7 +39,23 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             if (s.result != BuildResult.Succeeded)
                 throw new InvalidOperationException("Clinic player build failed: " + s.result + " errors=" + s.totalErrors);
 
+            DeleteBurstDebugInformation();
             Debug.Log("[ClinicHoloPreview] build ok -> " + s.outputPath);
+        }
+
+        // Unity writes this next to the player; it is for debugging this build and must not go out with it.
+        // A build that worked is still a good build if this fails, so it only warns.
+        static void DeleteBurstDebugInformation()
+        {
+            string path = Path.Combine(OutputDir, BurstDebugDir);
+            try
+            {
+                if (Directory.Exists(path)) Directory.Delete(path, true);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[ClinicHoloPreview] could not delete " + path + ": " + e.Message);
+            }
         }
 
         public static void BuildBatch()

@@ -2,7 +2,6 @@ using System.Linq;
 using BorderRepair.FirstOrder;
 using BorderRepair.UI;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -29,12 +28,26 @@ namespace BorderRepair.RepairProps
         RectTransform[] rowRects;
         GameObject host;
         FirstPersonWalker walker;
-        bool finished;
+        bool finished, hasLastMouse;
+        Vector2 lastMouse;
+
+        /// <summary>True while the page is up and not yet started: the game's own hotkeys stay off behind it.</summary>
+        public static bool Blocking { get; private set; }
 
         public int SelectedIndex { get; private set; }
 
         /// <summary>Every string the page draws.</summary>
         public string[] RenderedTexts => GetComponentsInChildren<Text>(true).Select(t => t.text).ToArray();
+
+        // RetroPS2Runtime sits in an assembly this one references, so it cannot read Blocking itself: it is told.
+        static void SetBlocking(bool value)
+        {
+            Blocking = value;
+            BorderRepair.Art.UnifiedClinic.PS2.RetroPS2Runtime.ToggleKeyBlocked = value;
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetHooks() => SetBlocking(false);
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void Install()
@@ -82,7 +95,7 @@ namespace BorderRepair.RepairProps
             for (int i = 0; i < MenuItems.Length; i++) BuildRow(i, font, left, menuTop - i * rowHeight, rowHeight);
 
             AddLine("Hint", font, 16, RepairPropCyberStyle.Dim, left, menuTop - MenuItems.Length * rowHeight - 18, 800, 24,
-                "上 / 下 选择    Enter 或 Space 确认    Esc 退出    也可以用鼠标点");
+                "上 / 下 选择    Enter 或 Space 确认    也可以用鼠标点");
 
             var footer = ClinicHelpRuntime.Label("Footer", transform, font, 14, RepairPropCyberStyle.Dim, TextAnchor.MiddleLeft);
             footer.text = "北坡港务 NSP · 夜班    临时标题页    v" + Application.version;
@@ -108,11 +121,7 @@ namespace BorderRepair.RepairProps
             button.navigation = new Navigation { mode = Navigation.Mode.None };   // the arrows are read below; no double handling
             int captured = index;
             button.onClick.AddListener(() => Activate(captured));
-
-            var hover = hit.gameObject.AddComponent<EventTrigger>();
-            var enter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
-            enter.callback.AddListener(_ => Select(captured));
-            hover.triggers.Add(enter);
+            // Hover is read in Update: a PointerEnter here would also fire for a mouse that is merely resting on a row when the page opens.
 
             var block = ClinicHelpRuntime.Box("Cursor", hit, RepairPropCyberStyle.Hot);
             block.anchorMin = block.anchorMax = block.pivot = new Vector2(0, .5f);
@@ -135,7 +144,14 @@ namespace BorderRepair.RepairProps
             label.text = content;
         }
 
-        void OnEnable() => HoldCursor();
+        // OnEnable, not Create: edit-mode tests build the page without ever running it, and must not leave the flag set.
+        void OnEnable()
+        {
+            if (!finished) SetBlocking(true);
+            HoldCursor();
+        }
+
+        void OnDisable() => SetBlocking(false);
 
         void Update()
         {
@@ -147,10 +163,14 @@ namespace BorderRepair.RepairProps
             if (mouse != null && rowRects != null)
             {
                 Vector2 point = mouse.position.ReadValue();
+                // 只有鼠标真的动了才改选择；停着不动时选择归键盘。点击不受影响。
+                bool moved = hasLastMouse && point != lastMouse;
+                lastMouse = point;
+                hasLastMouse = true;
                 for (int i = 0; i < rowRects.Length; i++)
                 {
                     if (rowRects[i] == null || !RectTransformUtility.RectangleContainsScreenPoint(rowRects[i], point, null)) continue;
-                    if (SelectedIndex != i) Select(i);
+                    if (moved && SelectedIndex != i) Select(i);
                     if (mouse.leftButton.wasPressedThisFrame) Activate(i);
                     break;
                 }
@@ -161,7 +181,7 @@ namespace BorderRepair.RepairProps
                 if (keyboard.upArrowKey.wasPressedThisFrame) Select(SelectedIndex - 1);
                 if (keyboard.downArrowKey.wasPressedThisFrame) Select(SelectedIndex + 1);
                 if (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame) Activate(SelectedIndex);
-                else if (keyboard.escapeKey.wasPressedThisFrame) Quit();
+                // Esc 在这一页故意什么都不做：试玩者很容易误触。要退出走菜单里的“退出”。
             }
             if (finished) return;
             RefreshRows();
@@ -207,6 +227,7 @@ namespace BorderRepair.RepairProps
         {
             if (finished) return;
             finished = true;
+            SetBlocking(false);
             Destroy(host);
             ReleaseWalker();
             Cursor.lockState = CursorLockMode.Locked;
@@ -217,6 +238,7 @@ namespace BorderRepair.RepairProps
         public void Quit()
         {
             if (Application.isEditor) return;
+            SetBlocking(false);
             Application.Quit();
         }
 
@@ -231,7 +253,11 @@ namespace BorderRepair.RepairProps
             }
         }
 
-        void OnDestroy() => ReleaseWalker();
+        void OnDestroy()
+        {
+            SetBlocking(false);
+            ReleaseWalker();
+        }
 
         static void Stretch(RectTransform rect)
         {

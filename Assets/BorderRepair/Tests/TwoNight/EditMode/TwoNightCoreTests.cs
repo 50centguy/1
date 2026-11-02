@@ -33,6 +33,25 @@ namespace BorderRepair.TwoNight.Tests
 
         static Unit07SafeState Safe() => new Unit07SafeState { seated = true, clamped = true, powerOff = true, rotorsStopped = true, trayStowed = true, robotUpright = true };
 
+        [Test]
+        public void EndPanelHint_WithoutAMenuScene_SaysTheBuildEndsHereAndOffersNoMenu()
+        {
+            foreach (bool saved in new[] { true, false })
+            {
+                string hint = TwoNightRobotDirector.EndPanelHint(saved, false, "msg", "path");
+                StringAssert.Contains("到第一晚结束为止", hint);
+                StringAssert.DoesNotContain("主菜单", hint);
+                StringAssert.DoesNotContain("进入第二晚", hint);
+            }
+        }
+
+        [Test]
+        public void EndPanelHint_WithAMenuScene_KeepsTheContinueRoute()
+        {
+            StringAssert.Contains("下次从主菜单选“继续”，进入第二晚", TwoNightRobotDirector.EndPanelHint(true, true, "msg", "path"));
+            StringAssert.Contains("可以再试一次保存", TwoNightRobotDirector.EndPanelHint(false, true, "msg", "path"));
+        }
+
         TwoNightState PlayNight1()
         {
             var s = TwoNightRun.NewGame(eco);
