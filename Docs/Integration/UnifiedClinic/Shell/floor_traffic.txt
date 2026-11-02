@@ -1,0 +1,7 @@
+floor traffic lanes, baked from Assets/RepairProps/Scenes/RepairProps_Clinic.unity
+2026-11-02T09:12:57Z
+  lane 0  customer: door -> counter    (0.00,-3.07) -> (1.84,-0.60)  length 3.08 m  radius 0.45  strength 1.00
+  lane 1  item: counter -> bench       (1.84,-0.60) -> (0.00,2.90)  length 3.95 m  radius 0.50  strength 1.00
+  lane 2  assistant: bench -> dock     (0.00,2.90) -> (-2.73,0.00)  length 3.98 m  radius 0.42  strength 0.85
+  lane 3  customer: counter -> pickup  (1.84,-0.60) -> (1.84,0.60)  length 1.20 m  radius 0.38  strength 0.70
+room centre (material _RoomCenter) = (0.000, 0.000, 0.000, 0.000)

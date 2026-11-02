@@ -36,6 +36,21 @@ Shader "BorderRepair/ClinicShell"
         _FloorSmoothness("地面光滑度", Range(0, 1)) = 0.42
         _FloorNewSmoothness("新板光滑度", Range(0, 1)) = 0.50
 
+        // F5 人流路线：每条线是世界 XZ 线段（房间相对坐标），xy 起点、zw 终点。
+        // 旧地板最会讲故事的就是这里：中线被鞋底磨亮，两侧积灰更暗，还得顺着人真实走动的地方。
+        // 空格子默认 0，由 ClinicFloorTrafficBaker 按场景里的柜台/工作台/坞位锚点写入三条线。
+        [Header(Floor Traffic)]
+        _Traffic0("F5 人流线 0（x0,z0,x1,z1）", Vector) = (0, 0, 0, 0)
+        _Traffic1("F5 人流线 1（x0,z0,x1,z1）", Vector) = (0, 0, 0, 0)
+        _Traffic2("F5 人流线 2（x0,z0,x1,z1）", Vector) = (0, 0, 0, 0)
+        _Traffic3("F5 人流线 3（x0,z0,x1,z1）", Vector) = (0, 0, 0, 0)
+        _TrafficRadius("F5 各线半宽 (m)", Vector) = (0.55, 0.55, 0.55, 0.55)
+        _TrafficStrength("F5 各线强度（0 = 该线不画）", Vector) = (0, 0, 0, 0)
+        _TrafficDark("F5 踩踏积灰压暗", Range(0, 0.8)) = 0.22
+        _TrafficEdgeDark("F5 路线两侧积灰压暗", Range(0, 0.8)) = 0.30
+        _TrafficLight("F5 中线磨亮提亮 (sRGB)", Range(0, 0.25)) = 0.06
+        _TrafficPolish("F5 路线中线磨亮（加光滑度）", Range(0, 0.6)) = 0.12
+
         [Header(Wall)]
         _WallLowerColor("墙：下段深绿半光漆 (sRGB)", Color) = (0.165, 0.225, 0.185, 1)
         _WallUpperColor("墙：上段浅灰绿亚光 (sRGB)", Color) = (0.245, 0.285, 0.265, 1)

@@ -92,6 +92,21 @@ float3 ShellDetailRatio(float2 uv, float2 duvdx, float2 duvdy)
 }
 
 // ---------------------------------------------------------------------------------------------
+// F5 人流线：一条 authored 线段在世界 XZ 上的软覆盖。半径边缘按噪声抖动，免得看出机械直边。
+// lane 是整条踩踏带，core 是被鞋底磨亮的中线；两者之差就是积灰最重的两侧边沿。
+void ShellTrafficLane(float2 rel, float4 seg, float radius, float strength, float seed, float aa,
+                      inout float lane, inout float core)
+{
+    if (strength <= 0.0 || radius <= 0.0) return;
+    float2 pa = rel - seg.xy;
+    float2 ba = seg.zw - seg.xy;
+    float t = saturate(dot(pa, ba) / max(dot(ba, ba), 1e-4));
+    float dist = length(pa - ba * t);
+    float r = dist + (ShellNoise(rel * 2.6 + seed) - 0.5) * radius * 0.30;
+    lane = max(lane, ShellBelow(r, radius, aa) * strength);
+    core = max(core, ShellBelow(r, radius * 0.35, aa) * strength);
+}
+
 // 地面：旧环氧涂层混凝土。现有 T_UC_Floor 是 0.6 m 铆接钢板（256 px / 1.2 m，板缝和铆钉位置确定），
 // 这里只取它的高频成分（相对 LOD4 局部均值的亮度比）当轻微叠加，并按源图像素坐标把板缝/铆钉屏蔽掉；
 // 低频成分（逐钢板明暗）完全丢弃，由 F1~F4 重新组织。
@@ -161,6 +176,18 @@ void ShellFloor(ShellCtx c, inout ShellSurface o)
     col = lerp(col, ShellChroma(col, 0.5) * (1.0 - _FloorStainDark), stain);
     col *= 1.0 - _FloorStainDark2 * deep;
 
+    // --- F5：人流路线。这间屋子夜里几乎全黑，靠压暗根本看不出来，所以中线走"磨亮"：鞋底抛光之后
+    // 颜色变浅、发灰，两侧再积灰压暗。压暗只负责勾出边界，讲故事的是那道浅色的抛光带。
+    float lane = 0.0, core = 0.0;
+    ShellTrafficLane(rel, _Traffic0, _TrafficRadius.x, _TrafficStrength.x, 5.3, aa, lane, core);
+    ShellTrafficLane(rel, _Traffic1, _TrafficRadius.y, _TrafficStrength.y, 17.9, aa, lane, core);
+    ShellTrafficLane(rel, _Traffic2, _TrafficRadius.z, _TrafficStrength.z, 29.1, aa, lane, core);
+    ShellTrafficLane(rel, _Traffic3, _TrafficRadius.w, _TrafficStrength.w, 43.7, aa, lane, core);
+    // 中线是窄窄一道抛光，两侧各留一点积灰；两条路线交叠时也不会糊成一大片。
+    col *= 1.0 - _TrafficEdgeDark * saturate(lane - core);
+    col *= 1.0 - _TrafficDark * lane;
+    col = lerp(col, ShellChroma(col, 0.4) + _TrafficLight, core);
+
     // --- 切缝（板边细暗线，远处按像素覆盖率淡出防摩尔纹）
     float2 eM = min(f, 1.0 - f) * slab;
     float joint = ShellBelow(min(eM.x, eM.y), _FloorJointWidth * 0.5, aa);
@@ -179,6 +206,7 @@ void ShellFloor(ShellCtx c, inout ShellSurface o)
     float sm = lerp(_FloorSmoothness, _FloorNewSmoothness, isNew);
     sm *= 1.0 - 0.55 * worn;
     sm *= 1.0 - 0.4 * saturate(foot * 3.0);
+    sm = saturate(sm + _TrafficPolish * core);   // 走得多的地方被磨亮，不是磨脏
 
     // --- F2：逐板法线倾斜（只对朝上的面）
     float tilt = tan(radians(_FloorTiltDeg));

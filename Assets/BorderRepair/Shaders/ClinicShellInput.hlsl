@@ -42,6 +42,19 @@ CBUFFER_START(UnityPerMaterial)
     half   _FloorSmoothness;
     half   _FloorNewSmoothness;
 
+    // 地面：F5 人流路线。每条线是世界 XZ 线段（相对 _RoomCenter），xy 起点 / zw 终点；
+    // 半径与强度按线号取 _TrafficRadius / _TrafficStrength 的同一分量。
+    float4 _Traffic0;
+    float4 _Traffic1;
+    float4 _Traffic2;
+    float4 _Traffic3;
+    float4 _TrafficRadius;
+    float4 _TrafficStrength;
+    half   _TrafficDark;
+    half   _TrafficEdgeDark;
+    half   _TrafficLight;
+    half   _TrafficPolish;
+
     // 墙面：两道色 + 腰线
     half4  _WallLowerColor;
     half4  _WallUpperColor;
