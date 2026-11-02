@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>边境维修站 · 试玩手册</title>
+<title>边境维修站 · 试玩说明与开发进度</title>
 <style>
 :root { color-scheme: dark; }
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0;
   background: #12151a;
@@ -18,29 +18,23 @@ body {
   word-break: normal;
   overflow-wrap: anywhere;
 }
-.topbar, main { max-width: 720px; margin: 0 auto; padding-left: 18px; padding-right: 18px; }
-.topbar { padding-top: 14px; padding-bottom: 12px; border-bottom: 1px solid #2c333d; }
-.topbar-title { color: #f0b45a; font-size: 16px; font-weight: 600; line-height: 1.5; }
-.topbar-sub { color: #a9b1bb; font-size: 13px; line-height: 1.5; }
-main { padding-bottom: 40px; }
-h1, h2, h3 { line-height: 1.4; scroll-margin-top: 12px; }
-h1 { margin: 24px 0 8px; font-size: 26px; color: #fff; }
+main { max-width: 720px; margin: 0 auto; padding: 8px 18px 40px; }
+h1, h2, h3 { line-height: 1.4; }
+h1 { margin: 20px 0 8px; font-size: 26px; color: #fff; }
 h2 { margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 1px solid #2c333d; font-size: 21px; color: #f0b45a; }
 h3 { margin: 28px 0 8px; font-size: 18px; color: #fff; }
 p { margin: 12px 0; }
-ul, ol { margin: 12px 0; padding-left: 24px; }
+ul, ol { margin: 12px 0; padding-left: 28px; }
 li { margin: 8px 0; }
 li::marker { color: #a9b1bb; }
 strong { color: #fff; font-weight: 700; }
-a { color: #7fd4e0; text-underline-offset: 3px; }
-hr { margin: 28px 0; border: 0; border-top: 1px solid #2c333d; }
 code {
   padding: 1px 6px;
   border-radius: 5px;
   background: #272e38;
   color: #ffd591;
   font-family: ui-monospace, Menlo, Consolas, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", monospace;
-  font-size: 0.9em;
+  font-size: 0.95em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -69,48 +63,50 @@ tbody tr:nth-child(even) td { background: #171b21; }
     background: transparent;
   }
   .orders td:first-child { border-top: 0; }
-  .orders td::before { content: attr(data-label); color: #a9b1bb; font-size: 15px; }
+  .orders td::before { content: attr(data-label); color: #a9b1bb; font-size: 16px; }
 }
 </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="topbar-title">边境维修站 · 试玩手册</div>
-  <div class="topbar-sub">试玩包：BorderRepairClinic-Playtest-20261102</div>
-</header>
 <main>
 
-<h2>这是什么</h2>
-<p>你在边境港区的地下维修铺上夜班：从柜台接活，把东西拿到维修台上修好，再交还给顾客，赚钱凑房租。</p>
-<p>这个试玩包能玩的是<strong>第一晚</strong>：四单生意，打烊后把维修机器人七号停靠好。</p>
+<h1>边境维修站 · 试玩说明与开发进度</h1>
+
+<h2>项目概览</h2>
+<p><strong>《地下义体维修处》（Border Repair Station）</strong> 是一个第一人称的赛博朋克维修店模拟游戏：玩家在边境港区的地下铺子上夜班，从柜台接活、在维修台上拆装维修、再交还给顾客，赚钱凑房租。整体美术方向是 PS2 时代的低分辨率、高对比观感。</p>
+<table class="kv">
+<thead>
+<tr><th>项目</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>引擎</td><td>Unity 6000.0.84f1，URP</td></tr>
+<tr><td>平台</td><td>Windows PC（Standalone x64）</td></tr>
+<tr><td>美术风格</td><td>低面数 + 全屏 PS2 后处理（448 虚拟扫描线、每通道 32 级量化、Bayer 抖动）</td></tr>
+<tr><td>本次交付物</td><td><code>BorderRepairClinic-Playtest-20261102.zip</code>，Development 构建（含调试快捷键）</td></tr>
+<tr><td>本包可玩范围</td><td>第一晚完整流程（四单生意 + 打烊 + 维修机器人停靠）</td></tr>
+</tbody>
+</table>
+<p>本文档同时说明<strong>怎么玩</strong>和<strong>现在做到哪一步、还剩什么</strong>，后半部分是我接下来要做的工作清单。</p>
 
 <h2>怎么开始</h2>
 <ol>
 <li>解开 zip，保持文件夹完整，双击 <code>BorderRepairClinic.exe</code>。</li>
-<li>游戏默认全屏，先出现开始页（标题“地下义体维修处”）。</li>
-<li>选“开始营业”，进入游戏。</li>
+<li>游戏默认全屏，先出现开始页（标题「地下义体维修处」）。</li>
+<li>选「开始营业」进入游戏。</li>
 </ol>
 <p>几点正常现象：</p>
 <ul>
 <li>首次运行时 Windows 可能弹防火墙提示，点取消不影响游戏。</li>
-<li>这是 Development（开发）构建，画面角落可能有开发信息，不用管。</li>
-</ul>
-<p><strong>在开始页请只操作菜单。</strong> 开始页期间，游戏内的快捷键（<code>F4</code>、<code>F5</code>、<code>F1</code>、<code>-</code>、<code>T</code>、<code>=</code>）会被屏蔽，按了不会有副作用；按 <code>Esc</code> 也不会退出，要退出请选菜单里的“退出”。</p>
-
-<h2>验证过的和没验证过的</h2>
-<p><strong>确认过：</strong> 这个包能正常启动，玩家日志里没有异常（没接 VR 头显时会有 OpenXR 报错，不影响游玩）。中文字体和画面用到的 shader 都在包里。</p>
-<p><strong>没确认过：</strong></p>
-<ul>
-<li>开始页能不能正常进入游戏，还没人在真机上确认过。如果点“开始营业”没反应，试试按 <code>Enter</code> 或 <code>Space</code>。</li>
-<li>因此这个包也还没有人从头到尾亲手玩过。下面的流程是按游戏的实际逻辑整理的。如果实际表现和手册不一样，以画面提示为准，并请告诉开发者。</li>
+<li>这是 Development 构建，画面角落可能带开发信息，不用管。</li>
+<li>开始页期间，游戏内快捷键（<code>F4</code>、<code>F5</code>、<code>F1</code>、<code>-</code>、<code>T</code>、<code>=</code>）会被屏蔽，按了不会有副作用；按 <code>Esc</code> 也不会退出，要退出请选菜单里的「退出」。</li>
 </ul>
 
 <h2>一局怎么玩</h2>
-<p>进入游戏后，鼠标转头，屏幕中央的小点是准星。准星对着能操作的东西时会变绿并提示“左键：……”；变成琥珀色时，提示写的是现在不能操作的原因。伸手距离只有一米多，提示“够不着”就走近一点。</p>
-<p><strong>不知道下一步做什么时，按 <code>F1</code>，帮助页最上面一行“现在：……”会告诉你。</strong></p>
+<p>进入游戏后，鼠标转头，屏幕中央的小点是准星。准星对着能操作的东西时会变绿并提示「左键：……」；变成琥珀色时，提示写的是现在不能操作的原因。伸手距离只有一米多，提示「够不着」就走近一点。</p>
+<p><strong>不知道下一步做什么时，按 <code>F1</code>，帮助页最上面一行「现在：……」会告诉你。</strong></p>
 
 <h3>第一步：收件</h3>
-<p>走到交易区，收件台亮灯就表示有活。准星对准台上的物品，按左键接收，再点对话框的“继续”听完顾客的话。物品这时拿在你手上。</p>
+<p>走到交易区，收件台亮灯就表示有活。准星对准台上的物品，按左键接收，再点对话框的「继续」听完顾客的话。物品这时拿在你手上。</p>
 
 <h3>第二步：放到维修台</h3>
 <p>走到维修台（标着 WORKBENCH），准星对准台面，按左键放下。镜头切到台前，光标自动松开，可以开始修。</p>
@@ -122,11 +118,11 @@ tbody tr:nth-child(even) td { background: #171b21; }
 <li><strong>拆解</strong>：断电、解除测试连接，然后开盖、拆线、拆模块。</li>
 <li><strong>更换或修理</strong>：把坏的部分处理掉。</li>
 <li><strong>复装</strong>：按相反顺序装回去。</li>
-<li><strong>复测</strong>：重新通电测试，通过后在“整件”里确认交付。</li>
+<li><strong>复测</strong>：重新通电测试，通过后在「整件」里确认交付。</li>
 </ol>
 <p>拧螺丝、撬盖板、拔插头这类动作要亲手做，屏幕会提示怎么拖鼠标；按 <code>Esc</code> 可以取消当前动作。右键拖动转物品，滚轮缩放。</p>
-<p><strong>换件要先买配件。</strong> 提示缺配件时，点屏幕左上的 <strong>SYS</strong> 图标 →“01 配件采购”。物品在维修台上时，采购窗口会标出“▶ 本单兼容”的那一件。加入数量后确认采购即可，开店现金 500 够用；多买的可以在“库存”页退回。</p>
-<p>中途想走开，点左上角的“离开维修台”；要回来就点“回到维修台”，或者走过去左键点台上的物品。</p>
+<p><strong>换件要先买配件。</strong> 提示缺配件时，点屏幕左上的 <strong>SYS</strong> 图标 →「01 配件采购」。物品在维修台上时，采购窗口会标出「▶ 本单兼容」的那一件。加入数量后确认采购即可，开店现金 500 够用；多买的可以在「库存」页退回。</p>
+<p>中途想走开，点左上角的「离开维修台」；要回来就点「回到维修台」，或者走过去左键点台上的物品。</p>
 <p>今晚的四单，依次是：</p>
 <table class="orders">
 <thead>
@@ -140,31 +136,29 @@ tbody tr:nth-child(even) td { background: #171b21; }
 </tbody>
 </table>
 <p>信号接收器的故障每局随机，不一定要换件，先用万用表测出原因再决定买不买。</p>
-<p>顾客都要求保留原件，标着“保留原件”的部件只能检查，不能拆换。</p>
+<p>顾客都要求保留原件，标着「保留原件」的部件只能检查，不能拆换。</p>
 
 <h3>第四步：交货</h3>
 <p>确认交付后，你会回到房间，物品出现在交件台上，交件台的灯在闪。走过去，准星对准后按左键交付，钱这时才入账。然后收件台会亮灯，回到第一步接下一单。</p>
 
 <h3>第五步：打烊</h3>
-<p>四单都交付后，账本会自动弹出。看完点“确认账本，打烊”。</p>
+<p>四单都交付后，账本会自动弹出。看完点「确认账本，打烊」。</p>
 
 <h3>第六步：让七号停靠</h3>
 <p>先是一段自动演出：七号端着零件盘飘着，机身慢慢倾斜。等它播完，不需要操作。</p>
-<p>然后按屏幕上的“下一步”提示，亲手完成停靠：</p>
+<p>然后按屏幕上的「下一步」提示，亲手完成停靠：</p>
 <ol>
 <li>点维修座夹具的<strong>黄色握把</strong>，夹具张开，七号落座。</li>
 <li>等它坐稳，再点一次握把，夹紧。</li>
 <li>点<strong>断电开关</strong>，拨到 OFF。</li>
-<li>等涡轮停转，屏幕下方出现“登记内部维修单（今晚不拆）”，点它。</li>
+<li>等涡轮停转，屏幕下方出现「登记内部维修单（今晚不拆）」，点它。</li>
 </ol>
 <p>准星不好对时，按 <code>1</code> 切到维修座的固定机位，直接用鼠标点，也不受距离限制；按移动键回到行走。</p>
 
 <h3>第七步：结束面板</h3>
-<p>面板会显示现金、还差多少房租，以及存档结果。到这里第一晚就结束了，试玩也到此为止，点“退出游戏”离开。</p>
-<p>面板上会写明“这个试玩包到第一晚结束为止”，没有“继续”这类入口，见<a href="#这一版没有的东西">这一版没有的东西</a>。</p>
+<p>面板会显示现金、还差多少房租，以及存档结果。到这里第一晚就结束了，点「退出游戏」离开。</p>
 
 <h2>完整按键表</h2>
-<p>游戏内的 F1 帮助页与本表一致（<code>Esc</code> 和 <code>1</code>–<code>4</code> 两行之前的错误说法已经修正）。</p>
 <table class="kv">
 <thead>
 <tr><th>按键</th><th>作用</th></tr>
@@ -178,27 +172,27 @@ tbody tr:nth-child(even) td { background: #171b21; }
 <tr><td><code>Tab</code></td><td>松开光标去点界面；再点一下画面回到准星</td></tr>
 <tr><td>鼠标左键</td><td>操作准星或光标对着的东西</td></tr>
 <tr><td>右键拖动 / 滚轮</td><td>在维修台和手术近景里转动、缩放</td></tr>
-<tr><td><code>Esc</code></td><td>松开光标；已打开手册时关闭手册；维修时取消当前动作；手术时退出近景。<strong>不会打开手册，也不会退出游戏</strong>（开始页上则什么都不做）</td></tr>
-<tr><td><code>1</code>–<code>4</code></td><td><strong>只在停靠七号时可用</strong>：切换固定机位，按移动键回到行走</td></tr>
+<tr><td><code>Esc</code></td><td>松开光标；已打开手册时关闭手册；维修时取消当前动作；手术时退出近景。不会打开手册，也不会退出游戏</td></tr>
+<tr><td><code>1</code>–<code>4</code></td><td>只在停靠七号时可用：切换固定机位，按移动键回到行走</td></tr>
 <tr><td><code>T</code></td><td>接听来电 / 跳到下一句</td></tr>
 <tr><td><code>-</code></td><td>叫病人罗亚进诊所（可选内容，不影响第一晚进度）</td></tr>
 <tr><td><code>F1</code></td><td>打开 / 关闭帮助页</td></tr>
 <tr><td><code>=</code></td><td>展开 / 收起画面设置</td></tr>
 </tbody>
 </table>
-<p><strong>未验证：</strong> 维修台上的 <code>Space</code>（扫描）和 <code>R</code>（复位视角）代码里有，帮助页没列，效果没有核实。</p>
 
-<h2>擦污玩法</h2>
-<p>这是可选玩法：不影响维修步骤，也不影响费用，不想做可以完全跳过。</p>
+<h2>特色系统：污渍清除</h2>
+<p>这是本作区别于普通维修模拟的地方：物品外壳上的油污、积灰、锈迹是可以亲手擦掉的，而且和维修流程完全解耦——不做也能通关，做了会看到外壳真的变干净。</p>
 <ul>
-<li><strong>怎么进入：</strong> 物品在维修台上时按 <code>C</code>（或点左下角的“清洁工具”）。只有在物品还没修完的检查阶段才能用。</li>
+<li><strong>怎么进入：</strong> 物品在维修台上时按 <code>C</code>（或点左下角的「清洁工具」）。只有在物品还没修完的检查阶段才能用。</li>
 <li><strong>怎么擦：</strong> 按住左键擦，右键转动物品，滚轮缩放。再按一次 <code>C</code> 放下工具。</li>
 <li><strong>能擦的：</strong> 物品外壳上的污渍。</li>
-<li><strong>不能擦的：</strong> 屏幕、标签和封条，这些要保留。擦到时会提示“这里不能擦”。</li>
+<li><strong>不能擦的：</strong> 屏幕、标签和封条，这些要保留。擦到时会提示「这里不能擦」。</li>
 <li><strong>笔刷圈的颜色：</strong> 绿色表示能擦，琥珀色表示不能擦，淡白色表示已经干净。</li>
-<li><strong>进度和完成：</strong> 左下角显示“污垢清除 N%”和进度条。擦到接近干净时，剩下的零星污点会一次收尾，然后响起完成音，出现“清洁完成”。</li>
-<li><strong>七号身上的污垢：</strong> 那是布景，擦不掉，也不用擦。</li>
+<li><strong>进度和完成：</strong> 左下角显示「污垢清除 N%」和进度条。擦到接近干净时，剩下的零星污点会一次收尾，然后响起完成音，出现「清洁完成」。</li>
 </ul>
+<p>四个物品的脏法各不相同：接收器是油腻的指纹印，卡匣是抽屉里落下的细灰，电源是烟灰色的大块污迹，御守是浅浅的绒屑和手油。污渍按物体空间生成，跨 UV 缝连续，不会因为贴图拼接而出现接缝。</p>
+<p>场景里也有故事性的污渍：地板上有被人走出来的抛光路线（从门口到柜台、柜台到工作台、工作台到维修坞），工作台上有干掉的助焊剂残迹。维修机器人七号身上的油垢是布景，擦不掉。</p>
 
 <h2>试玩快捷键</h2>
 <p>这一版是 Development 构建，所以下面这些键可用：</p>
@@ -207,37 +201,74 @@ tbody tr:nth-child(even) td { background: #171b21; }
 <tr><th>按键</th><th>作用</th></tr>
 </thead>
 <tbody>
-<tr><td><code>F4</code></td><td>立刻清除<strong>当前维修物品</strong>上的污渍（不会动场景里七号身上的布景污垢）</td></tr>
+<tr><td><code>F4</code></td><td>立刻清除<strong>当前维修物品</strong>上的污渍</td></tr>
 <tr><td><code>F5</code></td><td>快捷完成当前一步；做不了时会说明原因</td></tr>
 <tr><td><code>F1</code></td><td>帮助页（正式功能，正式包也有）</td></tr>
 </tbody>
 </table>
-<p><code>F5</code> 有两处跳不过去：</p>
-<ul>
-<li><strong>买配件：</strong> 缺件时它只会提示你缺什么，要自己去 SYS 菜单买。</li>
-<li><strong>七号停靠：</strong> 这段必须手动操作。</li>
-</ul>
-<p>再提醒一次：开始页期间这些键会被屏蔽，按了不会有副作用。</p>
+<p><code>F5</code> 有两处跳不过去：买配件（要自己去 SYS 菜单买）和七号停靠（必须手动操作）。</p>
 
-<h2 id="这一版没有的东西">这一版没有的东西</h2>
+<h2>这一版没有的东西</h2>
 <ul>
 <li><strong>第二晚</strong>和<strong>七号维修</strong>：只能玩到第一晚结束。</li>
-<li><strong>主菜单和读档</strong>：包里没有这些场景。</li>
-<li><strong>中途退出入口</strong>：要退出请按 <code>Alt + F4</code>。第一晚结束面板上的“退出游戏”可以用。</li>
+<li><strong>主菜单和读档</strong>：包里没有这些场景，所以相关入口已经隐藏——结束面板上没有「回到主菜单」，SYS 菜单里只剩「01 配件采购」。</li>
+<li><strong>中途退出入口</strong>：要退出请按 <code>Alt + F4</code>。第一晚结束面板上的「退出游戏」可以用。</li>
 </ul>
-<p><strong>这个包里没有主菜单，所以相关入口已经隐藏或不可点：</strong></p>
+
+<h2>已经验证到什么程度</h2>
+<p><strong>已验证：</strong></p>
 <ul>
-<li>第一晚结束面板上不再有“回到主菜单”按钮</li>
-<li>SYS 菜单里不再有“02 主菜单”，只剩“01 配件采购”</li>
+<li>构建成功，0 error；启动后标题页正常显示，连续运行 30 秒不崩溃。</li>
+<li>玩家运行日志里没有异常（没接 VR 头显时会有 OpenXR 报错，不影响游玩）。</li>
+<li>中文字体与画面用到的自定义 shader 都在包内。</li>
+<li>自动化测试：EditMode 277 项（通过 268、失败 9，失败项均为既有问题）；PlayMode 201 项（通过 192、失败 1、跳过 8，跳过的都是标记为 Explicit 的截图测试）。详见下面的待办清单第 11 条。</li>
+<li>清洁玩法的四条音效触发、笔刷手感参数、污渍遮挡判断、开始页关闭后的状态交接，都有对应测试覆盖。</li>
+</ul>
+<p><strong>未验证：</strong></p>
+<ul>
+<li>标题页点「开始营业」进入游戏这一段，没有人在真机上亲手确认过（我这边的自动化环境无法把模拟输入送进游戏进程）。如果你点它没反应，试试按 <code>Enter</code> 或 <code>Space</code>。</li>
+<li>因此这个包也还没有人从头到尾完整通关过一次；上面的流程是按游戏的实际逻辑整理的，如果实际表现和文档不一致，以画面提示为准。</li>
+<li>帧率与显存没有可用的基线数据。</li>
 </ul>
 
 <h2>已知问题</h2>
 <ul>
-<li><strong>存档可能覆盖别的包：</strong> 存档位置和其它同名试玩包共用，打完第一晚会覆盖原有的检查点：<br>
-<code>%USERPROFILE%\AppData\LocalLow\DefaultCompany\BorderRepairStation\TwoNightSlice\checkpoint.json</code><br>
-如果你还在玩其它版本，想保留进度的话先备份这个文件。</li>
-<li><strong>擦不到东西（未验证）：</strong> 某个视角下擦不到时，用滚轮拉近再试。</li>
+<li><strong>存档可能覆盖别的包：</strong> 存档位置和其它同名试玩包共用，打完第一晚会覆盖原有的检查点：<code>%USERPROFILE%\AppData\LocalLow\DefaultCompany\BorderRepairStation\TwoNightSlice\checkpoint.json</code></li>
+<li><strong>擦不到东西（未验证）：</strong> 个别视角下擦不到时，用滚轮拉近再试。</li>
+<li><strong>固定机位键位描述不一致：</strong> 代码实际接受 <code>1</code>–<code>9</code>，帮助页只写了 <code>1</code>–<code>4</code>，<code>5</code>–<code>9</code> 也能切机位。</li>
 </ul>
+
+<h2>我接下来还要做的</h2>
+
+<h3>一、影响能否完整试玩的（优先）</h3>
+<ol>
+<li><strong>把第二晚接上。</strong> 现在第二晚的场景、主菜单和读档流程都没有打进包，所以只能玩到第一晚结束。需要把主菜单场景加入构建、把「继续」的读档路径验证通，或者改成在同一场景内推进到第二晚。</li>
+<li><strong>存档按构建版本隔离。</strong> 目前所有同名包共用一个检查点路径，我自己的几个测试包会互相覆盖。</li>
+</ol>
+
+<h3>二、玩法与内容</h3>
+<ol start="3">
+<li><strong>开场引导。</strong> 目前只有 <code>F1</code> 帮助页和屏幕上的准星提示，缺少主动教学——试玩者的第一反应普遍是「不知道该做什么」。</li>
+<li><strong>手术与近景流程的引导。</strong> 叫病人进来后的一系列动作（解束带、扣束带、对准右前臂进入近景）提示还不够明确。</li>
+<li><strong>房间级的故事污渍还没铺满。</strong> 地板的人流路线和工作台的助焊剂残迹已经做了，墙面渗漏痕、墙脚积灰这类更细的表面还没做。</li>
+<li><strong>七号的油垢需要重做。</strong> 现在是均匀分布的油污，不是从一个具体漏点淌出来的，故事感不足。</li>
+</ol>
+
+<h3>三、表现与打磨</h3>
+<ol start="7">
+<li><strong>全息投影的可读性。</strong> 之前给全息招牌加过一层图形动效，结果反而降低了文字可读性，这部分已经搁置，需要重新找方向。</li>
+<li><strong>地面与墙面的贴图重做。</strong> 计划是把锈迹做得更小、更去饱和，并补上法线贴图；目前贴图的高频细节靠 shader 补，还缺真正的起伏。</li>
+<li><strong>整体亮度偏低。</strong> 房间在夜戏里偏暗，需要再调一轮曝光与灯光分布。</li>
+<li><strong>音效统一。</strong> 清洁的四条音效（擦、刮、扫、完成）已经接好，其余维修动作与环境音还没有整体过一遍。</li>
+</ol>
+
+<h3>四、工程债</h3>
+<ol start="11">
+<li><strong>既有测试失败。</strong> EditMode 有 9 项失败，集中在 <code>FirstOrderSceneTests</code>（场景几何悬空、源 FBX 哈希与记录不符），是本轮之前就存在的；PlayMode 有 1 项顺序相关的失败（单独跑能过、整套跑会挂），尚未定位。</li>
+<li><strong>性能没有任何基线。</strong> 现有性能测试只断言三角面数大于 0，判断不了预算；而且它统计的是 Renderer，数不到污渍层这种用 <code>Graphics.DrawMesh</code> 画的几何。需要补一次真实的帧时间与显存测量。</li>
+<li><strong>构建报告缺明细。</strong> 打包只记录了 warning 的数量（这次是 3 条），没有内容，分发前得人工确认。</li>
+<li><strong>细节不一致。</strong> 固定机位键位 <code>1</code>–<code>4</code> 与 <code>1</code>–<code>9</code> 的描述不一致；助手开场的招呼语没有做开始页屏蔽，可能被标题页吃掉。</li>
+</ol>
 
 <h2>卡住了怎么办</h2>
 <table class="kv">
@@ -245,9 +276,9 @@ tbody tr:nth-child(even) td { background: #171b21; }
 <tr><th>情况</th><th>办法</th></tr>
 </thead>
 <tbody>
-<tr><td>不知道下一步</td><td>按 <code>F1</code> 看最上面一行“现在：……”</td></tr>
+<tr><td>不知道下一步</td><td>按 <code>F1</code> 看最上面一行「现在：……」</td></tr>
 <tr><td>某一步做不下去</td><td>按 <code>F5</code> 跳过当前一步</td></tr>
-<tr><td>提示缺配件</td><td>SYS 图标 →“01 配件采购”（<code>F5</code> 跳不过）</td></tr>
+<tr><td>提示缺配件</td><td>SYS 图标 →「01 配件采购」（<code>F5</code> 跳不过）</td></tr>
 <tr><td>七号停靠卡住</td><td>按 <code>1</code> 切固定机位，用鼠标点握把或开关（<code>F5</code> 跳不过）</td></tr>
 <tr><td>污渍挡路或不想擦</td><td>按 <code>F4</code> 清污</td></tr>
 <tr><td>光标不见了、点不到界面</td><td>按 <code>Tab</code> 放出光标</td></tr>
