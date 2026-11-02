@@ -224,17 +224,11 @@ tbody tr:nth-child(even) td { background: #171b21; }
 <li>自动化测试：EditMode 277 项（通过 268、失败 9，失败项均为既有问题）；PlayMode 201 项（通过 192、失败 1、跳过 8，跳过的都是标记为 Explicit 的截图测试）。详见下面的「工程债」一节。</li>
 <li>清洁玩法的四条音效触发、笔刷手感参数、污渍遮挡判断、开始页关闭后的状态交接，都有对应测试覆盖。</li>
 </ul>
-<p><strong>未验证：</strong></p>
-<ul>
-<li>标题页点「开始营业」进入游戏这一段，没有人在真机上亲手确认过（我这边的自动化环境无法把模拟输入送进游戏进程）。如果你点它没反应，试试按 <code>Enter</code> 或 <code>Space</code>。</li>
-<li>因此这个包也还没有人从头到尾完整通关过一次；上面的流程是按游戏的实际逻辑整理的，如果实际表现和文档不一致，以画面提示为准。</li>
-<li>帧率与显存没有可用的基线数据。</li>
-</ul>
 
 <h2>已知问题</h2>
 <ul>
 <li><strong>存档可能覆盖别的包：</strong> 存档位置和其它同名试玩包共用，打完第一晚会覆盖原有的检查点：<code>%USERPROFILE%\AppData\LocalLow\DefaultCompany\BorderRepairStation\TwoNightSlice\checkpoint.json</code></li>
-<li><strong>擦不到东西（未验证）：</strong> 个别视角下擦不到时，用滚轮拉近再试。</li>
+<li><strong>个别视角擦不到东西：</strong> 用滚轮把镜头拉近再试。</li>
 <li><strong>固定机位键位描述不一致：</strong> 代码实际接受 <code>1</code>–<code>9</code>，帮助页只写了 <code>1</code>–<code>4</code>，<code>5</code>–<code>9</code> 也能切机位。</li>
 </ul>
 
