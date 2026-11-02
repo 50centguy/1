@@ -120,8 +120,11 @@ namespace BorderRepair.RepairProps
             if (Patient != null) Patient.PhaseChanged += OnPatientPhase;
             beam = new GameObject("SurgeryBeam").AddComponent<LineRenderer>();
             beam.transform.SetParent(transform, false);
-            beamMaterial = new Material(Shader.Find("Universal Render Pipeline/Unlit")) { name = "SurgeryBeam" };
-            beam.sharedMaterial = beamMaterial;
+            var beamShader = Shader.Find("Universal Render Pipeline/Unlit");
+            // A shader stripped from the build must not cost the rest of Start(): the beam is cosmetic, but the
+            // audio sources created below are not. EnsureUnlitIncluded keeps the shader in the player anyway.
+            beamMaterial = beamShader != null ? new Material(beamShader) { name = "SurgeryBeam" } : (Material)null;
+            if (beamMaterial != null) beam.sharedMaterial = beamMaterial;
             beam.positionCount = 2; beam.widthMultiplier = .0035f; beam.useWorldSpace = true;
             beam.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             beam.enabled = false;
