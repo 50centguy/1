@@ -141,8 +141,8 @@ namespace BorderRepair.RepairProps
         {
             if (finished) return;
             // 鼠标自己在这里判，不走 uGUI 的 Button：这个页面是凭空建的，能不能收到指针事件取决于场景里
-            // 有没有带正确输入模块的 EventSystem，而试玩包实测点击完全没反应。直接用 Input System 读，
-            // 和其它操作一致，也不受覆盖层挡射线的影响。
+            // 有没有带正确输入模块的 EventSystem。这点没能证实（构建里的输入没法从自动化里驱动），所以
+            // 直接用 Input System 读，和其它操作一致，也不受覆盖层挡射线的影响；Button 保留作兜底。
             var mouse = Mouse.current;
             if (mouse != null && rowRects != null)
             {
