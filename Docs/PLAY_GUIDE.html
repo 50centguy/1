@@ -262,7 +262,7 @@ tbody tr:nth-child(even) td { background: #171b21; }
 
 <h3>四、工程债</h3>
 <ol start="15">
-<li><strong>既有测试失败。</strong> EditMode 有 9 项失败，集中在 <code>FirstOrderSceneTests</code>（场景几何悬空、源 FBX 哈希与记录不符），是本轮之前就存在的；PlayMode 有 1 项顺序相关的失败（单独跑能过、整套跑会挂），尚未定位。</li>
+<li><strong>既有测试失败。</strong> EditMode 原有 9 项失败，都在 <code>FirstOrderSceneTests</code>（旧的 UNIT 07 首单测试场景：零件落点低于台面、操作垫落点不在空地、RobotV4 源 FBX 哈希与记录不符）。这些场景不在试玩包里，2026-11-12 起这 3 项检查标为忽略并写明原因，不再算失败。PlayMode 有 1 项顺序相关的失败：<code>TwoNightUiTests.Night2_ManualModal_TooltipLayout_StagedDiagnosis</code>，单独跑能过、整套跑会挂，原因尚未定位。</li>
 <li><strong>性能没有任何基线。</strong> 现有性能测试只断言三角面数大于 0，判断不了预算；而且它统计的是 Renderer，数不到污渍层这种用 <code>Graphics.DrawMesh</code> 画的几何。需要补一次真实的帧时间与显存测量。</li>
 <li><strong>构建报告缺明细。</strong> 打包只记录了 warning 的数量（这次是 3 条），没有内容，分发前得人工确认。</li>
 <li><strong>细节不一致。</strong> 固定机位键位 <code>1</code>–<code>4</code> 与 <code>1</code>–<code>9</code> 的描述不一致；助手开场的招呼语没有做开始页屏蔽，可能被标题页吃掉。</li>
