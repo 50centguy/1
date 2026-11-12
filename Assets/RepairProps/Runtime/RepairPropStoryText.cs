@@ -20,8 +20,24 @@ namespace BorderRepair.RepairProps
         [Serializable] public sealed class Prop { public string kind, backstory; public Finding[] findings; public TestNote[] testNotes; }
         [Serializable] public sealed class PropFile { public Prop[] props; }
 
-        [Serializable] public sealed class CallLine { public bool player; public string text; }
-        [Serializable] public sealed class Call { public string id, caller, name, title; public CallLine[] lines; }
+        /// <summary>
+        /// One line of a call. Only player/text are needed for a straight call; the rest make it branch:
+        /// id labels the line for a jump, when skips it unless the condition holds (DialogueCondition), set raises or
+        /// clears flags as it plays ("a, !b"), next jumps after it (a line id, or "end"), choices make the player pick.
+        /// </summary>
+        [Serializable] public sealed class CallLine
+        {
+            public bool player;
+            public string text;
+            public string id, when, set, next;
+            public Choice[] choices;
+        }
+
+        /// <summary>A reply the player can pick: shown only when its condition holds; said as the player's line, then jumps to next.</summary>
+        [Serializable] public sealed class Choice { public string text, when, set, next; }
+
+        /// <summary>A phone call. trigger is the condition that rings it (checked in file order, once per run); empty never rings by itself.</summary>
+        [Serializable] public sealed class Call { public string id, caller, name, title, trigger; public CallLine[] lines; }
         [Serializable] public sealed class CallFile { public Call[] calls; }
 
         [Serializable] public sealed class Line { public string face, text; }
@@ -61,6 +77,9 @@ namespace BorderRepair.RepairProps
         }
 
         public static IReadOnlyList<Call> Calls => CallData.calls ?? Array.Empty<Call>();
+
+        /// <summary>Tests only: replaces the calls until the next Reload.</summary>
+        public static void UseCallsForTests(CallFile file) => calls = file ?? new CallFile();
 
         /// <summary>The lines UNIT 07 says for one moment (see the keys in assistant.json); empty if there are none.</summary>
         public static IReadOnlyList<Line> AssistantGroup(string key)

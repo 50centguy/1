@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using BorderRepair.RepairProps.Dialogue;
 using BorderRepair.TwoNight;
 using BorderRepair.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Call = BorderRepair.RepairProps.RepairPropStoryText.Call;
 
 namespace BorderRepair.RepairProps
 {
@@ -13,29 +15,27 @@ namespace BorderRepair.RepairProps
     // caller's live portrait (ClinicNpcRuntime's studio), name and a typed subtitle line; the player's own lines in
     // hot amber. Non-blocking: it never takes the cursor or pauses work. It rings first (T or a click answers; it picks
     // up by itself after a few seconds), lines advance on their own (T skips), and it hangs up after the last line.
-    // Each call plays once per run, triggered by the night's state: opening of night 1, delivered orders, night 2.
+    // Each call plays once per run, rung by its trigger condition in calls.json (checked in file order). A line with
+    // choices holds the call until the player picks a reply (number keys or a click); DialogueRunner walks the lines.
+    // Edit the calls in Border Repair > Repair Props > Dialogue Editor.
     [AddComponentMenu("")]
     public sealed class ClinicCallRuntime : MonoBehaviour
     {
         public const string ScenePath = RepairBenchV2Runtime.ScenePath;
 
-        public sealed class Call
-        {
-            public string id, caller, name, title;
-            public (bool player, string text)[] lines;
-        }
-
         // Original lines for the NSP port setting (Docs/Integration/RepairPropsCyberBench/SETTING_PROPS.md).
         // The text is in Assets/RepairProps/Story/Resources/RepairPropsStory/calls.json (RepairPropStoryText).
-        static Call[] calls;
-        public static Call[] Calls => calls ??= RepairPropStoryText.Calls.Select(c => new Call
-        {
-            id = c.id, caller = c.caller, name = c.name, title = c.title,
-            lines = (c.lines ?? new RepairPropStoryText.CallLine[0]).Select(l => (l.player, l.text)).ToArray(),
-        }).ToArray();
+        public static IReadOnlyList<Call> Calls => RepairPropStoryText.Calls;
 
         static readonly HashSet<string> played = new HashSet<string>();
+        static readonly HashSet<string> flags = new HashSet<string>();
         static TwoNightState playedFor;
+
+        /// <summary>Flags the calls have set this run (choices and lines with "set"); conditions read them as flag:name.</summary>
+        public static IReadOnlyCollection<string> Flags => flags;
+        public static bool HasFlag(string flag) => flags.Contains(flag);
+        public static void SetFlag(string flag, bool on) { if (on) flags.Add(flag); else flags.Remove(flag); }
+        public static bool Played(string id) => played.Contains(id);
 
         public static ClinicCallRuntime Current { get; private set; }
         public static Call Find(string id) => Calls.FirstOrDefault(c => c.id == id);
@@ -43,7 +43,14 @@ namespace BorderRepair.RepairProps
         enum Mode { Idle, Ringing, Talking, Ending }
         Mode mode;
         Call call;
-        int line;
+        DialogueRunner runner;
+        bool linePlayer;
+        string lineText = "";
+        int linesShown;
+        RectTransform choicePanel;
+        readonly List<(Button button, Text label)> choiceButtons = new List<(Button, Text)>();
+        const int MaxChoices = 4;
+        const float CardHeight = 206, ChoiceRow = 30;
         float modeAt, lineAt, lineHold, sceneStart, lastHangup;
         UnifiedClinicDirector clinic;
         Font font, mono, kana;
@@ -63,7 +70,7 @@ namespace BorderRepair.RepairProps
         public RectTransform Card => card;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetHooks() { SceneManager.sceneLoaded -= OnSceneLoaded; Current = null; played.Clear(); playedFor = null; calls = null; }
+        static void ResetHooks() { SceneManager.sceneLoaded -= OnSceneLoaded; Current = null; played.Clear(); flags.Clear(); playedFor = null; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Install() => SceneManager.sceneLoaded += OnSceneLoaded;
@@ -140,6 +147,20 @@ namespace BorderRepair.RepairProps
             answer = answerRect.gameObject.AddComponent<Button>(); answer.targetGraphic = answerImage;
             answer.onClick.AddListener(Pickup);
             var answerText = Label(answerRect, "应答 [T]", font, 14, 0, 0, 106, 34, Color.black); answerText.alignment = TextAnchor.MiddleCenter;
+            // Replies hang under the card, which grows to fit them.
+            choicePanel = Rect("Choices", card, 170, -CardHeight + 4, 316, ChoiceRow * MaxChoices);
+            for (int i = 0; i < MaxChoices; i++)
+            {
+                int index = i;
+                var row = Rect("Choice" + (i + 1), choicePanel, 0, -i * ChoiceRow, 316, ChoiceRow - 4);
+                var image = row.gameObject.AddComponent<Image>();
+                RepairPropCyberStyle.Framed(image, new Color(.06f, .035f, .015f, .92f), RepairPropCyberStyle.Amber);
+                var button = row.gameObject.AddComponent<Button>(); button.targetGraphic = image;
+                button.onClick.AddListener(() => Choose(index));
+                var label = Label(row, "", font, 14, 8, 0, 300, ChoiceRow - 4, RepairPropCyberStyle.Hot);
+                choiceButtons.Add((button, label));
+            }
+            choicePanel.gameObject.SetActive(false);
             card.gameObject.SetActive(false);
         }
 
@@ -165,7 +186,10 @@ namespace BorderRepair.RepairProps
             var next = Find(id);
             if (next == null || mode != Mode.Idle || (!force && played.Contains(id))) return false;
             played.Add(id);
-            call = next; line = -1; mode = Mode.Ringing; modeAt = Time.unscaledTime;
+            call = next; mode = Mode.Ringing; modeAt = Time.unscaledTime;
+            runner = new DialogueRunner(call, new World(this), SetFlag);
+            linePlayer = false; lineText = ""; linesShown = 0;
+            ShowChoices();
             card.gameObject.SetActive(true);
             nameLine.text = call.name + "　·　" + call.title;
             subtitle.text = "";
@@ -181,21 +205,68 @@ namespace BorderRepair.RepairProps
             Advance();
         }
 
+        /// <summary>True while the call waits for the player to pick a reply.</summary>
+        public bool Choosing => mode == Mode.Talking && runner != null && runner.AwaitingChoice;
+        /// <summary>The replies on offer right now (empty unless Choosing).</summary>
+        public IReadOnlyList<string> ChoiceTexts => runner != null ? runner.Choices.Select(c => c.text).ToList() : new List<string>();
+
         public void Advance()
         {
-            if (mode != Mode.Talking) return;
-            line++;
-            if (line >= call.lines.Length) { mode = Mode.Ending; modeAt = Time.unscaledTime; if (audioSource != null) audioSource.PlayOneShot(blip, .7f); return; }
-            var (player, text) = call.lines[line];
-            subtitle.text = (player ? "你　" : call.name + "　") + text;
+            if (mode != Mode.Talking || Choosing) return;
+            if (!runner.Advance()) { mode = Mode.Ending; modeAt = Time.unscaledTime; ShowChoices(); if (audioSource != null) audioSource.PlayOneShot(blip, .7f); return; }
+            var current = runner.Line;
+            // A choice-only line (no text) keeps the previous subtitle up while the replies wait.
+            if (!string.IsNullOrEmpty(current.text)) Show(current.player, current.text);
+            ShowChoices();
+        }
+
+        /// <summary>Picks reply i (0-based): the player says it, then the call follows where it leads.</summary>
+        public void Choose(int i)
+        {
+            if (!Choosing) return;
+            var choice = runner.Choose(i);
+            if (choice == null) return;
+            ShowChoices();
+            if (audioSource != null) audioSource.PlayOneShot(blip, .5f);
+            if (!string.IsNullOrEmpty(choice.text)) Show(true, choice.text);
+            else Advance();
+        }
+
+        void Show(bool player, string text)
+        {
+            linePlayer = player; lineText = text ?? ""; linesShown++;
+            subtitle.text = (player ? "你　" : call.name + "　") + lineText;
             subtitle.color = player ? RepairPropCyberStyle.Hot : RepairPropCyberStyle.Ink;
             lineAt = Time.unscaledTime;
-            lineHold = 1.6f + text.Length * .085f;
+            lineHold = 1.6f + lineText.Length * .085f;
+        }
+
+        void ShowChoices()
+        {
+            int n = Choosing ? Mathf.Min(runner.Choices.Count, MaxChoices) : 0;
+            choicePanel.gameObject.SetActive(n > 0);
+            for (int i = 0; i < choiceButtons.Count; i++)
+            {
+                bool on = i < n;
+                choiceButtons[i].button.gameObject.SetActive(on);
+                if (on) choiceButtons[i].label.text = (i + 1) + "  " + runner.Choices[i].text;
+            }
+            card.sizeDelta = new Vector2(card.sizeDelta.x, CardHeight + (n > 0 ? n * ChoiceRow + 4 : 0));
+        }
+
+        static int PressedChoice(Keyboard keyboard)
+        {
+            if (keyboard == null) return -1;
+            if (keyboard.digit1Key.wasPressedThisFrame || keyboard.numpad1Key.wasPressedThisFrame) return 0;
+            if (keyboard.digit2Key.wasPressedThisFrame || keyboard.numpad2Key.wasPressedThisFrame) return 1;
+            if (keyboard.digit3Key.wasPressedThisFrame || keyboard.numpad3Key.wasPressedThisFrame) return 2;
+            if (keyboard.digit4Key.wasPressedThisFrame || keyboard.numpad4Key.wasPressedThisFrame) return 3;
+            return -1;
         }
 
         void Update()
         {
-            if (TwoNightRun.Current != playedFor) { playedFor = TwoNightRun.Current; played.Clear(); }
+            if (TwoNightRun.Current != playedFor) { playedFor = TwoNightRun.Current; played.Clear(); flags.Clear(); }
             if (mode == Mode.Idle) { Trigger(); return; }
             float now = Time.unscaledTime;
             var keyboard = Keyboard.current;
@@ -206,10 +277,16 @@ namespace BorderRepair.RepairProps
                     if (key || now - modeAt > 6f) Pickup();
                     break;
                 case Mode.Talking:
-                    if (key || now - lineAt > lineHold) Advance();
+                    if (Choosing)
+                    {
+                        // The reply waits for the player; only the line on screen finishes typing.
+                        int pick = ClinicStartScreenRuntime.Blocking || BorderRepair.FirstOrder.FirstOrderInput.TextInputFocused ? -1 : PressedChoice(keyboard);
+                        if (pick >= 0) Choose(pick);
+                    }
+                    else if (key || now - lineAt > lineHold) Advance();
                     break;
                 case Mode.Ending:
-                    if (now - modeAt > 1.1f) { mode = Mode.Idle; card.gameObject.SetActive(false); lastHangup = now; call = null; return; }
+                    if (now - modeAt > 1.1f) { mode = Mode.Idle; card.gameObject.SetActive(false); lastHangup = now; call = null; runner = null; return; }
                     break;
             }
             Paint(now);
@@ -225,10 +302,12 @@ namespace BorderRepair.RepairProps
             frame.color = ringing && Mathf.Repeat(now, .8f) < .4f ? RepairPropCyberStyle.Hot : ending ? RepairPropCyberStyle.AmberDim : RepairPropCyberStyle.Amber;
             float talkTime = mode == Mode.Ringing ? 0 : now - modeAt;
             timer.text = (ringing ? "RING " : "REC ") + ((int)talkTime / 60).ToString("00") + ":" + ((int)talkTime % 60).ToString("00");
-            footer.text = ringing ? "NSP-LINE " + RepairPropCyberStyle.Code(call.id, 6) + "  //  [T] ANSWER" : "[T] NEXT  //  " + (line + 1) + "/" + call.lines.Length;
+            footer.text = ringing ? "NSP-LINE " + RepairPropCyberStyle.Code(call.id, 6) + "  //  [T] ANSWER"
+                : Choosing ? "[1-" + Mathf.Min(runner.Choices.Count, MaxChoices) + "] 选择回答  //  " + linesShown
+                : "[T] NEXT  //  " + linesShown;
             var npcs = ClinicNpcRuntime.Current;
-            bool callerTalking = mode == Mode.Talking && line >= 0 && line < call.lines.Length && !call.lines[line].player
-                && now - lineAt < Mathf.Min(lineHold - .4f, call.lines[line].text.Length / 34f + .3f);
+            bool callerTalking = mode == Mode.Talking && linesShown > 0 && !linePlayer
+                && now - lineAt < Mathf.Min(lineHold - .4f, lineText.Length / 34f + .3f);
             var feed = npcs != null && !ringing ? npcs.Portrait(call.caller, callerTalking) : null;
             portrait.texture = feed;
             // While ringing (and on hang-up) the feed is a blank with a flicker, the way the reference terminals boot.
@@ -246,17 +325,48 @@ namespace BorderRepair.RepairProps
             if (state == null || clinic == null || !clinic.Initialized) return;
             float now = Time.unscaledTime;
             if (now - lastHangup < 20f) return;
-            if (state.phase == TwoNightPhase.Night1Counter)
+            // Calls ring in file order: the first whose trigger holds and has not played this run.
+            foreach (var c in Calls)
+                if (!string.IsNullOrWhiteSpace(c.trigger) && !played.Contains(c.id) && DialogueCondition.Evaluate(c.trigger, new World(this, now)) && Begin(c.id)) return;
+        }
+
+        /// <summary>The live night as conditions see it.</summary>
+        sealed class World : IDialogueWorld
+        {
+            readonly ClinicCallRuntime calls;
+            readonly float now;
+            public World(ClinicCallRuntime calls, float now = -1) { this.calls = calls; this.now = now; }
+
+            public bool Has(string kind, string arg)
             {
-                if (now - sceneStart > 25f && Begin("rent-n1")) return;
-                var trades = state.customerTrades ?? new List<ClinicCustomerTrade>();
-                int delivered = trades.Count(t => t.state == ClinicTradeState.Delivered);
-                if ((delivered >= 1 || now - sceneStart > 150f) && played.Contains("rent-n1") && Begin("dealer-intro")) return;
-                if (trades.Any(t => t.state == ClinicTradeState.Delivered && t.caseId != null && t.caseId.EndsWith("receiver")) && Begin("patrol-receiver")) return;
-                if (trades.Any(t => t.state == ClinicTradeState.Delivered && t.caseId != null && t.caseId.EndsWith("omamori")) && Begin("care-omamori")) return;
-                if (trades.Any(t => t.state == ClinicTradeState.Delivered && t.caseId != null && t.caseId.EndsWith("cartridge")) && played.Contains("dealer-intro") && Begin("dealer-cartridge")) return;
+                var state = TwoNightRun.Current;
+                switch (kind)
+                {
+                    case "flag": return flags.Contains(arg);
+                    case "played": return played.Contains(arg);
+                    case "phase": return state != null && state.phase.ToString() == arg;
+                    case "delivered":
+                        return state != null && state.customerTrades != null
+                            && state.customerTrades.Any(t => t.state == ClinicTradeState.Delivered && t.caseId != null && t.caseId.EndsWith(arg));
+                    default: return false;
+                }
             }
-            else if (state.phase == TwoNightPhase.Night2Open && now - sceneStart > 8f) Begin("rent-n2");
+
+            public bool TryNumber(string name, out float value)
+            {
+                var state = TwoNightRun.Current;
+                value = 0;
+                switch (name)
+                {
+                    case "time": value = (now >= 0 ? now : Time.unscaledTime) - calls.sceneStart; return true;
+                    case "cash": if (state == null) return false; value = state.Cash; return true;
+                    case "delivered":
+                        if (state == null) return false;
+                        value = state.customerTrades == null ? 0 : state.customerTrades.Count(t => t.state == ClinicTradeState.Delivered);
+                        return true;
+                    default: return false;
+                }
+            }
         }
 
         void OnDestroy() { if (Current == this) Current = null; }

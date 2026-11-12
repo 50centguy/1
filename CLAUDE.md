@@ -81,6 +81,10 @@
 
 物品背景故事、部件痕迹、测试附注、来电台词和 UNIT 07 的台词都在 `Assets/RepairProps/Story/Resources/RepairPropsStory/` 的 `props.json`、`calls.json`、`assistant.json` 里，由 `RepairPropStoryText` 读取。改剧情直接改 JSON，不用改代码；键名（物品 kind、部件节点名、测试 id、来电 id、助手的 group/hint 键）要保持不变，`RepairPropStoryTextTests` 会检查它们都还在。界面提示和按钮文字仍写在代码里。
 
+**对话编辑器**：菜单 `Border Repair/Repair Props/对话编辑器`。可以编辑三个文件、撤销、检查错误、试播来电分支，保存时按固定格式写回（`DialogueJson`）。
+
+来电支持分支（`Assets/RepairProps/Runtime/Dialogue/`）：每通来电的 `trigger` 决定什么时候打进来（按文件顺序检查，每局一次）；台词可以有 `id`（跳转标签）、`when`（条件，不满足就跳过）、`set`（设置/清除标记，如 `a, !b`）、`next`（跳到标签或 `end`）和最多 4 个 `choices`（玩家选项，按数字键或点击）。条件写法：`flag:x`、`played:来电id`、`delivered:receiver`、`phase:Night1Counter`、`time>25`、`cash>=1200`、`delivered>=1`，用 `&`、`|`、`!`、括号组合。标记每局清空，目前不进存档。
+
 ---
 
 ## 开发规则

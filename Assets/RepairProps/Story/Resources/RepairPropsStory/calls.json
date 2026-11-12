@@ -5,6 +5,7 @@
       "caller": "Kasumi",
       "name": "霞",
       "title": "房东 · 岸壁三号街",
+      "trigger": "phase:Night1Counter & time>25",
       "lines": [
         {
           "player": false,
@@ -37,6 +38,7 @@
       "caller": "Gen",
       "name": "源",
       "title": "岸壁ジャンク商会",
+      "trigger": "phase:Night1Counter & played:rent-n1 & (delivered>=1 | time>150)",
       "lines": [
         {
           "player": false,
@@ -65,6 +67,7 @@
       "caller": "Rin",
       "name": "凛",
       "title": "三号管廊 · 夜班巡检",
+      "trigger": "phase:Night1Counter & delivered:receiver",
       "lines": [
         {
           "player": false,
@@ -109,6 +112,7 @@
       "caller": "Tobi",
       "name": "鳶",
       "title": "街区照护站 · 夜班护理",
+      "trigger": "phase:Night1Counter & delivered:omamori",
       "lines": [
         {
           "player": false,
@@ -161,6 +165,7 @@
       "caller": "Gen",
       "name": "源",
       "title": "岸壁ジャンク商会",
+      "trigger": "phase:Night1Counter & delivered:cartridge & played:dealer-intro",
       "lines": [
         {
           "player": false,
@@ -201,6 +206,7 @@
       "caller": "Kasumi",
       "name": "霞",
       "title": "房东 · 岸壁三号街",
+      "trigger": "phase:Night2Open & time>8",
       "lines": [
         {
           "player": false,
