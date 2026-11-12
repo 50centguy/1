@@ -109,6 +109,10 @@
 - **右键单击放下**（右键拖动仍是转动物品）；清洁时点托盘里别的工具会直接换过去。
 - 工具模型的工作端由 FBX 里名为 `<工具名>_Tip` 的空物体标出；没有这个标记的工具（检测仪）拿在指点位置旁边。
 - 模型来源：`ArtSource/RepairBenchV2/build_repair_bench_v2.py`（Blender 脚本）→ `atlas_bake.py` → 拷到 `Assets/RepairProps/Bench/Art` → 菜单 `Border Repair/Repair Props/Build Repair Bench V2`。托盘必须留在维修台镜头内（x -0.50..-0.20，y 0.30..0.60）。
+- 检测仪的两根线是运行时的物理软线（`RepairBenchLeads.cs`，verlet 绳 + LineRenderer），模型里只有表笔 `BV2_Tool_Meter_Probe*` 和插孔位置 `BV2_Tool_Meter_Jack*`；拿着检测仪时红表笔针尖落在指点位置。
+- 手上的工具不会低于台面：`RepairBenchV2Runtime.Hold` 的 `floorY`。
+- 托盘后面的涂装喷罐 `BV2_Tool_Sprayer` 是外观涂装的入口（等同工具窗口里的「外观」按钮）。
+- 维修台上清洁工具是托盘里的实物，屏幕上的清洁栏不显示（`ClinicCleaningController.ControlsHidden`），进度写在底部提示行。
 - 后台 batch 测试自动静音（`BatchModeMute.cs`）。
 
 ---

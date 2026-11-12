@@ -132,6 +132,8 @@ namespace BorderRepair.TwoNight
             if (ui != null)
             {
                 ui.SetActive(Clinic.ConsoleOpen && mounted != null && surfaces.Length > 0);
+                var controls = ControlsRect;
+                if (controls != null && controls.gameObject.activeSelf == ControlsHidden) controls.gameObject.SetActive(!ControlsHidden);
                 toggle.interactable = Available;
                 buttonText.text = Cleaning ? "退出清洁 [C]" : "清洁工具 [C]";
                 string detail = !Available && !Cleaning ? UnavailableReason : AllClean ? "已全部清洁" + (Cleaning ? " · 按 C 退出" : "")
@@ -450,6 +452,9 @@ namespace BorderRepair.TwoNight
 
         /// <summary>The cleaning bar, in 1280x720 canvas units from the top-left corner.</summary>
         public static readonly Vector2 ControlsPosition = new Vector2(68,-62), ControlsSize = new Vector2(465,68);
+        /// <summary>Set where the cleaning tool is a real object to pick up (the repair bench's tool tray): the on-screen
+        /// bar stays away, the brush ring, hints and the finish banner remain.</summary>
+        public bool ControlsHidden { get; set; }
         public RectTransform ControlsRect => ui != null ? (RectTransform)ui.transform.Find("Cleaning controls") : null;
 
         void BuildUi()

@@ -138,9 +138,16 @@ namespace BorderRepair.RepairProps
         void OnInspectorClicked(Vector2 screen)
         {
             if (!CanInteract) return;
-            if (ContextPanel != null && (ContextPanel.ContainsScreenPoint(screen) || ContextPanel.AppearanceOpen)) return;
+            if (ContextPanel != null && ContextPanel.ContainsScreenPoint(screen)) return;
             var ray = station.Inspector.ViewCamera.ScreenPointToRay(screen);
             Physics.SyncTransforms();
+            if (ContextPanel != null && ContextPanel.AppearanceOpen)
+            {
+                // Only the paint can answers while the appearance editor is open: a click on it puts it away.
+                var can = Physics.Raycast(ray, out var canHit, 10, ~0, QueryTriggerInteraction.Ignore) ? canHit.transform.GetComponentInParent<RepairBenchProp>() : null;
+                if (can != null && can.IsPainter) can.Activate(this);
+                return;
+            }
             string parkedTarget = null;
             if (Physics.Raycast(ray, out var hit, 10, ~0, QueryTriggerInteraction.Ignore))
             {

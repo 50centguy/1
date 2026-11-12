@@ -113,7 +113,9 @@ namespace BorderRepair.RepairProps
             catArm = Find(bench.transform, "BV2_LuckyCat_Arm");
             if (koi != null && puck != null) { koiRest = koi.rotation; koiOffset = koi.position - puck.position; }
             if (catArm != null) { catRest = catArm.localRotation; catAxis = Quaternion.Inverse(catArm.rotation) * Vector3.Cross(Vector3.up, front).normalized; }
+            SetupLeads();
             StaticRenderers = V2StaticBatch.Combine(bench, t => t.GetComponent<RepairBenchProp>() != null
+                || t.name.StartsWith("BV2_Tool_Meter_Probe", StringComparison.Ordinal)
                 || t.name.StartsWith("BV2_Fixture_Needle", StringComparison.Ordinal) || t == koi || t == catArm);
         }
 
@@ -169,6 +171,20 @@ namespace BorderRepair.RepairProps
             }
         }
 
+        /// <summary>The tester's slack leads (null when the bench model has no separate probes).</summary>
+        public RepairBenchLeads Leads { get; private set; }
+
+        void SetupLeads()
+        {
+            var meter = FindProp("BV2_Tool_Meter");
+            var tray = Find(bench.transform, "BV2_ToolTray");
+            var renderer = meter != null ? meter.GetComponent<Renderer>() : null;
+            if (meter == null || tray == null || renderer == null || Find(bench.transform, "BV2_Tool_Meter_ProbeRed") == null) return;
+            Leads = bench.AddComponent<RepairBenchLeads>();
+            Leads.Initialize(meter, bench.transform, benchTop.position.y, tray.GetComponent<Renderer>().bounds, renderer.sharedMaterial);
+            if (Leads.Count == 0) { Destroy(Leads); Leads = null; }
+        }
+
         void SetupFixture(Vector3 front)
         {
             fixtureNeedleV = Find(bench.transform, "BV2_Fixture_NeedleV");
@@ -221,6 +237,8 @@ namespace BorderRepair.RepairProps
             if (bench == null) return;
             if (clinic == null) clinic = FindFirstObjectByType<UnifiedClinicDirector>();
             if (cleaning == null) cleaning = FindFirstObjectByType<ClinicCleaningController>();
+            // The cleaning tool is in the tray here, so its on-screen bar is not needed.
+            if (cleaning != null && !cleaning.ControlsHidden && props.Any(p => p.IsCleaner)) cleaning.ControlsHidden = true;
             var station = clinic != null ? clinic.Station : null;
             var item = station != null && station.Inspector != null ? station.Inspector.CurrentItem : null;
             var bridge = item != null ? item.GetComponent<RepairPropStationBridge>() : null;
@@ -229,8 +247,11 @@ namespace BorderRepair.RepairProps
                 // Nothing is in hand while the cleaning tool, the paint brush or the parts terminal has the hands
                 // (they all hold station.CleaningActive and clear the tool, which would otherwise read as the loupe).
                 // The cleaner is the tool in hand exactly while cleaning.
+                // The paint can stands out while the appearance editor is open.
                 if (prop.Kind == RepairBenchPropKind.Tool)
-                    prop.SetSelected(atBench && (prop.IsCleaner ? Cleaning : !station.CleaningActive && station.ActiveTool == prop.Tool));
+                    prop.SetSelected(atBench && (prop.IsCleaner ? Cleaning
+                        : prop.IsPainter ? bridge.ContextPanel != null && bridge.ContextPanel.AppearanceOpen
+                        : !station.CleaningActive && station.ActiveTool == prop.Tool));
             DriveHand(bridge, atBench, station);
             if (crt != null && Time.unscaledTime >= nextCrt)
             {
@@ -252,7 +273,7 @@ namespace BorderRepair.RepairProps
             RepairBenchProp held = null;
             if (atBench && Cleaning) held = props.FirstOrDefault(p => p.IsCleaner);
             else if (atBench && !station.CleaningActive && station.ActiveTool.HasValue)
-                held = props.FirstOrDefault(p => p.Kind == RepairBenchPropKind.Tool && !p.IsCleaner && p.Tool == station.ActiveTool);
+                held = props.FirstOrDefault(p => p.Kind == RepairBenchPropKind.Tool && !p.IsCleaner && !p.IsPainter && p.Tool == station.ActiveTool);
             foreach (var prop in props) if (prop.Kind == RepairBenchPropKind.Tool && prop != held) prop.PutBack();
             HeldTool = held;
             if (held == null) { rightArmed = false; return; }
@@ -284,11 +305,14 @@ namespace BorderRepair.RepairProps
             }
             bool busy = bridge.Gesture != null && bridge.Gesture.Busy;
             if (overUi || busy || camera == null || !camera.pixelRect.Contains(pointer)) return;
-            Hold(held, camera, camera.ScreenPointToRay(pointer), station.Inspector.CurrentItem != null ? station.Inspector.CurrentItem.transform : null);
+            Hold(held, camera, camera.ScreenPointToRay(pointer), station.Inspector.CurrentItem != null ? station.Inspector.CurrentItem.transform : null,
+                benchTop.position.y);
         }
 
-        /// <summary>Puts <paramref name="tool"/>'s working end where <paramref name="ray"/> meets the work.</summary>
-        public static void Hold(RepairBenchProp tool, Camera camera, Ray ray, Transform item)
+        /// <summary>Puts <paramref name="tool"/>'s working end where <paramref name="ray"/> meets the work. Nothing of the
+        /// tool goes below <paramref name="floorY"/> (the bench top): over the bench the handle stands up instead of
+        /// sinking into the table, and the tester floats above it.</summary>
+        public static void Hold(RepairBenchProp tool, Camera camera, Ray ray, Transform item, float floorY = float.NegativeInfinity)
         {
             Physics.SyncTransforms();
             Vector3 spot, normal;
@@ -300,11 +324,23 @@ namespace BorderRepair.RepairProps
             }
             var view = camera.transform;
             if (Vector3.Dot(normal, -ray.direction) < 0) normal = -normal;
+            tool.Spot = spot;
             if (tool.HasTip)
-                // Held like a pen in the right hand: the handle leans back toward the viewer and off to the lower right.
-                tool.Hold(spot + normal * .004f, view.right * .7f - view.up * .25f - ray.direction * .65f);
+            {
+                // Held like a pen in the right hand: the handle leans back toward the viewer and off to the right, and
+                // always upward enough that its far end clears the bench by the thickness of a handle.
+                var tip = spot + normal * .006f;
+                var shaft = (view.right * .7f - view.up * .25f - ray.direction * .65f).normalized;
+                float need = Mathf.Clamp((floorY + .035f - tip.y) / Mathf.Max(.05f, tool.Reach), .42f, .97f);
+                for (int i = 0; i < 12 && shaft.y < need; i++) shaft = (shaft + Vector3.up * .25f).normalized;
+                tool.Hold(tip, shaft);
+            }
             else
-                tool.Hold(spot + view.right * .13f - view.up * .07f, -ray.direction * .6f + view.up * .8f);   // off to the lower right, face toward the viewer
+            {
+                var at = spot + view.right * .11f + Vector3.up * .07f;
+                at.y = Mathf.Max(at.y, floorY + .07f);
+                tool.Hold(at, (-ray.direction * .5f + Vector3.up * .85f).normalized);   // beside the spot, face up toward the viewer
+            }
         }
 
         // The desk's cheap toys: a holographic koi circling its projector puck, and the lucky cat's waving paw.

@@ -16,6 +16,7 @@ namespace BorderRepair.RepairProps
         [SerializeField] bool hasTool;
         [SerializeField] RepairActionType tool;
         [SerializeField] bool cleaner;
+        [SerializeField] bool painter;
         [SerializeField] float travel = .3f;
         [SerializeField] float angle = -100f;
 
@@ -37,7 +38,13 @@ namespace BorderRepair.RepairProps
         /// <summary>The cleaning tool (blower brush): taking it starts cleaning, putting it down ends it.</summary>
         public bool IsCleaner => kind == RepairBenchPropKind.Tool && cleaner;
         /// <summary>The loupe: empty-handed inspection, neither a repair tool nor the cleaner.</summary>
-        public bool IsLoupe => kind == RepairBenchPropKind.Tool && !hasTool && !cleaner;
+        public bool IsLoupe => kind == RepairBenchPropKind.Tool && !hasTool && !cleaner && !painter;
+        /// <summary>The paint can: clicking it opens (or closes) the appearance editor.</summary>
+        public bool IsPainter => kind == RepairBenchPropKind.Tool && painter;
+        /// <summary>The point on the work the hand is aiming at (the tester's probe goes there).</summary>
+        public Vector3 Spot { get; set; }
+        /// <summary>Length from the working end to the far end of the tool, in metres.</summary>
+        public float Reach { get; private set; }
         public bool Open => open;
         public bool LampOn => lampLight != null && lampLight.enabled;
         public bool Lifted => lift > .5f;
@@ -80,6 +87,7 @@ namespace BorderRepair.RepairProps
             var mesh = filter.sharedMesh;
             var b = mesh.bounds;
             centerLocal = b.center;
+            Reach = Vector3.Scale(transform.lossyScale, b.size).magnitude;
             // The model says where its working end is: an empty child named <tool>_Tip.
             var marker = transform.Find(name + "_Tip");
             if (marker != null) { tipLocal = marker.localPosition; hasTip = true; return; }
@@ -103,9 +111,9 @@ namespace BorderRepair.RepairProps
             hasTip = true;
         }
 
-        public void Configure(RepairBenchPropKind kind, string label, RepairActionType? tool = null, float travel = .3f, float angle = -100f, bool cleaner = false)
+        public void Configure(RepairBenchPropKind kind, string label, RepairActionType? tool = null, float travel = .3f, float angle = -100f, bool cleaner = false, bool painter = false)
         {
-            this.cleaner = cleaner;
+            this.cleaner = cleaner; this.painter = painter;
             this.kind = kind; this.label = label; hasTool = tool.HasValue; this.tool = tool ?? default; this.travel = travel; this.angle = angle;
         }
 
@@ -125,7 +133,7 @@ namespace BorderRepair.RepairProps
             {
                 switch (kind)
                 {
-                    case RepairBenchPropKind.Tool: return label + (cleaner ? " · 点击拿起，按住左键擦拭" : hasTool ? " · 点击拿起" : " · 点击换成空手检查");
+                    case RepairBenchPropKind.Tool: return label + (painter ? " · 点击打开 / 收起外观涂装" : cleaner ? " · 点击拿起，按住左键擦拭" : hasTool ? " · 点击拿起" : " · 点击换成空手检查");
                     case RepairBenchPropKind.Lamp: return "台灯 · 点击" + (LampOn ? "关灯" : "开灯");
                     case RepairBenchPropKind.Drawer: return label + " · 点击" + (open ? "关上" : "拉开");
                     default: return label + " · 点击" + (open ? "关上" : "打开");
@@ -139,6 +147,11 @@ namespace BorderRepair.RepairProps
             {
                 case RepairBenchPropKind.Tool:
                     if (bridge == null) return;
+                    if (painter)
+                    {
+                        if (bridge.ContextPanel != null) bridge.ContextPanel.SetAppearanceOpen(!bridge.ContextPanel.AppearanceOpen);
+                        return;
+                    }
                     if (cleaner)
                     {
                         var cleaning = FindFirstObjectByType<BorderRepair.TwoNight.ClinicCleaningController>();

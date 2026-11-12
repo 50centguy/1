@@ -810,23 +810,43 @@
    ]
   },
   {
-   "name": "BV2_Tool_MeterLeads",
-   "tris": 448,
+   "name": "BV2_Tool_Meter_ProbeRed",
+   "tris": 104,
    "materials": [
     "M_BV2_WornRed",
-    "M_BV2_Rubber",
-    "M_BV2_SteelBare"
+    "M_BV2_SteelBare",
+    "M_BV2_DarkPlastic"
    ],
-   "role": "static",
+   "role": "probe",
    "min": [
     -0.482,
-    0.5318,
-    0.9268
+    0.558,
+    0.926
    ],
    "max": [
-    -0.3197,
-    0.5822,
-    0.9519
+    -0.405,
+    0.57,
+    0.938
+   ]
+  },
+  {
+   "name": "BV2_Tool_Meter_ProbeBlack",
+   "tris": 104,
+   "materials": [
+    "M_BV2_Rubber",
+    "M_BV2_SteelBare",
+    "M_BV2_DarkPlastic"
+   ],
+   "role": "probe",
+   "min": [
+    -0.468,
+    0.571,
+    0.926
+   ],
+   "max": [
+    -0.391,
+    0.583,
+    0.938
    ]
   },
   {
@@ -851,6 +871,29 @@
     -0.236,
     0.427,
     0.9428
+   ]
+  },
+  {
+   "name": "BV2_Tool_Sprayer",
+   "tris": 600,
+   "materials": [
+    "M_BV2_Ivory",
+    "M_BV2_Orange",
+    "M_BV2_SteelBare",
+    "M_BV2_WornRed",
+    "M_BV2_Tape",
+    "M_BV2_DarkPlastic"
+   ],
+   "role": "tool",
+   "min": [
+    -0.4294,
+    0.6236,
+    0.9
+   ],
+   "max": [
+    -0.3806,
+    0.6724,
+    1.043
    ]
   },
   {
@@ -1897,7 +1940,7 @@
    ]
   }
  ],
- "triangles": 32914,
+ "triangles": 33274,
  "interactive": {
   "BV2_Drawer_1": {
    "kind": "drawer",
@@ -1939,6 +1982,11 @@
    "kind": "tool",
    "tool": "Inspect",
    "label": "检查（放大镜）"
+  },
+  "BV2_Tool_Sprayer": {
+   "kind": "tool",
+   "tool": "Paint",
+   "label": "涂装喷罐"
   },
   "BV2_Lamp": {
    "kind": "lamp"

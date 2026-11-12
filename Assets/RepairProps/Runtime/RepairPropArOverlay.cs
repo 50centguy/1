@@ -43,6 +43,7 @@ namespace BorderRepair.RepairProps
         /// <summary>With a tool in hand: what a left click at the pointer does ("左键 ▶ …") or why it does nothing ("✕ …").</summary>
         public string ToolPreview { get; private set; }
         bool pointerOnItem;
+        BorderRepair.TwoNight.ClinicCleaningController cleaning;
         public string HintText => hint != null ? hint.text : "";
         public string NextTarget { get; private set; }
         public bool Showing => canvas != null && canvas.enabled;
@@ -304,6 +305,9 @@ namespace BorderRepair.RepairProps
             string step = batch != null ? batch.GetComponentInChildren<Text>().text + "（批量）" : next != null ? next.label : null;
             hint.text = "提示 // " + (next != null ? "下一步 " + step + (batch != null || owner.Station.ActiveTool == next.tool ? ""
                 : "（工具：" + RepairActionText.Label(next.tool).Replace(" ", "") + "）") : RepairPropWorkflowStatus.NextStep(flow));
+            if (cleaning == null) cleaning = FindFirstObjectByType<BorderRepair.TwoNight.ClinicCleaningController>();
+            if (cleaning != null && cleaning.Cleaning)
+                hint.text = "清洁中 // 已清除 " + cleaning.Progress.ToString("P0") + "　按住左键擦拭　·　右键单击放下工具";
             Place(hint.rectTransform, new Vector2(right / 2, 44), new Vector2(Mathf.Min(right - 60, 760), 60));
             float hintHeight = hint.preferredHeight;
             bandTop = 12 + hintHeight + 40;

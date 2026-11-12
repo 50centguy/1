@@ -1072,7 +1072,9 @@ namespace BorderRepair.RepairProps.UI.Tests
 
             var bench = RepairBenchV2Runtime.Current;
             var tools = bench.Props.Where(p => p.Kind == RepairBenchPropKind.Tool).ToArray();
-            Assert.That(tools.Length, Is.EqualTo(5), "Screwdriver, opening tool, tester, loupe and the cleaning tool.");
+            Assert.That(tools.Length, Is.EqualTo(6), "Screwdriver, opening tool, tester, loupe, the cleaning tool and the paint can.");
+            var sprayer = bench.FindProp("BV2_Tool_Sprayer");
+            Assert.That(sprayer != null && sprayer.IsPainter, Is.True, "The paint can stands by the tray.");
             var cleaner = bench.FindProp("BV2_Tool_Cleaner");
             Assert.That(cleaner != null && cleaner.IsCleaner && cleaner.HasTip, Is.True, "The cleaning tool is in the tray, bristles marked as its working end.");
             var loupe = bench.FindProp("BV2_Tool_Loupe");
@@ -1097,21 +1099,18 @@ namespace BorderRepair.RepairProps.UI.Tests
 
             Rect ScreenRect(RectTransform r) { var c = new Vector3[4]; r.GetWorldCorners(c); return Rect.MinMaxRect(c[0].x, c[0].y, c[2].x, c[2].y); }
             var cleaning = Object.FindFirstObjectByType<ClinicCleaningController>();
-            Assert.That(cleaning != null && cleaning.ControlsRect != null && cleaning.ControlsRect.gameObject.activeInHierarchy, Is.True, "The cleaning bar shows at the bench.");
+            Assert.That(cleaning != null && cleaning.ControlsRect != null, Is.True);
+            Assert.That(cleaning.ControlsRect.gameObject.activeInHierarchy, Is.False, "With the cleaning tool in the tray, its on-screen bar stays away.");
             var assistant = Object.FindFirstObjectByType<ClinicAssistantRuntime>();
             Assert.That(assistant, Is.Not.Null);
             bool cardWasActive = assistant.Card.gameObject.activeSelf;
             assistant.Card.gameObject.SetActive(true);
             Canvas.ForceUpdateCanvases();
             yield return null;
-            var bar = ScreenRect(cleaning.ControlsRect);
             var card = ScreenRect(assistant.Card);
             Assert.That(card.Overlaps(tray), Is.False, "UNIT 07's card covers the tool tray: card " + card + " tray " + tray);
-            Assert.That(bar.Overlaps(tray), Is.False, "The cleaning bar covers the tool tray: bar " + bar + " tray " + tray);
-            Assert.That(bar.Overlaps(card), Is.False, "The cleaning bar and UNIT 07's card overlap: " + bar + " / " + card);
             Assert.That(bridge.ArOverlay.GuideBand, Is.Not.Null);
             var guide = ScreenRect(bridge.ArOverlay.GuideBand);
-            Assert.That(bar.Overlaps(guide), Is.False, "The cleaning bar overlaps the guide band: " + bar + " / " + guide);
             Assert.That(card.Overlaps(guide), Is.False, "UNIT 07's card overlaps the guide band: " + card + " / " + guide);
             yield return Shoot("50-bench-hud-clear", View);
             assistant.Card.gameObject.SetActive(cardWasActive);
@@ -1126,6 +1125,7 @@ namespace BorderRepair.RepairProps.UI.Tests
 
             Assert.That(cleaning.SetCleaning(true), Is.True, cleaning.UnavailableReason);
             yield return Until(() => tools.All(t => t.Lifted == (t == cleaner)), "While cleaning, the cleaning tool alone is in hand.");
+            StringAssert.Contains("清洁中", bridge.ArOverlay.HintText, "The guide line carries the cleaning progress instead of a bar.");
             for (int i = 0; i < 20; i++) yield return null;
             Assert.That(tools.Any(t => t != cleaner && t.Lifted), Is.False, "The loupe must not rise while the cleaning tool is in hand.");
             Assert.That(bench.HeldTool == cleaner || cleaner.Lifted, Is.True);
@@ -1137,6 +1137,30 @@ namespace BorderRepair.RepairProps.UI.Tests
             yield return Until(() => cleaning.Cleaning && cleaner.Lifted, "A click on the cleaning tool starts cleaning.");
             cleaning.SetCleaning(false);
             yield return Until(() => loupe.Lifted, "Back to empty hands.");
+
+            // The paint can opens the appearance editor and puts it away again.
+            sprayer.Activate(bridge);
+            yield return Until(() => bridge.ContextPanel.AppearanceOpen && sprayer.Lifted, "A click on the paint can opens the appearance editor.");
+            for (int i = 0; i < 20; i++) yield return null;
+            yield return Shoot("52-bench-paint-can-open", View);
+            sprayer.Activate(bridge);
+            yield return Until(() => !bridge.ContextPanel.AppearanceOpen && !sprayer.Lifted, "A second click closes it.");
+
+            // The tester's leads are slack cables, not a rigid mesh: they reach from the tester to the probes and lie on the bench.
+            var leads = bench.Leads;
+            Assert.That(leads != null && leads.Count == 2, Is.True, "Two leads.");
+            var meter = bench.FindProp("BV2_Tool_Meter");
+            float topY = bench.Bench.GetComponentsInChildren<Transform>().First(t => t.name == "Ref_BenchTopOrigin").position.y;
+            meter.Activate(bridge);
+            yield return Until(() => meter.Lifted, "The tester is taken.");
+            for (int i = 0; i < 40; i++) yield return null;
+            for (int l = 0; l < 2; l++)
+            {
+                var cable = leads.Cable(l);
+                Assert.That(cable.All(p => p.y > topY - .001f), Is.True, "No part of a lead is under the bench top.");
+                Assert.That(Vector3.Distance(cable[cable.Length - 1], leads.Probe(l).position), Is.LessThan(.005f), "The cable ends at its probe.");
+            }
+            bench.FindProp("BV2_Tool_Loupe").Activate(bridge);
         }
 
         // The guided first order as the player sees it: the lesson card in the room and at the bench, on the short HUD.
@@ -1212,6 +1236,7 @@ namespace BorderRepair.RepairProps.UI.Tests
                 Vector2 At() => View.WorldToScreenPoint(body.center);
                 void Point(Vector2 p, int buttons = 0) => InputSystem.QueueStateEvent(mouse, new MouseState { position = p, buttons = (ushort)buttons });
                 IEnumerator Settle() { for (int i = 0; i < 20; i++) { Point(At()); yield return null; } }
+                IEnumerator Hover(Vector2 p) { for (int i = 0; i < 20; i++) { Point(p); yield return null; } }
 
                 // The wrong tool: it comes into the hand, and the cursor says why it does nothing here.
                 var screwdriver = bench.FindProp("BV2_Tool_Screwdriver");
@@ -1222,6 +1247,13 @@ namespace BorderRepair.RepairProps.UI.Tests
                 yield return Settle();
                 Assert.That(Vector3.Distance(body.ClosestPoint(screwdriver.TipPosition), screwdriver.TipPosition), Is.LessThan(.03f),
                     "Its tip, not its handle, is on the item under the pointer.");
+                // Over the bare bench the tool stands up instead of sinking into the table.
+                float benchY = bench.Bench.GetComponentsInChildren<Transform>().First(t => t.name == "Ref_BenchTopOrigin").position.y;
+                var matCentre = bench.Bench.GetComponentsInChildren<Transform>().First(t => t.name == "BV2_Mat").GetComponent<Renderer>().bounds.center; var matPoint = (Vector2)View.WorldToScreenPoint(matCentre + Vector3.ProjectOnPlane(View.transform.position - matCentre, Vector3.up).normalized * .2f);
+                for (int i = 0; i < 25; i++) { Point(matPoint); yield return null; }
+                float lowest = screwdriver.GetComponent<MeshFilter>().sharedMesh.vertices.Min(v => screwdriver.transform.TransformPoint(v).y);
+                Assert.That(lowest, Is.GreaterThan(benchY - .001f), "The screwdriver in hand does not go through the bench top.");
+                yield return Shoot("72-tool-over-bench", View, () => Hover(matPoint)); yield return Settle();
                 StringAssert.StartsWith("✕", bridge.ArOverlay.ToolPreview, "Before the power is off the screwdriver has nothing to do here.");
                 yield return Shoot("70-tool-in-hand-wrong", View, Settle);
 

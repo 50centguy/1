@@ -1187,14 +1187,17 @@ def build_tools():
                                        "M_BV2_Tape", "M_BV2_Brass"], origin=(cx, cy, top), role="tool")
     top_quad("BV2_Tool_Meter_Lcd", "M_BV2_Lcd", cx - .030, cx + .030, cy + .008, cy + .042, top + .0348, parent=ob)
     INTERACT[ob.name] = {"kind": "tool", "tool": "ServiceModule", "label": "检测仪"}
-    bm = bm_new()
-    for dy, m, ex, py in ((.030, 0, -0.450, 0.564), (.044, 1, -0.436, 0.577)):
-        start = (cx - .050, cy + dy, top + .014)
-        pts = bezier(start, (cx - .075, cy + dy, top + .034), (ex + .10, py, top + .026), (ex + .045, py, top + .008), 14)
-        add_sweep(bm, pts, .0022, 6, m)
-        add_cyl(bm, (ex + .015, py, top + .008), .0052, .060, "X", 8, m)
-        add_cyl(bm, (ex - .023, py, top + .008), .0013, .018, "X", 6, 2)
-    new_obj("BV2_Tool_MeterLeads", bm, ["M_BV2_WornRed", "M_BV2_Rubber", "M_BV2_SteelBare"], origin=(cx, cy, top), parent=ob)
+    # The two leads: Unity strings a slack cable from each jack to its probe (BenchLeads), so only the probes and the
+    # jack positions are modelled. Probe pivot = where the cable enters the handle; <probe>_Tip = the needle point.
+    for name, dy, mat, ex, py in (("Red", .030, "M_BV2_WornRed", -0.450, 0.564), ("Black", .044, "M_BV2_Rubber", -0.436, 0.577)):
+        bm = bm_new()
+        add_cyl(bm, (ex + .015, py, top + .008), .0052, .060, "X", 8, 0)
+        add_cyl(bm, (ex + .040, py, top + .008), .0060, .008, "X", 8, 2)                 # strain relief
+        add_cyl(bm, (ex - .016, py, top + .008), .0034, .004, "X", 8, 2)                 # finger guard
+        add_cyl(bm, (ex - .023, py, top + .008), .0013, .018, "X", 6, 1)
+        probe = new_obj("BV2_Tool_Meter_Probe" + name, bm, [mat, "M_BV2_SteelBare", "M_BV2_DarkPlastic"], origin=(ex + .045, py, top + .008), parent=ob, role="probe")
+        empty(probe.name + "_Tip", (ex - .032, py, top + .008), probe)
+        empty("BV2_Tool_Meter_Jack" + name, (cx - .050, cy + dy, top + .014), ob)
 
     # ---- Loupe (检查 / 空手): a lit bench loupe. Dark ring with a row of pale LEDs, thick lens, a battery handle with
     # a knurled rubber sleeve and a yellow tape repair.
@@ -1212,6 +1215,20 @@ def build_tools():
     ob = new_obj("BV2_Tool_Loupe", bm, ["M_BV2_DarkPlastic", "M_BV2_CrtGlass", "M_BV2_Ivory", "M_BV2_Yellow", "M_BV2_Ceramic", "M_BV2_Rubber", "M_BV2_SteelBare"],
                  origin=(cx, cy, top), role="tool")
     INTERACT[ob.name] = {"kind": "tool", "tool": "Inspect", "label": "检查（放大镜）"}
+
+    # ---- Paint can (外观 / 涂装): a dented aerosol with a hand-painted colour band and a red cap nozzle, standing behind
+    # the tray. Clicking it opens the appearance editor.
+    sx, sy = -0.405, 0.648
+    bm = bm_new()
+    add_cyl(bm, (sx, sy, T + .055), .024, .110, "Z", 16, 0, bevel=.003)
+    add_cyl(bm, (sx, sy, T + .060), .0244, .034, "Z", 16, 1)                            # colour band
+    add_cyl(bm, (sx, sy, T + .030), .0243, .010, "Z", 16, 4)                            # tape strip, hand number
+    add_lathe(bm, [(.024, 0), (.021, .008), (.012, .013), (.012, .016)], (sx, sy, T + .110), "Z", 16, 2)   # shoulder
+    add_cyl(bm, (sx, sy, T + .134), .0125, .018, "Z", 12, 3, bevel=.002)                # cap
+    add_cyl(bm, (sx, sy - .0125, T + .136), .003, .006, "Y", 8, 5)                      # nozzle
+    ob = new_obj("BV2_Tool_Sprayer", bm, ["M_BV2_Ivory", "M_BV2_Orange", "M_BV2_SteelBare", "M_BV2_WornRed", "M_BV2_Tape", "M_BV2_DarkPlastic"],
+                 origin=(sx, sy, T), role="tool")
+    INTERACT[ob.name] = {"kind": "tool", "tool": "Paint", "label": "涂装喷罐"}
 
     # ---- Cleaning supplies behind the tray (static): an isopropyl pump bottle with a steel dish top and a tape
     # label, a flat tin of lint-free wipes with one pulled out.
