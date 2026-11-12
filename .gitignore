@@ -39,3 +39,7 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Test runner leaves these behind when a run is interrupted
+/Assets/InitTestScene*.unity
+/Assets/InitTestScene*.unity.meta
