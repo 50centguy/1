@@ -92,6 +92,7 @@ namespace BorderRepair.FirstOrder.Slice
 
         void Awake()
         {
+            global::BorderRepair.Controls.EscapeRouter.Register(global::BorderRepair.Controls.EscapeRouter.Layer.Panel, this, () => manualPanel != null && manualPanel.activeSelf);
             Observation = new SliceObservation(flow);
             Build();
         }
@@ -367,7 +368,7 @@ namespace BorderRepair.FirstOrder.Slice
             if (kb != null && !FirstOrderInput.TextInputFocused)
             {
                 if (kb.f3Key.wasPressedThisFrame) ToggleDebug();
-                if (kb.escapeKey.wasPressedThisFrame) { if (manualPanel.activeSelf) ToggleManual(); else obsPanel.SetActive(false); }
+                if (global::BorderRepair.Controls.EscapeRouter.Pressed(global::BorderRepair.Controls.EscapeRouter.Layer.Panel)) { if (manualPanel.activeSelf) ToggleManual(); else obsPanel.SetActive(false); }
             }
 
             // 镜头历史（含流程自动切换的镜头），供“返回”使用

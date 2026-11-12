@@ -58,6 +58,7 @@ namespace BorderRepair.RepairProps
         public void Initialize(RepairPropEconomyController controller)
         {
             owner = controller;
+            global::BorderRepair.Controls.EscapeRouter.Register(global::BorderRepair.Controls.EscapeRouter.Layer.Shop, this, () => owner != null && owner.IsOpen);
             font = RepairPropCyberStyle.UiFontOr(UIFontProvider.GetCjkFont(Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf")));
             mono = RepairPropCyberStyle.Mono != null ? RepairPropCyberStyle.Mono : font;
             kana = RepairPropCyberStyle.Kana != null ? RepairPropCyberStyle.Kana : font;
@@ -359,8 +360,7 @@ namespace BorderRepair.RepairProps
         {
             if (owner != null && owner.IsOpen)
             {
-                var keyboard = UnityEngine.InputSystem.Keyboard.current;
-                if (keyboard != null && keyboard.escapeKey.wasPressedThisFrame) owner.Close();
+                if (global::BorderRepair.Controls.EscapeRouter.Pressed(global::BorderRepair.Controls.EscapeRouter.Layer.Shop)) owner.Close();
             }
             if (stamp == null) return;
             // The dealer on the line while the terminal is open (live portrait from the NPC studio when present).

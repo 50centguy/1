@@ -629,6 +629,7 @@ namespace BorderRepair.RepairProps
 
         void Awake()
         {
+            global::BorderRepair.Controls.EscapeRouter.Register(global::BorderRepair.Controls.EscapeRouter.Layer.Gesture, this, () => current != null);
             if (tickClip != null) return;
             const int rate = RepairSoundSynth.Rate;
             tickClip = Clip("tick", .03f, (t, n) => Mathf.Exp(-t * 900f) * (Mathf.Sin(t * 2f * Mathf.PI * 3400f) * .6f + n * .5f));

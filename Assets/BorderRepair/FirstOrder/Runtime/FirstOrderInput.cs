@@ -143,10 +143,14 @@ namespace BorderRepair.FirstOrder
             return (hit, flow.Click(hit));
         }
 
+        /// <summary>Set by whoever needs 1-9 for itself right now; while it returns true the camera keys stand down.</summary>
+        public static System.Func<bool> NumberKeysClaimed;
+
         void Update()
         {
             var kb = Keyboard.current;
-            if (kb != null && debugKeys && !TextInputFocused)
+            // Something else may own the number keys for a moment (replies on a phone call).
+            if (kb != null && debugKeys && !TextInputFocused && !(NumberKeysClaimed != null && NumberKeysClaimed()))
             {
                 for (int i = 0; i < FirstOrderCameraRig.Order.Length; i++)
                     if (kb[(Key)((int)Key.Digit1 + i)].wasPressedThisFrame) flow.Rig.Go(FirstOrderCameraRig.Order[i]);

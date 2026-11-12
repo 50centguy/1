@@ -64,7 +64,7 @@ namespace BorderRepair.RepairProps
         public static Vector2 ScreenPointer => Simulated ? Pointer : RepairInput.PointerPosition;
         public static bool LeftHeld => Simulated ? Held : RepairInput.LeftHeld;
         public static bool OverUi => !Simulated && RepairInput.PointerOverUI;
-        public static bool CancelPressed => !Simulated && Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
+        public static bool CancelPressed => !Simulated && global::BorderRepair.Controls.EscapeRouter.Pressed(global::BorderRepair.Controls.EscapeRouter.Layer.Gesture);
     }
 
     // One gesture's hand motion, in canvas units relative to the part's on-screen anchor. Pure: the bench component

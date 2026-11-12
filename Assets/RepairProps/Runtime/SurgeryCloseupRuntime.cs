@@ -72,7 +72,11 @@ namespace BorderRepair.RepairProps
             host.AddComponent<SurgeryCloseupRuntime>();
         }
 
-        void Awake() => Current = this;
+        void Awake()
+        {
+            Current = this;
+            global::BorderRepair.Controls.EscapeRouter.Register(global::BorderRepair.Controls.EscapeRouter.Layer.Closeup, this, () => Active);
+        }
 
         void Start()
         {
@@ -163,8 +167,7 @@ namespace BorderRepair.RepairProps
         {
             if (!Active) return;
             if (Patient == null || Op == null || Patient.PhaseNow != SurgeryPatientRuntime.Phase.Secured) { Close(); return; }
-            var keyboard = Keyboard.current;
-            if (keyboard != null && keyboard.escapeKey.wasPressedThisFrame) { Close(); return; }
+            if (global::BorderRepair.Controls.EscapeRouter.Pressed(global::BorderRepair.Controls.EscapeRouter.Layer.Closeup)) { Close(); return; }
             if (Time.frameCount == openedFrame) return;   // the click that opened the view is not a click in it
             if (RepairInput.ResetViewPressed) ResetView();
             bool overUi = RepairInput.PointerOverUI;

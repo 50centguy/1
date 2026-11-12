@@ -87,6 +87,8 @@ namespace BorderRepair.RepairProps
         void Awake()
         {
             Current = this;
+            // While replies are up, 1-4 pick a reply and must not also switch the dock's fixed cameras.
+            BorderRepair.FirstOrder.FirstOrderInput.NumberKeysClaimed = () => Current != null && Current.Choosing;
             sceneStart = Time.unscaledTime;
             font = RepairPropCyberStyle.UiFontOr(UIFontProvider.GetCjkFont(Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf")));
             mono = RepairPropCyberStyle.Mono != null ? RepairPropCyberStyle.Mono : font;
@@ -270,7 +272,8 @@ namespace BorderRepair.RepairProps
             if (mode == Mode.Idle) { Trigger(); return; }
             float now = Time.unscaledTime;
             var keyboard = Keyboard.current;
-            bool key = !ClinicStartScreenRuntime.Blocking && keyboard != null && keyboard.tKey.wasPressedThisFrame;
+            bool key = !ClinicStartScreenRuntime.Blocking && keyboard != null && keyboard.tKey.wasPressedThisFrame
+                && !BorderRepair.FirstOrder.FirstOrderInput.TextInputFocused;   // typing a t in a field is not answering
             switch (mode)
             {
                 case Mode.Ringing:

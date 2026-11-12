@@ -87,6 +87,14 @@
 
 ---
 
+## 按键约定
+
+- **Esc 一次只关最上面一层**：配件采购 > SYS 菜单 > 手册 > 进行中的维修手势 > 手术近景 > 松开光标。新的 Esc 处理不要直接读 `escapeKey`，用 `BorderRepair.Controls.EscapeRouter`：`Register(层, this, () => 是否打开)`，再问 `Pressed(层)`。
+- **数字键**：来电出现选项时 1–4 选回答，此时停靠七号的机位键让位（`FirstOrderInput.NumberKeysClaimed`）。
+- 读字母键的地方要检查 `FirstOrderInput.TextInputFocused`，输入框里打字不算操作。
+
+---
+
 ## 开发规则
 
 1. **先只读审查**，区分"已完成 / 仅编写 / 未验证 / 已知问题"，不要一上手就大规模修改。

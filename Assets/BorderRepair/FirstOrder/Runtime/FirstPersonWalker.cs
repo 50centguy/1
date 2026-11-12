@@ -105,7 +105,7 @@ namespace BorderRepair.FirstOrder
             if (kb != null && !typing && rig.Walking && !requested)
             {
                 if (kb.tabKey.wasPressedThisFrame) CursorReleased = !CursorReleased;
-                if (kb.escapeKey.wasPressedThisFrame) CursorReleased = true;
+                if (global::BorderRepair.Controls.EscapeRouter.Pressed(global::BorderRepair.Controls.EscapeRouter.Layer.Cursor)) CursorReleased = true;   // only when nothing above (a panel, a gesture) took the press
             }
             // 放开鼠标时点一下画面（不在界面上）：重新锁住，这一下不算操作
             if (rig.Walking && CursorReleased && !requested && mouse != null && mouse.leftButton.wasPressedThisFrame && !FirstOrderInput.IsOverUI(mouse.position.ReadValue()))

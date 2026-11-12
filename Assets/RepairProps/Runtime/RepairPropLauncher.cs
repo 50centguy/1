@@ -70,6 +70,7 @@ namespace BorderRepair.RepairProps
         void Awake()
         {
             Current = this;
+            global::BorderRepair.Controls.EscapeRouter.Register(global::BorderRepair.Controls.EscapeRouter.Layer.Menu, this, () => open);
             var font = RepairPropCyberStyle.UiFontOr(Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf"));
             var host = new GameObject("LauncherCanvas", typeof(RectTransform));
             host.transform.SetParent(transform, false);
@@ -176,8 +177,7 @@ namespace BorderRepair.RepairProps
             bool can = shop != null && shop.CanOpen;
             shopEntry.interactable = can;
             shopNote.text = can ? "▶" : "暂不可用";
-            var keyboard = UnityEngine.InputSystem.Keyboard.current;
-            if (keyboard != null && keyboard.escapeKey.wasPressedThisFrame) Toggle(false);
+            if (open && global::BorderRepair.Controls.EscapeRouter.Pressed(global::BorderRepair.Controls.EscapeRouter.Layer.Menu)) Toggle(false);
         }
 
         Button Entry(RectTransform parent, string label, float y, Font font, UnityEngine.Events.UnityAction action)
