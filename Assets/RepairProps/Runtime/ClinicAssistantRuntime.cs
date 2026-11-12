@@ -230,7 +230,7 @@ namespace BorderRepair.RepairProps
                     .Skip(seenReceipts).Select(t => t.id.Substring(0, Mathf.Min(t.id.Length, ClinicSupplies.ReceiptPrefix.Length + 32))).Distinct().Count();   // prefix + order guid
                 pendingHauls += Mathf.Max(1, orders);
                 seenReceipts = receipts;
-                Say("采购单收到。货到了柜台交付口，我去搬。", Face.Happy);
+                SayGroup("purchase-received");
             }
 
             var calls = ClinicCallRuntime.Current;
@@ -241,10 +241,9 @@ namespace BorderRepair.RepairProps
             var trades = state.customerTrades ?? new List<ClinicCustomerTrade>();
             int delivered = trades.Count(t => t.state == ClinicTradeState.Delivered);
             if (delivered == 0 && now - engagedAt > 6f)
-                Once("greet", ("七号上线。港务租赁单元 NSP-07，今晚归这间铺子调度。", Face.Happy),
-                    ("零件我来搬，修理你来。有事就看我一眼——左键点我。", Face.Smile));
+                OnceGroup("greet");
             if (clinic.TradeState == ClinicTradeState.InRepair)
-                Once("first-item", ("第一件上台了。我在这边待命。拆下来的螺丝别乱放。", Face.Smile));
+                OnceGroup("first-item");
 
             var bridge = clinic.Station != null && clinic.Station.Inspector != null && clinic.Station.Inspector.CurrentItem != null
                 ? clinic.Station.Inspector.CurrentItem.GetComponent<RepairPropStationBridge>() : null;
@@ -253,36 +252,18 @@ namespace BorderRepair.RepairProps
             else if (flow != null && flow.FailedRetests > retestsSeen)
             {
                 retestsSeen = flow.FailedRetests;
-                Say("复测没过。别急，看看是不是哪里没接好，或者螺丝少了一颗。", Face.Worry);
+                SayGroup("retest-failed");
             }
 
             if (state.customerQueueCount > 0 && delivered >= state.customerQueueCount && !Busy && now - quietAt > 4f)
-                Once("all-done", ("今晚的单子都清了。", Face.Happy),
-                    ("……左侧引擎有点热，比平时高 3°C。还在容差内。", Face.Worry),
-                    ("别看我。去记账吧。", Face.Smile));
+                OnceGroup("all-done");
         }
 
         // The robot's own thread: it is one of the port's leased units, and the night's stories brush against it.
         void AfterCall(string id)
         {
-            switch (id)
-            {
-                case "rent-n1":
-                    Once(id, ("霞说的封条，我身上一共七张。一张都没破。我数过。", Face.Smile)); break;
-                case "dealer-intro":
-                    Once(id, ("源的货……我扫过序列号。有一半登记在港务的报废清单上。", Face.Worry), ("“不问来路”，是吧。", Face.Smile)); break;
-                case "patrol-receiver":
-                    Once(id, ("……02:10 那个自动应答，我在调度频段上也收到了。", Face.Signal),
-                        ("巡检 07-B 和我是同一批出厂的。编号挨着。", Face.Signal),
-                        ("我不知道它记不记得他。我只知道，它每晚还在走那一圈。", Face.Smile)); break;
-                case "dealer-cartridge":
-                    Once(id, ("港务也在换自动吊臂。", Face.Worry),
-                        ("……要是哪天我的租约到期，会不会也有人把我的校准拆下来卖？", Face.Worry),
-                        ("开玩笑的。先把今晚的单子做完。", Face.Smile)); break;
-                case "care-omamori":
-                    Once(id, ("小绿的型号比我还早两代。厂家关了服务器，它还亮着。", Face.Smile),
-                        ("鳶的“晚安”……如果哪天我也只能替别人说话，我希望能说得像她那样。", Face.Happy)); break;
-            }
+            // Lines per call: the "after-call:<id>" groups in assistant.json.
+            OnceGroup(id, "after-call:" + id);
         }
 
         // Clicking the robot (aimed crosshair while walking, the pointer otherwise).
@@ -311,22 +292,15 @@ namespace BorderRepair.RepairProps
             lastActivity = Time.unscaledTime;
             if (speaking) { lineHold = 0; return; }   // a click skips the current line
             var state = clinic.State;
-            string hint = Busy ? "我在搬货，马上回来。" :
-                clinic.Carrying ? "放到维修台上就行。我帮你看着路。" :
-                clinic.HasPendingCase ? "柜台接收区有新单子。" :
-                clinic.TradeState == ClinicTradeState.InRepair ? "台上那件还没修完。缺配件就开采购单，我去搬。" :
-                clinic.TradeState == ClinicTradeState.ReadyForDelivery ? "修好的东西该交给客人了。去柜台交付区。" : null;
-            var banter = new List<string>
-            {
-                "我的托盘承重四公斤。今晚最重的是那台电源。",
-                "转子转速正常。你的手很稳。",
-                "屏幕上的笑脸是出厂设置。不过我挺喜欢的。",
-                "港务的调度频段今晚很安静。安静得有点不对。",
-            };
-            if (said.Contains("patrol-receiver")) banter.Add("02:10 快到了吗？……我只是在看时间。");
-            if (said.Contains("care-omamori")) banter.Add("小绿刚才在照护站的频段上发了一个心跳包。它还好。");
+            string hint = Busy ? RepairPropStoryText.AssistantHint("hint-busy") :
+                clinic.Carrying ? RepairPropStoryText.AssistantHint("hint-carrying") :
+                clinic.HasPendingCase ? RepairPropStoryText.AssistantHint("hint-pending-case") :
+                clinic.TradeState == ClinicTradeState.InRepair ? RepairPropStoryText.AssistantHint("hint-in-repair") :
+                clinic.TradeState == ClinicTradeState.ReadyForDelivery ? RepairPropStoryText.AssistantHint("hint-ready-for-delivery") : null;
+            var banter = new List<string>(RepairPropStoryText.Banter);
+            foreach (var extra in RepairPropStoryText.BanterAfterCall) if (said.Contains(extra.afterCall)) banter.Add(extra.text);
             if (hint != null) Say(hint, Busy ? Face.Carry : Face.Smile);
-            Say(banter[talkCount++ % banter.Count], Face.Happy);
+            if (banter.Count > 0) Say(banter[talkCount++ % banter.Count], Face.Happy);
         }
 
         // ---- hauling ------------------------------------------------------------------------------------------
@@ -382,7 +356,7 @@ namespace BorderRepair.RepairProps
             if (benchCrate != null) Destroy(benchCrate);   // the newest delivery replaces the last one on the bench
             benchCrate = crate; crate = null; benchCrateAt = Time.unscaledTime;
             Hauls++;
-            Say("配件放到维修台右手边了。签收：七号。", Face.Happy);
+            SayGroup("parts-delivered");
             yield return Jaw(0);
             yield return Fly(benchRotation, BenchHover, BenchLane);
             yield return Turn(benchRotation, homeRotation, BenchLane);
@@ -466,6 +440,19 @@ namespace BorderRepair.RepairProps
             if (!said.Add(key)) return;
             foreach (var entry in said_) Say(entry.text, entry.face);
         }
+
+        // UNIT 07's lines live in Assets/RepairProps/Story/Resources/RepairPropsStory/assistant.json (RepairPropStoryText).
+        void SayGroup(string group) { foreach (var l in RepairPropStoryText.AssistantGroup(group)) Say(l.text, ParseFace(l.face)); }
+
+        /// <summary>Says a group once per run, remembered under key (the group name unless given). Nothing is remembered for an empty group.</summary>
+        void OnceGroup(string key, string group = null)
+        {
+            var lines = RepairPropStoryText.AssistantGroup(group ?? key);
+            if (lines.Count == 0 || !said.Add(key)) return;
+            foreach (var l in lines) Say(l.text, ParseFace(l.face));
+        }
+
+        static Face ParseFace(string face) => System.Enum.TryParse(face, out Face parsed) ? parsed : Face.Smile;
 
         void Speak(float now)
         {

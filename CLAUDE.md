@@ -77,6 +77,12 @@
 
 ---
 
+## 剧情文本
+
+物品背景故事、部件痕迹、测试附注、来电台词和 UNIT 07 的台词都在 `Assets/RepairProps/Story/Resources/RepairPropsStory/` 的 `props.json`、`calls.json`、`assistant.json` 里，由 `RepairPropStoryText` 读取。改剧情直接改 JSON，不用改代码；键名（物品 kind、部件节点名、测试 id、来电 id、助手的 group/hint 键）要保持不变，`RepairPropStoryTextTests` 会检查它们都还在。界面提示和按钮文字仍写在代码里。
+
+---
+
 ## 开发规则
 
 1. **先只读审查**，区分"已完成 / 仅编写 / 未验证 / 已知问题"，不要一上手就大规模修改。

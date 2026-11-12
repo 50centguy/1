@@ -1,0 +1,177 @@
+{
+  "groups": [
+    {
+      "key": "purchase-received",
+      "lines": [
+        {
+          "face": "Happy",
+          "text": "采购单收到。货到了柜台交付口，我去搬。"
+        }
+      ]
+    },
+    {
+      "key": "greet",
+      "lines": [
+        {
+          "face": "Happy",
+          "text": "七号上线。港务租赁单元 NSP-07，今晚归这间铺子调度。"
+        },
+        {
+          "face": "Smile",
+          "text": "零件我来搬，修理你来。有事就看我一眼——左键点我。"
+        }
+      ]
+    },
+    {
+      "key": "first-item",
+      "lines": [
+        {
+          "face": "Smile",
+          "text": "第一件上台了。我在这边待命。拆下来的螺丝别乱放。"
+        }
+      ]
+    },
+    {
+      "key": "retest-failed",
+      "lines": [
+        {
+          "face": "Worry",
+          "text": "复测没过。别急，看看是不是哪里没接好，或者螺丝少了一颗。"
+        }
+      ]
+    },
+    {
+      "key": "all-done",
+      "lines": [
+        {
+          "face": "Happy",
+          "text": "今晚的单子都清了。"
+        },
+        {
+          "face": "Worry",
+          "text": "……左侧引擎有点热，比平时高 3°C。还在容差内。"
+        },
+        {
+          "face": "Smile",
+          "text": "别看我。去记账吧。"
+        }
+      ]
+    },
+    {
+      "key": "after-call:rent-n1",
+      "lines": [
+        {
+          "face": "Smile",
+          "text": "霞说的封条，我身上一共七张。一张都没破。我数过。"
+        }
+      ]
+    },
+    {
+      "key": "after-call:dealer-intro",
+      "lines": [
+        {
+          "face": "Worry",
+          "text": "源的货……我扫过序列号。有一半登记在港务的报废清单上。"
+        },
+        {
+          "face": "Smile",
+          "text": "“不问来路”，是吧。"
+        }
+      ]
+    },
+    {
+      "key": "after-call:patrol-receiver",
+      "lines": [
+        {
+          "face": "Signal",
+          "text": "……02:10 那个自动应答，我在调度频段上也收到了。"
+        },
+        {
+          "face": "Signal",
+          "text": "巡检 07-B 和我是同一批出厂的。编号挨着。"
+        },
+        {
+          "face": "Smile",
+          "text": "我不知道它记不记得他。我只知道，它每晚还在走那一圈。"
+        }
+      ]
+    },
+    {
+      "key": "after-call:dealer-cartridge",
+      "lines": [
+        {
+          "face": "Worry",
+          "text": "港务也在换自动吊臂。"
+        },
+        {
+          "face": "Worry",
+          "text": "……要是哪天我的租约到期，会不会也有人把我的校准拆下来卖？"
+        },
+        {
+          "face": "Smile",
+          "text": "开玩笑的。先把今晚的单子做完。"
+        }
+      ]
+    },
+    {
+      "key": "after-call:care-omamori",
+      "lines": [
+        {
+          "face": "Smile",
+          "text": "小绿的型号比我还早两代。厂家关了服务器，它还亮着。"
+        },
+        {
+          "face": "Happy",
+          "text": "鳶的“晚安”……如果哪天我也只能替别人说话，我希望能说得像她那样。"
+        }
+      ]
+    },
+    {
+      "key": "parts-delivered",
+      "lines": [
+        {
+          "face": "Happy",
+          "text": "配件放到维修台右手边了。签收：七号。"
+        }
+      ]
+    }
+  ],
+  "hints": [
+    {
+      "key": "hint-busy",
+      "text": "我在搬货，马上回来。"
+    },
+    {
+      "key": "hint-carrying",
+      "text": "放到维修台上就行。我帮你看着路。"
+    },
+    {
+      "key": "hint-pending-case",
+      "text": "柜台接收区有新单子。"
+    },
+    {
+      "key": "hint-in-repair",
+      "text": "台上那件还没修完。缺配件就开采购单，我去搬。"
+    },
+    {
+      "key": "hint-ready-for-delivery",
+      "text": "修好的东西该交给客人了。去柜台交付区。"
+    }
+  ],
+  "banter": [
+    "我的托盘承重四公斤。今晚最重的是那台电源。",
+    "转子转速正常。你的手很稳。",
+    "屏幕上的笑脸是出厂设置。不过我挺喜欢的。",
+    "港务的调度频段今晚很安静。安静得有点不对。"
+  ],
+  "banterAfterCall": [
+    {
+      "afterCall": "patrol-receiver",
+      "text": "02:10 快到了吗？……我只是在看时间。"
+    },
+    {
+      "afterCall": "care-omamori",
+      "text": "小绿刚才在照护站的频段上发了一个心跳包。它还好。"
+    }
+  ]
+}

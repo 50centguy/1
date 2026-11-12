@@ -26,70 +26,13 @@ namespace BorderRepair.RepairProps
         }
 
         // Original lines for the NSP port setting (Docs/Integration/RepairPropsCyberBench/SETTING_PROPS.md).
-        public static readonly Call[] Calls =
+        // The text is in Assets/RepairProps/Story/Resources/RepairPropsStory/calls.json (RepairPropStoryText).
+        static Call[] calls;
+        public static Call[] Calls => calls ??= RepairPropStoryText.Calls.Select(c => new Call
         {
-            new Call { id = "rent-n1", caller = "Kasumi", name = "霞", title = "房东 · 岸壁三号街", lines = new[]
-            {
-                (false, "喂，开着门呢？……是我，霞。"),
-                (false, "港务又封了两条泊位，夜里来修东西的人只会更多。别嫌累，这是好事。"),
-                (true, "房租的事我记着。"),
-                (false, "记着就好。一千二，第三晚之前交到我手上。我不收欠条，也不收“下周”。"),
-                (false, "还有，七号那台机器人是港务租给你的，封条一张都别撕。他们查起来，连我这块招牌一起摘。"),
-                (false, "……别熬太晚。挂了。"),
-            } },
-            new Call { id = "dealer-intro", caller = "Gen", name = "源", title = "岸壁ジャンク商会", lines = new[]
-            {
-                (false, "新开的修理铺？我是岸壁那头的源。你们这条街的配件，一半是我这儿出去的。"),
-                (false, "缺板子、缺模块，就在终端里点“配件采购”。现货，现结，不问来路。"),
-                (true, "不问来路？"),
-                (false, "我不问你修的是谁的东西，你也别问我的货是从谁身上拆下来的。这一行能活下来，靠的就是这个。"),
-                (false, "对了——客人要你保留原件，就照做。人身上的东西，旧的才是他自己的。"),
-            } },
-            new Call { id = "patrol-receiver", caller = "Rin", name = "凛", title = "三号管廊 · 夜班巡检", lines = new[]
-            {
-                (false, "这里是三号管廊巡检，凛。接收器我在泊位底下试过了，信号很干净。"),
-                (false, "那台机子里存着我哥的值班呼叫时段。他在七号泊位底下……那次漏压以后，就再没上来。"),
-                (false, "我知道那个频段已经没人在听了。可每晚两点十分，我还是想在那儿。"),
-                (true, "复测的时候，02:10 有一次自动应答。呼号是「巡检 07-B」。"),
-                (false, "……那是我哥的呼号。"),
-                (false, "港务说过，出事以后他们用他的巡线记录训了一台自动巡检。原来连呼号都没改。"),
-                (false, "它不是他。我知道。……可它还在那条管廊里，替他走那一圈。"),
-                (true, "频段和呼叫时段都按原样留着。"),
-                (false, "……谢谢。今晚两点十分，我会回它一句。"),
-            } },
-            new Call { id = "care-omamori", caller = "Tobi", name = "鳶", title = "街区照护站 · 夜班护理", lines = new[]
-            {
-                (false, "您好，我是照护站的夜班护理员，鳶。御守……还能用了吗？"),
-                (false, "里面有一段录音，是我照顾过的一位奶奶。她走之前，每晚都要按一下，听她孙子说一声“晚安”。"),
-                (false, "后来那孩子的号码停了。奶奶不知道，我也没告诉她。"),
-                (true, "录音没有播放，也没有复制。不过只读核对的时候，看到了最近那些条目的录入终端。"),
-                (false, "……照护站 03 号。夜班。"),
-                (false, "是我录的。号码停了以后，奶奶还是每晚都按。我不能让它什么都不说。"),
-                (false, "我学着那孩子的口气说“晚安”，说了两百多次。奶奶最后一晚也按了。她笑了。"),
-                (true, "原来的身份保留了。那些条目也是。"),
-                (false, "……谢谢。我想把它挂在照护站门口，值夜班的时候，就像还有人在说晚安。"),
-                (false, "对了，电源里那根私接的线，是给小绿的。它是以前的看护机，厂家早就关服务器了，可阿婆们还认得它。"),
-                (false, "您没拔掉它。今晚透析机一次都没断，小绿也还亮着。谢谢您。"),
-            } },
-            new Call { id = "dealer-cartridge", caller = "Gen", name = "源", title = "岸壁ジャンク商会", lines = new[]
-            {
-                (false, "卡匣修好了？好，那批货总算有一件能出手。"),
-                (true, "里面的属主是 LUO.Y，装卸 3 组。状态写着“雇主已释放”。"),
-                (false, "……你看得倒仔细。"),
-                (false, "罗。吊机三组的。公司换了自动吊臂，把人裁了，义手合同到期就远程收回。手还在他身上的时候，就已经不是他的了。"),
-                (false, "那只手干了十一年装卸。新手装上它，第一天就能接住摇晃的集装箱。买家要的就是这个。"),
-                (true, "胶布上那句“别格式化”，是谁写的？"),
-                (false, "……他自己。我收货那天，他追到船上来，就说了这一句。"),
-                (false, "我会把买家的联系方式给他。至少让他知道，自己的手去了哪儿。别跟别人说是我心软。"),
-            } },
-            new Call { id = "rent-n2", caller = "Kasumi", name = "霞", title = "房东 · 岸壁三号街", lines = new[]
-            {
-                (false, "第二晚了。账我看过，还差多少你自己清楚。"),
-                (false, "七号那台……昨晚的事我听说了。港务的人说是你这条线出的问题，我替你挡回去了。"),
-                (true, "我会查清楚。"),
-                (false, "这次我信你。别让我下次信不了。明晚之前，一千二。挂了。"),
-            } },
-        };
+            id = c.id, caller = c.caller, name = c.name, title = c.title,
+            lines = (c.lines ?? new RepairPropStoryText.CallLine[0]).Select(l => (l.player, l.text)).ToArray(),
+        }).ToArray();
 
         static readonly HashSet<string> played = new HashSet<string>();
         static TwoNightState playedFor;
@@ -120,7 +63,7 @@ namespace BorderRepair.RepairProps
         public RectTransform Card => card;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetHooks() { SceneManager.sceneLoaded -= OnSceneLoaded; Current = null; played.Clear(); playedFor = null; }
+        static void ResetHooks() { SceneManager.sceneLoaded -= OnSceneLoaded; Current = null; played.Clear(); playedFor = null; calls = null; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Install() => SceneManager.sceneLoaded += OnSceneLoaded;
