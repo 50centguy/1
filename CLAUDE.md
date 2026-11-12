@@ -87,6 +87,14 @@
 
 ---
 
+## 教学关与精简界面
+
+- **教学关**（`Assets/RepairProps/Runtime/ClinicTutorialRuntime.cs`）：新开一局的第一单由 UNIT 07 一步一步带。屏幕下方的教学卡片取代指引条，闪动框标出要点的按钮，流程拒绝“当前这一步”以外的操作（`RepairPropFlow.ExecuteGate`，同一类步骤算一步，见 `Family`），接收器的故障固定为要换小板的那一种（`RepairPropFlow.FaultChooser`）。第一单交付或点“跳过教学”后结束。教学期间七号的闲聊和来电都先不出现。
+- 只有**从诊所场景启动**的游戏（打包后的游戏，或在编辑器里打开 `RepairProps_Clinic` 后按 Play）才会自动开始教学；之后才加载的场景（测试的做法）不受影响。测试里用 `ClinicTutorialRuntime.Begin()` 手动开始。
+- **精简界面**（`RepairPropWorkspaceLayout.Compact`）和教学一起打开，教学结束后保留：阶段条、测试明细、部件下拉框、工单/记录页签、画面装饰读数收起，操作列表只列当前能做的；工单窗口里的“▼ 显示详细信息”可以切回完整面板。默认值是关，所以没开教学的调用方看到的仍是完整面板。
+
+---
+
 ## 按键约定
 
 - **Esc 一次只关最上面一层**：配件采购 > SYS 菜单 > 手册 > 进行中的维修手势 > 手术近景 > 松开光标。新的 Esc 处理不要直接读 `escapeKey`，用 `BorderRepair.Controls.EscapeRouter`：`Register(层, this, () => 是否打开)`，再问 `Pressed(层)`。

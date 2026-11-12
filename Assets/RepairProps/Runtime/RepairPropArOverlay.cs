@@ -30,6 +30,10 @@ namespace BorderRepair.RepairProps
         RectTransform hintBand;
         /// <summary>The guide band along the bottom of the bench view.</summary>
         public RectTransform GuideBand => hintBand;
+        /// <summary>Set while something else (the tutorial card) is telling the player the next step.</summary>
+        public static bool GuideHidden;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetGuide() => GuideHidden = false;
         float tagRight, bandTop;
         readonly Vector3[] corners = new Vector3[8];
         readonly Vector2[] screen = new Vector2[8];
@@ -174,6 +178,11 @@ namespace BorderRepair.RepairProps
                 && (owner.ContextPanel == null || !owner.ContextPanel.AppearanceOpen);
             canvas.enabled = show;
             if (show) Draw();
+            // The short HUD drops the visor's decorative read-outs; the tutorial's own card replaces the guide band.
+            bool readouts = !RepairPropWorkspaceLayout.Compact, guide = !GuideHidden;
+            readout.enabled = visorId.enabled = clock.enabled = ticker.enabled = readouts;
+            if (hintBand.gameObject.activeSelf != guide) hintBand.gameObject.SetActive(guide);
+            hint.enabled = controls.enabled = guide;
             for (int i = usedLines; i < lines.Count; i++) if (lines[i].enabled) lines[i].enabled = false;
             for (int i = usedTags; i < tags.Count; i++) if (tags[i].rect.gameObject.activeSelf) tags[i].rect.gameObject.SetActive(false);
         }

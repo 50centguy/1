@@ -461,7 +461,9 @@ namespace BorderRepair.RepairProps
 
         void Speak(float now)
         {
-            bool onCall = ClinicCallRuntime.Current != null && ClinicCallRuntime.Current.Active;
+            // A call has this corner; and during the guided first order the lesson card is the one voice on screen.
+            bool onCall = ClinicCallRuntime.Current != null && ClinicCallRuntime.Current.Active
+                || ClinicTutorialRuntime.Current != null && ClinicTutorialRuntime.Current.Running;
             if (onCall && card.gameObject.activeSelf)
             {
                 // A call came in: its card takes this corner. The line that was up is said again afterwards.

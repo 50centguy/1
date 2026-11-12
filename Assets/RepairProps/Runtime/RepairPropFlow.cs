@@ -46,6 +46,12 @@ namespace BorderRepair.RepairProps
 
         // Which of the pool's faults this order carries. 0 rolls one at random; tests pin a fault (1-based).
         public static int FaultOverride;
+        /// <summary>Picks this order's fault (1-based) instead of the dice, or returns 0 to roll. The tutorial pins its order's fault with it.</summary>
+        public static Func<RepairPropFlow, int> FaultChooser;
+        /// <summary>A last say over a command the flow would allow: a reason to refuse it, or null. The tutorial holds the player to the step in hand with it.</summary>
+        public static Func<RepairPropFlow, PropCommand, string> ExecuteGate;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetHooks() { FaultChooser = null; ExecuteGate = null; }
         public PropFault ActiveFault => definition != null && definition.HasFaultPool
             ? definition.faults[Mathf.Clamp(GetState("fault"), 1, definition.faults.Count) - 1] : null;
         public bool FaultFixed => ActiveFault == null ? GetState("module") == 2 : Matches(ActiveFault.fixedWhen);
@@ -57,7 +63,8 @@ namespace BorderRepair.RepairProps
         {
             if (!initialized || !definition.HasFaultPool || history.Count > 0) return;
             int count = definition.faults.Count;
-            state["fault"] = FaultOverride > 0 ? Mathf.Clamp(FaultOverride, 1, count) : UnityEngine.Random.Range(1, count + 1);
+            int chosen = FaultOverride > 0 ? FaultOverride : FaultChooser != null ? FaultChooser(this) : 0;
+            state["fault"] = chosen > 0 ? Mathf.Clamp(chosen, 1, count) : UnityEngine.Random.Range(1, count + 1);
         }
 
         /// <summary>The probe's last reading: 0 not measured, 1 normal, 2 abnormal.</summary>
@@ -151,6 +158,7 @@ namespace BorderRepair.RepairProps
                 foreach (var test in definition.tests)
                     if (GetState("pass." + test.id) != 1) { reason = "功能与原有数据一致性复测必须全部通过。"; break; }
             if (reason == null && CommandPolicy != null) CommandPolicy.CanExecute(this, c, out reason);
+            if (reason == null && ExecuteGate != null) reason = ExecuteGate(this, c);
             return reason == null;
         }
 

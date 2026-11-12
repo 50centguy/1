@@ -31,7 +31,11 @@ namespace BorderRepair.RepairProps
         Canvas canvas;
         Font font;
         Text title,subtitle,statusTitle,statusBody,toolStatus,feedback,signal,caseCode;
-        RectTransform content,statusCard,testList,repairBody,toolRow,targetRow,toolsBody,finishWindow;
+        RectTransform content,statusCard,testList,repairBody,toolRow,targetRow,toolsBody,finishWindow,phaseStrip,tabStrip;
+        Button detailToggle;
+        bool builtCompact;
+        /// <summary>Switches between the short panel and the full one.</summary>
+        public Button DetailToggle=>detailToggle;
         readonly List<(Image bg,Text text)> phaseChips=new List<(Image,Text)>();
         readonly List<(Text text,PropTest test)> testLines=new List<(Text,PropTest)>();
         readonly List<ActionRow> actions=new List<ActionRow>();
@@ -98,7 +102,7 @@ namespace BorderRepair.RepairProps
             signal=RepairPropCyberStyle.Caption(caseBar.transform.parent,"",font,10,Color.black,TextAnchor.MiddleRight);
             title=Label(caseWindow,"",16,22,Accent);title.fontStyle=FontStyle.Bold;
             subtitle=Paragraph(caseWindow,12,Dim);
-            var phaseRow=Row(caseWindow,22,2);
+            var phaseRow=Row(caseWindow,22,2);phaseStrip=phaseRow;
             for(int i=0;i<RepairPropWorkflowStatus.PhaseLabels.Length;i++)
             {
                 var chip=Rect("阶段_"+RepairPropWorkflowStatus.PhaseLabels[i],phaseRow);Size(chip,22);
@@ -113,6 +117,7 @@ namespace BorderRepair.RepairProps
             statusBody=Paragraph(statusCard,13,Ink);HudMotion.TypeOn(statusBody,260);
             testList=Rect("Tests",statusCard);Column(testList,0,1);
             foreach(var test in owner.Flow.Definition.tests) testLines.Add((Paragraph(testList,12,Dim),test));
+            detailToggle=Button(caseWindow,"",()=>{RepairPropWorkspaceLayout.Compact=!RepairPropWorkspaceLayout.Compact;dirty=true;},0,20,11);detailToggle.name="详细切换";
 
             // 2. Tools: repair / finish mode, the tool in hand, the part it is aimed at.
             var toolWindow=Window("ToolWindow","工具 // TOOLS",false,.08f,out var toolBar);
@@ -141,7 +146,7 @@ namespace BorderRepair.RepairProps
 
             // 3. Actions: the pages (operations / work order / records) and their list.
             repairBody=Window("ActionWindow","操作 // ACTIONS",true,.16f,out _,0);
-            var tabRow=Row(repairBody,26,2);
+            var tabRow=Row(repairBody,26,2);tabStrip=tabRow;
             foreach(var value in new[]{RepairPropWorkspaceTab.Operate,RepairPropWorkspaceTab.Order,RepairPropWorkspaceTab.Records})
             {
                 var page=value;
@@ -207,6 +212,14 @@ namespace BorderRepair.RepairProps
             }
             Paint(repairMode,!appearance ? Accent:ButtonBg,!appearance ? Color.black:Ink);
             Paint(appearanceMode,appearance ? Accent:ButtonBg,appearance ? Color.black:Ink);
+            // Short panel: one line of status, the tools, the actions. The rest folds away behind the toggle.
+            bool compact=RepairPropWorkspaceLayout.Compact;
+            if(compact && tab!=RepairPropWorkspaceTab.Operate) {tab=RepairPropWorkspaceTab.Operate;dirty=true;}
+            phaseStrip.gameObject.SetActive(!compact);testList.gameObject.SetActive(!compact);
+            targetRow.gameObject.SetActive(!compact);tabStrip.gameObject.SetActive(!compact);
+            if(detailToggle.gameObject.activeSelf!=RepairPropWorkspaceLayout.CompactOffered) detailToggle.gameObject.SetActive(RepairPropWorkspaceLayout.CompactOffered);
+            detailToggle.GetComponentInChildren<Text>(true).text=compact ? "▼ 显示详细信息":"▲ 收起详细信息";
+            if(compact!=builtCompact) {builtCompact=compact;dirty=true;}
             RefreshHeader(flow);
             if(appearance) {RefreshFeedback();return;}
             foreach(var pair in tabs) Paint(pair.Value,pair.Key==tab ? Rule:IdleBg,pair.Key==tab ? Ink:Dim);
@@ -270,6 +283,14 @@ namespace BorderRepair.RepairProps
                 batch.text.color=on ? Color.black:ready ? Ink:Dim;
             }
             if(focusBatch!=null) next=null;   // the batch carries the focus, not one of its single steps
+            // Short panel: only what can be done now is listed. With nothing to do, the status line says why.
+            bool compact=RepairPropWorkspaceLayout.Compact;int offered=0;
+            foreach(var batch in batches)
+            {
+                bool list=!compact || batch.button.interactable || batch==focusBatch;
+                if(batch.button.gameObject.activeSelf!=list) batch.button.gameObject.SetActive(list);
+                if(list) offered++;
+            }
             foreach(var row in actions)
             {
                 var command=flow.Definition.FindCommand(row.command);
@@ -283,11 +304,16 @@ namespace BorderRepair.RepairProps
                 row.strip.color=focus ? Color.black:ready ? Accent:state==RepairPropCommandState.Current ? Rule:Warn;
                 row.label.color=focus ? Color.black:ready ? Ink:Dim;
                 // A shared blocker is written once per section, under the first command it blocks.
-                bool show=!ready && !string.IsNullOrEmpty(reason) && shown.Add((row.section,reason));
+                bool listed=!compact || ready;
+                if(row.button.gameObject.activeSelf!=listed) row.button.gameObject.SetActive(listed);
+                if(listed) offered++;
+                bool show=!compact && !ready && !string.IsNullOrEmpty(reason) && shown.Add((row.section,reason));
                 row.reason.text=show ? reason:"";
                 row.reason.color=state==RepairPropCommandState.Current ? Dim:Warn;
                 if(row.reason.gameObject.activeSelf!=show) row.reason.gameObject.SetActive(show);
             }
+            bool explain=!compact || offered==0;
+            if(statusBody.gameObject.activeSelf!=explain) statusBody.gameObject.SetActive(explain);
         }
 
         void RefreshFeedback()

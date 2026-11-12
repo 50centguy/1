@@ -1129,6 +1129,47 @@ namespace BorderRepair.RepairProps.UI.Tests
             yield return Until(() => loupe.Lifted, "Putting the cleaning tool down returns to empty-handed inspection.");
         }
 
+        // The guided first order as the player sees it: the lesson card in the room and at the bench, on the short HUD.
+        [UnityTest]
+        public IEnumerator Tutorial_CardAndShortHud()
+        {
+            var tutorial = ClinicTutorialRuntime.Begin();
+            try
+            {
+                yield return Until(() => tutorial.StepId == "receive", "The lesson starts at the counter.");
+                yield return Shoot("60-tutorial-room-receive", clinic.Robot.Flow.Rig.Cam);
+                Assert.That(clinic.Interact(ClinicTradeAction.Receive), Is.True, clinic.LastMessage);
+                bridge = clinic.Station.Inspector.CurrentItem.GetComponent<RepairPropStationBridge>();
+                yield return Until(() => Flow.Session != null, "Bridge must attach.");
+                clinic.Counter.DismissDialogue();
+                yield return Until(() => tutorial.StepId == "carry", "Carrying.");
+                yield return Shoot("61-tutorial-room-carry", clinic.Robot.Flow.Rig.Cam);
+                Assert.That(clinic.Interact(ClinicTradeAction.Console), Is.True, clinic.LastMessage);
+                yield return Until(() => bridge.CanInteract, "Bench must be interactive.");
+                yield return Until(() => tutorial.StepId.StartsWith("cmd:", StringComparison.Ordinal), "A bench step.");
+                for (int i = 0; i < 60; i++) yield return null;
+                yield return Shoot("62-tutorial-bench-first-step", View);
+                // On to the first screw: a step that asks for a part to be picked first.
+                for (int step = 0; step < 12; step++)
+                {
+                    var next = RepairPropWorkflowStatus.NextCommand(Flow);
+                    if (next == null || ClinicTutorialRuntime.Family(next.id) == "remove") break;
+                    Assert.That(Flow.TryExecute(next.id, next.target, next.tool), Is.True, next.id);
+                    yield return null;
+                }
+                for (int i = 0; i < 60; i++) yield return null;
+                yield return Shoot("63-tutorial-bench-screws", View);
+                bridge.ContextPanel.DetailToggle.onClick.Invoke();
+                for (int i = 0; i < 20; i++) yield return null;
+                yield return Shoot("64-tutorial-bench-details-open", View);
+            }
+            finally
+            {
+                if (ClinicTutorialRuntime.Current != null) Object.Destroy(ClinicTutorialRuntime.Current.gameObject);
+                RepairPropWorkspaceLayout.ResetCompact();
+            }
+        }
+
         IEnumerator Shoot(string state, Camera camera)
         {
             foreach (var size in Sizes)

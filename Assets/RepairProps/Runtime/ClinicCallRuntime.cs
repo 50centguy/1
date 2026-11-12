@@ -328,6 +328,8 @@ namespace BorderRepair.RepairProps
             if (state == null || clinic == null || !clinic.Initialized) return;
             float now = Time.unscaledTime;
             if (now - lastHangup < 20f) return;
+            // Nothing rings during the guided first order; the calls it held back come in once it is over.
+            if (ClinicTutorialRuntime.Current != null && ClinicTutorialRuntime.Current.Running) return;
             // Calls ring in file order: the first whose trigger holds and has not played this run.
             foreach (var c in Calls)
                 if (!string.IsNullOrWhiteSpace(c.trigger) && !played.Contains(c.id) && DialogueCondition.Evaluate(c.trigger, new World(this, now)) && Begin(c.id)) return;
