@@ -40,6 +40,9 @@ namespace BorderRepair.RepairProps
 
         public string HoveredTarget { get; private set; }
         public RepairBenchProp HoveredProp { get; private set; }
+        /// <summary>With a tool in hand: what a left click at the pointer does ("左键 ▶ …") or why it does nothing ("✕ …").</summary>
+        public string ToolPreview { get; private set; }
+        bool pointerOnItem;
         public string HintText => hint != null ? hint.text : "";
         public string NextTarget { get; private set; }
         public bool Showing => canvas != null && canvas.enabled;
@@ -62,7 +65,7 @@ namespace BorderRepair.RepairProps
             readout = MakeText("Readout", 11, TextAnchor.UpperLeft, RepairPropCyberStyle.Dim);
             hint = MakeText("Hint", 14, TextAnchor.LowerCenter, RepairPropCyberStyle.Amber);
             controls = MakeText("Controls", 11, TextAnchor.LowerCenter, RepairPropCyberStyle.Dim);
-            controls.text = "左键 选择 / 执行　·　拖动 拿起旋转　·　滚轮 缩放　·　R 放下复位";
+            controls.text = "左键 用手上的工具 / 空手查看　·　右键单击 放下工具　·　拖动 旋转　·　滚轮 缩放　·　R 复位";
             visorId = MakeText("VisorId", 11, TextAnchor.UpperLeft, RepairPropCyberStyle.AmberFaint * new Color(1, 1, 1, 2.2f));
             if (RepairPropCyberStyle.Kana != null) visorId.font = RepairPropCyberStyle.Kana;
             visorId.text = "VSR-07 // 修理視界　ＡＲオーバーレイ";
@@ -202,7 +205,7 @@ namespace BorderRepair.RepairProps
             VisorFrame(size, right);
 
             // Pointer part (only when the pointer is over the view, not the panel).
-            HoveredTarget = null; HoveredProp = null;
+            HoveredTarget = null; HoveredProp = null; ToolPreview = null; pointerOnItem = false;
             var pointer = RepairInput.PointerPosition;
             if (!RepairInput.PointerOverUI && (owner.ContextPanel == null || !owner.ContextPanel.ContainsScreenPoint(pointer)))
                 HoveredTarget = Pick(pointer);
@@ -254,8 +257,19 @@ namespace BorderRepair.RepairProps
                 Tag(anchor, "▣ " + (node != null ? node.displayName : owner.SelectedTarget) + "\n" + state, RepairPropCyberStyle.Amber, 12, TextAnchor.UpperLeft, true);
             }
 
-            // Pointer: cyan wireframe and the part name right at the cursor.
-            if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && Wire(camera, HoveredTarget, scale, RepairPropCyberStyle.Hot, out _))
+            // Pointer: cyan wireframe and the part name right at the cursor. With a tool in hand the tag says what a left
+            // click does here (green) or why it does nothing (red), so the tool reads as something to use, not a mode.
+            string toolTarget = HoveredTarget ?? (pointerOnItem ? d.rootObjectName : null);
+            if (toolTarget != null && owner.Station.ActiveTool.HasValue)
+            {
+                var command = owner.ToolCommandAt(toolTarget, out string why);
+                ToolPreview = command != null ? "左键 ▶ " + command.label : "✕ " + why;
+                var color = command != null ? RepairPropCyberStyle.Ok : RepairPropCyberStyle.Bad;
+                if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget) Wire(camera, HoveredTarget, scale, color, out _);
+                var node = d.FindNode(toolTarget);
+                Tag(pointer / scale + new Vector2(18, -12), (node != null ? node.displayName : toolTarget) + "\n" + ToolPreview, color, 12, TextAnchor.UpperLeft, true);
+            }
+            else if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && Wire(camera, HoveredTarget, scale, RepairPropCyberStyle.Hot, out _))
             {
                 var node = d.FindNode(HoveredTarget);
                 Tag(pointer / scale + new Vector2(16, -10), node != null ? node.displayName : HoveredTarget, RepairPropCyberStyle.Hot, 12, TextAnchor.UpperLeft);
@@ -268,7 +282,7 @@ namespace BorderRepair.RepairProps
             var bench = RepairBenchV2Runtime.Current;
             if (bench != null)
                 foreach (var prop in bench.Props)
-                    if (prop.Kind == RepairBenchPropKind.Tool && prop.Lifted && prop != HoveredProp && ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var toolRect))
+                    if (prop.Kind == RepairBenchPropKind.Tool && prop.Lifted && !prop.InHand && prop != HoveredProp && ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var toolRect))
                     {
                         if (OrientedBox(prop.GetComponentsInChildren<MeshFilter>(), prop.transform, 1.06f)) LockBox(camera, scale, RepairPropCyberStyle.Amber, .25f, "tool:" + prop.name);
                         Tag(new Vector2(toolRect.xMin, toolRect.yMax + 8), "手持 · " + prop.Label, RepairPropCyberStyle.Amber, 11, TextAnchor.LowerLeft);
@@ -356,7 +370,9 @@ namespace BorderRepair.RepairProps
                 HoveredProp = hit.transform.GetComponentInParent<RepairBenchProp>();
                 if (HoveredProp != null) return null;
             }
-            var picked = owner.Station.Scanner != null ? owner.Station.Scanner.PickPoint(point, out bool hitItem) : null;
+            bool hitItem = false;
+            var picked = owner.Station.Scanner != null ? owner.Station.Scanner.PickPoint(point, out hitItem) : null;
+            pointerOnItem = hitItem;
             if (picked != null && owner.Flow.Definition.FindNode(picked.PointId) != null) return picked.PointId;
             return null;
         }

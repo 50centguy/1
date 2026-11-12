@@ -6,6 +6,8 @@ using BorderRepair.Art.UnifiedClinic.PS2;
 using BorderRepair.TwoNight;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 #if UNITY_EDITOR
@@ -1170,7 +1172,76 @@ namespace BorderRepair.RepairProps.UI.Tests
             }
         }
 
-        IEnumerator Shoot(string state, Camera camera)
+        // The tool in hand is used, not just selected: it follows the pointer onto the work with its tip on the spot,
+        // the cursor says what a left click does there (or why not), a left click does it, and a right click puts it down.
+        [UnityTest]
+        public IEnumerator ToolInHand_WorksOnWhatThePointerIsOn()
+        {
+            var mouse = BorderRepair.FirstOrder.FirstOrderAcceptanceDriver.CreateVirtualMouse(out var mouseCleanup);
+            try
+            {
+                Assert.That(clinic.Interact(ClinicTradeAction.Receive), Is.True, clinic.LastMessage);
+                bridge = clinic.Station.Inspector.CurrentItem.GetComponent<RepairPropStationBridge>();
+                yield return Until(() => bridge.Flow.Session != null, "Bridge must attach.");
+                clinic.Counter.DismissDialogue();
+                Assert.That(clinic.Interact(ClinicTradeAction.Console), Is.True, clinic.LastMessage);
+                yield return Until(() => bridge.CanInteract, "Bench must be interactive.");
+                for (int i = 0; i < 40; i++) yield return null;
+                Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
+#if UNITY_EDITOR
+                if (gameView == null) gameView = new UiTestGameView();
+                gameView.Set(1280, 720);
+#endif
+                for (int i = 0; i < 10; i++) yield return null;
+
+                var bench = RepairBenchV2Runtime.Current;
+                var next = RepairPropWorkflowStatus.NextCommand(Flow);
+                Assert.That(next, Is.Not.Null);
+                Assert.That(next.target, Is.EqualTo(Flow.Definition.rootObjectName), "The order opens with a whole-item step (" + next.id + ").");
+                var renderers = Flow.GetObject(next.target).GetComponentsInChildren<Renderer>().Where(r => r.enabled).ToArray();
+                var body = renderers[0].bounds;
+                foreach (var r in renderers) body.Encapsulate(r.bounds);
+                Vector2 At() => View.WorldToScreenPoint(body.center);
+                void Point(Vector2 p, int buttons = 0) => InputSystem.QueueStateEvent(mouse, new MouseState { position = p, buttons = (ushort)buttons });
+                IEnumerator Settle() { for (int i = 0; i < 20; i++) { Point(At()); yield return null; } }
+
+                // The wrong tool: it comes into the hand, and the cursor says why it does nothing here.
+                var screwdriver = bench.FindProp("BV2_Tool_Screwdriver");
+                Assert.That(screwdriver.HasTip, Is.True, "The screwdriver has a working end."); Assert.That(bench.FindProp("BV2_Tool_Spudger").HasTip, Is.True); Assert.That(bench.FindProp("BV2_Tool_Meter").HasTip, Is.False, "The tester is held by its body.");
+                Point(At()); yield return null;
+                screwdriver.Activate(bridge);
+                yield return Until(() => screwdriver.InHand && bench.HeldTool == screwdriver, "The screwdriver leaves the tray for the hand.");
+                yield return Settle();
+                Assert.That(Vector3.Distance(body.ClosestPoint(screwdriver.TipPosition), screwdriver.TipPosition), Is.LessThan(.03f),
+                    "Its tip, not its handle, is on the item under the pointer.");
+                StringAssert.StartsWith("✕", bridge.ArOverlay.ToolPreview, "Before the power is off the screwdriver has nothing to do here.");
+                yield return Shoot("70-tool-in-hand-wrong", View, Settle);
+
+                // The right tool: the cursor names the step, and a left click on the item does it.
+                var right = bench.Props.First(p => p.Kind == RepairBenchPropKind.Tool && p.Tool == next.tool);
+                right.Activate(bridge);
+                yield return Until(() => right.InHand && !screwdriver.InHand, right.Label + " takes the screwdriver's place in the hand.");
+                yield return Settle();
+                Assert.That(bridge.ArOverlay.ToolPreview, Is.EqualTo("左键 ▶ " + next.label));
+                yield return Shoot("71-tool-in-hand-ready", View, Settle);
+                Point(At(), 1); yield return null; yield return null;
+                Point(At()); yield return null;
+                yield return Until(() => Flow.History.Contains(next.id) || bridge.Gesture.Busy && bridge.Gesture.Current == next,
+                    "A left click with the right tool starts " + next.id + ".");
+                if (bridge.Gesture.Busy) bridge.Gesture.Cancel();
+                yield return null;
+                Assert.That(right.InHand, Is.True, "The tool stays in the hand after use.");
+
+                // A right click (no drag) puts it back.
+                Point(At(), 2); yield return null; yield return null;
+                Point(At()); yield return null; yield return null;
+                Assert.That(clinic.Station.ActiveTool.HasValue, Is.False, "A right click puts the tool down.");
+                yield return Until(() => !right.InHand && bench.HeldTool == null, "The tool goes back to the tray.");
+            }
+            finally { mouseCleanup?.Invoke(); }
+        }
+
+        IEnumerator Shoot(string state, Camera camera, Func<IEnumerator> settle = null)
         {
             foreach (var size in Sizes)
             {
@@ -1181,6 +1252,7 @@ namespace BorderRepair.RepairProps.UI.Tests
                 Screen.SetResolution(size.x, size.y, FullScreenMode.Windowed);
                 for (int i = 0; i < 30 && (Screen.width != size.x || Screen.height != size.y); i++) yield return null;
                 yield return null; yield return null;
+                if (settle != null) yield return settle();
                 Canvas.ForceUpdateCanvases();
                 if (string.IsNullOrEmpty(Folder)) continue;
                 Directory.CreateDirectory(Folder);

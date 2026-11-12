@@ -15,6 +15,7 @@ namespace BorderRepair.Controls
         public static bool LeftHeld => Mouse.current != null && Mouse.current.leftButton.isPressed;
         public static bool RightPressed => Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame;
         public static bool RightHeld => Mouse.current != null && Mouse.current.rightButton.isPressed;
+        public static bool RightReleased => Mouse.current != null && Mouse.current.rightButton.wasReleasedThisFrame;
 
         /// <summary>滚轮格数：向上为正。兼容按 120/格 或已归一化的滚轮值。</summary>
         public static float ScrollSteps

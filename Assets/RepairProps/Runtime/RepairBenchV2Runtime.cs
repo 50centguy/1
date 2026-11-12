@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BorderRepair.Controls;
 using BorderRepair.TwoNight;
 using BorderRepair.UI;
 using UnityEngine;
@@ -43,6 +44,11 @@ namespace BorderRepair.RepairProps
         Vector3 needleAxisV, needleAxisA;
         Renderer fixtureLedPower, fixtureLedLink;
         float needleV, needleA;
+        Vector2 rightPress;
+        bool rightArmed;
+
+        /// <summary>The tool out of the tray and in the player's hand, following the pointer; null when empty-handed.</summary>
+        public RepairBenchProp HeldTool { get; private set; }
 
         Transform koi, puck, catArm;
         Quaternion koiRest, catRest;
@@ -221,6 +227,7 @@ namespace BorderRepair.RepairProps
                 // Nothing is in hand while the cleaning tool, the paint brush or the parts terminal has the hands
                 // (they all hold station.CleaningActive and clear the tool, which would otherwise read as the loupe).
                 if (prop.Kind == RepairBenchPropKind.Tool) prop.SetSelected(atBench && !station.CleaningActive && station.ActiveTool == prop.Tool);
+            DriveHand(bridge, atBench, station);
             if (crt != null && Time.unscaledTime >= nextCrt)
             {
                 nextCrt = Time.unscaledTime + .25f;
@@ -228,6 +235,56 @@ namespace BorderRepair.RepairProps
             }
             DriveFixture(bridge);
             AnimateTrinkets();
+        }
+
+        // The selected tool is in the hand, not just marked in the tray: it follows the pointer over the work, its tip on
+        // the spot a left click would work on (the tester, which has no tip, waits beside the spot). Over the panel or a
+        // window it stays where it was; during a hand motion it stays on the part. A right click without dragging (a
+        // right drag turns the item) puts it back in the tray.
+        void DriveHand(RepairPropStationBridge bridge, bool atBench, RepairStationController station)
+        {
+            RepairBenchProp held = null;
+            if (atBench && !station.CleaningActive && station.ActiveTool.HasValue)
+                held = props.FirstOrDefault(p => p.Kind == RepairBenchPropKind.Tool && p.Tool == station.ActiveTool);
+            foreach (var prop in props) if (prop.Kind == RepairBenchPropKind.Tool && prop != held) prop.PutBack();
+            HeldTool = held;
+            if (held == null) { rightArmed = false; return; }
+            var camera = station.Inspector.ViewCamera;
+            var pointer = RepairInput.PointerPosition;
+            bool overUi = RepairInput.PointerOverUI || bridge.ContextPanel != null && bridge.ContextPanel.ContainsScreenPoint(pointer);
+            if (RepairInput.RightPressed && !overUi) { rightPress = pointer; rightArmed = true; }
+            if (rightArmed && !RepairInput.RightHeld)
+            {
+                rightArmed = false;
+                if ((pointer - rightPress).magnitude < 6f)
+                {
+                    bridge.SelectToolFromPanel(null);
+                    if (!station.ActiveTool.HasValue) { held.PutBack(); HeldTool = null; return; }
+                }
+            }
+            bool busy = bridge.Gesture != null && bridge.Gesture.Busy;
+            if (overUi || busy || camera == null || !camera.pixelRect.Contains(pointer)) return;
+            Hold(held, camera, camera.ScreenPointToRay(pointer), station.Inspector.CurrentItem != null ? station.Inspector.CurrentItem.transform : null);
+        }
+
+        /// <summary>Puts <paramref name="tool"/>'s working end where <paramref name="ray"/> meets the work.</summary>
+        public static void Hold(RepairBenchProp tool, Camera camera, Ray ray, Transform item)
+        {
+            Physics.SyncTransforms();
+            Vector3 spot, normal;
+            if (Physics.Raycast(ray, out var hit, 10, ~0, QueryTriggerInteraction.Ignore)) { spot = hit.point; normal = hit.normal; }
+            else
+            {
+                float depth = item != null ? Vector3.Dot(item.position - ray.origin, ray.direction) : .5f;
+                spot = ray.GetPoint(Mathf.Max(.2f, depth)); normal = -ray.direction;
+            }
+            var view = camera.transform;
+            if (Vector3.Dot(normal, -ray.direction) < 0) normal = -normal;
+            if (tool.HasTip)
+                // Held like a pen in the right hand: the handle leans back toward the viewer and off to the lower right.
+                tool.Hold(spot + normal * .004f, view.right * .7f - view.up * .25f - ray.direction * .65f);
+            else
+                tool.Hold(spot + view.right * .13f - view.up * .07f, -ray.direction * .6f + view.up * .8f);   // off to the lower right, face toward the viewer
         }
 
         // The desk's cheap toys: a holographic koi circling its projector puck, and the lucky cat's waving paw.

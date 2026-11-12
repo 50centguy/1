@@ -157,25 +157,65 @@ namespace BorderRepair.RepairProps
                 if (!hitItem) return;
                 SelectTarget(point != null ? point.PointId : flow.Definition.rootObjectName);
             }
-            if (!station.ActiveTool.HasValue && station.Session.ScanModeActive) flow.TryInspect(selectedTarget);
-            else if (station.ActiveTool.HasValue)
+            if (!station.ActiveTool.HasValue)
             {
-                PropCommand ready = null;
-                int count = 0;
-                string why = null;
-                bool whyIsPending = false;
-                foreach (var c in flow.Definition.commands)
-                {
-                    if (c.target != selectedTarget) continue;
-                    if (flow.CanExecute(c.id, c.target, station.ActiveTool.Value, out string reason)) { ready = c; count++; continue; }
-                    // Prefer the reason of a step still to do, using this tool, over "already done".
-                    if (c.tool != station.ActiveTool.Value) continue;
-                    bool pending = c.effects.Count == 0 || !flow.Matches(c.effects);
-                    if (why == null || pending && !whyIsPending) { why = reason; whyIsPending = pending; }
-                }
-                if (count == 1) Perform(ready.id, false);
-                else RejectClick(count > 1 ? "这个部位有 " + count + " 项可做，请在右侧面板选一项。" : why ?? "这个部位用不上当前工具，换一件试试。");
+                // Empty hands (the loupe): a click on an exposed part looks at it closely.
+                if (station.Session.ScanModeActive || Inspectable(selectedTarget)) flow.TryInspect(selectedTarget);
+                return;
             }
+            var command = ToolCommandAt(selectedTarget, out string why);
+            if (command != null) Perform(command.id, command.target == flow.Definition.rootObjectName);
+            else RejectClick(why);
+        }
+
+        bool Inspectable(string target)
+        {
+            var node = flow.Definition.FindNode(target);
+            var part = flow.GetObject(target);
+            return target != flow.Definition.rootObjectName && node != null && flow.Matches(node.inspectRequires)
+                && part != null && part.gameObject.activeInHierarchy;
+        }
+
+        /// <summary>What a left click with the tool in hand does on <paramref name="target"/>: the command it would run,
+        /// or null and why not. Several commands ready on one part: the suggested next step wins, else the first. A click on
+        /// the item's body, or anywhere when the suggested step is a whole-item one for this tool (the tester for a test,
+        /// say), runs the whole-item command.</summary>
+        public PropCommand ToolCommandAt(string target, out string why)
+        {
+            why = null;
+            if (!CanInteract || !station.ActiveTool.HasValue || target == null) { why = "现在不能动手。"; return null; }
+            var tool = station.ActiveTool.Value;
+            var next = RepairPropWorkflowStatus.NextCommand(flow);
+            string root = flow.Definition.rootObjectName;
+            var found = Ready(target, tool, next, ref why);
+            if (found == null && target != root && next != null && next.target == root && next.tool == tool)
+            {
+                string ignored = null;
+                found = Ready(root, tool, next, ref ignored);
+            }
+            if (found == null && why == null) why = "这个部位用不上手上的工具，换一件试试。";
+            return found;
+        }
+
+        PropCommand Ready(string target, RepairActionType tool, PropCommand next, ref string why)
+        {
+            PropCommand first = null;
+            bool whyIsPending = false;
+            foreach (var c in flow.Definition.commands)
+            {
+                if (c.target != target || c.tool != tool) continue;
+                if (flow.CanExecute(c.id, c.target, tool, out string reason))
+                {
+                    if (c == next) return c;
+                    if (first == null) first = c;
+                    continue;
+                }
+                // Prefer the reason of a step still to do over "already done".
+                bool pending = c.effects.Count == 0 || !flow.Matches(c.effects);
+                if (why == null || pending && !whyIsPending) { why = reason; whyIsPending = pending; }
+            }
+            if (first != null) why = null;
+            return first;
         }
 
         // A click with a tool that does nothing must say why. Not a flow rejection: no penalty, and the flow state is untouched.
