@@ -54,6 +54,8 @@ namespace BorderRepair.TwoNight.EditorTools
         static Font LoadFont() => TwoNightSlice.EnsureFont();
 
         [MenuItem("Border Repair/Old/Two-Night Slice/Build Night Scenes (Menu, Counter, Unit07)", priority = 10500)]
+        static void MenuBuildAll() { if (global::BorderRepair.EditorTools.LegacyBuilderGuard.Confirm("两晚切片场景")) BuildAll(); }
+
         public static void BuildAll()
         {
             EnsureData();

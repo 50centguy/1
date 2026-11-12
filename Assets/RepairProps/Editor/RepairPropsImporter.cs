@@ -72,7 +72,7 @@ namespace BorderRepair.RepairProps.Editor
         [MenuItem("Border Repair/Repair Props/Open Clinic Test Scene")]
         public static void OpenTestScene()
         {
-            if (!File.Exists(ScenePath)) throw new InvalidOperationException("Generate the repair-props test scene first.");
+            if (!File.Exists(ScenePath)) throw new InvalidOperationException(ScenePath + " is missing; restore it from git.");
             if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
             EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
         }
@@ -102,9 +102,9 @@ namespace BorderRepair.RepairProps.Editor
                 .FirstOrDefault(t => t != null);
             if (factory == null) throw new InvalidOperationException("Repair case factory is not ready.");
             factory.GetMethod("BuildAll").Invoke(null, null);
-            const string source = "Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity";
-            if (!File.Exists(ScenePath) && !AssetDatabase.CopyAsset(source, ScenePath))
-                throw new InvalidOperationException("Cannot copy shared clinic scene.");
+            // RepairProps_Clinic is the authoritative scene and lives in git; it is no longer re-copied from UnifiedClinic.
+            if (!File.Exists(ScenePath))
+                throw new InvalidOperationException(ScenePath + " is missing. It is the authoritative clinic scene: restore it from git (git restore -- \"" + ScenePath + "\") instead of regenerating it from UnifiedClinic.");
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
             // Opening a scene can release previously loaded assets; bind from the persistent asset after the switch.
             var shift = AssetDatabase.LoadAssetAtPath<RepairShiftData>(Root + "/Data/RepairProps_Shift.asset");

@@ -42,6 +42,8 @@ namespace BorderRepair.EditorTools
         static readonly StringBuilder Log = new StringBuilder();
 
         [MenuItem("Border Repair/Old/Unit07 Dock/Build Phase 1", priority = 10500)]
+        static void MenuBuildAll() { if (LegacyBuilderGuard.Confirm("Unit07 维修坞")) BuildAll(); }
+
         public static void BuildAll()
         {
             ImportMessages.Clear();

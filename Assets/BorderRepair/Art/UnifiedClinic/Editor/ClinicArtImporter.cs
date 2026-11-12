@@ -51,6 +51,8 @@ namespace BorderRepair.Art.UnifiedClinic.EditorTools
             .checks.Single(c => c.name == "workbench_hide_list").hide_in_unity;
 
         [MenuItem("Border Repair/Old/Unified Clinic/Import Art And Build Isolated Preview", priority = 10500)]
+        static void MenuBuildPreview() { if (global::BorderRepair.EditorTools.LegacyBuilderGuard.Confirm("Unified Clinic 美术导入")) BuildPreview(); }
+
         public static void BuildPreview()
         {
             if (EditorSceneManager.GetSceneManagerSetup().Any(s => s.isLoaded &&

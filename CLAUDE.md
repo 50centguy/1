@@ -38,7 +38,9 @@
 | `Assets/BorderRepair/Scenes/Slice/Unit07_Night.unity` | UNIT 07 夜班 |
 | `Assets/RepairPropsVR/Scenes/RepairProps_Clinic_VR.unity` | VR 版诊所 |
 
-> **场景是构建器生成的**：`UnifiedClinic` 由两晚切片和原型的构建器生成，`RepairProps_Clinic` 是从 `UnifiedClinic` 复制来的。相关构建器在 `Assets/BorderRepair/Scripts/Editor/` 下（`TwoNight/UnifiedClinicBuilder.cs`、`TwoNight/TwoNightBuilder.cs`、`Unit07Dock/Unit07DockBuilder.cs` 等）。**删构建器会断链**，改场景前先确认是要改构建器还是直接改场景。
+> **`RepairProps_Clinic` 是唯一权威场景**（2026-11-12 起）：试玩包只打这一个场景，直接改它、提交到 git。它最初从 `UnifiedClinic` 复制而来，现在不再重新复制；场景丢失时用 `git restore` 找回，导入器会直接报错而不是重新复制。
+>
+> 旧构建器（`TwoNight/UnifiedClinicBuilder.cs`、`TwoNight/TwoNightBuilder.cs`、`Unit07Dock/Unit07DockBuilder.cs`、`ClinicArtImporter.cs` 等，菜单都在 `Border Repair/Old` 下）仍会重写 `RepairProps_Clinic` 引用的共享预制体、材质和网格（`BorderRepair/Art/UnifiedClinic`、`BorderRepair/Cleaning/Meshes`、`Prefabs/Unit07Dock` 等）。从菜单点它们会先弹窗确认（`Assets/BorderRepair/Scripts/Editor/LegacyBuilderGuard.cs`）；批处理和代码调用不拦。不要为了改诊所去重跑它们。
 
 ---
 

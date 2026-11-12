@@ -21,6 +21,8 @@ namespace BorderRepair.TwoNight.EditorTools
         const string ScratchPath = SceneDirectory + "/PrototypeConsole_Import.unity";
 
         [MenuItem("Border Repair/Old/Two-Night Slice/Build Unified Clinic From Current N2 Snapshot", priority = 10500)]
+        static void MenuBuild() { if (global::BorderRepair.EditorTools.LegacyBuilderGuard.Confirm("Unified Clinic 场景")) Build(); }
+
         public static void Build()
         {
             EnsureFolder(SceneDirectory);

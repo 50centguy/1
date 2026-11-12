@@ -54,6 +54,8 @@ namespace BorderRepair.FirstOrder.EditorTools
         static Layout L = new Layout();
 
         [MenuItem("Border Repair/Old/Unit07 First Order/Build Test Scene", priority = 10500)]
+        static void MenuBuild() { if (global::BorderRepair.EditorTools.LegacyBuilderGuard.Confirm("Unit07 First Order 测试场景")) Build(); }
+
         public static void Build()
         {
             BuildWith(new Layout());

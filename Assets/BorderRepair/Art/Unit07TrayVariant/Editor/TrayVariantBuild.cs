@@ -43,6 +43,8 @@ namespace BorderRepair.Art.Unit07TrayVariant.EditorTools
         const float LeanDeg = 4f, Clear = 0.010f, Guide = 0.002f, Grip = 0.002f, BarContactSlack = 0.0015f;
 
         [MenuItem("Border Repair/Old/Unit07 Tray Variant/Build All (import, prefab, verification scene, report)", priority = 10500)]
+        static void MenuBuildAll() { if (global::BorderRepair.EditorTools.LegacyBuilderGuard.Confirm("Unit07 托盘变体")) BuildAll(); }
+
         public static void BuildAll()
         {
             Import();
