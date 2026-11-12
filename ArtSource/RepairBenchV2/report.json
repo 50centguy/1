@@ -660,21 +660,23 @@
   },
   {
    "name": "BV2_ToolTray",
-   "tris": 552,
+   "tris": 1776,
    "materials": [
     "M_BV2_SteelGreen",
-    "M_BV2_Foam"
+    "M_BV2_Foam",
+    "M_BV2_SteelBare",
+    "M_BV2_Rubber"
    ],
    "role": "tool_tray",
    "min": [
-    -0.5,
-    0.3,
+    -0.5158,
+    0.296,
     0.9
    ],
    "max": [
-    -0.2,
-    0.49,
-    0.932
+    -0.201,
+    0.599,
+    0.936
    ]
   },
   {
@@ -685,77 +687,108 @@
    ],
    "role": "print",
    "min": [
-    -0.47,
+    -0.465,
     0.2995,
     0.906
    ],
    "max": [
-    -0.37,
+    -0.365,
     0.2995,
     0.928
    ]
   },
   {
    "name": "BV2_Tool_Screwdriver",
-   "tris": 370,
+   "tris": 942,
    "materials": [
-    "M_BV2_Orange",
+    "M_BV2_Yellow",
     "M_BV2_Rubber",
     "M_BV2_SteelBare",
-    "M_BV2_Ivory"
+    "M_BV2_Ivory",
+    "M_BV2_Orange",
+    "M_BV2_DarkPlastic"
    ],
    "role": "tool",
    "min": [
-    -0.47,
-    0.3119,
-    0.9254
+    -0.3752,
+    0.3269,
+    0.9234
    ],
    "max": [
-    -0.234,
-    0.3381,
-    0.9516
+    -0.3408,
+    0.544,
+    0.9605
    ]
   },
   {
    "name": "BV2_Tool_Spudger",
-   "tris": 200,
+   "tris": 472,
    "materials": [
+    "M_BV2_WornRed",
+    "M_BV2_Rubber",
     "M_BV2_SteelBare",
-    "M_BV2_Foam",
+    "M_BV2_Brass",
+    "M_BV2_DarkPlastic",
     "M_BV2_Yellow"
    ],
    "role": "tool",
    "min": [
-    -0.435,
-    0.356,
-    0.924
+    -0.423,
+    0.345,
+    0.9235
    ],
    "max": [
-    -0.2657,
-    0.381,
-    0.9345
+    -0.391,
+    0.5363,
+    0.9395
+   ]
+  },
+  {
+   "name": "BV2_Tool_Cleaner",
+   "tris": 562,
+   "materials": [
+    "M_BV2_Orange",
+    "M_BV2_Ivory",
+    "M_BV2_SteelBare",
+    "M_BV2_Yellow",
+    "M_BV2_Tape",
+    "M_BV2_DarkPlastic"
+   ],
+   "role": "tool",
+   "min": [
+    -0.4808,
+    0.343,
+    0.9245
+   ],
+   "max": [
+    -0.4372,
+    0.508,
+    0.9675
    ]
   },
   {
    "name": "BV2_Tool_Meter",
-   "tris": 932,
+   "tris": 1188,
    "materials": [
-    "M_BV2_Ivory",
+    "M_BV2_Yellow",
     "M_BV2_Rubber",
     "M_BV2_SteelGreen",
-    "M_BV2_Yellow",
-    "M_BV2_SteelBare"
+    "M_BV2_Ivory",
+    "M_BV2_Orange",
+    "M_BV2_DarkPlastic",
+    "M_BV2_Tape",
+    "M_BV2_Brass"
    ],
    "role": "tool",
    "min": [
-    -0.347,
-    0.378,
-    0.925
+    -0.321,
+    0.442,
+    0.924
    ],
    "max": [
-    -0.243,
-    0.51,
-    0.961
+    -0.225,
+    0.585,
+    0.964
    ]
   },
   {
@@ -766,19 +799,19 @@
    ],
    "role": "print",
    "min": [
-    -0.325,
-    0.439,
-    0.9545
+    -0.301,
+    0.512,
+    0.9588
    ],
    "max": [
-    -0.285,
-    0.467,
-    0.9545
+    -0.241,
+    0.546,
+    0.9588
    ]
   },
   {
    "name": "BV2_Tool_MeterLeads",
-   "tris": 544,
+   "tris": 448,
    "materials": [
     "M_BV2_WornRed",
     "M_BV2_Rubber",
@@ -786,35 +819,61 @@
    ],
    "role": "static",
    "min": [
-    -0.513,
-    0.3797,
-    0.927
+    -0.482,
+    0.5318,
+    0.9268
    ],
    "max": [
-    -0.2678,
-    0.47,
-    0.9682
+    -0.3197,
+    0.5822,
+    0.9519
    ]
   },
   {
    "name": "BV2_Tool_Loupe",
-   "tris": 352,
+   "tris": 704,
    "materials": [
     "M_BV2_DarkPlastic",
     "M_BV2_CrtGlass",
+    "M_BV2_Ivory",
+    "M_BV2_Yellow",
+    "M_BV2_Ceramic",
     "M_BV2_Rubber",
-    "M_BV2_Yellow"
+    "M_BV2_SteelBare"
    ],
    "role": "tool",
    "min": [
-    -0.262,
-    0.2825,
-    0.9252
+    -0.306,
+    0.311,
+    0.9232
    ],
    "max": [
-    -0.208,
-    0.379,
-    0.9388
+    -0.236,
+    0.427,
+    0.9428
+   ]
+  },
+  {
+   "name": "BV2_CleaningSupplies",
+   "tris": 624,
+   "materials": [
+    "M_BV2_Ivory",
+    "M_BV2_SteelBare",
+    "M_BV2_SteelGreen",
+    "M_BV2_Tape",
+    "M_BV2_DarkPlastic",
+    "M_BV2_Ceramic"
+   ],
+   "role": "static",
+   "min": [
+    -0.5,
+    0.6136,
+    0.9
+   ],
+   "max": [
+    -0.41,
+    0.745,
+    0.977
    ]
   },
   {
@@ -1598,6 +1657,125 @@
    ]
   },
   {
+   "name": "BV2_Crt_Wear",
+   "tris": 612,
+   "materials": [
+    "M_BV2_DarkPlastic",
+    "M_BV2_SteelBare",
+    "M_BV2_Rubber",
+    "M_BV2_Tape",
+    "M_BV2_SteelGreen",
+    "M_BV2_Ivory"
+   ],
+   "role": "static",
+   "min": [
+    -0.8197,
+    0.5401,
+    1.0
+   ],
+   "max": [
+    -0.5396,
+    0.9666,
+    1.423
+   ]
+  },
+  {
+   "name": "BV2_HazardTape",
+   "tris": 264,
+   "materials": [
+    "M_BV2_Yellow",
+    "M_BV2_DarkPlastic"
+   ],
+   "role": "static",
+   "min": [
+    -0.94,
+    0.1365,
+    0.86
+   ],
+   "max": [
+    0.94,
+    0.1374,
+    0.89
+   ]
+  },
+  {
+   "name": "BV2_Drawer_1_Tape",
+   "tris": 72,
+   "materials": [
+    "M_BV2_Tape",
+    "M_BV2_Yellow"
+   ],
+   "role": "static",
+   "min": [
+    -0.7475,
+    0.1602,
+    0.7526
+   ],
+   "max": [
+    -0.662,
+    0.1758,
+    0.7674
+   ]
+  },
+  {
+   "name": "BV2_Drawer_3_Patch",
+   "tris": 156,
+   "materials": [
+    "M_BV2_SteelBare",
+    "M_BV2_Brass"
+   ],
+   "role": "static",
+   "min": [
+    -0.625,
+    0.1842,
+    0.205
+   ],
+   "max": [
+    -0.535,
+    0.188,
+    0.285
+   ]
+  },
+  {
+   "name": "BV2_PowerStrip_Tape",
+   "tris": 100,
+   "materials": [
+    "M_BV2_Tape",
+    "M_BV2_Yellow"
+   ],
+   "role": "static",
+   "min": [
+    -0.342,
+    0.866,
+    0.908
+   ],
+   "max": [
+    0.042,
+    0.932,
+    0.9515
+   ]
+  },
+  {
+   "name": "BV2_WristStrap",
+   "tris": 950,
+   "materials": [
+    "M_BV2_Rubber",
+    "M_BV2_SteelBare",
+    "M_BV2_Yellow"
+   ],
+   "role": "static",
+   "min": [
+    0.3555,
+    0.5835,
+    0.904
+   ],
+   "max": [
+    0.5026,
+    0.733,
+    0.9215
+   ]
+  },
+  {
    "name": "BV2_Pegboard",
    "tris": 60,
    "materials": [
@@ -1719,7 +1897,7 @@
    ]
   }
  ],
- "triangles": 26994,
+ "triangles": 32914,
  "interactive": {
   "BV2_Drawer_1": {
    "kind": "drawer",
@@ -1746,6 +1924,11 @@
    "kind": "tool",
    "tool": "OpenHousing",
    "label": "开壳工具"
+  },
+  "BV2_Tool_Cleaner": {
+   "kind": "tool",
+   "tool": "Clean",
+   "label": "清洁工具"
   },
   "BV2_Tool_Meter": {
    "kind": "tool",

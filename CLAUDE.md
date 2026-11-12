@@ -101,6 +101,16 @@
 - **数字键**：来电出现选项时 1–4 选回答，此时停靠七号的机位键让位（`FirstOrderInput.NumberKeysClaimed`）。
 - 读字母键的地方要检查 `FirstOrderInput.TextInputFocused`，输入框里打字不算操作。
 
+## 维修台工具：拿在手上用
+
+- 托盘里五件：螺丝刀、开壳工具、检测仪、放大镜（空手检查）、清洁工具（吹尘刷）。点一下拿起，工具离开托盘跟着鼠标走，工作端落在指着的位置（`RepairBenchV2Runtime.DriveHand` / `RepairBenchProp.Hold`）。
+- **左键就是用手上的工具**：光标旁写明这一下会做什么（绿）或为什么不行（红）。规则只有一处：`RepairPropStationBridge.ToolCommandAt`，悬停提示和点击都问它。
+- 空手（放大镜）点露出来的部件就是检查；清洁工具拿起即进入清洁（等同 C 键），按住左键擦。
+- **右键单击放下**（右键拖动仍是转动物品）；清洁时点托盘里别的工具会直接换过去。
+- 工具模型的工作端由 FBX 里名为 `<工具名>_Tip` 的空物体标出；没有这个标记的工具（检测仪）拿在指点位置旁边。
+- 模型来源：`ArtSource/RepairBenchV2/build_repair_bench_v2.py`（Blender 脚本）→ `atlas_bake.py` → 拷到 `Assets/RepairProps/Bench/Art` → 菜单 `Border Repair/Repair Props/Build Repair Bench V2`。托盘必须留在维修台镜头内（x -0.50..-0.20，y 0.30..0.60）。
+- 后台 batch 测试自动静音（`BatchModeMute.cs`）。
+
 ---
 
 ## 开发规则

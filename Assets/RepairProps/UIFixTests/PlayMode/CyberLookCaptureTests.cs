@@ -1072,7 +1072,9 @@ namespace BorderRepair.RepairProps.UI.Tests
 
             var bench = RepairBenchV2Runtime.Current;
             var tools = bench.Props.Where(p => p.Kind == RepairBenchPropKind.Tool).ToArray();
-            Assert.That(tools.Length, Is.EqualTo(4));
+            Assert.That(tools.Length, Is.EqualTo(5), "Screwdriver, opening tool, tester, loupe and the cleaning tool.");
+            var cleaner = bench.FindProp("BV2_Tool_Cleaner");
+            Assert.That(cleaner != null && cleaner.IsCleaner && cleaner.HasTip, Is.True, "The cleaning tool is in the tray, bristles marked as its working end.");
             var loupe = bench.FindProp("BV2_Tool_Loupe");
             yield return Until(() => loupe.Lifted, "Empty-handed, the loupe is the tool in hand.");
 
@@ -1123,12 +1125,18 @@ namespace BorderRepair.RepairProps.UI.Tests
             }
 
             Assert.That(cleaning.SetCleaning(true), Is.True, cleaning.UnavailableReason);
-            yield return Until(() => tools.All(t => !t.Lifted), "No tool is in hand while cleaning.");
+            yield return Until(() => tools.All(t => t.Lifted == (t == cleaner)), "While cleaning, the cleaning tool alone is in hand.");
             for (int i = 0; i < 20; i++) yield return null;
-            Assert.That(tools.Any(t => t.Lifted), Is.False, "The loupe must not rise while the cleaning tool is in hand.");
+            Assert.That(tools.Any(t => t != cleaner && t.Lifted), Is.False, "The loupe must not rise while the cleaning tool is in hand.");
+            Assert.That(bench.HeldTool == cleaner || cleaner.Lifted, Is.True);
             yield return Shoot("51-bench-cleaning-no-tool", View);
             cleaning.SetCleaning(false);
-            yield return Until(() => loupe.Lifted, "Putting the cleaning tool down returns to empty-handed inspection.");
+            yield return Until(() => loupe.Lifted && !cleaner.Lifted, "Putting the cleaning tool down returns to empty-handed inspection.");
+            // Taking the cleaner from the tray is the same as the cleaning key.
+            cleaner.Activate(bridge);
+            yield return Until(() => cleaning.Cleaning && cleaner.Lifted, "A click on the cleaning tool starts cleaning.");
+            cleaning.SetCleaning(false);
+            yield return Until(() => loupe.Lifted, "Back to empty hands.");
         }
 
         // The guided first order as the player sees it: the lesson card in the room and at the bench, on the short HUD.

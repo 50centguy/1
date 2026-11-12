@@ -146,12 +146,13 @@ namespace BorderRepair.RepairProps.EditorTools
             PrefabUtility.UnpackPrefabInstance(instance, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
             instance.name = "RepairBenchV2";
             Transform Find(string name) => instance.GetComponentsInChildren<Transform>(true).First(t => t.name == name);
-            void Prop(string name, RepairBenchPropKind kind, string label, RepairActionType? tool = null, float travel = .3f, float angle = -100)
-                => Find(name).gameObject.AddComponent<RepairBenchProp>().Configure(kind, label, tool, travel, angle);
+            void Prop(string name, RepairBenchPropKind kind, string label, RepairActionType? tool = null, float travel = .3f, float angle = -100, bool cleaner = false)
+                => Find(name).gameObject.AddComponent<RepairBenchProp>().Configure(kind, label, tool, travel, angle, cleaner);
             Prop("BV2_Tool_Screwdriver", RepairBenchPropKind.Tool, "螺丝刀", RepairActionType.RemoveFastener);
             Prop("BV2_Tool_Spudger", RepairBenchPropKind.Tool, "开壳工具", RepairActionType.OpenHousing);
             Prop("BV2_Tool_Meter", RepairBenchPropKind.Tool, "检测仪", RepairActionType.ServiceModule);
             Prop("BV2_Tool_Loupe", RepairBenchPropKind.Tool, "放大镜（空手检查）");
+            Prop("BV2_Tool_Cleaner", RepairBenchPropKind.Tool, "清洁工具（吹尘刷）", cleaner: true);
             Prop("BV2_Lamp", RepairBenchPropKind.Lamp, "台灯");
             for (int i = 1; i <= 3; i++) Prop("BV2_Drawer_" + i, RepairBenchPropKind.Drawer, "抽屉 " + i);
             Prop("BV2_CabinetDoor", RepairBenchPropKind.Door, "柜门");

@@ -46,6 +46,7 @@ namespace BorderRepair.RepairProps
         float needleV, needleA;
         Vector2 rightPress;
         bool rightArmed;
+        ClinicCleaningController cleaning;
 
         /// <summary>The tool out of the tray and in the player's hand, following the pointer; null when empty-handed.</summary>
         public RepairBenchProp HeldTool { get; private set; }
@@ -219,6 +220,7 @@ namespace BorderRepair.RepairProps
         {
             if (bench == null) return;
             if (clinic == null) clinic = FindFirstObjectByType<UnifiedClinicDirector>();
+            if (cleaning == null) cleaning = FindFirstObjectByType<ClinicCleaningController>();
             var station = clinic != null ? clinic.Station : null;
             var item = station != null && station.Inspector != null ? station.Inspector.CurrentItem : null;
             var bridge = item != null ? item.GetComponent<RepairPropStationBridge>() : null;
@@ -226,7 +228,9 @@ namespace BorderRepair.RepairProps
             foreach (var prop in props)
                 // Nothing is in hand while the cleaning tool, the paint brush or the parts terminal has the hands
                 // (they all hold station.CleaningActive and clear the tool, which would otherwise read as the loupe).
-                if (prop.Kind == RepairBenchPropKind.Tool) prop.SetSelected(atBench && !station.CleaningActive && station.ActiveTool == prop.Tool);
+                // The cleaner is the tool in hand exactly while cleaning.
+                if (prop.Kind == RepairBenchPropKind.Tool)
+                    prop.SetSelected(atBench && (prop.IsCleaner ? Cleaning : !station.CleaningActive && station.ActiveTool == prop.Tool));
             DriveHand(bridge, atBench, station);
             if (crt != null && Time.unscaledTime >= nextCrt)
             {
@@ -241,11 +245,14 @@ namespace BorderRepair.RepairProps
         // the spot a left click would work on (the tester, which has no tip, waits beside the spot). Over the panel or a
         // window it stays where it was; during a hand motion it stays on the part. A right click without dragging (a
         // right drag turns the item) puts it back in the tray.
+        bool Cleaning => cleaning != null && cleaning.Cleaning;
+
         void DriveHand(RepairPropStationBridge bridge, bool atBench, RepairStationController station)
         {
             RepairBenchProp held = null;
-            if (atBench && !station.CleaningActive && station.ActiveTool.HasValue)
-                held = props.FirstOrDefault(p => p.Kind == RepairBenchPropKind.Tool && p.Tool == station.ActiveTool);
+            if (atBench && Cleaning) held = props.FirstOrDefault(p => p.IsCleaner);
+            else if (atBench && !station.CleaningActive && station.ActiveTool.HasValue)
+                held = props.FirstOrDefault(p => p.Kind == RepairBenchPropKind.Tool && !p.IsCleaner && p.Tool == station.ActiveTool);
             foreach (var prop in props) if (prop.Kind == RepairBenchPropKind.Tool && prop != held) prop.PutBack();
             HeldTool = held;
             if (held == null) { rightArmed = false; return; }
@@ -258,8 +265,21 @@ namespace BorderRepair.RepairProps
                 rightArmed = false;
                 if ((pointer - rightPress).magnitude < 6f)
                 {
-                    bridge.SelectToolFromPanel(null);
-                    if (!station.ActiveTool.HasValue) { held.PutBack(); HeldTool = null; return; }
+                    if (held.IsCleaner) cleaning.SetCleaning(false); else bridge.SelectToolFromPanel(null);
+                    if (held.IsCleaner ? !Cleaning : !station.ActiveTool.HasValue) { held.PutBack(); HeldTool = null; return; }
+                }
+            }
+            // While cleaning the item takes every left press, so the tray is handled here: a click on a tool puts the
+            // cleaner back, and takes that tool instead unless it was the cleaner itself.
+            if (held.IsCleaner && RepairInput.LeftPressed && !overUi && camera != null)
+            {
+                Physics.SyncTransforms();
+                var other = Physics.Raycast(camera.ScreenPointToRay(pointer), out var trayHit, 10, ~0, QueryTriggerInteraction.Ignore)
+                    ? trayHit.transform.GetComponentInParent<RepairBenchProp>() : null;
+                if (other != null && other.Kind == RepairBenchPropKind.Tool)
+                {
+                    cleaning.SetCleaning(false);
+                    if (!Cleaning) { held.PutBack(); HeldTool = null; other.Activate(bridge); return; }
                 }
             }
             bool busy = bridge.Gesture != null && bridge.Gesture.Busy;

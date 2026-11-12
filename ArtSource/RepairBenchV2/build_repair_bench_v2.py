@@ -1053,87 +1053,182 @@ def build_test_fixture():
 
 
 def build_tools():
-    """Tool tray at the front left with the four repair tools. Each tool is its own object with its pivot at the
-    centre of its foam slot; Unity lifts the selected one out of the tray."""
-    OX, OY = 0.34, 0.12    # tray moved from the drawer side into the bench camera's view, left of the work area
-    x0, x1, y0, y1 = -0.84 + OX, -0.54 + OX, 0.18 + OY, 0.37 + OY
-    bm = bm_new()
-    add_box(bm, (x0, y0, T), (x1, y1, T + 0.012), 0, bevel=.004)
-    for (a, b, c, d) in ((x0, y0, x1, y0 + .008), (x0, y1 - .008, x1, y1), (x0, y0, x0 + .008, y1), (x1 - .008, y0, x1, y1)):
-        add_box(bm, (a, b, T), (c, d, T + 0.032), 0, bevel=.002)
-    add_box(bm, (x0 + .008, y0 + .008, T + 0.012), (x1 - .008, y1 - .008, T + 0.026), 1)
-    new_obj("BV2_ToolTray", bm, ["M_BV2_SteelGreen", "M_BV2_Foam"], origin=((x0 + x1) / 2, (y0 + y1) / 2, T), role="tool_tray")
-    front_quad("BV2_ToolTray_Tag", "M_BV2_LeaseTag", x0 + .03, x0 + .13, T + .006, T + .028, y0 - .0005)
-    slots = {}
-    top = T + 0.026
+    """Tool tray at the front left with the five bench tools. Each tool is its own object with its pivot at the centre
+    of its foam slot; Unity takes the selected one out of the tray into the hand. The three long tools lie side by
+    side pointing away from the player (working end at +Y) and carry an empty <name>_Tip there, so the hand knows which
+    end goes on the part. The tray stays inside the bench camera's view: x -0.50..-0.20, y 0.30..0.60.
 
-    # Screwdriver (螺丝刀): fluted orange/black handle, steel shaft, cross tip. Lies along X.
-    cx, cy = -0.69 + OX, 0.205 + OY
+    Look (reference library "便携设备与工具" + SETTING_PROPS.md): chunky colour-blocked second-hand handhelds, mixed
+    brands, tape repairs, hand-numbered bands, one port-leased item. Warm yellows/oranges against black rubber."""
+    X0, X1, Y0, Y1 = -0.495, -0.205, 0.30, 0.595
+    wall, lip = .009, .034
     bm = bm_new()
-    prof = [(0.0, 0.0), (0.009, 0.0), (0.0115, 0.006), (0.0125, 0.030), (0.0118, 0.070), (0.0105, 0.090), (0.0060, 0.098), (0.0035, 0.100)]
-    add_lathe(bm, prof, (0, 0, 0), "Z", 12, 0)
-    for z0_, z1_ in ((.012, .030), (.050, .062)):   # black electrical tape wraps over a cracked grip
-        add_cyl(bm, (0, 0, (z0_ + z1_) / 2), .0131, z1_ - z0_, "Z", 12, 1)
-    add_cyl(bm, (0, 0, .081), .0122, .008, "Z", 12, 3)    # white paint band (the shop's tool number)
-    add_cyl(bm, (0, 0, 0.165), .0028, .13, "Z", 10, 2)
-    add_cyl(bm, (0, 0, 0.233), .0028, .006, "Z", 10, 2, r2=.0008)
-    vs = list(bm.verts)
-    rotate_verts(vs, math.pi / 2, "Y", (0, 0, 0))
-    for v in vs:
-        v.co += Vector((cx - .12, cy, top + .0125))
-    ob = new_obj("BV2_Tool_Screwdriver", bm, ["M_BV2_Orange", "M_BV2_Rubber", "M_BV2_SteelBare", "M_BV2_Ivory"], origin=(cx, cy, top), role="tool")
+    add_box(bm, (X0, Y0, T), (X1, Y1, T + 0.012), 0, bevel=.004)
+    for (a, b, c, d) in ((X0, Y0, X1, Y0 + wall), (X0, Y1 - wall, X1, Y1), (X0, Y0, X0 + wall, Y1), (X1 - wall, Y0, X1, Y1)):
+        add_box(bm, (a, b, T), (c, d, T + lip), 0, bevel=.002)
+    # corner gussets and a carrying handle bar on the left end: it is a lift-out tote tray from a port tool chest
+    for cx_, cy_ in ((X0, Y0), (X1, Y0), (X0, Y1), (X1, Y1)):
+        add_box(bm, (cx_ - .004, cy_ - .004, T), (cx_ + .004, cy_ + .004, T + lip + .002), 2, bevel=.0015)
+    for cy_ in (Y0 + .07, Y1 - .07):
+        add_box(bm, (X0 - .016, cy_ - .006, T + .016), (X0 + .002, cy_ + .006, T + .028), 2, bevel=.002)
+    add_cyl(bm, (X0 - .016, (Y0 + Y1) / 2, T + .022), .005, Y1 - Y0 - .14, "Y", 10, 3)
+    # foam liner and the ridges between the slots
+    top = T + 0.024
+    add_box(bm, (X0 + wall, Y0 + wall, T + 0.012), (X1 - wall, Y1 - wall, top), 1)
+    XS = -0.332                                     # long tools left of this line, loupe and tester right of it
+    add_box(bm, (XS - .004, Y0 + wall, top), (XS + .004, Y1 - wall, top + .006), 1, bevel=.002)
+    for rx in (-0.433, -0.381):
+        add_box(bm, (rx - .003, Y0 + wall, top), (rx + .003, 0.549, top + .005), 1, bevel=.0015)
+    add_box(bm, (X0 + wall, 0.549, top), (XS - .004, 0.555, top + .005), 1, bevel=.0015)
+    add_box(bm, (XS + .004, 0.433, top), (X1 - wall, 0.439, top + .005), 1, bevel=.0015)
+    new_obj("BV2_ToolTray", bm, ["M_BV2_SteelGreen", "M_BV2_Foam", "M_BV2_SteelBare", "M_BV2_Rubber"],
+            origin=((X0 + X1) / 2, (Y0 + Y1) / 2, T), role="tool_tray")
+    front_quad("BV2_ToolTray_Tag", "M_BV2_LeaseTag", X0 + .03, X0 + .13, T + .006, T + .028, Y0 - .0005)
+
+    def stand(bm, src, dst):
+        """Long tools are modelled lying along +X around `src`; turn them to point along +Y and move them to `dst`."""
+        s, d = Vector(src), Vector(dst)
+        for v in bm.verts:
+            r = v.co - s
+            v.co = d + Vector((-r.y, r.x, r.z))
+
+    def stood(point, src, dst):
+        r = Vector(point) - Vector(src)
+        return tuple(Vector(dst) + Vector((-r.y, r.x, r.z)))
+
+    def tip(ob, pos):
+        empty(ob.name + "_Tip", pos, ob)
+
+    # ---- Powered screwdriver (螺丝刀): a pen-type electric driver. Yellow shell, black rubber grip rings, a dark
+    # battery cap that does not match (replaced), an orange rocker, ivory tape band with the shop's hand number.
+    xs, y, z = 0.0, 0.0, top + .017
+    src, dst = (xs + .10, y, top), (-0.358, 0.440, top)
+    bm = bm_new()
+    add_cyl(bm, (xs + .011, y, z), .0150, .022, "X", 14, 5, bevel=.003)                 # battery cap
+    add_cyl(bm, (xs + .0005, y, z), .0040, .003, "X", 8, 2)                             # its charge contact
+    add_cyl(bm, (xs + .072, y, z), .0160, .100, "X", 14, 0, bevel=.002)                 # shell
+    for gx in (.092, .103, .114):
+        add_cyl(bm, (xs + gx, y, z), .0172, .007, "X", 14, 1)                           # grip rings
+    add_cyl(bm, (xs + .040, y, z), .0164, .014, "X", 14, 3)                             # tape band, hand number
+    add_box(bm, (xs + .058, y - .005, z + .0145), (xs + .082, y + .005, z + .0195), 4, bevel=.0015)   # rocker
+    add_cyl(bm, (xs + .132, y, z), .0160, .020, "X", 14, 5, r2=.0085)                   # nose cone
+    add_cyl(bm, (xs + .148, y, z), .0065, .012, "X", 10, 2)                             # chuck
+    add_cyl(bm, (xs + .176, y, z), .0026, .044, "X", 8, 2)                              # bit
+    add_cyl(bm, (xs + .201, y, z), .0026, .006, "X", 8, 2, r2=.0008)
+    ring = [(xs - .004 + .008 * math.cos(a), y, z + .008 * math.sin(a)) for a in [i * math.pi / 6 for i in range(13)]]
+    add_sweep(bm, ring, .0012, 5, 2)                                                    # lanyard ring
+    stand(bm, src, dst)
+    ob = new_obj("BV2_Tool_Screwdriver", bm, ["M_BV2_Yellow", "M_BV2_Rubber", "M_BV2_SteelBare", "M_BV2_Ivory", "M_BV2_Orange", "M_BV2_DarkPlastic"],
+                 origin=dst, role="tool")
+    tip(ob, stood((xs + .204, y, z), src, dst))
     INTERACT[ob.name] = {"kind": "tool", "tool": "RemoveFastener", "label": "螺丝刀"}
 
-    # Opening tool (开壳): a ground-down flat steel pry bar with a bent tip, its handle end wrapped in cloth tape, a
-    # thin pick taped alongside with yellow tape. Along X.
-    cx, cy = -0.69 + OX, 0.245 + OY
+    # ---- Opening tool (开壳工具): a ground steel pry blade riveted into a moulded red handle, thumb pad worn smooth,
+    # a thin pick bound alongside with yellow tape.
+    xs, y, z = 0.0, 0.0, top
+    src, dst = (xs + .095, y, top), (-0.404, 0.440, top)
     bm = bm_new()
-    add_box(bm, (cx - .085, cy - .006, top), (cx + .060, cy + .006, top + .004), 0, bevel=.001, segs=1)
-    tip = add_box(bm, (cx + .060, cy - .005, top), (cx + .085, cy + .005, top + .0025), 0)
-    rotate_verts(tip, math.radians(-14), "Y", (cx + .060, cy, top))
-    add_box(bm, (cx - .085, cy - .0085, top - .0015), (cx - .025, cy + .0085, top + .0055), 1, bevel=.002, segs=1)   # cloth tape grip
-    add_cyl(bm, (cx - .01, cy + .012, top + .003), .0025, .13, "X", 8, 0)
-    add_cyl(bm, (cx + .067, cy + .012, top + .003), .0025, .024, "X", 8, 0, r2=.0004)
-    add_box(bm, (cx - .045, cy - .009, top - .002), (cx - .035, cy + .016, top + .007), 2, bevel=.001, segs=1)       # yellow tape binding
-    ob = new_obj("BV2_Tool_Spudger", bm, ["M_BV2_SteelBare", "M_BV2_Foam", "M_BV2_Yellow"], origin=(cx, cy, top), role="tool")
+    add_box(bm, (xs, y - .012, z), (xs + .100, y + .012, z + .013), 0, bevel=.004)                      # handle
+    add_box(bm, (xs + .030, y - .0085, z + .013), (xs + .078, y + .0085, z + .0155), 1, bevel=.0012)    # thumb pad
+    add_cyl(bm, (xs + .012, y, z + .0131), .0050, .0012, "Z", 12, 4)                                    # hanging hole
+    for rx in (xs + .086, xs + .094):
+        add_cyl(bm, (rx, y, z + .0135), .0022, .0016, "Z", 8, 3)                                        # brass rivets
+    add_box(bm, (xs + .096, y - .0065, z + .004), (xs + .165, y + .0065, z + .0075), 2, bevel=.0008, segs=1)   # blade
+    tipv = add_box(bm, (xs + .165, y - .0055, z + .004), (xs + .192, y + .0055, z + .0062), 2)
+    rotate_verts(tipv, math.radians(-13), "Y", (xs + .165, y, z + .004))
+    add_cyl(bm, (xs + .085, y + .0155, z + .004), .0024, .15, "X", 8, 2)                                # pick
+    add_cyl(bm, (xs + .168, y + .0155, z + .004), .0024, .016, "X", 8, 2, r2=.0004)
+    add_box(bm, (xs + .048, y - .013, z - .0005), (xs + .060, y + .019, z + .014), 5, bevel=.001, segs=1)   # tape binding
+    stand(bm, src, dst)
+    ob = new_obj("BV2_Tool_Spudger", bm, ["M_BV2_WornRed", "M_BV2_Rubber", "M_BV2_SteelBare", "M_BV2_Brass", "M_BV2_DarkPlastic", "M_BV2_Yellow"],
+                 origin=dst, role="tool")
+    tip(ob, stood((xs + .191, y, z + .002), src, dst))
     INTERACT[ob.name] = {"kind": "tool", "tool": "OpenHousing", "label": "开壳工具"}
 
-    # Handheld tester (检测仪): a scuffed ivory field unit with a test cartridge in its top slot, rubber corners from a
-    # different brand, a taped-on battery door, amber segment LCD, two leads. Lies flat.
-    cx, cy = -0.635 + OX, 0.315 + OY
+    # ---- Cleaning tool (清洁工具): a blower brush. Perished orange rubber bulb patched with tape, ivory neck, steel
+    # ferrule, soft dark bristles splayed from use.
+    xs, y, z = 0.0, 0.0, top + .022
+    src, dst = (xs + .082, y, top), (-0.459, 0.425, top)
     bm = bm_new()
-    add_box(bm, (cx - .042, cy - .05, top), (cx + .042, cy + .045, top + .028), 0, bevel=.006, segs=2)
-    for sx in (-1, 1):
-        for sy in (-1, 1):   # mismatched black rubber corner bumpers
-            add_box(bm, (cx + sx * .042 - .01, cy + sy * .047 - .01, top - .001), (cx + sx * .042 + .01, cy + sy * .047 + .01, top + .03), 1, bevel=.003)
-    add_box(bm, (cx - .030, cy + .045, top + .006), (cx + .030, cy + .075, top + .022), 2, bevel=.002)   # test cartridge sticking out
-    add_box(bm, (cx - .028, cy + .060, top + .0215), (cx + .028, cy + .072, top + .0225), 3)            # its label
-    add_cyl(bm, (cx + .018, cy - .022, top + .030), .011, .006, "Z", 16, 1, bevel=.001)                # range knob
-    add_box(bm, (cx - .036, cy - .046, top + .028), (cx + .004, cy - .030, top + .030), 3)              # tape over battery door
-    for dx in (-.026, -.010):
-        add_cyl(bm, (cx + dx, cy - .038, top + .032), .0035, .006, "Z", 10, 4)
-    ob = new_obj("BV2_Tool_Meter", bm, ["M_BV2_Ivory", "M_BV2_Rubber", "M_BV2_SteelGreen", "M_BV2_Yellow", "M_BV2_SteelBare"],
-                 origin=(cx, cy, top), role="tool")
-    top_quad("BV2_Tool_Meter_Lcd", "M_BV2_Lcd", cx - .030, cx + .010, cy + .004, cy + .032, top + .0285, parent=ob)
+    add_lathe(bm, [(0.0, 0.0), (.010, .002), (.018, .012), (.0215, .030), (.0205, .050), (.0150, .066), (.0100, .074), (.0085, .078)],
+              (xs, y, z), "X", 14, 0)                                                   # bulb
+    add_cyl(bm, (xs + .034, y, z), .0218, .010, "X", 14, 4)                             # tape patch round the bulb
+    add_cyl(bm, (xs + .092, y, z), .0085, .030, "X", 12, 1)                             # neck
+    add_cyl(bm, (xs + .098, y, z), .0092, .004, "X", 12, 3)                             # hand-number band
+    add_cyl(bm, (xs + .114, y, z), .0098, .014, "X", 12, 2, bevel=.001)                 # ferrule
+    add_cyl(bm, (xs + .141, y, z), .0090, .040, "X", 12, 5, r2=.0135)                   # bristles
+    add_cyl(bm, (xs + .163, y, z), .0135, .004, "X", 12, 5, r2=.0105)
+    stand(bm, src, dst)
+    ob = new_obj("BV2_Tool_Cleaner", bm, ["M_BV2_Orange", "M_BV2_Ivory", "M_BV2_SteelBare", "M_BV2_Yellow", "M_BV2_Tape", "M_BV2_DarkPlastic"],
+                 origin=dst, role="tool")
+    tip(ob, stood((xs + .165, y, z), src, dst))
+    INTERACT[ob.name] = {"kind": "tool", "tool": "Clean", "label": "清洁工具"}
+
+    # ---- Handheld tester (检测仪): a yellow field unit in a black rubber boot from another brand. Hooded amber
+    # segment LCD, a big range knob, three keys, a test cartridge in the top slot, antenna stub, two leads whose
+    # probes rest in the back slot of the tray.
+    cx, cy = -0.271, 0.504
+    bm = bm_new()
+    add_box(bm, (cx - .046, cy - .062, top), (cx + .046, cy + .058, top + .020), 1, bevel=.007, segs=2)      # boot
+    add_box(bm, (cx - .041, cy - .057, top + .004), (cx + .041, cy + .053, top + .031), 0, bevel=.005, segs=2)   # shell
+    add_box(bm, (cx - .034, cy + .004, top + .031), (cx + .034, cy + .046, top + .0345), 5, bevel=.001)      # LCD surround
+    add_box(bm, (cx - .034, cy + .044, top + .031), (cx + .034, cy + .048, top + .040), 5, bevel=.001)       # hood
+    add_cyl(bm, (cx + .016, cy - .026, top + .034), .0135, .008, "Z", 16, 1, bevel=.001)                     # range knob
+    add_box(bm, (cx + .0145, cy - .026, top + .038), (cx + .0175, cy - .014, top + .0395), 3)                # its pointer
+    for i, m in enumerate((4, 5, 5)):
+        add_box(bm, (cx - .034, cy - .014 - i * .013, top + .031), (cx - .016, cy - .005 - i * .013, top + .0338), m, bevel=.001)   # keys
+    add_box(bm, (cx - .030, cy + .053, top + .008), (cx + .018, cy + .076, top + .024), 2, bevel=.002)       # test cartridge
+    add_box(bm, (cx - .027, cy + .062, top + .0241), (cx + .015, cy + .074, top + .0249), 3)                 # its label
+    add_cyl(bm, (cx + .032, cy + .066, top + .020), .0035, .030, "Y", 8, 1)                                  # antenna stub
+    add_box(bm, (cx - .038, cy - .054, top + .031), (cx - .004, cy - .044, top + .0318), 6)                  # tape over battery door
+    for dy in (.030, .044):
+        add_cyl(bm, (cx - .047, cy + dy, top + .014), .0038, .006, "X", 10, 7)                               # jacks
+    ob = new_obj("BV2_Tool_Meter", bm, ["M_BV2_Yellow", "M_BV2_Rubber", "M_BV2_SteelGreen", "M_BV2_Ivory", "M_BV2_Orange", "M_BV2_DarkPlastic",
+                                       "M_BV2_Tape", "M_BV2_Brass"], origin=(cx, cy, top), role="tool")
+    top_quad("BV2_Tool_Meter_Lcd", "M_BV2_Lcd", cx - .030, cx + .030, cy + .008, cy + .042, top + .0348, parent=ob)
     INTERACT[ob.name] = {"kind": "tool", "tool": "ServiceModule", "label": "检测仪"}
     bm = bm_new()
-    for dx, m, end in ((-.025, 0, (-0.78 + OX, 0.325 + OY)), (.025, 1, (-0.77 + OX, 0.345 + OY))):
-        start = (cx + dx, cy - .036, top + .038)
-        pts = bezier(start, (cx + dx, cy - .08, top + .05), (end[0] + .04, end[1] - .04, top + .01), (end[0], end[1], top + .006), 18)
+    for dy, m, ex, py in ((.030, 0, -0.450, 0.564), (.044, 1, -0.436, 0.577)):
+        start = (cx - .050, cy + dy, top + .014)
+        pts = bezier(start, (cx - .075, cy + dy, top + .034), (ex + .10, py, top + .026), (ex + .045, py, top + .008), 14)
         add_sweep(bm, pts, .0022, 6, m)
-        add_cyl(bm, (end[0] - .03, end[1], top + .006), .005, .06, "X", 8, m)
-        add_cyl(bm, (end[0] - .065, end[1], top + .006), .0012, .016, "X", 6, 2)
+        add_cyl(bm, (ex + .015, py, top + .008), .0052, .060, "X", 8, m)
+        add_cyl(bm, (ex - .023, py, top + .008), .0013, .018, "X", 6, 2)
     new_obj("BV2_Tool_MeterLeads", bm, ["M_BV2_WornRed", "M_BV2_Rubber", "M_BV2_SteelBare"], origin=(cx, cy, top), parent=ob)
 
-    # Loupe on a stand (检查 / 空手): ring, lens, handle. Lies at the right of the tray.
-    cx, cy = -0.575 + OX, 0.22 + OY
+    # ---- Loupe (检查 / 空手): a lit bench loupe. Dark ring with a row of pale LEDs, thick lens, a battery handle with
+    # a knurled rubber sleeve and a yellow tape repair.
+    cx, cy = -0.271, 0.370
     bm = bm_new()
-    add_lathe(bm, [(0.020, 0.0), (0.027, 0.0), (0.027, 0.008), (0.020, 0.008)], (cx, cy + .012, top + .002), "Z", 24, 0)
-    add_cyl(bm, (cx, cy + .012, top + .006), .020, .003, "Z", 24, 1)
-    add_cyl(bm, (cx, cy - .035, top + .006), .006, .045, "Y", 10, 2)
-    add_cyl(bm, (cx, cy - .040, top + .006), .0068, .014, "Y", 10, 3)       # cracked handle, yellow tape
-    ob = new_obj("BV2_Tool_Loupe", bm, ["M_BV2_DarkPlastic", "M_BV2_CrtGlass", "M_BV2_Rubber", "M_BV2_Yellow"], origin=(cx, cy, top), role="tool")
+    add_lathe(bm, [(0.024, 0.0), (0.034, 0.0), (0.035, 0.004), (0.035, 0.011), (0.031, 0.014), (0.024, 0.012)], (cx, cy + .022, top + .001), "Z", 24, 0)
+    add_cyl(bm, (cx, cy + .022, top + .008), .0245, .005, "Z", 24, 1)
+    for i in range(8):
+        a = i * math.pi / 4
+        add_cyl(bm, (cx + .0295 * math.cos(a), cy + .022 + .0295 * math.sin(a), top + .0145), .0022, .0012, "Z", 6, 4)
+    add_cyl(bm, (cx, cy - .030, top + .009), .0085, .050, "Y", 12, 2)
+    add_cyl(bm, (cx, cy - .036, top + .009), .0098, .026, "Y", 12, 5)
+    add_cyl(bm, (cx, cy - .018, top + .009), .0092, .010, "Y", 12, 3)                   # cracked neck, yellow tape
+    add_cyl(bm, (cx, cy - .057, top + .009), .0070, .004, "Y", 10, 6)                   # end cap
+    ob = new_obj("BV2_Tool_Loupe", bm, ["M_BV2_DarkPlastic", "M_BV2_CrtGlass", "M_BV2_Ivory", "M_BV2_Yellow", "M_BV2_Ceramic", "M_BV2_Rubber", "M_BV2_SteelBare"],
+                 origin=(cx, cy, top), role="tool")
     INTERACT[ob.name] = {"kind": "tool", "tool": "Inspect", "label": "检查（放大镜）"}
+
+    # ---- Cleaning supplies behind the tray (static): an isopropyl pump bottle with a steel dish top and a tape
+    # label, a flat tin of lint-free wipes with one pulled out.
+    bx, by = -0.468, 0.640
+    bm = bm_new()
+    add_cyl(bm, (bx, by, T + .030), .026, .060, "Z", 16, 0, bevel=.003)
+    add_cyl(bm, (bx, by, T + .034), .0264, .020, "Z", 16, 3)
+    add_cyl(bm, (bx, by, T + .064), .020, .008, "Z", 16, 1)
+    add_lathe(bm, [(.006, 0), (.022, .002), (.024, .007), (.023, .008), (.008, .004)], (bx, by, T + .068), "Z", 16, 1)
+    add_cyl(bm, (bx, by, T + .074), .005, .006, "Z", 8, 1)
+    wx, wy = -0.455, 0.715
+    add_box(bm, (wx - .045, wy - .030, T), (wx + .045, wy + .030, T + .016), 2, bevel=.003)
+    add_box(bm, (wx - .020, wy - .012, T + .016), (wx + .020, wy + .012, T + .017), 4)
+    wipe = add_box(bm, (wx - .012, wy - .010, T + .017), (wx + .030, wy + .010, T + .019), 5)
+    rotate_verts(wipe, math.radians(-24), "Y", (wx - .012, wy, T + .017))
+    new_obj("BV2_CleaningSupplies", bm, ["M_BV2_Ivory", "M_BV2_SteelBare", "M_BV2_SteelGreen", "M_BV2_Tape", "M_BV2_DarkPlastic", "M_BV2_Ceramic"],
+            origin=(bx, by, T))
 
 
 def build_lamp():
@@ -1568,6 +1663,87 @@ def build_wall():
     new_obj("BV2_WallOrders", bm, ["M_BV2_WorkOrder", "M_BV2_Paper"], origin=(0.35, 1.02, 1.645), uv=None, role="print")
 
 
+def build_setting_wear():
+    """Second-hand life on the bench (SETTING_PROPS.md rule 3 and 4): nothing here is new. The CRT is a carried-in
+    field monitor with a handle, a bent aerial and a tape repair; the front edge still has the port's hazard tape,
+    torn where hands rest; drawers are patched and re-taped; the power strip is strapped down; the anti-static wrist
+    strap is clipped to the mat."""
+    def find(name):
+        return [o for o in OBJECTS if o.name == name][0]
+
+    # ---- CRT: carry handle, telescopic aerial, tape over a cracked corner, a cartridge left in the side slot
+    x0, x1, y0, y1, z0 = -0.89, -0.56, 0.60, 0.92, T
+    pivot = Vector(((x0 + x1) / 2, (y0 + y1) / 2, z0))
+    bm = bm_new()
+    for x in (x0 + .07, x1 - .07):
+        add_box(bm, (x - .012, y0 + .035, z0 + .30), (x + .012, y0 + .060, z0 + .325), 0, bevel=.003)
+    add_cyl(bm, ((x0 + x1) / 2, y0 + .0475, z0 + .330), .008, x1 - x0 - .12, "X", 10, 1)
+    add_cyl(bm, ((x0 + x1) / 2, y0 + .0475, z0 + .330), .0095, .09, "X", 10, 2)                       # rubber grip
+    aerial = bezier((x1 - .03, y1 - .09, z0 + .30), (x1 - .03, y1 - .09, z0 + .40), (x1 + .02, y1 - .07, z0 + .47), (x1 + .06, y1 - .05, z0 + .52), 8)
+    add_sweep(bm, aerial, .0022, 6, 1)
+    add_cyl(bm, (x1 - .03, y1 - .09, z0 + .305), .006, .012, "Z", 8, 2)
+    add_cyl(bm, (x1 + .06, y1 - .05, z0 + .52), .004, .006, "Z", 8, 2)
+    add_box(bm, (x0 - .001, y0 - .001, z0 + .255), (x0 + .05, y0 + .05, z0 + .301), 3, bevel=.0005, segs=1)   # tape over the cracked corner
+    add_box(bm, (x1 - .001, y0 + .10, z0 + .10), (x1 + .014, y0 + .19, z0 + .118), 4, bevel=.002)              # cartridge in the side slot
+    add_box(bm, (x1 + .0142, y0 + .11, z0 + .103), (x1 + .0146, y0 + .18, z0 + .115), 5)
+    rotate_verts(list(bm.verts), math.radians(28), "Z", pivot)
+    o = Matrix.Rotation(math.radians(28), 3, "Z") @ (Vector(((x0 + x1) / 2, y0, z0 + .30)) - pivot) + pivot
+    new_obj("BV2_Crt_Wear", bm, ["M_BV2_DarkPlastic", "M_BV2_SteelBare", "M_BV2_Rubber", "M_BV2_Tape", "M_BV2_SteelGreen", "M_BV2_Ivory"], origin=tuple(o))
+
+    # ---- Hazard tape on the front lip, in three lengths (torn away where the forearms rest)
+    bm = bm_new()
+    yf, za, zb = 0.1374, T - .040, T - .010
+    for xa, xb in ((-0.94, -0.52), (-0.44, -0.30), (0.34, 0.94)):
+        add_box(bm, (xa, yf - .0006, za), (xb, yf, zb), 0)
+        x = xa + .012
+        while x + .03 < xb:
+            vs = add_box(bm, (x, yf - .0009, za), (x + .024, yf - .0006, zb), 1)
+            for v in vs:
+                v.co.x += (v.co.z - za) * .8        # slanted stripes
+                v.co.x = min(v.co.x, xb)
+            x += .056
+    new_obj("BV2_HazardTape", bm, ["M_BV2_Yellow", "M_BV2_DarkPlastic"], origin=(0, yf, T - .025))
+
+    # ---- Drawers: tape round the top handle, a riveted steel patch on the bottom one
+    bm = bm_new()
+    add_cyl(bm, (-0.725, 0.168, 0.73 + .03), .0078, .045, "X", 10, 0)
+    add_cyl(bm, (-0.668, 0.168, 0.73 + .03), .0075, .012, "X", 10, 1)
+    d1 = find("BV2_Drawer_1")
+    new_obj("BV2_Drawer_1_Tape", bm, ["M_BV2_Tape", "M_BV2_Yellow"], origin=(-0.70, 0.168, 0.76), parent=d1)
+    bm = bm_new()
+    add_box(bm, (-0.625, 0.1858, 0.205), (-0.535, 0.188, 0.285), 0, bevel=.0008, segs=1)
+    for px in (-0.615, -0.545):
+        for pz in (0.215, 0.275):
+            add_cyl(bm, (px, 0.1852, pz), .004, .002, "Y", 8, 1)
+    new_obj("BV2_Drawer_3_Patch", bm, ["M_BV2_SteelBare", "M_BV2_Brass"], origin=(-0.58, 0.186, 0.245), parent=find("BV2_Drawer_3"))
+
+    # ---- Power strip strapped to the riser with cloth tape; one dead socket taped over
+    bm = bm_new()
+    for x in (-0.33, 0.03):
+        add_box(bm, (x - .012, 0.866, T + .008), (x + .012, 0.932, T + .0515), 0, bevel=.001, segs=1)
+    add_box(bm, (-0.115, 0.868, T + .018), (-0.075, 0.8695, T + .044), 1)
+    new_obj("BV2_PowerStrip_Tape", bm, ["M_BV2_Tape", "M_BV2_Yellow"], origin=(-0.15, 0.87, T + .03))
+
+    # ---- Anti-static wrist strap: snap on the mat's back-right corner, coiled cord, the band lying open
+    bm = bm_new()
+    sx, sy = 0.495, 0.725
+    add_cyl(bm, (sx, sy, MAT_Z + .003), .008, .006, "Z", 10, 1)
+    coil = []
+    a, b = Vector((sx, sy, MAT_Z + .010)), Vector((0.425, 0.640, MAT_Z + .010))
+    n = 60
+    side = (b - a).cross(Vector((0, 0, 1))).normalized()
+    for i in range(n + 1):
+        t = i / n
+        p = a.lerp(b, t) + side * (.012 * math.sin(t * math.pi)) 
+        ang = t * math.pi * 2 * 9
+        coil.append(tuple(p + side * (.006 * math.cos(ang)) + Vector((0, 0, .006 * math.sin(ang)))))
+    add_sweep(bm, coil, .0015, 5, 0)
+    band = [(0.395 + .034 * math.cos(k * math.pi / 8), 0.615 + .026 * math.sin(k * math.pi / 8), MAT_Z + .006) for k in range(17)]
+    add_sweep(bm, band, .0055, 6, 2)
+    add_box(bm, (0.418, 0.632, MAT_Z + .002), (0.438, 0.650, MAT_Z + .012), 1, bevel=.002)
+    new_obj("BV2_WristStrap", bm, ["M_BV2_Rubber", "M_BV2_SteelBare", "M_BV2_Yellow"], origin=(0.44, 0.67, MAT_Z))
+
+
 def build():
     global ROOT
     textures = build_textures()
@@ -1581,6 +1757,7 @@ def build():
     build_props()
     build_pegboard_tools()
     build_personal_items()
+    build_setting_wear()
     build_wall()
 
 
@@ -1627,7 +1804,8 @@ def render():
     SCENE.collection.objects.link(cam)
     SCENE.camera = cam
     shots = {"bench_wall": ((0.05, -0.55, 1.62), (0.0, 1.0, 1.45), 30),
-             "bench_front": ((0.0, -0.75, 1.55), (0.0, 0.55, 0.95), 35), "bench_tools": ((-0.55, -0.05, 1.20), (-0.68, 0.28, 0.92), 40),
+             "bench_front": ((0.0, -0.75, 1.55), (0.0, 0.55, 0.95), 35), "bench_tools": ((-0.35, -0.02, 1.34), (-0.35, 0.45, 0.93), 40), "bench_top": ((-0.25, 0.50, 2.3), (-0.25, 0.52, 0.9), 35),
+             "bench_player": ((-0.05, -0.35, 1.55), (-0.12, 0.50, 0.93), 28),
              "bench_left": ((-0.25, 0.05, 1.35), (-0.70, 0.75, 1.0), 40), "bench_right": ((0.45, 0.05, 1.40), (0.55, 0.65, 1.0), 40),
              "bench_wide": ((1.6, -1.4, 1.9), (0.0, 0.55, 0.7), 35)}
     for name, (loc, target, lens) in shots.items():
