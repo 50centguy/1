@@ -34,6 +34,12 @@ namespace BorderRepair.RepairProps
         RectTransform content,statusCard,testList,repairBody,toolRow,targetRow,toolsBody,finishWindow,phaseStrip,tabStrip;
         Button detailToggle;
         bool builtCompact;
+        // Reference windows (order, tools, log) sit under a shade while the pointer is on the bench, so the eye goes to
+        // the step header and the part first; the actions window is never shaded.
+        readonly List<Image> shades=new List<Image>();
+        float shade=ShadeIdle;
+        const float ShadeIdle=.42f;
+        public float Shade=>shade;
         /// <summary>Switches between the short panel and the full one.</summary>
         public Button DetailToggle=>detailToggle;
         readonly List<(Image bg,Text text)> phaseChips=new List<(Image,Text)>();
@@ -192,6 +198,14 @@ namespace BorderRepair.RepairProps
             bool visible=owner.WorkspaceVisible;
             if(PanelRectTransform.gameObject.activeSelf!=visible) PanelRectTransform.gameObject.SetActive(visible);
             if(!visible) {wasVisible=false;return;}
+            bool focused=ContainsScreenPoint(BorderRepair.Controls.RepairInput.PointerPosition) || AppearanceOpen;
+            shade=Mathf.MoveTowards(shade,focused ? 0:ShadeIdle,Time.unscaledDeltaTime*(focused ? 3.5f:.9f));
+            foreach(var dark in shades)
+            {
+                if(dark==null) continue;
+                var c=dark.color;c.a=shade;dark.color=c;
+                if(dark.transform.GetSiblingIndex()!=dark.transform.parent.childCount-1) dark.transform.SetAsLastSibling();
+            }
             if(!wasVisible)
             {
                 wasVisible=true;dirty=true;
@@ -669,6 +683,14 @@ namespace BorderRepair.RepairProps
             var element=window.gameObject.AddComponent<LayoutElement>();
             if(flexible) {element.minHeight=120;element.flexibleHeight=1;}
             HudMotion.Boot(window.gameObject,delay);
+            if(name=="CaseWindow" || name=="ToolWindow" || name=="LogWindow")
+            {
+                var cover=Rect("FocusShade",window);
+                cover.gameObject.AddComponent<LayoutElement>().ignoreLayout=true;
+                cover.anchorMin=Vector2.zero;cover.anchorMax=Vector2.one;cover.offsetMin=cover.offsetMax=Vector2.zero;
+                var dark=cover.gameObject.AddComponent<Image>();dark.raycastTarget=false;dark.color=new Color(0,0,0,ShadeIdle);
+                shades.Add(dark);
+            }
             return window;
         }
         // Small mono tag laid over the right / centre of the header line (outside layout, inside the panel).

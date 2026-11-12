@@ -43,6 +43,23 @@ namespace BorderRepair.RepairProps
         /// <summary>With a tool in hand: what a left click at the pointer does ("左键 ▶ …") or why it does nothing ("✕ …").</summary>
         public string ToolPreview { get; private set; }
         bool pointerOnItem;
+        const float DoneSeconds = .6f, TraceSeconds = 1.5f, TraceEvery = 7f;
+        RectTransform header;
+        Image headerBack, chipImage;
+        Text chipText, stepText, stepSub;
+        string stepId, stepMain, doneLabel;
+        bool stepWasCommand;
+        float stepAt;
+        /// <summary>The step header at the top of the view: the first thing to read.</summary>
+        public string StepText => stepText != null ? stepText.text : "";
+        public string StepSubText => stepSub != null ? stepSub.text : "";
+        public RectTransform StepHeader => header;
+        /// <summary>Canvas-space rectangle of the header's plate (reference pixels).</summary>
+        public Rect HeaderRect { get; private set; }
+        /// <summary>The part the header's trace line is running to right now, or null.</summary>
+        public string TraceTarget { get; private set; }
+        /// <summary>The tray tool marked "take this" because the step needs it and the hand holds something else.</summary>
+        public RepairBenchProp ToolToTake { get; private set; }
         BorderRepair.TwoNight.ClinicCleaningController cleaning;
         public string HintText => hint != null ? hint.text : "";
         public string NextTarget { get; private set; }
@@ -75,6 +92,126 @@ namespace BorderRepair.RepairProps
             if (RepairPropCyberStyle.Mono != null) { clock.font = RepairPropCyberStyle.Mono; ticker.font = RepairPropCyberStyle.Mono; readout.font = RepairPropCyberStyle.Mono; }
             ticker.lineSpacing = 1.1f;
             HudMotion.TypeOn(hint, 220);
+            BuildHeader();
+        }
+
+        // ---------- the eye's path: what to do (the step header), where (a trace to the part), with what (the tool to take) ----------
+
+        void BuildHeader()
+        {
+            header = (RectTransform)new GameObject("StepHeader", typeof(RectTransform)).transform;
+            header.SetParent(root, false);
+            header.anchorMin = header.anchorMax = header.pivot = Vector2.zero; header.anchoredPosition = Vector2.zero; header.sizeDelta = Vector2.zero;
+            var back = (RectTransform)new GameObject("Back", typeof(RectTransform)).transform; back.SetParent(header, false);
+            headerBack = back.gameObject.AddComponent<Image>(); headerBack.raycastTarget = false;
+            RepairPropCyberStyle.Framed(headerBack, new Color(0, 0, 0, .58f), RepairPropCyberStyle.AmberDim);
+            var chip = (RectTransform)new GameObject("Chip", typeof(RectTransform)).transform; chip.SetParent(header, false);
+            chipImage = chip.gameObject.AddComponent<Image>(); chipImage.raycastTarget = false; chipImage.color = RepairPropCyberStyle.Amber;
+            var chipLabel = (RectTransform)new GameObject("Text", typeof(RectTransform)).transform; chipLabel.SetParent(chip, false);
+            chipLabel.anchorMin = Vector2.zero; chipLabel.anchorMax = Vector2.one; chipLabel.offsetMin = chipLabel.offsetMax = Vector2.zero;
+            chipText = chipLabel.gameObject.AddComponent<Text>(); chipText.font = font; chipText.fontSize = 13; chipText.alignment = TextAnchor.MiddleCenter;
+            chipText.color = Color.black; chipText.raycastTarget = false; chipText.supportRichText = false;
+            stepText = MakeText("Step", 21, TextAnchor.MiddleLeft, RepairPropCyberStyle.Amber); stepText.rectTransform.SetParent(header, false);
+            stepText.horizontalOverflow = HorizontalWrapMode.Overflow;
+            stepSub = MakeText("StepSub", 12, TextAnchor.MiddleCenter, RepairPropCyberStyle.Dim); stepSub.rectTransform.SetParent(header, false);
+            stepSub.horizontalOverflow = HorizontalWrapMode.Overflow;
+            HudMotion.TypeOn(stepText, 150);
+            HudMotion.TypeOn(stepSub, 160);
+        }
+
+        string ToolName(RepairActionType tool)
+        {
+            var bench = RepairBenchV2Runtime.Current;
+            if (bench != null)
+                foreach (var prop in bench.Props)
+                    if (prop.Kind == RepairBenchPropKind.Tool && prop.Tool == tool) return prop.Label;
+            return RepairActionText.Label(tool).Replace(" ", "");
+        }
+
+        // One bright block at the top of the view says what to do now. When the step changes the finished one ticks off,
+        // the new one types in under a rule that sweeps across, and a line runs from the header to the part.
+        void Header(PropCommand next, string step, bool batch, float right, Vector2 size, Camera camera, float scale)
+        {
+            var flow = owner.Flow; var d = flow.Definition; var station = owner.Station;
+            bool cleaningNow = cleaning != null && cleaning.Cleaning;
+            string id, chip, main, sub;
+            if (cleaningNow) { id = "clean"; chip = "清洁中"; main = "已清除 " + cleaning.Progress.ToString("P0"); sub = "按住左键擦拭　·　右键单击放下工具"; }
+            else if (next != null)
+            {
+                var node = d.FindNode(next.target);
+                string where = next.target == d.rootObjectName ? "物品" : node != null ? node.displayName : next.target;
+                id = next.id; chip = "下一步"; main = step.Replace("（批量）", "");
+                sub = batch ? "点右侧发亮的按钮，一次做完" : station.ActiveTool == next.tool ? "左键点 " + where
+                    : "先拿 " + ToolName(next.tool) + "　→　再点 " + where;
+            }
+            else { id = "wait"; chip = "注意"; main = RepairPropWorkflowStatus.NextStep(flow); sub = ""; }
+
+            float now = Time.unscaledTime;
+            if (id != stepId)
+            {
+                doneLabel = stepWasCommand && stepId != null && flow.History.Contains(stepId) ? stepMain : null;
+                stepId = id; stepAt = now; stepWasCommand = next != null && !cleaningNow;
+            }
+            stepMain = main;
+            float age = now - stepAt;
+            bool ticking = doneLabel != null && age < DoneSeconds;
+            float fresh = ticking ? age : age - (doneLabel != null ? DoneSeconds : 0);   // seconds the shown line has been up
+            string shown = ticking ? "✓ " + doneLabel : main, shownSub = ticking ? "" : sub;
+            if (stepText.text != shown) stepText.text = shown;
+            if (stepSub.text != shownSub) stepSub.text = shownSub;
+            var ink = ticking ? RepairPropCyberStyle.Ok : id == "wait" ? RepairPropCyberStyle.Warn : RepairPropCyberStyle.Amber;
+            stepText.color = ink;
+            chipText.text = ticking ? "完成" : chip;
+            // The chip is the one inverse block on the visor: it swells when the line changes, then breathes slowly.
+            float pop = 1 - HudMotion.EaseOut(fresh / .28f);
+            ink.a = .88f + .12f * Mathf.Sin(now * 2.4f);
+            chipImage.color = ink;
+            chipImage.rectTransform.localScale = Vector3.one * (1 + .28f * pop);
+
+            float chipWidth = 62, gap = 12, textWidth = Mathf.Min(stepText.preferredWidth, right - 220);
+            float width = chipWidth + gap + textWidth, x0 = right / 2 - width / 2, y = size.y - 74;
+            var chipRect = chipImage.rectTransform;
+            chipRect.anchorMin = chipRect.anchorMax = Vector2.zero; chipRect.pivot = new Vector2(.5f, .5f);
+            chipRect.anchoredPosition = new Vector2(x0 + chipWidth / 2, y + 14); chipRect.sizeDelta = new Vector2(chipWidth, 24);
+            var textRect = stepText.rectTransform;
+            textRect.anchorMin = textRect.anchorMax = Vector2.zero; textRect.pivot = new Vector2(0, .5f);
+            textRect.anchoredPosition = new Vector2(x0 + chipWidth + gap, y + 14); textRect.sizeDelta = new Vector2(textWidth + 8, 30);
+            Place(stepSub.rectTransform, new Vector2(right / 2, y - 22), new Vector2(Mathf.Min(right - 120, 720), 18));
+            float plate = Mathf.Max(width, stepSub.preferredWidth) + 44;
+            Place(headerBack.rectTransform, new Vector2(right / 2, y - 28), new Vector2(Mathf.Min(plate, right - 60), 62));
+            HeaderRect = Rect.MinMaxRect(right / 2 - plate / 2, y - 28, right / 2 + plate / 2, y + 34);
+
+            // The rule under the line sweeps out from the centre.
+            float sweep = HudMotion.EaseOut(fresh / .35f) * (width / 2 + 10);
+            var rule = stepText.color; rule.a = .9f;
+            Line(new Vector2(right / 2 - sweep, y - 3), new Vector2(right / 2 + sweep, y - 3), rule);
+
+            // The trace: from the header down to the part the step is about, drawn once when the step comes up and again
+            // every few seconds while the player waits.
+            TraceTarget = null;
+            if (!ticking && next != null && !cleaningNow && Project(camera, next.target, scale, out var target))
+            {
+                float cycle = fresh < TraceSeconds ? fresh : Mathf.Repeat(fresh - TraceSeconds, TraceEvery);
+                if (cycle < TraceSeconds && target.yMax < y - 40)
+                {
+                    TraceTarget = next.target;
+                    float draw = HudMotion.EaseOut(cycle / .45f), fade = Mathf.Clamp01((TraceSeconds - cycle) / .45f);
+                    var colour = RepairPropCyberStyle.Amber; colour.a = .85f * fade;
+                    Vector2 from = new Vector2(right / 2, y - 30), to = new Vector2(target.center.x, target.yMax + 10);
+                    var elbow = new Vector2(to.x, from.y - 14);
+                    // down a little, across, then down onto the part: a drafted leader, not a diagonal
+                    float l1 = 14, l2 = Mathf.Abs(to.x - from.x), l3 = Mathf.Max(0, elbow.y - to.y), total = l1 + l2 + l3, done = draw * total;
+                    var knee = new Vector2(from.x, from.y - 14);
+                    Line(from, Vector2.Lerp(from, knee, Mathf.Clamp01(done / l1)), colour);
+                    if (done > l1 && l2 > 1) Line(knee, Vector2.Lerp(knee, elbow, Mathf.Clamp01((done - l1) / l2)), colour);
+                    if (done > l1 + l2 && l3 > 1)
+                    {
+                        var head = Vector2.Lerp(elbow, to, Mathf.Clamp01((done - l1 - l2) / l3));
+                        Line(elbow, head, colour);
+                        Line(head + new Vector2(-5, 0), head + new Vector2(5, 0), colour);
+                    }
+                }
+            }
         }
 
         // Seconds since this mark (re)appeared; a mark absent for a quarter second locks on again.
@@ -184,9 +321,10 @@ namespace BorderRepair.RepairProps
             if (show) Draw();
             // The short HUD drops the visor's decorative read-outs; the tutorial's own card replaces the guide band.
             bool readouts = !RepairPropWorkspaceLayout.Compact, guide = !GuideHidden;
-            readout.enabled = visorId.enabled = clock.enabled = ticker.enabled = readouts;
+            visorId.enabled = clock.enabled = ticker.enabled = readouts;
+            readout.enabled = false;   // the test list is in the order window; the top of the view belongs to the step header
             if (hintBand.gameObject.activeSelf != guide) hintBand.gameObject.SetActive(guide);
-            hint.enabled = controls.enabled = guide;
+            hint.enabled = false; controls.enabled = guide;   // the hint's words live in the step header now
             for (int i = usedLines; i < lines.Count; i++) if (lines[i].enabled) lines[i].enabled = false;
             for (int i = usedTags; i < tags.Count; i++) if (tags[i].rect.gameObject.activeSelf) tags[i].rect.gameObject.SetActive(false);
         }
@@ -241,7 +379,7 @@ namespace BorderRepair.RepairProps
                 string toolHint = tool == next.tool ? "" : "　[" + RepairActionText.Label(next.tool).Replace(" ", "") + "]";
                 var anchor = new Vector2(box.xMax + 26, box.yMax + 20);
                 Leader(new Vector2(box.xMax, box.yMax), anchor + new Vector2(0, -6), color, "nextline:" + next.target);
-                Tag(anchor, "下一步 ▶ " + next.label + toolHint, color, 13, TextAnchor.LowerLeft, true);
+                Tag(anchor, "▶ " + next.label, color, 13, TextAnchor.LowerLeft, true);   // where; the header says what and with which tool
             }
 
             // Selection: amber wireframe box and a name tag with what can be done to it.
@@ -289,6 +427,20 @@ namespace BorderRepair.RepairProps
                         Tag(new Vector2(toolRect.xMin, toolRect.yMax + 8), "手持 · " + prop.Label, RepairPropCyberStyle.Amber, 11, TextAnchor.LowerLeft);
                     }
 
+            // With what: the step needs a tool the hand does not hold, so that tool is marked in the tray.
+            ToolToTake = null;
+            if (bench != null && next != null && owner.Station.ActiveTool != next.tool && !owner.Station.CleaningActive
+                && (owner.ContextPanel == null || owner.ContextPanel.BatchButtonFor(next.id) == null))
+                foreach (var prop in bench.Props)
+                {
+                    if (prop.Kind != RepairBenchPropKind.Tool || prop.IsCleaner || prop.IsPainter || prop.Tool != next.tool || prop.InHand) continue;
+                    if (!ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var takeRect)) continue;
+                    ToolToTake = prop;
+                    var take = RepairPropCyberStyle.Amber; take.a = pulse;
+                    if (OrientedBox(prop.GetComponentsInChildren<MeshFilter>(), prop.transform, 1.1f)) LockBox(camera, scale, take, .3f, "take:" + prop.name);
+                    if (prop != HoveredProp) Tag(new Vector2(takeRect.xMin, takeRect.yMax + 8), "拿这个 ▶ " + prop.Label, take, 12, TextAnchor.LowerLeft, true);
+                }
+
             // Top-centre scan line over the free view: tests at a glance.
             readout.rectTransform.anchorMin = readout.rectTransform.anchorMax = Vector2.zero;
             readout.rectTransform.pivot = new Vector2(.5f, 1);
@@ -308,10 +460,11 @@ namespace BorderRepair.RepairProps
             if (cleaning == null) cleaning = FindFirstObjectByType<BorderRepair.TwoNight.ClinicCleaningController>();
             if (cleaning != null && cleaning.Cleaning)
                 hint.text = "清洁中 // 已清除 " + cleaning.Progress.ToString("P0") + "　按住左键擦拭　·　右键单击放下工具";
+            // The step itself is the header at the top; down here only the control legend is left, small and dim.
             Place(hint.rectTransform, new Vector2(right / 2, 44), new Vector2(Mathf.Min(right - 60, 760), 60));
-            float hintHeight = hint.preferredHeight;
-            bandTop = 12 + hintHeight + 40;
-            Place(hintBand, new Vector2(right / 2, 12), new Vector2(Mathf.Min(right - 40, Mathf.Max(hint.preferredWidth, controls.preferredWidth) + 60), hintHeight + 40));
+            bandTop = 12 + 44;
+            Place(hintBand, new Vector2(right / 2, 12), new Vector2(Mathf.Min(right - 40, controls.preferredWidth + 60), 44));
+            Header(next, step, batch != null, right, size, camera, scale);
             Place(controls.rectTransform, new Vector2(right / 2, 20), new Vector2(Mathf.Min(right - 60, 760), 20));
         }
 

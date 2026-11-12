@@ -1238,6 +1238,21 @@ namespace BorderRepair.RepairProps.UI.Tests
                 IEnumerator Settle() { for (int i = 0; i < 20; i++) { Point(At()); yield return null; } }
                 IEnumerator Hover(Vector2 p) { for (int i = 0; i < 20; i++) { Point(p); yield return null; } }
 
+                // The eye's path with empty hands: the header names the step, the trace runs to the item, the tray marks the tool to take.
+                var overlay = bridge.ArOverlay;
+                var needed = bench.Props.First(p => p.Kind == RepairBenchPropKind.Tool && p.Tool == next.tool);
+                Point(At());
+                yield return Until(() => overlay.StepText.Contains(next.label), "The step header names the next step: " + overlay.StepText);
+                StringAssert.Contains(needed.Label, overlay.StepSubText, "Under it: which tool to take.");
+                yield return Until(() => overlay.ToolToTake == needed, "The tool the step needs is marked in the tray.");
+                yield return Until(() => overlay.TraceTarget == next.target, "A trace runs from the header to the part.");
+                Assert.That(bridge.ContextPanel.Shade, Is.GreaterThan(.2f), "With the pointer on the bench the reference windows step back.");
+                var onPanel = new Vector3[4]; bridge.ContextPanel.PanelRectTransform.GetWorldCorners(onPanel);
+                var panelPoint = (Vector2)(onPanel[0] + onPanel[2]) * .5f;
+                for (int i = 0; i < 40 && bridge.ContextPanel.Shade > .01f; i++) { Point(panelPoint); yield return null; }
+                Assert.That(bridge.ContextPanel.Shade, Is.LessThan(.02f), "They light up when the pointer goes to the panel.");
+                Point(At()); yield return null;
+
                 // The wrong tool: it comes into the hand, and the cursor says why it does nothing here.
                 var screwdriver = bench.FindProp("BV2_Tool_Screwdriver");
                 Assert.That(screwdriver.HasTip, Is.True, "The screwdriver has a working end."); Assert.That(bench.FindProp("BV2_Tool_Spudger").HasTip, Is.True); Assert.That(bench.FindProp("BV2_Tool_Meter").HasTip, Is.False, "The tester is held by its body.");
@@ -1263,6 +1278,8 @@ namespace BorderRepair.RepairProps.UI.Tests
                 yield return Until(() => right.InHand && !screwdriver.InHand, right.Label + " takes the screwdriver's place in the hand.");
                 yield return Settle();
                 Assert.That(bridge.ArOverlay.ToolPreview, Is.EqualTo("左键 ▶ " + next.label));
+                Assert.That(overlay.ToolToTake, Is.Null, "With the right tool in hand nothing is marked in the tray.");
+                StringAssert.StartsWith("左键点", overlay.StepSubText);
                 yield return Shoot("71-tool-in-hand-ready", View, Settle);
                 Point(At(), 1); yield return null; yield return null;
                 Point(At()); yield return null;
