@@ -218,7 +218,9 @@ namespace BorderRepair.RepairProps
             var bridge = item != null ? item.GetComponent<RepairPropStationBridge>() : null;
             bool atBench = bridge != null && bridge.WorkspaceVisible;
             foreach (var prop in props)
-                if (prop.Kind == RepairBenchPropKind.Tool) prop.SetSelected(atBench && station.ActiveTool == prop.Tool);
+                // Nothing is in hand while the cleaning tool, the paint brush or the parts terminal has the hands
+                // (they all hold station.CleaningActive and clear the tool, which would otherwise read as the loupe).
+                if (prop.Kind == RepairBenchPropKind.Tool) prop.SetSelected(atBench && !station.CleaningActive && station.ActiveTool == prop.Tool);
             if (crt != null && Time.unscaledTime >= nextCrt)
             {
                 nextCrt = Time.unscaledTime + .25f;

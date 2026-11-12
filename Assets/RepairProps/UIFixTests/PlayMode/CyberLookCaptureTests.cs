@@ -1049,6 +1049,86 @@ namespace BorderRepair.RepairProps.UI.Tests
             Object.Destroy(cam.gameObject);
         }
 
+        // The bench HUD keeps off the tool tray (bottom left of the bench view) and off itself, and nothing reads as
+        // "in hand" while the cleaning tool has the hands.
+        [UnityTest]
+        public IEnumerator BenchHud_LeavesTheToolTrayClear_AndCleaningHoldsNoTool()
+        {
+            Assert.That(clinic.Interact(ClinicTradeAction.Receive), Is.True, clinic.LastMessage);
+            bridge = clinic.Station.Inspector.CurrentItem.GetComponent<RepairPropStationBridge>();
+            yield return Until(() => Flow.Session != null, "Bridge must attach.");
+            clinic.Counter.DismissDialogue();
+            Assert.That(clinic.Interact(ClinicTradeAction.Console), Is.True, clinic.LastMessage);
+            yield return Until(() => bridge.CanInteract, "Bench must be interactive.");
+            for (int i = 0; i < 40; i++) yield return null;
+            Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
+#if UNITY_EDITOR
+            if (gameView == null) gameView = new UiTestGameView();
+            gameView.Set(1280, 720);
+#endif
+            for (int i = 0; i < 10; i++) yield return null;
+
+            var bench = RepairBenchV2Runtime.Current;
+            var tools = bench.Props.Where(p => p.Kind == RepairBenchPropKind.Tool).ToArray();
+            Assert.That(tools.Length, Is.EqualTo(4));
+            var loupe = bench.FindProp("BV2_Tool_Loupe");
+            yield return Until(() => loupe.Lifted, "Empty-handed, the loupe is the tool in hand.");
+
+            // Where the tray is on screen: every tool's renderer bounds through the bench camera.
+            var tray = new Rect();
+            bool first = true;
+            foreach (var renderer in tools.SelectMany(t => t.GetComponentsInChildren<Renderer>()).Where(r => r.enabled))
+            {
+                var b = renderer.bounds;
+                for (int i = 0; i < 8; i++)
+                {
+                    var corner = b.center + Vector3.Scale(b.extents, new Vector3((i & 1) == 0 ? -1 : 1, (i & 2) == 0 ? -1 : 1, (i & 4) == 0 ? -1 : 1));
+                    var p = View.WorldToScreenPoint(corner);
+                    if (first) { tray = new Rect(p.x, p.y, 0, 0); first = false; }
+                    else tray = Rect.MinMaxRect(Mathf.Min(tray.xMin, p.x), Mathf.Min(tray.yMin, p.y), Mathf.Max(tray.xMax, p.x), Mathf.Max(tray.yMax, p.y));
+                }
+            }
+            tray = Rect.MinMaxRect(Mathf.Max(0, tray.xMin), Mathf.Max(0, tray.yMin), Mathf.Min(Screen.width, tray.xMax), Mathf.Min(Screen.height, tray.yMax));
+            Assert.That(tray.width > 20 && tray.height > 20, Is.True, "The tool tray is on screen at the bench: " + tray);
+
+            Rect ScreenRect(RectTransform r) { var c = new Vector3[4]; r.GetWorldCorners(c); return Rect.MinMaxRect(c[0].x, c[0].y, c[2].x, c[2].y); }
+            var cleaning = Object.FindFirstObjectByType<ClinicCleaningController>();
+            Assert.That(cleaning != null && cleaning.ControlsRect != null && cleaning.ControlsRect.gameObject.activeInHierarchy, Is.True, "The cleaning bar shows at the bench.");
+            var assistant = Object.FindFirstObjectByType<ClinicAssistantRuntime>();
+            Assert.That(assistant, Is.Not.Null);
+            bool cardWasActive = assistant.Card.gameObject.activeSelf;
+            assistant.Card.gameObject.SetActive(true);
+            Canvas.ForceUpdateCanvases();
+            yield return null;
+            var bar = ScreenRect(cleaning.ControlsRect);
+            var card = ScreenRect(assistant.Card);
+            Assert.That(card.Overlaps(tray), Is.False, "UNIT 07's card covers the tool tray: card " + card + " tray " + tray);
+            Assert.That(bar.Overlaps(tray), Is.False, "The cleaning bar covers the tool tray: bar " + bar + " tray " + tray);
+            Assert.That(bar.Overlaps(card), Is.False, "The cleaning bar and UNIT 07's card overlap: " + bar + " / " + card);
+            Assert.That(bridge.ArOverlay.GuideBand, Is.Not.Null);
+            var guide = ScreenRect(bridge.ArOverlay.GuideBand);
+            Assert.That(bar.Overlaps(guide), Is.False, "The cleaning bar overlaps the guide band: " + bar + " / " + guide);
+            Assert.That(card.Overlaps(guide), Is.False, "UNIT 07's card overlaps the guide band: " + card + " / " + guide);
+            yield return Shoot("50-bench-hud-clear", View);
+            assistant.Card.gameObject.SetActive(cardWasActive);
+
+            // Each tool comes up alone.
+            foreach (var name in new[] { "BV2_Tool_Screwdriver", "BV2_Tool_Spudger", "BV2_Tool_Meter", "BV2_Tool_Loupe" })
+            {
+                var tool = bench.FindProp(name);
+                tool.Activate(bridge);
+                yield return Until(() => tools.All(t => t.Lifted == (t == tool)), name + " alone is in hand.");
+            }
+
+            Assert.That(cleaning.SetCleaning(true), Is.True, cleaning.UnavailableReason);
+            yield return Until(() => tools.All(t => !t.Lifted), "No tool is in hand while cleaning.");
+            for (int i = 0; i < 20; i++) yield return null;
+            Assert.That(tools.Any(t => t.Lifted), Is.False, "The loupe must not rise while the cleaning tool is in hand.");
+            yield return Shoot("51-bench-cleaning-no-tool", View);
+            cleaning.SetCleaning(false);
+            yield return Until(() => loupe.Lifted, "Putting the cleaning tool down returns to empty-handed inspection.");
+        }
+
         IEnumerator Shoot(string state, Camera camera)
         {
             foreach (var size in Sizes)

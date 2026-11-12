@@ -28,6 +28,8 @@ namespace BorderRepair.RepairProps
         float tickerNext;
         int tickerSeed;
         RectTransform hintBand;
+        /// <summary>The guide band along the bottom of the bench view.</summary>
+        public RectTransform GuideBand => hintBand;
         float tagRight, bandTop;
         readonly Vector3[] corners = new Vector3[8];
         readonly Vector2[] screen = new Vector2[8];

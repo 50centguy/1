@@ -454,13 +454,24 @@ namespace BorderRepair.RepairProps
 
         static Face ParseFace(string face) => System.Enum.TryParse(face, out Face parsed) ? parsed : Face.Smile;
 
+        /// <summary>The card's corner, in 1280x720 canvas units from the top left.</summary>
+        public static readonly Vector2 CardPosition = new Vector2(16, -140);
+        (string text, Face face) interrupted;
+        bool hasInterrupted;
+
         void Speak(float now)
         {
             bool onCall = ClinicCallRuntime.Current != null && ClinicCallRuntime.Current.Active;
-            if (speaking && now - lineAt > lineHold) { speaking = false; quietAt = now; }
-            if (!speaking && lines.Count > 0 && !onCall)
+            if (onCall && card.gameObject.activeSelf)
             {
-                line = lines.Dequeue();
+                // A call came in: its card takes this corner. The line that was up is said again afterwards.
+                if (speaking) { interrupted = line; hasInterrupted = true; speaking = false; }
+                card.gameObject.SetActive(false);
+            }
+            if (speaking && now - lineAt > lineHold) { speaking = false; quietAt = now; }
+            if (!speaking && (hasInterrupted || lines.Count > 0) && !onCall)
+            {
+                if (hasInterrupted) { line = interrupted; hasInterrupted = false; } else line = lines.Dequeue();
                 speaking = true; lineAt = now; lineHold = 1.8f + line.text.Length * .08f;
                 card.gameObject.SetActive(true);
                 speech.text = line.text;
@@ -479,7 +490,10 @@ namespace BorderRepair.RepairProps
             host.AddComponent<GraphicRaycaster>();
             card = (RectTransform)new GameObject("AssistantCard", typeof(RectTransform)).transform;
             card.SetParent(host.transform, false);
-            card.anchorMin = card.anchorMax = card.pivot = Vector2.zero; card.anchoredPosition = new Vector2(16, 96); card.sizeDelta = new Vector2(380, 92);
+            // Top left, under the bench's cleaning bar. Bottom left is where the tool tray is on screen at the bench:
+            // a card there hides the tools and takes the clicks meant for them. Calls use this corner too, so the
+            // card steps aside while one is on the line (Speak).
+            card.anchorMin = card.anchorMax = card.pivot = new Vector2(0, 1); card.anchoredPosition = CardPosition; card.sizeDelta = new Vector2(380, 92);
             var bg = card.gameObject.AddComponent<Image>(); bg.raycastTarget = false;
             RepairPropCyberStyle.Framed(bg, RepairPropCyberStyle.Field, RepairPropCyberStyle.AmberDim);
             RepairPropCyberStyle.Texture(card, RepairPropCyberStyle.Dots, new Color(1f, .62f, .16f, .06f), "DotGrid");

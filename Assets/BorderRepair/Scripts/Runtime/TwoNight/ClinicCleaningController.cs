@@ -448,6 +448,10 @@ namespace BorderRepair.TwoNight
             return hits.Count > 0;
         }
 
+        /// <summary>The cleaning bar, in 1280x720 canvas units from the top-left corner.</summary>
+        public static readonly Vector2 ControlsPosition = new Vector2(68,-62), ControlsSize = new Vector2(465,68);
+        public RectTransform ControlsRect => ui != null ? (RectTransform)ui.transform.Find("Cleaning controls") : null;
+
         void BuildUi()
         {
             ui = new GameObject("Cleaning UI", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
@@ -456,8 +460,10 @@ namespace BorderRepair.TwoNight
             var scale = ui.GetComponent<CanvasScaler>(); scale.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scale.referenceResolution = new Vector2(1280,720); scale.matchWidthOrHeight = .5f;
             var panel = new GameObject("Cleaning controls", typeof(RectTransform), typeof(Image)); panel.transform.SetParent(ui.transform, false);
-            var rect = panel.GetComponent<RectTransform>(); rect.anchorMin = rect.anchorMax = rect.pivot = Vector2.zero;
-            rect.anchoredPosition = new Vector2(18,18); rect.sizeDelta = new Vector2(465,68);
+            // Top left, beside the SYS icon: the bottom row belongs to the guide band (centred, as wide as its text) and
+            // the assistant's card sits above that, so anything parked bottom-left ends up underneath them.
+            var rect = panel.GetComponent<RectTransform>(); rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0,1);
+            rect.anchoredPosition = ControlsPosition; rect.sizeDelta = ControlsSize;
             var background = panel.GetComponent<Image>(); background.color = new Color(.045f,.06f,.065f,.92f); background.raycastTarget = false;
             var button = new GameObject("Cleaning toggle", typeof(RectTransform), typeof(Image), typeof(Button)); button.transform.SetParent(panel.transform,false);
             var buttonRect = button.GetComponent<RectTransform>(); buttonRect.anchorMin = buttonRect.anchorMax = buttonRect.pivot = Vector2.zero;
