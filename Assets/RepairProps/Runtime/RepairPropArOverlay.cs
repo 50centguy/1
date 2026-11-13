@@ -225,23 +225,38 @@ namespace BorderRepair.RepairProps
             if (TargetBox(anaTarget, 1.06f)) LockBox(camera, scale, hold, .24f, "ana:" + anaAt);
             if (age < .4f || !Project(camera, anaTarget, scale, out var rect)) return;
             var ink = anaColour; ink.a = fade;
-            var anchor = new Vector2(rect.xMax + 34, rect.center.y + 6);
-            Leader(new Vector2(rect.xMax, rect.center.y), anchor + new Vector2(0, -8), ink, "analine:" + anaAt);
-            Tag(anchor, anaTitle + (string.IsNullOrEmpty(anaBody) ? "" : "\n" + anaBody), ink, 12, TextAnchor.UpperLeft, true, VisorIcons.Get(anaIcon));
+            // The read-out sits beside the part, on the side with room (the work panels fill the right), and the leader
+            // runs to wherever it actually landed; the trace of a reading sits under it, inside the same column.
+            var tag = Tag(new Vector2(rect.xMax + 34, rect.center.y + 6), anaTitle + (string.IsNullOrEmpty(anaBody) ? "" : "\n" + Brief(anaBody)), ink, 12, TextAnchor.UpperLeft, true, VisorIcons.Get(anaIcon));
+            if (tag.anchoredPosition.x < rect.xMax + 20)
+                tag.anchoredPosition = new Vector2(Mathf.Max(4, rect.xMin - 34 - tag.sizeDelta.x), tag.anchoredPosition.y);
+            bool left = tag.anchoredPosition.x < rect.xMin;
+            var anchor = tag.anchoredPosition;
+            Leader(new Vector2(left ? rect.xMin : rect.xMax, rect.center.y), new Vector2(left ? anchor.x + tag.sizeDelta.x : anchor.x, anchor.y - 8), ink, "analine:" + anaAt);
             if (!anaWave) return;
             // A reading settles: the trace above the read-out swings wide, then steadies (and stays ragged on a fault).
             float settle = Mathf.Exp(-(age - .4f) * 2.2f);
             bool rough = anaColour == RepairPropCyberStyle.Warn;
-            Vector2 origin = anchor + new Vector2(0, 16), previous = origin;
+            Vector2 origin = anchor + new Vector2(6, -tag.sizeDelta.y - 14), previous = origin;
             for (int i = 1; i <= 24; i++)
             {
-                float x = i * 5f, phase = i * .9f - age * 9f;
+                float x = i * (tag.sizeDelta.x - 12) / 24f, phase = i * .9f - age * 9f;
                 float y = Mathf.Sin(phase) * (3 + 9 * settle) + (rough ? (HudMotion.Noise(i * 3.1f + Mathf.Floor(age * 12)) - .5f) * 9 : 0);
                 var point = origin + new Vector2(x, y);
                 Line(previous, point, ink);
                 previous = point;
             }
         }
+
+        // The read-out gives the gist, not the whole log line: the first sentence, cut short.
+        static string Brief(string body)
+        {
+            int end = body.IndexOfAny(new[] { '。', '；', '\n' });
+            string first = end > 0 ? body.Substring(0, end) : body;
+            return first.Length > 20 ? first.Substring(0, 19) + "…" : first;
+        }
+
+        bool Analysing => anaTarget != null && Time.unscaledTime - anaAt < AnalysisSeconds;
 
         string ToolName(RepairActionType tool)
         {
@@ -547,7 +562,9 @@ namespace BorderRepair.RepairProps
                 var previewIcon = command != null ? VisorIcons.Command(command) : VisorIcons.Get("cross");
                 if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget) Wire(camera, HoveredTarget, scale, color, out _);
                 var node = d.FindNode(toolTarget);
-                Tag(pointer / scale + new Vector2(18, -12), (node != null ? node.displayName : toolTarget) + "\n" + ToolPreview, color, 12, TextAnchor.UpperLeft, true, previewIcon);
+                // While a reading plays on the item the cursor tag steps aside, so the two read-outs never stack.
+                if (!Analysing)
+                    Tag(pointer / scale + new Vector2(18, -12), (node != null ? node.displayName : toolTarget) + "\n" + ToolPreview, color, 12, TextAnchor.UpperLeft, true, previewIcon);
             }
             else if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && Wire(camera, HoveredTarget, scale, VisorIcons.Scan, out _))
             {
@@ -683,13 +700,30 @@ namespace BorderRepair.RepairProps
             var parked = owner.BenchPresentation != null ? owner.BenchPresentation.ParkedVisual(target) : null;
             Transform source = parked != null && parked.gameObject.activeInHierarchy ? parked : owner.Flow.GetObject(target);
             if (source == null) yield break;
+            var attachments = parked == source ? null : Attachments(target);
             foreach (var filter in source.GetComponentsInChildren<MeshFilter>())
             {
                 var renderer = filter.GetComponent<Renderer>();
                 if (filter.sharedMesh == null || renderer == null || !renderer.enabled || !renderer.gameObject.activeInHierarchy) continue;
+                if (attachments != null && attachments.Exists(a => a != source && filter.transform.IsChildOf(a))) continue;
                 yield return (filter, renderer);
             }
         }
+
+        // Sub-parts that only show in some state (a test lead hanging out while the item is on the fixture): they belong to
+        // their own box, not to the parent's, or the parent's frame stretches out over empty bench.
+        List<Transform> Attachments(string target)
+        {
+            attachmentList.Clear();
+            foreach (var node in owner.Flow.Definition.nodes)
+            {
+                if (node == null || node.objectName == target || string.IsNullOrEmpty(node.visibleKey)) continue;
+                var t = owner.Flow.GetObject(node.objectName);
+                if (t != null) attachmentList.Add(t);
+            }
+            return attachmentList;
+        }
+        readonly List<Transform> attachmentList = new List<Transform>();
 
         bool Project(Camera camera, string target, float scale, out Rect rect)
         {
@@ -811,7 +845,7 @@ namespace BorderRepair.RepairProps
             if (!image.enabled) image.enabled = true;
         }
 
-        void Tag(Vector2 at, string text, Color color, int size, TextAnchor anchor, bool framed = false, Sprite icon = null)
+        RectTransform Tag(Vector2 at, string text, Color color, int size, TextAnchor anchor, bool framed = false, Sprite icon = null)
         {
             (RectTransform rect, Image bg, Text text) tag;
             if (usedTags < tags.Count) tag = tags[usedTags];
@@ -855,6 +889,7 @@ namespace BorderRepair.RepairProps
             RepairPropCyberStyle.SetFrame(tag.bg, color * new Color(1, 1, 1, .8f));
             var frameImage = tag.bg.transform.Find("Frame");
             if (frameImage != null) frameImage.gameObject.SetActive(framed);
+            return tag.rect;
         }
 
         void OnDestroy()

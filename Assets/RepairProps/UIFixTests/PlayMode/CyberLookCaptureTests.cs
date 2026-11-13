@@ -1167,11 +1167,11 @@ namespace BorderRepair.RepairProps.UI.Tests
             yield return Until(() => !bridge.Station.ActiveTool.HasValue && bridge.CanInteract, "Empty hands again.");
             string root = bridge.Flow.Definition.rootObjectName;
             Assert.That(bridge.SelectTarget(root), Is.True);
+            yield return Resize(1280, 720);
             bridge.InspectSelected();
             yield return Until(() => bridge.ArOverlay.AnalysisTarget == root, "The visor analyses the part that was inspected.");
             StringAssert.StartsWith("检查 // ", bridge.ArOverlay.AnalysisTitle);
-            for (int i = 0; i < 25; i++) yield return null;
-            yield return Shoot("73-analysis-inspect", View);
+            yield return Series("73-analysis-inspect", View, AnalysisFrames);
         }
 
         // The guided first order as the player sees it: the lesson card in the room and at the bench, on the short HUD.
@@ -1292,10 +1292,14 @@ namespace BorderRepair.RepairProps.UI.Tests
                 Assert.That(overlay.ToolToTake, Is.Null, "With the right tool in hand nothing is marked in the tray.");
                 StringAssert.StartsWith("左键点", overlay.StepSubText);
                 yield return Shoot("71-tool-in-hand-ready", View, Settle);
+                yield return Resize(1280, 720);
                 Point(At(), 1); yield return null; yield return null;
                 Point(At()); yield return null;
                 yield return Until(() => Flow.History.Contains(next.id) || bridge.Gesture.Busy && bridge.Gesture.Current == next,
                     "A left click with the right tool starts " + next.id + ".");
+                // The reading of the test plays on the item: slices, lock, read-out and a waveform that settles.
+                if (Flow.History.Contains(next.id) && bridge.ArOverlay.AnalysisTarget != null)
+                    yield return Series("74-analysis-reading", View, AnalysisFrames);
                 if (bridge.Gesture.Busy) bridge.Gesture.Cancel();
                 yield return null;
                 Assert.That(right.InHand, Is.True, "The tool stays in the hand after use.");
@@ -1307,6 +1311,33 @@ namespace BorderRepair.RepairProps.UI.Tests
                 yield return Until(() => !right.InHand && bench.HeldTool == null, "The tool goes back to the tray.");
             }
             finally { mouseCleanup?.Invoke(); }
+        }
+
+        static readonly float[] AnalysisFrames = { .08f, .35f, .7f, 1.2f, 2f, 3.1f };
+
+        IEnumerator Resize(int width, int height)
+        {
+#if UNITY_EDITOR
+            if (gameView == null) gameView = new UiTestGameView();
+            gameView.Set(width, height);
+#endif
+            Screen.SetResolution(width, height, FullScreenMode.Windowed);
+            for (int i = 0; i < 30 && (Screen.width != width || Screen.height != height); i++) yield return null;
+            yield return null;
+        }
+
+        // A time-lapse of an animation at the current size: one frame at each of the given seconds after now.
+        IEnumerator Series(string state, Camera camera, float[] seconds)
+        {
+            float start = Time.unscaledTime;
+            foreach (float at in seconds)
+            {
+                while (Time.unscaledTime - start < at) yield return null;
+                Canvas.ForceUpdateCanvases();
+                if (string.IsNullOrEmpty(Folder)) continue;
+                Directory.CreateDirectory(Folder);
+                File.WriteAllBytes(Path.Combine(Folder, state + "-t" + Mathf.RoundToInt(at * 100).ToString("000") + "-" + Screen.width + "x" + Screen.height + ".png"), Composite(camera));
+            }
         }
 
         IEnumerator Shoot(string state, Camera camera, Func<IEnumerator> settle = null)
