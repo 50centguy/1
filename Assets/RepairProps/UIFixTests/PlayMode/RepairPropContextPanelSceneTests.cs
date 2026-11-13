@@ -155,7 +155,7 @@ namespace BorderRepair.RepairProps.UI.Tests
             Quaternion rotation = Station.Inspector.ItemAnchor.rotation;
             yield return Click(power);
             Assert.That(Flow.GetState("power"), Is.Zero);
-            Assert.That(Station.ActiveTool, Is.EqualTo(RepairActionType.OpenHousing));
+            Assert.That(Station.ActiveTool.HasValue, Is.False, "Power is switched by hand: the hands stay empty.");
             Assert.That(Flow.History.Count, Is.EqualTo(history + 1), "One physical press/release must execute once.");
             Assert.That(Station.Session.CurrentRecord.InvalidActionCount, Is.EqualTo(invalid));
             Assert.That(Quaternion.Angle(rotation, Station.Inspector.ItemAnchor.rotation), Is.LessThan(.01f));
@@ -169,7 +169,7 @@ namespace BorderRepair.RepairProps.UI.Tests
             yield return Click(disconnect);
             Assert.That(Flow.GetState("fixture"), Is.Zero);
             Assert.That(Flow.History.Count, Is.EqualTo(history + 2));
-            Assert.That(Station.ActiveTool, Is.EqualTo(RepairActionType.ServiceModule));
+            Assert.That(Station.ActiveTool.HasValue, Is.False, "The test hook-up is pulled by hand: the hands stay empty.");
             Assert.That(Station.Session.CurrentRecord.InvalidActionCount, Is.EqualTo(invalid));
             Assert.That(inspectorClickCount, Is.Zero, "Command clicks must not also reach ItemInspector.Clicked.");
 

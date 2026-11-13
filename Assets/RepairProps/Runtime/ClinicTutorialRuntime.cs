@@ -60,6 +60,7 @@ namespace BorderRepair.RepairProps
         {
             if (Current != null) return Current;
             RepairPropWorkspaceLayout.Compact = true;
+            RepairPropWorkspaceLayout.AutoHide = true;
             var host = new GameObject("ClinicTutorial (runtime only)");
             return host.AddComponent<ClinicTutorialRuntime>();
         }
@@ -214,7 +215,10 @@ namespace BorderRepair.RepairProps
             if (next == null)
             {
                 bool shortage = RepairPropWorkflowStatus.Phase(flow) == RepairPropPhase.Replacement && flow.CommandPolicy != null && !flow.CommandPolicy.ReplacementAvailable;
-                if (shortage && launcher != null && launcher.MenuOpen)
+                bool benchComputer = RepairBenchV2Runtime.Current != null && System.Linq.Enumerable.Any(RepairBenchV2Runtime.Current.Props, p => p.Kind == RepairBenchPropKind.Terminal);
+                if (shortage && benchComputer)
+                    Show("buy", "拆下来的小板是坏的，店里没有备件，得买一块新的。点维修台左后方那台电脑的屏幕（上面标着「缺件」）。", null);
+                else if (shortage && launcher != null && launcher.MenuOpen)
                     Show("buy-menu", "点「01 配件采购」。", launcher.ShopEntry != null ? (RectTransform)launcher.ShopEntry.transform : null);
                 else if (shortage)
                     Show("buy", "拆下来的小板是坏的，店里没有备件，得买一块新的。点左上角的 SYS 图标。", launcher != null && launcher.IconButton != null ? (RectTransform)launcher.IconButton.transform : null);

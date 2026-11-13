@@ -172,15 +172,62 @@ namespace BorderRepair.RepairProps
                 if (!hitItem) return;
                 SelectTarget(point != null ? point.PointId : flow.Definition.rootObjectName);
             }
+            var command = ClickCommandAt(selectedTarget, out string why);
+            if (command != null) { Perform(command.id, command.target == flow.Definition.rootObjectName); return; }
             if (!station.ActiveTool.HasValue)
             {
                 // Empty hands (the loupe): a click on an exposed part looks at it closely.
                 if (station.Session.ScanModeActive || Inspectable(selectedTarget)) Inspect(selectedTarget);
+                else if (why != null) RejectClick(why);
                 return;
             }
-            var command = ToolCommandAt(selectedTarget, out string why);
-            if (command != null) Perform(command.id, command.target == flow.Definition.rootObjectName);
-            else RejectClick(why);
+            RejectClick(why);
+        }
+
+        /// <summary>Done with bare hands, whatever is (or is not) in them: plugging and unplugging, swapping a module,
+        /// power and the test hook-up, handing the job over. The tester is for testing and measuring only.</summary>
+        public static bool ByHand(PropCommand c)
+        {
+            if (c == null) return false;
+            if (c.kind == PropCommandKind.Power || c.kind == PropCommandKind.Fixture || c.kind == PropCommandKind.Complete) return true;
+            if (c.kind != PropCommandKind.Manipulate) return false;
+            switch (RepairPropFeel.For(c))
+            {
+                case PropFeel.Unplug: case PropFeel.Plug: case PropFeel.SlideOut: case PropFeel.SlideIn: return true;
+                case PropFeel.Tap: return c.tool == RepairActionType.ServiceModule;   // plain swaps authored on the tester
+                default: return false;   // screws, covers, scrubbing and crimping take their tool
+            }
+        }
+
+        /// <summary>True while the job waits for a replacement part that is not in stock.</summary>
+        public bool NeedsPurchase => flow != null && flow.CommandPolicy != null && !flow.CommandPolicy.ReplacementAvailable
+            && RepairPropWorkflowStatus.Phase(flow) == RepairPropPhase.Replacement;
+
+        /// <summary>True when the step needs a tool that is not in the hand.</summary>
+        public bool NeedsTool(PropCommand c) => c != null && !ByHand(c) && station.ActiveTool != c.tool;
+
+        // A by-hand step leaves the hand as it was: the station's tool is switched for the command and put back after.
+        RepairActionType? handBefore;
+        bool handPending;
+        /// <summary>The tool the player is holding, as shown: unchanged while a by-hand step borrows the station's tool.</summary>
+        public RepairActionType? ShownTool => handPending ? handBefore : station.ActiveTool;
+
+        void Update()
+        {
+            if (!handPending || Gesture != null && Gesture.Busy) return;
+            handPending = false;
+            station.SelectTool(handBefore);
+        }
+
+        /// <summary>What a left click on <paramref name="target"/> does right now, or null (and why, when something is
+        /// in the way). With empty hands a part that can be looked at is looked at first, unless the by-hand step on it
+        /// is the suggested one.</summary>
+        public PropCommand ClickCommandAt(string target, out string why)
+        {
+            var command = ToolCommandAt(target, out why);
+            if (command != null && !station.ActiveTool.HasValue && command != RepairPropWorkflowStatus.NextCommand(flow)
+                && (station.Session.ScanModeActive || Inspectable(target))) { why = null; return null; }
+            return command;
         }
 
         bool Inspectable(string target)
@@ -198,28 +245,34 @@ namespace BorderRepair.RepairProps
         public PropCommand ToolCommandAt(string target, out string why)
         {
             why = null;
-            if (!CanInteract || !station.ActiveTool.HasValue || target == null) { why = "现在不能动手。"; return null; }
-            var tool = station.ActiveTool.Value;
+            if (!CanInteract || target == null) { why = "现在不能动手。"; return null; }
+            var tool = station.ActiveTool;
             var next = RepairPropWorkflowStatus.NextCommand(flow);
             string root = flow.Definition.rootObjectName;
             var found = Ready(target, tool, next, ref why);
-            if (found == null && target != root && next != null && next.target == root && next.tool == tool)
+            if (found == null && tool.HasValue && target != root && next != null && next.target == root && next.tool == tool && !ByHand(next))
             {
                 string ignored = null;
                 found = Ready(root, tool, next, ref ignored);
             }
-            if (found == null && why == null) why = "这个部位用不上手上的工具，换一件试试。";
+            if (found == null && why == null && tool.HasValue) why = "这个部位用不上手上的工具，换一件试试。";
             return found;
         }
 
-        PropCommand Ready(string target, RepairActionType tool, PropCommand next, ref string why)
+        PropCommand Ready(string target, RepairActionType? tool, PropCommand next, ref string why)
         {
             PropCommand first = null;
             bool whyIsPending = false;
+            string root = flow.Definition.rootObjectName;
             foreach (var c in flow.Definition.commands)
             {
-                if (c.target != target || c.tool != tool) continue;
-                if (flow.CanExecute(c.id, c.target, tool, out string reason))
+                if (c.target != target) continue;
+                bool hand = ByHand(c);
+                if (!hand && (!tool.HasValue || c.tool != tool.Value)) continue;
+                // Whole-item by-hand steps (power, hook-up, hand-over) answer a click on the body only when they are the
+                // suggested step; the others stay on the panel, so a stray click never switches the item off.
+                if (hand && target == root && c != next) continue;
+                if (flow.CanExecute(c.id, c.target, c.tool, out string reason))
                 {
                     if (c == next) return c;
                     if (first == null) first = c;
@@ -287,12 +340,28 @@ namespace BorderRepair.RepairProps
             if (!CanInteract) return false;
             var command = Flow.Definition.FindCommand(commandId);
             if (command == null) return false;
+            var before = station.ActiveTool;
+            bool started = Begin();
+            if (started && ByHand(command) && before != command.tool)
+            {
+                if (Gesture != null && Gesture.Busy) { handBefore = before; handPending = true; }
+                else station.SelectTool(before);   // done at once: the hand is as it was
+            }
+            return started;
+
             bool Run() => wholeItem ? ExecuteWholeItemFromPanel(commandId) : ExecuteFromPanel(commandId);
-            if (Gesture == null || !RepairPropFeel.Enabled || RepairPropFeel.For(command) == PropFeel.Tap) return Run();
-            if (wholeItem ? command.target != Flow.Definition.rootObjectName : command.target != selectedTarget) return false;
-            if (!Flow.CanExecute(command.id, command.target, command.tool, out _)) return Run();
-            station.SelectTool(command.tool);
-            return Gesture.Begin(command, () => CanInteract && (wholeItem || SelectTarget(command.target)) && Run());
+            bool Begin()
+            {
+                var feel = RepairPropFeel.For(command);
+                if (Gesture == null || !RepairPropFeel.Enabled || feel == PropFeel.Tap) return Run();
+                if (wholeItem ? command.target != Flow.Definition.rootObjectName : command.target != selectedTarget) return false;
+                if (!Flow.CanExecute(command.id, command.target, command.tool, out _)) return Run();
+                station.SelectTool(command.tool);
+                // A screw answers one click: the driver runs it out (or home) by itself, no circling by hand.
+                if (feel == PropFeel.Unscrew || feel == PropFeel.Screw)
+                    return Gesture.RunAuto(new[] { command }, m => SelectTarget(m.target) && ExecuteFromPanel(m.id), null);
+                return Gesture.Begin(command, () => CanInteract && (wholeItem || SelectTarget(command.target)) && Run());
+            }
         }
 
         public void SelectToolFromPanel(RepairActionType? tool)

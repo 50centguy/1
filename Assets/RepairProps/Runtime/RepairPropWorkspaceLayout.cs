@@ -30,7 +30,12 @@ namespace BorderRepair.RepairProps
         public static bool CompactOffered { get; private set; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        public static void ResetCompact() { compact = false; CompactOffered = false; }
+        public static void ResetCompact() { compact = false; CompactOffered = false; AutoHide = false; Pinned = false; }
+        /// <summary>The column on the right tucks away at the screen edge and slides out when the pointer goes there (or
+        /// when the step is done on it). Off by default; a game started in the clinic switches it on with the short HUD.</summary>
+        public static bool AutoHide;
+        /// <summary>The player pinned the column open (the tab on its left edge).</summary>
+        public static bool Pinned;
         public static bool Hosting => Host != null && Host.Visible;
         public static bool AppearanceOpen => Hosting && Host.AppearanceOpen;
         // Null unless a visible workspace currently shows the appearance page.

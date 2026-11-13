@@ -87,7 +87,14 @@ namespace BorderRepair.RepairProps.UI.Tests
             Assert.That(RepairPropLauncher.Current, Is.Not.Null);
             yield return Click(RepairPropLauncher.Current.IconButton);
             Assert.That(RepairPropLauncher.Current.MenuOpen, Is.True);
-            yield return Click(panel.OpenButton);
+            // At the bench the parts are ordered at the bench computer, and the system menu has no shop entry.
+            if (panel.OpenButton.gameObject.activeInHierarchy) yield return Click(panel.OpenButton);
+            else
+            {
+                RepairPropLauncher.Current.Toggle(false);
+                System.Linq.Enumerable.First(RepairBenchV2Runtime.Current.Props, p => p.Kind == RepairBenchPropKind.Terminal).Activate(bridge);
+                yield return null;
+            }
             Assert.That(shop.IsOpen, Is.True);
             yield return Until(() => panel.DeviceReady);
             Assert.That(panel.OnScreen, Is.True, "The program runs on the screen at the bench.");

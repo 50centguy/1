@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BorderRepair.RepairProps
 {
-    public enum RepairBenchPropKind { Tool, Lamp, Drawer, Door }
+    public enum RepairBenchPropKind { Tool, Lamp, Drawer, Door, Terminal }
 
     // One clickable thing on the V2 repair bench. Tools hand their repair tool to the station through the bridge's
     // guarded tool selection (the station stays the only authority on the active tool); the lamp, drawers and cabinet
@@ -45,6 +45,10 @@ namespace BorderRepair.RepairProps
         public Vector3 Spot { get; set; }
         /// <summary>Length from the working end to the far end of the tool, in metres.</summary>
         public float Reach { get; private set; }
+        /// <summary>Scale applied while the tool is held, set by the hand so the tool keeps its size on screen.</summary>
+        public float HoldScale { get; set; } = 1f;
+        Vector3 restScale = Vector3.one;
+        float scaleNow = 1f;
         public bool Open => open;
         public bool LampOn => lampLight != null && lampLight.enabled;
         public bool Lifted => lift > .5f;
@@ -120,7 +124,7 @@ namespace BorderRepair.RepairProps
         /// <summary>Records the rest pose; `slideDirection` is world-space toward the player, `hingePoint` the door's hinge.</summary>
         public void Initialize(Vector3 slideDirection, Light light = null)
         {
-            restPosition = transform.position; restRotation = transform.rotation;
+            restPosition = transform.position; restRotation = transform.rotation; restScale = transform.localScale;
             slide = slideDirection.normalized; hinge = transform.position; lampLight = light;
             posNow = restPosition; rotNow = restRotation;
             if (kind == RepairBenchPropKind.Tool) FindTip();
@@ -135,6 +139,7 @@ namespace BorderRepair.RepairProps
                 {
                     case RepairBenchPropKind.Tool: return label + (painter ? " · 点击打开 / 收起外观涂装" : cleaner ? " · 点击拿起，按住左键擦拭" : hasTool ? " · 点击拿起" : " · 点击换成空手检查");
                     case RepairBenchPropKind.Lamp: return "台灯 · 点击" + (LampOn ? "关灯" : "开灯");
+                    case RepairBenchPropKind.Terminal: return label + " · 点击采购配件";
                     case RepairBenchPropKind.Drawer: return label + " · 点击" + (open ? "关上" : "拉开");
                     default: return label + " · 点击" + (open ? "关上" : "打开");
                 }
@@ -165,6 +170,10 @@ namespace BorderRepair.RepairProps
                     break;
                 case RepairBenchPropKind.Lamp:
                     if (lampLight != null) lampLight.enabled = !lampLight.enabled;
+                    break;
+                case RepairBenchPropKind.Terminal:
+                    foreach (var shop in FindObjectsByType<RepairPropEconomyController>(FindObjectsSortMode.None))
+                        if (shop.gameObject.scene == gameObject.scene) { shop.Open(); break; }
                     break;
                 default:
                     open = !open;
@@ -210,6 +219,8 @@ namespace BorderRepair.RepairProps
                     float e = Mathf.SmoothStep(0, 1, lift);
                     var position = restPosition + Vector3.up * (.07f * e) + slide * (.03f * e);
                     var rotation = Quaternion.AngleAxis(-18f * e, Vector3.Cross(Vector3.up, slide)) * restRotation;
+                    scaleNow = Mathf.Lerp(scaleNow, holding ? HoldScale : 1f, 1f - Mathf.Exp(-10f * Time.unscaledDeltaTime));
+                    transform.localScale = restScale * scaleNow;
                     if (holding) HeldPose(out position, out rotation);
                     float k = 1f - Mathf.Exp(-(holding ? 22f : 14f) * Time.unscaledDeltaTime);
                     if (!posed) { posNow = transform.position; rotNow = transform.rotation; posed = true; }

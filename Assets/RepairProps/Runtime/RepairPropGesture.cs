@@ -495,7 +495,7 @@ namespace BorderRepair.RepairProps
         {
             widget = Rect("Gesture", root);
             widget.gameObject.AddComponent<CanvasGroup>().blocksRaycasts = false;
-            ringBack = Img("RingBack", widget, Ring, new Color(1f, .62f, .16f, .25f), Vector2.one * 84f);
+            ringBack = Img("RingBack", widget, Ring, new Color(0f, 0f, 0f, .55f), Vector2.one * 84f);
             ring = Img("Ring", widget, Ring, Amber, Vector2.one * 84f);
             ring.type = Image.Type.Filled; ring.fillMethod = Image.FillMethod.Radial360; ring.fillOrigin = (int)Image.Origin360.Top;
             orbit = Img("Orbit", widget, Dot, Amber, Vector2.one * 9f);
@@ -545,6 +545,15 @@ namespace BorderRepair.RepairProps
             Place(prompt.rectTransform, 8f, -24f, 30f);
             message = Txt("Message", card, "", 12, Warn, TextAnchor.UpperLeft);
             Place(message.rectTransform, 8f, -54f, 16f);
+            // Amber on a lamp-lit, glossy part washes out: every mark of the hand motion carries a dark edge, and the
+            // marks themselves run hot (near white) instead of mid amber.
+            foreach (var graphic in widget.GetComponentsInChildren<Graphic>(true))
+            {
+                if (graphic.transform == card || graphic.transform.IsChildOf(card) || graphic == ringBack) continue;
+                var edge = graphic.gameObject.AddComponent<Outline>();
+                edge.effectColor = new Color(0f, 0f, 0f, .9f); edge.effectDistance = new Vector2(1.5f, -1.5f); edge.useGraphicAlpha = true;
+                if (graphic.color == Amber) graphic.color = Hot;
+            }
             var cancel = Txt("Cancel", card, "Esc 取消", 10, Dim, TextAnchor.UpperRight);
             Place(cancel.rectTransform, 8f, -5f, 14f);
         }

@@ -98,7 +98,7 @@ namespace BorderRepair.RepairProps
             readout = MakeText("Readout", 11, TextAnchor.UpperLeft, RepairPropCyberStyle.Dim);
             hint = MakeText("Hint", 14, TextAnchor.LowerCenter, RepairPropCyberStyle.Amber);
             controls = MakeText("Controls", 11, TextAnchor.LowerCenter, RepairPropCyberStyle.Dim);
-            controls.text = "左键 用手上的工具 / 空手查看　·　右键单击 放下工具　·　拖动 旋转　·　滚轮 缩放　·　R 复位";
+            controls.text = "左键 动手 / 用工具　·　右键单击 放下工具　·　拖动 旋转　·　中键拖动 平移　·　滚轮 缩放　·　R 复位";
             visorId = MakeText("VisorId", 11, TextAnchor.UpperLeft, RepairPropCyberStyle.AmberFaint * new Color(1, 1, 1, 2.2f));
             if (RepairPropCyberStyle.Kana != null) visorId.font = RepairPropCyberStyle.Kana;
             visorId.text = "VSR-07 // 修理視界";
@@ -321,7 +321,7 @@ namespace BorderRepair.RepairProps
         RepairBenchProp TakeProp(PropCommand next)
         {
             var bench = RepairBenchV2Runtime.Current;
-            if (bench == null || next == null || owner.Station.ActiveTool == next.tool || owner.Station.CleaningActive) return null;
+            if (bench == null || next == null || !owner.NeedsTool(next) || owner.Station.CleaningActive) return null;
             if (owner.ContextPanel != null && owner.ContextPanel.BatchButtonFor(next.id) != null) return null;
             foreach (var prop in bench.Props)
                 if (prop.Kind == RepairBenchPropKind.Tool && !prop.IsCleaner && !prop.IsPainter && prop.Tool == next.tool && !prop.InHand) return prop;
@@ -407,7 +407,7 @@ namespace BorderRepair.RepairProps
                 var node = d.FindNode(next.target);
                 string where = next.target == d.rootObjectName ? "物品" : node != null ? node.displayName : next.target;
                 id = next.id; chip = "下一步"; main = step.Replace("（批量）", "");
-                sub = batch ? "点右侧发亮的按钮，一次做完" : station.ActiveTool == next.tool ? "左键点 " + where
+                sub = batch ? "点右侧发亮的按钮，一次做完" : !owner.NeedsTool(next) ? "左键点 " + where
                     : "先拿 " + ToolName(next.tool) + "　→　再点 " + where;
             }
             else { id = "wait"; chip = "注意"; main = RepairPropWorkflowStatus.NextStep(flow); sub = ""; }
@@ -450,7 +450,7 @@ namespace BorderRepair.RepairProps
                 pictureRect.anchoredPosition = new Vector2(x0 + chipWidth + gap + 12, y + 14); pictureRect.sizeDelta = new Vector2(24, 24);
                 pictureRect.localScale = Vector3.one * (1 + .35f * pop);
             }
-            stepSub.color = !ticking && next != null && !cleaningNow && !batch && station.ActiveTool != next.tool ? VisorIcons.ToolColor(next.tool) : RepairPropCyberStyle.Dim;
+            stepSub.color = !ticking && next != null && !cleaningNow && !batch && owner.NeedsTool(next) ? VisorIcons.ToolColor(next.tool) : RepairPropCyberStyle.Dim;
             var chipRect = chipImage.rectTransform;
             chipRect.anchorMin = chipRect.anchorMax = Vector2.zero; chipRect.pivot = new Vector2(.5f, .5f);
             chipRect.anchoredPosition = new Vector2(x0 + chipWidth / 2, y + 14); chipRect.sizeDelta = new Vector2(chipWidth, 24);
@@ -624,10 +624,12 @@ namespace BorderRepair.RepairProps
             var size = root.rect.size;
             float pulse = .6f + .4f * Mathf.Sin(Time.unscaledTime * 4.2f);
             var panel = owner.ContextPanel != null && owner.ContextPanel.Visible ? owner.ContextPanel.PanelRectTransform : null;
-            float right = size.x - (panel != null ? panel.rect.width + 16 : 0);
+            float right = size.x - (panel != null ? (panel.rect.width + 16) * owner.ContextPanel.Shown : 0);
             tagRight = right - 6;
 
-            VisorFrame(size, right);
+            // The step header and the visor's frame stand on the view the column leaves for good; they do not follow its slides.
+            float headRight = size.x - (panel != null ? Mathf.Max(0, owner.ContextPanel.Docked) : 0);
+            VisorFrame(size, headRight);
             WatchForAnalysis(flow, d);
 
             // Pointer part (only when the pointer is over the view, not the panel).
@@ -685,29 +687,35 @@ namespace BorderRepair.RepairProps
                 Tag(anchor, "▣ " + (node != null ? node.displayName : owner.SelectedTarget) + "\n" + state, RepairPropCyberStyle.Amber, 12, TextAnchor.UpperLeft, true);
             }
 
-            // Pointer: cyan wireframe and the part name right at the cursor. With a tool in hand the tag says what a left
-            // click does here (green) or why it does nothing (red), so the tool reads as something to use, not a mode.
+            // Pointer: corner marks on the part and its name right at the cursor (one box, never the whole wire structure).
+            // When a left click would do something here the tag says what (green); with a tool in hand that has no use
+            // here it says why (red). So tools, and bare hands, read as something to use, not a mode.
             string toolTarget = HoveredTarget ?? (pointerOnItem ? d.rootObjectName : null);
-            if (toolTarget != null && owner.Station.ActiveTool.HasValue)
+            PropCommand hoverCommand = null; string hoverWhy = null;
+            if (toolTarget != null) hoverCommand = owner.ClickCommandAt(toolTarget, out hoverWhy);
+            if (toolTarget != null && (owner.Station.ActiveTool.HasValue || hoverCommand != null))
             {
-                var command = owner.ToolCommandAt(toolTarget, out string why);
+                var command = hoverCommand; string why = hoverWhy;
                 ToolPreview = command != null ? "左键 ▶ " + command.label : "✕ " + why;
                 var color = command != null ? RepairPropCyberStyle.Ok : RepairPropCyberStyle.Bad;
                 var previewIcon = command != null ? VisorIcons.Command(command) : VisorIcons.Get("cross");
-                if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget) Wire(camera, HoveredTarget, scale, color, out _);
+                if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && TargetBox(HoveredTarget, 1.04f)) LockBox(camera, scale, color, .3f, "hover:" + HoveredTarget);
                 var node = d.FindNode(toolTarget);
                 // While a reading plays on the item the cursor tag steps aside, so the two read-outs never stack.
                 if (!Analysing)
                     Tag(pointer / scale + new Vector2(18, -12), (node != null ? node.displayName : toolTarget) + "\n" + ToolPreview, color, 12, TextAnchor.UpperLeft, true, previewIcon);
             }
-            else if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && Wire(camera, HoveredTarget, scale, VisorIcons.Scan, out _))
+            else if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && TargetBox(HoveredTarget, 1.04f))
             {
+                LockBox(camera, scale, VisorIcons.Scan, .3f, "hover:" + HoveredTarget);
                 var node = d.FindNode(HoveredTarget);
                 Tag(pointer / scale + new Vector2(16, -10), node != null ? node.displayName : HoveredTarget, VisorIcons.Scan, 12, TextAnchor.UpperLeft, true, VisorIcons.Get("loupe"));
             }
 
-            // Bench prop under the pointer: cyan wire and what a click does.
-            if (HoveredProp != null && WireRenderers(camera, HoveredProp.GetComponentsInChildren<MeshFilter>(), scale, HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.PropColor(HoveredProp) : RepairPropCyberStyle.Hot))
+            // Bench prop under the pointer: corner marks around it (one box) and what a click does.
+            if (HoveredProp != null && OrientedBox(HoveredProp.GetComponentsInChildren<MeshFilter>(), HoveredProp.transform, 1.05f))
+                LockBox(camera, scale, HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.PropColor(HoveredProp) : RepairPropCyberStyle.Hot, .28f, "hoverprop:" + HoveredProp.name);
+            if (HoveredProp != null)
                 Tag(pointer / scale + new Vector2(16, -10), HoveredProp.Hint, HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.PropColor(HoveredProp) : RepairPropCyberStyle.Hot, 12, TextAnchor.UpperLeft, true,
                     HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.Prop(HoveredProp) : null);
             // The tool in hand, marked on the bench as well.
@@ -721,10 +729,26 @@ namespace BorderRepair.RepairProps
                         trayRects.Add(new Rect(heldTag.anchoredPosition - new Vector2(3, 2), heldTag.sizeDelta + new Vector2(6, 4)));
                     }
 
+            // The bench computer: a quiet label where parts are ordered, a loud one when the job waits for a part.
+            if (bench != null)
+                foreach (var prop in bench.Props)
+                {
+                    if (prop.Kind != RepairBenchPropKind.Terminal || prop == HoveredProp) continue;
+                    if (!ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var termRect)) continue;
+                    if (owner.NeedsPurchase)
+                    {
+                        var buy = RepairPropCyberStyle.Amber; buy.a = pulse;
+                        if (OrientedBox(prop.GetComponentsInChildren<MeshFilter>(), prop.transform, 1.15f)) LockBox(camera, scale, buy, .3f, "buy:" + prop.name);
+                        var buyTag = Tag(new Vector2(termRect.xMin, termRect.yMax + 8), "缺件 ▶ 点这台电脑采购", buy, 12, TextAnchor.LowerLeft, true, VisorIcons.Get("chip"));
+                        trayRects.Add(new Rect(buyTag.anchoredPosition - new Vector2(3, 2), buyTag.sizeDelta + new Vector2(6, 4)));
+                    }
+                    else Tag(new Vector2(termRect.center.x - 24, termRect.yMax + 2), "配件采购", RepairPropCyberStyle.Dim, 10, TextAnchor.LowerLeft, false, VisorIcons.Get("chip"));
+                }
+
             // With what: the step needs a tool the hand does not hold, so that tool is marked in the tray.
             TrayCallouts = 0;
             ToolToTake = null;
-            if (bench != null && next != null && owner.Station.ActiveTool != next.tool && !owner.Station.CleaningActive
+            if (bench != null && next != null && owner.NeedsTool(next) && !owner.Station.CleaningActive
                 && (owner.ContextPanel == null || owner.ContextPanel.BatchButtonFor(next.id) == null))
                 foreach (var prop in bench.Props)
                 {
@@ -751,7 +775,7 @@ namespace BorderRepair.RepairProps
             // When a batch in the panel carries the suggested step, the hint names the batch (one click does the run).
             var batch = next != null && owner.ContextPanel != null ? owner.ContextPanel.BatchButtonFor(next.id) : null;
             string step = batch != null ? batch.GetComponentInChildren<Text>().text + "（批量）" : next != null ? next.label : null;
-            hint.text = "提示 // " + (next != null ? "下一步 " + step + (batch != null || owner.Station.ActiveTool == next.tool ? ""
+            hint.text = "提示 // " + (next != null ? "下一步 " + step + (batch != null || !owner.NeedsTool(next) ? ""
                 : "（工具：" + RepairActionText.Label(next.tool).Replace(" ", "") + "）") : RepairPropWorkflowStatus.NextStep(flow));
             if (cleaning == null) cleaning = FindFirstObjectByType<BorderRepair.TwoNight.ClinicCleaningController>();
             if (cleaning != null && cleaning.Cleaning)
@@ -760,7 +784,7 @@ namespace BorderRepair.RepairProps
             Place(hint.rectTransform, new Vector2(right / 2, 44), new Vector2(Mathf.Min(right - 60, 760), 60));
             bandTop = 12 + 44;
             Place(hintBand, new Vector2(right / 2, 12), new Vector2(Mathf.Min(right - 40, controls.preferredWidth + 60), 44));
-            Header(next, step, batch != null, right, size, camera, scale);
+            Header(next, step, batch != null, headRight, size, camera, scale);
             Analysis(camera, scale);
             Place(controls.rectTransform, new Vector2(right / 2, 20), new Vector2(Mathf.Min(right - 60, 760), 20));
         }

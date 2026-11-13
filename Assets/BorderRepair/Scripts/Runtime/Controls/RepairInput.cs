@@ -12,6 +12,7 @@ namespace BorderRepair.Controls
 
         public static bool LeftPressed => Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
         public static bool LeftReleased => Mouse.current != null && Mouse.current.leftButton.wasReleasedThisFrame;
+        public static bool MiddleHeld => Mouse.current != null && Mouse.current.middleButton.isPressed;
         public static bool LeftHeld => Mouse.current != null && Mouse.current.leftButton.isPressed;
         public static bool RightPressed => Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame;
         public static bool RightHeld => Mouse.current != null && Mouse.current.rightButton.isPressed;

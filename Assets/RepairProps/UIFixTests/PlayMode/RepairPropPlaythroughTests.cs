@@ -208,6 +208,13 @@ namespace BorderRepair.RepairProps.UI.Tests
         IEnumerator Drive(RepairPropGesture hands, string shot, bool takeShot)
         {
             var logic = hands.Logic; var feel = hands.Feel;
+            if (logic == null)
+            {
+                // Screws: the driver runs them by itself after one click; there is no hand motion to make.
+                float until = Time.realtimeSinceStartup + 20f;
+                while (hands.Busy && Time.realtimeSinceStartup < until) yield return null;
+                yield break;
+            }
             float scale = hands.CanvasScale, mid = (RepairPropGestureLogic.CrimpLow + RepairPropGestureLogic.CrimpHigh) * .5f;
             float deadline = Time.realtimeSinceStartup + 20f;
             int frame = 0, latchedAt = -1;

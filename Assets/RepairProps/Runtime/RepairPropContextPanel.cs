@@ -35,6 +35,75 @@ namespace BorderRepair.RepairProps
         Text toolCaption;
         RectTransform toolWindow;
         public RectTransform StageRail=>stageRail;
+        /// <summary>How far the column is out: 1 fully shown, 0 tucked away at the screen edge.</summary>
+        public float Shown {get;private set;}=1f;
+        Button pinTab;
+
+        /// <summary>Width the column takes from the view for good: 0 while it only slides over the scene (auto-hide), its
+        /// full width when it stands there. Eased, so the step header glides when the column is pinned or unpinned and
+        /// does not follow every slide.</summary>
+        public float Docked {get;private set;}=-1f;
+        float slideVelocity,dockVelocity,awayFor;
+        CanvasGroup columnGroup,railGroup;
+        RectTransform sideRail;
+        Text railMark;
+
+        // Auto-hide: the column waits behind a rail at the right edge and comes out when the pointer goes there, when the
+        // suggested step is one of its buttons, when nothing is suggested, or while the finish page is open. It lingers a
+        // moment after the pointer leaves, slides on an eased curve and fades as it goes. The tab on its edge pins it.
+        void Slide(RectTransform area)
+        {
+            bool auto=RepairPropWorkspaceLayout.AutoHide;
+            if(pinTab==null)
+            {
+                var tab=Rect("PinTab",PanelRectTransform);tab.gameObject.AddComponent<LayoutElement>().ignoreLayout=true;
+                tab.anchorMin=tab.anchorMax=new Vector2(0,1);tab.pivot=new Vector2(1,1);tab.anchoredPosition=new Vector2(-3,-2);tab.sizeDelta=new Vector2(40,18);
+                var image=tab.gameObject.AddComponent<Image>();RepairPropCyberStyle.Framed(image,new Color(0,0,0,.6f),Rule);
+                pinTab=tab.gameObject.AddComponent<Button>();pinTab.targetGraphic=image;pinTab.navigation=new Navigation{mode=Navigation.Mode.None};
+                pinTab.onClick.AddListener(()=>RepairPropWorkspaceLayout.Pinned=!RepairPropWorkspaceLayout.Pinned);
+                var label=RepairPropCyberStyle.Caption(tab,"",font,11,Accent,TextAnchor.MiddleCenter);
+                label.rectTransform.anchorMin=Vector2.zero;label.rectTransform.anchorMax=Vector2.one;label.rectTransform.offsetMin=label.rectTransform.offsetMax=Vector2.zero;
+                columnGroup=PanelRectTransform.gameObject.AddComponent<CanvasGroup>();
+                // The rail: what stays at the screen edge while the column is away, so the edge reads as a drawer, not as nothing.
+                sideRail=Rect("SideRail",canvas.transform);sideRail.anchorMin=sideRail.anchorMax=new Vector2(1,1);sideRail.pivot=new Vector2(1,1);
+                var railImage=sideRail.gameObject.AddComponent<Image>();railImage.raycastTarget=false;
+                RepairPropCyberStyle.Framed(railImage,new Color(0,0,0,.55f),Rule);
+                RepairPropCyberStyle.Texture(sideRail,RepairPropCyberStyle.Hatch,new Color(1f,.62f,.16f,.10f),"Hatch");
+                railGroup=sideRail.gameObject.AddComponent<CanvasGroup>();railGroup.blocksRaycasts=false;railGroup.interactable=false;
+                railMark=RepairPropCyberStyle.Caption(sideRail,"‹\n操\n作\n面\n板\n‹",font,12,Accent,TextAnchor.MiddleCenter);
+                railMark.lineSpacing=1.15f;
+                railMark.rectTransform.anchorMin=Vector2.zero;railMark.rectTransform.anchorMax=Vector2.one;railMark.rectTransform.offsetMin=railMark.rectTransform.offsetMax=Vector2.zero;
+            }
+            if(pinTab.gameObject.activeSelf!=auto) pinTab.gameObject.SetActive(auto);
+            float w=PanelRectTransform.sizeDelta.x,dt=Time.unscaledDeltaTime;
+            bool want=true;
+            if(auto && !RepairPropWorkspaceLayout.Pinned && !AppearanceOpen)
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(area,BorderRepair.Controls.RepairInput.PointerPosition,null,out var local);
+                float fromEdge=area.rect.xMax-local.x;
+                var next=RepairPropWorkflowStatus.NextCommand(owner.Flow);
+                bool called=fromEdge<(Shown>.3f ? w+40:24) || next==null || BatchButtonFor(next.id)!=null;
+                awayFor=called ? 0:awayFor+dt;
+                want=called || awayFor<.45f && Shown>.3f;   // lingers a moment after the pointer leaves
+            }
+            else awayFor=0;
+            Shown=Mathf.SmoothDamp(Shown,want ? 1:0,ref slideVelocity,want ? .11f:.16f,Mathf.Infinity,dt);
+            if(Mathf.Abs(Shown-(want ? 1:0))<.002f) Shown=want ? 1:0;
+            if(auto) pinTab.GetComponentInChildren<Text>().text=RepairPropWorkspaceLayout.Pinned ? "取消":"固定";
+            PanelRectTransform.anchoredPosition=new Vector2(-8+(1-Shown)*(w+12),-42);
+            columnGroup.alpha=Mathf.Clamp01(Shown*1.6f);
+            columnGroup.blocksRaycasts=Shown>.5f;
+            bool rail=auto && Shown<.98f;
+            if(sideRail.gameObject.activeSelf!=rail) sideRail.gameObject.SetActive(rail);
+            if(rail)
+            {
+                sideRail.anchoredPosition=new Vector2(-4,-42);sideRail.sizeDelta=new Vector2(18,PanelRectTransform.sizeDelta.y);
+                railGroup.alpha=1-Mathf.Clamp01(Shown*1.6f);
+                railMark.color=new Color(Accent.r,Accent.g,Accent.b,.55f+.35f*Mathf.Sin(Time.unscaledTime*2.2f));
+            }
+            float dockTarget=auto && !RepairPropWorkspaceLayout.Pinned && !AppearanceOpen ? 26:w+16;
+            Docked=Docked<0 ? dockTarget:Mathf.SmoothDamp(Docked,dockTarget,ref dockVelocity,.22f,Mathf.Infinity,dt);
+        }
         /// <summary>The tray on the bench is the tool selector when it is there; the column then keeps no tool buttons.</summary>
         static bool TrayHasTools=>RepairBenchV2Runtime.Current!=null && RepairBenchV2Runtime.Current.Props.Any(p=>p.Kind==RepairBenchPropKind.Tool);
         Button detailToggle;
@@ -222,7 +291,7 @@ namespace BorderRepair.RepairProps
             var header=owner.ArOverlay!=null ? owner.ArOverlay.HeaderRect:default;
             bool rail=visible && !AppearanceOpen && header.width>1;
             if(stageRail.gameObject.activeSelf!=rail) stageRail.gameObject.SetActive(rail);
-            if(rail) {stageRail.anchoredPosition=new Vector2(header.center.x,-12);stageRail.sizeDelta=new Vector2(Mathf.Clamp(header.width,336,560),24);}   // hangs from the top edge, just over the step header
+            if(rail) {stageRail.anchoredPosition=new Vector2(header.center.x,-12);stageRail.sizeDelta=new Vector2(Mathf.Clamp(header.width,336,520),24);}   // hangs from the top edge, just over the step header
             if(!visible) {wasVisible=false;return;}
             bool focused=ContainsScreenPoint(BorderRepair.Controls.RepairInput.PointerPosition) || AppearanceOpen;
             shade=Mathf.MoveTowards(shade,focused ? 0:ShadeIdle,Time.unscaledDeltaTime*(focused ? 3.5f:.9f));
@@ -243,6 +312,7 @@ namespace BorderRepair.RepairProps
             var area=(RectTransform)canvas.transform;
             float width=Mathf.Clamp(area.rect.width*.28f,316,360);
             PanelRectTransform.sizeDelta=new Vector2(Mathf.Min(width,Mathf.Max(240,area.rect.width-16)),Mathf.Max(320,area.rect.height-50));
+            Slide(area);
             bool appearance=AppearanceOpen;
             if(appearance!=builtAppearance)
             {

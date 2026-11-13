@@ -214,6 +214,7 @@ namespace BorderRepair.Inspection
         /// <summary>复位视角；有焦点时回到当前焦点的默认角度和距离。</summary>
         public void ResetView(bool immediate = false)
         {
+            panTarget = Vector2.zero; if (immediate) pan = Vector2.zero;
             targetYaw = hasFocus ? focusYaw : 0f;
             targetPitch = hasFocus ? focusPitch : 0f;
             targetDistance = hasFocus ? focusDistance : defaultDistance;
@@ -343,13 +344,28 @@ namespace BorderRepair.Inspection
 
             float scroll = RepairInput.ScrollSteps;
             if (scroll != 0f && !RepairInput.PointerOverUI) Zoom(scroll);
+
+            // Middle button held: slide the view sideways and up/down, as 3D packages do.
+            if (RepairInput.MiddleHeld && !RepairInput.PointerOverUI)
+            {
+                var delta = RepairInput.PointerDelta;
+                float perPixel = distance * 1.1f / Mathf.Max(1, Screen.height);
+                panTarget = Vector2.ClampMagnitude(panTarget - delta * perPixel, MaxPan);
+            }
         }
+
+        const float MaxPan = .45f;
+        Vector2 pan, panTarget;
+        /// <summary>How far the view has been slid off the item (metres, in the view plane).</summary>
+        public Vector2 Pan => pan;
+        Vector3 PanWorld => viewCamera.transform.right * pan.x + viewCamera.transform.up * pan.y;
 
         void LateUpdate()
         {
             float t = 1f - Mathf.Exp(-smoothing * Time.unscaledDeltaTime);
             yaw = Mathf.Lerp(yaw, targetYaw, t);
             pitch = Mathf.Lerp(pitch, targetPitch, t);
+            pan = Vector2.Lerp(pan, panTarget, t);
             if (benchMounted) lift = Mathf.Lerp(lift, TargetLift(), t);
             if (hasFocus || focusLocalCurrent != Vector3.zero)
             {
@@ -373,13 +389,13 @@ namespace BorderRepair.Inspection
                 var rest = RestPivot();
                 itemAnchor.position += rest + Vector3.up * lift - itemAnchor.TransformPoint(pivot);
                 var look = focusLocalCurrent != Vector3.zero ? itemAnchor.TransformPoint(focusLocalCurrent) - Vector3.up * lift : rest;
-                viewCamera.transform.position = look + viewDirection * distance;
                 viewCamera.transform.rotation = Quaternion.LookRotation(-viewDirection, Vector3.up);
+                viewCamera.transform.position = look + viewDirection * distance + PanWorld;
                 return;
             }
             // 无焦点时 focusLocalCurrent 为零，TransformPoint 就是锚点位置（与原来相同）
-            viewCamera.transform.position = itemAnchor.TransformPoint(focusLocalCurrent) + viewDirection * distance;
             viewCamera.transform.rotation = Quaternion.LookRotation(-viewDirection, Vector3.up);
+            viewCamera.transform.position = itemAnchor.TransformPoint(focusLocalCurrent) + viewDirection * distance + PanWorld;
         }
 
         /// <summary>

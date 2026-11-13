@@ -65,6 +65,7 @@ namespace BorderRepair.RepairProps.UI.Tests
         public IEnumerator TearDown()
         {
             RetroPS2CameraEffect.IncludeOffscreenCaptures = false;
+            RepairPropWorkspaceLayout.ResetCompact();   // the short HUD and the tucked-away column must not leak into other tests
             if (loaded.IsValid() && loaded.isLoaded)
             {
                 SceneManager.SetActiveScene(SceneManager.CreateScene("CyberCaptureCleanup_" + Guid.NewGuid().ToString("N")));
@@ -1129,6 +1130,11 @@ namespace BorderRepair.RepairProps.UI.Tests
             Assert.That(stage.gameObject.activeInHierarchy, Is.True, "The stage rail stays in the short HUD.");
             Assert.That(bridge.ContextPanel.ModeButton(true).gameObject.activeInHierarchy, Is.False, "Short HUD with a tray: no mode buttons in the column.");
             yield return Shoot("55-bench-short-hud", View);
+            // Parts are ordered at the bench computer, and the column tucks away until the pointer goes to the right edge.
+            Assert.That(bench.Props.Any(p => p.Kind == RepairBenchPropKind.Terminal), Is.True, "The bench computer is the parts terminal.");
+            RepairPropWorkspaceLayout.AutoHide = true;
+            yield return Until(() => bridge.ContextPanel.Shown < .05f, "With the pointer away from the right edge the column tucks in.");
+            yield return Shoot("56-bench-panel-tucked", View);
             RepairPropWorkspaceLayout.ResetCompact();
             for (int i = 0; i < 6; i++) yield return null;
             assistant.Card.gameObject.SetActive(cardWasActive);

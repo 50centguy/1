@@ -132,6 +132,16 @@ namespace BorderRepair.RepairProps
         public void Toggle(bool value)
         {
             open = value;
+            if (open)
+            {
+                var bench = RepairBenchV2Runtime.Current;
+                var bridge = FindFirstObjectByType<RepairPropStationBridge>();
+                bool terminal = bench != null && bench.Props.Any(p => p.Kind == RepairBenchPropKind.Terminal) && bridge != null && bridge.WorkspaceVisible;
+                bool mainMenu = Application.CanStreamedLevelBeLoaded(TwoNightScenes.ClinicMenu);
+                shopEntry.gameObject.SetActive(!terminal);
+                ((RectTransform)menuEntry.transform).anchoredPosition = new Vector2(((RectTransform)menuEntry.transform).anchoredPosition.x, terminal ? -8 : -44);
+                menu.sizeDelta = new Vector2(220, 44 + (terminal ? 0 : 36) + (mainMenu ? 36 : 0));
+            }
             menu.gameObject.SetActive(open);
             if (open) menu.SetAsLastSibling();
         }

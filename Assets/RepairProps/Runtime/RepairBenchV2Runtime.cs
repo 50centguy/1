@@ -208,6 +208,15 @@ namespace BorderRepair.RepairProps
         {
             var screen = Find(bench.transform, "BV2_Crt_Screen");
             if (screen == null) return;
+            // The bench computer is where parts are ordered: a click on its screen opens the parts shop.
+            if (screen.GetComponent<RepairBenchProp>() == null)
+            {
+                if (screen.GetComponent<Collider>() == null) screen.gameObject.AddComponent<BoxCollider>();
+                var terminal = screen.gameObject.AddComponent<RepairBenchProp>();
+                terminal.Configure(RepairBenchPropKind.Terminal, "配件电脑");
+                terminal.Initialize(front);
+                props.Add(terminal);
+            }
             // The screen is a flat quad (it may be turned toward the work area): its thinnest local axis is the normal.
             var mesh = screen.GetComponent<MeshFilter>().sharedMesh;
             var size = Vector3.Scale(mesh.bounds.size, screen.lossyScale);
@@ -257,7 +266,7 @@ namespace BorderRepair.RepairProps
                 if (prop.Kind == RepairBenchPropKind.Tool)
                     prop.SetSelected(atBench && (prop.IsCleaner ? Cleaning
                         : prop.IsPainter ? bridge.ContextPanel != null && bridge.ContextPanel.AppearanceOpen
-                        : !station.CleaningActive && station.ActiveTool == prop.Tool));
+                        : !station.CleaningActive && bridge.ShownTool == prop.Tool));
             DriveHand(bridge, atBench, station);
             TrayKeys(bridge, atBench, station);
             if (crt != null && Time.unscaledTime >= nextCrt)
@@ -298,8 +307,8 @@ namespace BorderRepair.RepairProps
         {
             RepairBenchProp held = null;
             if (atBench && Cleaning) held = props.FirstOrDefault(p => p.IsCleaner);
-            else if (atBench && !station.CleaningActive && station.ActiveTool.HasValue)
-                held = props.FirstOrDefault(p => p.Kind == RepairBenchPropKind.Tool && !p.IsCleaner && !p.IsPainter && p.Tool == station.ActiveTool);
+            else if (atBench && !station.CleaningActive && bridge.ShownTool.HasValue)
+                held = props.FirstOrDefault(p => p.Kind == RepairBenchPropKind.Tool && !p.IsCleaner && !p.IsPainter && p.Tool == bridge.ShownTool);
             foreach (var prop in props) if (prop.Kind == RepairBenchPropKind.Tool && prop != held) prop.PutBack();
             HeldTool = held;
             if (held == null) { rightArmed = false; return; }
@@ -351,6 +360,13 @@ namespace BorderRepair.RepairProps
             var view = camera.transform;
             if (Vector3.Dot(normal, -ray.direction) < 0) normal = -normal;
             tool.Spot = spot;
+            // Same size on screen wherever it is held: a tool carried toward the camera does not balloon, one over the far
+            // edge of the mat does not shrink (the item's distance is the reference).
+            if (item != null)
+            {
+                float reference = Vector3.Distance(camera.transform.position, item.position);
+                tool.HoldScale = reference > .01f ? Mathf.Clamp(Vector3.Distance(camera.transform.position, spot) / reference, .7f, 1.4f) : 1f;
+            }
             if (tool.HasTip)
             {
                 // Held like a pen in the right hand: the handle leans back toward the viewer and off to the right, and
@@ -404,7 +420,7 @@ namespace BorderRepair.RepairProps
 
         static string CrtLines(RepairPropStationBridge bridge)
         {
-            if (bridge == null || bridge.Flow == null || bridge.Flow.Definition == null) return "BRS-07 DIAG\n> 待机 · 无工件\n> 收件后上台连接";
+            if (bridge == null || bridge.Flow == null || bridge.Flow.Definition == null) return "BRS-07 DIAG\n> 待机 · 无工件\n> 收件后上台连接\n> 点屏幕 · 配件采购";
             var flow = bridge.Flow;
             var lines = new List<string> { "BRS-07 DIAG  " + RepairPropText.Item(flow.Definition.kind), "> 阶段 " + RepairPropWorkflowStatus.Label(RepairPropWorkflowStatus.Phase(flow)) };
             foreach (var test in flow.Definition.tests)
@@ -415,6 +431,7 @@ namespace BorderRepair.RepairProps
                 lines.Add(tag + " " + test.label);
             }
             lines.Add("PWR " + (flow.GetState("power") != 0 ? "ON " : "OFF") + "  FIX " + (flow.GetState("fixture") != 0 ? "ON" : "OFF"));
+            lines.Add(bridge.NeedsPurchase ? "!! 缺件 · 点屏幕采购" : "> 点屏幕 · 配件采购");
             return string.Join("\n", lines);
         }
 
