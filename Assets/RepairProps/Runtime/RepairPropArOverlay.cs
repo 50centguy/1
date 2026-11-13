@@ -226,26 +226,51 @@ namespace BorderRepair.RepairProps
             if (age < .4f || !Project(camera, anaTarget, scale, out var rect)) return;
             var ink = anaColour; ink.a = fade;
             // The read-out sits beside the part, on the side with room (the work panels fill the right), and the leader
-            // runs to wherever it actually landed; the trace of a reading sits under it, inside the same column.
+            // runs to wherever it actually landed. A reading gets a scope strip inside the same window.
             var tag = Tag(new Vector2(rect.xMax + 34, rect.center.y + 6), anaTitle + (string.IsNullOrEmpty(anaBody) ? "" : "\n" + Brief(anaBody)), ink, 12, TextAnchor.UpperLeft, true, VisorIcons.Get(anaIcon));
+            if (anaWave) Scope(tag);
             if (tag.anchoredPosition.x < rect.xMax + 20)
                 tag.anchoredPosition = new Vector2(Mathf.Max(4, rect.xMin - 34 - tag.sizeDelta.x), tag.anchoredPosition.y);
             bool left = tag.anchoredPosition.x < rect.xMin;
             var anchor = tag.anchoredPosition;
             Leader(new Vector2(left ? rect.xMin : rect.xMax, rect.center.y), new Vector2(left ? anchor.x + tag.sizeDelta.x : anchor.x, anchor.y - 8), ink, "analine:" + anaAt);
             if (!anaWave) return;
-            // A reading settles: the trace above the read-out swings wide, then steadies (and stays ragged on a fault).
+            // A reading settles: the trace swings wide, then steadies (and stays ragged on a fault).
             float settle = Mathf.Exp(-(age - .4f) * 2.2f);
             bool rough = anaColour == RepairPropCyberStyle.Warn;
-            Vector2 origin = anchor + new Vector2(6, -tag.sizeDelta.y - 14), previous = origin;
-            for (int i = 1; i <= 24; i++)
+            // The strip at the bottom of the window: a rule over it, a faint centre line and graticule, the trace inside.
+            float w = tag.sizeDelta.x, bottom = anchor.y - tag.sizeDelta.y, top = bottom + ScopeHeight;
+            var faint = ink; faint.a *= .28f;
+            Line(new Vector2(anchor.x + 4, top + 2), new Vector2(anchor.x + w - 4, top + 2), ink * new Color(1, 1, 1, .6f));
+            float mid = (top + bottom) * .5f, half = ScopeHeight * .5f - 5;
+            Line(new Vector2(anchor.x + 8, mid), new Vector2(anchor.x + w - 8, mid), faint);
+            for (int g = 1; g < 6; g++)
             {
-                float x = i * (tag.sizeDelta.x - 12) / 24f, phase = i * .9f - age * 9f;
-                float y = Mathf.Sin(phase) * (3 + 9 * settle) + (rough ? (HudMotion.Noise(i * 3.1f + Mathf.Floor(age * 12)) - .5f) * 9 : 0);
-                var point = origin + new Vector2(x, y);
+                float gx = anchor.x + 8 + (w - 16) * g / 6f;
+                Line(new Vector2(gx, mid - 3), new Vector2(gx, mid + 3), faint);
+            }
+            int firstWave = usedLines;
+            Vector2 previous = new Vector2(anchor.x + 8, mid);
+            for (int i = 1; i <= 32; i++)
+            {
+                float x = anchor.x + 8 + i * (w - 16) / 32f, phase = i * .8f - age * 9f;
+                float y = Mathf.Sin(phase) * (.25f + .75f * settle) * half + (rough ? (HudMotion.Noise(i * 3.1f + Mathf.Floor(age * 12)) - .5f) * half * .9f : 0);
+                var point = new Vector2(x, mid + Mathf.Clamp(y, -half, half));
                 Line(previous, point, ink);
                 previous = point;
             }
+            for (int i = firstWave; i < usedLines; i++) lines[i].transform.SetAsLastSibling();   // above the window's fill
+        }
+
+        const float ScopeHeight = 34;
+
+        // Makes room for the scope at the bottom of a read-out window: taller, text pinned to the top, at least 160 wide.
+        void Scope(RectTransform tag)
+        {
+            tag.sizeDelta = new Vector2(Mathf.Max(160, tag.sizeDelta.x), tag.sizeDelta.y + ScopeHeight + 4);
+            var text = tag.GetComponentInChildren<Text>();
+            if (text != null) { text.alignment = TextAnchor.UpperLeft; text.rectTransform.offsetMax = new Vector2(-7, -4); }
+            tag.SetAsLastSibling();
         }
 
         // The read-out gives the gist, not the whole log line: the first sentence, cut short.
