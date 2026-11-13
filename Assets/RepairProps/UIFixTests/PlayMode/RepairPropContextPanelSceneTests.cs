@@ -325,8 +325,9 @@ namespace BorderRepair.RepairProps.UI.Tests
                 AssertTextFits(panel.TargetPicker.captionText, 15, (RectTransform)panel.TargetPicker.transform);
                 Assert.That(panel.TargetPicker.itemText.fontSize, Is.EqualTo(15));
                 Assert.That(((RectTransform)panel.TargetPicker.transform.parent).rect.height,Is.LessThanOrEqualTo(38.5f),"Part selector row must not consume scroll-area height.");
-                var toolRow=panel.GetComponentsInChildren<Button>().First(b=>b.name=="检测仪").transform.parent;
-                Assert.That(((RectTransform)toolRow).rect.height,Is.LessThanOrEqualTo(34.5f),"Tool row must retain its fixed height.");
+                // With the bench tray in the scene the tools are taken there and the column has no tool row.
+                var meterButton=panel.GetComponentsInChildren<Button>().FirstOrDefault(b=>b.name=="检测仪");
+                if(meterButton!=null) Assert.That(((RectTransform)meterButton.transform.parent).rect.height,Is.LessThanOrEqualTo(34.5f),"Tool row must retain its fixed height.");
                 var wrapped=panel.CommandButton("fixture.disconnect").GetComponentInChildren<Text>();
                 string authored=wrapped.text;
                 try

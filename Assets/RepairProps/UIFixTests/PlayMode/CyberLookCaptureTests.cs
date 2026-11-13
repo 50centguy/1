@@ -1112,6 +1112,15 @@ namespace BorderRepair.RepairProps.UI.Tests
             Assert.That(bridge.ArOverlay.GuideBand, Is.Not.Null);
             var guide = ScreenRect(bridge.ArOverlay.GuideBand);
             Assert.That(card.Overlaps(guide), Is.False, "UNIT 07's card overlaps the guide band: " + card + " / " + guide);
+            // The tray is the tool selector: every tool lying in it is named with its number key, the column keeps no
+            // duplicate tool buttons, and the stage rail sits over the step header at the top of the view.
+            yield return Until(() => bench.TrayOrder != null && bridge.ArOverlay.TrayCallouts >= 4, "The tools in the tray carry their callouts.");
+            Assert.That(bench.TrayOrder.Count, Is.EqualTo(bench.Props.Count(p => p.Kind == RepairBenchPropKind.Tool)));
+            Assert.That(bridge.ContextPanel.GetComponentsInChildren<UnityEngine.UI.Button>().Any(b => b.name == "螺丝刀"), Is.False, "With the tray there, the column has no tool buttons.");
+            var stage = bridge.ContextPanel.StageRail;
+            Assert.That(stage.gameObject.activeInHierarchy, Is.True);
+            Assert.That(ScreenRect(stage).yMin, Is.GreaterThanOrEqualTo(ScreenRect(bridge.ArOverlay.StepHeader).yMax - 1), "The stage rail stands over the step header.");
+            Assert.That(ScreenRect(stage).Overlaps(card), Is.False);
             yield return Shoot("50-bench-hud-clear", View);
             assistant.Card.gameObject.SetActive(cardWasActive);
 

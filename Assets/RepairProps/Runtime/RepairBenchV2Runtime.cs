@@ -64,6 +64,12 @@ namespace BorderRepair.RepairProps
         public GameObject Bench => bench;
         public int StaticRenderers { get; private set; }
         public IReadOnlyList<RepairBenchProp> Props => props;
+        /// <summary>The tools as they lie in the tray, left to right on screen: the order of their number keys (null until
+        /// the bench has been seen once with empty hands).</summary>
+        public IReadOnlyList<RepairBenchProp> TrayOrder => trayOrder;
+        List<RepairBenchProp> trayOrder;
+        /// <summary>Number key of a tray tool (1-based), or 0.</summary>
+        public int KeyOf(RepairBenchProp prop) => trayOrder != null ? trayOrder.IndexOf(prop) + 1 : 0;
         public int HiddenCount => hidden.Count;
         public Light Lamp => lamp;
         public string CrtText => crt != null ? crt.text : "";
@@ -253,6 +259,7 @@ namespace BorderRepair.RepairProps
                         : prop.IsPainter ? bridge.ContextPanel != null && bridge.ContextPanel.AppearanceOpen
                         : !station.CleaningActive && station.ActiveTool == prop.Tool));
             DriveHand(bridge, atBench, station);
+            TrayKeys(bridge, atBench, station);
             if (crt != null && Time.unscaledTime >= nextCrt)
             {
                 nextCrt = Time.unscaledTime + .25f;
@@ -267,6 +274,25 @@ namespace BorderRepair.RepairProps
         // window it stays where it was; during a hand motion it stays on the part. A right click without dragging (a
         // right drag turns the item) puts it back in the tray.
         bool Cleaning => cleaning != null && cleaning.Cleaning;
+
+        // The tray is the tool selector: its tools are numbered left to right, and the number key takes (or puts back)
+        // the tool exactly as a click on it does.
+        void TrayKeys(RepairPropStationBridge bridge, bool atBench, RepairStationController station)
+        {
+            if (!atBench) return;
+            var camera = station.Inspector.ViewCamera;
+            if (trayOrder == null && HeldTool == null && camera != null)
+            {
+                trayOrder = props.Where(p => p.Kind == RepairBenchPropKind.Tool && p.GetComponentInChildren<Renderer>() != null)
+                    .OrderBy(p => camera.WorldToScreenPoint(p.GetComponentInChildren<Renderer>().bounds.center).x).ToList();
+            }
+            int digit = RepairInput.DigitPressed;
+            if (digit == 0 || trayOrder == null || digit > trayOrder.Count || !bridge.CanInteract) return;
+            if (ClinicCallRuntime.Current != null && ClinicCallRuntime.Current.Active) return;   // the call window owns the number keys
+            var focus = UnityEngine.EventSystems.EventSystem.current != null ? UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject : null;
+            if (focus != null && focus.GetComponent<UnityEngine.UI.InputField>() != null) return;
+            trayOrder[digit - 1].Activate(bridge);
+        }
 
         void DriveHand(RepairPropStationBridge bridge, bool atBench, RepairStationController station)
         {

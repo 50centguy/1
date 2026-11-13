@@ -47,13 +47,13 @@ namespace BorderRepair.RepairProps
         public static Sprite ChamferFill => chamferFill != null ? chamferFill : chamferFill = Build(32, 9, (x, y, s) =>
             x + (s - 1 - y) < 6 || (s - 1 - x) + y < 6 ? 0f : 1f);
 
-        /// <summary>Retro control outline (RETRO UI / OpenVMS monitor references): a 1px rule, a faint inner rule, and a
-        /// 2px bevel on the bottom and right edges; 9-sliced so it stays crisp at any size.</summary>
+        /// <summary>Control outline after the EVA / Destiny terminal boxes: an even 1px rule with each corner struck
+        /// twice as heavy for a few pixels, so a box reads as drawn with a pen, not bevelled; 9-sliced.</summary>
         public static Sprite Frame => frame != null ? frame : frame = Build(32, 9, (x, y, s) =>
         {
-            if (x >= s - 2 || y <= 1) return 1f;                 // bevel: right and bottom (rows are bottom-up)
-            if (x == 0 || y == s - 1) return .85f;               // left and top rule
-            if (x == 2 || y == s - 3 || x == s - 4 || y == 3) return .22f;   // inner rule
+            bool nearX = x < 7 || x > s - 8, nearY = y < 7 || y > s - 8;
+            if ((x <= 1 || x >= s - 2) && nearY || (y <= 1 || y >= s - 2) && nearX) return 1f;   // corner marks
+            if (x == 0 || x == s - 1 || y == 0 || y == s - 1) return .62f;                         // the rule between them
             return 0f;
         });
 
@@ -157,21 +157,45 @@ namespace BorderRepair.RepairProps
             return text;
         }
 
-        /// <summary>Inverse title bar sitting on top of a window (outside its rect, so absolute layouts inside stay put):
-        /// caption left, window glyphs right.</summary>
+        /// <summary>Title bar sitting on top of a window (outside its rect, so absolute layouts inside stay put): the
+        /// caption as a small inverse label, then a rule with a hatched run, window glyphs right. Only the label is
+        /// solid, so a screen full of windows does not turn into a stack of amber bands.</summary>
         public static Image TitleBar(RectTransform window, string caption, Font font, float height = 18f)
         {
             var bar = (RectTransform)new GameObject("TitleBar", typeof(RectTransform)).transform;
             bar.SetParent(window, false);
             bar.anchorMin = new Vector2(0, 1); bar.anchorMax = new Vector2(1, 1); bar.pivot = new Vector2(.5f, 0);
             bar.anchoredPosition = new Vector2(0, -1); bar.sizeDelta = new Vector2(0, height);
-            var image = bar.gameObject.AddComponent<Image>(); image.color = Amber; image.raycastTarget = false;
+            var image = bar.gameObject.AddComponent<Image>(); image.color = new Color(0, 0, 0, .55f); image.raycastTarget = false;
             var element = bar.gameObject.AddComponent<LayoutElement>(); element.ignoreLayout = true;
-            var text = Caption(bar, caption, Kana != null ? Kana : font, 11, Color.black, TextAnchor.MiddleLeft);
-            var r = text.rectTransform; r.anchorMin = Vector2.zero; r.anchorMax = Vector2.one; r.offsetMin = new Vector2(6, 0); r.offsetMax = new Vector2(-30, 0);
-            var glyphs = Caption(bar, "- x", Mono != null ? Mono : font, 11, Color.black, TextAnchor.MiddleRight);
+            var chip = (RectTransform)new GameObject("Chip", typeof(RectTransform)).transform;
+            chip.SetParent(bar, false);
+            chip.anchorMin = Vector2.zero; chip.anchorMax = new Vector2(0, 1); chip.pivot = new Vector2(0, .5f);
+            var chipImage = chip.gameObject.AddComponent<Image>(); chipImage.color = Amber; chipImage.raycastTarget = false;
+            var text = Caption(chip, caption, Kana != null ? Kana : font, 11, Color.black, TextAnchor.MiddleLeft);
+            var r = text.rectTransform; r.anchorMin = Vector2.zero; r.anchorMax = Vector2.one; r.offsetMin = new Vector2(6, 0); r.offsetMax = Vector2.zero;
+            chip.sizeDelta = new Vector2(text.preferredWidth + 13, 0);
+            BarRule(bar, Amber, AmberDim);
+            var glyphs = Caption(bar, "- x", Mono != null ? Mono : font, 11, Amber, TextAnchor.MiddleRight);
             var g = glyphs.rectTransform; g.anchorMin = Vector2.zero; g.anchorMax = Vector2.one; g.offsetMin = Vector2.zero; g.offsetMax = new Vector2(-6, 0);
             return image;
+        }
+
+        /// <summary>The line a title bar stands on, with a short hatched run before the window glyphs.</summary>
+        public static void BarRule(RectTransform bar, Color rule, Color hatchColor)
+        {
+            var line = (RectTransform)new GameObject("Rule", typeof(RectTransform)).transform;
+            line.SetParent(bar, false);
+            line.anchorMin = Vector2.zero; line.anchorMax = new Vector2(1, 0); line.pivot = new Vector2(.5f, 0); line.sizeDelta = new Vector2(0, 1);
+            line.anchoredPosition = Vector2.zero;
+            var lineImage = line.gameObject.AddComponent<Image>(); lineImage.color = rule; lineImage.raycastTarget = false;
+            line.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
+            var run = (RectTransform)new GameObject("Hatch", typeof(RectTransform)).transform;
+            run.SetParent(bar, false);
+            run.anchorMin = run.anchorMax = new Vector2(1, .5f); run.pivot = new Vector2(1, .5f);
+            run.anchoredPosition = new Vector2(-30, 0); run.sizeDelta = new Vector2(44, 6);
+            var runImage = run.gameObject.AddComponent<Image>(); runImage.sprite = Hatch; runImage.type = Image.Type.Tiled; runImage.color = hatchColor; runImage.raycastTarget = false;
+            run.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
         }
 
         /// <summary>Stable pseudo serial for a string: same input, same code.</summary>

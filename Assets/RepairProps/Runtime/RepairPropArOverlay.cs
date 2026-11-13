@@ -101,7 +101,7 @@ namespace BorderRepair.RepairProps
             controls.text = "左键 用手上的工具 / 空手查看　·　右键单击 放下工具　·　拖动 旋转　·　滚轮 缩放　·　R 复位";
             visorId = MakeText("VisorId", 11, TextAnchor.UpperLeft, RepairPropCyberStyle.AmberFaint * new Color(1, 1, 1, 2.2f));
             if (RepairPropCyberStyle.Kana != null) visorId.font = RepairPropCyberStyle.Kana;
-            visorId.text = "VSR-07 // 修理視界　ＡＲオーバーレイ";
+            visorId.text = "VSR-07 // 修理視界";
             clock = MakeText("Clock", 11, TextAnchor.LowerLeft, RepairPropCyberStyle.AmberDim);
             ticker = MakeText("Ticker", 9, TextAnchor.UpperLeft, new Color(1f, .62f, .16f, .22f));
             if (RepairPropCyberStyle.Mono != null) { clock.font = RepairPropCyberStyle.Mono; ticker.font = RepairPropCyberStyle.Mono; readout.font = RepairPropCyberStyle.Mono; }
@@ -202,13 +202,14 @@ namespace BorderRepair.RepairProps
             }
             int a = up == 1 ? 2 : 1, b = up == 4 ? 2 : 4;
             bool flip = box3[up].y < box3[0].y;
-            float fade = Mathf.Clamp01((AnalysisSeconds - age) / .5f);
+            float fade = Mathf.Clamp01((AnalysisSeconds - age) / .5f), sweep = -1;
             for (int k = 0; k < 3; k++)
             {
                 // up through the part, then back down; three slices, each a little behind and fainter
                 float t = (age - k * .08f) / 1.3f;
                 if (t < 0 || t > 1) continue;
                 float h = t < .5f ? HudMotion.EaseOut(t * 2) : 1 - HudMotion.EaseOut((t - .5f) * 2);
+                if (k == 0) sweep = h;
                 if (flip) h = 1 - h;
                 var colour = anaColour; colour.a = .95f - k * .3f;
                 var ring = new[] { 0, a, a | b, b };
@@ -223,7 +224,9 @@ namespace BorderRepair.RepairProps
             }
             var hold = anaColour; hold.a = .85f * fade;
             if (TargetBox(anaTarget, 1.06f)) LockBox(camera, scale, hold, .24f, "ana:" + anaAt);
-            if (age < .4f || !Project(camera, anaTarget, scale, out var rect)) return;
+            if (!Project(camera, anaTarget, scale, out var rect)) return;
+            Gauge(rect, age, fade, sweep);
+            if (age < .4f) return;
             var ink = anaColour; ink.a = fade;
             // The read-out sits beside the part, on the side with room (the work panels fill the right), and the leader
             // runs to wherever it actually landed. A reading gets a scope strip inside the same window.
@@ -273,6 +276,32 @@ namespace BorderRepair.RepairProps
             tag.SetAsLastSibling();
         }
 
+        // A graduated scale stands beside the part while it is read (the EVA graph displays): it draws upward, a marker
+        // rides it at the height of the sweeping slice, and three figures name the divisions. It takes the side the
+        // read-out does not.
+        void Gauge(Rect rect, float age, float fade, float sweep)
+        {
+            float limit = tagRight > 0 ? tagRight : root.rect.width;
+            bool onRight = rect.xMax + 240 > limit;
+            float x = onRight ? rect.xMax + 14 : rect.xMin - 14, dir = onRight ? 1 : -1;
+            var faint = anaColour; faint.a = .55f * fade;
+            var ink = anaColour; ink.a = fade;
+            float top = Mathf.Lerp(rect.yMin, rect.yMax, HudMotion.EaseOut(age / .35f));
+            Line(new Vector2(x, rect.yMin), new Vector2(x, top), faint);
+            for (int i = 0; i <= 16; i++)
+            {
+                float y = Mathf.Lerp(rect.yMin, rect.yMax, i / 16f);
+                if (y > top + .5f) break;
+                bool major = i % 4 == 0;
+                Line(new Vector2(x, y), new Vector2(x + dir * (major ? 8 : 3), y), major ? ink : faint);
+                if (i % 8 == 0) Tag(new Vector2(onRight ? x + 11 : x - 36, y + 7), i == 0 ? "-01" : i == 8 ? "±00" : "+01", faint, 9, TextAnchor.UpperLeft);
+            }
+            if (sweep < 0) return;
+            float py = Mathf.Lerp(rect.yMin, rect.yMax, sweep);
+            Vector2 tip = new Vector2(x - dir * 2, py), a = new Vector2(x - dir * 9, py + 4), b = new Vector2(x - dir * 9, py - 4);
+            Line(tip, a, ink); Line(tip, b, ink); Line(a, b, ink);
+        }
+
         // The read-out gives the gist, not the whole log line: the first sentence, cut short.
         static string Brief(string body)
         {
@@ -282,6 +311,42 @@ namespace BorderRepair.RepairProps
         }
 
         bool Analysing => anaTarget != null && Time.unscaledTime - anaAt < AnalysisSeconds;
+
+        /// <summary>How many tray tools carry a callout this frame.</summary>
+        public int TrayCallouts { get; private set; }
+
+        // Every tool lying in the tray carries its number key, pictogram and name on a short leader (an exploded-view
+        // callout), in two staggered rows so neighbours do not run into each other. The tool in hand, the one under the
+        // pointer and the one the step asks for have their own, louder tags instead.
+        void TrayLabels(Camera camera, float scale, RepairBenchV2Runtime bench)
+        {
+            var order = bench.TrayOrder;
+            if (order == null) return;
+            for (int i = 0; i < order.Count; i++)
+            {
+                var prop = order[i];
+                if (prop == null || prop.InHand || prop.Lifted || prop == HoveredProp || prop == ToolToTake) continue;
+                if (!ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var r)) continue;
+                var tag = Tag(new Vector2(r.center.x - 12, r.yMax + 10), (i + 1) + "  " + ShortName(prop), RepairPropCyberStyle.Amber, 11, TextAnchor.LowerLeft, true, VisorIcons.Prop(prop));
+                // Step up until clear of the labels already placed.
+                var box = new Rect(tag.anchoredPosition, tag.sizeDelta);
+                for (int tries = 0; tries < 6 && trayRects.Exists(o => o.Overlaps(box)); tries++) box.y += tag.sizeDelta.y + 3;
+                tag.anchoredPosition = box.position;
+                trayRects.Add(new Rect(box.x - 3, box.y - 2, box.width + 6, box.height + 4));
+                float x = Mathf.Clamp(r.center.x, box.xMin + 6, box.xMax - 6);
+                Line(new Vector2(r.center.x, r.yMax + 1), new Vector2(x, box.yMin), RepairPropCyberStyle.AmberDim);
+                Line(new Vector2(r.center.x - 3, r.yMax + 1), new Vector2(r.center.x + 3, r.yMax + 1), RepairPropCyberStyle.Amber);
+                TrayCallouts++;
+            }
+        }
+        readonly List<Rect> trayRects = new List<Rect>();
+
+        // "放大镜（空手检查）" is "放大镜" on a label.
+        static string ShortName(RepairBenchProp prop)
+        {
+            string name = prop.Label; int cut = name.IndexOf('（');
+            return cut > 0 ? name.Substring(0, cut) : name;
+        }
 
         string ToolName(RepairActionType tool)
         {
@@ -603,15 +668,18 @@ namespace BorderRepair.RepairProps
                     HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.Prop(HoveredProp) : null);
             // The tool in hand, marked on the bench as well.
             var bench = RepairBenchV2Runtime.Current;
+            trayRects.Clear();
             if (bench != null)
                 foreach (var prop in bench.Props)
                     if (prop.Kind == RepairBenchPropKind.Tool && prop.Lifted && !prop.InHand && prop != HoveredProp && ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var toolRect))
                     {
                         if (OrientedBox(prop.GetComponentsInChildren<MeshFilter>(), prop.transform, 1.06f)) LockBox(camera, scale, RepairPropCyberStyle.Amber, .25f, "tool:" + prop.name);
-                        Tag(new Vector2(toolRect.xMin, toolRect.yMax + 8), "手持 · " + prop.Label, VisorIcons.PropColor(prop), 11, TextAnchor.LowerLeft, false, VisorIcons.Prop(prop));
+                        var heldTag = Tag(new Vector2(toolRect.xMin, toolRect.yMax + 8), "手持 · " + ShortName(prop), VisorIcons.PropColor(prop), 11, TextAnchor.LowerLeft, true, VisorIcons.Prop(prop));
+                        trayRects.Add(new Rect(heldTag.anchoredPosition - new Vector2(3, 2), heldTag.sizeDelta + new Vector2(6, 4)));
                     }
 
             // With what: the step needs a tool the hand does not hold, so that tool is marked in the tray.
+            TrayCallouts = 0;
             ToolToTake = null;
             if (bench != null && next != null && owner.Station.ActiveTool != next.tool && !owner.Station.CleaningActive
                 && (owner.ContextPanel == null || owner.ContextPanel.BatchButtonFor(next.id) == null))
@@ -622,8 +690,9 @@ namespace BorderRepair.RepairProps
                     ToolToTake = prop;
                     var take = VisorIcons.PropColor(prop); take.a = pulse;
                     if (OrientedBox(prop.GetComponentsInChildren<MeshFilter>(), prop.transform, 1.1f)) LockBox(camera, scale, take, .3f, "take:" + prop.name);
-                    if (prop != HoveredProp) Tag(new Vector2(takeRect.xMin, takeRect.yMax + 8), "拿这个 ▶ " + prop.Label, take, 12, TextAnchor.LowerLeft, true, VisorIcons.Prop(prop));
+                    if (prop != HoveredProp) { var takeTag = Tag(new Vector2(takeRect.xMin, takeRect.yMax + 8), "拿这个 ▶ " + prop.Label, take, 12, TextAnchor.LowerLeft, true, VisorIcons.Prop(prop)); trayRects.Add(new Rect(takeTag.anchoredPosition - new Vector2(3, 2), takeTag.sizeDelta + new Vector2(6, 4))); }
                 }
+            if (bench != null) TrayLabels(camera, scale, bench);
 
             // Top-centre scan line over the free view: tests at a glance.
             readout.rectTransform.anchorMin = readout.rectTransform.anchorMax = Vector2.zero;
@@ -676,7 +745,7 @@ namespace BorderRepair.RepairProps
             var session = owner.Station.Session;
             var state = BorderRepair.TwoNight.TwoNightRun.Current;
             clock.text = "N" + (state != null ? Mathf.Max(1, state.night) : 1) + " // T+" + RepairUIView.FormatTime(session.ShiftDuration)
-                + "   CASE " + (session.CaseIndex + 1) + "/" + session.CaseCount + "   REC";
+                + "  CASE " + (session.CaseIndex + 1) + "/" + session.CaseCount;
             clock.color = new Color(1f, .62f, .16f, Mathf.Repeat(Time.unscaledTime, 1.6f) < 1.1f ? .45f : .25f);
             Pin(clock.rectTransform, new Vector2(22, 22), Vector2.zero, new Vector2(320, 16));
             if (ticker.gameObject.activeSelf) ticker.gameObject.SetActive(false);   // decluttered: the hex column competed with the windows

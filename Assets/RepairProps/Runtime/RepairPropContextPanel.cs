@@ -31,7 +31,11 @@ namespace BorderRepair.RepairProps
         Canvas canvas;
         Font font;
         Text title,subtitle,statusTitle,statusBody,toolStatus,feedback,signal,caseCode;
-        RectTransform content,statusCard,testList,repairBody,toolRow,targetRow,toolsBody,finishWindow,phaseStrip,tabStrip;
+        RectTransform content,statusCard,testList,repairBody,toolRow,targetRow,toolsBody,finishWindow,phaseStrip,tabStrip,stageRail;
+        Text toolCaption;
+        public RectTransform StageRail=>stageRail;
+        /// <summary>The tray on the bench is the tool selector when it is there; the column then keeps no tool buttons.</summary>
+        static bool TrayHasTools=>RepairBenchV2Runtime.Current!=null && RepairBenchV2Runtime.Current.Props.Any(p=>p.Kind==RepairBenchPropKind.Tool);
         Button detailToggle;
         bool builtCompact;
         // Reference windows (order, tools, log) sit under a shade while the pointer is on the bench, so the eye goes to
@@ -43,6 +47,7 @@ namespace BorderRepair.RepairProps
         /// <summary>Switches between the short panel and the full one.</summary>
         public Button DetailToggle=>detailToggle;
         readonly List<(Image bg,Text text)> phaseChips=new List<(Image,Text)>();
+        readonly List<Image> phaseRails=new List<Image>();
         readonly List<(Text text,PropTest test)> testLines=new List<(Text,PropTest)>();
         readonly List<ActionRow> actions=new List<ActionRow>();
         readonly List<Batch> batches=new List<Batch>();
@@ -108,13 +113,26 @@ namespace BorderRepair.RepairProps
             signal=RepairPropCyberStyle.Caption(caseBar.transform.parent,"",font,10,Color.black,TextAnchor.MiddleRight);
             title=Label(caseWindow,"",16,22,Accent);title.fontStyle=FontStyle.Bold;
             subtitle=Paragraph(caseWindow,12,Dim);
-            var phaseRow=Row(caseWindow,22,2);phaseStrip=phaseRow;
+            // Where the job stands is read at the top of the view, over the step header: stage rail, then the step.
+            stageRail=Rect("StageRail",host);stageRail.anchorMin=stageRail.anchorMax=Vector2.zero;stageRail.pivot=new Vector2(.5f,0);
+            stageRail.sizeDelta=new Vector2(336,24);
+            var railBack=stageRail.gameObject.AddComponent<Image>();railBack.color=new Color(0,0,0,.42f);railBack.raycastTarget=false;
+            var phaseRow=Row(stageRail,22,2);phaseStrip=phaseRow;
+            phaseRow.anchorMin=Vector2.zero;phaseRow.anchorMax=Vector2.one;phaseRow.offsetMin=new Vector2(3,2);phaseRow.offsetMax=new Vector2(-3,0);
+            HudMotion.Boot(stageRail.gameObject,.05f);
             for(int i=0;i<RepairPropWorkflowStatus.PhaseLabels.Length;i++)
             {
                 var chip=Rect("阶段_"+RepairPropWorkflowStatus.PhaseLabels[i],phaseRow);Size(chip,22);
                 var bg=chip.gameObject.AddComponent<Image>();bg.raycastTarget=false;
                 var text=Label(chip,RepairPropWorkflowStatus.PhaseLabels[i],12,22);text.alignment=TextAnchor.MiddleCenter;Stretch((RectTransform)text.transform,1,0);
                 phaseChips.Add((bg,text));
+                // Progress rail under the stages (segmented status bars of the EVA displays): done, current, to come.
+                var rail=Rect("Rail",chip);rail.gameObject.AddComponent<LayoutElement>().ignoreLayout=true;
+                rail.anchorMin=Vector2.zero;rail.anchorMax=new Vector2(1,0);rail.pivot=new Vector2(.5f,1);rail.anchoredPosition=new Vector2(0,-1);rail.sizeDelta=new Vector2(0,2);
+                var railImage=rail.gameObject.AddComponent<Image>();railImage.raycastTarget=false;phaseRails.Add(railImage);
+                var tick=Rect("Tick",chip);tick.gameObject.AddComponent<LayoutElement>().ignoreLayout=true;
+                tick.anchorMin=tick.anchorMax=Vector2.zero;tick.pivot=new Vector2(0,1);tick.anchoredPosition=new Vector2(0,2);tick.sizeDelta=new Vector2(1,6);
+                var tickImage=tick.gameObject.AddComponent<Image>();tickImage.color=Rule;tickImage.raycastTarget=false;
             }
             statusCard=Rect("StatusCard",caseWindow);
             RepairPropCyberStyle.Framed(statusCard.gameObject.AddComponent<Image>(),new Color(0,0,0,0),Rule,true);
@@ -126,7 +144,7 @@ namespace BorderRepair.RepairProps
             detailToggle=Button(caseWindow,"",()=>{RepairPropWorkspaceLayout.Compact=!RepairPropWorkspaceLayout.Compact;dirty=true;},0,20,11);detailToggle.name="详细切换";
 
             // 2. Tools: repair / finish mode, the tool in hand, the part it is aimed at.
-            var toolWindow=Window("ToolWindow","工具 // TOOLS",false,.08f,out var toolBar);
+            var toolWindow=Window("ToolWindow","工具 // TOOLS",false,.08f,out var toolBar);toolCaption=toolBar;
             // The tool / selection line rides in the title bar instead of taking a row.
             toolStatus=RepairPropCyberStyle.Caption(toolBar.transform.parent,"",font,11,Dim,TextAnchor.MiddleRight);
             var statusRect=toolStatus.rectTransform;statusRect.anchorMin=Vector2.zero;statusRect.anchorMax=Vector2.one;statusRect.offsetMin=new Vector2(84,0);statusRect.offsetMax=new Vector2(-30,0);
@@ -202,6 +220,10 @@ namespace BorderRepair.RepairProps
             if(owner==null || PanelRectTransform==null) return;
             bool visible=owner.WorkspaceVisible;
             if(PanelRectTransform.gameObject.activeSelf!=visible) PanelRectTransform.gameObject.SetActive(visible);
+            var header=owner.ArOverlay!=null ? owner.ArOverlay.HeaderRect:default;
+            bool rail=visible && !AppearanceOpen && header.width>1 && phaseStrip.gameObject.activeSelf;
+            if(stageRail.gameObject.activeSelf!=rail) stageRail.gameObject.SetActive(rail);
+            if(rail) stageRail.anchoredPosition=new Vector2(header.center.x,header.yMax+6);
             if(!visible) {wasVisible=false;return;}
             bool focused=ContainsScreenPoint(BorderRepair.Controls.RepairInput.PointerPosition) || AppearanceOpen;
             shade=Mathf.MoveTowards(shade,focused ? 0:ShadeIdle,Time.unscaledDeltaTime*(focused ? 3.5f:.9f));
@@ -273,6 +295,7 @@ namespace BorderRepair.RepairProps
                 bool current=i==(int)phase,done=i<(int)phase || flow.Completed;
                 phaseChips[i].bg.color=current ? Accent:new Color(0,0,0,0);
                 phaseChips[i].text.color=current ? Color.black:done ? Ok:Dim;
+                phaseRails[i].color=current ? Accent:done ? new Color(Ok.r,Ok.g,Ok.b,.75f):new Color(1f,.62f,.16f,.16f);
             }
             statusTitle.text="当前阶段："+RepairPropWorkflowStatus.Label(phase);
             statusBody.text=RepairPropWorkflowStatus.NextStep(flow);
@@ -377,7 +400,9 @@ namespace BorderRepair.RepairProps
             foreach(Transform child in content) {child.gameObject.SetActive(false);Destroy(child.gameObject);}
             actions.Clear();commands.Clear();targets.Clear();batches.Clear();
             bool operate=tab==RepairPropWorkspaceTab.Operate;
-            toolRow.gameObject.SetActive(operate);targetRow.gameObject.SetActive(operate);toolStatus.gameObject.SetActive(operate);
+            bool tray=TrayHasTools;
+            toolRow.gameObject.SetActive(operate && !tray);targetRow.gameObject.SetActive(operate);toolStatus.gameObject.SetActive(operate);
+            toolCaption.text=tray ? "对象 // TARGET":"工具 // TOOLS";
             foreach(var node in d.nodes) if(node.objectName==owner.SelectedTarget || Listed(flow,node)) targets.Add(node);
             refreshing=true;
             TargetPicker.ClearOptions();TargetPicker.AddOptions(targets.Select(n=>n.displayName).ToList());
@@ -670,17 +695,32 @@ namespace BorderRepair.RepairProps
             if(rank==0)
             {
                 RepairPropCyberStyle.Texture(window,RepairPropCyberStyle.Dots,new Color(1f,.62f,.16f,.08f),"DotGrid");
-                RepairPropCyberStyle.Texture(window,RepairPropCyberStyle.Dither,new Color(1f,.42f,.10f,.05f),"Dither");
             }
             var group=window.gameObject.AddComponent<VerticalLayoutGroup>();group.padding=new RectOffset(6,6,0,5);group.spacing=3;
             group.childControlWidth=group.childControlHeight=true;group.childForceExpandWidth=true;group.childForceExpandHeight=false;
             var titleBar=Rect("TitleBar",window);Size(titleBar,rank==2 ? 15:18);
             var barImage=titleBar.gameObject.AddComponent<Image>();
-            barImage.color=rank==0 ? Accent:rank==1 ? new Color(0,0,0,.45f):new Color(0,0,0,0);
-            Color barInk=rank==0 ? Color.black:rank==1 ? Accent:Dim;
-            bar=Label(titleBar,caption,rank==2 ? 9:11,rank==2 ? 15:18,barInk);
-            if(RepairPropCyberStyle.Kana!=null) bar.font=RepairPropCyberStyle.Kana;
-            var barRect=(RectTransform)bar.transform;barRect.anchorMin=Vector2.zero;barRect.anchorMax=Vector2.one;barRect.offsetMin=new Vector2(5,0);barRect.offsetMax=new Vector2(-30,0);
+            barImage.color=rank<=1 ? new Color(0,0,0,.45f):new Color(0,0,0,0);
+            Color barInk=rank<=1 ? Accent:Dim;
+            if(rank==0)
+            {
+                // Primary window: its caption is a solid label that follows the text's width; the rest of the bar is a rule.
+                var chip=Rect("Chip",titleBar);chip.anchorMin=Vector2.zero;chip.anchorMax=new Vector2(0,1);chip.pivot=new Vector2(0,.5f);
+                chip.offsetMin=chip.offsetMax=Vector2.zero;
+                var chipImage=chip.gameObject.AddComponent<Image>();chipImage.color=Accent;chipImage.raycastTarget=false;
+                var chipRow=chip.gameObject.AddComponent<HorizontalLayoutGroup>();chipRow.padding=new RectOffset(6,7,0,0);
+                chipRow.childControlWidth=chipRow.childControlHeight=true;chipRow.childForceExpandWidth=false;chipRow.childForceExpandHeight=true;
+                chip.gameObject.AddComponent<ContentSizeFitter>().horizontalFit=ContentSizeFitter.FitMode.PreferredSize;
+                bar=Label(chip,caption,11,18,Color.black);bar.horizontalOverflow=HorizontalWrapMode.Overflow;
+                if(RepairPropCyberStyle.Kana!=null) bar.font=RepairPropCyberStyle.Kana;
+                RepairPropCyberStyle.BarRule(titleBar,Accent,Rule);
+            }
+            else
+            {
+                bar=Label(titleBar,caption,rank==2 ? 9:11,rank==2 ? 15:18,barInk);
+                if(RepairPropCyberStyle.Kana!=null) bar.font=RepairPropCyberStyle.Kana;
+                var barRect=(RectTransform)bar.transform;barRect.anchorMin=Vector2.zero;barRect.anchorMax=Vector2.one;barRect.offsetMin=new Vector2(5,0);barRect.offsetMax=new Vector2(-30,0);
+            }
             var glyphs=RepairPropCyberStyle.Caption(titleBar,"- x",RepairPropCyberStyle.Mono!=null ? RepairPropCyberStyle.Mono:font,11,barInk,TextAnchor.MiddleRight);
             if(rank>=1) {var rule=Rect("Rule",titleBar);rule.anchorMin=Vector2.zero;rule.anchorMax=new Vector2(1,0);rule.sizeDelta=new Vector2(0,1);var ri=rule.gameObject.AddComponent<Image>();ri.color=rank==1 ? Rule:RepairPropCyberStyle.AmberFaint;ri.raycastTarget=false;}
             HudWindowDrag.Attach(barImage,window,"workspace/"+name);

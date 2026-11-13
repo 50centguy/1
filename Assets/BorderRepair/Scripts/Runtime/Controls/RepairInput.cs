@@ -30,6 +30,18 @@ namespace BorderRepair.Controls
         }
 
         public static bool ToggleScanPressed => Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame;
+        /// <summary>The number key pressed this frame (1-9, top row or keypad), or 0.</summary>
+        public static int DigitPressed
+        {
+            get
+            {
+                var keyboard = Keyboard.current;
+                if (keyboard == null) return 0;
+                for (int i = 0; i < 9; i++)
+                    if (keyboard[(Key)((int)Key.Digit1 + i)].wasPressedThisFrame || keyboard[(Key)((int)Key.Numpad1 + i)].wasPressedThisFrame) return i + 1;
+                return 0;
+            }
+        }
         public static bool ResetViewPressed => Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame;
 
         public static bool PointerOverUI => EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
