@@ -43,7 +43,20 @@ namespace BorderRepair.RepairProps
         /// <summary>With a tool in hand: what a left click at the pointer does ("左键 ▶ …") or why it does nothing ("✕ …").</summary>
         public string ToolPreview { get; private set; }
         bool pointerOnItem;
-        const float DoneSeconds = .6f, TraceSeconds = 1.5f, TraceEvery = 7f;
+        const float DoneSeconds = .6f, TraceSeconds = 1.5f, TraceEvery = 7f, AnalysisSeconds = 3.6f;
+        readonly List<Image> tagIcons = new List<Image>();
+        Image stepIcon;
+        string anaTarget, anaTitle, anaBody, anaIcon;
+        Color anaColour;
+        bool anaWave;
+        float anaAt = -99, inspectSeen;
+        int historySeen = -1;
+        BorderRepair.Core.FeedbackKind lastFeedbackKind;
+        /// <summary>The part the analysis animation is playing on right now, or null.</summary>
+        public string AnalysisTarget { get; private set; }
+        public string AnalysisTitle => anaTitle;
+        /// <summary>Icon shown in the step header (a VisorIcons name), for tests.</summary>
+        public string StepIconName { get; private set; }
         RectTransform header;
         Image headerBack, chipImage;
         Text chipText, stepText, stepSub;
@@ -68,6 +81,8 @@ namespace BorderRepair.RepairProps
         public void Initialize(RepairPropStationBridge bridge)
         {
             owner = bridge;
+            if (owner.Flow != null) owner.Flow.Feedback += OnFlowFeedback;
+            inspectSeen = owner.LastInspectedAt;
             font = RepairPropCyberStyle.UiFontOr(UIFontProvider.GetCjkFont(Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf")));
             var host = new GameObject("RepairPropArCanvas", typeof(RectTransform));
             host.transform.SetParent(transform, false);
@@ -111,12 +126,121 @@ namespace BorderRepair.RepairProps
             chipLabel.anchorMin = Vector2.zero; chipLabel.anchorMax = Vector2.one; chipLabel.offsetMin = chipLabel.offsetMax = Vector2.zero;
             chipText = chipLabel.gameObject.AddComponent<Text>(); chipText.font = font; chipText.fontSize = 13; chipText.alignment = TextAnchor.MiddleCenter;
             chipText.color = Color.black; chipText.raycastTarget = false; chipText.supportRichText = false;
+            var iconRect = (RectTransform)new GameObject("Icon", typeof(RectTransform)).transform; iconRect.SetParent(header, false);
+            stepIcon = iconRect.gameObject.AddComponent<Image>(); stepIcon.raycastTarget = false;
             stepText = MakeText("Step", 21, TextAnchor.MiddleLeft, RepairPropCyberStyle.Amber); stepText.rectTransform.SetParent(header, false);
             stepText.horizontalOverflow = HorizontalWrapMode.Overflow;
             stepSub = MakeText("StepSub", 12, TextAnchor.MiddleCenter, RepairPropCyberStyle.Dim); stepSub.rectTransform.SetParent(header, false);
             stepSub.horizontalOverflow = HorizontalWrapMode.Overflow;
             HudMotion.TypeOn(stepText, 150);
             HudMotion.TypeOn(stepSub, 160);
+        }
+
+
+        // ---------- the eye analysing a part: slices sweep through it, its box locks, a read-out types beside it ----------
+
+        void OnFlowFeedback(string message, BorderRepair.Core.FeedbackKind kind) { lastFeedbackKind = kind; }
+
+        /// <summary>Plays the analysis on <paramref name="target"/>: cyan for a look, green / amber for a reading.</summary>
+        public void Analyze(string target, string title, string body, Color colour, string icon, bool wave)
+        {
+            anaTarget = target; anaTitle = title; anaBody = Wrap(body, 22); anaColour = colour; anaIcon = icon; anaWave = wave;
+            anaAt = Time.unscaledTime;
+        }
+
+        static string Wrap(string text, int width)
+        {
+            if (string.IsNullOrEmpty(text) || text.Length <= width) return text;
+            var builder = new System.Text.StringBuilder();
+            for (int i = 0; i < text.Length && i < width * 3; i += width)
+            {
+                if (i > 0) builder.Append('\n');
+                builder.Append(text, i, Mathf.Min(width, text.Length - i));
+            }
+            return builder.ToString();
+        }
+
+        // New results to show: a test, a measurement or an inspection that just happened.
+        void WatchForAnalysis(RepairPropFlow flow, RepairPropFlowDefinition d)
+        {
+            int count = flow.History.Count;
+            if (historySeen < 0 || count < historySeen) historySeen = count;
+            if (count > historySeen)
+            {
+                historySeen = count;
+                var command = d.FindCommand(flow.History[count - 1]);
+                if (command != null && (command.kind == PropCommandKind.Test || command.kind == PropCommandKind.Measure))
+                    Analyze(command.target, (command.kind == PropCommandKind.Test ? "测试 // " : "测量 // ") + command.label, flow.LastFeedback,
+                        lastFeedbackKind == BorderRepair.Core.FeedbackKind.Warning || lastFeedbackKind == BorderRepair.Core.FeedbackKind.Error ? RepairPropCyberStyle.Warn : RepairPropCyberStyle.Ok,
+                        VisorIcons.CommandName(command), true);
+            }
+            if (owner.LastInspectedAt != inspectSeen)
+            {
+                inspectSeen = owner.LastInspectedAt;
+                var node = d.FindNode(owner.LastInspected);
+                if (node != null)
+                {
+                    int ready = d.commands.Count(c => c.target == node.objectName && flow.CanExecute(c.id, c.target, c.tool, out _));
+                    string state = node.immutable ? "保留原件 · 只检查" : ready > 0 ? ready + " 项可执行" : "暂无可执行操作";
+                    Analyze(node.objectName, "检查 // " + node.displayName, state, VisorIcons.Scan, "loupe", false);
+                }
+            }
+        }
+
+        void Analysis(Camera camera, float scale)
+        {
+            float age = Time.unscaledTime - anaAt;
+            AnalysisTarget = null;
+            if (anaTarget == null || age > AnalysisSeconds || !TargetBox(anaTarget, 1.06f)) return;
+            AnalysisTarget = anaTarget;
+            // The box edge that stands most upright is the sweep's axis; the other two span each slice.
+            int up = 1; float best = -1;
+            for (int bit = 1; bit <= 4; bit <<= 1)
+            {
+                float v = Mathf.Abs((box3[bit] - box3[0]).normalized.y);
+                if (v > best) { best = v; up = bit; }
+            }
+            int a = up == 1 ? 2 : 1, b = up == 4 ? 2 : 4;
+            bool flip = box3[up].y < box3[0].y;
+            float fade = Mathf.Clamp01((AnalysisSeconds - age) / .5f);
+            for (int k = 0; k < 3; k++)
+            {
+                // up through the part, then back down; three slices, each a little behind and fainter
+                float t = (age - k * .08f) / 1.3f;
+                if (t < 0 || t > 1) continue;
+                float h = t < .5f ? HudMotion.EaseOut(t * 2) : 1 - HudMotion.EaseOut((t - .5f) * 2);
+                if (flip) h = 1 - h;
+                var colour = anaColour; colour.a = .95f - k * .3f;
+                var ring = new[] { 0, a, a | b, b };
+                bool visible = true;
+                for (int i = 0; i < 4 && visible; i++)
+                {
+                    var p = camera.WorldToScreenPoint(Vector3.Lerp(box3[ring[i]], box3[ring[i] | up], h));
+                    if (p.z <= 0) visible = false; else box2[i] = (Vector2)p / scale;
+                }
+                if (!visible) continue;
+                for (int i = 0; i < 4; i++) Line(box2[i], box2[(i + 1) % 4], colour);
+            }
+            var hold = anaColour; hold.a = .85f * fade;
+            if (TargetBox(anaTarget, 1.06f)) LockBox(camera, scale, hold, .24f, "ana:" + anaAt);
+            if (age < .4f || !Project(camera, anaTarget, scale, out var rect)) return;
+            var ink = anaColour; ink.a = fade;
+            var anchor = new Vector2(rect.xMax + 34, rect.center.y + 6);
+            Leader(new Vector2(rect.xMax, rect.center.y), anchor + new Vector2(0, -8), ink, "analine:" + anaAt);
+            Tag(anchor, anaTitle + (string.IsNullOrEmpty(anaBody) ? "" : "\n" + anaBody), ink, 12, TextAnchor.UpperLeft, true, VisorIcons.Get(anaIcon));
+            if (!anaWave) return;
+            // A reading settles: the trace above the read-out swings wide, then steadies (and stays ragged on a fault).
+            float settle = Mathf.Exp(-(age - .4f) * 2.2f);
+            bool rough = anaColour == RepairPropCyberStyle.Warn;
+            Vector2 origin = anchor + new Vector2(0, 16), previous = origin;
+            for (int i = 1; i <= 24; i++)
+            {
+                float x = i * 5f, phase = i * .9f - age * 9f;
+                float y = Mathf.Sin(phase) * (3 + 9 * settle) + (rough ? (HudMotion.Noise(i * 3.1f + Mathf.Floor(age * 12)) - .5f) * 9 : 0);
+                var point = origin + new Vector2(x, y);
+                Line(previous, point, ink);
+                previous = point;
+            }
         }
 
         string ToolName(RepairActionType tool)
@@ -168,14 +292,29 @@ namespace BorderRepair.RepairProps
             chipImage.color = ink;
             chipImage.rectTransform.localScale = Vector3.one * (1 + .28f * pop);
 
-            float chipWidth = 62, gap = 12, textWidth = Mathf.Min(stepText.preferredWidth, right - 220);
-            float width = chipWidth + gap + textWidth, x0 = right / 2 - width / 2, y = size.y - 74;
+            // The picture of the step, in its tool's colour, between the chip and the words.
+            StepIconName = ticking ? "check" : cleaningNow ? "brush" : next != null ? VisorIcons.CommandName(next) : null;
+            var picture = VisorIcons.Get(StepIconName);
+            stepIcon.enabled = picture != null;
+            float iconWidth = picture != null ? 34 : 0;
+            float chipWidth = 62, gap = 12, textWidth = Mathf.Min(stepText.preferredWidth, right - 260);
+            float width = chipWidth + gap + iconWidth + textWidth, x0 = right / 2 - width / 2, y = size.y - 74;
+            if (picture != null)
+            {
+                stepIcon.sprite = picture;
+                stepIcon.color = ticking ? RepairPropCyberStyle.Ok : cleaningNow ? RepairPropCyberStyle.Amber : VisorIcons.ToolColor(next.tool);
+                var pictureRect = stepIcon.rectTransform;
+                pictureRect.anchorMin = pictureRect.anchorMax = Vector2.zero; pictureRect.pivot = new Vector2(.5f, .5f);
+                pictureRect.anchoredPosition = new Vector2(x0 + chipWidth + gap + 12, y + 14); pictureRect.sizeDelta = new Vector2(24, 24);
+                pictureRect.localScale = Vector3.one * (1 + .35f * pop);
+            }
+            stepSub.color = !ticking && next != null && !cleaningNow && !batch && station.ActiveTool != next.tool ? VisorIcons.ToolColor(next.tool) : RepairPropCyberStyle.Dim;
             var chipRect = chipImage.rectTransform;
             chipRect.anchorMin = chipRect.anchorMax = Vector2.zero; chipRect.pivot = new Vector2(.5f, .5f);
             chipRect.anchoredPosition = new Vector2(x0 + chipWidth / 2, y + 14); chipRect.sizeDelta = new Vector2(chipWidth, 24);
             var textRect = stepText.rectTransform;
             textRect.anchorMin = textRect.anchorMax = Vector2.zero; textRect.pivot = new Vector2(0, .5f);
-            textRect.anchoredPosition = new Vector2(x0 + chipWidth + gap, y + 14); textRect.sizeDelta = new Vector2(textWidth + 8, 30);
+            textRect.anchoredPosition = new Vector2(x0 + chipWidth + gap + iconWidth, y + 14); textRect.sizeDelta = new Vector2(textWidth + 8, 30);
             Place(stepSub.rectTransform, new Vector2(right / 2, y - 22), new Vector2(Mathf.Min(right - 120, 720), 18));
             float plate = Mathf.Max(width, stepSub.preferredWidth) + 44;
             Place(headerBack.rectTransform, new Vector2(right / 2, y - 28), new Vector2(Mathf.Min(plate, right - 60), 62));
@@ -342,6 +481,7 @@ namespace BorderRepair.RepairProps
             tagRight = right - 6;
 
             VisorFrame(size, right);
+            WatchForAnalysis(flow, d);
 
             // Pointer part (only when the pointer is over the view, not the panel).
             HoveredTarget = null; HoveredProp = null; ToolPreview = null; pointerOnItem = false;
@@ -379,7 +519,7 @@ namespace BorderRepair.RepairProps
                 string toolHint = tool == next.tool ? "" : "　[" + RepairActionText.Label(next.tool).Replace(" ", "") + "]";
                 var anchor = new Vector2(box.xMax + 26, box.yMax + 20);
                 Leader(new Vector2(box.xMax, box.yMax), anchor + new Vector2(0, -6), color, "nextline:" + next.target);
-                Tag(anchor, "▶ " + next.label, color, 13, TextAnchor.LowerLeft, true);   // where; the header says what and with which tool
+                Tag(anchor, "▶ " + next.label, color, 13, TextAnchor.LowerLeft, true, VisorIcons.Command(next));   // where; the header says what and with which tool
             }
 
             // Selection: amber wireframe box and a name tag with what can be done to it.
@@ -404,19 +544,21 @@ namespace BorderRepair.RepairProps
                 var command = owner.ToolCommandAt(toolTarget, out string why);
                 ToolPreview = command != null ? "左键 ▶ " + command.label : "✕ " + why;
                 var color = command != null ? RepairPropCyberStyle.Ok : RepairPropCyberStyle.Bad;
+                var previewIcon = command != null ? VisorIcons.Command(command) : VisorIcons.Get("cross");
                 if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget) Wire(camera, HoveredTarget, scale, color, out _);
                 var node = d.FindNode(toolTarget);
-                Tag(pointer / scale + new Vector2(18, -12), (node != null ? node.displayName : toolTarget) + "\n" + ToolPreview, color, 12, TextAnchor.UpperLeft, true);
+                Tag(pointer / scale + new Vector2(18, -12), (node != null ? node.displayName : toolTarget) + "\n" + ToolPreview, color, 12, TextAnchor.UpperLeft, true, previewIcon);
             }
-            else if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && Wire(camera, HoveredTarget, scale, RepairPropCyberStyle.Hot, out _))
+            else if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && Wire(camera, HoveredTarget, scale, VisorIcons.Scan, out _))
             {
                 var node = d.FindNode(HoveredTarget);
-                Tag(pointer / scale + new Vector2(16, -10), node != null ? node.displayName : HoveredTarget, RepairPropCyberStyle.Hot, 12, TextAnchor.UpperLeft);
+                Tag(pointer / scale + new Vector2(16, -10), node != null ? node.displayName : HoveredTarget, VisorIcons.Scan, 12, TextAnchor.UpperLeft, true, VisorIcons.Get("loupe"));
             }
 
             // Bench prop under the pointer: cyan wire and what a click does.
-            if (HoveredProp != null && WireRenderers(camera, HoveredProp.GetComponentsInChildren<MeshFilter>(), scale, RepairPropCyberStyle.Hot))
-                Tag(pointer / scale + new Vector2(16, -10), HoveredProp.Hint, RepairPropCyberStyle.Hot, 12, TextAnchor.UpperLeft, true);
+            if (HoveredProp != null && WireRenderers(camera, HoveredProp.GetComponentsInChildren<MeshFilter>(), scale, HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.PropColor(HoveredProp) : RepairPropCyberStyle.Hot))
+                Tag(pointer / scale + new Vector2(16, -10), HoveredProp.Hint, HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.PropColor(HoveredProp) : RepairPropCyberStyle.Hot, 12, TextAnchor.UpperLeft, true,
+                    HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.Prop(HoveredProp) : null);
             // The tool in hand, marked on the bench as well.
             var bench = RepairBenchV2Runtime.Current;
             if (bench != null)
@@ -424,7 +566,7 @@ namespace BorderRepair.RepairProps
                     if (prop.Kind == RepairBenchPropKind.Tool && prop.Lifted && !prop.InHand && prop != HoveredProp && ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var toolRect))
                     {
                         if (OrientedBox(prop.GetComponentsInChildren<MeshFilter>(), prop.transform, 1.06f)) LockBox(camera, scale, RepairPropCyberStyle.Amber, .25f, "tool:" + prop.name);
-                        Tag(new Vector2(toolRect.xMin, toolRect.yMax + 8), "手持 · " + prop.Label, RepairPropCyberStyle.Amber, 11, TextAnchor.LowerLeft);
+                        Tag(new Vector2(toolRect.xMin, toolRect.yMax + 8), "手持 · " + prop.Label, VisorIcons.PropColor(prop), 11, TextAnchor.LowerLeft, false, VisorIcons.Prop(prop));
                     }
 
             // With what: the step needs a tool the hand does not hold, so that tool is marked in the tray.
@@ -436,9 +578,9 @@ namespace BorderRepair.RepairProps
                     if (prop.Kind != RepairBenchPropKind.Tool || prop.IsCleaner || prop.IsPainter || prop.Tool != next.tool || prop.InHand) continue;
                     if (!ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var takeRect)) continue;
                     ToolToTake = prop;
-                    var take = RepairPropCyberStyle.Amber; take.a = pulse;
+                    var take = VisorIcons.PropColor(prop); take.a = pulse;
                     if (OrientedBox(prop.GetComponentsInChildren<MeshFilter>(), prop.transform, 1.1f)) LockBox(camera, scale, take, .3f, "take:" + prop.name);
-                    if (prop != HoveredProp) Tag(new Vector2(takeRect.xMin, takeRect.yMax + 8), "拿这个 ▶ " + prop.Label, take, 12, TextAnchor.LowerLeft, true);
+                    if (prop != HoveredProp) Tag(new Vector2(takeRect.xMin, takeRect.yMax + 8), "拿这个 ▶ " + prop.Label, take, 12, TextAnchor.LowerLeft, true, VisorIcons.Prop(prop));
                 }
 
             // Top-centre scan line over the free view: tests at a glance.
@@ -465,6 +607,7 @@ namespace BorderRepair.RepairProps
             bandTop = 12 + 44;
             Place(hintBand, new Vector2(right / 2, 12), new Vector2(Mathf.Min(right - 40, controls.preferredWidth + 60), 44));
             Header(next, step, batch != null, right, size, camera, scale);
+            Analysis(camera, scale);
             Place(controls.rectTransform, new Vector2(right / 2, 20), new Vector2(Mathf.Min(right - 60, 760), 20));
         }
 
@@ -668,7 +811,7 @@ namespace BorderRepair.RepairProps
             if (!image.enabled) image.enabled = true;
         }
 
-        void Tag(Vector2 at, string text, Color color, int size, TextAnchor anchor, bool framed = false)
+        void Tag(Vector2 at, string text, Color color, int size, TextAnchor anchor, bool framed = false, Sprite icon = null)
         {
             (RectTransform rect, Image bg, Text text) tag;
             if (usedTags < tags.Count) tag = tags[usedTags];
@@ -688,11 +831,21 @@ namespace BorderRepair.RepairProps
                 t.horizontalOverflow = HorizontalWrapMode.Overflow; t.verticalOverflow = VerticalWrapMode.Overflow;
                 tag = (rect, bg, t);
                 tags.Add(tag);
+                var picture = (RectTransform)new GameObject("Icon", typeof(RectTransform)).transform;
+                picture.SetParent(rect, false);
+                picture.anchorMin = picture.anchorMax = new Vector2(0, 1); picture.pivot = new Vector2(0, 1);
+                picture.anchoredPosition = new Vector2(6, -4); picture.sizeDelta = new Vector2(12, 12);
+                var pictureImage = picture.gameObject.AddComponent<Image>(); pictureImage.raycastTarget = false;
+                tagIcons.Add(pictureImage);
             }
+            var tagIcon = tagIcons[usedTags];
             usedTags++;
             tag.rect.gameObject.SetActive(true);
+            tagIcon.enabled = icon != null;
+            if (icon != null) { tagIcon.sprite = icon; tagIcon.color = color; }
+            tag.text.rectTransform.offsetMin = new Vector2(icon != null ? 23 : 7, 3);
             tag.text.text = text; tag.text.fontSize = size; tag.text.color = color; tag.text.alignment = TextAnchor.MiddleLeft;
-            float width = tag.text.preferredWidth + 14, height = tag.text.preferredHeight + 6;
+            float width = tag.text.preferredWidth + (icon != null ? 30 : 14), height = Mathf.Max(tag.text.preferredHeight + 6, icon != null ? 20 : 0);
             tag.rect.pivot = anchor == TextAnchor.UpperLeft ? new Vector2(0, 1) : new Vector2(0, 0);
             var area = root.rect.size;
             float maxX = Mathf.Min(area.x, tagRight > 0 ? tagRight : area.x) - width - 4;
@@ -706,6 +859,7 @@ namespace BorderRepair.RepairProps
 
         void OnDestroy()
         {
+            if (owner != null && owner.Flow != null) owner.Flow.Feedback -= OnFlowFeedback;
             if (canvas != null) Destroy(canvas.gameObject);
         }
     }

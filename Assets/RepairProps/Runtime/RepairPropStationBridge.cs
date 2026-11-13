@@ -26,6 +26,14 @@ namespace BorderRepair.RepairProps
         public RepairPropGesture Gesture { get; private set; }
         public RepairStationController Station => station;
         public string SelectedTarget => selectedTarget;
+        /// <summary>The part last looked at closely and when (unscaled time): the visor plays its analysis on it.</summary>
+        public string LastInspected { get; private set; }
+        public float LastInspectedAt { get; private set; }
+        void Inspect(string target)
+        {
+            if (flow.TryInspect(target) == ScanOutcome.Rejected) return;
+            LastInspected = target; LastInspectedAt = Time.unscaledTime;
+        }
         public RepairPropFlow Flow => flow != null ? flow : GetComponent<RepairPropFlow>();
         public bool CanInteract
         {
@@ -167,7 +175,7 @@ namespace BorderRepair.RepairProps
             if (!station.ActiveTool.HasValue)
             {
                 // Empty hands (the loupe): a click on an exposed part looks at it closely.
-                if (station.Session.ScanModeActive || Inspectable(selectedTarget)) flow.TryInspect(selectedTarget);
+                if (station.Session.ScanModeActive || Inspectable(selectedTarget)) Inspect(selectedTarget);
                 return;
             }
             var command = ToolCommandAt(selectedTarget, out string why);
@@ -291,7 +299,7 @@ namespace BorderRepair.RepairProps
         { if (CanInteract) station.SelectTool(tool); }
 
         public void InspectSelected()
-        { if (CanInteract) Flow.TryInspect(selectedTarget); }
+        { if (CanInteract) Inspect(selectedTarget); }
 
         void OnFeedback(string message, FeedbackKind kind)
         {

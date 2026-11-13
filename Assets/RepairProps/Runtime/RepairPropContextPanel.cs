@@ -142,6 +142,11 @@ namespace BorderRepair.RepairProps
                 var value=tool;
                 tools.Add(tool,Button(toolRow,tool==RepairActionType.RemoveFastener ? "螺丝刀" : tool==RepairActionType.OpenHousing ? "开壳" : "检测仪",()=>owner.SelectToolFromPanel(value),0,30,14));
             }
+            // Each tool button carries its pictogram in the tool's own colour, the same one the visor uses for it.
+            Iconize(inspectTool,VisorIcons.Tool(null),VisorIcons.ToolColor(null));
+            foreach(var pair in tools) Iconize(pair.Value,VisorIcons.Tool(pair.Key),VisorIcons.ToolColor(pair.Key));
+            Iconize(appearanceMode,VisorIcons.Get("spray"),new Color(1f,.55f,.75f,1f));
+            Iconize(repairMode,VisorIcons.Get("screwdriver"),RepairPropCyberStyle.Amber);
             targetRow=Row(toolsBody,34,4);
             TargetPicker=Picker(targetRow);
             Button(targetRow,"整件",()=>owner.SelectTarget(owner.Flow.Definition.rootObjectName),52,34,14);
@@ -713,6 +718,15 @@ namespace BorderRepair.RepairProps
             colors.pressedColor=new Color(.7f,.7f,.7f,1);colors.disabledColor=new Color(.9f,.9f,.9f,1);button.colors=colors;
             var text=Label(rect,label,size,height);text.alignment=TextAnchor.MiddleCenter;
             Stretch((RectTransform)text.transform,7,3);return button;
+        }
+        void Iconize(Button button,Sprite sprite,Color tint)
+        {
+            if(button==null || sprite==null) return;
+            var label=button.GetComponentInChildren<Text>(true);
+            var icon=Rect("Icon",button.transform);
+            icon.anchorMin=icon.anchorMax=new Vector2(0,.5f);icon.pivot=new Vector2(0,.5f);icon.anchoredPosition=new Vector2(5,0);icon.sizeDelta=new Vector2(12,12);
+            var image=icon.gameObject.AddComponent<Image>();image.sprite=sprite;image.color=tint;image.raycastTarget=false;
+            if(label!=null) ((RectTransform)label.transform).offsetMin=new Vector2(17,3);
         }
         static void Stretch(RectTransform rect,float x,float y)
         {rect.anchorMin=Vector2.zero;rect.anchorMax=Vector2.one;rect.offsetMin=new Vector2(x,y);rect.offsetMax=new Vector2(-x,-y);}

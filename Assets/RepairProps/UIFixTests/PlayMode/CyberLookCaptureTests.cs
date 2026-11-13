@@ -1161,6 +1161,17 @@ namespace BorderRepair.RepairProps.UI.Tests
                 Assert.That(Vector3.Distance(cable[cable.Length - 1], leads.Probe(l).position), Is.LessThan(.005f), "The cable ends at its probe.");
             }
             bench.FindProp("BV2_Tool_Loupe").Activate(bridge);
+
+            // Looking closely at something plays the analysis on it: slices sweep through, a read-out types beside it.
+            foreach (var icon in VisorIcons.Names) Assert.That(VisorIcons.Get(icon), Is.Not.Null, icon);
+            yield return Until(() => !bridge.Station.ActiveTool.HasValue && bridge.CanInteract, "Empty hands again.");
+            string root = bridge.Flow.Definition.rootObjectName;
+            Assert.That(bridge.SelectTarget(root), Is.True);
+            bridge.InspectSelected();
+            yield return Until(() => bridge.ArOverlay.AnalysisTarget == root, "The visor analyses the part that was inspected.");
+            StringAssert.StartsWith("检查 // ", bridge.ArOverlay.AnalysisTitle);
+            for (int i = 0; i < 25; i++) yield return null;
+            yield return Shoot("73-analysis-inspect", View);
         }
 
         // The guided first order as the player sees it: the lesson card in the room and at the bench, on the short HUD.
@@ -1243,7 +1254,7 @@ namespace BorderRepair.RepairProps.UI.Tests
                 var needed = bench.Props.First(p => p.Kind == RepairBenchPropKind.Tool && p.Tool == next.tool);
                 Point(At());
                 yield return Until(() => overlay.StepText.Contains(next.label), "The step header names the next step: " + overlay.StepText);
-                StringAssert.Contains(needed.Label, overlay.StepSubText, "Under it: which tool to take.");
+                StringAssert.Contains(needed.Label, overlay.StepSubText, "Under it: which tool to take."); Assert.That(overlay.StepIconName, Is.EqualTo(VisorIcons.CommandName(next)), "The header shows the pictogram of the step.");
                 yield return Until(() => overlay.ToolToTake == needed, "The tool the step needs is marked in the tray.");
                 yield return Until(() => overlay.TraceTarget == next.target, "A trace runs from the header to the part.");
                 Assert.That(bridge.ContextPanel.Shade, Is.GreaterThan(.2f), "With the pointer on the bench the reference windows step back.");
