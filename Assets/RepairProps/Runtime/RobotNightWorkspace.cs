@@ -89,13 +89,11 @@ namespace BorderRepair.RepairProps
             var caseWindow = Window("CaseWindow", "工单 // CASE", false, 0f, out var caseBar, 0);
             caseCode = RepairPropCyberStyle.Caption(caseBar.transform.parent, "", RepairPropCyberStyle.Mono != null ? RepairPropCyberStyle.Mono : font, 10, RepairPropCyberStyle.AmberDim, TextAnchor.MiddleRight);
             var codeRect = caseCode.rectTransform; codeRect.anchorMin = Vector2.zero; codeRect.anchorMax = Vector2.one; codeRect.offsetMin = new Vector2(110, 0); codeRect.offsetMax = new Vector2(-34, 0);
-            title = Label(caseWindow, "", 16, 22, Accent); title.fontStyle = FontStyle.Bold;
-            subtitle = Paragraph(caseWindow, 12, Dim);
+            title = Label(caseWindow, "", 16, 22, Accent);             subtitle = Paragraph(caseWindow, 12, Dim);
             var statusCard = Rect("StatusCard", caseWindow);
             RepairPropCyberStyle.Framed(statusCard.gameObject.AddComponent<Image>(), new Color(0, 0, 0, 0), Rule, true);
             Column(statusCard, 6, 2);
-            statusTitle = Label(statusCard, "", 13, 18, Accent); statusTitle.fontStyle = FontStyle.Bold;
-            stepLine = Paragraph(statusCard, 12, Dim);
+            statusTitle = Label(statusCard, "", 13, 18, Accent);             stepLine = Paragraph(statusCard, 12, Dim);
             hintLine = Paragraph(statusCard, 13, Ink); HudMotion.TypeOn(hintLine, 260);
 
             // 2. Tools: what the left button does, the manual, the debug readout, back to walking.

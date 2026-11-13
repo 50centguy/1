@@ -25,7 +25,7 @@ namespace BorderRepair.RepairProps
         static readonly Color PanelBg=RepairPropCyberStyle.Field,Rule=RepairPropCyberStyle.AmberDim,ChipBg=new Color(1f,.62f,.16f,.07f);
         static readonly Color Ink=RepairPropCyberStyle.Ink,Dim=RepairPropCyberStyle.Dim,Accent=RepairPropCyberStyle.Amber;
         static readonly Color Ok=RepairPropCyberStyle.Ok,Warn=RepairPropCyberStyle.Warn,Bad=RepairPropCyberStyle.Bad,Info=RepairPropCyberStyle.Hot;
-        static readonly Color ButtonBg=new Color(.02f,.03f,.035f,.55f),ReadyBg=new Color(1f,.62f,.16f,.09f),IdleBg=new Color(0,0,0,.30f),DeliverBg=new Color(.84f,.93f,.52f,.20f);
+        static readonly Color ButtonBg=new Color(.02f,.03f,.035f,.55f),ReadyBg=new Color(1f,.62f,.16f,.04f),IdleBg=new Color(0,0,0,.30f),DeliverBg=new Color(.84f,.93f,.52f,.20f);
         RepairPropStationBridge owner;
         UnifiedClinicDirector clinic;
         Canvas canvas;
@@ -33,6 +33,7 @@ namespace BorderRepair.RepairProps
         Text title,subtitle,statusTitle,statusBody,toolStatus,feedback,signal,caseCode;
         RectTransform content,statusCard,testList,repairBody,toolRow,targetRow,toolsBody,finishWindow,phaseStrip,tabStrip,stageRail;
         Text toolCaption;
+        RectTransform toolWindow;
         public RectTransform StageRail=>stageRail;
         /// <summary>The tray on the bench is the tool selector when it is there; the column then keeps no tool buttons.</summary>
         static bool TrayHasTools=>RepairBenchV2Runtime.Current!=null && RepairBenchV2Runtime.Current.Props.Any(p=>p.Kind==RepairBenchPropKind.Tool);
@@ -111,8 +112,7 @@ namespace BorderRepair.RepairProps
             caseCode=RepairPropCyberStyle.Caption(caseBar.transform.parent,"",RepairPropCyberStyle.Mono!=null ? RepairPropCyberStyle.Mono:font,10,RepairPropCyberStyle.AmberDim,TextAnchor.MiddleRight);
             var codeRect=caseCode.rectTransform;codeRect.anchorMin=Vector2.zero;codeRect.anchorMax=Vector2.one;codeRect.offsetMin=new Vector2(90,0);codeRect.offsetMax=new Vector2(-34,0);
             signal=RepairPropCyberStyle.Caption(caseBar.transform.parent,"",font,10,Color.black,TextAnchor.MiddleRight);
-            title=Label(caseWindow,"",16,22,Accent);title.fontStyle=FontStyle.Bold;
-            subtitle=Paragraph(caseWindow,12,Dim);
+            title=Label(caseWindow,"",16,22,Accent);            subtitle=Paragraph(caseWindow,12,Dim);
             // Where the job stands is read at the top of the view, over the step header: stage rail, then the step.
             stageRail=Rect("StageRail",host);stageRail.anchorMin=stageRail.anchorMax=new Vector2(0,1);stageRail.pivot=new Vector2(.5f,1);
             stageRail.sizeDelta=new Vector2(336,24);
@@ -137,14 +137,13 @@ namespace BorderRepair.RepairProps
             statusCard=Rect("StatusCard",caseWindow);
             RepairPropCyberStyle.Framed(statusCard.gameObject.AddComponent<Image>(),new Color(0,0,0,0),Rule,true);
             Column(statusCard,6,2);
-            statusTitle=Label(statusCard,"",13,18,Accent);statusTitle.fontStyle=FontStyle.Bold;
-            statusBody=Paragraph(statusCard,13,Ink);HudMotion.TypeOn(statusBody,260);
+            statusTitle=Label(statusCard,"",13,18,Accent);            statusBody=Paragraph(statusCard,13,Ink);HudMotion.TypeOn(statusBody,260);
             testList=Rect("Tests",statusCard);Column(testList,0,1);
             foreach(var test in owner.Flow.Definition.tests) testLines.Add((Paragraph(testList,12,Dim),test));
             detailToggle=Button(caseWindow,"",()=>{RepairPropWorkspaceLayout.Compact=!RepairPropWorkspaceLayout.Compact;dirty=true;},0,20,11);detailToggle.name="详细切换";
 
             // 2. Tools: repair / finish mode, the tool in hand, the part it is aimed at.
-            var toolWindow=Window("ToolWindow","工具 // TOOLS",false,.08f,out var toolBar);toolCaption=toolBar;
+            toolWindow=Window("ToolWindow","工具 // TOOLS",false,.08f,out var toolBar);toolCaption=toolBar;
             // The tool / selection line rides in the title bar instead of taking a row.
             toolStatus=RepairPropCyberStyle.Caption(toolBar.transform.parent,"",font,11,Dim,TextAnchor.MiddleRight);
             var statusRect=toolStatus.rectTransform;statusRect.anchorMin=Vector2.zero;statusRect.anchorMax=Vector2.one;statusRect.offsetMin=new Vector2(84,0);statusRect.offsetMax=new Vector2(-30,0);
@@ -221,9 +220,9 @@ namespace BorderRepair.RepairProps
             bool visible=owner.WorkspaceVisible;
             if(PanelRectTransform.gameObject.activeSelf!=visible) PanelRectTransform.gameObject.SetActive(visible);
             var header=owner.ArOverlay!=null ? owner.ArOverlay.HeaderRect:default;
-            bool rail=visible && !AppearanceOpen && header.width>1 && phaseStrip.gameObject.activeSelf;
+            bool rail=visible && !AppearanceOpen && header.width>1;
             if(stageRail.gameObject.activeSelf!=rail) stageRail.gameObject.SetActive(rail);
-            if(rail) stageRail.anchoredPosition=new Vector2(header.center.x,-10);   // hangs from the top edge, just over the step header
+            if(rail) {stageRail.anchoredPosition=new Vector2(header.center.x,-12);stageRail.sizeDelta=new Vector2(Mathf.Clamp(header.width,336,560),24);}   // hangs from the top edge, just over the step header
             if(!visible) {wasVisible=false;return;}
             bool focused=ContainsScreenPoint(BorderRepair.Controls.RepairInput.PointerPosition) || AppearanceOpen;
             shade=Mathf.MoveTowards(shade,focused ? 0:ShadeIdle,Time.unscaledDeltaTime*(focused ? 3.5f:.9f));
@@ -256,7 +255,13 @@ namespace BorderRepair.RepairProps
             // Short panel: one line of status, the tools, the actions. The rest folds away behind the toggle.
             bool compact=RepairPropWorkspaceLayout.Compact;
             if(compact && tab!=RepairPropWorkspaceTab.Operate) {tab=RepairPropWorkspaceTab.Operate;dirty=true;}
-            phaseStrip.gameObject.SetActive(!compact);testList.gameObject.SetActive(!compact);
+            testList.gameObject.SetActive(!compact);
+            // Short HUD: the stage is on the rail over the step header and the step is in the header, so the order window
+            // does not repeat them; with the tray on the bench the mode buttons fold away too (the paint can opens the finish page).
+            bool card=!appearance && !compact;
+            if(statusCard.gameObject.activeSelf!=card) statusCard.gameObject.SetActive(card);
+            bool toolsShown=appearance || !(compact && TrayHasTools);
+            if(toolWindow.gameObject.activeSelf!=toolsShown) toolWindow.gameObject.SetActive(toolsShown);
             targetRow.gameObject.SetActive(!compact);tabStrip.gameObject.SetActive(!compact);
             if(detailToggle.gameObject.activeSelf!=RepairPropWorkspaceLayout.CompactOffered) detailToggle.gameObject.SetActive(RepairPropWorkspaceLayout.CompactOffered);
             detailToggle.GetComponentInChildren<Text>(true).text=compact ? "▼ 显示详细信息":"▲ 收起详细信息";
@@ -671,8 +676,8 @@ namespace BorderRepair.RepairProps
         {
             var row=Rect("Section",parent);Size(row,22);
             var tab=Rect("Tab",row);tab.anchorMin=Vector2.zero;tab.anchorMax=new Vector2(0,1);tab.pivot=new Vector2(0,.5f);
-            var tabImage=tab.gameObject.AddComponent<Image>();tabImage.color=new Color(1f,.62f,.16f,.22f);tabImage.raycastTarget=false;
-            var text=Label(row,value,13,22,Accent);text.fontStyle=FontStyle.Bold;text.alignment=TextAnchor.MiddleLeft;
+            var tabImage=tab.gameObject.AddComponent<Image>();tabImage.color=new Color(1f,.62f,.16f,.10f);tabImage.raycastTarget=false;
+            var text=Label(row,value,13,22,Accent);text.alignment=TextAnchor.MiddleLeft;
             var textRect=(RectTransform)text.transform;textRect.anchorMin=Vector2.zero;textRect.anchorMax=Vector2.one;
             textRect.offsetMin=new Vector2(6,0);textRect.offsetMax=Vector2.zero;
             tab.sizeDelta=new Vector2(Mathf.Min(text.preferredWidth+14,280),0);

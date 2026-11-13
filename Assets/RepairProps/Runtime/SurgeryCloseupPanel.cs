@@ -96,8 +96,7 @@ namespace BorderRepair.RepairProps
             var caseWindow = Window("CaseWindow", "手术 // SURGERY", false, 0f, out var caseBar);
             caseCode = RepairPropCyberStyle.Caption(caseBar.transform.parent, "", RepairPropCyberStyle.Mono != null ? RepairPropCyberStyle.Mono : font, 10, RepairPropCyberStyle.AmberDim, TextAnchor.MiddleRight);
             var codeRect = caseCode.rectTransform; codeRect.anchorMin = Vector2.zero; codeRect.anchorMax = Vector2.one; codeRect.offsetMin = new Vector2(110, 0); codeRect.offsetMax = new Vector2(-34, 0);
-            title = Label(caseWindow, "手术 · 罗亚的右前臂", 16, 22, Accent); title.fontStyle = FontStyle.Bold;
-            subtitle = Paragraph(caseWindow, 12, Dim);
+            title = Label(caseWindow, "手术 · 罗亚的右前臂", 16, 22, Accent);             subtitle = Paragraph(caseWindow, 12, Dim);
             var phaseRow = Row(caseWindow, 22, 2);
             foreach (var label in SurgeryProcedureRuntime.PhaseLabels)
             {
@@ -109,8 +108,7 @@ namespace BorderRepair.RepairProps
             var statusCard = Rect("StatusCard", caseWindow);
             RepairPropCyberStyle.Framed(statusCard.gameObject.AddComponent<Image>(), new Color(0, 0, 0, 0), Rule, true);
             Column(statusCard, 6, 2);
-            statusTitle = Label(statusCard, "", 13, 18, Accent); statusTitle.fontStyle = FontStyle.Bold;
-            statusBody = Paragraph(statusCard, 13, Ink); HudMotion.TypeOn(statusBody, 260);
+            statusTitle = Label(statusCard, "", 13, 18, Accent);             statusBody = Paragraph(statusCard, 13, Ink); HudMotion.TypeOn(statusBody, 260);
             scanLine = Paragraph(statusCard, 12, Dim);
             linkLine = Paragraph(statusCard, 12, Dim);
 
@@ -499,7 +497,7 @@ namespace BorderRepair.RepairProps
             var row = Rect("Section", parent); Size(row, 22);
             var tabRect = Rect("Tab", row); tabRect.anchorMin = Vector2.zero; tabRect.anchorMax = new Vector2(0, 1); tabRect.pivot = new Vector2(0, .5f);
             var tabImage = tabRect.gameObject.AddComponent<Image>(); tabImage.color = new Color(1f, .62f, .16f, .22f); tabImage.raycastTarget = false;
-            var text = Label(row, value, 13, 22, Accent); text.fontStyle = FontStyle.Bold; text.alignment = TextAnchor.MiddleLeft;
+            var text = Label(row, value, 13, 22, Accent); text.alignment = TextAnchor.MiddleLeft;
             var textRect = (RectTransform)text.transform; textRect.anchorMin = Vector2.zero; textRect.anchorMax = Vector2.one;
             textRect.offsetMin = new Vector2(6, 0); textRect.offsetMax = Vector2.zero;
             tabRect.sizeDelta = new Vector2(Mathf.Min(text.preferredWidth + 14, 280), 0);

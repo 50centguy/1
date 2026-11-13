@@ -540,8 +540,7 @@ namespace BorderRepair.RepairProps
 
             card = Rect("Card", widget); card.pivot = new Vector2(.5f, 1f); card.anchoredPosition = new Vector2(0f, -92f); card.sizeDelta = new Vector2(340f, 74f);
             RepairPropCyberStyle.Framed(card.gameObject.AddComponent<Image>(), new Color(0f, 0f, 0f, .70f), Dim).raycastTarget = false;
-            title = Txt("Title", card, "", 13, Amber, TextAnchor.UpperLeft); title.fontStyle = FontStyle.Bold;
-            Place(title.rectTransform, 8f, -5f, 18f);
+            title = Txt("Title", card, "", 13, Amber, TextAnchor.UpperLeft);             Place(title.rectTransform, 8f, -5f, 18f);
             prompt = Txt("Prompt", card, "", 12, RepairPropCyberStyle.Ink, TextAnchor.UpperLeft);
             Place(prompt.rectTransform, 8f, -24f, 30f);
             message = Txt("Message", card, "", 12, Warn, TextAnchor.UpperLeft);

@@ -1122,6 +1122,15 @@ namespace BorderRepair.RepairProps.UI.Tests
             Assert.That(ScreenRect(stage).yMin, Is.GreaterThanOrEqualTo(ScreenRect(bridge.ArOverlay.StepHeader).yMax - 1), "The stage rail stands over the step header.");
             Assert.That(ScreenRect(stage).Overlaps(card), Is.False);
             yield return Shoot("50-bench-hud-clear", View);
+            // The short HUD is what a game started in the clinic shows: the rail and the header carry stage and step, so
+            // the order window is two lines and the mode buttons fold into the tray's paint can.
+            RepairPropWorkspaceLayout.Compact = true;
+            for (int i = 0; i < 6; i++) yield return null;
+            Assert.That(stage.gameObject.activeInHierarchy, Is.True, "The stage rail stays in the short HUD.");
+            Assert.That(bridge.ContextPanel.ModeButton(true).gameObject.activeInHierarchy, Is.False, "Short HUD with a tray: no mode buttons in the column.");
+            yield return Shoot("55-bench-short-hud", View);
+            RepairPropWorkspaceLayout.ResetCompact();
+            for (int i = 0; i < 6; i++) yield return null;
             assistant.Card.gameObject.SetActive(cardWasActive);
 
             // Each tool comes up alone.

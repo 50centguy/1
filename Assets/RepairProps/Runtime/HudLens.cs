@@ -14,7 +14,7 @@ namespace BorderRepair.RepairProps
     public static class HudLens
     {
         /// <summary>Barrel strength: a point at normalized screen position p (each axis -1..1) is drawn at p (1 - k |p|^2).</summary>
-        public static float K = .018f;   // SIGNALIS-like: a gentle bulge, mostly felt at the corners
+        public static float K = .009f;   // a hint of glass at the corners; stronger and the panels read as crooked, the type as soft
         static readonly int Barrel = Shader.PropertyToID("_VisorBarrel");
         public static bool On { get; private set; }
 
