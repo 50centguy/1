@@ -53,10 +53,13 @@ Shader "BorderRepair/DirtOverlay"
             }
             half4 OverlayFrag(Varyings i):SV_Target
             {
-                half alpha = saturate(SAMPLE_TEXTURE2D(_CleaningMask, sampler_CleaningMask, i.cleanUV).r * _DirtAmount);
+                // R = dirt left; G, B, A = a stain's own colour where there is one (blood, tape, a sticker), else zero.
+                half4 mask = SAMPLE_TEXTURE2D(_CleaningMask, sampler_CleaningMask, i.cleanUV);
+                half stain = smoothstep(.04h, .14h, max(mask.g, max(mask.b, mask.a)));
+                half alpha = saturate(mask.r * lerp(_DirtAmount, 1, stain));
                 if (alpha < .004h) discard;
                 SurfaceData s = (SurfaceData)0;
-                s.albedo = _DirtColor.rgb; s.metallic = 0; s.smoothness = _DirtSmoothness;
+                s.albedo = lerp(_DirtColor.rgb, mask.gba, stain); s.metallic = 0; s.smoothness = lerp(_DirtSmoothness, .38h, stain);
                 s.normalTS = half3(0,0,1); s.occlusion = 1; s.alpha = 1;
                 half3 normal = NormalizeNormalPerPixel(i.normalWS);
                 InputData d = (InputData)0;

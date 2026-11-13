@@ -12,6 +12,13 @@ namespace BorderRepair.Cleaning
         readonly byte[] coverage;
         readonly int[] regions;
         double initialMass, remainingMass;
+        // Stains on top of the plain dirt: what each stained texel shows (linear rgb) and whether it peels slowly.
+        Color32[] stain;
+        bool[] stubborn;
+        /// <summary>How many texels carry a stain (blood, tape, a sticker) rather than plain dirt.</summary>
+        public int StainTexels { get; private set; }
+        /// <summary>Stain kinds laid down by <see cref="AddStains"/>, in order: blood, tape, sticker.</summary>
+        public int[] StainCounts { get; } = new int[3];
         public float Progress => initialMass <= 0 ? 1 : Mathf.Clamp01(1 - (float)(remainingMass / initialMass));
 
         public DirtMaskData(int resolution, byte[] usedTexels, int seed = 23) : this(resolution, usedTexels, seed, null) { }
@@ -48,6 +55,117 @@ namespace BorderRepair.Cleaning
             Reset();
         }
 
+        /// <summary>Lays stains over the dirt: blood (splash, satellite drops, a run), strips of tape, stickers. They sit
+        /// only on used texels, count as dirt for the progress, and are wiped like dirt (tape and stickers more slowly).
+        /// Same seed, same stains.</summary>
+        public void AddStains(int seed)
+        {
+            int n = Resolution, covered = 0;
+            for (int i = 0; i < coverage.Length; i++) if (coverage[i] != 0) covered++;
+            if (covered < n * n / 50) return;
+            var rng = new System.Random(seed);
+            stain = new Color32[coverage.Length]; stubborn = new bool[coverage.Length];
+            float unit = n / 256f, share = covered / (float)(n * n);
+            float R(float a, float b) => a + (float)rng.NextDouble() * (b - a);
+            bool Centre(out int cx, out int cy)
+            {
+                for (int tries = 0; tries < 60; tries++)
+                {
+                    cx = rng.Next(n); cy = rng.Next(n);
+                    if (coverage[cy * n + cx] != 0) return true;
+                }
+                cx = cy = 0; return false;
+            }
+            void Put(int x, int y, Color32 colour, float amount, bool slow)
+            {
+                if (x < 0 || y < 0 || x >= n || y >= n) return;
+                int i = y * n + x;
+                if (coverage[i] == 0) return;
+                if (stain[i].r == 0 && stain[i].g == 0 && stain[i].b == 0) StainTexels++;
+                stain[i] = colour; stubborn[i] = slow;
+                initial[i] = Mathf.Max(initial[i], amount);
+            }
+            void Disc(float cx, float cy, float radius, Color32 colour, float amount, float ragged)
+            {
+                int r = Mathf.CeilToInt(radius + 1);
+                for (int y = -r; y <= r; y++)
+                    for (int x = -r; x <= r; x++)
+                    {
+                        float edge = radius * (1 - ragged + ragged * Mathf.PerlinNoise((cx + x) * .37f + seed * .013f, (cy + y) * .37f));
+                        if (x * x + y * y <= edge * edge) Put(Mathf.RoundToInt(cx) + x, Mathf.RoundToInt(cy) + y, colour, amount, false);
+                    }
+            }
+            // Blood: a ragged pool, drops thrown off it, one run. Fresh is red, old is brown; linear values.
+            int blood = share > .12f ? rng.Next(0, 3) : rng.Next(0, 2);
+            for (int k = 0; k < blood; k++)
+            {
+                if (!Centre(out int cx, out int cy)) break;
+                bool old = rng.Next(3) == 0;
+                var body = old ? new Color32(52, 12, 8, 0) : new Color32(92, 6, 6, 0);
+                var dark = old ? new Color32(34, 8, 6, 0) : new Color32(56, 3, 4, 0);
+                float radius = R(5, 11) * unit;
+                Disc(cx, cy, radius, body, .92f, .45f);
+                Disc(cx + R(-1, 1) * unit, cy + R(-1, 1) * unit, radius * .45f, dark, .96f, .3f);
+                int drops = rng.Next(4, 9);
+                for (int d = 0; d < drops; d++)
+                {
+                    float angle = R(0, Mathf.PI * 2), far = radius * R(1.2f, 2.4f);
+                    Disc(cx + Mathf.Cos(angle) * far, cy + Mathf.Sin(angle) * far, R(.8f, 2.2f) * unit, body, .85f, .2f);
+                }
+                float run = R(0, Mathf.PI * 2), length = radius * R(1.5f, 3f);
+                for (float t = 0; t < length; t += .7f)
+                    Disc(cx + Mathf.Cos(run) * t, cy + Mathf.Sin(run) * t, Mathf.Lerp(1.6f, .7f, t / length) * unit, body, .88f, .1f);
+                StainCounts[0]++;
+            }
+            // Tape: a strip along one axis, a darker edge, torn ends.
+            int tapes = rng.Next(1, 3);
+            for (int k = 0; k < tapes; k++)
+            {
+                if (!Centre(out int cx, out int cy)) break;
+                bool across = rng.Next(2) == 0;
+                int length = Mathf.Max(20, Mathf.RoundToInt(R(22, 36) * unit)), width = Mathf.Max(5, Mathf.RoundToInt(R(5, 8) * unit));
+                int kind = rng.Next(3);
+                var face = kind == 0 ? new Color32(150, 122, 62, 0) : kind == 1 ? new Color32(70, 72, 76, 0) : new Color32(168, 130, 12, 0);   // paper, duct, hazard
+                var edge = new Color32((byte)(face.r * .6f), (byte)(face.g * .6f), (byte)(face.b * .6f), 0);
+                for (int a = -length / 2; a <= length / 2; a++)
+                {
+                    int torn = Mathf.Abs(a) > length / 2 - 2 ? rng.Next(0, 2) : 0;
+                    for (int b = -width / 2 + torn; b <= width / 2 - torn; b++)
+                    {
+                        bool rim = Mathf.Abs(b) == width / 2 - torn;
+                        bool stripe = kind == 2 && ((a + b + 400) / Mathf.Max(2, Mathf.RoundToInt(3 * unit))) % 2 == 0;
+                        var colour = rim ? edge : stripe ? new Color32(40, 38, 36, 0) : face;
+                        Put(cx + (across ? a : b), cy + (across ? b : a), colour, .97f, true);
+                    }
+                }
+                StainCounts[1]++;
+            }
+            // Stickers: a bright rectangle with a pale border and a plain mark inside (bars, a ring, a cross).
+            int stickers = rng.Next(1, 4);
+            Color32[] faces = { new Color32(228, 160, 10, 0), new Color32(226, 26, 90, 0), new Color32(210, 205, 190, 0), new Color32(226, 80, 8, 0), new Color32(40, 160, 70, 0) };
+            for (int k = 0; k < stickers; k++)
+            {
+                if (!Centre(out int cx, out int cy)) break;
+                int w = Mathf.Max(13, Mathf.RoundToInt(R(12, 20) * unit)), h = Mathf.Max(10, Mathf.RoundToInt(R(10, 16) * unit)), mark = rng.Next(3);
+                var face = faces[rng.Next(faces.Length)];
+                // a thin rim in the face colour gone pale, so the colour reads even on a small sticker
+                var border = new Color32((byte)((face.r + 214) / 2), (byte)((face.g + 210) / 2), (byte)((face.b + 200) / 2), 0); var ink = new Color32(46, 42, 40, 0);
+                for (int y = -h / 2; y <= h / 2; y++)
+                    for (int x = -w / 2; x <= w / 2; x++)
+                    {
+                        bool rim = Mathf.Abs(x) == w / 2 || Mathf.Abs(y) == h / 2;
+                        bool inked = mark == 0 ? Mathf.Abs(y) < h / 4 && (x + 100) % 3 == 0
+                            : mark == 1 ? Mathf.Abs(Mathf.Sqrt(x * x + y * y) - h * .28f) < 1f
+                            : Mathf.Abs(Mathf.Abs(x) - Mathf.Abs(y)) < 1 && Mathf.Abs(x) < h / 3;
+                        Put(cx + x, cy + y, rim ? border : inked ? ink : face, .97f, true);
+                    }
+                StainCounts[2]++;
+            }
+            initialMass = 0;
+            for (int i = 0; i < initial.Length; i++) initialMass += initial[i] * coverage[i] / 255.0;
+            Reset();
+        }
+
         public bool Paint(Vector2 uv, float radius, float strength, bool isolateIsland = false)
         {
             if (!float.IsFinite(uv.x) || !float.IsFinite(uv.y) || !float.IsFinite(radius) || !float.IsFinite(strength)
@@ -71,7 +189,8 @@ namespace BorderRepair.Cleaning
                     int i = py * Resolution + px;
                     if (isolateIsland && regions[i] != region) continue;
                     float falloff = 1 - Mathf.SmoothStep(.45f, 1, distance);
-                    float next = Mathf.Max(0, remaining[i] - strength * falloff);
+                    float grip = stubborn != null && stubborn[i] ? .45f : 1f;   // tape and stickers peel, they do not wipe
+                    float next = Mathf.Max(0, remaining[i] - strength * falloff * grip);
                     if (next >= remaining[i]) continue;
                     remainingMass -= (remaining[i] - next) * coverage[i] / 255.0;
                     remaining[i] = next; WritePixel(i); changed = true;
@@ -171,7 +290,9 @@ namespace BorderRepair.Cleaning
         void WritePixel(int i)
         {
             byte value = (byte)Mathf.RoundToInt(Mathf.Clamp01(remaining[i]) * 255);
-            Pixels[i] = new Color32(value, value, value, 255);
+            // R = dirt left. G, B, A = the stain's colour where there is one (all zero = plain dirt in the surface's dirt colour).
+            if (stain != null) { var s = stain[i]; Pixels[i] = new Color32(value, s.r, s.g, s.b); }
+            else Pixels[i] = new Color32(value, 0, 0, 0);
         }
     }
 }

@@ -1162,6 +1162,29 @@ namespace BorderRepair.RepairProps.UI.Tests
             Assert.That(tools.Any(t => t != cleaner && t.Lifted), Is.False, "The loupe must not rise while the cleaning tool is in hand.");
             Assert.That(bench.HeldTool == cleaner || cleaner.Lifted, Is.True);
             yield return Shoot("51-bench-cleaning-no-tool", View);
+            // The dirt is not only dust: blood, strips of tape and stickers lie on the item too, and wipe off with it.
+            var dirty = Object.FindObjectsByType<BorderRepair.Cleaning.CleanableSurface>(FindObjectsSortMode.None).Where(s => s.Dirt != null).ToArray();
+            Assert.That(dirty.Length, Is.GreaterThan(0), "The item on the bench has cleanable surfaces.");
+            Assert.That(dirty.Sum(s => s.Dirt.StainTexels), Is.GreaterThan(0), "Its dirt carries stains, not dust alone.");
+            Assert.That(dirty.Sum(s => s.Dirt.StainCounts[1] + s.Dirt.StainCounts[2]), Is.GreaterThan(0), "Tape or stickers are among them.");
+            if (!string.IsNullOrEmpty(Folder))
+            {
+                // The stain layout of the most stained surface, as the shader sees it (unique UV space): for looking at, not asserting.
+                var most = dirty.OrderByDescending(s => s.Dirt.StainTexels).First();
+                int n = most.Dirt.Resolution; var px = most.Dirt.Pixels;
+                var sheet = new Texture2D(n, n, TextureFormat.RGBA32, false);
+                var outPixels = new Color32[px.Length];
+                for (int i = 0; i < px.Length; i++)
+                {
+                    var m = px[i]; bool stained = m.g + m.b + m.a > 0;
+                    Color c = stained ? new Color(m.g / 255f, m.b / 255f, m.a / 255f).gamma : new Color(.32f, .215f, .105f) * (m.r / 255f);
+                    outPixels[i] = m.r == 0 ? new Color32(18, 18, 22, 255) : (Color32)new Color(c.r, c.g, c.b, 1);
+                }
+                sheet.SetPixels32(outPixels); sheet.Apply();
+                Directory.CreateDirectory(Folder);
+                File.WriteAllBytes(Path.Combine(Folder, "58-stain-map.png"), sheet.EncodeToPNG());
+                Object.Destroy(sheet);
+            }
             cleaning.SetCleaning(false);
             yield return Until(() => loupe.Lifted && !cleaner.Lifted, "Putting the cleaning tool down returns to empty-handed inspection.");
             // Taking the cleaner from the tray is the same as the cleaning key.

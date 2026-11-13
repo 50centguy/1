@@ -22,7 +22,7 @@ SCENE = bpy.context.scene
 # Flat-colour emissive materials stay separate on any object (UVs do not matter to them). Objects made only of
 # prints (mat grid, labels, CRT glass) are left completely as they are, original UVs included, so the prints stay
 # sharp; a print on a mixed object (the notepad) is baked into the atlas like everything else.
-EMISSIVE = {"M_BV2_Bulb", "M_BV2_LedRed", "M_BV2_LedGreen", "M_GT_Lens", "M_BV2_Holo", "M_ZN_LampAmber", "M_ST_Gel", "M_ST_GelAmber"}
+EMISSIVE = {"M_BV2_Bulb", "M_BV2_LedRed", "M_BV2_LedGreen", "M_BV2_NeonPink", "M_BV2_NeonAmber", "M_GT_Lens", "M_BV2_Holo", "M_ZN_LampAmber", "M_ST_Gel", "M_ST_GelAmber"}
 PRINTS = {"M_BV2_CrtGlass", "M_BV2_Mat", "M_BV2_Paper", "M_BV2_Sticky", "M_BV2_Label", "M_ST_Label", "M_ST_Screen",
           "M_BV2_LeaseTag", "M_BV2_WorkOrder", "M_BV2_RentNote", "M_BV2_SealTape", "M_BV2_AssetStencil", "M_BV2_MeterFace",
           "M_BV2_Lcd", "M_BV2_FixturePanel", "M_BV2_Photo", "M_BV2_TapeLabel", "M_BV2_MiniFace",

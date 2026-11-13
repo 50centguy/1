@@ -123,6 +123,10 @@
 
 **桌上电脑与桌面布置（2026-11-14）**：配件电脑（`BV2_Crt*`）在维修台右后角，转 -28° 面向玩家；它的转角必须放在物体变换里，不能烤进顶点——Unity 的 `SetupCrt` 从屏幕物体的变换读玻璃朝向，烤进去的话读数和采购界面会平贴着墙、和玻璃对不上（`build_crt` 里的 `turned()`）。电脑带抽拉键盘、钢管提手架、卡槽和琥珀灯；原来贴在它身上的零碎由 `relocate_sets()` 整体搬过去。电烙铁一套在左后角。零件柜顶有圆屏小示波器，洞洞板前有一束垂线和检修牌（`build_bench_identity()`）。改模型的流程：改 `build_repair_bench_v2.py` → Blender 构建 → `atlas_bake.py` → 拷贝 FBX 和两张图集 → Unity 批处理 `RepairBenchV2Builder.Build`。只用已有材质，新增材质要同时登记到 `RepairBenchV2Builder.cs`。
 
+**污渍不只是灰尘（2026-11-14）**：清洁遮罩贴图 R＝剩余污垢，G/B/A＝该处污渍自己的颜色（全零＝普通灰尘色）。`DirtMaskData.AddStains(seed)` 在已用的贴图区域上叠血迹（一滩＋甩点＋流痕，鲜红或发褐）、贴条（纸胶带/布基胶带/黄黑警示）和贴纸（彩色底＋图案），都计入清洁进度；贴条和贴纸擦除速度是灰尘的 0.45 倍。只在诊所里开（`CleanableSurface.StainsEnabled`，由 `ClinicCleaningController` 打开），种子取自物体名，同一件物品每次一样。两个着色器（`DirtOverlay`、`DirtSurface`）都按这个格式读。截图测试拍不到污渍层（手动渲染相机不带 `Graphics.DrawMesh`），要看污渍用测试导出的 `58-stain-map.png`。
+
+**桌面的赛博层（2026-11-14）**：`build_cyber_layer()`——层架前沿的琥珀灯带、洞洞板上粉色霓虹「FIX」、夹在层架左端带环形灯的辅助机械臂、测试架顶的数据芯片。发光用平色自发光材质 `M_BV2_NeonPink` / `M_BV2_NeonAmber`（三处登记：构建脚本 `MAT_SPEC`+`FLAT`、`atlas_bake.py` 的 `EMISSIVE`、`RepairBenchV2Builder.cs` 的 `Materials`）。台灯夹在零件柜右侧（原来下臂穿过柜子）。世界里的霓虹可以用粉色；义眼界面仍守琥珀单色。
+
 **配色守住参考库的琥珀单色**（`VisorIcons.cs`；对照 Destiny 终端、琥珀网络图、SIGNALIS）：层级靠亮度和反色块，不靠色相；浅琥珀（Hot）＝眼睛在看东西（悬停、检查、分析）；绿＝完成/通过；红＝故障/不行。工具之间靠图标区分，颜色只在琥珀亮度里微调。不要再加青、蓝、粉这类参考里没有的色相（2026-11-13 用户否决过青色）。
 **图标**：`VisorIcons` 里用 12×12 点阵在代码里画，不用美术文件；`VisorIcons.Command(命令)` 按命令种类给图（电源、插头、波形、螺丝、盖板、芯片…），`Tool/Prop` 给工具图。新加命令种类时在 `CommandName` 里补一条。
 **物体分析动画**（`RepairPropArOverlay.Analyze`）：检查、测量、测试之后，三层切片在目标的包围盒里上下扫一遍，角标锁定，旁边打出读数；测量/测试带一条逐渐稳定的波形（异常时保持毛刺）。只在真有结果时播放，文字用流程给的真实反馈，不放假数据。

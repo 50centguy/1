@@ -42,6 +42,8 @@ namespace BorderRepair.RepairProps.EditorTools
             ("M_BV2_Bulb", null, 0, .6f, new Color(2.4f, 1.9f, 1.2f), new Color(1, .92f, .75f)),
             ("M_BV2_LedRed", null, 0, .6f, new Color(2f, .25f, .15f), new Color(.9f, .1f, .1f)),
             ("M_BV2_LedGreen", null, 0, .6f, new Color(.3f, 2f, .5f), new Color(.2f, .9f, .3f)),
+            ("M_BV2_NeonPink", null, 0, .6f, new Color(3.2f, .45f, 1.5f), new Color(1f, .25f, .6f)),
+            ("M_BV2_NeonAmber", null, 0, .6f, new Color(3.0f, 1.35f, .22f), new Color(1f, .6f, .15f)),
             ("M_BV2_DarkPlastic", "T_BV2_Rubber", 0, .4f, Color.clear, new Color(.8f, .8f, .8f)),
             // setting prints (SETTING_PROPS.md): NSP lease tags, paperwork, meter faces, the tester's amber LCD
             ("M_BV2_LeaseTag", "T_BV2_LeaseTag", 0, .15f, Color.clear, Color.white),

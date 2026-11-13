@@ -107,6 +107,16 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_BV2_NeonAmber
+    second: {fileID: 2100000, guid: b968891daa453b2429ad35a5de6b2891, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_BV2_NeonPink
+    second: {fileID: 2100000, guid: 11c80e8cb9fb0d44eaf3158a3fbe037b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_BV2_Orange
     second: {fileID: 2100000, guid: c462deec0e97dc345b47cf0d41a8f9b6, type: 2}
   - first:

@@ -600,6 +600,8 @@ MAT_SPEC = {
     "M_BV2_Bulb": (None, 0, .6, (1.0, .78, .5), 1.0),
     "M_BV2_LedRed": (None, 0, .6, (1.0, .15, .1), 1.0),
     "M_BV2_LedGreen": (None, 0, .6, (.2, 1.0, .35), 1.0),
+    "M_BV2_NeonPink": (None, 0, .6, (1.0, .22, .55), 1.0),
+    "M_BV2_NeonAmber": (None, 0, .6, (1.0, .55, .12), 1.0),
     "M_BV2_DarkPlastic": ("T_BV2_Rubber", 0, .4, None, 4.0),
     # wall pass
     "M_BV2_Pegboard": ("T_BV2_Pegboard", .3, .35, None, 1.0),
@@ -611,7 +613,8 @@ MAT_SPEC = {
 FLAT = {"M_BV2_Tape": (.80, .70, .50), "M_BV2_Binder": (.25, .30, .36), "M_BV2_Hardboard": (.30, .23, .16), "M_BV2_Ceramic": (.93, .91, .86), "M_BV2_Plant": (.33, .47, .32),
         "M_BV2_Holo": (.3, .95, 1.0), "M_BV2_HoloBeam": (.2, .7, .9),
         "M_BV2_Brass": (.70, .50, .22), "M_BV2_Copper": (.72, .36, .2), "M_BV2_Bulb": (1, .92, .75),
-        "M_BV2_LedRed": (.9, .1, .1), "M_BV2_LedGreen": (.2, .9, .3)}
+        "M_BV2_LedRed": (.9, .1, .1), "M_BV2_LedGreen": (.2, .9, .3),
+        "M_BV2_NeonPink": (1.0, .25, .6), "M_BV2_NeonAmber": (1.0, .6, .15)}
 
 
 def build_materials(textures):
@@ -1803,6 +1806,8 @@ def relocate_sets():
     crt_parts = ("BV2_Crt", "BV2_Crt_Bezel", "BV2_Crt_Screen", "BV2_Crt_Controls", "BV2_Crt_Keyboard", "BV2_Crt_Frame")
     move_group(("BV2_Crt_Wear", "BV2_HoloPuck", "BV2_Holo_Koi", "BV2_Polaroid"), CRT_ANGLE - 28.0, CRT_OLD_PIVOT, CRT_PIVOT, skip=crt_parts)
     move_group(("BV2_Solder",), 0, (0, 0), (-1.33, 0.10))
+    # The lamp's lower arm used to pass through the parts organiser: it clamps to the bench just right of it now.
+    move_group(("BV2_Lamp",), 0, (0, 0), (0.16, 0.0))
     # signal cable from the computer's back down to the end of the riser
     bm = bm_new()
     add_sweep(bm, bezier((0.70, 0.93, T + .14), (0.62, 0.97, T + .06), (0.52, 0.95, T + .02), (0.46, 0.92, T + .008), 16), .0035, 6, 0)
@@ -1846,6 +1851,87 @@ def build_bench_identity():
     new_obj("BV2_CableTrunk", bm, ["M_BV2_Rubber", "M_BV2_WornRed", "M_BV2_Yellow", "M_BV2_SteelBare", "M_BV2_Paper"], origin=(0.0, 0.98, 1.30))
 
 
+def neon_stroke(bm, pts, mat, r=.0038):
+    add_sweep(bm, pts, r, 6, mat)
+
+
+def build_cyber_layer():
+    """What dates the bench to its century instead of ours (reference library: neon over cramped benches, LED strips
+    under shelves, a helper manipulator, data shards): all light comes from flat emissive materials."""
+    # LED strip along the front of the riser: an amber line behind the mat
+    bm = bm_new()
+    add_box(bm, (-0.445, 0.853, 1.040), (0.445, 0.860, 1.052), 0, bevel=.001, segs=1)
+    add_box(bm, (-0.445, 0.851, 1.043), (0.445, 0.853, 1.049), 1)
+    new_obj("BV2_LedStrip", bm, ["M_BV2_DarkPlastic", "M_BV2_NeonAmber"], origin=(0.0, 0.855, 1.046))
+
+    # neon sign on the pegboard above the computer: FIX in pink tube, chevrons and a rule in amber
+    bx0, bx1, bz0, bz1, y = 0.645, 0.915, 1.285, 1.405, 1.012
+    bm = bm_new()
+    add_box(bm, (bx0, y - .004, bz0), (bx1, y + .006, bz1), 0, bevel=.003, segs=1)
+    for x in (bx0 + .012, bx1 - .012):
+        add_cyl(bm, (x, y - .006, bz1 - .012), .004, .004, "Y", 8, 1)
+    ty = y - .012
+    z0, z1, zm = bz0 + .034, bz1 - .020, (bz0 + .034 + bz1 - .020) / 2
+    x = bx0 + .060
+    neon_stroke(bm, [(x, ty, z0), (x, ty, z1), (x + .042, ty, z1)], 2)                 # F
+    neon_stroke(bm, [(x, ty, zm), (x + .032, ty, zm)], 2)
+    x += .066
+    neon_stroke(bm, [(x, ty, z0), (x, ty, z1)], 2)                                       # I
+    x += .026
+    neon_stroke(bm, [(x, ty, z0), (x + .044, ty, z1)], 2)                                # X
+    neon_stroke(bm, [(x, ty, z1), (x + .044, ty, z0)], 2)
+    for i in range(2):                                                                   # chevrons
+        cx = bx0 + .018 + i * .016
+        neon_stroke(bm, [(cx, ty, z1), (cx + .016, ty, zm), (cx, ty, z0)], 3, .003)
+    neon_stroke(bm, [(bx0 + .058, ty, bz0 + .016), (bx1 - .016, ty, bz0 + .016)], 3, .003)  # rule
+    # the lead dropping from the sign down behind the computer
+    add_sweep(bm, bezier((bx1 - .02, y - .004, bz0), (bx1 + .01, y - .02, bz0 - .06), (bx1 - .03, y - .03, 1.10), (bx1 - .06, y - .05, T + .05), 12), .0028, 5, 4)
+    new_obj("BV2_NeonSign", bm, ["M_BV2_DarkPlastic", "M_BV2_SteelBare", "M_BV2_NeonPink", "M_BV2_NeonAmber", "M_BV2_Rubber"], origin=((bx0 + bx1) / 2, y, (bz0 + bz1) / 2))
+
+    # helper manipulator clamped at the left end of the riser, a ring light on its wrist held over the work
+    j = [(-0.505, 0.900, T + .03), (-0.505, 0.885, 1.170), (-0.385, 0.760, 1.315), (-0.265, 0.640, 1.225)]
+    bm = bm_new()
+    add_box(bm, (-0.545, 0.865, T), (-0.465, 0.935, T + .030), 1, bevel=.004, segs=1)       # clamp block
+    add_cyl(bm, (j[0][0], j[0][1], T + .045), .022, .03, "Z", 14, 2)
+    for a, b in zip(j[:-1], j[1:]):
+        add_sweep(bm, [a, b], .011, 8, 0)
+        off = (Vector(b) - Vector(a)).cross(Vector((0, 0, 1)))
+        off = off.normalized() * .016 if off.length > 1e-6 else Vector((.016, 0, 0))
+        add_sweep(bm, [tuple(Vector(a) + off), tuple(Vector(b) + off)], .003, 5, 3)          # hydraulic line beside each link
+    for p in j[1:3]:
+        add_cyl(bm, p, .019, .034, "X", 14, 2)
+    # wrist, ring light and two fingers
+    w = Vector(j[3])
+    ring = [tuple(w + Vector((math.cos(t) * .05, math.sin(t) * .05, -.035))) for t in [i * math.tau / 20 for i in range(21)]]
+    add_cyl(bm, tuple(w), .014, .03, "Z", 12, 1)
+    for k in range(3):
+        t = k * math.tau / 3
+        add_sweep(bm, [tuple(w + Vector((0, 0, -.012))), tuple(w + Vector((math.cos(t) * .05, math.sin(t) * .05, -.035)))], .0025, 5, 0)
+    for s in (-1, 1):
+        add_sweep(bm, [tuple(w + Vector((s * .008, 0, -.015))), tuple(w + Vector((s * .014, 0, -.05))), tuple(w + Vector((s * .004, 0, -.075)))], .003, 5, 0)
+    new_obj("BV2_HelperArm", bm, ["M_BV2_SteelBare", "M_BV2_DarkPlastic", "M_BV2_Orange", "M_BV2_Rubber"], origin=j[0])
+    bm = bm_new()
+    add_sweep(bm, ring, .005, 6, 0)
+    new_obj("BV2_HelperArm_Ring", bm, ["M_BV2_NeonAmber"], origin=tuple(w + Vector((0, 0, -.035))))
+
+    # data shards standing in a foam block on the test fixture: thin slabs with lit ends
+    bm = bm_new()
+    add_box(bm, (-0.235, 0.875, 1.230), (-0.115, 0.925, 1.246), 0, bevel=.002, segs=1)
+    lit = []
+    for i in range(6):
+        x = -0.224 + i * .019
+        tilt = (i % 3 - 1) * .004
+        add_box(bm, (x, 0.890 + tilt, 1.246), (x + .004, 0.912 + tilt, 1.286), 1, bevel=.0008, segs=1)
+        lit.append((x, tilt, i))
+    new_obj("BV2_DataShards", bm, ["M_BV2_Foam", "M_BV2_DarkPlastic"], origin=(-0.175, 0.90, 1.23))
+    for name, mat, pick in (("BV2_DataShards_LitPink", "M_BV2_NeonPink", (0, 3)), ("BV2_DataShards_LitAmber", "M_BV2_NeonAmber", (1, 4, 5)), ("BV2_DataShards_LitGreen", "M_BV2_LedGreen", (2,))):
+        bm = bm_new()
+        for x, tilt, i in lit:
+            if i in pick:
+                add_box(bm, (x - .0003, 0.892 + tilt, 1.286), (x + .0043, 0.910 + tilt, 1.2895), 0)
+        new_obj(name, bm, [mat], origin=(-0.175, 0.90, 1.288))
+
+
 def build():
     global ROOT
     textures = build_textures()
@@ -1862,6 +1948,7 @@ def build():
     build_setting_wear()
     relocate_sets()
     build_bench_identity()
+    build_cyber_layer()
     build_wall()
 
 

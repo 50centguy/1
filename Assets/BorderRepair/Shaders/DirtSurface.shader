@@ -82,13 +82,15 @@ Shader "BorderRepair/DirtSurface"
                 half permanentGrime=saturate(wearMap.g*_GrimeAmount);
                 baseColor=lerp(baseColor,_WearColor.rgb,wear);
                 baseColor=lerp(baseColor,baseColor*_GrimeColor.rgb,permanentGrime);
-                half dirt=saturate(SAMPLE_TEXTURE2D(_CleaningMask,sampler_CleaningMask,i.cleanUV).r*_DirtAmount);
+                half4 cleanMask=SAMPLE_TEXTURE2D(_CleaningMask,sampler_CleaningMask,i.cleanUV);
+                half stain=smoothstep(.04h,.14h,max(cleanMask.g,max(cleanMask.b,cleanMask.a)));
+                half dirt=saturate(cleanMask.r*lerp(_DirtAmount,1,stain));
                 half metallic=_Metallic;
                 if (_UseMetallicMap>.5h) metallic*=SAMPLE_TEXTURE2D(_MetallicGlossMap,sampler_MetallicGlossMap,uv).r;
                 metallic=lerp(metallic,_WearMetallic,wear);
                 half roughness=saturate(lerp(_Roughness,_WearRoughness,wear)+permanentGrime*.25h);
                 SurfaceData s=(SurfaceData)0;
-                s.albedo=lerp(baseColor,_DirtColor.rgb,dirt);
+                s.albedo=lerp(baseColor,lerp(_DirtColor.rgb,cleanMask.gba,stain),dirt);
                 s.metallic=lerp(metallic,0,dirt); s.smoothness=lerp(1-roughness,_DirtSmoothness,dirt);
                 s.normalTS=half3(0,0,1); s.occlusion=1; s.alpha=1;
                 s.emission=SAMPLE_TEXTURE2D(_EmissionMap,sampler_EmissionMap,uv).rgb*_EmissionColor.rgb*(1-dirt);

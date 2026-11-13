@@ -29,6 +29,16 @@ namespace BorderRepair.Cleaning
         [SerializeField] byte[] bakedDirt;
         [SerializeField] int overlayBakeVersion;
         static bool overlayHost;
+        /// <summary>Stains on top of the plain dirt (blood, tape, stickers). Off unless the scene's cleaning tool asks for
+        /// them, so every other user of the component keeps plain dirt.</summary>
+        public static bool StainsEnabled;
+        /// <summary>The surface's dirt model (stain counts, progress), once initialised.</summary>
+        public DirtMaskData Dirt => data;
+
+        static int StableSeed(string text)
+        {
+            unchecked { uint h = 2166136261; foreach (char c in text ?? "") h = (h ^ c) * 16777619; return (int)(h & 0x7fffffff); }
+        }
         Material overlayMaterial;
         Renderer standIn;
         readonly Dictionary<Material, Material> replacements = new Dictionary<Material, Material>();
@@ -93,7 +103,7 @@ namespace BorderRepair.Cleaning
             uvCoverage != null && uvCoverage.Length == resolution * resolution && bakedDirt != null && bakedDirt.Length == uvCoverage.Length;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetOverlayHost() => overlayHost = false;
+        static void ResetOverlayHost() { overlayHost = false; StainsEnabled = false; }
 
         /// <summary>A cleaning controller came or went. Surfaces that were enabled before it arrived wake up here.</summary>
         public static void SetOverlayHost(bool present)
@@ -118,6 +128,7 @@ namespace BorderRepair.Cleaning
                 uvCoverage == null || uvCoverage.Length != resolution * resolution || materialSlots == null) return;
             if (overlay && !overlayHost) return;
             data = overlay ? new DirtMaskData(resolution, uvCoverage, bakedDirt) : new DirtMaskData(resolution, uvCoverage);
+            if (StainsEnabled) data.AddStains(StableSeed(transform.root.name + "/" + name));
             mask = new Texture2D(resolution, resolution, TextureFormat.RGBA32, false, true)
                 { name = name + "_CleaningMask_Runtime", wrapMode = TextureWrapMode.Clamp, filterMode = FilterMode.Bilinear, hideFlags = HideFlags.DontSave };
             if (overlay)

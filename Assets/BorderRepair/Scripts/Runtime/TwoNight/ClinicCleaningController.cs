@@ -94,7 +94,7 @@ namespace BorderRepair.TwoNight
 
         public void Configure(UnifiedClinicDirector clinic) { Clinic = clinic; }
 
-        void OnEnable() => CleanableSurface.SetOverlayHost(true);
+        void OnEnable() { CleanableSurface.StainsEnabled = true; CleanableSurface.SetOverlayHost(true); }
 
         void Start()
         {
