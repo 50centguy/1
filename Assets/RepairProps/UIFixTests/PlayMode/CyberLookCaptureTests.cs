@@ -1289,6 +1289,13 @@ namespace BorderRepair.RepairProps.UI.Tests
                 float lowest = screwdriver.GetComponent<MeshFilter>().sharedMesh.vertices.Min(v => screwdriver.transform.TransformPoint(v).y);
                 Assert.That(lowest, Is.GreaterThan(benchY - .001f), "The screwdriver in hand does not go through the bench top.");
                 yield return Shoot("72-tool-over-bench", View, () => Hover(matPoint)); yield return Settle();
+                // At rest the tray tools are small numbered points; with the pointer at the tray their names spell out.
+                Assert.That(overlay.TrayOpen, Is.False, "With the pointer on the item the tray labels stay folded.");
+                var loupe = bench.Props.First(p => p.IsLoupe);
+                var trayPoint = (Vector2)View.WorldToScreenPoint(loupe.GetComponentInChildren<Renderer>().bounds.center);
+                yield return Hover(trayPoint);
+                Assert.That(overlay.TrayOpen, Is.True, "With the pointer at the tray the tools are named.");
+                yield return Shoot("75-tray-open", View, () => Hover(trayPoint)); yield return Settle();
                 StringAssert.StartsWith("✕", bridge.ArOverlay.ToolPreview, "Before the power is off the screwdriver has nothing to do here.");
                 yield return Shoot("70-tool-in-hand-wrong", View, Settle);
 

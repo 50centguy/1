@@ -114,7 +114,7 @@ namespace BorderRepair.RepairProps
             title=Label(caseWindow,"",16,22,Accent);title.fontStyle=FontStyle.Bold;
             subtitle=Paragraph(caseWindow,12,Dim);
             // Where the job stands is read at the top of the view, over the step header: stage rail, then the step.
-            stageRail=Rect("StageRail",host);stageRail.anchorMin=stageRail.anchorMax=Vector2.zero;stageRail.pivot=new Vector2(.5f,0);
+            stageRail=Rect("StageRail",host);stageRail.anchorMin=stageRail.anchorMax=new Vector2(0,1);stageRail.pivot=new Vector2(.5f,1);
             stageRail.sizeDelta=new Vector2(336,24);
             var railBack=stageRail.gameObject.AddComponent<Image>();railBack.color=new Color(0,0,0,.42f);railBack.raycastTarget=false;
             var phaseRow=Row(stageRail,22,2);phaseStrip=phaseRow;
@@ -223,7 +223,7 @@ namespace BorderRepair.RepairProps
             var header=owner.ArOverlay!=null ? owner.ArOverlay.HeaderRect:default;
             bool rail=visible && !AppearanceOpen && header.width>1 && phaseStrip.gameObject.activeSelf;
             if(stageRail.gameObject.activeSelf!=rail) stageRail.gameObject.SetActive(rail);
-            if(rail) stageRail.anchoredPosition=new Vector2(header.center.x,header.yMax+6);
+            if(rail) stageRail.anchoredPosition=new Vector2(header.center.x,-10);   // hangs from the top edge, just over the step header
             if(!visible) {wasVisible=false;return;}
             bool focused=ContainsScreenPoint(BorderRepair.Controls.RepairInput.PointerPosition) || AppearanceOpen;
             shade=Mathf.MoveTowards(shade,focused ? 0:ShadeIdle,Time.unscaledDeltaTime*(focused ? 3.5f:.9f));
@@ -691,7 +691,7 @@ namespace BorderRepair.RepairProps
         {
             var window=Rect(name,PanelRectTransform);
             var image=window.gameObject.AddComponent<Image>();image.raycastTarget=true;   // a dragged-out window still blocks the bench
-            RepairPropCyberStyle.Framed(image,rank==2 ? new Color(.02f,.014f,.008f,.55f):PanelBg,rank==0 ? Accent:rank==1 ? Rule:RepairPropCyberStyle.AmberFaint);
+            RepairPropCyberStyle.Framed(image,rank==2 ? new Color(.02f,.014f,.008f,.55f):PanelBg,rank==0 ? Accent:RepairPropCyberStyle.AmberFaint);
             if(rank==0)
             {
                 RepairPropCyberStyle.Texture(window,RepairPropCyberStyle.Dots,new Color(1f,.62f,.16f,.08f),"DotGrid");

@@ -93,8 +93,8 @@ namespace BorderRepair.RepairProps
             hintBand = (RectTransform)new GameObject("HintBand", typeof(RectTransform)).transform;
             hintBand.SetParent(root, false);
             var band = hintBand.gameObject.AddComponent<Image>(); band.raycastTarget = false;
-            RepairPropCyberStyle.Framed(band, new Color(0, 0, 0, .62f), RepairPropCyberStyle.AmberDim);
-            RepairPropCyberStyle.TitleBar(hintBand, "GUIDE // 指引", font, 16f);
+            // The legend is a line of text on a faint strip, not a window: it must not read as a fifth panel.
+            RepairPropCyberStyle.Framed(band, new Color(0, 0, 0, .45f), RepairPropCyberStyle.AmberFaint, true);
             readout = MakeText("Readout", 11, TextAnchor.UpperLeft, RepairPropCyberStyle.Dim);
             hint = MakeText("Hint", 14, TextAnchor.LowerCenter, RepairPropCyberStyle.Amber);
             controls = MakeText("Controls", 11, TextAnchor.LowerCenter, RepairPropCyberStyle.Dim);
@@ -312,21 +312,58 @@ namespace BorderRepair.RepairProps
 
         bool Analysing => anaTarget != null && Time.unscaledTime - anaAt < AnalysisSeconds;
 
+        /// <summary>True while the header's trace runs to the tool to take instead of the part.</summary>
+        public bool TraceToTool { get; private set; }
+        /// <summary>True while the tray's labels are spelled out (the pointer is at the tray).</summary>
+        public bool TrayOpen { get; private set; }
+
+        // The tray tool the step needs and the hand does not hold (null when the hand is right, or a batch button does it).
+        RepairBenchProp TakeProp(PropCommand next)
+        {
+            var bench = RepairBenchV2Runtime.Current;
+            if (bench == null || next == null || owner.Station.ActiveTool == next.tool || owner.Station.CleaningActive) return null;
+            if (owner.ContextPanel != null && owner.ContextPanel.BatchButtonFor(next.id) != null) return null;
+            foreach (var prop in bench.Props)
+                if (prop.Kind == RepairBenchPropKind.Tool && !prop.IsCleaner && !prop.IsPainter && prop.Tool == next.tool && !prop.InHand) return prop;
+            return null;
+        }
+
         /// <summary>How many tray tools carry a callout this frame.</summary>
         public int TrayCallouts { get; private set; }
 
-        // Every tool lying in the tray carries its number key, pictogram and name on a short leader (an exploded-view
-        // callout), in two staggered rows so neighbours do not run into each other. The tool in hand, the one under the
-        // pointer and the one the step asks for have their own, louder tags instead.
+        // Every tool lying in the tray is marked with its number key and pictogram: a small point at rest, and, while the
+        // pointer is at the tray, a named callout on a short leader (stepping up clear of its neighbours). The tool in
+        // hand, the one under the pointer and the one the step asks for have their own, louder tags instead.
         void TrayLabels(Camera camera, float scale, RepairBenchV2Runtime bench)
         {
             var order = bench.TrayOrder;
+            TrayOpen = false;
             if (order == null) return;
+            // Is the pointer at the tray? (on a tool, or inside the block the tools cover on screen)
+            trayShown.Clear();
+            Rect zone = default; bool any = false;
             for (int i = 0; i < order.Count; i++)
             {
                 var prop = order[i];
-                if (prop == null || prop.InHand || prop.Lifted || prop == HoveredProp || prop == ToolToTake) continue;
-                if (!ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var r)) continue;
+                if (prop == null || prop.InHand || !ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var r)) continue;
+                trayShown.Add((i, prop, r));
+                zone = any ? Rect.MinMaxRect(Mathf.Min(zone.xMin, r.xMin), Mathf.Min(zone.yMin, r.yMin), Mathf.Max(zone.xMax, r.xMax), Mathf.Max(zone.yMax, r.yMax)) : r;
+                any = true;
+            }
+            var pointer = RepairInput.PointerPosition / scale;
+            TrayOpen = HoveredProp != null && HoveredProp.Kind == RepairBenchPropKind.Tool || any && Grow(zone, 24).Contains(pointer) && !RepairInput.PointerOverUI;
+            foreach (var (i, prop, r) in trayShown)
+            {
+                if (prop.Lifted || prop == HoveredProp || prop == ToolToTake) continue;
+                TrayCallouts++;
+                if (!TrayOpen)
+                {
+                    var spot = new Rect(r.center.x - 12, r.yMax + 2, 36, 18);
+                    if (trayRects.Exists(o => o.Overlaps(spot))) continue;   // a louder tag already stands here
+                    // At rest each tool is one small point: its key and pictogram, no box, no leader.
+                    Tag(new Vector2(r.center.x - 12, r.yMax + 2), (i + 1).ToString(), RepairPropCyberStyle.Amber, 12, TextAnchor.LowerLeft, false, VisorIcons.Prop(prop));
+                    continue;
+                }
                 var tag = Tag(new Vector2(r.center.x - 12, r.yMax + 10), (i + 1) + "  " + ShortName(prop), RepairPropCyberStyle.Amber, 11, TextAnchor.LowerLeft, true, VisorIcons.Prop(prop));
                 // Step up until clear of the labels already placed.
                 var box = new Rect(tag.anchoredPosition, tag.sizeDelta);
@@ -336,9 +373,9 @@ namespace BorderRepair.RepairProps
                 float x = Mathf.Clamp(r.center.x, box.xMin + 6, box.xMax - 6);
                 Line(new Vector2(r.center.x, r.yMax + 1), new Vector2(x, box.yMin), RepairPropCyberStyle.AmberDim);
                 Line(new Vector2(r.center.x - 3, r.yMax + 1), new Vector2(r.center.x + 3, r.yMax + 1), RepairPropCyberStyle.Amber);
-                TrayCallouts++;
             }
         }
+        readonly List<(int index, RepairBenchProp prop, Rect rect)> trayShown = new List<(int, RepairBenchProp, Rect)>();
         readonly List<Rect> trayRects = new List<Rect>();
 
         // "放大镜（空手检查）" is "放大镜" on a label.
@@ -432,9 +469,14 @@ namespace BorderRepair.RepairProps
 
             // The trace: from the header down to the part the step is about, drawn once when the step comes up and again
             // every few seconds while the player waits.
-            TraceTarget = null;
-            if (!ticking && next != null && !cleaningNow && Project(camera, next.target, scale, out var target))
+            TraceTarget = null; TraceToTool = false;
+            var takeFirst = TakeProp(next);
+            Rect target = default;
+            bool traced = next != null && (takeFirst != null ? ProjectRenderers(camera, takeFirst.GetComponentsInChildren<Renderer>(), scale, out target)
+                : Project(camera, next.target, scale, out target));
+            if (!ticking && next != null && !cleaningNow && traced)
             {
+                TraceToTool = takeFirst != null;
                 float cycle = fresh < TraceSeconds ? fresh : Mathf.Repeat(fresh - TraceSeconds, TraceEvery);
                 if (cycle < TraceSeconds && target.yMax < y - 40)
                 {
@@ -607,8 +649,6 @@ namespace BorderRepair.RepairProps
             if (Project(camera, d.rootObjectName, scale, out var itemRect))
             {
                 if (TargetBox(d.rootObjectName, 1.06f)) LockBox(camera, scale, RepairPropCyberStyle.AmberDim, .12f, "item:" + d.rootObjectName);
-                Tag(new Vector2(itemRect.xMin - 10, itemRect.yMax + 14), RepairPropText.Item(d.kind) + "  ·  " + RepairPropWorkflowStatus.Label(phase),
-                    RepairPropCyberStyle.Amber, 12, TextAnchor.LowerLeft);
             }
 
             // Suggested next step: pulsing amber marks on its target, a callout with the command and the tool to use.
@@ -616,15 +656,19 @@ namespace BorderRepair.RepairProps
             NextTarget = next?.target;
             if (next != null && Project(camera, next.target, scale, out var nextRect))
             {
-                var color = RepairPropCyberStyle.Amber; color.a = pulse;
+                bool later = TakeProp(next) != null;   // first the tool: the tray holds the loud mark, the part waits
+                var color = RepairPropCyberStyle.Amber; color.a = later ? .38f : pulse;
                 bool whole = next.target == d.rootObjectName;
                 var box = whole ? Grow(nextRect, 18) : Grow(nextRect, 6);
                 if (TargetBox(next.target, whole ? 1.10f : 1.08f)) LockBox(camera, scale, color, whole ? .14f : .3f, "next:" + next.target);
                 var tool = owner.Station.ActiveTool;
                 string toolHint = tool == next.tool ? "" : "　[" + RepairActionText.Label(next.tool).Replace(" ", "") + "]";
                 var anchor = new Vector2(box.xMax + 26, box.yMax + 20);
-                Leader(new Vector2(box.xMax, box.yMax), anchor + new Vector2(0, -6), color, "nextline:" + next.target);
-                Tag(anchor, "▶ " + next.label, color, 13, TextAnchor.LowerLeft, true, VisorIcons.Command(next));   // where; the header says what and with which tool
+                if (!later)
+                {
+                    Leader(new Vector2(box.xMax, box.yMax), anchor + new Vector2(0, -6), color, "nextline:" + next.target);
+                    Tag(anchor, "▶ " + next.label, color, 13, TextAnchor.LowerLeft, true, VisorIcons.Command(next));   // where; the header says what and with which tool
+                }
             }
 
             // Selection: amber wireframe box and a name tag with what can be done to it.
@@ -673,8 +717,7 @@ namespace BorderRepair.RepairProps
                 foreach (var prop in bench.Props)
                     if (prop.Kind == RepairBenchPropKind.Tool && prop.Lifted && !prop.InHand && prop != HoveredProp && ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var toolRect))
                     {
-                        if (OrientedBox(prop.GetComponentsInChildren<MeshFilter>(), prop.transform, 1.06f)) LockBox(camera, scale, RepairPropCyberStyle.Amber, .25f, "tool:" + prop.name);
-                        var heldTag = Tag(new Vector2(toolRect.xMin, toolRect.yMax + 8), "手持 · " + ShortName(prop), VisorIcons.PropColor(prop), 11, TextAnchor.LowerLeft, true, VisorIcons.Prop(prop));
+                        var heldTag = Tag(new Vector2(toolRect.xMin, toolRect.yMax + 8), "手持 · " + ShortName(prop), RepairPropCyberStyle.Dim, 10, TextAnchor.LowerLeft, false, VisorIcons.Prop(prop));
                         trayRects.Add(new Rect(heldTag.anchoredPosition - new Vector2(3, 2), heldTag.sizeDelta + new Vector2(6, 4)));
                     }
 
