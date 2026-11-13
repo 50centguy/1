@@ -217,7 +217,7 @@ namespace BorderRepair.RepairProps
                 bool shortage = RepairPropWorkflowStatus.Phase(flow) == RepairPropPhase.Replacement && flow.CommandPolicy != null && !flow.CommandPolicy.ReplacementAvailable;
                 bool benchComputer = RepairBenchV2Runtime.Current != null && System.Linq.Enumerable.Any(RepairBenchV2Runtime.Current.Props, p => p.Kind == RepairBenchPropKind.Terminal);
                 if (shortage && benchComputer)
-                    Show("buy", "拆下来的小板是坏的，店里没有备件，得买一块新的。点维修台左后方那台电脑的屏幕（上面标着「缺件」）。", null);
+                    Show("buy", "拆下来的小板是坏的，店里没有备件，得买一块新的。点维修台右后角那台电脑的屏幕（上面标着「缺件」）。", null);
                 else if (shortage && launcher != null && launcher.MenuOpen)
                     Show("buy-menu", "点「01 配件采购」。", launcher.ShopEntry != null ? (RectTransform)launcher.ShopEntry.transform : null);
                 else if (shortage)

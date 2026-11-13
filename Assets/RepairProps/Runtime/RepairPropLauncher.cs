@@ -136,7 +136,9 @@ namespace BorderRepair.RepairProps
             {
                 var bench = RepairBenchV2Runtime.Current;
                 var bridge = FindFirstObjectByType<RepairPropStationBridge>();
-                bool terminal = bench != null && bench.Props.Any(p => p.Kind == RepairBenchPropKind.Terminal) && bridge != null && bridge.WorkspaceVisible;
+                // The computer stands where the column docks: only when the column tucks away is it always in reach.
+                bool terminal = bench != null && bench.Props.Any(p => p.Kind == RepairBenchPropKind.Terminal) && bridge != null && bridge.WorkspaceVisible
+                    && RepairPropWorkspaceLayout.AutoHide && !RepairPropWorkspaceLayout.Pinned;
                 bool mainMenu = Application.CanStreamedLevelBeLoaded(TwoNightScenes.ClinicMenu);
                 shopEntry.gameObject.SetActive(!terminal);
                 ((RectTransform)menuEntry.transform).anchoredPosition = new Vector2(((RectTransform)menuEntry.transform).anchoredPosition.x, terminal ? -8 : -44);

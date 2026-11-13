@@ -893,6 +893,14 @@ namespace BorderRepair.RepairProps.UI.Tests
             Assert.That(Object.FindFirstObjectByType<RepairPropEconomyController>().IsOpen, Is.True, "The shop opens over the workspace.");
             for (int i = 0; i < 20; i++) yield return null;
             yield return Shoot("20-shop-over-workspace", View);
+            // The program runs on the bench computer's own glass: the view glides to it and the window sits square on the screen.
+            var shopPanel = Object.FindFirstObjectByType<RepairPropShopPanel>();
+            if (shopPanel != null && shopPanel.DeviceCamera != null)
+            {
+                yield return Until(() => shopPanel.DeviceReady, "The view settles on the bench computer.");
+                for (int i = 0; i < 10; i++) yield return null;
+                yield return Shoot("21-shop-on-bench-computer", shopPanel.DeviceCamera);
+            }
             DumpCanvases("20-shop-over-workspace");
             Assert.That(Object.FindObjectsByType<RectTransform>(FindObjectsSortMode.None).Any(r => r.name == "外观面板" && r.gameObject.activeInHierarchy),
                 Is.False, "Opening the parts shop must not pop the appearance editor out of the hidden workspace.");

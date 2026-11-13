@@ -1299,15 +1299,25 @@ def build_lamp():
     new_obj("BV2_Lamp_Cable", bm, ["M_BV2_Rubber"], origin=tuple(base), parent=root)
 
 
+CRT_OLD_PIVOT = (-0.725, 0.76)     # where the set was modelled (left-back, turned +28 deg)
+CRT_PIVOT = (0.74, 0.77)           # where it stands: right-back corner
+CRT_ANGLE = -28.0                  # turned toward the player and the mat
+
+
 def build_crt():
-    """Small amber/green diagnostic CRT on the back left; Unity draws the live readout on BV2_Crt_Screen."""
+    """The bench computer (parts terminal): a chunky CRT with a pull-out keyboard and a tube carry frame, in the
+    right-back corner, turned toward the player. Unity draws the live readout on BV2_Crt_Screen, and reads the
+    screen's facing from the object's transform, so the turn is NOT baked into the vertices."""
     x0, x1, y0, y1, z0 = -0.89, -0.56, 0.60, 0.92, T
     pivot = Vector(((x0 + x1) / 2, (y0 + y1) / 2, z0))
+    rot = Matrix.Rotation(math.radians(CRT_ANGLE), 3, "Z")
+    new_pivot = Vector((CRT_PIVOT[0], CRT_PIVOT[1], z0))
 
     def turned(name, bm, mats, origin, **kw):
-        rotate_verts(list(bm.verts), math.radians(28), "Z", pivot)
-        o = Matrix.Rotation(math.radians(28), 3, "Z") @ (Vector(origin) - pivot) + pivot
-        return new_obj(name, bm, mats, origin=tuple(o), **kw)
+        ob = new_obj(name, bm, mats, origin=origin, **kw)
+        ob.location = rot @ (Vector(origin) - pivot) + new_pivot
+        ob.rotation_euler = (0, 0, math.radians(CRT_ANGLE))
+        return ob
     bm = bm_new()
     add_box(bm, (x0, y0, z0 + .02), (x1, y1 - .06, z0 + .30), 0, bevel=.012, segs=3)          # front body
     add_box(bm, (x0 + .04, y1 - .08, z0 + .05), (x1 - .04, y1, z0 + .27), 0, bevel=.02, segs=3)  # tube housing
@@ -1341,10 +1351,24 @@ def build_crt():
         add_box(bm, (x1 - .07 + i * .02, y0 - .008, z0 + .085), (x1 - .058 + i * .02, y0, z0 + .097), 1, bevel=.001, segs=1)
     add_cyl(bm, (x1 - .03, y0 - .002, z0 + .25), .004, .004, "Y", 8, 2)
     turned("BV2_Crt_Controls", bm, ["M_BV2_DarkPlastic", "M_BV2_Ivory", "M_BV2_LedGreen"], origin=(x1 - .05, y0, z0 + .15))
-    # signal cable from the CRT down behind the riser
+    # pull-out keyboard under the screen: a slim deck with a key field, two accent keys
     bm = bm_new()
-    add_sweep(bm, bezier((x1 - .06, y1 - .02, z0 + .12), (x1 + .05, y1 - .01, z0 + .05), (-0.40, 0.93, T + .01), (-0.30, 0.90, T + .006), 16), .0035, 6, 0)
-    new_obj("BV2_Crt_Cable", bm, ["M_BV2_Rubber"], origin=(x1, y1, z0))
+    add_box(bm, (x0 + .02, y0 - .095, z0), (x1 - .03, y0 - .012, z0 + .018), 0, bevel=.004, segs=2)
+    for row in range(3):
+        for col in range(11):
+            kx, ky = x0 + .032 + col * .0235, y0 - .086 + row * .0235
+            accent = (row == 0 and col in (0, 10))
+            add_box(bm, (kx, ky, z0 + .018), (kx + .018, ky + .018, z0 + .024), 2 if accent else 1, bevel=.0015, segs=1)
+    turned("BV2_Crt_Keyboard", bm, ["M_BV2_Ivory", "M_BV2_DarkPlastic", "M_BV2_Orange"], origin=((x0 + x1) / 2, y0 - .05, z0))
+    # tube carry frame on the outer side, and the card slot with its amber lamp under the screen
+    bm = bm_new()
+    fx = x0 - .014
+    add_sweep(bm, [(fx, y0 + .02, z0 + .02), (fx, y0 + .02, z0 + .30), (fx, y0 + .10, z0 + .325), (fx, y0 + .20, z0 + .325), (fx, y1 - .10, z0 + .29), (fx, y1 - .10, z0 + .02)], .007, 8, 0)
+    for z in (z0 + .08, z0 + .24):
+        add_cyl(bm, (fx + .008, y0 + .02, z), .009, .016, "X", 10, 0)
+    add_box(bm, (x0 + .03, y0 - .004, z0 + .036), (x0 + .15, y0, z0 + .05), 1, bevel=.001, segs=1)
+    add_cyl(bm, (x0 + .175, y0 - .003, z0 + .043), .006, .006, "Y", 10, 2)
+    turned("BV2_Crt_Frame", bm, ["M_BV2_SteelBare", "M_BV2_DarkPlastic", "M_BV2_Bulb"], origin=(x0, y0, z0 + .15))
 
 
 def build_props():
@@ -1761,6 +1785,67 @@ def build_setting_wear():
     new_obj("BV2_WristStrap", bm, ["M_BV2_Rubber", "M_BV2_SteelBare", "M_BV2_Yellow"], origin=(0.44, 0.67, MAT_Z))
 
 
+def move_group(prefixes, angle_deg, pivot, new_pivot, skip=()):
+    """Rigid move of finished objects: turn about `pivot` (Z), then carry the pivot to `new_pivot`."""
+    a = math.radians(angle_deg)
+    rot = Matrix.Rotation(a, 3, "Z")
+    p, q = Vector((pivot[0], pivot[1], 0)), Vector((new_pivot[0], new_pivot[1], 0))
+    for ob in OBJECTS:
+        if not any(ob.name.startswith(x) for x in prefixes) or ob.name in skip:
+            continue
+        ob.location = rot @ (Vector(ob.location) - p) + q
+        ob.rotation_euler = (0, 0, ob.rotation_euler.z + a)
+
+
+def relocate_sets():
+    """What was modelled on and around the computer in its old pose (handle, aerial, taped photo, holo puck) goes with
+    it; the soldering set takes the freed left-back corner."""
+    crt_parts = ("BV2_Crt", "BV2_Crt_Bezel", "BV2_Crt_Screen", "BV2_Crt_Controls", "BV2_Crt_Keyboard", "BV2_Crt_Frame")
+    move_group(("BV2_Crt_Wear", "BV2_HoloPuck", "BV2_Holo_Koi", "BV2_Polaroid"), CRT_ANGLE - 28.0, CRT_OLD_PIVOT, CRT_PIVOT, skip=crt_parts)
+    move_group(("BV2_Solder",), 0, (0, 0), (-1.33, 0.10))
+    # signal cable from the computer's back down to the end of the riser
+    bm = bm_new()
+    add_sweep(bm, bezier((0.70, 0.93, T + .14), (0.62, 0.97, T + .06), (0.52, 0.95, T + .02), (0.46, 0.92, T + .008), 16), .0035, 6, 0)
+    new_obj("BV2_Crt_Cable", bm, ["M_BV2_Rubber"], origin=(0.70, 0.93, T))
+    bpy.context.view_layer.update()
+
+
+def build_bench_identity():
+    """Set pieces that make the bench this shop's and nobody else's (reference library: stacked instruments with round
+    tubes, cable runs slung across the back): a small round-tube scope on the organiser and a sagging cable trunk
+    with a hanging service tag in front of the pegboard."""
+    # round-tube scope on top of the parts organiser
+    x0, x1, y0, y1, z0 = 0.150, 0.270, 0.862, 0.940, 1.200
+    bm = bm_new()
+    add_box(bm, (x0, y0, z0), (x1, y1, z0 + .125), 0, bevel=.008, segs=2)
+    add_box(bm, (x0 + .006, y0 - .004, z0 + .008), (x1 - .006, y0, z0 + .117), 1, bevel=.002, segs=1)
+    for i in range(5):
+        add_box(bm, (x0 + .02 + i * .018, y0 + .02, z0 + .125), (x0 + .03 + i * .018, y1 - .012, z0 + .128), 1)
+    add_sweep(bm, [(x0 + .02, y0 + .03, z0 + .125), (x0 + .02, y0 + .03, z0 + .15), (x1 - .02, y0 + .03, z0 + .15), (x1 - .02, y0 + .03, z0 + .125)], .004, 6, 2)
+    new_obj("BV2_Scope", bm, ["M_BV2_Ivory", "M_BV2_DarkPlastic", "M_BV2_SteelBare"], origin=((x0 + x1) / 2, (y0 + y1) / 2, z0))
+    bm = bm_new()
+    add_cyl(bm, (x0 + .046, y0 - .006, z0 + .072), .034, .004, "Y", 20, 0)
+    new_obj("BV2_Scope_Tube", bm, ["M_BV2_CrtGlass"], origin=(x0 + .046, y0 - .006, z0 + .072))
+    bm = bm_new()
+    for i, z in enumerate((z0 + .098, z0 + .066, z0 + .034)):
+        add_lathe(bm, [(0.0, 0.0), (0.009, 0.0), (0.009, 0.008), (0.007, 0.012), (0.0, 0.012)], (x1 - .026, y0 - .004, z), "-Y", 12, 0)
+    add_cyl(bm, (x1 - .046, y0 - .006, z0 + .104), .0035, .004, "Y", 8, 1)
+    add_cyl(bm, (x1 - .046, y0 - .006, z0 + .09), .0035, .004, "Y", 8, 2)
+    new_obj("BV2_Scope_Controls", bm, ["M_BV2_DarkPlastic", "M_BV2_LedGreen", "M_BV2_LedRed"], origin=(x1 - .03, y0, z0 + .06))
+    # cable trunk slung across the back, in front of the pegboard, with a paper service tag
+    bm = bm_new()
+    runs = [((-0.62, 0.995, 1.335), (-0.30, 0.975, 1.235), (0.20, 0.975, 1.225), (0.60, 0.995, 1.345), .0055, 0),
+            ((-0.62, 0.992, 1.345), (-0.25, 0.970, 1.262), (0.25, 0.972, 1.250), (0.60, 0.992, 1.355), .004, 1),
+            ((-0.20, 0.985, 1.300), (-0.05, 0.968, 1.205), (0.30, 0.970, 1.215), (0.60, 0.990, 1.335), .003, 2)]
+    for p0, p1, p2, p3, r, m in runs:
+        add_sweep(bm, bezier(p0, p1, p2, p3, 22), r, 6, m)
+    for x in (-0.62, 0.60):   # the hooks the trunk hangs from
+        add_box(bm, (x - .012, 0.985, 1.325), (x + .012, 1.02, 1.365), 3, bevel=.002, segs=1)
+    add_sweep(bm, [(0.02, 0.972, 1.248), (0.02, 0.968, 1.205)], .0012, 4, 3)
+    add_box(bm, (0.000, 0.966, 1.150), (0.040, 0.969, 1.205), 4, bevel=.001, segs=1)
+    new_obj("BV2_CableTrunk", bm, ["M_BV2_Rubber", "M_BV2_WornRed", "M_BV2_Yellow", "M_BV2_SteelBare", "M_BV2_Paper"], origin=(0.0, 0.98, 1.30))
+
+
 def build():
     global ROOT
     textures = build_textures()
@@ -1775,6 +1860,8 @@ def build():
     build_pegboard_tools()
     build_personal_items()
     build_setting_wear()
+    relocate_sets()
+    build_bench_identity()
     build_wall()
 
 
@@ -1822,7 +1909,7 @@ def render():
     SCENE.camera = cam
     shots = {"bench_wall": ((0.05, -0.55, 1.62), (0.0, 1.0, 1.45), 30),
              "bench_front": ((0.0, -0.75, 1.55), (0.0, 0.55, 0.95), 35), "bench_tools": ((-0.35, -0.02, 1.34), (-0.35, 0.45, 0.93), 40), "bench_top": ((-0.25, 0.50, 2.3), (-0.25, 0.52, 0.9), 35),
-             "bench_player": ((-0.05, -0.35, 1.55), (-0.12, 0.50, 0.93), 28),
+             "bench_player": ((0.16, -0.38, 1.52), (0.16, 0.52, 0.98), 30),
              "bench_left": ((-0.25, 0.05, 1.35), (-0.70, 0.75, 1.0), 40), "bench_right": ((0.45, 0.05, 1.40), (0.55, 0.65, 1.0), 40),
              "bench_wide": ((1.6, -1.4, 1.9), (0.0, 0.55, 0.7), 35)}
     for name, (loc, target, lens) in shots.items():

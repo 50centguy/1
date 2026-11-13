@@ -32,7 +32,7 @@ namespace BorderRepair.RepairProps
         {
             reason = null;
             if (command.id == "module.install.new" && ClinicSupplies.Available(state, Sku) < 1)
-                reason = "缺少" + ClinicSupplies.Find(Sku).Name + "，在配件电脑上采购（维修台左后方那台，点它的屏幕）。";
+                reason = "缺少" + ClinicSupplies.Find(Sku).Name + "，在配件电脑上采购（维修台右后角那台，点它的屏幕）。";
             // A fault fixed without a part (cleaned or re-crimped) delivers with no allocation.
             bool partInside = flow.GetState("module") == 2;
             if ((command.id == "complete" && partInside || command.id == "module.remove.new") && !ClinicSupplies.HasAllocation(state, caseId, Sku))
