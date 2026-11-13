@@ -4,18 +4,17 @@ using UnityEngine;
 
 namespace BorderRepair.RepairProps
 {
-    // The visor's pictograms and its few accent colours. Icons are 12 x 12 pixel glyphs drawn here (no art files), white
-    // so each use tints them. Colour carries meaning, never decoration:
-    //   amber  the frame of the HUD and the step in hand
-    //   cyan   the eye looking at something: hover, inspection, analysis of a part
+    // The visor's pictograms. Icons are 12 x 12 pixel glyphs drawn here (no art files), white so each use tints them.
+    // Colour stays inside the amber monochrome of the reference screens (Destiny terminal, amber network map, SIGNALIS):
+    // hierarchy comes from brightness and inverse blocks, tools are told apart by their pictogram, not by hue.
+    //   pale amber (Hot)  the eye looking at something: hover, inspection, analysis
     //   green  done / passed        red  fault / refused
-    //   and one colour per tool, the same wherever that tool is named (header, tray mark, cursor, panel button).
     public static class VisorIcons
     {
-        public static readonly Color Scan = new Color(.42f, .95f, .92f, 1f);
-        public static readonly Color ScanDim = new Color(.42f, .95f, .92f, .45f);
-        static readonly Color Driver = new Color(1f, .84f, .22f, 1f), Opener = new Color(1f, .47f, .32f, 1f),
-            Tester = new Color(.50f, .88f, 1f, 1f), Hand = new Color(1f, .93f, .82f, 1f);
+        public static readonly Color Scan = RepairPropCyberStyle.Hot;
+        public static readonly Color ScanDim = RepairPropCyberStyle.HotDim;
+        static readonly Color Driver = RepairPropCyberStyle.Hot, Opener = RepairPropCyberStyle.Amber,
+            Tester = RepairPropCyberStyle.Warn, Hand = RepairPropCyberStyle.Ink;
 
         static readonly Dictionary<string, string[]> Art = new Dictionary<string, string[]>
         {
@@ -96,6 +95,6 @@ namespace BorderRepair.RepairProps
             : prop.IsCleaner ? Get("brush") : prop.IsPainter ? Get("spray") : Tool(prop.Tool);
 
         public static Color PropColor(RepairBenchProp prop) => prop == null ? Hand
-            : prop.IsCleaner ? new Color(1f, .62f, .30f, 1f) : prop.IsPainter ? new Color(1f, .55f, .75f, 1f) : ToolColor(prop.Tool);
+            : prop.IsCleaner ? RepairPropCyberStyle.Amber : prop.IsPainter ? RepairPropCyberStyle.Warn : ToolColor(prop.Tool);
     }
 }

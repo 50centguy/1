@@ -145,7 +145,7 @@ namespace BorderRepair.RepairProps
             // Each tool button carries its pictogram in the tool's own colour, the same one the visor uses for it.
             Iconize(inspectTool,VisorIcons.Tool(null),VisorIcons.ToolColor(null));
             foreach(var pair in tools) Iconize(pair.Value,VisorIcons.Tool(pair.Key),VisorIcons.ToolColor(pair.Key));
-            Iconize(appearanceMode,VisorIcons.Get("spray"),new Color(1f,.55f,.75f,1f));
+            Iconize(appearanceMode,VisorIcons.Get("spray"),RepairPropCyberStyle.Warn);
             Iconize(repairMode,VisorIcons.Get("screwdriver"),RepairPropCyberStyle.Amber);
             targetRow=Row(toolsBody,34,4);
             TargetPicker=Picker(targetRow);
