@@ -401,7 +401,8 @@ namespace BorderRepair.RepairProps
             var flow = owner.Flow; var d = flow.Definition; var station = owner.Station;
             bool cleaningNow = cleaning != null && cleaning.Cleaning;
             string id, chip, main, sub;
-            if (cleaningNow) { id = "clean"; chip = "清洁中"; main = "已清除 " + cleaning.Progress.ToString("P0"); sub = "按住左键擦拭　·　右键单击放下工具"; }
+            if (cleaningNow) { id = "clean"; chip = "清洁中"; main = "已清除 " + cleaning.Progress.ToString("P0") + "　擦头 " + BorderRepair.TwoNight.ClinicCleaningController.MethodLabel(cleaning.Method);
+                sub = cleaning.Advice ?? "1 干布 · 灰尘　2 溶剂 · 血迹油污　3 刮片 · 胶痕　右键放下"; }
             else if (next != null)
             {
                 var node = d.FindNode(next.target);
@@ -805,7 +806,7 @@ namespace BorderRepair.RepairProps
                 : "（工具：" + RepairActionText.Label(next.tool).Replace(" ", "") + "）") : RepairPropWorkflowStatus.NextStep(flow));
             if (cleaning == null) cleaning = FindFirstObjectByType<BorderRepair.TwoNight.ClinicCleaningController>();
             if (cleaning != null && cleaning.Cleaning)
-                hint.text = "清洁中 // 已清除 " + cleaning.Progress.ToString("P0") + "　按住左键擦拭　·　右键单击放下工具";
+                hint.text = "清洁中 // 已清除 " + cleaning.Progress.ToString("P0") + "　擦头 " + BorderRepair.TwoNight.ClinicCleaningController.MethodLabel(cleaning.Method) + "　1 干布 2 溶剂 3 刮片　·　右键单击放下工具";
             // The step itself is the header at the top; down here only the control legend is left, small and dim.
             Place(hint.rectTransform, new Vector2(right / 2, 44), new Vector2(Mathf.Min(right - 60, 760), 60));
             bandTop = 12 + 44;

@@ -28,6 +28,20 @@ namespace BorderRepair.TwoNight
         const float HeavyDirt = .55f, LightDirt = .18f, NoEffectDeny = .35f;
         public enum WipeResult { None, Removed, AlreadyClean, Blocked, Miss }
         public WipeResult LastWipe { get; private set; }
+        /// <summary>What the cleaning tool works with: a dry cloth for dust, solvent for blood and oil, a scraper for glue.
+        /// Keys 1 / 2 / 3 while cleaning, or Q for the next one.</summary>
+        public CleanMethod Method { get; private set; } = CleanMethod.Cloth;
+        public void SetMethod(CleanMethod method) { if (method != CleanMethod.Any) Method = method; }
+        public static string MethodLabel(CleanMethod method) => method == CleanMethod.Solvent ? "溶剂" : method == CleanMethod.Scraper ? "刮片" : "干布";
+        public static string KindLabel(DirtKind kind) => kind == DirtKind.Blood ? "血迹" : kind == DirtKind.Oil ? "油污" : kind == DirtKind.Glue ? "胶痕" : "灰尘";
+        /// <summary>What the brush is on that the method in hand barely moves, and what to switch to; null when all is well.</summary>
+        public string Advice { get; private set; }
+        static string AdviceFor(CleanMethod method, DirtKind? under)
+        {
+            if (!under.HasValue || DirtMaskData.Bite(method, under.Value) >= .5f) return null;
+            var right = DirtMaskData.RightMethod(under.Value);
+            return KindLabel(under.Value) + "用" + MethodLabel(method) + "弄不掉 · 按 " + (int)right + " 换" + MethodLabel(right);
+        }
         public IReadOnlyList<CleanableSurface> Surfaces => surfaces;
         CleanableSurface[] surfaces = Array.Empty<CleanableSurface>();
         CleaningOccluder[] occluders = Array.Empty<CleaningOccluder>();
@@ -122,6 +136,12 @@ namespace BorderRepair.TwoNight
                 // In the room C is the walker's crouch: only refuse out loud at the bench, on an item that can be cleaned.
                 if (!SetCleaning(wanted) && wanted && Clinic.ConsoleOpen && surfaces.Length > 0) Deny(UnavailableReason);
             }
+            if (Cleaning && !textFocused)
+            {
+                int digit = RepairInput.DigitPressed;
+                if (digit >= 1 && digit <= 3) Method = (CleanMethod)digit;
+                else if (Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame) Method = (CleanMethod)((int)Method % 3 + 1);
+            }
             bool held = Cleaning && RepairInput.LeftHeld && !RepairInput.RightHeld && !RepairInput.PointerOverUI;
             bool pressed = held && !wasHeld;
             wasHeld = held;
@@ -137,7 +157,7 @@ namespace BorderRepair.TwoNight
                 toggle.interactable = Available;
                 buttonText.text = Cleaning ? "退出清洁 [C]" : "清洁工具 [C]";
                 string detail = !Available && !Cleaning ? UnavailableReason : AllClean ? "已全部清洁" + (Cleaning ? " · 按 C 退出" : "")
-                    : Cleaning ? "按住左键擦拭 · 右键转动 · 滚轮缩放" : "局部清洁，不改变维修步骤与费用";
+                    : Cleaning ? "擦头 " + MethodLabel(Method) + " · 1 干布 2 溶剂 3 刮片 · 按住左键擦" : "局部清洁，不改变维修步骤与费用";
                 text.text = $"污垢清除 {Progress:P0}\n{detail}";
             }
         }
@@ -171,7 +191,7 @@ namespace BorderRepair.TwoNight
             if (value && !Available) return false;
             if (Clinic == null || Clinic.Station == null) return false;
             var station = Clinic.Station;
-            LastWipe = WipeResult.None;
+            LastWipe = WipeResult.None; Advice = null;
             noEffectTime = 0;
             if (value)
             {
@@ -200,12 +220,14 @@ namespace BorderRepair.TwoNight
             Vector2 uv = hit.textureCoord2;
             hitSurface = closest; lastHitPoint = hit.point; lastRemaining = closest.RemainingAt(uv);
             float amount = strengthPerSecond * Mathf.Min(deltaSeconds, .1f);
-            bool changed = closest.Wipe(uv, brushRadiusUV, amount);
+            float brush = Method == CleanMethod.Scraper ? brushRadiusUV * .6f : brushRadiusUV;   // a scraper works a narrow edge
+            Advice = AdviceFor(Method, closest.KindAt(uv));
+            bool changed = closest.Wipe(uv, brush, amount, Method);
             // Fill fast mouse strokes, but do not bridge distant atlas islands or a change of surface.
             if (stroke && closest == previousSurface && closest.SameIsland(uv, previousUv) && Vector2.Distance(uv, previousUv) < .25f)
             {
-                int steps = Mathf.Clamp(Mathf.CeilToInt(Vector2.Distance(uv, previousUv) / (brushRadiusUV * .4f)), 1, 24);
-                for (int i = 1; i < steps; i++) changed |= closest.Wipe(Vector2.Lerp(previousUv, uv, i / (float)steps), brushRadiusUV, amount);
+                int steps = Mathf.Clamp(Mathf.CeilToInt(Vector2.Distance(uv, previousUv) / (brush * .4f)), 1, 24);
+                for (int i = 1; i < steps; i++) changed |= closest.Wipe(Vector2.Lerp(previousUv, uv, i / (float)steps), brush, amount, Method);
             }
             previousUv = uv; previousSurface = closest; stroke = true;
             LastWipe = changed ? WipeResult.Removed : WipeResult.AlreadyClean;
@@ -228,7 +250,8 @@ namespace BorderRepair.TwoNight
 
         WipeResult Hover(Vector2 screen)
         {
-            if (!TryGetCleaningHit(screen, out var closest, out var hit)) return Classify(screen);
+            if (!TryGetCleaningHit(screen, out var closest, out var hit)) { Advice = null; return Classify(screen); }
+            Advice = AdviceFor(Method, closest.KindAt(hit.textureCoord2));
             return closest.RemainingAt(hit.textureCoord2) > .01f ? WipeResult.Removed : WipeResult.AlreadyClean;
         }
 
@@ -281,7 +304,7 @@ namespace BorderRepair.TwoNight
                 strokeAt = now;
                 if (oneShot != null) oneShot.transform.position = lastHitPoint;
                 // Thick dirt scrapes, ordinary dirt wipes (the loop), the last dust sweeps away.
-                if (now >= nextGrain && lastRemaining > HeavyDirt)
+                if (now >= nextGrain && (lastRemaining > HeavyDirt || Method == CleanMethod.Scraper))
                 {
                     OneShot(RepairSoundSynth.Cue.CleanScrape, .5f, UnityEngine.Random.Range(.9f, 1.12f));
                     nextGrain = now + .2f;
@@ -326,7 +349,9 @@ namespace BorderRepair.TwoNight
                 var state = held ? LastWipe : Hover(pointer);
                 bool removing = held && state == WipeResult.Removed;
                 // Green: wiping works here. Amber: this part must not be wiped. Pale: already clean. Faint: off the item.
-                ring.color = state == WipeResult.Removed ? new Color(.62f, .96f, .58f, .95f)
+                // (the working colour says which head is on: cloth green, solvent blue, scraper bone)
+                ring.color = state == WipeResult.Removed ? (Advice != null ? new Color(1f, .62f, .3f, .95f) : Method == CleanMethod.Solvent ? new Color(.5f, .8f, 1f, .95f)
+                        : Method == CleanMethod.Scraper ? new Color(.96f, .9f, .7f, .95f) : new Color(.62f, .96f, .58f, .95f))
                     : state == WipeResult.Blocked ? new Color(1f, .62f, .3f, .95f)
                     : state == WipeResult.AlreadyClean ? new Color(.85f, .88f, .85f, .6f) : new Color(.8f, .8f, .8f, .22f);
                 // The hand's work: the brush trembles and shrinks a touch while it bites.
@@ -337,7 +362,8 @@ namespace BorderRepair.TwoNight
                 if (now >= hintUntil && hint != null)
                 {
                     hint.color = new Color(.92f, .94f, .89f, .85f);
-                    hint.text = state == WipeResult.Blocked ? "这里不能擦" : state == WipeResult.AlreadyClean ? "这里已经干净" : "";
+                    hint.text = state == WipeResult.Blocked ? "这里不能擦" : state == WipeResult.AlreadyClean ? "这里已经干净" : Advice ?? "";
+                    if (state == WipeResult.Removed && Advice != null) hint.color = new Color(1f, .62f, .3f);
                 }
             }
             else if (now >= hintUntil && hint != null) hint.text = "";

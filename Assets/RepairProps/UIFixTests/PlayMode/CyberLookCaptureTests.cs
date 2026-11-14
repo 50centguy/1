@@ -1186,6 +1186,28 @@ namespace BorderRepair.RepairProps.UI.Tests
                 File.WriteAllBytes(Path.Combine(Folder, "58-stain-map.png"), sheet.EncodeToPNG());
                 Object.Destroy(sheet);
             }
+            // Different dirt, different head: a dry cloth barely moves glue, the scraper takes it off; solvent is for blood and oil.
+            Assert.That(cleaning.Method, Is.EqualTo(BorderRepair.Cleaning.CleanMethod.Cloth), "Cleaning starts with the dry cloth.");
+            StringAssert.Contains("干布", bridge.ArOverlay.HintText);
+            {
+                var full = Enumerable.Repeat((byte)255, 64 * 64).ToArray();
+                var centre = new Vector2(.5f, .5f);
+                var sample = new BorderRepair.Cleaning.DirtMaskData(64, full, new byte[64 * 64]);
+                Assert.That(sample.AddResidue(centre, .12f, new Color32(150, 132, 92, 0)), Is.True);
+                Assert.That(sample.KindAt(centre), Is.EqualTo(BorderRepair.Cleaning.DirtKind.Glue));
+                float glue = sample.RemainingAt(centre);
+                sample.Paint(centre, .1f, .3f, false, BorderRepair.Cleaning.CleanMethod.Cloth);
+                Assert.That(glue - sample.RemainingAt(centre), Is.LessThan(.03f), "A dry cloth barely touches glue.");
+                sample.Paint(centre, .1f, .3f, false, BorderRepair.Cleaning.CleanMethod.Scraper);
+                Assert.That(glue - sample.RemainingAt(centre), Is.GreaterThan(.12f), "The scraper takes it off.");
+                Assert.That(BorderRepair.Cleaning.DirtMaskData.RightMethod(BorderRepair.Cleaning.DirtKind.Blood), Is.EqualTo(BorderRepair.Cleaning.CleanMethod.Solvent));
+                Assert.That(sample.StainLeft, Is.LessThan(1f).And.GreaterThan(0f));
+            }
+            cleaning.SetMethod(BorderRepair.Cleaning.CleanMethod.Solvent);
+            for (int i = 0; i < 6; i++) yield return null;
+            StringAssert.Contains("溶剂", bridge.ArOverlay.HintText, "The guide line names the head in use.");
+            yield return Shoot("57-bench-cleaning-solvent", View);
+            cleaning.SetMethod(BorderRepair.Cleaning.CleanMethod.Cloth);
             cleaning.SetCleaning(false);
             yield return Until(() => loupe.Lifted && !cleaner.Lifted, "Putting the cleaning tool down returns to empty-handed inspection.");
             // Taking the cleaner from the tray is the same as the cleaning key.

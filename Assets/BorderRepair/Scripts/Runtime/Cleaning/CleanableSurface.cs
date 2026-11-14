@@ -54,7 +54,13 @@ namespace BorderRepair.Cleaning
         int tier;
         static readonly int MaskId = Shader.PropertyToID("_CleaningMask");
         public float Progress => data?.Progress ?? 0;
-        public bool IsClean => data != null && Progress >= completionThreshold;
+        /// <summary>Stains (blood, oil, glue) may leave this much of themselves behind and still count as cleaned.</summary>
+        public const float StainSlack = .12f;
+        // Clean = most of the dirt gone AND the stains dealt with: dusting around a blood stain does not finish the part.
+        public bool IsClean => data != null && Progress >= completionThreshold && data.StainLeft <= StainSlack;
+        public float StainLeft => data != null ? data.StainLeft : 0;
+        /// <summary>What lies at this cleaning UV, or null where it is clean.</summary>
+        public DirtKind? KindAt(Vector2 uv) => data?.KindAt(uv);
         public Renderer Target => target;
         public Mesh CleaningMesh => probeMesh;
         public Texture2D MaskTexture => mask;
@@ -193,10 +199,10 @@ namespace BorderRepair.Cleaning
         public bool AcceptsHit(RaycastHit hit) => hit.collider == probe && hit.triangleIndex >= 0 &&
             triangleSlots != null && hit.triangleIndex < triangleSlots.Length && selectedSlots.Contains(triangleSlots[hit.triangleIndex]);
 
-        public bool Wipe(Vector2 uv, float radius, float strength)
+        public bool Wipe(Vector2 uv, float radius, float strength, CleanMethod method = CleanMethod.Any)
         {
-            if (data == null || !data.Paint(uv, radius, strength, true)) return false;
-            if (data.Progress >= completionThreshold) data.Clear();
+            if (data == null || !data.Paint(uv, radius, strength, true, method)) return false;
+            if (IsClean) data.Clear();
             dirty = true;
             Notify();
             return true;

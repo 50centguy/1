@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace BorderRepair.Cleaning
 {
+    /// <summary>What the cleaning tool is working with. Any = the old behaviour: everything comes off alike.</summary>
+    public enum CleanMethod { Any, Cloth, Solvent, Scraper }
+    /// <summary>What lies on a texel.</summary>
+    public enum DirtKind { Dust, Blood, Oil, Glue }
+
     /// <summary>CPU-owned mask: progress measures removed dirt, excluding unused UV texels.</summary>
     public sealed class DirtMaskData
     {
@@ -14,6 +19,45 @@ namespace BorderRepair.Cleaning
         double initialMass, remainingMass;
         // Stains on top of the plain dirt: what each stained texel shows (linear rgb).
         Color32[] stain;
+        byte[] kind;
+        double stainInitial, stainRemaining;
+        /// <summary>Share of the stains (blood, oil, glue) still on the surface, 0..1. Dust does not count.</summary>
+        public float StainLeft => stainInitial <= 0 ? 0 : Mathf.Clamp01((float)(stainRemaining / stainInitial));
+
+        /// <summary>How well a method takes a kind of dirt off (1 = the right one). A dry cloth is for dust; blood and oil
+        /// need solvent; glue is scraped. The wrong one still does a little, so nothing is ever stuck.</summary>
+        public static float Bite(CleanMethod method, DirtKind what)
+        {
+            switch (method)
+            {
+                case CleanMethod.Cloth: return what == DirtKind.Dust ? 1f : what == DirtKind.Glue ? .04f : .1f;
+                case CleanMethod.Solvent: return what == DirtKind.Dust ? .35f : what == DirtKind.Glue ? .3f : 1f;
+                case CleanMethod.Scraper: return what == DirtKind.Glue ? 1f : what == DirtKind.Oil ? .08f : .3f;
+                default: return 1f;
+            }
+        }
+
+        /// <summary>The method made for a kind of dirt.</summary>
+        public static CleanMethod RightMethod(DirtKind what) =>
+            what == DirtKind.Dust ? CleanMethod.Cloth : what == DirtKind.Glue ? CleanMethod.Scraper : CleanMethod.Solvent;
+
+        /// <summary>What lies at <paramref name="uv"/>, or null where the surface is clean there.</summary>
+        public DirtKind? KindAt(Vector2 uv)
+        {
+            if (!float.IsFinite(uv.x) || !float.IsFinite(uv.y)) return null;
+            int x = Mathf.Clamp((int)(uv.x * Resolution), 0, Resolution - 1), y = Mathf.Clamp((int)(uv.y * Resolution), 0, Resolution - 1);
+            int i = y * Resolution + x;
+            if (remaining[i] < .03f) return null;
+            return kind != null ? (DirtKind)kind[i] : DirtKind.Dust;
+        }
+
+        void RecountStains()
+        {
+            stainInitial = stainRemaining = 0;
+            if (kind == null) return;
+            for (int i = 0; i < kind.Length; i++)
+                if (kind[i] != 0) { stainInitial += initial[i] * coverage[i] / 255.0; stainRemaining += remaining[i] * coverage[i] / 255.0; }
+        }
         /// <summary>How many texels carry a stain (blood, oil, glue left by a label) rather than plain dirt.</summary>
         public int StainTexels { get; private set; }
         /// <summary>Stain kinds, in order: blood and oil laid down by <see cref="AddStains"/>, glue left by <see cref="AddResidue"/>.
@@ -63,7 +107,7 @@ namespace BorderRepair.Cleaning
             for (int i = 0; i < coverage.Length; i++) if (coverage[i] != 0) covered++;
             if (covered < n * n / 50) return;
             var rng = new System.Random(seed);
-            stain = new Color32[coverage.Length];
+            stain = new Color32[coverage.Length]; kind = new byte[coverage.Length];
             float unit = n / 256f, share = covered / (float)(n * n);
             float R(float a, float b) => a + (float)rng.NextDouble() * (b - a);
             bool Centre(out int cx, out int cy)
@@ -75,15 +119,16 @@ namespace BorderRepair.Cleaning
                 }
                 cx = cy = 0; return false;
             }
-            void Put(int x, int y, Color32 colour, float amount)
+            void Put(int x, int y, Color32 colour, float amount, DirtKind what)
             {
                 if (x < 0 || y < 0 || x >= n || y >= n) return;
                 int i = y * n + x;
                 if (coverage[i] == 0) return;
                 if (stain[i].r == 0 && stain[i].g == 0 && stain[i].b == 0) StainTexels++;
-                stain[i] = colour;
+                stain[i] = colour; kind[i] = (byte)what;
                 initial[i] = Mathf.Max(initial[i], amount);
             }
+            var laying = DirtKind.Blood;
             void Disc(float cx, float cy, float radius, Color32 colour, float amount, float ragged)
             {
                 int r = Mathf.CeilToInt(radius + 1);
@@ -91,7 +136,7 @@ namespace BorderRepair.Cleaning
                     for (int x = -r; x <= r; x++)
                     {
                         float edge = radius * (1 - ragged + ragged * Mathf.PerlinNoise((cx + x) * .37f + seed * .013f, (cy + y) * .37f));
-                        if (x * x + y * y <= edge * edge) Put(Mathf.RoundToInt(cx) + x, Mathf.RoundToInt(cy) + y, colour, amount);
+                        if (x * x + y * y <= edge * edge) Put(Mathf.RoundToInt(cx) + x, Mathf.RoundToInt(cy) + y, colour, amount, laying);
                     }
             }
             // Blood: a ragged pool, drops thrown off it, one run. Fresh is red, old is brown; linear values.
@@ -118,6 +163,7 @@ namespace BorderRepair.Cleaning
             }
             // Oil and grease: dark smears dragged along one direction, thinning out.
             int oil = rng.Next(1, 4);
+            laying = DirtKind.Oil;
             for (int k = 0; k < oil; k++)
             {
                 if (!Centre(out int cx, out int cy)) break;
@@ -143,6 +189,7 @@ namespace BorderRepair.Cleaning
             int region = RegionAt(uv);
             if (region == 0 || !float.IsFinite(radius) || radius <= 0) return false;
             if (stain == null) stain = new Color32[coverage.Length];
+            if (kind == null) kind = new byte[coverage.Length];
             int n = Resolution, r = Mathf.CeilToInt(radius * n) + 1, cx = Mathf.Clamp((int)(uv.x * n), 0, n - 1), cy = Mathf.Clamp((int)(uv.y * n), 0, n - 1);
             bool laid = false;
             for (int y = Mathf.Max(0, cy - r); y <= Mathf.Min(n - 1, cy + r); y++)
@@ -152,19 +199,19 @@ namespace BorderRepair.Cleaning
                     if (regions[i] != region) continue;
                     float d = new Vector2((x + .5f) / n - uv.x, (y + .5f) / n - uv.y).magnitude / radius;
                     // a patchy blot: glue keeps the label's outline only roughly
-                    float patch = amount * (1 - Mathf.SmoothStep(.6f, 1, d)) * (.55f + .45f * Mathf.PerlinNoise(x * .9f, y * .9f));
+                    float patch = amount * (1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.6f, 1, d))) * (.55f + .45f * Mathf.PerlinNoise(x * .9f, y * .9f));
                     if (patch <= remaining[i] || patch < .08f) continue;
                     double weight = coverage[i] / 255.0;
                     if (patch > initial[i]) { initialMass += (patch - initial[i]) * weight; initial[i] = patch; }
                     remainingMass += (patch - remaining[i]) * weight; remaining[i] = patch;
                     if (stain[i].r == 0 && stain[i].g == 0 && stain[i].b == 0) StainTexels++;
-                    stain[i] = colour; WritePixel(i); laid = true;
+                    stain[i] = colour; kind[i] = (byte)DirtKind.Glue; WritePixel(i); laid = true;
                 }
-            if (laid) StainCounts[2]++;
+            if (laid) { StainCounts[2]++; RecountStains(); }
             return laid;
         }
 
-        public bool Paint(Vector2 uv, float radius, float strength, bool isolateIsland = false)
+        public bool Paint(Vector2 uv, float radius, float strength, bool isolateIsland = false, CleanMethod method = CleanMethod.Any)
         {
             if (!float.IsFinite(uv.x) || !float.IsFinite(uv.y) || !float.IsFinite(radius) || !float.IsFinite(strength)
                 || radius <= 0 || strength <= 0 || uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1) return false;
@@ -187,9 +234,11 @@ namespace BorderRepair.Cleaning
                     int i = py * Resolution + px;
                     if (isolateIsland && regions[i] != region) continue;
                     float falloff = 1 - Mathf.SmoothStep(.45f, 1, distance);
-                    float next = Mathf.Max(0, remaining[i] - strength * falloff);
+                    float bite = method == CleanMethod.Any ? 1f : Bite(method, kind != null ? (DirtKind)kind[i] : DirtKind.Dust);
+                    float next = Mathf.Max(0, remaining[i] - strength * falloff * bite);
                     if (next >= remaining[i]) continue;
                     remainingMass -= (remaining[i] - next) * coverage[i] / 255.0;
+                    if (kind != null && kind[i] != 0) stainRemaining -= (remaining[i] - next) * coverage[i] / 255.0;
                     remaining[i] = next; WritePixel(i); changed = true;
                 }
             return changed;
@@ -257,12 +306,13 @@ namespace BorderRepair.Cleaning
         {
             remainingMass = initialMass;
             Array.Copy(initial, remaining, initial.Length);
+            RecountStains();
             for (int i = 0; i < Pixels.Length; i++) WritePixel(i);
         }
 
         public void Clear()
         {
-            remainingMass = 0;
+            remainingMass = 0; stainRemaining = 0;
             Array.Clear(remaining, 0, remaining.Length);
             for (int i = 0; i < Pixels.Length; i++) WritePixel(i);
         }
@@ -281,6 +331,7 @@ namespace BorderRepair.Cleaning
                 remainingMass += remaining[i] * coverage[i] / 255.0;
                 WritePixel(i);
             }
+            RecountStains();
             return true;
         }
 
