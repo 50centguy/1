@@ -559,6 +559,11 @@ namespace BorderRepair.RepairProps
 
         bool TargetBox(string target, float grow) => OrientedBox(Meshes(target).Select(m => m.filter), Frame(target), grow);
 
+        /// <summary>The pointer tag for the sticker under the pointer, or null.</summary>
+        public string LabelHint { get; private set; }
+        /// <summary>How many kept stickers have their place on the item marked this frame.</summary>
+        public int LabelMarks { get; private set; }
+
         void LockBox(Camera camera, float scale, Color color, float fraction, string key)
         {
             float age = Age(key), t = HudMotion.EaseOut(age / .22f);
@@ -637,6 +642,10 @@ namespace BorderRepair.RepairProps
             var pointer = RepairInput.PointerPosition;
             if (!RepairInput.PointerOverUI && (owner.ContextPanel == null || !owner.ContextPanel.ContainsScreenPoint(pointer)))
                 HoveredTarget = Pick(pointer);
+            // A sticker under the pointer is what a click acts on: the part beneath it steps back.
+            var hoveredLabel = owner.Labels != null ? owner.Labels.Hovered : null;
+            if (hoveredLabel != null) { HoveredTarget = null; pointerOnItem = false; }
+            LabelHint = owner.Labels != null ? owner.Labels.Hint(hoveredLabel) : null;
 
             // Actionable parts: dim cyan corner marks, so the player sees at a glance where work can happen.
             foreach (var node in d.nodes)
@@ -711,6 +720,23 @@ namespace BorderRepair.RepairProps
                 var node = d.FindNode(HoveredTarget);
                 Tag(pointer / scale + new Vector2(16, -10), node != null ? node.displayName : HoveredTarget, VisorIcons.Scan, 12, TextAnchor.UpperLeft, true, VisorIcons.Get("loupe"));
             }
+
+            // Stickers: what a click on one does, and where the customer's kept ones go back (loud once the job is
+            // otherwise ready to hand over).
+            if (hoveredLabel != null)
+                Tag(pointer / scale + new Vector2(18, -12), LabelHint, hoveredLabel.Kind == PropLabelKind.Keepsake ? RepairPropCyberStyle.Amber : RepairPropCyberStyle.Dim, 12, TextAnchor.UpperLeft, true);
+            LabelMarks = 0;
+            if (owner.Labels != null)
+                foreach (var label in owner.Labels.Pending)
+                {
+                    if (label == hoveredLabel || label.State != PropLabelState.Kept || !owner.Labels.Home(label, out var home, out _)) continue;
+                    var at = camera.WorldToScreenPoint(home);
+                    if (at.z <= 0) continue;
+                    bool due = next != null && next.kind == PropCommandKind.Complete;
+                    var mark = due ? RepairPropCyberStyle.Amber : RepairPropCyberStyle.Dim; if (due) mark.a = pulse;
+                    Tag((Vector2)at / scale + new Vector2(14, 16), (due ? "先贴回 ▶ " : "贴回 · ") + label.Name, mark, due ? 12 : 10, TextAnchor.LowerLeft, due);
+                    LabelMarks++;
+                }
 
             // Bench prop under the pointer: corner marks around it (one box) and what a click does.
             if (HoveredProp != null && OrientedBox(HoveredProp.GetComponentsInChildren<MeshFilter>(), HoveredProp.transform, 1.05f))

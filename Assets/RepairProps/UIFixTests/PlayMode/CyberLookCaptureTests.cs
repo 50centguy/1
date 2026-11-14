@@ -1162,11 +1162,12 @@ namespace BorderRepair.RepairProps.UI.Tests
             Assert.That(tools.Any(t => t != cleaner && t.Lifted), Is.False, "The loupe must not rise while the cleaning tool is in hand.");
             Assert.That(bench.HeldTool == cleaner || cleaner.Lifted, Is.True);
             yield return Shoot("51-bench-cleaning-no-tool", View);
-            // The dirt is not only dust: blood, strips of tape and stickers lie on the item too, and wipe off with it.
+            // The dirt is not only dust: blood and oil lie on the item too, and wipe off with it.
             var dirty = Object.FindObjectsByType<BorderRepair.Cleaning.CleanableSurface>(FindObjectsSortMode.None).Where(s => s.Dirt != null).ToArray();
             Assert.That(dirty.Length, Is.GreaterThan(0), "The item on the bench has cleanable surfaces.");
             Assert.That(dirty.Sum(s => s.Dirt.StainTexels), Is.GreaterThan(0), "Its dirt carries stains, not dust alone.");
-            Assert.That(dirty.Sum(s => s.Dirt.StainCounts[1] + s.Dirt.StainCounts[2]), Is.GreaterThan(0), "Tape or stickers are among them.");
+            Assert.That(dirty.Sum(s => s.Dirt.StainCounts[0] + s.Dirt.StainCounts[1]), Is.GreaterThan(0), "Blood or oil is among them.");
+            Assert.That(dirty.Sum(s => s.Dirt.StainCounts[2]), Is.EqualTo(0), "No glue yet: nothing has been pulled off.");
             if (!string.IsNullOrEmpty(Folder))
             {
                 // The stain layout of the most stained surface, as the shader sees it (unique UV space): for looking at, not asserting.
@@ -1192,6 +1193,37 @@ namespace BorderRepair.RepairProps.UI.Tests
             yield return Until(() => cleaning.Cleaning && cleaner.Lifted, "A click on the cleaning tool starts cleaning.");
             cleaning.SetCleaning(false);
             yield return Until(() => loupe.Lifted, "Back to empty hands.");
+
+            // Stickers and tape are objects on the item, not dirt. A leftover comes off for good and leaves glue; the
+            // customer's own sticker is kept, holds the hand-over while it is off, and goes back where it was.
+            var labels = bridge.Labels;
+            Assert.That(labels, Is.Not.Null, "The item on the clinic bench carries labels.");
+            yield return Until(() => labels.Built, "The labels are laid on the item.");
+            Debug.Log("[labels] " + string.Join(", ", labels.Labels.Select(l => l.Kind + ":" + l.Name)));
+            var junkLabel = labels.Labels.FirstOrDefault(l => l.Kind == PropLabelKind.Junk);
+            var keepLabel = labels.Labels.FirstOrDefault(l => l.Kind == PropLabelKind.Keepsake);
+            Assert.That(junkLabel, Is.Not.Null, "A leftover tag or tape found a place on the shell.");
+            Assert.That(keepLabel, Is.Not.Null, "The customer's sticker found a place on the shell.");
+            Assert.That(labels.Home(keepLabel, out var keepHome, out _), Is.True);
+            for (int i = 0; i < 6; i++) yield return null;
+            yield return Shoot("59-labels-on-item", View);
+            Assert.That(bridge.Flow.HandoverHold(), Is.Null, "With every sticker in place nothing holds the hand-over.");
+            Assert.That(labels.Activate(junkLabel), Is.True);
+            yield return Until(() => junkLabel.State == PropLabelState.Gone, "The leftover is pulled off and thrown away.");
+            Assert.That(dirty.Sum(s => s.Dirt.StainCounts[2]), Is.EqualTo(1), "It leaves glue to wipe.");
+            Assert.That(labels.Activate(junkLabel), Is.False, "Gone is gone.");
+            Assert.That(labels.Activate(keepLabel), Is.True);
+            yield return Until(() => keepLabel.State == PropLabelState.Kept, "The customer's sticker is pulled off and kept.");
+            Assert.That(bridge.Flow.HandoverHold(), Is.EqualTo(RepairPropLabels.HoldReason), "The item is not handed over without it.");
+            Assert.That(dirty.Sum(s => s.Dirt.StainCounts[2]), Is.EqualTo(1), "A sticker that is kept leaves no glue.");
+            for (int i = 0; i < 10; i++) yield return null;
+            Assert.That(bridge.ArOverlay.LabelMarks, Is.EqualTo(1), "Its place on the item is marked.");
+            yield return Shoot("60-label-kept", View);
+            Assert.That(labels.Activate(keepLabel), Is.True);
+            yield return Until(() => keepLabel.State == PropLabelState.On, "A click puts it back.");
+            Assert.That(labels.Home(keepLabel, out var backHome, out _), Is.True);
+            Assert.That(Vector3.Distance(keepHome, backHome), Is.LessThan(.001f), "Back where it was.");
+            Assert.That(bridge.Flow.HandoverHold(), Is.Null);
 
             // The paint can opens the appearance editor and puts it away again.
             sprayer.Activate(bridge);

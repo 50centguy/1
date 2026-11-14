@@ -24,6 +24,8 @@ namespace BorderRepair.RepairProps
         public RepairPropContextPanel ContextPanel { get; private set; }
         public RepairPropArOverlay ArOverlay { get; private set; }
         public RepairPropGesture Gesture { get; private set; }
+        /// <summary>Stickers, tags and tape on this item (clinic bench only); null elsewhere.</summary>
+        public RepairPropLabels Labels { get; private set; }
         public RepairStationController Station => station;
         public string SelectedTarget => selectedTarget;
         /// <summary>The part last looked at closely and when (unscaled time): the visor plays its analysis on it.</summary>
@@ -111,6 +113,8 @@ namespace BorderRepair.RepairProps
                 station.Inspector.SetBenchMounted(true);
                 BenchPresentation = gameObject.AddComponent<RepairPropBenchPresentation>();
                 BenchPresentation.Initialize(flow, clinic);
+                Labels = gameObject.AddComponent<RepairPropLabels>();
+                Labels.Initialize(this);
             }
             if (Application.isPlaying && showContextPanel)
             {
@@ -156,6 +160,8 @@ namespace BorderRepair.RepairProps
                 if (can != null && can.IsPainter) can.Activate(this);
                 return;
             }
+            // A sticker or tag on the item comes off (or goes back) by hand, whatever tool is held.
+            if (Labels != null && Labels.Click(screen)) return;
             string parkedTarget = null;
             if (Physics.Raycast(ray, out var hit, 10, ~0, QueryTriggerInteraction.Ignore))
             {

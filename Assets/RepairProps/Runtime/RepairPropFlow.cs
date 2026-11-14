@@ -50,6 +50,8 @@ namespace BorderRepair.RepairProps
         public static Func<RepairPropFlow, int> FaultChooser;
         /// <summary>A last say over a command the flow would allow: a reason to refuse it, or null. The tutorial holds the player to the step in hand with it.</summary>
         public static Func<RepairPropFlow, PropCommand, string> ExecuteGate;
+        /// <summary>This item's own reason not to hand it over yet (the customer's stickers are still off it), or null.</summary>
+        public Func<string> HandoverHold;
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetHooks() { FaultChooser = null; ExecuteGate = null; }
         public PropFault ActiveFault => definition != null && definition.HasFaultPool
@@ -159,6 +161,7 @@ namespace BorderRepair.RepairProps
                     if (GetState("pass." + test.id) != 1) { reason = "功能与原有数据一致性复测必须全部通过。"; break; }
             if (reason == null && CommandPolicy != null) CommandPolicy.CanExecute(this, c, out reason);
             if (reason == null && ExecuteGate != null) reason = ExecuteGate(this, c);
+            if (reason == null && c.kind == PropCommandKind.Complete && HandoverHold != null) reason = HandoverHold();
             return reason == null;
         }
 

@@ -29,7 +29,7 @@ namespace BorderRepair.Cleaning
         [SerializeField] byte[] bakedDirt;
         [SerializeField] int overlayBakeVersion;
         static bool overlayHost;
-        /// <summary>Stains on top of the plain dirt (blood, tape, stickers). Off unless the scene's cleaning tool asks for
+        /// <summary>Stains on top of the plain dirt (blood, oil). Off unless the scene's cleaning tool asks for
         /// them, so every other user of the component keeps plain dirt.</summary>
         public static bool StainsEnabled;
         /// <summary>The surface's dirt model (stain counts, progress), once initialised.</summary>
@@ -199,6 +199,19 @@ namespace BorderRepair.Cleaning
             if (data.Progress >= completionThreshold) data.Clear();
             dirty = true;
             Notify();
+            return true;
+        }
+
+        /// <summary>The renderer the dirt is drawn on right now: the bench's parked copy while there is one.</summary>
+        public Renderer Shown => standIn != null ? standIn : target;
+
+        /// <summary>Glue left by a label pulled off this surface: new dirt at <paramref name="uv"/> (cleaning UV).</summary>
+        public bool AddResidue(Vector2 uv, float radius, Color32 colour)
+        {
+            if (data == null || !data.AddResidue(uv, radius, colour)) return false;
+            dirty = true; tier = Mathf.Min(tier, Mathf.FloorToInt(Progress * 10));
+            if (!IsClean) completed = false;
+            ProgressChanged?.Invoke(Progress);
             return true;
         }
 

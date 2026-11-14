@@ -710,12 +710,12 @@
    ],
    "role": "tool",
    "min": [
-    -0.3761,
+    -0.3752,
     0.3269,
     0.9234
    ],
    "max": [
-    -0.3399,
+    -0.3408,
     0.544,
     0.9605
    ]
@@ -1939,47 +1939,6 @@
    ]
   },
   {
-   "name": "BV2_LedStrip",
-   "tris": 56,
-   "materials": [
-    "M_BV2_DarkPlastic",
-    "M_BV2_NeonAmber"
-   ],
-   "role": "static",
-   "min": [
-    -0.445,
-    0.851,
-    1.04
-   ],
-   "max": [
-    0.445,
-    0.86,
-    1.052
-   ]
-  },
-  {
-   "name": "BV2_NeonSign",
-   "tris": 422,
-   "materials": [
-    "M_BV2_DarkPlastic",
-    "M_BV2_SteelBare",
-    "M_BV2_NeonPink",
-    "M_BV2_NeonAmber",
-    "M_BV2_Rubber"
-   ],
-   "role": "static",
-   "min": [
-    0.645,
-    0.9592,
-    0.9494
-   ],
-   "max": [
-    0.915,
-    1.018,
-    1.405
-   ]
-  },
-  {
    "name": "BV2_HelperArm",
    "tris": 476,
    "materials": [
@@ -2213,7 +2172,7 @@
    ]
   }
  ],
- "triangles": 38224,
+ "triangles": 37746,
  "interactive": {
   "BV2_Drawer_1": {
    "kind": "drawer",

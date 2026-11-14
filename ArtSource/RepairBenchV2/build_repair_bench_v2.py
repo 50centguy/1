@@ -1851,43 +1851,9 @@ def build_bench_identity():
     new_obj("BV2_CableTrunk", bm, ["M_BV2_Rubber", "M_BV2_WornRed", "M_BV2_Yellow", "M_BV2_SteelBare", "M_BV2_Paper"], origin=(0.0, 0.98, 1.30))
 
 
-def neon_stroke(bm, pts, mat, r=.0038):
-    add_sweep(bm, pts, r, 6, mat)
-
-
 def build_cyber_layer():
-    """What dates the bench to its century instead of ours (reference library: neon over cramped benches, LED strips
-    under shelves, a helper manipulator, data shards): all light comes from flat emissive materials."""
-    # LED strip along the front of the riser: an amber line behind the mat
-    bm = bm_new()
-    add_box(bm, (-0.445, 0.853, 1.040), (0.445, 0.860, 1.052), 0, bevel=.001, segs=1)
-    add_box(bm, (-0.445, 0.851, 1.043), (0.445, 0.853, 1.049), 1)
-    new_obj("BV2_LedStrip", bm, ["M_BV2_DarkPlastic", "M_BV2_NeonAmber"], origin=(0.0, 0.855, 1.046))
-
-    # neon sign on the pegboard above the computer: FIX in pink tube, chevrons and a rule in amber
-    bx0, bx1, bz0, bz1, y = 0.645, 0.915, 1.285, 1.405, 1.012
-    bm = bm_new()
-    add_box(bm, (bx0, y - .004, bz0), (bx1, y + .006, bz1), 0, bevel=.003, segs=1)
-    for x in (bx0 + .012, bx1 - .012):
-        add_cyl(bm, (x, y - .006, bz1 - .012), .004, .004, "Y", 8, 1)
-    ty = y - .012
-    z0, z1, zm = bz0 + .034, bz1 - .020, (bz0 + .034 + bz1 - .020) / 2
-    x = bx0 + .060
-    neon_stroke(bm, [(x, ty, z0), (x, ty, z1), (x + .042, ty, z1)], 2)                 # F
-    neon_stroke(bm, [(x, ty, zm), (x + .032, ty, zm)], 2)
-    x += .066
-    neon_stroke(bm, [(x, ty, z0), (x, ty, z1)], 2)                                       # I
-    x += .026
-    neon_stroke(bm, [(x, ty, z0), (x + .044, ty, z1)], 2)                                # X
-    neon_stroke(bm, [(x, ty, z1), (x + .044, ty, z0)], 2)
-    for i in range(2):                                                                   # chevrons
-        cx = bx0 + .018 + i * .016
-        neon_stroke(bm, [(cx, ty, z1), (cx + .016, ty, zm), (cx, ty, z0)], 3, .003)
-    neon_stroke(bm, [(bx0 + .058, ty, bz0 + .016), (bx1 - .016, ty, bz0 + .016)], 3, .003)  # rule
-    # the lead dropping from the sign down behind the computer
-    add_sweep(bm, bezier((bx1 - .02, y - .004, bz0), (bx1 + .01, y - .02, bz0 - .06), (bx1 - .03, y - .03, 1.10), (bx1 - .06, y - .05, T + .05), 12), .0028, 5, 4)
-    new_obj("BV2_NeonSign", bm, ["M_BV2_DarkPlastic", "M_BV2_SteelBare", "M_BV2_NeonPink", "M_BV2_NeonAmber", "M_BV2_Rubber"], origin=((bx0 + bx1) / 2, y, (bz0 + bz1) / 2))
-
+    """Small set pieces that date the bench (a helper manipulator, data shards). The LED strip and the neon sign were
+    taken out again: too loud for the bench, which the owner is redesigning."""
     # helper manipulator clamped at the left end of the riser, a ring light on its wrist held over the work
     j = [(-0.505, 0.900, T + .03), (-0.505, 0.885, 1.170), (-0.385, 0.760, 1.315), (-0.265, 0.640, 1.225)]
     bm = bm_new()
