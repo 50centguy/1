@@ -28,11 +28,11 @@ namespace BorderRepair.TwoNight
         const float HeavyDirt = .55f, LightDirt = .18f, NoEffectDeny = .35f;
         public enum WipeResult { None, Removed, AlreadyClean, Blocked, Miss }
         public WipeResult LastWipe { get; private set; }
-        /// <summary>What the cleaning tool works with: a dry cloth for dust, solvent for blood and oil, a scraper for glue.
-        /// Keys 1 / 2 / 3 while cleaning, or Q for the next one.</summary>
+        /// <summary>What the cleaning tool works with: the blower brush for dust, the solvent bottle for blood and oil, the
+        /// scraper for glue. Set by whichever of the three the player takes from the bench.</summary>
         public CleanMethod Method { get; private set; } = CleanMethod.Cloth;
         public void SetMethod(CleanMethod method) { if (method != CleanMethod.Any) Method = method; }
-        public static string MethodLabel(CleanMethod method) => method == CleanMethod.Solvent ? "溶剂" : method == CleanMethod.Scraper ? "刮片" : "干布";
+        public static string MethodLabel(CleanMethod method) => method == CleanMethod.Solvent ? "溶剂瓶" : method == CleanMethod.Scraper ? "刮刀" : "吹尘刷";
         public static string KindLabel(DirtKind kind) => kind == DirtKind.Blood ? "血迹" : kind == DirtKind.Oil ? "油污" : kind == DirtKind.Glue ? "胶痕" : "灰尘";
         /// <summary>What the brush is on that the method in hand barely moves, and what to switch to; null when all is well.</summary>
         public string Advice { get; private set; }
@@ -40,7 +40,7 @@ namespace BorderRepair.TwoNight
         {
             if (!under.HasValue || DirtMaskData.Bite(method, under.Value) >= .5f) return null;
             var right = DirtMaskData.RightMethod(under.Value);
-            return KindLabel(under.Value) + "用" + MethodLabel(method) + "弄不掉 · 按 " + (int)right + " 换" + MethodLabel(right);
+            return KindLabel(under.Value) + "用" + MethodLabel(method) + "弄不掉 · 换" + MethodLabel(right);
         }
         public IReadOnlyList<CleanableSurface> Surfaces => surfaces;
         CleanableSurface[] surfaces = Array.Empty<CleanableSurface>();
@@ -136,12 +136,6 @@ namespace BorderRepair.TwoNight
                 // In the room C is the walker's crouch: only refuse out loud at the bench, on an item that can be cleaned.
                 if (!SetCleaning(wanted) && wanted && Clinic.ConsoleOpen && surfaces.Length > 0) Deny(UnavailableReason);
             }
-            if (Cleaning && !textFocused)
-            {
-                int digit = RepairInput.DigitPressed;
-                if (digit >= 1 && digit <= 3) Method = (CleanMethod)digit;
-                else if (Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame) Method = (CleanMethod)((int)Method % 3 + 1);
-            }
             bool held = Cleaning && RepairInput.LeftHeld && !RepairInput.RightHeld && !RepairInput.PointerOverUI;
             bool pressed = held && !wasHeld;
             wasHeld = held;
@@ -157,7 +151,7 @@ namespace BorderRepair.TwoNight
                 toggle.interactable = Available;
                 buttonText.text = Cleaning ? "退出清洁 [C]" : "清洁工具 [C]";
                 string detail = !Available && !Cleaning ? UnavailableReason : AllClean ? "已全部清洁" + (Cleaning ? " · 按 C 退出" : "")
-                    : Cleaning ? "擦头 " + MethodLabel(Method) + " · 1 干布 2 溶剂 3 刮片 · 按住左键擦" : "局部清洁，不改变维修步骤与费用";
+                    : Cleaning ? "手上 " + MethodLabel(Method) + " · 按住左键清理" : "局部清洁，不改变维修步骤与费用";
                 text.text = $"污垢清除 {Progress:P0}\n{detail}";
             }
         }

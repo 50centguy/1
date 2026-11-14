@@ -1165,7 +1165,7 @@ def build_tools():
     ob = new_obj("BV2_Tool_Cleaner", bm, ["M_BV2_Orange", "M_BV2_Ivory", "M_BV2_SteelBare", "M_BV2_Yellow", "M_BV2_Tape", "M_BV2_DarkPlastic"],
                  origin=dst, role="tool")
     tip(ob, stood((xs + .165, y, z), src, dst))
-    INTERACT[ob.name] = {"kind": "tool", "tool": "Clean", "label": "清洁工具"}
+    INTERACT[ob.name] = {"kind": "tool", "tool": "Clean", "label": "吹尘刷"}
 
     # ---- Handheld tester (检测仪): a yellow field unit in a black rubber boot from another brand. Hooded amber
     # segment LCD, a big range knob, three keys, a test cartridge in the top slot, antenna stub, two leads whose
@@ -1233,16 +1233,40 @@ def build_tools():
                  origin=(sx, sy, T), role="tool")
     INTERACT[ob.name] = {"kind": "tool", "tool": "Paint", "label": "涂装喷罐"}
 
-    # ---- Cleaning supplies behind the tray (static): an isopropyl pump bottle with a steel dish top and a tape
-    # label, a flat tin of lint-free wipes with one pulled out.
+    # ---- Solvent bottle (溶剂瓶, blood and oil): a squeeze wash bottle, blue-grey solvent showing through a clear
+    # band, a tape label with a hand-drawn drop, a red cap and a bent spout. Its working end is the spout.
     bx, by = -0.468, 0.640
     bm = bm_new()
-    add_cyl(bm, (bx, by, T + .030), .026, .060, "Z", 16, 0, bevel=.003)
-    add_cyl(bm, (bx, by, T + .034), .0264, .020, "Z", 16, 3)
-    add_cyl(bm, (bx, by, T + .064), .020, .008, "Z", 16, 1)
-    add_lathe(bm, [(.006, 0), (.022, .002), (.024, .007), (.023, .008), (.008, .004)], (bx, by, T + .068), "Z", 16, 1)
-    add_cyl(bm, (bx, by, T + .074), .005, .006, "Z", 8, 1)
+    add_cyl(bm, (bx, by, T + .034), .022, .068, "Z", 16, 0, bevel=.004)                 # body
+    add_cyl(bm, (bx, by, T + .022), .0224, .036, "Z", 16, 1)                            # solvent level
+    add_cyl(bm, (bx, by, T + .050), .0226, .016, "Z", 16, 2)                            # tape label
+    add_box(bm, (bx - .006, by - .0235, T + .046), (bx + .006, by - .0225, T + .055), 3)  # the drop drawn on it
+    add_lathe(bm, [(.022, 0), (.018, .006), (.010, .010)], (bx, by, T + .068), "Z", 16, 0)   # shoulder
+    add_cyl(bm, (bx, by, T + .082), .0105, .012, "Z", 12, 3, bevel=.0015)               # cap
+    spout = [(bx, by, T + .088), (bx, by, T + .104), (bx + .010, by - .006, T + .112), (bx + .030, by - .018, T + .108)]
+    add_sweep(bm, spout, .0022, 6, 4)
+    ob = new_obj("BV2_Tool_Solvent", bm, ["M_BV2_Ivory", "M_BV2_Binder", "M_BV2_Tape", "M_BV2_WornRed", "M_BV2_DarkPlastic"],
+                 origin=(bx, by, T), role="tool")
+    tip(ob, spout[-1])
+    INTERACT[ob.name] = {"kind": "tool", "tool": "Clean", "label": "溶剂瓶"}
+
+    # ---- Scraper (刮刀, glue): a razor scraper lying on the wipes tin, orange grip, steel holder, a bare blade.
+    sx0, sy0, sz0 = -0.497, 0.695, T + .0165
+    bm = bm_new()
+    add_box(bm, (sx0, sy0 - .009, sz0), (sx0 + .060, sy0 + .009, sz0 + .011), 0, bevel=.003, segs=2)   # grip
+    for gx in (.012, .022, .032):
+        add_box(bm, (sx0 + gx, sy0 - .0095, sz0 + .003), (sx0 + gx + .004, sy0 + .0095, sz0 + .008), 2)   # grip ribs
+    add_box(bm, (sx0 + .060, sy0 - .011, sz0 + .002), (sx0 + .078, sy0 + .011, sz0 + .008), 1, bevel=.0012)  # holder
+    add_box(bm, (sx0 + .078, sy0 - .012, sz0 + .004), (sx0 + .096, sy0 + .012, sz0 + .0052), 1)      # blade
+    add_box(bm, (sx0 + .040, sy0 - .0095, sz0 + .0105), (sx0 + .050, sy0 + .0095, sz0 + .0115), 3)  # tape number
+    ob = new_obj("BV2_Tool_Scraper", bm, ["M_BV2_Orange", "M_BV2_SteelBare", "M_BV2_Rubber", "M_BV2_Tape"],
+                 origin=(sx0 + .048, sy0, sz0), role="tool")
+    tip(ob, (sx0 + .096, sy0, sz0 + .0046))
+    INTERACT[ob.name] = {"kind": "tool", "tool": "Clean", "label": "刮刀"}
+
+    # ---- Cleaning supplies (static): a flat tin of lint-free wipes with one pulled out.
     wx, wy = -0.455, 0.715
+    bm = bm_new()
     add_box(bm, (wx - .045, wy - .030, T), (wx + .045, wy + .030, T + .016), 2, bevel=.003)
     add_box(bm, (wx - .020, wy - .012, T + .016), (wx + .020, wy + .012, T + .017), 4)
     wipe = add_box(bm, (wx - .012, wy - .010, T + .017), (wx + .030, wy + .010, T + .019), 5)

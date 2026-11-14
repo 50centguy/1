@@ -33,10 +33,13 @@ namespace BorderRepair.RepairProps
             internal Transform body, ghost;
             internal float t;
             internal int slot;
+            internal Vector3 restPos; internal Quaternion restRot; internal bool rested;   // where a kept sticker lies on the bench
             public bool Off => State != PropLabelState.On && State != PropLabelState.Gone;
+            /// <summary>Where a kept sticker lies on the bench.</summary>
+            public Vector3 RestPosition => restPos;
         }
 
-        /// <summary>Where kept stickers wait, in viewport units of the bench camera (first one; the rest step right).</summary>
+        /// <summary>Where on the view a kept sticker is put down on the bench (first one; the rest step right).</summary>
         public static Vector2 KeepViewport = new Vector2(.36f, .17f);
         const float PeelSeconds = .5f, ReturnSeconds = .4f, Lift = .0008f;
         public const string HoldReason = "顾客的贴纸还没贴回去：点物品上的虚线框，把它贴回原位。";
@@ -108,6 +111,8 @@ namespace BorderRepair.RepairProps
                 else
                 {
                     label.slot = Enumerable.Range(0, labels.Count).First(i => !labels.Any(l => l != label && l.Kind == PropLabelKind.Keepsake && l.Off && l.slot == i));
+                    var camera = bridge.Station != null && bridge.Station.Inspector != null ? bridge.Station.Inspector.ViewCamera : null;
+                    if (camera != null) TableSpot(camera, label);
                     if (view != null) view.ShowFeedback("撕下了顾客的" + label.Name + "，先收着。交付前贴回原位。", FeedbackKind.Info);
                 }
                 return true;
@@ -228,15 +233,48 @@ namespace BorderRepair.RepairProps
 
         static float Smooth(float t) { t = Mathf.Clamp01(t); return t * t * (3 - 2 * t); }
 
-        // Kept stickers wait on the mat in front of the item, a row at a fixed depth in front of the bench camera.
+        // Kept stickers lie face up on the bench in front of the item, at their real size, where the player put them down.
         void KeepPose(Camera camera, Label label, out Vector3 position, out Quaternion rotation, out Vector3 scale)
         {
-            float depth = Mathf.Max(camera.nearClipPlane * 2.5f, .28f);
-            float viewHeight = 2 * depth * Mathf.Tan(camera.fieldOfView * .5f * Mathf.Deg2Rad);
-            float tall = viewHeight * .085f, k = tall / Mathf.Max(label.size.x, label.size.y);
-            scale = new Vector3(label.size.x * k, label.size.y * k, 1);
-            position = camera.ViewportToWorldPoint(new Vector3(KeepViewport.x + label.slot * .062f, KeepViewport.y, depth));
-            rotation = Quaternion.LookRotation(-camera.transform.forward, camera.transform.up) * Quaternion.AngleAxis(label.slot % 2 == 0 ? 7 : -6, Vector3.forward);
+            if (!label.rested) TableSpot(camera, label);
+            position = label.restPos; rotation = label.restRot;
+            scale = new Vector3(label.size.x, label.size.y, 1) * 1.15f;
+        }
+
+        // The first flat, open spot of bench top under a point of the view (the item, its parts and the tools do not count).
+        void TableSpot(Camera camera, Label label)
+        {
+            var item = bridge.Station != null && bridge.Station.Inspector != null && bridge.Station.Inspector.CurrentItem != null ? bridge.Station.Inspector.CurrentItem.transform : null;
+            var parked = bridge.BenchPresentation != null && bridge.BenchPresentation.ParkingRoot != null ? bridge.BenchPresentation.ParkingRoot.transform : null;
+            Physics.SyncTransforms();
+            var flat = Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up);
+            if (flat.sqrMagnitude < 1e-4f) flat = camera.transform.up;
+            for (int attempt = 0; attempt < 6; attempt++)
+            {
+                var ray = camera.ViewportPointToRay(new Vector3(KeepViewport.x + (label.slot + attempt) * .05f, KeepViewport.y, 0));
+                var hits = Physics.RaycastAll(ray, 10, ~0, QueryTriggerInteraction.Ignore).OrderBy(h => h.distance);
+                foreach (var hit in hits)
+                {
+                    if (item != null && hit.transform.IsChildOf(item) || parked != null && hit.transform.IsChildOf(parked)) continue;
+                    if (hit.transform.GetComponentInParent<RepairBenchProp>() != null || hit.normal.y < .8f) break;
+                    label.restPos = hit.point + hit.normal * .0012f;
+                    // The service mat has no collider (parked parts rest on the bench top through it): lie on its surface.
+                    var mat = GameObject.Find("BV2_Mat");
+                    var matRenderer = mat != null ? mat.GetComponent<Renderer>() : null;
+                    if (matRenderer != null)
+                    {
+                        var b = matRenderer.bounds;
+                        if (label.restPos.x >= b.min.x && label.restPos.x <= b.max.x && label.restPos.z >= b.min.z && label.restPos.z <= b.max.z)
+                            label.restPos.y = Mathf.Max(label.restPos.y, b.max.y + .0012f);
+                    }
+                    label.rested = true;
+                    label.restRot = Quaternion.LookRotation(hit.normal, flat.normalized) * Quaternion.AngleAxis(label.slot % 2 == 0 ? 9 : -7, Vector3.forward);
+                    return;
+                }
+            }
+            // No bench under the view: in front of the camera, face on.
+            label.restPos = camera.ViewportToWorldPoint(new Vector3(KeepViewport.x + label.slot * .062f, KeepViewport.y, .3f));
+            label.restRot = Quaternion.LookRotation(-camera.transform.forward, camera.transform.up); label.rested = true;
         }
 
         // ------------------------------------------------------------------ build

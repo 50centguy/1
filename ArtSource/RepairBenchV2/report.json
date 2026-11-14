@@ -897,8 +897,51 @@
    ]
   },
   {
+   "name": "BV2_Tool_Solvent",
+   "tris": 596,
+   "materials": [
+    "M_BV2_Ivory",
+    "M_BV2_Binder",
+    "M_BV2_Tape",
+    "M_BV2_WornRed",
+    "M_BV2_DarkPlastic"
+   ],
+   "role": "tool",
+   "min": [
+    -0.4906,
+    0.6165,
+    0.9
+   ],
+   "max": [
+    -0.4368,
+    0.6626,
+    1.0141
+   ]
+  },
+  {
+   "name": "BV2_Tool_Scraper",
+   "tris": 276,
+   "materials": [
+    "M_BV2_Orange",
+    "M_BV2_SteelBare",
+    "M_BV2_Rubber",
+    "M_BV2_Tape"
+   ],
+   "role": "tool",
+   "min": [
+    -0.497,
+    0.683,
+    0.9165
+   ],
+   "max": [
+    -0.401,
+    0.707,
+    0.928
+   ]
+  },
+  {
    "name": "BV2_CleaningSupplies",
-   "tris": 624,
+   "tris": 132,
    "materials": [
     "M_BV2_Ivory",
     "M_BV2_SteelBare",
@@ -910,13 +953,13 @@
    "role": "static",
    "min": [
     -0.5,
-    0.6136,
+    0.685,
     0.9
    ],
    "max": [
     -0.41,
     0.745,
-    0.977
+    0.9359
    ]
   },
   {
@@ -2172,7 +2215,7 @@
    ]
   }
  ],
- "triangles": 37746,
+ "triangles": 38126,
  "interactive": {
   "BV2_Drawer_1": {
    "kind": "drawer",
@@ -2203,7 +2246,7 @@
   "BV2_Tool_Cleaner": {
    "kind": "tool",
    "tool": "Clean",
-   "label": "清洁工具"
+   "label": "吹尘刷"
   },
   "BV2_Tool_Meter": {
    "kind": "tool",
@@ -2219,6 +2262,16 @@
    "kind": "tool",
    "tool": "Paint",
    "label": "涂装喷罐"
+  },
+  "BV2_Tool_Solvent": {
+   "kind": "tool",
+   "tool": "Clean",
+   "label": "溶剂瓶"
+  },
+  "BV2_Tool_Scraper": {
+   "kind": "tool",
+   "tool": "Clean",
+   "label": "刮刀"
   },
   "BV2_Lamp": {
    "kind": "lamp"

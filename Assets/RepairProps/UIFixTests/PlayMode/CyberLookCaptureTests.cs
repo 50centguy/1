@@ -1081,7 +1081,7 @@ namespace BorderRepair.RepairProps.UI.Tests
 
             var bench = RepairBenchV2Runtime.Current;
             var tools = bench.Props.Where(p => p.Kind == RepairBenchPropKind.Tool).ToArray();
-            Assert.That(tools.Length, Is.EqualTo(6), "Screwdriver, opening tool, tester, loupe, the cleaning tool and the paint can.");
+            Assert.That(tools.Length, Is.EqualTo(8), "Screwdriver, opening tool, tester, loupe, the three cleaning tools (brush, solvent, scraper) and the paint can.");
             var sprayer = bench.FindProp("BV2_Tool_Sprayer");
             Assert.That(sprayer != null && sprayer.IsPainter, Is.True, "The paint can stands by the tray.");
             var cleaner = bench.FindProp("BV2_Tool_Cleaner");
@@ -1186,9 +1186,9 @@ namespace BorderRepair.RepairProps.UI.Tests
                 File.WriteAllBytes(Path.Combine(Folder, "58-stain-map.png"), sheet.EncodeToPNG());
                 Object.Destroy(sheet);
             }
-            // Different dirt, different head: a dry cloth barely moves glue, the scraper takes it off; solvent is for blood and oil.
-            Assert.That(cleaning.Method, Is.EqualTo(BorderRepair.Cleaning.CleanMethod.Cloth), "Cleaning starts with the dry cloth.");
-            StringAssert.Contains("干布", bridge.ArOverlay.HintText);
+            // Different dirt, different tool: the brush barely moves glue, the scraper takes it off; solvent is for blood and oil.
+            Assert.That(cleaning.Method, Is.EqualTo(BorderRepair.Cleaning.CleanMethod.Cloth), "The brush cleans dust.");
+            StringAssert.Contains("吹尘刷", bridge.ArOverlay.HintText);
             {
                 var full = Enumerable.Repeat((byte)255, 64 * 64).ToArray();
                 var centre = new Vector2(.5f, .5f);
@@ -1203,11 +1203,17 @@ namespace BorderRepair.RepairProps.UI.Tests
                 Assert.That(BorderRepair.Cleaning.DirtMaskData.RightMethod(BorderRepair.Cleaning.DirtKind.Blood), Is.EqualTo(BorderRepair.Cleaning.CleanMethod.Solvent));
                 Assert.That(sample.StainLeft, Is.LessThan(1f).And.GreaterThan(0f));
             }
-            cleaning.SetMethod(BorderRepair.Cleaning.CleanMethod.Solvent);
-            for (int i = 0; i < 6; i++) yield return null;
-            StringAssert.Contains("溶剂", bridge.ArOverlay.HintText, "The guide line names the head in use.");
+            // The three cleaning tools are things on the bench: a click on another one swaps to it.
+            var solvent = bench.FindProp("BV2_Tool_Solvent"); var scraper = bench.FindProp("BV2_Tool_Scraper");
+            Assert.That(solvent != null && solvent.IsCleaner && solvent.HasTip && scraper != null && scraper.IsCleaner && scraper.HasTip, Is.True, "Solvent bottle and scraper are on the bench.");
+            solvent.Activate(bridge);
+            yield return Until(() => cleaning.Cleaning && cleaning.Method == BorderRepair.Cleaning.CleanMethod.Solvent && solvent.Lifted && !cleaner.Lifted, "Taking the solvent bottle swaps to it.");
+            StringAssert.Contains("溶剂瓶", bridge.ArOverlay.HintText, "The guide line names the tool in hand.");
             yield return Shoot("57-bench-cleaning-solvent", View);
-            cleaning.SetMethod(BorderRepair.Cleaning.CleanMethod.Cloth);
+            scraper.Activate(bridge);
+            yield return Until(() => cleaning.Method == BorderRepair.Cleaning.CleanMethod.Scraper && scraper.Lifted && !solvent.Lifted, "And to the scraper.");
+            cleaner.Activate(bridge);
+            yield return Until(() => cleaning.Method == BorderRepair.Cleaning.CleanMethod.Cloth && cleaner.Lifted, "Back to the brush.");
             cleaning.SetCleaning(false);
             yield return Until(() => loupe.Lifted && !cleaner.Lifted, "Putting the cleaning tool down returns to empty-handed inspection.");
             // Taking the cleaner from the tray is the same as the cleaning key.
@@ -1240,6 +1246,13 @@ namespace BorderRepair.RepairProps.UI.Tests
             Assert.That(dirty.Sum(s => s.Dirt.StainCounts[2]), Is.EqualTo(1), "A sticker that is kept leaves no glue.");
             for (int i = 0; i < 10; i++) yield return null;
             Assert.That(bridge.ArOverlay.LabelMarks, Is.EqualTo(1), "Its place on the item is marked.");
+            Assert.That(Physics.Raycast(keepLabel.RestPosition + Vector3.up * .02f, Vector3.down, out var under, .05f), Is.True, "The kept sticker lies on the bench.");
+            Assert.That(under.transform.IsChildOf(bridge.transform), Is.False, "On the bench, not on the item.");
+            Assert.That(under.transform.name, Does.StartWith("Bench").Or.StartWith("BV2"), "On the bench top, not the floor: " + under.transform.name);
+            var matTop = GameObject.Find("BV2_Mat").GetComponent<Renderer>().bounds.max.y;
+            Assert.That(keepLabel.RestPosition.y, Is.GreaterThan(matTop), "Above the mat's surface, not hidden under it.");
+            var seen = View.WorldToViewportPoint(keepLabel.RestPosition);
+            Assert.That(seen.z > 0 && seen.x > 0 && seen.x < 1 && seen.y > 0 && seen.y < 1, Is.True, "In view: " + seen);
             yield return Shoot("60-label-kept", View);
             Assert.That(labels.Activate(keepLabel), Is.True);
             yield return Until(() => keepLabel.State == PropLabelState.On, "A click puts it back.");

@@ -264,7 +264,7 @@ namespace BorderRepair.RepairProps
                 // The cleaner is the tool in hand exactly while cleaning.
                 // The paint can stands out while the appearance editor is open.
                 if (prop.Kind == RepairBenchPropKind.Tool)
-                    prop.SetSelected(atBench && (prop.IsCleaner ? Cleaning
+                    prop.SetSelected(atBench && (prop.IsCleaner ? Cleaning && cleaning.Method == prop.Method
                         : prop.IsPainter ? bridge.ContextPanel != null && bridge.ContextPanel.AppearanceOpen
                         : !station.CleaningActive && bridge.ShownTool == prop.Tool));
             DriveHand(bridge, atBench, station);
@@ -306,7 +306,7 @@ namespace BorderRepair.RepairProps
         void DriveHand(RepairPropStationBridge bridge, bool atBench, RepairStationController station)
         {
             RepairBenchProp held = null;
-            if (atBench && Cleaning) held = props.FirstOrDefault(p => p.IsCleaner);
+            if (atBench && Cleaning) held = props.FirstOrDefault(p => p.IsCleaner && p.Method == cleaning.Method) ?? props.FirstOrDefault(p => p.IsCleaner);
             else if (atBench && !station.CleaningActive && bridge.ShownTool.HasValue)
                 held = props.FirstOrDefault(p => p.Kind == RepairBenchPropKind.Tool && !p.IsCleaner && !p.IsPainter && p.Tool == bridge.ShownTool);
             foreach (var prop in props) if (prop.Kind == RepairBenchPropKind.Tool && prop != held) prop.PutBack();
@@ -332,6 +332,7 @@ namespace BorderRepair.RepairProps
                 Physics.SyncTransforms();
                 var other = Physics.Raycast(camera.ScreenPointToRay(pointer), out var trayHit, 10, ~0, QueryTriggerInteraction.Ignore)
                     ? trayHit.transform.GetComponentInParent<RepairBenchProp>() : null;
+                if (other != null && other.IsCleaner && other != held) { other.Activate(bridge); return; }   // swap cleaning tools
                 if (other != null && other.Kind == RepairBenchPropKind.Tool)
                 {
                     cleaning.SetCleaning(false);

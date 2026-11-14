@@ -17,6 +17,7 @@ namespace BorderRepair.RepairProps
         [SerializeField] RepairActionType tool;
         [SerializeField] bool cleaner;
         [SerializeField] bool painter;
+        [SerializeField] BorderRepair.Cleaning.CleanMethod method;
         [SerializeField] float travel = .3f;
         [SerializeField] float angle = -100f;
 
@@ -37,6 +38,8 @@ namespace BorderRepair.RepairProps
         public RepairActionType? Tool => kind == RepairBenchPropKind.Tool && hasTool ? tool : (RepairActionType?)null;
         /// <summary>The cleaning tool (blower brush): taking it starts cleaning, putting it down ends it.</summary>
         public bool IsCleaner => kind == RepairBenchPropKind.Tool && cleaner;
+        /// <summary>How this cleaning tool cleans (brush: dust, solvent: blood and oil, scraper: glue).</summary>
+        public BorderRepair.Cleaning.CleanMethod Method => method == BorderRepair.Cleaning.CleanMethod.Any ? BorderRepair.Cleaning.CleanMethod.Cloth : method;
         /// <summary>The loupe: empty-handed inspection, neither a repair tool nor the cleaner.</summary>
         public bool IsLoupe => kind == RepairBenchPropKind.Tool && !hasTool && !cleaner && !painter;
         /// <summary>The paint can: clicking it opens (or closes) the appearance editor.</summary>
@@ -115,9 +118,10 @@ namespace BorderRepair.RepairProps
             hasTip = true;
         }
 
-        public void Configure(RepairBenchPropKind kind, string label, RepairActionType? tool = null, float travel = .3f, float angle = -100f, bool cleaner = false, bool painter = false)
+        public void Configure(RepairBenchPropKind kind, string label, RepairActionType? tool = null, float travel = .3f, float angle = -100f, bool cleaner = false, bool painter = false,
+            BorderRepair.Cleaning.CleanMethod method = BorderRepair.Cleaning.CleanMethod.Any)
         {
-            this.cleaner = cleaner; this.painter = painter;
+            this.cleaner = cleaner; this.painter = painter; this.method = method;
             this.kind = kind; this.label = label; hasTool = tool.HasValue; this.tool = tool ?? default; this.travel = travel; this.angle = angle;
         }
 
@@ -137,7 +141,7 @@ namespace BorderRepair.RepairProps
             {
                 switch (kind)
                 {
-                    case RepairBenchPropKind.Tool: return label + (painter ? " · 点击打开 / 收起外观涂装" : cleaner ? " · 点击拿起，按住左键擦拭" : hasTool ? " · 点击拿起" : " · 点击换成空手检查");
+                    case RepairBenchPropKind.Tool: return label + (painter ? " · 点击打开 / 收起外观涂装" : cleaner ? " · 点击拿起，按住左键清理" : hasTool ? " · 点击拿起" : " · 点击换成空手检查");
                     case RepairBenchPropKind.Lamp: return "台灯 · 点击" + (LampOn ? "关灯" : "开灯");
                     case RepairBenchPropKind.Terminal: return label + " · 点击采购配件";
                     case RepairBenchPropKind.Drawer: return label + " · 点击" + (open ? "关上" : "拉开");
@@ -161,7 +165,10 @@ namespace BorderRepair.RepairProps
                     {
                         var cleaning = FindFirstObjectByType<BorderRepair.TwoNight.ClinicCleaningController>();
                         if (cleaning == null) return;
+                        // Another cleaning tool while cleaning: swap to it. The same one again: put it down.
+                        if (cleaning.Cleaning && cleaning.Method != Method) { cleaning.SetMethod(Method); return; }
                         bool wanted = !cleaning.Cleaning;
+                        if (wanted) cleaning.SetMethod(Method);
                         if (!cleaning.SetCleaning(wanted) && wanted && bridge.Station != null && bridge.Station.View != null)
                             bridge.Station.View.ShowFeedback(cleaning.UnavailableReason, BorderRepair.Core.FeedbackKind.Warning);
                         return;
