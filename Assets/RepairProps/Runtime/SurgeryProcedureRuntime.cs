@@ -20,6 +20,11 @@ namespace BorderRepair.RepairProps
     // patient secured and strapped, the lamp on and the arms deployed; taking the forearm off and fitting the new one
     // also need the tray out (those table switches are commands too). From the first command until the confirmation the
     // patient stays on the table even with the straps open. Visual and state only; nothing is saved.
+    // In the linked close-up view (Linked) the player drives each arm by hand: a command is begun with BeginManual and
+    // moves only as far as the player's work pushes it (Advance / SetProgress: holding a drill on a bolt, sweeping the
+    // scanner, cutting along the tape); the gripper's carries are positioned by the player and finish where they are
+    // put down. Linked, the arms need no deploy switch (the driven one comes down by itself); the lamp, the tray and
+    // the straps still do. The third link pass confirms the operation by itself.
     [AddComponentMenu("")]
     public sealed class SurgeryProcedureRuntime : MonoBehaviour
     {
@@ -56,9 +61,10 @@ namespace BorderRepair.RepairProps
         readonly Queue<string> queue = new Queue<string>();
         readonly List<string> inspected = new List<string>();
         readonly List<string> links = new List<string>();
+        readonly HashSet<string> finished = new HashSet<string>();
         Command running;
-        float runTime;
-        bool started;
+        float runTime, manualProgress;
+        bool started, manual;
         Transform oldArm, newArm;
         Vector3 carryFrom;
         Quaternion carryFromRot;
@@ -72,7 +78,11 @@ namespace BorderRepair.RepairProps
         public Command Find(string id) => commands.Find(c => c.id == id);
         public bool Running => running != null;
         public Command RunningCommand => running;
-        public float Progress => running != null ? Mathf.Clamp01(runTime / Mathf.Max(.01f, running.seconds)) : 0;
+        public float Progress => running == null ? 0 : manual ? manualProgress : Mathf.Clamp01(runTime / Mathf.Max(.01f, running.seconds));
+        /// <summary>The close-up view drives the arms by hand (see the class note).</summary>
+        public bool Linked { get; set; }
+        /// <summary>The running command moves only as the player works it.</summary>
+        public bool Manual => running != null && manual;
         public bool Complete => Get("done") == 1;
         /// <summary>The operation has begun and is not confirmed: the patient may not leave.</summary>
         public bool Holding => started && !Complete || Running;
@@ -297,6 +307,9 @@ namespace BorderRepair.RepairProps
             }
         }
 
+        /// <summary>The command has been carried out in this operation (even if a later one undid its state).</summary>
+        public bool Did(string id) => id == "test.link" ? Get("linked") == 1 : finished.Contains(id);
+
         public bool IsDone(Command c) =>
             c.id == "test.link" ? Get("linked") == 1 : c.effects.Count > 0 && c.effects.All(e => Get(e.key) == e.value);
 
@@ -323,11 +336,21 @@ namespace BorderRepair.RepairProps
             if (IsDone(c)) return "无需操作：已经" + c.label;
             if (Table == null || Get("straps") == 0) return "先扣上全部束带";
             if (Gantry == null || !Gantry.LampOn) return "先打开手术灯";
-            if (!Gantry.ArmsDeployed) return "先展开机械臂";
-            if (Gantry.DeployAmount < .98f) return "机械臂正在展开";
+            if (!Linked && !Gantry.ArmsDeployed) return "先展开机械臂";
+            if (!Linked && Gantry.DeployAmount < .98f) return "机械臂正在展开";
             foreach (var r in c.requires) if (Get(r.key) != r.value) return Describe(r, c);
             if (c.tray && !Table.TrayOut) return "先摆出器械托盘";
             return null;
+        }
+
+        /// <summary>Why a command cannot run, as if a paused hand-worked step were not there (it would be dropped).</summary>
+        public string WhyIfIdle(Command c)
+        {
+            if (!Manual) return Why(c);
+            var keep = running;
+            running = null;
+            try { return Why(c); }
+            finally { running = keep; }
         }
 
         string Describe((string key, int value) r, Command c)
@@ -374,7 +397,7 @@ namespace BorderRepair.RepairProps
                 if (c.table || IsDone(c) || !c.requires.All(r => Get(r.key) == r.value)) continue;
                 if (Get("straps") == 0) return Find("straps.close");
                 if (Gantry != null && !Gantry.LampOn) return Find("lamp.on");
-                if (Gantry != null && !Gantry.ArmsDeployed) return Find("arms.deploy");
+                if (!Linked && Gantry != null && !Gantry.ArmsDeployed) return Find("arms.deploy");
                 if (c.tray && Table != null && !Table.TrayOut) return Find("tray.out");
                 return c;
             }
@@ -486,12 +509,50 @@ namespace BorderRepair.RepairProps
 
         public void CancelQueue() => queue.Clear();
 
+        /// <summary>Begins a command the player works by hand (it stands still until Advance / SetProgress move it).</summary>
+        public bool BeginManual(string id)
+        {
+            var c = Find(id);
+            string why = Why(c);
+            if (why != null) { Say(why, FeedbackKind.Warning); return false; }
+            if (c.table) return Run(id);
+            Begin(c, true);
+            return true;
+        }
+
+        /// <summary>Pushes the hand-worked command on (0..1 of the whole step).</summary>
+        public void Advance(float amount) { if (running != null && manual && amount > 0) manualProgress = Mathf.Clamp01(manualProgress + amount); }
+
+        public void SetProgress(float value) { if (running != null && manual) manualProgress = Mathf.Clamp01(Mathf.Max(manualProgress, value)); }
+
+        /// <summary>Drops an unfinished hand-worked command: its part goes back the way it was (a carried forearm back
+        /// where it came from).</summary>
+        public void Abort()
+        {
+            if (running == null || !manual) return;
+            var c = running;
+            running = null; manual = false; manualProgress = 0;
+            if (c.tool != null && Gantry != null) Gantry.Work(c.tool, false);
+            StopSuction();
+            if (c.id == "forearm.remove" && oldArm != null && Patient != null) Patient.FitCyberArm(oldArm);
+            if (c.id == "forearm.fit" && newArm != null) Place(newArm, TraySlot(1), TrayRotation());
+            Apply();
+            Changed?.Invoke();
+        }
+
+        /// <summary>Where a forearm lies on the tray (its origin) and how: side -1 the old one, +1 the replacement.</summary>
+        public Vector3 TraySeat(int side) => Seat(TraySlot(side), TrayRotation());
+        /// <summary>The middle of a tray place (where a forearm's middle lies).</summary>
+        public Vector3 TraySpot(int side) => TraySlot(side);
+        public Quaternion TrayRest => TrayRotation();
+
         /// <summary>Takes the running command to the end of its motion: it finishes next frame through the normal path,
         /// with its effects, result and events. Nothing else is skipped. False when no command runs.</summary>
         public bool FastForward()
         {
             if (running == null) return false;
             runTime = running.seconds;
+            manualProgress = 1;
             return true;
         }
 
@@ -518,9 +579,9 @@ namespace BorderRepair.RepairProps
             }
         }
 
-        void Begin(Command c)
+        void Begin(Command c, bool byHand = false)
         {
-            running = c; runTime = 0; started = true;
+            running = c; runTime = 0; started = true; manual = byHand; manualProgress = 0;
             if (c.tool != null && Gantry != null) Gantry.Work(c.tool, true);
             switch (c.id)
             {
@@ -560,9 +621,10 @@ namespace BorderRepair.RepairProps
         void Finish()
         {
             var c = running;
-            running = null;
+            running = null; manual = false;
             if (c.tool != null && Gantry != null) Gantry.Work(c.tool, false);
             foreach (var e in c.effects) state[e.key] = e.value;
+            finished.Add(c.id);
             string result = c.done;
             switch (c.id)
             {
@@ -572,7 +634,7 @@ namespace BorderRepair.RepairProps
                 case "test.link":
                     result = LinkResultText[Mathf.Min(links.Count, LinkResultText.Length - 1)];
                     links.Add(result);
-                    if (links.Count >= LinkPasses) state["linked"] = 1;
+                    if (links.Count >= LinkPasses) { state["linked"] = 1; queue.Enqueue("complete"); }
                     break;
             }
             Apply();
@@ -674,6 +736,8 @@ namespace BorderRepair.RepairProps
 
         void Animate(Command c, float t)
         {
+            // Carried by hand: the player's gripper holds the part where it is.
+            if (manual && (c.id == "cover.remove" || c.id == "forearm.remove" || c.id == "forearm.fit")) return;
             float e = Smooth(t);
             bool removing = c.id.StartsWith("remove.", StringComparison.Ordinal);
             if (removing || c.id.StartsWith("install.", StringComparison.Ordinal))
@@ -749,9 +813,18 @@ namespace BorderRepair.RepairProps
 
         void Beam(Command c, float t)
         {
-            bool on = c.tool != null && Gantry != null && t > .12f && t < .92f;
+            // Linked, the tools touch their parts themselves; only the scanner still throws its light down.
+            bool on = c.tool != null && Gantry != null && (Linked ? manual && c.tool == "Scanner" : t > .12f && t < .92f);
             beam.enabled = on;
             if (!on) return;
+            if (Linked)
+            {
+                var tip = Gantry.TipPoint(c.tool);
+                beamMaterial.color = new Color(.3f, 1f, .9f) * (.75f + .25f * Mathf.PerlinNoise(Time.time * 18f, 0));
+                beam.SetPosition(0, tip);
+                beam.SetPosition(1, new Vector3(tip.x, TargetPoint(Whole).y, tip.z));
+                return;
+            }
             Color color = c.tool == "Scanner" ? new Color(.3f, 1f, .9f) : c.tool == "Probe" ? new Color(.45f, .65f, 1f)
                 : c.tool == "Drill" ? new Color(1f, .62f, .2f) : c.tool == "Suction" ? new Color(.7f, .9f, .7f)
                 : c.tool == "Cutter" ? new Color(1f, .35f, .25f) : new Color(1f, .9f, .6f);
@@ -826,7 +899,7 @@ namespace BorderRepair.RepairProps
             if (running != null && running.tool != null && Gantry != null) Gantry.Work(running.tool, false);
             StopSuction();
             running = null; started = false; LastResult = null; LastMessage = null;
-            queue.Clear(); inspected.Clear(); links.Clear(); state.Clear();
+            queue.Clear(); inspected.Clear(); links.Clear(); state.Clear(); finished.Clear();
             state["arm"] = 1;
             if (oldArm != null && oldArm != Patient.CyberArm) Destroy(oldArm.gameObject);
             if (newArm != null && newArm != Patient.CyberArm) Destroy(newArm.gameObject);

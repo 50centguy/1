@@ -12,6 +12,9 @@ namespace BorderRepair.RepairProps
     // the suggested next step with its gantry tool (pulsing, with a callout), the selection (amber wire and what can be
     // done to it), the part under the pointer (hot wire and its name), and the tool at work with its progress; a scan
     // line at the top and the guide band at the bottom. Read-only: it never selects or runs anything.
+    // With an arm driven it also draws the tool tip's reticle (green when it is on its part, hot while working, with
+    // what a press would do or how far off it is), the tolerance ring on the part it would work, the empty bolt holes,
+    // the forearm's scan sections, and where a carried load has to go. The first second plays the link coming up.
     public sealed class SurgeryCloseupOverlay : MonoBehaviour
     {
         const float LineWidth = 1.6f, Bracket = .22f;
@@ -29,6 +32,10 @@ namespace BorderRepair.RepairProps
         Text hint, controls, readout, visorId, clock;
 
         public string HoveredTarget { get; private set; }
+        /// <summary>Top of the guide band (canvas units): the arm bar sits on it.</summary>
+        public float BandTop => bandTop > 0 ? bandTop : 80;
+        /// <summary>The line by the tool tip (what a press does, how far off, the work's progress).</summary>
+        public string TipText { get; private set; }
         public string NextTarget { get; private set; }
         public string HintText => hint != null ? hint.text : "";
         public bool Showing => canvas != null && canvas.enabled;
@@ -53,10 +60,10 @@ namespace BorderRepair.RepairProps
             readout = MakeText("Readout", 11, TextAnchor.UpperCenter, RepairPropCyberStyle.Dim);
             hint = MakeText("Hint", 14, TextAnchor.LowerCenter, RepairPropCyberStyle.Amber);
             controls = MakeText("Controls", 11, TextAnchor.LowerCenter, RepairPropCyberStyle.Dim);
-            controls.text = "左键 选择 / 执行　·　拖动 旋转视角　·　滚轮 缩放　·　R 复位　·　Esc 离开手术台";
+            controls.text = "1–6 放下机械臂　·　按住左键 操作　·　右键 收臂 / 拖动平移　·　滚轮 缩放　·　L 灯　·　T 托盘　·　Esc 断开";
             visorId = MakeText("VisorId", 11, TextAnchor.UpperLeft, RepairPropCyberStyle.AmberFaint * new Color(1, 1, 1, 2.2f));
             if (RepairPropCyberStyle.Kana != null) visorId.font = RepairPropCyberStyle.Kana;
-            visorId.text = "VSR-07 // 手術視界　ＡＲオーバーレイ";
+            visorId.text = "NL-07 // 神経リンク　手術台直結";
             clock = MakeText("Clock", 11, TextAnchor.LowerLeft, RepairPropCyberStyle.AmberDim);
             if (RepairPropCyberStyle.Mono != null) { clock.font = RepairPropCyberStyle.Mono; readout.font = RepairPropCyberStyle.Mono; }
             HudMotion.TypeOn(hint, 220);
@@ -104,7 +111,9 @@ namespace BorderRepair.RepairProps
             // The suggested next step: pulsing marks on its part, a callout with the step and the arm to use.
             var next = Op.Running ? null : Op.Next();
             NextTarget = next != null && !next.table ? next.target : null;
-            if (NextTarget != null && Project(camera, NextTarget, scale, out var nextRect))
+            // With its arm already out the tip's own tag says it; the callout stands aside.
+            bool armOut = next != null && owner.Tool != null && owner.Tool == next.tool && owner.ArmReady;
+            if (NextTarget != null && !armOut && Project(camera, NextTarget, scale, out var nextRect))
             {
                 var color = RepairPropCyberStyle.Amber; color.a = pulse;
                 bool whole = NextTarget == SurgeryProcedureRuntime.Whole;
@@ -116,10 +125,13 @@ namespace BorderRepair.RepairProps
                 Tag(anchor, "下一步 ▶ " + next.label + tool, color, 13, TextAnchor.LowerLeft, true);
             }
 
-            // The tool at work: its part in hot wire (the whole arm gets no box, it would fill the view) and a progress
-            // tag off the point it works on.
+            DrawArm(camera, scale);
+            LinkIn(size);
+
+            // The tool at work on its timer: its part in hot wire (the whole arm gets no box, it would fill the view)
+            // and a progress tag off the point it works on. By hand, the tip's own tag says it.
             var running = Op.RunningCommand;
-            if (running != null && (running.target == SurgeryProcedureRuntime.Whole || Wire(camera, running.target, scale, RepairPropCyberStyle.Hot, out _)))
+            if (running != null && !Op.Manual && (running.target == SurgeryProcedureRuntime.Whole || Wire(camera, running.target, scale, RepairPropCyberStyle.Hot, out _)))
             {
                 var work = camera.WorldToScreenPoint(Op.TargetPoint(running.target));
                 if (work.z > 0)
@@ -159,16 +171,140 @@ namespace BorderRepair.RepairProps
             readout.text = "SCAN // 罗亚的右臂　义体扫描 [" + (Op.Get("scanned") == 1 ? "租赁锁·远程锁死" : "未扫描") + "]　神经链路联调 ["
                 + (Op.Get("linked") == 1 ? "通过" : links > 0 ? links + "/" + SurgeryProcedureRuntime.LinkPasses : "未测") + "]";
 
-            // Bottom guide: the suggested step and its tool (or the batch that carries it), else what stands in the way.
-            var batch = next != null && owner.Panel != null ? owner.Panel.BatchButtonFor(next.id) : null;
-            string step = batch != null ? batch.GetComponentInChildren<Text>().text + "（批量）" : next != null ? next.label : null;
-            hint.text = "提示 // " + (Op.Running ? Op.NextStepText : next != null ? "下一步 " + step + (batch != null || next.table || next.tool == null || owner.Tool == next.tool ? ""
-                : "（工具：" + SurgeryProcedureRuntime.ToolName(next.tool) + "）") : Op.NextStepText);
+            // Bottom guide: the suggested step, which arm to bring down for it, and how to work it once it is out.
+            hint.text = "提示 // " + Guide(Op.Manual ? Op.RunningCommand : next);
             Place(hint.rectTransform, new Vector2(right / 2, 44), new Vector2(Mathf.Min(right - 60, 760), 60));
             float hintHeight = hint.preferredHeight;
             bandTop = 12 + hintHeight + 40;
             Place(hintBand, new Vector2(right / 2, 12), new Vector2(Mathf.Min(right - 40, Mathf.Max(hint.preferredWidth, controls.preferredWidth) + 60), hintHeight + 40));
             Place(controls.rectTransform, new Vector2(right / 2, 20), new Vector2(Mathf.Min(right - 60, 760), 20));
+        }
+
+        // One line for the guide band.
+        string Guide(SurgeryProcedureRuntime.Command step)
+        {
+            if (owner.Carrying != null) return Coach(Op.RunningCommand);
+            if (Op.Running && !Op.Manual) return Op.NextStepText;
+            if (step == null) return Op.NextStepText;
+            if (step.table)
+                return "先" + step.label + (step.id == "lamp.on" ? "（按 L）" : step.id == "tray.out" ? "（按 T）" : step.id == "straps.close" ? "（Esc 断开链接，到房间里扣上束带）" : "");
+            if (step.tool != null && owner.Tool != step.tool)
+                return "下一步 " + step.label + "：按 " + (System.Array.IndexOf(SurgeryProcedureRuntime.ToolOrder, step.tool) + 1) + " 放下" + SurgeryProcedureRuntime.ToolName(step.tool);
+            return "下一步 " + step.label + "：" + Coach(step);
+        }
+
+        static string Coach(SurgeryProcedureRuntime.Command c)
+        {
+            if (c == null) return "";
+            switch (c.id)
+            {
+                case "scan": return "按住左键，扫描臂沿前臂从头扫到尾";
+                case "cover.remove": return "夹爪移到检修盖板上，按住左键夹起，拖开后松开";
+                case "battery.isolate": return "探针对准电池服务插头，按住左键拔下";
+                case "neural.release": return "探针对准神经接头，按住左键拔下";
+                case "neural.connect": return "探针对准神经接头，按住左键插上";
+                case "test.link": return "探针按在神经接头上，按住左键联调（一次一轮）";
+                case "tape.cut": return "切割臂贴着胶布，按住左键来回划";
+                case "socket.clean": return "吸头放在接口触点上，按住左键来回移动";
+                case "forearm.remove": return "夹爪按住旧前臂夹起，拖到托盘的空位上松开";
+                case "forearm.fit": return "夹爪按住替换前臂夹起，对准接口环后松开";
+            }
+            if (c.id.StartsWith("remove.", System.StringComparison.Ordinal)) return "钻头对准" + SurgeryCyberArm.Label(c.target) + "，按住左键拧下";
+            if (c.id.StartsWith("install.", System.StringComparison.Ordinal)) return "钻头对准空螺孔，按住左键拧紧" + SurgeryCyberArm.Label(c.target);
+            return c.label;
+        }
+
+        // The driven arm: its tip reticle and tag, the ring on what it would work, the empty holes, the scan sections,
+        // where a carried load goes.
+        void DrawArm(Camera camera, float scale)
+        {
+            TipText = null;
+            if (owner.Tool == null) return;
+            var tipScreen = camera.WorldToScreenPoint(owner.Tip);
+            if (tipScreen.z <= 0) return;
+            var tip = (Vector2)tipScreen / scale;
+            bool carrying = owner.Carrying != null;
+            Color color = !owner.ArmReady ? RepairPropCyberStyle.AmberDim : owner.Working && !carrying ? RepairPropCyberStyle.Hot
+                : owner.Aligned ? RepairPropCyberStyle.Ok : RepairPropCyberStyle.Amber;
+
+            if (owner.Tool == "Drill")
+                foreach (var c in Op.Commands.Where(c => c.tool == "Drill" && c.id.StartsWith("install.", System.StringComparison.Ordinal) && Op.WhyIfIdle(c) == null))
+                    Ring(camera, scale, owner.HolePoint(c.target), SurgeryCloseupRuntime.ScrewTolerance, RepairPropCyberStyle.AmberDim);
+            if (owner.Tool == "Scanner" && Op.Get("scanned") == 0 && owner.ScanSpan(out var from, out var to))
+                for (int i = 0; i < SurgeryCloseupRuntime.ScanBins; i++)
+                {
+                    var a = camera.WorldToScreenPoint(Vector3.Lerp(from, to, (i + .1f) / SurgeryCloseupRuntime.ScanBins));
+                    var b = camera.WorldToScreenPoint(Vector3.Lerp(from, to, (i + .9f) / SurgeryCloseupRuntime.ScanBins));
+                    if (a.z > 0 && b.z > 0) Line((Vector2)a / scale, (Vector2)b / scale, IsScanned(i) ? RepairPropCyberStyle.Ok : RepairPropCyberStyle.AmberDim);
+                }
+
+            if (carrying && owner.DropPoint.HasValue)
+            {
+                var place = camera.WorldToScreenPoint(owner.DropPoint.Value);
+                var load = camera.WorldToScreenPoint(owner.Handle);
+                if (place.z > 0 && load.z > 0)
+                {
+                    Ring(camera, scale, owner.DropPoint.Value, owner.AimTolerance, owner.Aligned ? RepairPropCyberStyle.Ok : RepairPropCyberStyle.Amber);
+                    Line((Vector2)load / scale, (Vector2)place / scale, owner.Aligned ? RepairPropCyberStyle.Ok : RepairPropCyberStyle.AmberDim);
+                }
+            }
+            else if (!carrying && owner.AimCommand != null && owner.Tool != "Scanner" && owner.Tool != "Gripper")
+            {
+                Ring(camera, scale, owner.AimPoint, owner.AimTolerance, owner.Aligned ? RepairPropCyberStyle.Ok : RepairPropCyberStyle.Amber);
+                var aim = camera.WorldToScreenPoint(owner.AimPoint);
+                if (aim.z > 0 && !owner.Aligned) Line(tip, (Vector2)aim / scale, RepairPropCyberStyle.AmberDim);
+            }
+
+            // The reticle: a small square with ticks out to the sides.
+            float r = owner.Working ? 7 : 9;
+            Brackets(Rect.MinMaxRect(tip.x - r, tip.y - r, tip.x + r, tip.y + r), color, 4);
+            Line(tip + new Vector2(-r - 7, 0), tip + new Vector2(-r - 2, 0), color);
+            Line(tip + new Vector2(r + 2, 0), tip + new Vector2(r + 7, 0), color);
+            Line(tip + new Vector2(0, -r - 7), tip + new Vector2(0, -r - 2), color);
+            Line(tip + new Vector2(0, r + 2), tip + new Vector2(0, r + 7), color);
+
+            string name = SurgeryProcedureRuntime.ToolName(owner.Tool);
+            if (!owner.ArmReady) TipText = name + "　就位中…";
+            else if (carrying) TipText = name + "　夹着" + SurgeryCyberArm.Label(owner.Selected) + (owner.Aligned ? "\n松开左键 ▶ 放下" : owner.DropPoint.HasValue ? "\n偏 " + Mathf.RoundToInt(owner.Offset * 1000) + " 毫米" : "");
+            else if (owner.Working) TipText = name + "　" + (Op.RunningCommand != null ? Op.RunningCommand.label : "") + "\n" + Mathf.RoundToInt(Op.Progress * 100) + "%"
+                + (owner.Tool == "Scanner" ? "　扫过 " + owner.ScannedSections + "/" + SurgeryCloseupRuntime.ScanBins + " 段" : "");
+            else if (owner.AimCommand == null) TipText = name + "　这里没有能做的";
+            else if (owner.Aligned) TipText = name + "　▶ 按住左键：" + owner.AimCommand.label + (Op.Manual && Op.RunningCommand == owner.AimCommand ? "（" + Mathf.RoundToInt(Op.Progress * 100) + "%）" : "");
+            else TipText = name + "　" + owner.AimCommand.label + "\n偏 " + Mathf.Max(1, Mathf.RoundToInt((owner.Offset - owner.AimTolerance) * 1000)) + " 毫米";
+            Tag(tip + new Vector2(18, -12), TipText, color, 12, TextAnchor.UpperLeft, true);
+        }
+
+        bool IsScanned(int section) => owner.SectionScanned(section);
+
+        // The link coming up: cyan scan lines sweeping down and the sync count, fading out after a second.
+        void LinkIn(Vector2 size)
+        {
+            float age = owner.LinkAge;
+            if (age > 1.3f) return;
+            float fade = 1 - Mathf.Clamp01((age - .8f) / .5f);
+            var cyan = new Color(.3f, 1f, .9f, .5f * fade);
+            for (int i = 0; i < 9; i++)
+            {
+                float y = Mathf.Repeat(size.y * (1 - age * 1.3f) + i * size.y / 9f, size.y);
+                Line(new Vector2(0, y), new Vector2(size.x, y), i == 0 ? cyan : cyan * new Color(1, 1, 1, .35f));
+            }
+            Tag(new Vector2(size.x / 2 - 160, size.y / 2 + 30), "神经链路接入 // 手术台\n同步 " + Mathf.RoundToInt(Mathf.Clamp01(age / .8f) * 100) + "%",
+                new Color(.3f, 1f, .9f, fade), 16, TextAnchor.UpperLeft, true);
+        }
+
+        // A ring of a given world radius on the horizontal plane around a point.
+        void Ring(Camera camera, float scale, Vector3 centre, float radius, Color color)
+        {
+            Vector2 previous = default;
+            for (int i = 0; i <= 20; i++)
+            {
+                float a = i / 20f * Mathf.PI * 2;
+                var p = camera.WorldToScreenPoint(centre + new Vector3(Mathf.Cos(a), 0, Mathf.Sin(a)) * Mathf.Max(radius, .002f));
+                if (p.z <= 0) return;
+                var s = (Vector2)p / scale;
+                if (i > 0) Line(previous, s, color);
+                previous = s;
+            }
         }
 
         void VisorFrame(Vector2 size, float right)

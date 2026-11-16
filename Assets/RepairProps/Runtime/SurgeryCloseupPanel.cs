@@ -12,14 +12,13 @@ namespace BorderRepair.RepairProps
     public enum SurgeryWorkspaceTab { Operate, Chart, Records }
 
     // The close-up surgery workspace: the same right-hand column of windows as the bench repair workspace
-    // (RepairPropContextPanel), on one overlay canvas, plus the leave button where the bench has its own:
-    //   case (patient, phase chips, the next step, the two checks), tools (visor + the six gantry arms, the part
-    //   picker), actions (operate / chart / records pages), log.
+    // (RepairPropContextPanel), on one overlay canvas, plus the leave button where the bench has its own. The column
+    // only informs (the work is done with the arms in the view): case (patient, phase chips, the next step, the two
+    // checks, the arm in use and the table), steps / chart / records pages, log. Under the view, the arm bar picks the
+    // gantry arm to drive (0 visor, 1-6 the arms) and switches the lamp (L) and the tray (T).
     // It reads SurgeryProcedureRuntime and dispatches only through SurgeryCloseupRuntime; the flow decides every command.
     public sealed class SurgeryCloseupPanel : MonoBehaviour
     {
-        sealed class ActionRow { public Button button; public Text label, reason; public Image strip; public string command; public int section; }
-        sealed class Batch { public string key, label; public List<SurgeryProcedureRuntime.Command> members; public Button button; public Text text; }
         static readonly Color PanelBg = RepairPropCyberStyle.Field, Rule = RepairPropCyberStyle.AmberDim, ChipBg = new Color(1f, .62f, .16f, .07f);
         static readonly Color Ink = RepairPropCyberStyle.Ink, Dim = RepairPropCyberStyle.Dim, Accent = RepairPropCyberStyle.Amber;
         static readonly Color Ok = RepairPropCyberStyle.Ok, Warn = RepairPropCyberStyle.Warn, Bad = RepairPropCyberStyle.Bad, Info = RepairPropCyberStyle.Hot;
@@ -27,39 +26,37 @@ namespace BorderRepair.RepairProps
         SurgeryCloseupRuntime owner;
         Canvas canvas;
         Font font;
-        Text title, subtitle, statusTitle, statusBody, toolStatus, feedback, caseCode, scanLine, linkLine;
+        Text title, subtitle, statusTitle, statusBody, armLine, tableLine, feedback, caseCode, scanLine, linkLine;
         RectTransform content;
         readonly List<(Image bg, Text text)> phaseChips = new List<(Image, Text)>();
-        readonly List<ActionRow> actions = new List<ActionRow>();
-        readonly List<Batch> batches = new List<Batch>();
-        readonly Dictionary<string, Button> commands = new Dictionary<string, Button>();
-        readonly Dictionary<string, Button> tools = new Dictionary<string, Button>();
+        readonly Dictionary<string, Button> arms = new Dictionary<string, Button>();
         readonly Dictionary<SurgeryWorkspaceTab, Button> tabs = new Dictionary<SurgeryWorkspaceTab, Button>();
-        readonly List<string> targets = new List<string>();
-        Button inspectTool, leave;
+        readonly List<string> steps = new List<string>();
+        Button visor, lamp, tray, leave;
+        RectTransform bar;
         SurgeryWorkspaceTab tab, builtTab;
-        string previousTarget, builtSignature;
-        bool dirty = true, refreshing, wasVisible;
+        string builtSignature;
+        bool dirty = true, wasVisible;
+        const string VisorKey = "Visor";
 
         public RectTransform PanelRectTransform { get; private set; }
         public ScrollRect Scroll { get; private set; }
-        public Dropdown TargetPicker { get; private set; }
         public Button LeaveButton => leave;
         public bool Visible => PanelRectTransform != null && PanelRectTransform.gameObject.activeInHierarchy && canvas.enabled;
-        public Button CommandButton(string id) => commands.TryGetValue(id, out var button) ? button : null;
-        public Button BatchButton(string key) => batches.FirstOrDefault(b => b.key == key)?.button;
-        public Button BatchButtonFor(string commandId) => batches.FirstOrDefault(b => b.button != null && b.members.Any(m => m.id == commandId))?.button;
-        public Button ToolButton(string tool) => tool == null ? inspectTool : tools.TryGetValue(tool, out var button) ? button : null;
+        /// <summary>The arm bar's slot for a gantry arm (null: the visor).</summary>
+        public Button ArmButton(string tool) => arms.TryGetValue(tool ?? VisorKey, out var button) ? button : null;
+        public Button LampButton => lamp;
+        public Button TrayButton => tray;
+        public RectTransform ArmBar => bar;
         public Button TabButton(SurgeryWorkspaceTab value) => tabs.TryGetValue(value, out var button) ? button : null;
         public SurgeryWorkspaceTab Tab => tab;
         public string StatusText => statusBody != null ? statusBody.text : "";
+        public string ArmText => armLine != null ? armLine.text : "";
         public string FeedbackText => feedback != null ? feedback.text : "";
-        public IEnumerable<string> TargetOptions => targets;
-        public bool ContainsScreenPoint(Vector2 point) => Visible && RectTransformUtility.RectangleContainsScreenPoint(PanelRectTransform, point, null);
-        public string ReasonFor(string id) => actions.FirstOrDefault(a => a.command == id)?.reason.text;
-        public bool ReasonShown(string reason) => !string.IsNullOrEmpty(reason) && actions.Any(a => a.reason.isActiveAndEnabled && a.reason.text == reason);
-        public Button PartButton(string id) => content != null ? content.GetComponentsInChildren<Button>().FirstOrDefault(b => b.name == "零件_" + id) : null;
-        public Button QuickTargetButton(string id) => content != null ? content.GetComponentsInChildren<Button>().FirstOrDefault(b => b.name == "可操作_" + id) : null;
+        /// <summary>The rows of the steps page as shown ("✓ …", "▶ …", "· …").</summary>
+        public IReadOnlyList<string> StepRows => steps;
+        public bool ContainsScreenPoint(Vector2 point) => Visible && (RectTransformUtility.RectangleContainsScreenPoint(PanelRectTransform, point, null)
+            || bar != null && bar.gameObject.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(bar, point, null));
 
         static SurgeryProcedureRuntime Op => SurgeryProcedureRuntime.Current;
 
@@ -111,28 +108,25 @@ namespace BorderRepair.RepairProps
             statusTitle = Label(statusCard, "", 13, 18, Accent);             statusBody = Paragraph(statusCard, 13, Ink); HudMotion.TypeOn(statusBody, 260);
             scanLine = Paragraph(statusCard, 12, Dim);
             linkLine = Paragraph(statusCard, 12, Dim);
+            armLine = Paragraph(statusCard, 12, Info);
+            tableLine = Paragraph(statusCard, 12, Dim);
 
-            // 2. Tools: the visor (inspect) and the gantry's six arms; the part they are aimed at.
-            var toolWindow = Window("ToolWindow", "工具 // TOOLS", false, .08f, out var toolBar);
-            toolStatus = RepairPropCyberStyle.Caption(toolBar.transform.parent, "", font, 10, Dim, TextAnchor.MiddleRight);
-            var statusRect = toolStatus.rectTransform; statusRect.anchorMin = Vector2.zero; statusRect.anchorMax = Vector2.one; statusRect.offsetMin = new Vector2(84, 0); statusRect.offsetMax = new Vector2(-30, 0);
-            var firstRow = Row(toolWindow, 30, 4);
-            inspectTool = Button(firstRow, "检查", () => owner.InspectSelected(), 0, 30, 14); inspectTool.name = "工具_检查";
-            var secondRow = Row(toolWindow, 30, 4);
+            // 2. The arm bar under the view: the visor, the six arms (number keys), the lamp and the tray.
+            bar = Rect("ArmBar", host);
+            bar.anchorMin = bar.anchorMax = Vector2.zero; bar.pivot = new Vector2(.5f, 0);
+            var barRow = bar.gameObject.AddComponent<HorizontalLayoutGroup>(); barRow.spacing = 4;
+            barRow.childControlWidth = barRow.childControlHeight = true; barRow.childForceExpandWidth = true; barRow.childForceExpandHeight = true;
+            visor = Button(bar, "0  检查", () => owner.SelectTool(null), 0, 34, 13); visor.name = "臂_检查"; arms[VisorKey] = visor;
             for (int i = 0; i < SurgeryProcedureRuntime.ToolOrder.Length; i++)
             {
                 string tool = SurgeryProcedureRuntime.ToolOrder[i];
-                var button = Button(i < 3 ? firstRow : secondRow, SurgeryProcedureRuntime.ToolName(tool), () => owner.SelectTool(tool), 0, 30, 14);
-                button.name = "工具_" + tool;
-                tools.Add(tool, button);
+                var button = Button(bar, (i + 1) + "  " + SurgeryProcedureRuntime.ToolName(tool), () => owner.SelectTool(tool), 0, 34, 13);
+                button.name = "臂_" + tool;
+                arms[tool] = button;
             }
-            var targetRow = Row(toolWindow, 34, 4);
-            TargetPicker = Picker(targetRow);
-            Button(targetRow, "整臂", () => owner.Select(SurgeryProcedureRuntime.Whole), 52, 34, 14).name = "整臂";
-            TargetPicker.onValueChanged.AddListener(index =>
-            {
-                if (!refreshing && index >= 0 && index < targets.Count) owner.Select(targets[index]);
-            });
+            lamp = Button(bar, "L  手术灯", () => owner.ToggleLamp(), 0, 34, 13); lamp.name = "台_手术灯";
+            tray = Button(bar, "T  托盘", () => owner.ToggleTray(), 0, 34, 13); tray.name = "台_托盘";
+            HudMotion.Boot(bar.gameObject, .1f);
 
             // 3. Actions: operate / chart / records.
             var actionWindow = Window("ActionWindow", "操作 // ACTIONS", true, .16f, out _, 0);
@@ -140,7 +134,7 @@ namespace BorderRepair.RepairProps
             foreach (var value in new[] { SurgeryWorkspaceTab.Operate, SurgeryWorkspaceTab.Chart, SurgeryWorkspaceTab.Records })
             {
                 var page = value;
-                string label = page == SurgeryWorkspaceTab.Operate ? "操作" : page == SurgeryWorkspaceTab.Chart ? "病历" : "记录";
+                string label = page == SurgeryWorkspaceTab.Operate ? "步骤" : page == SurgeryWorkspaceTab.Chart ? "病历" : "记录";
                 var button = Button(tabRow, label, () => ShowTab(page), 0, 26, 13); button.name = "页签_" + label; tabs.Add(page, button);
             }
             Scroll = MakeScroll(actionWindow, out content);
@@ -151,7 +145,7 @@ namespace BorderRepair.RepairProps
 
             owner.Changed += OnChanged;
             if (Op != null) { Op.Changed += OnChanged; Op.Feedback += OnFeedback; }
-            PanelRectTransform.gameObject.SetActive(false); leave.gameObject.SetActive(false);
+            PanelRectTransform.gameObject.SetActive(false); leave.gameObject.SetActive(false); bar.gameObject.SetActive(false);
             Refresh();
         }
 
@@ -164,24 +158,44 @@ namespace BorderRepair.RepairProps
             if (owner == null || PanelRectTransform == null) return;
             bool visible = owner.Active && Op != null;
             // Shown by activating the column (each window replays its boot on enable), as the bench workspace does.
-            if (PanelRectTransform.gameObject.activeSelf != visible) { PanelRectTransform.gameObject.SetActive(visible); leave.gameObject.SetActive(visible); }
+            if (PanelRectTransform.gameObject.activeSelf != visible) { PanelRectTransform.gameObject.SetActive(visible); leave.gameObject.SetActive(visible); bar.gameObject.SetActive(visible); }
             if (!visible) { wasVisible = false; return; }
-            if (!wasVisible) { wasVisible = true; dirty = true; feedback.text = Op.LastMessage ?? "近景手术：选中部件，换上对应的机械臂，按步骤来。"; }
+            if (!wasVisible) { wasVisible = true; dirty = true; feedback.text = Op.LastMessage ?? "已接入手术台：按数字键放下机械臂，把臂尖移到部件上，按住左键操作。"; }
             var area = (RectTransform)canvas.transform;
             float width = Mathf.Clamp(area.rect.width * .28f, 316, 360);
             PanelRectTransform.sizeDelta = new Vector2(Mathf.Min(width, Mathf.Max(240, area.rect.width - 16)), Mathf.Max(320, area.rect.height - 50));
             RefreshHeader();
             foreach (var pair in tabs) Paint(pair.Value, pair.Key == tab ? Rule : IdleBg, pair.Key == tab ? Ink : Dim);
-            foreach (var pair in tools) Paint(pair.Value, owner.Tool == pair.Key ? Accent : ButtonBg, owner.Tool == pair.Key ? Color.black : Ink);
-            Paint(inspectTool, owner.Tool == null ? Accent : ButtonBg, owner.Tool == null ? Color.black : Ink);
-            toolStatus.text = SurgeryProcedureRuntime.ToolName(owner.Tool) + " → " + SurgeryCyberArm.Label(owner.Selected);
-            // Rebuild when the page, the selection or what is on the table changed; otherwise only repaint the rows.
+            RefreshBar(area);
+            // Rebuild when the page or what is on the table changed.
             string signature = Signature();
-            if (dirty || previousTarget != owner.Selected || builtTab != tab || signature != builtSignature) Rebuild(signature);
-            refreshing = true;
-            TargetPicker.SetValueWithoutNotify(Mathf.Max(0, targets.IndexOf(owner.Selected)));
-            TargetPicker.RefreshShownValue(); refreshing = false;
-            RefreshRows();
+            if (dirty || builtTab != tab || signature != builtSignature) Rebuild(signature);
+        }
+
+        // The arm bar sits under the view, centred in the free space left of the column, over the guide band.
+        void RefreshBar(RectTransform area)
+        {
+            float right = area.rect.width - PanelRectTransform.rect.width - 16;
+            float width = Mathf.Min(right - 40, 760);
+            bar.sizeDelta = new Vector2(width, 34);
+            float above = owner.Overlay != null ? owner.Overlay.BandTop : 80;
+            bar.anchoredPosition = new Vector2(right / 2, above + 24);   // clear of the band's title tab
+            var next = Op.Running ? null : Op.Next();
+            float pulse = .5f + .5f * Mathf.Sin(Time.unscaledTime * 5f);
+            foreach (var pair in arms)
+            {
+                string tool = pair.Key == VisorKey ? null : pair.Key;
+                bool on = owner.Tool == tool;
+                Paint(pair.Value, on ? Accent : ButtonBg, on ? Color.black : Ink);
+                // The arm the next step wants blinks its frame until it is out.
+                if (!on && tool != null && next != null && next.tool == tool)
+                    RepairPropCyberStyle.SetFrame(pair.Value, Color.Lerp(Rule, RepairPropCyberStyle.Hot, pulse));
+            }
+            bool lampOn = Op.Get("lamp") == 1, trayOut = Op.Get("tray") == 1;
+            Paint(lamp, lampOn ? Rule : ButtonBg, lampOn ? Ok : Dim);
+            Paint(tray, trayOut ? Rule : ButtonBg, trayOut ? Ok : Dim);
+            if (next != null && next.id == "lamp.on") RepairPropCyberStyle.SetFrame(lamp, Color.Lerp(Rule, RepairPropCyberStyle.Hot, pulse));
+            if (next != null && next.id == "tray.out") RepairPropCyberStyle.SetFrame(tray, Color.Lerp(Rule, RepairPropCyberStyle.Hot, pulse));
         }
 
         void RefreshHeader()
@@ -206,42 +220,16 @@ namespace BorderRepair.RepairProps
             linkLine.text = "神经链路联调：" + (Op.Get("linked") == 1 ? "通过（" + SurgeryProcedureRuntime.LinkPasses + "/" + SurgeryProcedureRuntime.LinkPasses + "）"
                 : links > 0 ? links + "/" + SurgeryProcedureRuntime.LinkPasses : "未测");
             linkLine.color = Op.Get("linked") == 1 ? Ok : links > 0 ? Info : Dim;
+            string arm = owner.Tool == null ? "机械臂：收起（指针检查部件）"
+                : "机械臂：" + SurgeryProcedureRuntime.ToolName(owner.Tool) + (owner.Carrying != null ? " · 夹着" + SurgeryCyberArm.Label(owner.Selected)
+                    : !owner.ArmReady ? " · 就位中" : owner.Working ? " · 工作中 " + Mathf.RoundToInt(Op.Progress * 100) + "%" : owner.Aligned ? " · 已对准" : " · 跟随指针");
+            armLine.text = arm;
+            armLine.color = owner.Working ? Info : owner.Aligned ? Ok : Dim;
+            int straps = Table != null ? Table.StrapsClosed : 0, strapCount = Table != null ? Table.StrapCount : 0;
+            tableLine.text = "手术台：灯" + (Op.Get("lamp") == 1 ? "开" : "关") + " · 托盘" + (Op.Get("tray") == 1 ? "摆出" : "收起") + " · 束带 " + straps + "/" + strapCount;
         }
 
-        void RefreshRows()
-        {
-            var shown = new HashSet<(int, string)>();
-            var next = Op.Next();
-            var focusBatch = next != null ? batches.FirstOrDefault(b => b.members.Any(m => m.id == next.id)) : null;
-            foreach (var batch in batches)
-            {
-                bool on = batch == focusBatch, ready = batch.members.Any(m => Op.Why(m) == null);
-                batch.button.interactable = ready;
-                batch.button.targetGraphic.color = on ? Accent : ready ? ReadyBg : IdleBg;
-                RepairPropCyberStyle.SetFrame(batch.button, on ? RepairPropCyberStyle.Hot : ready ? Accent : Rule);
-                batch.text.color = on ? Color.black : ready ? Ink : Dim;
-            }
-            string focus = focusBatch != null ? null : next?.id;   // a batch carries the focus instead of one of its single steps
-            foreach (var row in actions)
-            {
-                var command = Op.Find(row.command);
-                if (command == null) continue;
-                var state = Op.StateOf(command, out string reason);
-                bool ready = state == SurgeryProcedureRuntime.CommandState.Available;
-                row.button.interactable = ready;
-                bool lead = ready && command.id == focus;
-                bool final = command.id == "complete";
-                row.button.targetGraphic.color = lead ? Accent : ready ? (final ? DoneBg : ReadyBg) : IdleBg;
-                RepairPropCyberStyle.SetFrame(row.button, lead ? RepairPropCyberStyle.Hot : ready ? (final ? Ok : Accent) : Rule);
-                row.strip.color = lead ? Color.black : ready ? Accent : state == SurgeryProcedureRuntime.CommandState.Done ? Rule : Warn;
-                row.label.color = lead ? Color.black : ready ? Ink : Dim;
-                // A shared blocker is written once per section, under the first command it blocks.
-                bool show = !ready && !string.IsNullOrEmpty(reason) && shown.Add((row.section, reason));
-                row.reason.text = show ? reason : "";
-                row.reason.color = state == SurgeryProcedureRuntime.CommandState.Done ? Dim : Warn;
-                if (row.reason.gameObject.activeSelf != show) row.reason.gameObject.SetActive(show);
-            }
-        }
+        static SurgeryTableV2Runtime Table => SurgeryTableV2Runtime.Current;
 
         void OnFeedback(string message, FeedbackKind kind)
         {
@@ -254,48 +242,27 @@ namespace BorderRepair.RepairProps
             feedback.GetComponent<LayoutElement>().minHeight = Mathf.Clamp(lines * feedback.fontSize * 1.35f + 4, 18, 84);
         }
 
-        // What decides the page's layout: the parts on the table and which commands are offered (not their readiness).
+        // What decides the page's layout: which steps are done, what is running, what came off, the records.
         string Signature()
         {
-            var parts = string.Join(",", Selectable());
+            var done = new System.Text.StringBuilder();
+            foreach (var c in Op.Commands) done.Append(c.table ? "" : Finished(c) ? "1" : "0");
             var bin = string.Join(",", Bin().Select(b => b.id));
-            var quick = string.Join(",", QuickTargets());
-            var offered = string.Join(",", Batches().Where(Offered).Select(b => b.key + b.members.Count(m => Op.Why(m) == null)));
-            return parts + "|" + bin + "|" + quick + "|" + offered + "|" + Op.Get("lamp") + Op.Get("arms") + Op.Get("tray") + Op.Get("straps") + "|" + Op.Inspected.Count + "|" + Op.LinkResults.Count + "|" + Op.Get("scanned");
+            var next = Op.Next();
+            return done + "|" + bin + "|" + (Op.RunningCommand?.id ?? "-") + "|" + (next?.id ?? "-") + "|" + Op.Inspected.Count + "|" + Op.LinkResults.Count + "|" + Op.Get("scanned");
         }
 
         void Rebuild(string signature)
         {
-            bool changedTarget = previousTarget != owner.Selected || builtTab != tab;
-            previousTarget = owner.Selected; builtTab = tab; builtSignature = signature; dirty = false;
+            bool changedPage = builtTab != tab;
+            builtTab = tab; builtSignature = signature; dirty = false;
             foreach (Transform child in content) { child.gameObject.SetActive(false); Destroy(child.gameObject); }
-            actions.Clear(); commands.Clear(); batches.Clear();
-            targets.Clear(); targets.AddRange(Selectable());
-            if (!targets.Contains(owner.Selected)) targets.Add(owner.Selected);
-            refreshing = true;
-            TargetPicker.ClearOptions(); TargetPicker.AddOptions(targets.Select(SurgeryCyberArm.Label).ToList());
-            refreshing = false;
+            steps.Clear();
             if (tab == SurgeryWorkspaceTab.Chart) BuildChart();
             else if (tab == SurgeryWorkspaceTab.Records) BuildRecords();
-            else BuildOperations();
-            if (changedTarget) { Scroll.StopMovement(); Scroll.verticalNormalizedPosition = 1; }
+            else BuildSteps();
+            if (changedPage) { Scroll.StopMovement(); Scroll.verticalNormalizedPosition = 1; }
         }
-
-        // Parts on his arm or on the tray that can be picked now, the whole arm first.
-        IEnumerable<string> Selectable()
-        {
-            yield return SurgeryProcedureRuntime.Whole;
-            var seen = new HashSet<string>();
-            foreach (var root in new[] { Op.TargetTransform(SurgeryProcedureRuntime.Whole), Op.OldArm, Op.NewArm })
-            {
-                if (root == null) continue;
-                foreach (var part in root.GetComponentsInChildren<SurgeryArmPart>())
-                    if (part.Exposed && seen.Add(part.Id)) yield return part.Id;
-            }
-        }
-
-        IEnumerable<string> QuickTargets() => Selectable().Where(id => id != SurgeryProcedureRuntime.Whole && id != owner.Selected
-            && Op.Commands.Any(c => !c.table && c.target == id && Op.Why(c) == null));
 
         // The parts bin and the tray: what has come off (and is waiting to go back) and the two forearms.
         IEnumerable<(string id, string label, string tag)> Bin()
@@ -308,96 +275,50 @@ namespace BorderRepair.RepairProps
             if (Op.NewArm != null && Op.Get("arm") != 2) yield return (SurgeryCyberArm.New, "替换前臂", "托盘 · 待装");
         }
 
-        void BuildOperations()
+        // The operation as a read-only checklist: screw and bolt sets on one row each with their count.
+        void BuildSteps()
         {
-            string selected = owner.Selected;
-            if (selected != SurgeryProcedureRuntime.Whole && selected != SurgeryProcedureRuntime.TableTarget)
+            var next = Op.Running ? Op.RunningCommand : Op.Next();
+            Section(content, "手术步骤");
+            var seen = new HashSet<string>();
+            foreach (var c in Op.Commands)
             {
-                bool body = selected == "SocketRing" || selected == "Socket" || selected == "NeuralPlug";
-                Section(content, "所选部件 · " + SurgeryCyberArm.Label(selected) + (selected == "SocketRing" ? "（保留）" : ""));
-                var own = Op.Commands.Where(c => !c.table && c.target == selected).ToList();
-                foreach (var c in own) AddCommand(c, 1);
-                if (own.Count == 0) Paragraph(content, 13, Dim).text = body ? "身体侧部件：只清理、不拆换。可用“检查”查看。" : "此部件没有手术操作，可用“检查”查看。";
+                if (c.table || c.id == "complete" && !Op.IsDone(c) && next != c) continue;
+                string family = Family(c.id);
+                if (family != null && !seen.Add(family)) continue;
+                var members = family != null ? Op.Commands.Where(m => Family(m.id) == family).ToList() : new List<SurgeryProcedureRuntime.Command> { c };
+                int doneCount = members.Count(Finished);
+                bool done = doneCount == members.Count, current = next != null && members.Contains(next);
+                string label = family != null ? FamilyLabel(family) + "　" + doneCount + "/" + members.Count
+                    : c.id == "test.link" ? c.label + "　" + Op.LinkResults.Count + "/" + SurgeryProcedureRuntime.LinkPasses : c.label;
+                string row = (done ? "✓ " : current ? "▶ " : "· ") + label;
+                steps.Add(row);
+                var line = Paragraph(content, 13, done ? Ok * new Color(1, 1, 1, .7f) : current ? Accent : Dim);
+                line.text = row + (c.tool != null ? "　[" + SurgeryProcedureRuntime.ToolName(c.tool) + "]" : "");
             }
-            var offered = Batches().Where(Offered).ToList();
-            if (offered.Count > 0)
+            if (next != null && next.table)
             {
-                Section(content, "批量 · 按顺序一次完成");
-                foreach (var batch in offered) AddBatch(batch);
-            }
-            Section(content, "整臂 · 罗亚的右臂" + (selected == SurgeryProcedureRuntime.Whole ? "（已选）" : ""));
-            foreach (var c in Op.Commands.Where(c => !c.table && c.target == SurgeryProcedureRuntime.Whole)) AddCommand(c, 0);
-            // The table's switches: only the one each that applies now.
-            Section(content, "手术台");
-            foreach (var c in Op.Commands.Where(c => c.table && c.requires.All(r => Op.Get(r.key) == r.value))) AddCommand(c, 2);
-            var quick = QuickTargets().ToList();
-            if (quick.Count > 0)
-            {
-                Section(content, "可操作部件（点选后操作）");
-                foreach (var id in quick)
-                {
-                    var target = id;
-                    var chip = Button(content, SurgeryCyberArm.Label(id), () => owner.Select(target), 0, 30, 14); chip.name = "可操作_" + id;
-                    chip.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleLeft;
-                }
+                Section(content, "手术台");
+                Paragraph(content, 13, Warn).text = "先" + next.label + (next.id == "lamp.on" ? "（L）" : next.id == "tray.out" ? "（T）" : next.id == "straps.close" ? "（断开链接，在房间里扣上）" : "");
             }
             Section(content, "零件栏 · 托盘");
             var bin = Bin().ToList();
             if (bin.Count == 0) Paragraph(content, 12, Dim).text = "还没有拆下的部件。";
-            foreach (var entry in bin)
-            {
-                var id = entry.id;
-                var button = Button(content, entry.label, () => owner.Select(id), 0, 44, 15); button.name = "零件_" + id;
-                var label = button.GetComponentInChildren<Text>(); label.alignment = TextAnchor.UpperLeft;
-                var tag = Label(button.transform, entry.tag, 12, 44, Dim); tag.alignment = TextAnchor.LowerLeft; Stretch((RectTransform)tag.transform, 7, 3);
-                if (id == owner.Selected) button.targetGraphic.color = Rule;
-            }
+            foreach (var entry in bin) Paragraph(content, 12, Ink).text = entry.label + "　—　" + entry.tag;
         }
 
-        // Screw and bolt sets (same verb on the same family).
-        List<Batch> Batches()
+        // Ticked once carried out (a plug pulled and later put back stays ticked for the pull).
+        static bool Finished(SurgeryProcedureRuntime.Command c) => Op.Did(c.id);
+
+        static string Family(string id)
         {
-            var list = new List<Batch>();
-            void Add(string key, string label, IEnumerable<string> ids)
-            {
-                var members = ids.Select(Op.Find).Where(c => c != null).ToList();
-                if (members.Count > 1) list.Add(new Batch { key = key, label = label, members = members });
-            }
-            Add("remove.CoverScrew", "卸下全部检修盖螺钉", SurgeryCyberArm.CoverScrews.Select(s => "remove." + s));
-            Add("remove.ClampBolt", "卸下全部卡箍螺栓", SurgeryCyberArm.Bolts.Select(b => "remove." + b));
-            Add("install.ClampBolt", "拧紧全部卡箍螺栓", SurgeryCyberArm.Bolts.Select(b => "install." + b));
-            return list;
+            if (id.StartsWith("remove.CoverScrew")) return "remove.CoverScrew";
+            if (id.StartsWith("remove.ClampBolt")) return "remove.ClampBolt";
+            if (id.StartsWith("install.ClampBolt")) return "install.ClampBolt";
+            return null;
         }
 
-        // A set is offered while at least two of its members are ready.
-        bool Offered(Batch b) => b.members.Count(m => Op.Why(m) == null) >= 2;
-
-        void AddBatch(Batch batch)
-        {
-            var run = batch;
-            int count = run.members.Count(m => Op.Why(m) == null);
-            run.button = Button(content, run.label + " ×" + count, () => owner.RunBatch(run.members.Where(m => Op.Why(m) == null).Select(m => m.id)), 0, 44, 14);
-            run.button.name = "批量_" + run.key;
-            run.text = run.button.GetComponentInChildren<Text>();
-            batches.Add(run);
-        }
-
-        void AddCommand(SurgeryProcedureRuntime.Command c, int section)
-        {
-            var command = c;
-            var button = Button(content, c.label, () => owner.RunFromPanel(command.id), 0, 48, 16);
-            button.name = "命令_" + c.id;
-            var strip = Rect("状态条", button.transform); strip.anchorMin = Vector2.zero; strip.anchorMax = new Vector2(0, 1); strip.pivot = new Vector2(0, .5f); strip.sizeDelta = new Vector2(4, 0);
-            var stripImage = strip.gameObject.AddComponent<Image>(); stripImage.raycastTarget = false;
-            commands[c.id] = button;
-            string code = (c.id == "complete" ? "FIN-" : c.table ? "TBL-" : "CMD-") + (actions.Count + 1).ToString("00");
-            if (c.tool != null) code = SurgeryProcedureRuntime.ToolName(c.tool) + " · " + code;
-            var caption = RepairPropCyberStyle.Caption(button.transform, code, font, 10, RepairPropCyberStyle.AmberDim, TextAnchor.UpperRight);
-            var captionRect = caption.rectTransform; captionRect.anchorMin = captionRect.anchorMax = captionRect.pivot = new Vector2(1, 1);
-            captionRect.sizeDelta = new Vector2(110, 14); captionRect.anchoredPosition = new Vector2(-8, -3);
-            var reason = Paragraph(content, 12, Warn);
-            actions.Add(new ActionRow { button = button, label = button.GetComponentInChildren<Text>(), reason = reason, strip = stripImage, command = c.id, section = section });
-        }
+        static string FamilyLabel(string family) => family == "remove.CoverScrew" ? "卸下检修盖螺钉" : family == "remove.ClampBolt" ? "卸下卡箍螺栓" : "拧紧卡箍螺栓";
 
         void BuildChart()
         {
@@ -421,7 +342,7 @@ namespace BorderRepair.RepairProps
             Section(content, "扫描");
             Paragraph(content, 12, Op.Get("scanned") == 1 ? Warn : Dim).text = Op.Get("scanned") == 1 ? Op.Find("scan").done : "尚未扫描。";
             Section(content, "检查记录");
-            if (Op.Inspected.Count == 0) Paragraph(content, 12, Dim).text = "尚未检查部件。选中部件后点“检查”，或换成“检查”直接点部件。";
+            if (Op.Inspected.Count == 0) Paragraph(content, 12, Dim).text = "尚未检查部件。收起机械臂（0 或右键）后，左键点部件就能检查。";
             foreach (var id in Op.Inspected) Paragraph(content, 12, Ink).text = SurgeryCyberArm.Label(id) + "：" + Op.Finding(id);
         }
 
@@ -576,29 +497,6 @@ namespace BorderRepair.RepairProps
             scrollbar.handleRect = handle; scrollbar.targetGraphic = handleImage;
             scroll.verticalScrollbar = scrollbar; scroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.Permanent;
             return scroll;
-        }
-
-        Dropdown Picker(Transform parent)
-        {
-            var rect = Rect("PartSelector", parent); Size(rect, 32);
-            var image = rect.gameObject.AddComponent<Image>(); RepairPropCyberStyle.Framed(image, ButtonBg, Accent);
-            var dropdown = rect.gameObject.AddComponent<Dropdown>(); dropdown.targetGraphic = image;
-            var caption = Label(rect, "", 15, 32, Accent); Stretch((RectTransform)caption.transform, 8, 2);
-            ((RectTransform)caption.transform).offsetMax = new Vector2(-26, -2); dropdown.captionText = caption;
-            var arrow = Label(rect, "▼", 11, 30, Accent); var arrowRect = (RectTransform)arrow.transform;
-            arrowRect.anchorMin = new Vector2(1, 0); arrowRect.anchorMax = Vector2.one; arrowRect.pivot = new Vector2(1, .5f);
-            arrowRect.sizeDelta = new Vector2(23, 0); arrow.alignment = TextAnchor.MiddleCenter;
-            var template = Rect("Template", rect); template.anchorMin = new Vector2(0, 0); template.anchorMax = new Vector2(1, 0); template.pivot = new Vector2(.5f, 1); template.sizeDelta = new Vector2(0, 240);
-            RepairPropCyberStyle.Framed(template.gameObject.AddComponent<Image>(), RepairPropCyberStyle.FieldDeep, Accent);
-            var scroll = template.gameObject.AddComponent<ScrollRect>(); scroll.horizontal = false; scroll.movementType = ScrollRect.MovementType.Clamped; scroll.scrollSensitivity = 30;
-            var viewport = Rect("Viewport", template); Stretch(viewport, 3, 3); viewport.gameObject.AddComponent<Image>().color = new Color(0, 0, 0, .4f); viewport.gameObject.AddComponent<RectMask2D>();
-            var list = Rect("Content", viewport); list.anchorMin = new Vector2(0, 1); list.anchorMax = Vector2.one; list.pivot = new Vector2(.5f, 1); list.sizeDelta = new Vector2(0, 40);
-            var item = Rect("Item", list); item.anchorMin = new Vector2(0, .5f); item.anchorMax = new Vector2(1, .5f); item.sizeDelta = new Vector2(0, 40);
-            var toggle = item.gameObject.AddComponent<Toggle>(); var itemImage = item.gameObject.AddComponent<Image>(); itemImage.color = new Color(1f, .62f, .16f, .08f); toggle.targetGraphic = itemImage;
-            var selected = Rect("Selected", item); Stretch(selected, 1, 1); var selection = selected.gameObject.AddComponent<Image>(); selection.color = new Color(1f, .62f, .16f, .30f); selection.raycastTarget = false; toggle.graphic = selection;
-            var itemText = Label(item, "", 15, 38); Stretch((RectTransform)itemText.transform, 6, 2);
-            dropdown.itemText = itemText; dropdown.template = template; scroll.viewport = viewport; scroll.content = list;
-            template.gameObject.SetActive(false); return dropdown;
         }
 
         void OnDestroy()
