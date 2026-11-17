@@ -121,7 +121,7 @@ namespace BorderRepair.RepairProps.UI.Tests
             var eye = sitePos - table.Right * .7f + Vector3.up * .75f;
             var site = SurgeryTableV2Runtime.ControlAlong(new Ray(eye, sitePos - eye), 2f);
             Assert.That(site != null && site.Kind == SurgeryControlKind.Patient, Is.True, "Aiming at his forearm finds the surgery site (found " + (site != null ? site.name : "nothing") + ").");
-            Assert.That(site.Hint, Does.Contain("罗亚的右臂").And.Contain("近景手术"));
+            Assert.That(site.Hint, Does.Contain("森田的右臂").And.Contain("近景手术"));
 
             // Clicking it links the mind into the table: its overhead camera on the forearm, the arms under the link's
             // control (all folded up), the pointer free, the room HUD away.
@@ -158,7 +158,7 @@ namespace BorderRepair.RepairProps.UI.Tests
             // With no arm out the pointer inspects what it clicks: his tape.
             yield return Press(closeup, op.TargetPoint("ClampTape"));
             Assert.That(closeup.Selected, Is.EqualTo("ClampTape"));
-            Assert.That(op.LastMessage, Does.Contain("吊机 3 组"));
+            Assert.That(op.LastMessage, Does.Contain("3号吊机·森田"));
 
             // The lamp is still a switch (L, or the bar); the arms need none: the link brings each down.
             var scan = op.Find("scan");
@@ -290,7 +290,7 @@ namespace BorderRepair.RepairProps.UI.Tests
                 {
                     case "scan":
                         Assert.That(op.NewArm != null && op.NewArm.parent == table.Tray, Is.True, "The replacement waits on the tray.");
-                        Assert.That(op.LastResult, Does.Contain("租赁锁"));
+                        Assert.That(op.LastResult, Does.Contain("锁机"));
                         // The gripper on a screw says it needs the drill.
                         panel.ArmButton("Gripper").onClick.Invoke();
                         yield return Until(() => closeup.ArmReady, "Gripper down.", 12);

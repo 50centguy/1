@@ -477,7 +477,7 @@ namespace BorderRepair.RepairProps
                 speaking = true; lineAt = now; lineHold = 1.8f + line.text.Length * .08f;
                 card.gameObject.SetActive(true);
                 speech.text = line.text;
-                footer.text = "NSP-07  //  " + (Busy ? "CARRY" : "STANDBY") + "  //  [左键] 下一句";
+                footer.text = "UNIT-07  //  " + (Busy ? "CARRY" : "STANDBY") + "  //  [左键] 下一句";
             }
             if (!speaking && lines.Count == 0 && card.gameObject.activeSelf && now - quietAt > 2.5f) card.gameObject.SetActive(false);
         }

@@ -98,7 +98,7 @@ namespace BorderRepair.RepairProps
                 "上 / 下 选择    Enter 或 Space 确认    也可以用鼠标点");
 
             var footer = ClinicHelpRuntime.Label("Footer", transform, font, 14, RepairPropCyberStyle.Dim, TextAnchor.MiddleLeft);
-            footer.text = "北坡港务 NSP · 夜班    临时标题页    v" + Application.version;
+            footer.text = "岸壁 · 夜班    临时标题页    v" + Application.version;
             var footerRect = footer.rectTransform;
             footerRect.anchorMin = footerRect.anchorMax = footerRect.pivot = Vector2.zero;
             footerRect.anchoredPosition = new Vector2(left, 28);

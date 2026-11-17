@@ -223,13 +223,13 @@ namespace BorderRepair.RepairProps
             if (op == null || table == null) return new Result(false, "手术台不可用。");
             switch (patient.PhaseNow)
             {
-                case SurgeryPatientRuntime.Phase.WaitClear: return OpenStraps(table, "解开了束带，罗亚开始上台。");
+                case SurgeryPatientRuntime.Phase.WaitClear: return OpenStraps(table, "解开了束带，森田开始上台。");
                 case SurgeryPatientRuntime.Phase.AwaitStraps:
                     return op.Run("straps.close") ? new Result(true, "扣上了全部束带。") : new Result(false, "不能跳过：" + op.LastMessage);
                 case SurgeryPatientRuntime.Phase.Secured: break;
-                default: return new Result(false, "不能跳过：罗亚正在走动或上下手术台，这段动作没有快进入口，等他停下。");
+                default: return new Result(false, "不能跳过：森田正在走动或上下手术台，这段动作没有快进入口，等他停下。");
             }
-            if (op.Complete) return OpenStraps(table, "手术已完成：解开了束带，罗亚起身离开。");
+            if (op.Complete) return OpenStraps(table, "手术已完成：解开了束带，森田起身离开。");
             var closeup = SurgeryCloseupRuntime.Current;
             if (closeup != null && !closeup.Active) closeup.Open();
             if (op.Running)
@@ -249,7 +249,7 @@ namespace BorderRepair.RepairProps
         static Result OpenStraps(SurgeryTableV2Runtime table, string message)
         {
             var closed = table.Controls.Where(c => c.Kind == SurgeryControlKind.Strap && table.StrapClosed(c)).ToList();
-            if (closed.Count == 0) return new Result(false, "束带已经全部解开，等罗亚动作。");
+            if (closed.Count == 0) return new Result(false, "束带已经全部解开，等森田动作。");
             foreach (var strap in closed) table.Activate(strap);
             return new Result(true, message);
         }

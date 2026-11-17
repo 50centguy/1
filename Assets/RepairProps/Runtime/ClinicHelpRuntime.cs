@@ -43,7 +43,7 @@ namespace BorderRepair.RepairProps
                 new[] { "清洁工具", "吹尘刷扫灰尘 · 溶剂瓶擦血迹油污 · 刮刀刮胶痕：点桌上那一件拿起，清理中点另一件直接换" },
                 new[] { "左键点贴纸", "撕掉旧标签；顾客的贴纸放在桌上，交付前点虚线框贴回" },
                 new[] { "T", "接听 / 跳过来电" },
-                new[] { "-", "叫病人罗亚进诊所" },
+                new[] { "-", "叫病人森田进诊所" },
                 new[] { "=", "展开 / 收起 PS2 画面设置" },
                 new[] { "F3", "调试信息（七号维修夜）" },
                 new[] { "F1", "打开 / 关闭这张帮助" },
@@ -122,7 +122,7 @@ namespace BorderRepair.RepairProps
             {
                 var op = SurgeryProcedureRuntime.Current;
                 var closeup = SurgeryCloseupRuntime.Current;
-                return closeup != null && closeup.Active && op != null ? op.NextStepText : patient.Hint ?? "罗亚正在走动，等他停下。";
+                return closeup != null && closeup.Active && op != null ? op.NextStepText : patient.Hint ?? "森田正在走动，等他停下。";
             }
             if (ready && clinic.State != null && clinic.State.phase == TwoNightPhase.Night1Counter)
             {

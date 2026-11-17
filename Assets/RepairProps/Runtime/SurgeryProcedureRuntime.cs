@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace BorderRepair.RepairProps
 {
-    // The operation on the strapped-in surgery patient (罗亚): his leased right forearm was remotely locked when the
+    // The operation on the strapped-in surgery patient (森田): his leased right forearm was remotely locked when the
     // contract ran out, and it is replaced part by part in the close-up surgery view (SurgeryCloseupRuntime), the way
     // the bench props are taken apart and put back:
     //   scan (Scanner) -> two service cover screws (Drill) -> the cover (Gripper) -> the battery service plug (Probe: the
@@ -51,7 +51,7 @@ namespace BorderRepair.RepairProps
         {
             "联调 1/3：拇指和食指跟上了，无名指慢半拍（延迟 140 毫秒）。再校一次。",
             "联调 2/3：五指都跟上了，握力 62%。",
-            "联调 3/3：绿灯常亮。罗亚慢慢攥紧拳头，又松开。“……这只手是我自己的了。”",
+            "联调 3/3：绿灯常亮。森田慢慢攥紧拳头，又松开。“……轻得跟没长手一样。”",
         };
 
         public static SurgeryProcedureRuntime Current { get; private set; }
@@ -198,7 +198,7 @@ namespace BorderRepair.RepairProps
             var bolts = SurgeryCyberArm.Bolts;
 
             var scan = Add("scan", "扫描右臂义体", Whole, "Scanner", 2.2f,
-                "扫描：前臂的租赁锁模块被远程锁死（“雇主已释放”）。神经接口完好。锁模块带熔断封签，强拆会烧掉整只前臂的驱动——只能整段更换。替换前臂已从库存取出，放在器械托盘上。");
+                "扫描：原厂早已停服，老型号固件把前臂锁机了。神经接口完好。锁模块带熔断封签，强拆会烧掉整只前臂的驱动——只能整段更换。替换的二手轻型前臂已从库存取出，放在器械托盘上。");
             scan.requires.Add(("scanned", 0)); scan.effects.Add(("scanned", 1));
 
             foreach (var screw in SurgeryCyberArm.CoverScrews)
@@ -214,15 +214,15 @@ namespace BorderRepair.RepairProps
             cover.effects.Add(("cover", 1));
 
             var isolate = Add("battery.isolate", "拔下电池服务插头", "BatteryPlug", "Probe", 1.2f,
-                "前臂断电，锁死的红灯灭了。罗亚：“没事，早就没感觉了。”");
+                "前臂断电，锁死的红灯灭了。森田：“没事，早就没感觉了。”");
             isolate.requires.AddRange(new[] { ("arm", 1), ("cover", 1), ("battery", 0) });
             isolate.effects.Add(("battery", 1));
 
-            var release = Add("neural.release", "拔下神经接头", "NeuralPlug", "Probe", 1.2f, "神经接头拔下。罗亚的肩膀抽了一下：“……麻。”");
+            var release = Add("neural.release", "拔下神经接头", "NeuralPlug", "Probe", 1.2f, "神经接头拔下。森田的肩膀抽了一下：“……麻。”");
             release.requires.AddRange(new[] { ("arm", 1), ("battery", 1), ("neural", 0) });
             release.effects.Add(("neural", 1));
 
-            var cut = Add("tape.cut", "切开螺栓3上的胶布", "ClampTape", "Cutter", 1.2f, "胶布切开。里层是他自己用圆珠笔写的字：吊机 3 组 · 罗。");
+            var cut = Add("tape.cut", "切开螺栓3上的胶布", "ClampTape", "Cutter", 1.2f, "胶布切开。里层是他自己用圆珠笔写的字：3号吊机·森田。");
             cut.requires.AddRange(new[] { ("scanned", 1), ("tape", 0) });
             cut.effects.Add(("tape", 1));
 
@@ -233,7 +233,7 @@ namespace BorderRepair.RepairProps
                 if (i + 1 == SurgeryCyberArm.TapedBolt) c.requires.Add(("tape", 1));
                 c.effects.Add(("out." + bolts[i], 1));
             }
-            var off = Add("forearm.remove", "取下旧前臂，放上托盘", SurgeryCyberArm.Old, "Gripper", 2.6f, "旧前臂放上托盘。锁模块上还贴着租赁合同的资产编号。");
+            var off = Add("forearm.remove", "取下旧前臂，放上托盘", SurgeryCyberArm.Old, "Gripper", 2.6f, "旧前臂放上托盘。锁模块上还贴着停服厂商的资产编号。");
             off.tray = true;
             off.requires.AddRange(new[] { ("arm", 1), ("neural", 1) });
             foreach (var b in bolts) off.requires.Add(("out." + b, 1));
@@ -263,7 +263,7 @@ namespace BorderRepair.RepairProps
             test.requires.AddRange(new[] { ("arm", 2), ("neural", 0), ("linked", 0) });
             foreach (var b in bolts) test.requires.Add(("out." + b, 0));
 
-            var confirm = Add("complete", "确认手术完成", Whole, null, 0, "手术完成。解开三条束带，罗亚就可以起身了。");
+            var confirm = Add("complete", "确认手术完成", Whole, null, 0, "手术完成。解开三条束带，森田就可以起身了。");
             confirm.requires.AddRange(new[] { ("linked", 1), ("done", 0) });
             confirm.effects.Add(("done", 1));
 
@@ -409,7 +409,7 @@ namespace BorderRepair.RepairProps
         {
             get
             {
-                if (Complete) return "手术完成。离开手术台，解开三条束带，罗亚就能起身。";
+                if (Complete) return "手术完成。离开手术台，解开三条束带，森田就能起身。";
                 if (Running) return "进行中：" + running.label + "（" + ToolName(running.tool) + "）";
                 if (Patient == null || Patient.PhaseNow != SurgeryPatientRuntime.Phase.Secured) return "先让病人躺好并扣上束带。";
                 var next = Next();
@@ -422,8 +422,8 @@ namespace BorderRepair.RepairProps
         public string ClickHint => Complete ? "左键：近景查看（手术已完成）" : started ? "左键：回到近景手术" : "左键：近景手术";
 
         /// <summary>Top-centre line in the room while the patient is secured.</summary>
-        public string Hint => Complete ? "手术完成：解开三条束带，让罗亚起身"
-            : started ? "手术进行中：瞄准罗亚的右臂，左键回到近景手术" : "罗亚已固定：瞄准他的右臂，左键开始近景手术";
+        public string Hint => Complete ? "手术完成：解开三条束带，让森田起身"
+            : started ? "手术进行中：瞄准森田的右臂，左键回到近景手术" : "森田已固定：瞄准他的右臂，左键开始近景手术";
 
         public static string ToolName(string tool)
         {
@@ -445,16 +445,16 @@ namespace BorderRepair.RepairProps
         {
             switch (id)
             {
-                case Whole: return Get("scanned") == 0 ? "罗亚的右前臂：码头公司租给吊机工的标准作业臂。手指僵在半握的位置，状态灯红色常亮。"
-                    : "租赁锁远程锁死（“雇主已释放”）。神经接口完好，可以整段更换前臂。";
-                case SurgeryCyberArm.Old: return "旧前臂：浅灰外壳，护板是租赁公司的黄色。手腕上有一圈黄色租赁标识带。";
-                case SurgeryCyberArm.New: return "替换前臂：二手的石墨色作业臂，没有租赁锁。关节还没和他的神经校准。";
+                case Whole: return Get("scanned") == 0 ? "森田的右前臂：老厂停服的重型吊机义手，用了十一年。手指僵在半握的位置，状态灯红色常亮。"
+                    : "固件锁机，原厂已停服。神经接口完好，可以整段更换前臂。";
+                case SurgeryCyberArm.Old: return "旧前臂：浅灰外壳，护板是吊机组的黄色。手腕上有一圈磨旧的黄色工号带。";
+                case SurgeryCyberArm.New: return "替换前臂：便宜的二手轻型作业臂，石墨色，没有固件锁。关节还没和他的神经校准。";
                 case "SocketRing": return "接口环（身体侧，保留）：长在他上臂末端，只清理、不更换。";
                 case "Socket": return Get("clean") == 1 ? "接口触点：清理过，发亮。" : "接口触点：有油泥，还有一圈铁锈色的汗渍。";
-                case "ClampTape": return "胶布缠了好几层。最里层是圆珠笔写的字：吊机 3 组 · 罗。";
+                case "ClampTape": return "胶布缠了好几层。最里层是圆珠笔写的字：3号吊机·森田。";
                 case "NeuralPlug": return "神经接头（身体侧）：连着他自己的神经。拔插前先给前臂断电。";
-                case "ServiceCover": return "检修盖板：租赁公司的黄色涂装，角上贴着资产编号。两颗螺钉固定。";
-                case "LeaseLock": return "租赁锁模块：远程锁死。红色熔断封签——强拆会烧掉整只前臂的驱动。";
+                case "ServiceCover": return "检修盖板：吊机组的黄色涂装，角上贴着资产编号。两颗螺钉固定。";
+                case "LeaseLock": return "固件锁模块：锁机。红色熔断封签——强拆会烧掉整只前臂的驱动。";
                 case "BatteryPlug": return Get("battery") == 1 ? "电池服务插头：已拔下，前臂断电。" : "电池服务插头：拔下就能给整只前臂断电。";
                 case "BatteryCell": return "前臂电池：电量还剩 71%，没坏。";
                 case "StatusLamp": return Get("battery") == 1 ? "状态灯：灭了（断电）。" : "状态灯：红色常亮 = 锁死。";

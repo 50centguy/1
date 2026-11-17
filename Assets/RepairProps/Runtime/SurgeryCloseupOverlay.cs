@@ -105,7 +105,7 @@ namespace BorderRepair.RepairProps
             if (Project(camera, SurgeryProcedureRuntime.Whole, scale, out var armRect))
             {
                 if (Box(SurgeryProcedureRuntime.Whole, 1.04f)) LockBox(camera, scale, RepairPropCyberStyle.AmberDim, .12f, "arm");
-                Tag(new Vector2(armRect.xMin - 10, armRect.yMax + 14), "罗亚的右臂  ·  " + phase, RepairPropCyberStyle.Amber, 12, TextAnchor.LowerLeft);
+                Tag(new Vector2(armRect.xMin - 10, armRect.yMax + 14), "森田的右臂  ·  " + phase, RepairPropCyberStyle.Amber, 12, TextAnchor.LowerLeft);
             }
 
             // The suggested next step: pulsing marks on its part, a callout with the step and the arm to use.
@@ -168,7 +168,7 @@ namespace BorderRepair.RepairProps
             readout.rectTransform.anchoredPosition = new Vector2(right / 2, size.y - 22);
             readout.rectTransform.sizeDelta = new Vector2(Mathf.Min(right - 80, 820), 40);
             int links = Op.LinkResults.Count;
-            readout.text = "SCAN // 罗亚的右臂　义体扫描 [" + (Op.Get("scanned") == 1 ? "租赁锁·远程锁死" : "未扫描") + "]　神经链路联调 ["
+            readout.text = "SCAN // 森田的右臂　义体扫描 [" + (Op.Get("scanned") == 1 ? "固件锁机" : "未扫描") + "]　神经链路联调 ["
                 + (Op.Get("linked") == 1 ? "通过" : links > 0 ? links + "/" + SurgeryProcedureRuntime.LinkPasses : "未测") + "]";
 
             // Bottom guide: the suggested step, which arm to bring down for it, and how to work it once it is out.
@@ -320,7 +320,7 @@ namespace BorderRepair.RepairProps
             }
             Pin(visorId.rectTransform, new Vector2(22, 40), Vector2.zero, new Vector2(360, 16));
             var run = BorderRepair.TwoNight.TwoNightRun.Current;
-            clock.text = "N" + (run != null ? Mathf.Max(1, run.night) : 1) + " // T+" + RepairUIView.FormatTime(owner.OpenSeconds) + "   OP 罗亚   REC";
+            clock.text = "N" + (run != null ? Mathf.Max(1, run.night) : 1) + " // T+" + RepairUIView.FormatTime(owner.OpenSeconds) + "   OP 森田   REC";
             clock.color = new Color(1f, .62f, .16f, Mathf.Repeat(Time.unscaledTime, 1.6f) < 1.1f ? .45f : .25f);
             Pin(clock.rectTransform, new Vector2(22, 22), Vector2.zero, new Vector2(320, 16));
         }

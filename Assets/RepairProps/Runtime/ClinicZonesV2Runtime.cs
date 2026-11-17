@@ -168,7 +168,7 @@ namespace BorderRepair.RepairProps
             terminal.font = RepairPropCyberStyle.UiFontOr(UIFontProvider.GetCjkFont(Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf")));
             terminal.fontSize = 26; terminal.lineSpacing = 1f; terminal.color = new Color(1f, .68f, .22f); terminal.alignment = TextAnchor.UpperLeft;
             terminal.horizontalOverflow = HorizontalWrapMode.Wrap; terminal.verticalOverflow = VerticalWrapMode.Truncate; terminal.raycastTarget = false;
-            terminal.text = "NSP 收发终端 03\n> 开机";
+            terminal.text = "收发终端 03\n> 开机";
         }
 
         void Update()
@@ -194,10 +194,10 @@ namespace BorderRepair.RepairProps
         public static string TerminalLines(UnifiedClinicDirector clinic)
         {
             var state = clinic != null ? clinic.State : null;
-            if (state == null) return "NSP 收发终端 03\n> 待机";
+            if (state == null) return "收发终端 03\n> 待机";
             var lines = new List<string>
             {
-                "NSP 收发终端 03",
+                "收发终端 03",
                 "第" + Mathf.Max(1, state.night) + "晚  现金 " + state.Cash,
                 "房租 " + state.rent + " · 第" + state.rentDueNight + "晚前" + (state.RentShortfall > 0 ? "  差 " + state.RentShortfall : ""),
                 "收件 > " + (clinic.ReceiveLampState != UnifiedClinicDirector.PadLamp.Off ? "有件待收" : "空"),

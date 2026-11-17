@@ -26,7 +26,7 @@ namespace BorderRepair.RepairProps.Tests
         [Test]
         public void Lookups_KeepTheirOldMeaning()
         {
-            StringAssert.Contains("LUO.Y", RepairPropStories.Finding(RepairPropKind.Cartridge, "MC_DataCore"));
+            StringAssert.Contains("K.MORITA", RepairPropStories.Finding(RepairPropKind.Cartridge, "MC_DataCore"));
             StringAssert.Contains("别格式化", RepairPropStories.Finding(RepairPropKind.Cartridge, "MC_BoardJumper_Released"), "variants share their stem's mark");
             Assert.IsNull(RepairPropStories.Finding(RepairPropKind.Cartridge, "MC_BoardJumperX"), "a stem only matches whole or with _suffix");
             Assert.IsNull(RepairPropStories.TestNote(RepairPropKind.Omamori, "identity", false), "an empty fail note stays null");
@@ -46,7 +46,7 @@ namespace BorderRepair.RepairProps.Tests
                 Assert.That(call.lines, Is.Not.Empty, id);
                 Assert.That(call.lines.All(l => !string.IsNullOrEmpty(l.text)), id + " has an empty line");
             }
-            Assert.IsTrue(ClinicCallRuntime.Find("patrol-receiver").lines.Any(l => l.player), "player lines keep their flag");
+            Assert.IsTrue(ClinicCallRuntime.Find("dealer-cartridge").lines.Any(l => l.player), "player lines keep their flag");
         }
 
         [Test]

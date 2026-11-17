@@ -93,7 +93,7 @@ namespace BorderRepair.RepairProps
             var caseWindow = Window("CaseWindow", "手术 // SURGERY", false, 0f, out var caseBar);
             caseCode = RepairPropCyberStyle.Caption(caseBar.transform.parent, "", RepairPropCyberStyle.Mono != null ? RepairPropCyberStyle.Mono : font, 10, RepairPropCyberStyle.AmberDim, TextAnchor.MiddleRight);
             var codeRect = caseCode.rectTransform; codeRect.anchorMin = Vector2.zero; codeRect.anchorMax = Vector2.one; codeRect.offsetMin = new Vector2(110, 0); codeRect.offsetMax = new Vector2(-34, 0);
-            title = Label(caseWindow, "手术 · 罗亚的右前臂", 16, 22, Accent);             subtitle = Paragraph(caseWindow, 12, Dim);
+            title = Label(caseWindow, "手术 · 森田的右前臂", 16, 22, Accent);             subtitle = Paragraph(caseWindow, 12, Dim);
             var phaseRow = Row(caseWindow, 22, 2);
             foreach (var label in SurgeryProcedureRuntime.PhaseLabels)
             {
@@ -203,7 +203,7 @@ namespace BorderRepair.RepairProps
             int bars = 3 + Mathf.FloorToInt(HudMotion.Noise(Mathf.Floor(Time.unscaledTime * 2.5f)) * 2.99f);
             caseCode.text = "OP-" + RepairPropCyberStyle.Code("surgery-luo-right-forearm", 4) + " " + new string('|', bars) + new string('.', 5 - bars);
             var run = TwoNightRun.Current;
-            subtitle.text = "罗亚 · 码头吊机操作员　手术计时 " + RepairUIView.FormatTime(owner.OpenSeconds) + (run != null ? "　现金 " + TwoNightUi.Money(run.Cash) : "");
+            subtitle.text = "森田 · 3号吊机 装卸工　手术计时 " + RepairUIView.FormatTime(owner.OpenSeconds) + (run != null ? "　现金 " + TwoNightUi.Money(run.Cash) : "");
             int phase = Op.Phase;
             for (int i = 0; i < phaseChips.Count; i++)
             {
@@ -214,7 +214,7 @@ namespace BorderRepair.RepairProps
             statusTitle.text = "当前阶段：" + SurgeryProcedureRuntime.PhaseLabels[phase];
             statusBody.text = Op.NextStepText;
             bool scanned = Op.Get("scanned") == 1;
-            scanLine.text = "义体扫描：" + (scanned ? "租赁锁 · 远程锁死；神经接口完好" : "未扫描");
+            scanLine.text = "义体扫描：" + (scanned ? "固件锁机；神经接口完好" : "未扫描");
             scanLine.color = scanned ? Warn : Dim;
             int links = Op.LinkResults.Count;
             linkLine.text = "神经链路联调：" + (Op.Get("linked") == 1 ? "通过（" + SurgeryProcedureRuntime.LinkPasses + "/" + SurgeryProcedureRuntime.LinkPasses + "）"
@@ -271,7 +271,7 @@ namespace BorderRepair.RepairProps
             if (Op.Get("cover") == 1) yield return ("ServiceCover", "检修盖板", "零件栏");
             if (Op.Get("tape") == 1) yield return ("ClampTape", "胶布（写着字）", "零件栏");
             foreach (var b in SurgeryCyberArm.Bolts) if (Op.Get("out." + b) == 1) yield return (b, SurgeryCyberArm.Label(b), "零件栏 · 待装回");
-            if (Op.OldArm != null && Op.Get("arm") != 1) yield return (SurgeryCyberArm.Old, "旧前臂", "托盘 · 锁死的租赁件");
+            if (Op.OldArm != null && Op.Get("arm") != 1) yield return (SurgeryCyberArm.Old, "旧前臂", "托盘 · 锁死的旧重手");
             if (Op.NewArm != null && Op.Get("arm") != 2) yield return (SurgeryCyberArm.New, "替换前臂", "托盘 · 待装");
         }
 
@@ -323,11 +323,11 @@ namespace BorderRepair.RepairProps
         void BuildChart()
         {
             Section(content, "病人");
-            Paragraph(content, 14, Ink).text = "罗亚　码头吊机 3 组 · 吊机操作员";
+            Paragraph(content, 14, Ink).text = "森田 健二　3号吊机 · 老装卸工";
             Section(content, "诉求");
             Paragraph(content, 14, Ink).text = "“右手动不了了。合同到期那天夜里，它自己就锁上了。”";
             Section(content, "义体来历");
-            Paragraph(content, 13, Ink).text = "码头公司租给吊机工的标准作业臂，租金每月从工资里扣。公司裁掉了吊机 3 组，当晚远程锁死了整组人的手臂，系统里写着“雇主已释放”。";
+            Paragraph(content, 13, Ink).text = "老厂的重型吊机义手，用了十一年。厂家撤走、售后停服以后，老型号固件说锁就锁，手指僵在半握的位置。";
             Section(content, "手术备注");
             Paragraph(content, 13, Info).text = "保留身体侧的接口环和神经接头，只更换前臂。旧前臂留在托盘上，不读取、不复制里面的作业记录。";
             Section(content, "费用");

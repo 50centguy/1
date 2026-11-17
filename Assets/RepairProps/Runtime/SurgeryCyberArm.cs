@@ -130,7 +130,7 @@ namespace BorderRepair.RepairProps
         }
     }
 
-    // Placeholder geometry for 罗亚's leased right forearm, its replacement, and the body-side socket both mount on,
+    // Placeholder geometry for 森田's leased right forearm, its replacement, and the body-side socket both mount on,
     // detailed enough for the close-up surgery (taken apart the way the bench props are). Body side, on his forearm
     // bone and staying when the forearm comes off: the brass socket ring with its clamp band and four radial clamp bolts
     // (the third wrapped in his own tape), the contact face, and the neural plug on its lead. Forearm: spigot, tapered
@@ -182,15 +182,15 @@ namespace BorderRepair.RepairProps
         {
             switch (id)
             {
-                case Whole: return "罗亚的右臂";
-                case Old: return "旧前臂（租赁·锁死）";
+                case Whole: return "森田的右臂";
+                case Old: return "旧前臂（固件锁死）";
                 case New: return "替换前臂";
                 case "SocketRing": return "接口环（身体侧）";
                 case "Socket": return "接口触点";
                 case "ClampTape": return "螺栓3上的胶布";
                 case "NeuralPlug": return "神经接头";
                 case "ServiceCover": return "检修盖板";
-                case "LeaseLock": return "租赁锁模块";
+                case "LeaseLock": return "固件锁模块";
                 case "BatteryPlug": return "电池服务插头";
                 case "BatteryCell": return "前臂电池";
                 case "StatusLamp": return "状态灯";

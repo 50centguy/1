@@ -431,8 +431,8 @@ namespace BorderRepair.RepairProps
                 var c = d.repairCase;
                 c.caseId = "repair-prop-" + d.kind.ToString().ToLowerInvariant();
                 c.itemName = RepairPropText.Item(d.kind);
-                c.customerName = d.kind == RepairPropKind.Receiver ? "夜班管线巡检员" : d.kind == RepairPropKind.Cartridge ? "二手义体商" : d.kind == RepairPropKind.Power ? "街区照护站" : "夜班护理员";
-                c.customerStatement = d.kind == RepairPropKind.Receiver ? "能开机，可信号就是不对劲。请保留原来的频段和约定呼叫时段。" : d.kind == RepairPropKind.Cartridge ? "识别总是中断。请恢复可读性，保留原来的校准参数与记录。" : d.kind == RepairPropKind.Power ? "明明还有电，一接负载就中断，之前换电池也没用。" : "它几乎唤不醒了。请保留旧录音和我的原身份。";
+                c.customerName = d.kind == RepairPropKind.Receiver ? "小遥 · 三号管廊夜班巡检" : d.kind == RepairPropKind.Cartridge ? "Frankie · 岸壁旧货商" : "真由美 · 照护站夜班护工";
+                c.customerStatement = d.kind == RepairPropKind.Receiver ? "……进水了。信号不对。两点前能修好吗。" : d.kind == RepairPropKind.Cartridge ? "老式吊机义手的记忆卡匣，接口被谁拿铁片硬撬坏了，给修一下。" : d.kind == RepairPropKind.Power ? "照护站的夜间电源老跳闸……那根细线能不能别剪？那是小绿的电源。" : "这个电子御守，按了没声音。老人家今晚等着呢。";
                 c.intakeNote = "保留原有核心、密封部件和外观磨损。仅作只读验证，不播放私人录音，不复制、格式化或更换原核心。";
                 // Placeholder fees: midpoints of the flow design's planning estimates, pending the user's pricing decision.
                 c.estimatedRepairCost = d.kind == RepairPropKind.Receiver ? 75 : d.kind == RepairPropKind.Power ? 130 : 65;

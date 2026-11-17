@@ -78,7 +78,7 @@ namespace BorderRepair.RepairProps
             RepairPropCyberStyle.Texture(window, RepairPropCyberStyle.Dots, new Color(1f, .62f, .16f, .09f), "DotGrid");
             RepairPropCyberStyle.Texture(window, RepairPropCyberStyle.Dither, new Color(1f, .42f, .10f, .05f), "Dither");
             HudMotion.Boot(window.gameObject);
-            HudWindowDrag.Attach(RepairPropCyberStyle.TitleBar(window, "PARTS.EXE // 部品通販  —  NSP-LINE 03", font), window, "shop");
+            HudWindowDrag.Attach(RepairPropCyberStyle.TitleBar(window, "PARTS.EXE // 部品通販  —  LINE 03", font), window, "shop");
 
             // Header: dealer name in kana, line code, balance in big mono digits.
             Label(window, "部品通販", 26, 24, -12, 200, 40, Amber, kana);

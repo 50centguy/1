@@ -227,7 +227,7 @@ namespace BorderRepair.RepairProps
         {
             var run = TwoNightRun.Current;
             int bars = 3 + Mathf.FloorToInt(HudMotion.Noise(Mathf.Floor(Time.unscaledTime * 2.5f)) * 2.99f);
-            caseCode.text = (run != null && !string.IsNullOrEmpty(run.unit07WorkOrderId) ? run.unit07WorkOrderId : "NSP-07") + " " + new string('|', bars) + new string('.', 5 - bars);
+            caseCode.text = (run != null && !string.IsNullOrEmpty(run.unit07WorkOrderId) ? run.unit07WorkOrderId : "UNIT-07") + " " + new string('|', bars) + new string('.', 5 - bars);
             title.text = Find("Status/Title");
             subtitle.text = run == null ? "" : "第 " + run.night + " 晚　现金 " + TwoNightUi.Money(run.Cash) + "　房租 " + TwoNightUi.Money(run.rent) +
                 "（第 " + run.rentDueNight + " 晚到期）还差 " + TwoNightUi.Money(run.RentShortfall);

@@ -364,7 +364,7 @@ namespace BorderRepair.RepairProps.UI.Tests
             yield return Shoot("34-call-ringing", room);
             calls.Pickup();
             yield return null;
-            StringAssert.StartsWith("霞", calls.Subtitle);
+            StringAssert.StartsWith("美代子", calls.Subtitle);
             var booth = npcs.BoothNpc("Kasumi");
             Assert.That(booth != null && booth.gameObject.activeSelf, Is.True, "The caller's portrait booth renders while on the line.");
             Assert.That(calls.Card.GetComponentInChildren<UnityEngine.UI.RawImage>().texture, Is.Not.Null);

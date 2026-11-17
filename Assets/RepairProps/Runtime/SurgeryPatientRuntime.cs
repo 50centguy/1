@@ -11,7 +11,7 @@ namespace BorderRepair.RepairProps
     // The surgery patient getting onto the V2 table and off again, for validating the flow before the real character
     // (the user's own Tripo model) exists. The patient is a jointed placeholder whose joints carry Unity Humanoid bone
     // names (Hips, Spine, Chest, Neck, Head, Left/Right Upper/Lower Leg, Foot, Upper/Lower Arm, Hand), so a rigged model
-    // can later take the same poses. Flow (罗亚 / Luo, the dock loader whose leased right arm was remotely locked):
+    // can later take the same poses. Flow (森田 / Morita, the dock loader whose leased right arm was remotely locked):
     //   walk in from the east entrance round the instrument cart to the west side of the table -> (if the restraints
     //   are still buckled, wait there facing the table until the player opens them all) -> turn his back to it
     //   -> sit on the edge -> swing the legs up (long sit) -> lie back, the upper body following the table's back
@@ -32,7 +32,7 @@ namespace BorderRepair.RepairProps
         // Room path (floor points) from the east entrance round the instrument cart's west end to the bedside.
         static readonly Vector3[] InPath = { new Vector3(.30f, 0, -3.05f), new Vector3(.10f, 0, -2.72f), new Vector3(-.78f, 0, -2.20f), new Vector3(-.95f, 0, -1.35f) };
         const float WalkSpeed = .85f;
-        // Body (metres; 罗亚 is 1.74 m): joint offsets in the body's own frame (up +Y, facing +Z).
+        // Body (metres; 森田 is 1.74 m): joint offsets in the body's own frame (up +Y, facing +Z).
         const float HipHeight = .92f, Thigh = .44f, Shin = .43f, SpineLen = .10f, ChestLen = .18f, NeckLen = .22f, HeadLen = .10f;
         const float UpperArm = .29f, Forearm = .26f, ShoulderX = .19f, ShoulderY = .20f, HipX = .09f;
         // Where the hips sit along the table (table frame, metres from the centre toward the head): the back section
@@ -70,8 +70,8 @@ namespace BorderRepair.RepairProps
         public bool Busy => phase != Phase.Idle;
         /// <summary>What the player should do for the patient now (null when nothing).</summary>
         public string Hint => SurgeryCloseupRuntime.Current != null && SurgeryCloseupRuntime.Current.Active ? null   // the close-up has its own guide
-            : phase == Phase.WaitClear ? "罗亚在床边等着：先解开三条束带"
-            : phase == Phase.AwaitStraps ? "罗亚已躺好：扣上三条束带 (" + (Table != null ? Table.StrapsClosed : 0) + "/3)"
+            : phase == Phase.WaitClear ? "森田在床边等着：先解开三条束带"
+            : phase == Phase.AwaitStraps ? "森田已躺好：扣上三条束带 (" + (Table != null ? Table.StrapsClosed : 0) + "/3)"
             : phase == Phase.Secured && SurgeryProcedureRuntime.Current != null ? SurgeryProcedureRuntime.Current.Hint : null;
         /// <summary>True while something (the operation) must keep the patient on the table even with the straps open.</summary>
         public static Func<bool> HoldOnTable;
@@ -404,7 +404,7 @@ namespace BorderRepair.RepairProps
                 site.transform.SetParent(lowerArm, false);
                 site.transform.localPosition = new Vector3(0, -Forearm * .5f, 0);
                 site.AddComponent<BoxCollider>().size = new Vector3(.17f, Forearm + .14f, .17f);
-                site.AddComponent<SurgeryTableControl>().Configure(SurgeryControlKind.Patient, "罗亚的右臂");
+                site.AddComponent<SurgeryTableControl>().Configure(SurgeryControlKind.Patient, "森田的右臂");
                 site.SetActive(false);
             }
             foreach (var r in patient.GetComponentsInChildren<Renderer>()) r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;

@@ -305,7 +305,7 @@ namespace BorderRepair.RepairProps
             frame.color = ringing && Mathf.Repeat(now, .8f) < .4f ? RepairPropCyberStyle.Hot : ending ? RepairPropCyberStyle.AmberDim : RepairPropCyberStyle.Amber;
             float talkTime = mode == Mode.Ringing ? 0 : now - modeAt;
             timer.text = (ringing ? "RING " : "REC ") + ((int)talkTime / 60).ToString("00") + ":" + ((int)talkTime % 60).ToString("00");
-            footer.text = ringing ? "NSP-LINE " + RepairPropCyberStyle.Code(call.id, 6) + "  //  [T] ANSWER"
+            footer.text = ringing ? "LINE " + RepairPropCyberStyle.Code(call.id, 6) + "  //  [T] ANSWER"
                 : Choosing ? "[1-" + Mathf.Min(runner.Choices.Count, MaxChoices) + "] 选择回答  //  " + linesShown
                 : "[T] NEXT  //  " + linesShown;
             var npcs = ClinicNpcRuntime.Current;

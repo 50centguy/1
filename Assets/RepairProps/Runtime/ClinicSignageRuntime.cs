@@ -183,7 +183,7 @@ namespace BorderRepair.RepairProps
             var prices = Sign("PJ_PriceList", scrimAt, Vector3.left, .24f, 1.44f, .54f, Amber, beamAmber, new Vector3(1.55f, 2.95f, 0), .03f);
             if (panelMaterials.TryGetValue(prices, out var priceMaterial)) priceMaterial.SetFloat(IntensityId, 1.6f);
             Line(prices, "料金表 // PRICE LIST", kana, 64, Amber, 30, -2, .6f, TextAnchor.UpperLeft);
-            Line(prices, "NSP-03", mono, 52, Pale, -30, -12, .3f, TextAnchor.UpperRight);
+            Line(prices, "No.03", mono, 52, Pale, -30, -12, .3f, TextAnchor.UpperRight);
             var rows = new[] { ("清掃  CLEAN", "80"), ("特急  RUSH", "+50%"), ("部品  PARTS", "実費+工賃"), ("深夜  NIGHT", "+20") };
             const float firstRow = -96, rowPitch = 88;
             for (int i = 0; i < rows.Length; i++)
