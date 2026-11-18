@@ -72,6 +72,8 @@ namespace BorderRepair.RepairProps.EditorTools
             BuildCameras(Group(root, "Review cameras"));
             BuildHolograms(Group(root, "Holo - projected signage"));
             BuildFarTowers(Group(root, "Skyline - far towers"));
+            BuildStreetDetail(Group(root, "Street - things on the street"));
+            BuildFarCity(Group(root, "Skyline - blocks, viaduct and train"));
             ApplyPalette();
             VaryWindows();
             foreach (var c in lent) Object.DestroyImmediate(c);
@@ -447,9 +449,9 @@ namespace BorderRepair.RepairProps.EditorTools
         static void BuildLamps(Transform g)
         {
             foreach (var r in Renderers("Diffuser"))
-                LampCone(g, "Lamp volume - street", r.bounds.center + Vector3.down * .06f, .36f, Volume("Lamp volume mercury", new Color(.62f, .75f, .8f), .13f));
+                LampCone(g, "Lamp volume - street", r.bounds.center + Vector3.down * .06f, .36f, Volume("Lamp volume street", new Color(.92f, .88f, .8f), .17f));
             foreach (var r in Renderers("Sodium lamp lens"))
-                LampCone(g, "Lamp volume - wharf", r.bounds.center + Vector3.down * .05f, .36f, Volume("Lamp volume wharf flood", new Color(.66f, .77f, .82f), .11f));
+                LampCone(g, "Lamp volume - wharf", r.bounds.center + Vector3.down * .05f, .36f, Volume("Lamp volume wharf flood", new Color(.82f, .84f, .82f), .12f));
             foreach (var r in Renderers("Entry lamp under lintel"))
                 LampCone(g, "Lamp volume - court door", r.bounds.center + Vector3.down * .04f, .45f, Volume("Lamp volume court tube", new Color(.7f, .8f, .82f), .09f));
             foreach (var l in Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Where(l => l.name == "Wharf amber pool"))
@@ -585,13 +587,14 @@ namespace BorderRepair.RepairProps.EditorTools
                 var p = path.Replace('\\', '/');
                 var imp = (TextureImporter)AssetImporter.GetAtPath(p);
                 if (imp == null) continue;
-                imp.textureType = TextureImporterType.Default;
-                imp.sRGBTexture = true;
+                bool normalMap = p.EndsWith("_n.png");
+                imp.textureType = normalMap ? TextureImporterType.NormalMap : TextureImporterType.Default;
+                imp.sRGBTexture = !normalMap;
                 imp.alphaIsTransparency = true;
                 imp.mipmapEnabled = true;
                 imp.filterMode = FilterMode.Bilinear;
                 imp.maxTextureSize = 1024;
-                imp.wrapMode = new[] { "trampled_path", "distant_windows", "concrete_panel", "iron_paint", "snow_grain" }.Any(p.Contains) ? TextureWrapMode.Repeat : TextureWrapMode.Clamp;
+                imp.wrapMode = new[] { "trampled_path", "distant_windows", "concrete_panel", "iron_paint", "snow_grain", "/srf_" }.Any(p.Contains) ? TextureWrapMode.Repeat : TextureWrapMode.Clamp;
                 imp.SaveAndReimport();
             }
         }
@@ -661,7 +664,7 @@ namespace BorderRepair.RepairProps.EditorTools
         static Material SnowMaterial()
         {
             if (mats.TryGetValue("Snow - caps", out var have)) return have;
-            return SurfaceMat("Snow - caps", Tex("snow_grain"), 1.5f, 0, SnowAlbedo, 0, .25f, .12f);
+            return SurfaceMat("Snow - caps", "srf_snow", 2.2f, 0, SnowAlbedo, 0, .25f, .12f);
         }
 
         static void Surface(Material m, Mode mode)

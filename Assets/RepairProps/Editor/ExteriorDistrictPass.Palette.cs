@@ -16,8 +16,8 @@ namespace BorderRepair.RepairProps.EditorTools
             Amber = Hex("#E89A3C"), HoloCyan = Hex("#6BE0E8"), CrtGreen = Hex("#5CE67E"), AlarmRed = Hex("#C93B3B");
 
         // Albedos behind the palette's on-screen colours (they read darker under the night lights and the haze).
-        static readonly Color SnowAlbedo = new Color(.6f, .66f, .7f), SlushAlbedo = new Color(.2f, .24f, .26f),
-            ConcreteAlbedo = new Color(.26f, .32f, .35f), StuccoAlbedo = new Color(.32f, .35f, .36f), ColdLamp = Hex("#A9BCC4");
+        static readonly Color SnowAlbedo = new Color(.6f, .66f, .7f),
+            ConcreteAlbedo = new Color(.26f, .32f, .35f), StuccoAlbedo = new Color(.32f, .35f, .36f), StreetLamp = Hex("#DCD4C4");   // aged LED/metal halide: neutral, a touch warm; brighter than the first cold pass
 
         // The district's surfaces move off the handed-over unlit shaders (fake lamp pools, their own near-black fog) onto
         // the lit, world-mapped Surface shader; the speckled glass becomes dark frosted panes. Only this scene's renderers
@@ -27,13 +27,19 @@ namespace BorderRepair.RepairProps.EditorTools
             RenderSettings.fogColor = FogTeal;
             log.Append("fog colour -> #3B4B54\n");
 
-            var concrete = SurfaceMat("Concrete - precast", Tex("concrete_panel"), 3f, 0, ConcreteAlbedo, .85f, .12f, .06f);
-            var stucco = SurfaceMat("Concrete - stucco", Tex("concrete_panel"), 2.2f, 0, StuccoAlbedo, .85f, .12f, .06f);
-            var iron = SurfaceMat("Iron - salt stained", Tex("iron_paint"), 1.1f, 0, ColdRust * 1.1f, .55f, .3f, .2f);
-            var steps = SurfaceMat("Snow - trodden steps", Tex("concrete_panel"), 3f, 1, new Color(.3f, .34f, .36f), 0, .2f, .1f);
-            var ground = SurfaceMat("Snow - street, quay and court", Tex("concrete_panel"), 3f, 2, new Color(.28f, .32f, .34f), 0, .2f, .1f);
-            var water = SurfaceMat("Water - harbour", AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/RepairProps/Scenes/Temp_HarbourStudy/harbour_water.png"), 10f, 3, new Color(.1f, .14f, .16f), 0, .88f, .6f);
-            var pack = SurfaceMat("Snow - packed relief", null, 1f, 4, Color.white, 0, .22f, .1f);
+            // Walls: scanned weathered concrete (rain streaks, tie holes, grime) and panelled plaster, CC0 from Poly Haven.
+            var concrete = SurfaceMat("Concrete - weathered", "srf_wall_grime", 3.2f, 0, ConcreteAlbedo, .85f, .12f, .06f);
+            var stucco = SurfaceMat("Concrete - plaster", "srf_wall_plaster", 3.6f, 0, StuccoAlbedo, .85f, .12f, .06f);
+            var iron = SurfaceMat("Iron - salt stained", "iron_paint", 1.1f, 0, ColdRust * 1.1f, .55f, .3f, .2f, normal: null);
+            // Ground: snow over the real ground, which shows through where it is trodden, driven over or blown thin.
+            var steps = SurfaceMat("Snow - pavement and steps", "srf_wall_plaster", 2.4f, 1, new Color(.3f, .32f, .33f), 0, .22f, .12f,
+                                   ground: "srf_wall_plaster", groundColour: new Color(.22f, .23f, .24f), groundScale: 2.4f, cover: .73f);
+            var ground = SurfaceMat("Snow - street, quay and court", "srf_asphalt", 2.5f, 2, new Color(.2f, .22f, .23f), 0, .22f, .14f,
+                                    ground: "srf_asphalt", groundColour: new Color(.13f, .14f, .15f), groundScale: 2.5f, cover: .69f);
+            var water = SurfaceMat("Water - harbour", null, 10f, 3, new Color(.1f, .14f, .16f), 0, .88f, .6f, normal: null,
+                                   baseTex: AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/RepairProps/Scenes/Temp_HarbourStudy/harbour_water.png"));
+            var pack = SurfaceMat("Snow - packed relief", null, 1f, 4, Color.white, 0, .22f, .1f, normal: null,
+                                  ground: "srf_asphalt", groundColour: new Color(.14f, .15f, .16f), groundScale: 2.5f, cover: .77f);
             var caps = SnowMaterial();
             var glass = Lit("Glass - night frost", Color.white, .85f, 0, Tex("glass_frost"));
             var swap = new Dictionary<string, Material>
@@ -68,8 +74,8 @@ namespace BorderRepair.RepairProps.EditorTools
                 Color? colour = null; float? intensity = null;
                 switch (l.name)
                 {
-                    case "Aged sodium street lamp": colour = ColdLamp; intensity = 2.2f; break;
-                    case "Wharf amber pool": colour = new Color(.7f, .77f, .8f); intensity = 4.6f; break;
+                    case "Aged sodium street lamp": colour = StreetLamp; intensity = 6.5f; l.range = 10.5f; break;
+                    case "Wharf amber pool": colour = new Color(.82f, .84f, .82f); intensity = 5.4f; break;
                     case "Court wall sconce": colour = new Color(.75f, .82f, .82f); intensity = 1.5f; break;
                     case "Street fill": colour = new Color(.62f, .7f, .74f); intensity = 4f; break;
                     case "Blue overcast at upper landing": colour = new Color(.62f, .71f, .76f); intensity = 3.4f; break;
@@ -84,24 +90,40 @@ namespace BorderRepair.RepairProps.EditorTools
             // The berth board was a self-lit amber panel, a second warm lamp on the quay; repainted cold enamel, lit by the flood.
             var pierSign = Lit("Berth board - cold enamel", Color.white, .3f, 0, Tex("pier_cold"), new Color(.3f, .34f, .35f), Tex("pier_cold"));
             foreach (var r in Renderers("District signage pier")) r.sharedMaterial = pierSign;
-            var coldHead = Lit("Lamp head - cold mercury", new Color(.7f, .77f, .8f), .6f, 0, null, new Color(.8f, .9f, .94f) * 1.4f);
+            var coldHead = Lit("Lamp head - neutral", new Color(.8f, .78f, .74f), .6f, 0, null, new Color(.95f, .92f, .86f) * 1.7f);
             foreach (var r in Renderers("Diffuser").Concat(Renderers("Sodium lamp lens")).Concat(Renderers("Entry lamp under lintel")))
                 r.sharedMaterial = coldHead;
         }
 
-        static Material SurfaceMat(string name, Texture tex, float scale, float kind, Color tint, float topSnow, float smooth, float spec)
+        // tex/normal name textures in Textures/ (a normal map "<tex>_n" is used when it exists, unless normal is passed as null).
+        static Material SurfaceMat(string name, string tex, float scale, float kind, Color tint, float topSnow, float smooth, float spec,
+                                   string normal = "", string ground = null, Color? groundColour = null, float groundScale = 2.5f, float cover = .7f, Texture baseTex = null)
         {
             if (mats.TryGetValue(name, out var have)) return have;
             var m = new Material(Shader.Find("BorderRepair/Exterior/Surface"));
-            if (tex != null) m.SetTexture("_BaseMap", tex);
+            var b = baseTex != null ? baseTex : tex != null ? Tex(tex) : null;
+            if (b != null) m.SetTexture("_BaseMap", b);
+            var nm = normal == "" && tex != null ? Tex(tex + "_n") : normal != null && normal != "" ? Tex(normal) : null;
+            if (nm != null) m.SetTexture("_NormalMap", nm);
             m.SetColor("_BaseColor", tint);
             m.SetFloat("_Scale", scale);
             m.SetFloat("_Kind", kind);
             m.SetColor("_SnowColor", SnowAlbedo);
-            m.SetColor("_SlushColor", SlushAlbedo);
+            m.SetTexture("_SnowMap", Tex("srf_snow"));
+            m.SetTexture("_SnowNormal", Tex("srf_snow_n"));
+            m.SetFloat("_SnowScale", 2.2f);
+            m.SetTexture("_ThinMap", Tex("srf_thin_snow"));
+            m.SetFloat("_ThinScale", 1.6f);
+            if (ground != null)
+            {
+                m.SetTexture("_GroundMap", Tex(ground));
+                var gn = Tex(ground + "_n");
+                if (gn != null) m.SetTexture("_GroundNormal", gn);
+            }
+            m.SetColor("_GroundColor", groundColour ?? new Color(.12f, .13f, .14f));
+            m.SetFloat("_GroundScale", groundScale);
+            m.SetFloat("_Cover", cover);
             m.SetFloat("_TopSnow", topSnow);
-            m.SetTexture("_GrainMap", Tex("snow_grain"));
-            m.SetFloat("_GrainScale", 1.5f);
             m.SetFloat("_Smoothness", smooth);
             m.SetFloat("_Specular", spec);
             return Save(name, m);
@@ -213,7 +235,7 @@ namespace BorderRepair.RepairProps.EditorTools
         }
 
         // The settled-snow relief came with short dunes along the stair shoulders and ruts; the ground should read as one
-        // sheet of snow. A smoothed copy keeps the broad shoulders and ruts and 30% of the small relief, softens the slush
+        // sheet of snow. A smoothed copy keeps the broad shoulders and ruts and half of the small relief, softens the slush
         // edges, and leaves its rim in place so it still meets kerbs and walls. The handed-over mesh is untouched; this
         // scene's renderer (and any collider) points at the copy. Runs before the build so every ground probe sees it.
         static void SmoothSnowpack()
@@ -272,10 +294,38 @@ namespace BorderRepair.RepairProps.EditorTools
             float moved = 0, maxMoved = 0;
             for (int i = 0; i < n; i++)
             {
-                float hNew = broad[i] + (h0[i] - broad[i]) * .3f;
+                float hNew = broad[i] + (h0[i] - broad[i]) * .5f;
                 moved += Mathf.Abs(hNew - h0[i]); maxMoved = Mathf.Max(maxMoved, Mathf.Abs(hNew - h0[i]));
                 broad[i] = hNew;
             }
+            // Feather the slab's edges: where it stops on flat ground as a low lip, the top ramps down to the foot of
+            // its skirt over .6 m, so the snow runs out into the street instead of ending at a step. Drifts, shoulders and
+            // edges over a real drop (stairwell, quay) are taller than that and keep their shape.
+            var xz = new Vector2[n]; var dist = new float[n]; var foot = new float[n];
+            for (int i = 0; i < v.Length; i++) xz[id[i]] = new Vector2(v[i].x, v[i].z);
+            for (int i = 0; i < n; i++) { dist[i] = top[i] ? 1e9f : 0; foot[i] = h0[i]; }
+            for (int pass = 0; pass < 4; pass++)                      // a skirt column's foot is its lowest vertex
+                for (int i = 0; i < n; i++)
+                    if (!top[i]) foreach (var j in nb[i]) if (!top[j] && (xz[i] - xz[j]).sqrMagnitude < .0025f) foot[i] = Mathf.Min(foot[i], foot[j]);
+            for (int pass = 0; pass < 40; pass++)
+                for (int i = 0; i < n; i++)
+                    if (top[i]) foreach (var j in nb[i])
+                    {
+                        float d = dist[j] + Vector2.Distance(xz[i], xz[j]);
+                        if (d < dist[i] - 1e-4f || (d < dist[i] + 1e-4f && foot[j] < foot[i])) { dist[i] = d; foot[i] = foot[j]; }
+                    }
+            int feathered = 0;
+            for (int i = 0; i < n; i++)
+            {
+                if (!top[i] || dist[i] > .6f) continue;
+                float drop = broad[i] - foot[i];
+                float lip = 1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.1f, .2f, drop));
+                if (lip <= 0 || drop <= .02f) continue;
+                float f = Mathf.SmoothStep(0, 1, dist[i] / .6f);
+                broad[i] = Mathf.Lerp(foot[i] + .015f, broad[i], Mathf.Lerp(1, f, lip));
+                feathered++;
+            }
+            log.Append("snowpack edges feathered: ").Append(feathered).Append(" top vertices within .6 m of a lip under 20 cm\n");
             for (int i = 0; i < v.Length; i++)
             {
                 v[i].y = broad[id[i]];

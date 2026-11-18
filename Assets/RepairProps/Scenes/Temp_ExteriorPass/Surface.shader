@@ -1,24 +1,37 @@
-// The district's large surfaces (precast concrete, painted iron, ground snow, the packed-snow relief, harbour water),
-// lit by the scene's real lights and fogged with the scene fog. Textures are mapped in world space on the dominant axis,
-// so a 54 m wall and a 0.3 m sill share one texel density. Ground snow is one surface: a near-flat snow colour with
-// compacted slush only where feet and tyres went. Blinn-Phong (Simple Lit) to stay in the PS2 register.
-// _Kind: 0 solid (texture x tint, optional snow on upward faces), 1 trodden steps, 2 road/quay snow with tyre lanes,
-//        3 water, 4 packed-snow relief (vertex colour R = clean snow).
+// The district's large surfaces (walls, ground snow, the packed-snow relief, harbour water), lit by the scene's real
+// lights and fogged with the scene fog. Textures (CC0 scans, see Docs/Art/EXTERIOR_BERTH04_PASS.md) are mapped in world
+// space on the dominant axis, so a 54 m wall and a 0.3 m sill share one texel density, with a matching normal map.
+// Ground is three layers blended by a snow-depth field: full snow, a thin speckled layer, and the wet ground under it.
+// Feet and tyres thin the snow; the edges are broken by the thin layer's own grain so they fade instead of cutting.
+// Blinn-Phong (Simple Lit) to stay in the PS2 register.
+// _Kind: 0 solid (texture x tint, optional snow on upward faces), 1 trodden pavement and steps, 2 road and quay with
+//        tyre tracks, 3 water, 4 packed-snow relief (vertex colour R = clean snow).
 Shader "BorderRepair/Exterior/Surface"
 {
     Properties
     {
-        _BaseMap ("Texture (world mapped, neutral grey)", 2D) = "grey" {}
+        _BaseMap ("Texture (world mapped, mid-grey mean)", 2D) = "grey" {}
+        [Normal] _NormalMap ("Normal map", 2D) = "bump" {}
+        _NormalScale ("Normal strength", Float) = 1
         _BaseColor ("Tint (albedo at texture mean)", Color) = (.4, .45, .48, 1)
         _Scale ("Metres per tile", Float) = 3
         _Kind ("Surface kind", Float) = 0
-        _SnowColor ("Snow", Color) = (.74, .8, .84, 1)
-        _SlushColor ("Compacted slush", Color) = (.17, .2, .22, 1)
-        _TopSnow ("Snow on upward faces", Range(0, 1)) = 0
-        _GrainMap ("Snow grain", 2D) = "grey" {}
-        _GrainScale ("Grain metres per tile", Float) = 1.5
+        _SnowColor ("Snow", Color) = (.6, .66, .7, 1)
+        _SnowMap ("Snow texture", 2D) = "grey" {}
+        [Normal] _SnowNormal ("Snow normal", 2D) = "bump" {}
+        _SnowScale ("Snow metres per tile", Float) = 2.2
+        _SnowDetail ("Snow texture strength", Range(0, 1)) = .7
+        _ThinMap ("Thin snow over ground", 2D) = "grey" {}
+        _ThinScale ("Thin metres per tile", Float) = 1.6
+        _GroundMap ("Ground under the snow", 2D) = "grey" {}
+        [Normal] _GroundNormal ("Ground normal", 2D) = "bump" {}
+        _GroundColor ("Wet ground", Color) = (.12, .13, .14, 1)
+        _GroundScale ("Ground metres per tile", Float) = 2.5
+        _Cover ("Snow cover (higher = less ground shows)", Range(0, 1.5)) = .7
+        _TopSnow ("Snow on upward faces (solid)", Range(0, 1)) = 0
         _Smoothness ("Smoothness", Range(0, 1)) = .2
         _Specular ("Specular strength", Range(0, 1)) = .15
+        _WetSmoothness ("Wet ground smoothness", Range(0, 1)) = .5
     }
     SubShader
     {
@@ -26,10 +39,10 @@ Shader "BorderRepair/Exterior/Surface"
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         CBUFFER_START(UnityPerMaterial)
-        float4 _BaseMap_ST, _GrainMap_ST;
-        half4 _BaseColor, _SnowColor, _SlushColor;
-        float _Scale, _Kind, _GrainScale;
-        half _TopSnow, _Smoothness, _Specular;
+        float4 _BaseMap_ST, _NormalMap_ST, _SnowMap_ST, _SnowNormal_ST, _ThinMap_ST, _GroundMap_ST, _GroundNormal_ST;
+        half4 _BaseColor, _SnowColor, _GroundColor;
+        float _Scale, _Kind, _SnowScale, _ThinScale, _GroundScale;
+        half _NormalScale, _SnowDetail, _Cover, _TopSnow, _Smoothness, _Specular, _WetSmoothness;
         CBUFFER_END
         ENDHLSL
 
@@ -39,7 +52,7 @@ Shader "BorderRepair/Exterior/Surface"
             Tags { "LightMode"="UniversalForward" }
             Cull Off
             HLSLPROGRAM
-            #pragma target 3.0
+            #pragma target 3.5
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
@@ -54,7 +67,9 @@ Shader "BorderRepair/Exterior/Surface"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
-            TEXTURE2D(_GrainMap); SAMPLER(sampler_GrainMap);
+            TEXTURE2D(_NormalMap); TEXTURE2D(_SnowMap); TEXTURE2D(_SnowNormal);
+            TEXTURE2D(_ThinMap); TEXTURE2D(_GroundMap); TEXTURE2D(_GroundNormal);
+            #define SAMPLE(t, uv) SAMPLE_TEXTURE2D(t, sampler_BaseMap, uv)
 
             struct A { float4 p : POSITION; float3 n : NORMAL; float4 c : COLOR; };
             struct V { float4 cs : SV_POSITION; float3 w : TEXCOORD0; float3 n : TEXCOORD1; half4 c : COLOR; half fog : TEXCOORD2; };
@@ -78,53 +93,83 @@ Shader "BorderRepair/Exterior/Surface"
                 return lerp(lerp(hash2(a), hash2(a + float2(1, 0)), f.x), lerp(hash2(a + float2(0, 1)), hash2(a + 1), f.x), f.y);
             }
 
+            float3 Perturb(float3 nt, float3 T, float3 B, float3 N) { return normalize(T * nt.x + B * nt.y + N * nt.z); }
+
             half4 frag(V i, FRONT_FACE_TYPE face : FRONT_FACE_SEMANTIC) : SV_Target
             {
-                float3 n = normalize(i.n) * (IS_FRONT_VFACE(face, true, false) ? 1 : -1);
-                float3 an = abs(n);
-                float2 uv = an.y > max(an.x, an.z) ? i.w.xz : (an.x > an.z ? i.w.zy : i.w.xy);
-                half3 tex = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uv / _Scale).rgb;
-                half3 albedo = tex * _BaseColor.rgb * 2;
+                float3 N = normalize(i.n) * (IS_FRONT_VFACE(face, true, false) ? 1 : -1);
+                float3 an = abs(N);
+                float2 uv; float3 T;
+                if (an.y > max(an.x, an.z)) { uv = i.w.xz; T = float3(1, 0, 0); }
+                else if (an.x > an.z) { uv = i.w.zy; T = float3(0, 0, 1); }
+                else { uv = i.w.xy; T = float3(1, 0, 0); }
+                T = normalize(T - N * dot(T, N));
+                float3 B = cross(N, T);
+
+                half3 albedo = SAMPLE(_BaseMap, uv / _Scale).rgb * _BaseColor.rgb * 2;
+                float3 n = Perturb(UnpackNormalScale(SAMPLE(_NormalMap, uv / _Scale), _NormalScale), T, B, N);
                 float2 p = i.w.xz;
-                half grain = SAMPLE_TEXTURE2D(_GrainMap, sampler_GrainMap, p / _GrainScale).r;
-                half up = saturate((n.y - .6) / .25);
-                half3 snow = _SnowColor.rgb * (.96 + .05 * noise2(p * .17) + .5 * (grain - .5));
-                half3 slush = _SlushColor.rgb * (.86 + .28 * noise2(p * 1.3)) * (.9 + .4 * (grain - .5));
+                // Snow, thin snow and ground use the same dominant-axis mapping as the base, so kerb faces and slab edges
+                // are not smeared by a top-down projection.
+                half3 snowTex = lerp(half3(.5, .5, .5), SAMPLE(_SnowMap, uv / _SnowScale).rgb, _SnowDetail);
+                half3 snow = _SnowColor.rgb * snowTex * 2 * (.95 + .08 * noise2(p * .17));
+                float3 nSnow = Perturb(UnpackNormalScale(SAMPLE(_SnowNormal, uv / _SnowScale), _SnowDetail), T, B, N);
+                half up = saturate((N.y - .6) / .25);
                 half smooth = _Smoothness;
 
                 if (_Kind < .5)
                 {
-                    albedo = lerp(albedo, snow * .97, up * _TopSnow);
+                    half s = up * _TopSnow;
+                    albedo = lerp(albedo, snow, s);
+                    n = normalize(lerp(n, nSnow, s));
                 }
-                else if (_Kind < 2.5)
+                else if (_Kind < 2.5 || _Kind > 3.5)
                 {
+                    // Where people and tyres went.
                     float worn;
                     if (_Kind < 1.5)
                     {
                         float pathX = -1.49 + .13 * sin(p.y * 1.6);
-                        worn = 1 - smoothstep(.33, 1.04, abs(p.x - pathX));
+                        worn = .75 * (1 - smoothstep(.3, 1.0, abs(p.x - pathX)));
+                        worn = max(worn, .4 * (1 - smoothstep(.25, .8, abs(p.y + 6.05 + .12 * sin(p.x * .7)))));   // the walking line along the near pavement
+                    }
+                    else if (_Kind < 2.5)
+                    {
+                        float med = noise2(p * 1.3);
+                        float drift = lerp(-.08, .09, med);
+                        float quay = p.y + 4.15 + .13 * sin(p.x * .53);
+                        float road = p.y + 8.15 + .1 * sin(p.x * .37);
+                        float tq = min(abs(quay - .68 + drift), abs(quay + .68 + drift));
+                        float tr = min(abs(road - .72 + drift), abs(road + .72 + drift));
+                        worn = .62 * (1 - smoothstep(.08, .38, min(tq, tr))) * (.75 + .25 * noise2(p * float2(.9, 2.1)));
                     }
                     else
                     {
-                        float med = noise2(p * 1.3);
-                        float lane = p.y + 4.15 + .13 * sin(p.x * .53);
-                        float drift = lerp(-.08, .09, med);
-                        float tyre = (1 - smoothstep(.095, .28, min(abs(lane - .68 + drift), abs(lane + .68 + drift)))) * (.55 + .4 * noise2(p * float2(.9, 2.1)));
-                        worn = max(tyre, .15 * (1 - smoothstep(.4, 1.4, abs(lane))));
+                        worn = .55 * (1 - smoothstep(.018, .31, i.c.r));
+                        up = max(up, .6);
                     }
-                    half3 top = lerp(snow, slush, saturate(worn) * .7);
-                    albedo = lerp(albedo * .8, top, up);   // kerb and slab sides keep their own (wet) surface
-                    smooth = lerp(smooth, .45, saturate(worn) * up);
-                }
-                else if (_Kind < 3.5)
-                {
-                    smooth = _Smoothness;
+                    // Snow depth: broad drifts and smaller scallops, thinned where worn; the thin layer's grain breaks the edges.
+                    half3 thinTex = SAMPLE(_ThinMap, uv / _ThinScale).rgb;
+                    half grit = dot(thinTex, half3(.333, .333, .333)) - .5;
+                    float depth = _Cover + .34 * (noise2(p * .19) - .5) + .22 * (noise2(p * .63 + 7.3) - .5) + .1 * (noise2(p * 1.9 + 3.1) - .5);
+                    depth -= worn * .95;
+                    float d = depth + grit * .45;
+                    half wThin = smoothstep(.06, .38, d);
+                    half wSnow = smoothstep(.34, .68, d);
+                    half3 groundTex = SAMPLE(_GroundMap, uv / _GroundScale).rgb;
+                    half3 ground = _GroundColor.rgb * groundTex * 2;
+                    half3 thin = lerp(_GroundColor.rgb, _SnowColor.rgb, .55) * thinTex * 2;
+                    half3 top = lerp(lerp(ground, thin, wThin), snow, wSnow);
+                    float3 nGround = Perturb(UnpackNormalScale(SAMPLE(_GroundNormal, uv / _GroundScale), 1), T, B, N);
+                    float3 nTop = normalize(lerp(nGround, nSnow, wSnow));
+                    half3 side = ground * 1.4;                         // kerbs and slab edges: wet, darker than the snow
+                    albedo = lerp(_Kind > 3.5 ? lerp(thin, snow, .5) : side, top, up);
+                    n = normalize(lerp(n, nTop, up));
+                    smooth = lerp(smooth, lerp(_WetSmoothness, .35, wThin), (1 - wSnow) * up);
                 }
                 else
                 {
-                    half clean = smoothstep(.018, .31, i.c.r);
-                    albedo = lerp(lerp(slush, snow, .45), snow, clean);   // trodden reads as packed grey, not a hole
-                    smooth = lerp(.45, _Smoothness, clean);
+                    smooth = _Smoothness;
                 }
 
                 InputData id = (InputData)0;
