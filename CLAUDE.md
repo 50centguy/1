@@ -223,3 +223,4 @@ Claude-Session: <本次会话链接>
 - `Docs/Integration/RepairPropsCosmetics/README.md` — 外观/手感
 - `Docs/Narrative/WorkerHand_Slice.md` — 叙事切片
 - `Docs/ArtProduction/TRIPO_WORKFLOW.md` — Tripo 模型流程
+- `Docs/Art/PALETTE_BR2049_PS2.md` — 色板（雾、灯、材质、自发光填什么值）

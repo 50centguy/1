@@ -1,5 +1,6 @@
 // Obstruction and status lamps (crane tops, the port camera): an unlit dot that blinks on its own phase, taken from
-// its world position so neighbouring lamps never blink together. _Rate 0 keeps it steady.
+// its world position so neighbouring lamps never blink together. _Rate 0 keeps it steady. _Haze >= 0 swaps the scene fog
+// for a fixed fade (skyline lamps far past the fog distance).
 Shader "BorderRepair/Exterior/Beacon"
 {
     Properties
@@ -9,6 +10,7 @@ Shader "BorderRepair/Exterior/Beacon"
         _Rate ("Blinks per second", Float) = .5
         _Duty ("Lit fraction", Range(0.05, 1)) = .3
         _Floor ("Unlit level", Range(0, 1)) = .12
+        _Haze ("Fixed haze (-1 = scene fog)", Float) = -1
     }
     SubShader
     {
@@ -22,7 +24,7 @@ Shader "BorderRepair/Exterior/Beacon"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             CBUFFER_START(UnityPerMaterial)
             half4 _Color;
-            half _Intensity, _Rate, _Duty, _Floor;
+            half _Intensity, _Rate, _Duty, _Floor, _Haze;
             CBUFFER_END
             struct A { float4 p : POSITION; };
             struct V { float4 p : SV_POSITION; float fog : TEXCOORD0; float phase : TEXCOORD1; };
@@ -40,6 +42,7 @@ Shader "BorderRepair/Exterior/Beacon"
             {
                 half on = _Rate <= 0 ? 1 : step(frac(_Time.y * _Rate + i.phase), _Duty);
                 half3 c = _Color.rgb * _Intensity * lerp(_Floor, 1, on);
+                if (_Haze >= 0) return half4(lerp(c, unity_FogColor.rgb, saturate(_Haze)), 1);
                 return half4(MixFog(c, i.fog), 1);
             }
             ENDHLSL

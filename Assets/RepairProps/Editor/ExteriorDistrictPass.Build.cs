@@ -55,6 +55,7 @@ namespace BorderRepair.RepairProps.EditorTools
             var old = scene.GetRootGameObjects().FirstOrDefault(g => g.name == PassRoot);
             if (old != null) Object.DestroyImmediate(old);
             PrepareAssets();
+            SmoothSnowpack();
             var lent = new List<Collider>();
             foreach (var exteriorRoot in scene.GetRootGameObjects().Where(r => ExteriorRoots.Contains(r.name)))
                 foreach (var mf in exteriorRoot.GetComponentsInChildren<MeshFilter>(true))
@@ -69,6 +70,9 @@ namespace BorderRepair.RepairProps.EditorTools
             BuildSnow(Group(root, "Snow - path, icicles, heaps, steam"));
             BuildLamps(Group(root, "Light - lamp volumes and far lights"));
             BuildCameras(Group(root, "Review cameras"));
+            BuildHolograms(Group(root, "Holo - projected signage"));
+            BuildFarTowers(Group(root, "Skyline - far towers"));
+            ApplyPalette();
             VaryWindows();
             foreach (var c in lent) Object.DestroyImmediate(c);
             log.Append("meshes lent a probe collider while building: ").Append(lent.Count).Append('\n');
@@ -91,7 +95,7 @@ namespace BorderRepair.RepairProps.EditorTools
             // reads from both ends of the street (the lightbox over the stairs faces the stairs and is edge-on from there).
             var blade = Group(g, "Blade sign - 义体修理 B1");
             var steel = Lit("Dark steel", Hex("#292E30"), .35f, .4f);
-            var sign = Lit("Blade sign enamel", Color.white, .25f, 0, Tex("blade_sign"), new Color(.78f, .72f, .6f), Tex("blade_sign"));
+            var sign = Lit("Blade sign enamel", Color.white, .25f, 0, Tex("blade_sign"), new Color(.8f, .66f, .46f), Tex("blade_sign"));
             float bx = -3.4f, by = 5.6f, bz = -0.72f;   // between the first-floor windows, above the pipe run
             Box("Blade frame", blade, new Vector3(bx, by, bz), new Vector3(.1f, 1.42f, .62f), steel);
             Decal("Blade face east", blade, new Vector3(bx + .052f, by, bz), Vector3.right, .56f, 1.32f, sign, 0f);
@@ -122,7 +126,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 Box("Conduit into the pavement", box, new Vector3(front.x, (Ground(front.x, front.z - .05f) + front.y - .39f) * .5f, front.z - .04f), new Vector3(.05f, front.y - .39f - Ground(front.x, front.z) + .02f, .05f), steel);
             }
 
-            Strip("Trampled path - B1 to berth 04", g, Route, .55f, Lit("Trampled slush", new Color(.72f, .7f, .7f, 1f), .1f, 0, Tex("trampled_path"), mode: Mode.Transparent));
+            Strip("Trampled path - B1 to berth 04", g, Route, .55f, Lit("Trampled slush", new Color(1.12f, 1.18f, 1.24f, .85f), .1f, 0, Tex("trampled_path"), mode: Mode.Transparent));
             Strip("Trampled path - court branch", g, CourtBranch, .4f, Mat("Trampled slush"));
         }
 
@@ -138,9 +142,9 @@ namespace BorderRepair.RepairProps.EditorTools
                 var top = new Vector3(-.36f, y + 1.12f, -4.66f);
                 var handle = Lit("Worn wood handle", Hex("#5A4636"), .25f);
                 Rod("Snow shovel handle", g, bottom + (top - bottom) * .12f, top, .018f, handle);
-                Box("Snow shovel blade", g, bottom + (top - bottom).normalized * .1f, new Vector3(.32f, .36f, .02f), Lit("Shovel blade - faded red", Hex("#884A3F"), .3f, .3f), Quaternion.LookRotation(Vector3.Cross(top - bottom, Vector3.right).normalized, (top - bottom).normalized));
+                Box("Snow shovel blade", g, bottom + (top - bottom).normalized * .1f, new Vector3(.32f, .36f, .02f), Lit("Shovel blade - faded red", new Color(.44f, .31f, .28f), .3f, .3f), Quaternion.LookRotation(Vector3.Cross(top - bottom, Vector3.right).normalized, (top - bottom).normalized));
                 float by = Ground(.05f, -5.35f);
-                Cyl("Salt bucket", g, new Vector3(.05f, by + .16f, -5.35f), .14f, .32f, Lit("Salt bucket plastic", new Color(.55f, .5f, .3f), .35f));
+                Cyl("Salt bucket", g, new Vector3(.05f, by + .16f, -5.35f), .14f, .32f, Lit("Salt bucket plastic", new Color(.47f, .45f, .34f), .35f));
                 Cyl("Salt bucket lid", g, new Vector3(.05f, by + .33f, -5.35f), .15f, .02f, Lit("Salt bucket lid", new Color(.42f, .45f, .4f), .35f));
             }
 
@@ -170,7 +174,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 Rod("Bracket east", line, new Vector3(-15.4f, 3.3f, wallBike), new Vector3(-15.4f, 3.3f, z), .015f, steel);
                 Rod("Bracket west", line, new Vector3(-18.6f, 3.3f, wallBike), new Vector3(-18.6f, 3.3f, z), .015f, steel);
                 Rod("Line", line, new Vector3(-15.4f, 3.3f, z), new Vector3(-18.6f, 3.3f, z), .005f, Lit("Washing line", new Color(.6f, .6f, .56f), .2f));
-                var colours = new[] { new Color(.45f, .22f, .2f), new Color(.38f, .45f, .52f), new Color(.72f, .7f, .64f), new Color(.6f, .5f, .26f) };
+                var colours = new[] { new Color(.4f, .27f, .26f), new Color(.36f, .42f, .46f), new Color(.6f, .6f, .57f), new Color(.5f, .45f, .31f) };
                 for (int i = 0; i < 4; i++)
                 {
                     float x = -15.9f - i * .78f;
@@ -189,14 +193,14 @@ namespace BorderRepair.RepairProps.EditorTools
                 Decal("Court notices", g, board.point, board.normal, 1.5f, .75f, Lit("Court notices", Color.white, .2f, 0, Tex("court_notices"), mode: Mode.Cutout));
             {
                 float y = Ground(-11.55f, 2.45f);
-                Cyl("Thermos on the bench", g, new Vector3(-11.55f, y + .1f, 2.45f), .045f, .2f, Lit("Thermos red", Hex("#884A3F"), .45f, .3f));
+                Cyl("Thermos on the bench", g, new Vector3(-11.55f, y + .1f, 2.45f), .045f, .2f, Lit("Thermos red", new Color(.45f, .3f, .27f), .45f, .3f));
                 Cyl("Cigarette tin", g, new Vector3(-11.8f, y + .03f, 2.55f), .05f, .06f, Lit("Tin", new Color(.5f, .52f, .5f), .5f, .7f));
             }
 
             // Berth: the night shift's crates, a tarp, a thermos and gloves left on top, gas cylinders, the painted number.
             {
                 var crates = Group(g, "Berth 04 - crates and the shift's things");
-                var wood = Lit("Crate wood", new Color(.33f, .27f, .2f), .2f);
+                var wood = Lit("Crate wood", ColdRust * 1.05f, .2f);
                 var tarp = Lit("Tarp rubber green", new Color(.2f, .25f, .21f), .35f);
                 float y1 = Ground(-20.9f, -6.3f);
                 var c1 = Box("Crate", crates, new Vector3(-20.9f, y1 + .3f, -6.3f), new Vector3(.9f, .6f, .7f), wood, Quaternion.Euler(0, 4, 0));
@@ -208,7 +212,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 Collide(t, Vector3.one, Vector3.zero);
                 SnowCap(crates, new Vector3(-19.8f, y2 + .78f, -6.7f), new Vector3(.95f, .04f, .78f));
                 Cyl("Thermos", crates, new Vector3(-21.1f, y1 + .7f, -6.15f), .045f, .2f, Mat("Thermos red"));
-                Box("Work gloves", crates, new Vector3(-20.75f, y1 + .62f, -6.1f), new Vector3(.2f, .03f, .12f), Lit("Work gloves", new Color(.55f, .45f, .22f), .1f), Quaternion.Euler(0, 30, 0));
+                Box("Work gloves", crates, new Vector3(-20.75f, y1 + .62f, -6.1f), new Vector3(.2f, .03f, .12f), Lit("Work gloves", new Color(.47f, .42f, .3f), .1f), Quaternion.Euler(0, 30, 0));
                 float y3 = Ground(-19.2f, -7.6f);
                 var cyl = Lit("Gas cylinder", new Color(.42f, .45f, .48f), .4f, .5f);
                 for (int i = 0; i < 3; i++) Cyl("Gas cylinder " + i, crates, new Vector3(-19.45f + i * .26f, y3 + .55f, -7.6f), .11f, 1.1f, cyl);
@@ -225,11 +229,11 @@ namespace BorderRepair.RepairProps.EditorTools
             var steel = Mat("Dark steel");
             var paint = Mat("Smoked green paint");
             var lease = Lit("Lease sticker", Color.white, .3f, 0, Tex("lease_sticker"), mode: Mode.Cutout);
-            var red = Beacon("Status red", Hex("#DB6858"), 2.4f, .5f, .3f);
-            var redSteady = Beacon("Status red steady", Hex("#DB6858"), 1.8f, 0, 1);
-            var cyan = Beacon("Status cyan", Hex("#66A9A4"), 1.6f, 0, 1);
-            var green = Beacon("Status green", Hex("#78CF91"), 1.4f, 0, 1);
-            var amber = Beacon("Status amber", Hex("#E5AB59"), 1.5f, .25f, .8f);
+            var red = Beacon("Status red", AlarmRed, 2.4f, .5f, .3f);
+            var redSteady = Beacon("Status red steady", AlarmRed, 1.8f, 0, 1);
+            var cyan = Beacon("Status cyan", HoloCyan, 1.6f, 0, 1);
+            var green = Beacon("Status green", CrtGreen, 1.4f, 0, 1);
+            var amber = Beacon("Status amber", Amber, 1.5f, .25f, .8f);
 
             // Implant charging post beside the residents' bench: sit, plug the arm in, pay by the kWh.
             {
@@ -239,7 +243,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 Collide(body, Vector3.one, Vector3.zero);
                 Box("Hood", post, new Vector3(x, y + 1.23f, z - .02f), new Vector3(.32f, .05f, .27f), steel);
                 SnowCap(post, new Vector3(x, y + 1.27f, z - .02f), new Vector3(.32f, .04f, .26f));
-                Decal("Charge screen", post, new Vector3(x, y + .98f, z - .101f), Vector3.back, .2f, .1f, Screen("Charge screen", "charge_lcd", Hex("#78CF91")), 0f);
+                Decal("Charge screen", post, new Vector3(x, y + .98f, z - .101f), Vector3.back, .2f, .1f, Screen("Charge screen", "charge_lcd", CrtGreen), 0f);
                 Decal("Lease sticker", post, new Vector3(x, y + .72f, z - .101f), Vector3.back, .18f, .06f, lease, 0f);
                 var cable = Lit("Charge cable", Hex("#373935"), .4f);
                 var p0 = new Vector3(x + .13f, y + .85f, z - .04f);
@@ -257,7 +261,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 float cz = WallZ(-14.85f);
                 Rod("Camera bracket", door, new Vector3(-14.85f, 3.65f, cz), new Vector3(-14.85f, 3.65f, cz - .22f), .015f, steel);
                 var aim = Quaternion.LookRotation(new Vector3(.45f, -.5f, -1f));
-                Box("Port camera", door, new Vector3(-14.85f, 3.62f, cz - .3f), new Vector3(.11f, .09f, .24f), Lit("Camera housing", Hex("#B7AD92"), .35f), aim);
+                Box("Port camera", door, new Vector3(-14.85f, 3.62f, cz - .3f), new Vector3(.11f, .09f, .24f), Lit("Camera housing", new Color(.6f, .6f, .56f), .35f), aim);
                 Sphere("Camera LED", door, new Vector3(-14.85f, 3.68f, cz - .38f), .016f, red);
             }
 
@@ -273,7 +277,7 @@ namespace BorderRepair.RepairProps.EditorTools
                     for (int r = 0; r < 4; r++)
                         if (!(c == 1 && r == 1))
                             Box("Door " + c + r, locker, new Vector3(-19.72f + c * .42f, y + .3f + r * .38f, wz - .525f), new Vector3(.38f, .34f, .01f), door);
-                Decal("Locker screen", locker, new Vector3(-19.3f, y + .68f, wz - .53f), Vector3.back, .3f, .11f, Screen("Locker screen", "locker_lcd", Hex("#E5AB59")), 0f);
+                Decal("Locker screen", locker, new Vector3(-19.3f, y + .68f, wz - .53f), Vector3.back, .3f, .11f, Screen("Locker screen", "locker_lcd", Amber), 0f);
                 Cyl("Landing pad", locker, new Vector3(-19.3f, y + 1.72f, wz - .27f), .3f, .03f, steel);
                 MeshObj("Pad ring", locker, Torus(.27f, .012f, 24, 5), amber, new Vector3(-19.3f, y + 1.745f, wz - .27f), Quaternion.Euler(90, 0, 0));
                 Decal("Lease sticker", locker, new Vector3(-18.82f, y + 1.45f, wz - .521f), Vector3.back, .18f, .06f, lease, 0f);
@@ -301,7 +305,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 if (WallHit(new Vector3(b.center.x, b.center.y + .1f, b.min.z - 1.5f), Vector3.forward, out var pf)) face = pf.point.z;
                 var screen = new Vector3(b.center.x, b.center.y + .1f, face);
                 Box("Screen bezel", term, screen + Vector3.back * .01f, new Vector3(.52f, .36f, .02f), steel);
-                Decal("Terminal screen", term, screen + Vector3.back * .021f, Vector3.back, .46f, .31f, Screen("Shore terminal screen", "shore_terminal", Hex("#78CF91")), 0f);
+                Decal("Terminal screen", term, screen + Vector3.back * .021f, Vector3.back, .46f, .31f, Screen("Shore terminal screen", "shore_terminal", CrtGreen), 0f);
                 Box("Weather hood", term, new Vector3(b.center.x, screen.y + .23f, face - .1f), new Vector3(.62f, .03f, .22f), steel, Quaternion.Euler(-14, 0, 0));
                 SnowCap(term, new Vector3(b.center.x, screen.y + .26f, face - .1f), new Vector3(.6f, .03f, .2f));
                 SnowCap(term, new Vector3(b.center.x, b.max.y + .02f, b.center.z), new Vector3(b.size.x + .02f, .045f, b.size.z + .02f));
@@ -309,7 +313,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 Decal("Lease sticker", term, new Vector3(b.max.x, b.center.y - .15f, b.center.z), Vector3.right, .18f, .06f, lease);
                 float ry = Ground(-24.95f, -2.85f);
                 var reel = new Vector3(-24.95f, ry + .3f, -2.85f);
-                var flange = Lit("Reel orange - faded", new Color(.55f, .33f, .16f), .3f, .2f);
+                var flange = Lit("Reel orange - faded", new Color(.43f, .34f, .27f), .3f, .2f);
                 var drum = Cyl("Cable wound on reel", term, reel, .22f, .3f, Mat("Charge cable"), Quaternion.Euler(0, 0, 90));
                 Collide(drum, new Vector3(1.4f, 2, 1.4f), Vector3.zero);
                 Cyl("Reel flange a", term, reel + Vector3.right * .16f, .3f, .025f, flange, Quaternion.Euler(0, 0, 90));
@@ -319,20 +323,20 @@ namespace BorderRepair.RepairProps.EditorTools
             }
 
             // The launch: warm wheelhouse, navigation lights, masthead.
-            foreach (var r in Renderers("Bridge portlight")) r.sharedMaterial = Lit("Wheelhouse window - warm", new Color(.2f, .16f, .12f), .7f, 0, null, new Color(1f, .66f, .34f) * 1.2f);
+            foreach (var r in Renderers("Bridge portlight")) r.sharedMaterial = Lit("Wheelhouse window - warm", new Color(.2f, .16f, .12f), .7f, 0, null, Amber * .75f);
             var wheelhouse = Renderers("Wheelhouse").FirstOrDefault();
             if (wheelhouse != null)
             {
                 var b = wheelhouse.bounds;
                 var boat = Group(g, "Launch - navigation lights");
-                Sphere("Port light", boat, new Vector3(b.center.x + .6f, b.max.y - .2f, b.min.z - .03f), .05f, Beacon("Nav red", new Color(.9f, .2f, .15f), 2.2f, 0, 1));
-                Sphere("Starboard light", boat, new Vector3(b.center.x + .6f, b.max.y - .2f, b.max.z + .03f), .05f, Beacon("Nav green", new Color(.2f, .85f, .4f), 2.0f, 0, 1));
+                Sphere("Port light", boat, new Vector3(b.center.x + .6f, b.max.y - .2f, b.min.z - .03f), .05f, Beacon("Nav red", AlarmRed, 2.4f, 0, 1));
+                Sphere("Starboard light", boat, new Vector3(b.center.x + .6f, b.max.y - .2f, b.max.z + .03f), .05f, Beacon("Nav green", CrtGreen, 1.8f, 0, 1));
                 Rod("Mast", boat, new Vector3(b.center.x, b.max.y, b.center.z), new Vector3(b.center.x, b.max.y + .9f, b.center.z), .02f, steel);
                 Sphere("Masthead light", boat, new Vector3(b.center.x, b.max.y + .93f, b.center.z), .05f, Beacon("Masthead white", new Color(1f, .95f, .85f), 2.0f, 0, 1));
             }
 
             // External units on the facades (heat exchangers for the flats; green run lamp).
-            var unitMat = Lit("External unit", Hex("#B7AD92"), .3f, .1f);
+            var unitMat = Lit("External unit", new Color(.54f, .56f, .55f), .3f, .1f);
             var grille = Lit("Fan grille", Hex("#292E30"), .2f, .3f);
             foreach (var (x, y, towardWall) in new[] { (4.5f, 6.25f, 1f), (-6.8f, 6.25f, 1f), (-18.3f, 6.7f, -1f), (-13.3f, 6.7f, -1f) })
             {
@@ -353,7 +357,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 var rs = crane.GetComponentsInChildren<Renderer>();
                 if (rs.Length == 0) continue;
                 var top = rs.OrderByDescending(r => r.bounds.max.y).First().bounds;
-                Sphere("Crane obstruction lamp", g, new Vector3(top.center.x, top.max.y + .12f, top.center.z), .18f, Beacon("Obstruction red", Hex("#DB6858"), 3.0f, .5f, .35f));
+                Sphere("Crane obstruction lamp", g, new Vector3(top.center.x, top.max.y + .12f, top.center.z), .18f, Beacon("Obstruction red", AlarmRed, 3.0f, .5f, .35f));
                 foreach (Transform t in crane.GetComponentsInChildren<Transform>().Where(t => t.name == "Machinery housing"))
                 {
                     var hr = t.GetComponent<Renderer>();
@@ -379,7 +383,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 var b = roof.bounds;
                 Decal("Lit windows", g, new Vector3(b.center.x, b.center.y + .4f, b.max.z), Vector3.forward, b.size.x * .8f, b.size.y * .7f, far, .03f);
             }
-            var shedDoor = Unlit("Shed door - working light", new Color(1f, .7f, .42f) * .9f);
+            var shedDoor = Unlit("Shed door - working light", Amber * .65f);
             foreach (var shed in Renderers("Far harbour sheds").Where(r => Mathf.Abs(r.bounds.center.x + 40.5f) < .5f || Mathf.Abs(r.bounds.center.x + 55.2f) < .5f))
             {
                 var b = shed.bounds;
@@ -443,11 +447,11 @@ namespace BorderRepair.RepairProps.EditorTools
         static void BuildLamps(Transform g)
         {
             foreach (var r in Renderers("Diffuser"))
-                LampCone(g, "Lamp volume - street", r.bounds.center + Vector3.down * .06f, .36f, Volume("Lamp volume sodium", new Color(1f, .72f, .42f), .2f));
+                LampCone(g, "Lamp volume - street", r.bounds.center + Vector3.down * .06f, .36f, Volume("Lamp volume mercury", new Color(.62f, .75f, .8f), .13f));
             foreach (var r in Renderers("Sodium lamp lens"))
-                LampCone(g, "Lamp volume - wharf", r.bounds.center + Vector3.down * .05f, .36f, Volume("Lamp volume wharf", new Color(1f, .58f, .26f), .14f));
+                LampCone(g, "Lamp volume - wharf", r.bounds.center + Vector3.down * .05f, .36f, Volume("Lamp volume wharf flood", new Color(.66f, .77f, .82f), .11f));
             foreach (var r in Renderers("Entry lamp under lintel"))
-                LampCone(g, "Lamp volume - court door", r.bounds.center + Vector3.down * .04f, .45f, Volume("Lamp volume court", new Color(1f, .72f, .45f), .16f));
+                LampCone(g, "Lamp volume - court door", r.bounds.center + Vector3.down * .04f, .45f, Volume("Lamp volume court tube", new Color(.7f, .8f, .82f), .09f));
             foreach (var l in Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Where(l => l.name == "Wharf amber pool"))
             {
                 log.Append("wharf amber pool ").Append(l.intensity).Append(" -> 6\n");
@@ -473,19 +477,18 @@ namespace BorderRepair.RepairProps.EditorTools
             }
         }
 
-        // Lit windows: most stay dark; a few warm, a few dimmer, one in twenty-five the blue of a screen, some kitchen green.
+        // Lit windows: most stay dark; a few amber rooms, a few dimmer, about one in twenty-five the cold glow of a screen.
         static void VaryWindows()
         {
-            var warm = Lit("Window - warm", new Color(.22f, .17f, .12f), .7f, 0, null, new Color(.95f, .62f, .3f) * 1.05f);
-            var dim = Lit("Window - warm dim", new Color(.18f, .14f, .1f), .7f, 0, null, new Color(.95f, .62f, .3f) * .5f);
-            var tv = Lit("Window - screen blue", new Color(.1f, .12f, .16f), .7f, 0, null, new Color(.38f, .52f, .78f) * .75f);
-            var kitchen = Lit("Window - kitchen", new Color(.15f, .17f, .14f), .7f, 0, null, new Color(.72f, .82f, .62f) * .6f);
+            var warm = Lit("Window - warm", new Color(.22f, .17f, .12f), .7f, 0, null, Amber * .85f);
+            var dim = Lit("Window - warm dim", new Color(.18f, .14f, .1f), .7f, 0, null, Amber * .4f);
+            var tv = Lit("Window - screen blue", new Color(.08f, .1f, .12f), .7f, 0, null, HoloCyan * .3f);
             int lit = 0, all = 0;
             foreach (var r in Renderers("Clouded glazing").Concat(Renderers("End block glazing")))
             {
                 all++;
                 float h = Hash(r.bounds.center);
-                var m = h < .10f ? warm : h < .16f ? dim : h < .20f ? tv : h < .23f ? kitchen : null;
+                var m = h < .08f ? warm : h < .14f ? dim : h < .18f ? tv : null;
                 if (m == null) continue;
                 r.sharedMaterial = m; lit++;
             }
@@ -497,7 +500,7 @@ namespace BorderRepair.RepairProps.EditorTools
         {
             var scene = EditorSceneManager.GetActiveScene();
             var roots = scene.GetRootGameObjects().Where(r => ExteriorRoots.Contains(r.name)).ToArray();
-            int staticCount = 0, removed = 0, farShadows = 0;
+            int staticCount = 0, removed = 0, farShadows = 0, unbatched = 0;
             var removedBy = new Dictionary<string, int>();
             var play = new Bounds(new Vector3(-9, 1.5f, -4), new Vector3(42, 6, 20));   // the walkable district: x -30..12, z -14..6
             foreach (var root in roots)
@@ -507,7 +510,11 @@ namespace BorderRepair.RepairProps.EditorTools
                     var r = go.GetComponent<Renderer>();
                     if (r != null && go.GetComponent<ParticleSystem>() == null && go.GetComponent<TextMesh>() == null && go.GetComponent<Light>() == null)
                     {
-                        GameObjectUtility.SetStaticEditorFlags(go, StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccluderStatic | StaticEditorFlags.OccludeeStatic);
+                        // Holograms and beacons take their phase (and the arm its turn) from their own origin; static batching
+                        // would move every origin to the world origin, so they stay unbatched.
+                        bool animated = r.sharedMaterials.Any(m => m != null && (m.shader.name == "BorderRepair/Exterior/Hologram" || m.shader.name == "BorderRepair/Exterior/Beacon"));
+                        GameObjectUtility.SetStaticEditorFlags(go, animated ? StaticEditorFlags.OccludeeStatic : StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccluderStatic | StaticEditorFlags.OccludeeStatic);
+                        if (animated) unbatched++;
                         staticCount++;
                         // Far scenery (cranes, sheds, distant flats, the far pier) stops casting into the 50 m shadow map.
                         if (r.shadowCastingMode != ShadowCastingMode.Off && DistanceToRoute(r.bounds.center) > 22f) { r.shadowCastingMode = ShadowCastingMode.Off; farShadows++; }
@@ -533,7 +540,7 @@ namespace BorderRepair.RepairProps.EditorTools
             foreach (var cam in Object.FindObjectsByType<Camera>(FindObjectsSortMode.None))
                 if (cam.enabled && !cam.name.StartsWith("Main Camera")) { cam.enabled = false; cams++; }
             log.Append("review cameras switched off (Shots still renders them): ").Append(cams).Append('\n');
-            log.Append("static renderers: ").Append(staticCount).Append("; colliders removed: ").Append(removed)
+            log.Append("static renderers: ").Append(staticCount).Append(" (kept out of batching: ").Append(unbatched).Append(" holograms and beacons)").Append("; colliders removed: ").Append(removed)
                .Append(" (").Append(string.Join(", ", removedBy.Select(kv => kv.Key + " " + kv.Value))).Append("); far renderers no longer casting shadows: ").Append(farShadows).Append('\n');
         }
 
@@ -584,7 +591,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 imp.mipmapEnabled = true;
                 imp.filterMode = FilterMode.Bilinear;
                 imp.maxTextureSize = 1024;
-                imp.wrapMode = p.Contains("trampled_path") || p.Contains("distant_windows") ? TextureWrapMode.Repeat : TextureWrapMode.Clamp;
+                imp.wrapMode = new[] { "trampled_path", "distant_windows", "concrete_panel", "iron_paint", "snow_grain" }.Any(p.Contains) ? TextureWrapMode.Repeat : TextureWrapMode.Clamp;
                 imp.SaveAndReimport();
             }
         }
@@ -635,11 +642,11 @@ namespace BorderRepair.RepairProps.EditorTools
             return Save(name, m);
         }
 
-        static Material Beacon(string name, Color colour, float intensity, float rate, float duty)
+        static Material Beacon(string name, Color colour, float intensity, float rate, float duty, float haze = -1)
         {
             if (mats.TryGetValue(name, out var have)) return have;
             var m = new Material(Shader.Find("BorderRepair/Exterior/Beacon"));
-            m.SetColor("_Color", colour); m.SetFloat("_Intensity", intensity); m.SetFloat("_Rate", rate); m.SetFloat("_Duty", duty);
+            m.SetColor("_Color", colour); m.SetFloat("_Intensity", intensity); m.SetFloat("_Rate", rate); m.SetFloat("_Duty", duty); m.SetFloat("_Haze", haze);
             return Save(name, m);
         }
 
@@ -653,10 +660,8 @@ namespace BorderRepair.RepairProps.EditorTools
 
         static Material SnowMaterial()
         {
-            if (mats.TryGetValue("Snow", out var have)) return have;
-            var m = AssetDatabase.LoadAssetAtPath<Material>("Assets/RepairProps/Scenes/Temp_Street_snow.mat") ?? Lit("Snow fallback", new Color(.86f, .89f, .93f), .25f);
-            mats["Snow"] = m;
-            return m;
+            if (mats.TryGetValue("Snow - caps", out var have)) return have;
+            return SurfaceMat("Snow - caps", Tex("snow_grain"), 1.5f, 0, SnowAlbedo, 0, .25f, .12f);
         }
 
         static void Surface(Material m, Mode mode)
