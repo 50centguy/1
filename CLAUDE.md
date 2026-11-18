@@ -199,7 +199,7 @@
 
 | 分支 | 说明 |
 |---|---|
-| `main` | 主线（注意：`main` 里**没有** UnifiedClinic 场景） |
+| `main` | 主线：最新可玩版本。2026-11-19 从 `feat/visor-eye-path` 快进更新；以后开发线稳定一段就快进一次（需用户确认） |
 | `feat/visor-eye-path` | **当前开发线**（worktree `D:/uetounity/UnityProjects/BorderRepairStation_repairprops`） |
 | `integ/repair-props-20261017` | 之前的开发线 |
 | `backup/repair-props-wip-20261031` | 2026-10-31 的手术台开发 WIP 快照 |
