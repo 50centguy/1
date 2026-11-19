@@ -71,5 +71,59 @@ namespace BorderRepair.RepairProps.EditorTools
             File.WriteAllText(Path.Combine(OutDir, "clinic_door.txt"), sb.ToString());
             Debug.Log("[Exterior] clinic door inspected");
         }
+            // Read only: what the playable copy switched off for the clinic room, and what of the clinic shows from outside.
+        public static void InspectRoomCut()
+        {
+            var sb = new StringBuilder();
+            string B(Bounds b) => b.min.ToString("F2") + ".." + b.max.ToString("F2");
+            EditorSceneManager.OpenScene(PlayableDistrict, OpenSceneMode.Single);
+            sb.Append("district renderers switched off (active objects):\n");
+            foreach (var r in Object.FindObjectsByType<Renderer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).Where(r => !r.enabled).OrderBy(r => HierPath(r.transform)))
+                sb.Append("  ").Append(HierPath(r.transform)).Append("  ").Append(B(r.bounds)).Append('\n');
+            sb.Append("district renderers on, over the clinic (x -4..4, z -4.2..4, y > 2.3):\n");
+            var over = new Bounds(new Vector3(0, 6, 0), new Vector3(8, 7.4f, 8.2f));
+            foreach (var r in Object.FindObjectsByType<Renderer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).Where(r => r.enabled && r.bounds.Intersects(over) && r.bounds.size.x < 20).OrderBy(r => HierPath(r.transform)))
+                sb.Append("  ").Append(HierPath(r.transform)).Append("  ").Append(B(r.bounds)).Append('\n');
+            EditorSceneManager.OpenScene(Berth04Playable.ClinicScene, OpenSceneMode.Single);
+            sb.Append("clinic renderers reaching y > 2.3 or z < -3.3:\n");
+            foreach (var r in Object.FindObjectsByType<Renderer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).Where(r => r.enabled && (r.bounds.max.y > 2.3f || r.bounds.min.z < -3.3f)).OrderBy(r => HierPath(r.transform)))
+                sb.Append("  ").Append(HierPath(r.transform)).Append("  ").Append(B(r.bounds)).Append("  ").Append(r.sharedMaterial ? r.sharedMaterial.name : "-").Append('\n');
+            Directory.CreateDirectory(OutDir);
+            File.WriteAllText(Path.Combine(OutDir, "room_cut.txt"), sb.ToString());
+            Debug.Log("[Exterior] room cut inspected");
+        }
+    
+
+        // Read only: the clinic scene's layout next to the B1's (both in the clinic frame), to map one onto the other.
+        public static void InspectLayouts()
+        {
+            var sb = new StringBuilder();
+            string V(Vector3 v) => v.ToString("F2");
+            string B(Bounds b) => b.min.ToString("F2") + ".." + b.max.ToString("F2");
+            void Dump(Transform t, int depth, int max)
+            {
+                var rs = t.GetComponentsInChildren<Renderer>(true);
+                var u = rs.Length > 0 ? rs[0].bounds : new Bounds(t.position, Vector3.zero);
+                foreach (var r in rs) u.Encapsulate(r.bounds);
+                var comps = string.Join(",", t.GetComponents<Component>().Where(c => c != null && !(c is Transform) && !(c is MeshFilter)).Select(c => c.GetType().Name));
+                var prefab = PrefabUtility.GetCorrespondingObjectFromSource(t.gameObject);
+                sb.Append(new string(' ', depth * 2)).Append(t.gameObject.activeSelf ? "" : "[off] ").Append(t.name).Append("  pos ").Append(V(t.position))
+                  .Append(" rotY ").Append(t.eulerAngles.y.ToString("F0")).Append("  r ").Append(rs.Length).Append("  ").Append(rs.Length > 0 ? B(u) : "-")
+                  .Append("  {").Append(comps).Append('}').Append(prefab != null ? "  prefab " + AssetDatabase.GetAssetPath(prefab) : "").Append('\n');
+                if (depth < max) foreach (Transform c in t) Dump(c, depth + 1, max);
+            }
+            var clinic = EditorSceneManager.OpenScene(Berth04Playable.ClinicScene, OpenSceneMode.Single);
+            sb.Append("=== clinic scene\n");
+            foreach (var root in clinic.GetRootGameObjects()) Dump(root.transform, 0, 3);
+            var district = EditorSceneManager.OpenScene(PlayableDistrict, OpenSceneMode.Single);
+            sb.Append("=== playable district, B1 groups\n");
+            foreach (var root in district.GetRootGameObjects())
+                foreach (Transform g in root.transform)
+                    if (g.name.StartsWith("01 ") || g.name.StartsWith("02 ")) Dump(g, 0, 3);
+                    else if (g.name.StartsWith("09 ")) Dump(g, 0, 1);
+            Directory.CreateDirectory(OutDir);
+            File.WriteAllText(Path.Combine(OutDir, "layouts.txt"), sb.ToString());
+            Debug.Log("[Exterior] layouts inspected");
+        }
     }
 }

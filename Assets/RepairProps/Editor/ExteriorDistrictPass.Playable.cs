@@ -124,15 +124,18 @@ namespace BorderRepair.RepairProps.EditorTools
             var room = new Bounds(new Vector3(0, 1.34f, 0), new Vector3(6.76f, 3.28f, 6.76f));
             var doorway = new Bounds(new Vector3(0, 1.255f, -3.58f), new Vector3(1.84f, 2.45f, .56f));
             var passage = new Bounds(new Vector3(0, 1.275f, -3.6f), new Vector3(1.56f, 2.05f, .7f));
-            var gone = new List<string>(); var large = new List<string>();
+            var gone = new List<string>(); var large = new List<string>(); var kept = new List<string>();
             foreach (var r in holder.GetComponentsInChildren<Renderer>(true))
             {
                 if (!r.enabled || !r.gameObject.activeInHierarchy || r is ParticleSystemRenderer) continue;
+                // By where a thing stands, not by touching: the building's street facade, its ground-floor flank and the
+                // B1's retaining walls and header round the gate all reach into the room box but are what the street sees.
+                // Only the B1's room-side linings between its front wall and the clinic's south wall go from the doorway.
                 var b = r.bounds;
-                bool inRoom = b.Intersects(room), inDoor = b.Intersects(doorway);
-                if (!inRoom && !inDoor) continue;
-                bool big = inRoom ? (b.size.x > 20 || b.size.z > 20) : (b.size.x > 3 || b.size.y > 3 || b.size.z > 3);
-                if (big) { large.Add(HierPath(r.transform)); continue; }
+                bool inRoom = room.Contains(b.center);
+                bool inDoor = !inRoom && b.Intersects(doorway) && b.min.z > -3.58f && b.max.z < -3.38f;
+                if (!inRoom && !inDoor) { if (b.Intersects(room) || b.Intersects(doorway)) kept.Add(HierPath(r.transform)); continue; }
+                if (b.size.x > 20 || b.size.z > 20) { large.Add(HierPath(r.transform)); continue; }
                 r.enabled = false;
                 gone.Add((inRoom ? "room: " : "door: ") + HierPath(r.transform));
             }
@@ -152,6 +155,7 @@ namespace BorderRepair.RepairProps.EditorTools
             log.Append("inside the clinic room / in its doorway: ").Append(gone.Count).Append(" renderers off, ").Append(colliders).Append(" colliders off, ")
                .Append(lights).Append(" lights off, ").Append(probes).Append(" probes off\n");
             foreach (var s in gone.Where(s => s.StartsWith("door"))) log.Append("  ").Append(s).Append('\n');
+            foreach (var s in kept) log.Append("  kept (stands outside, touches the room or door): ").Append(s).Append('\n');
             foreach (var s in large) log.Append("  kept (large, crosses the room or door): ").Append(s).Append('\n');
         }
 
