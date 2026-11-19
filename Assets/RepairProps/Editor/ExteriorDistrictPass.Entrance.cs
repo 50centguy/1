@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace BorderRepair.RepairProps.EditorTools
 {
-    // The street entrance, after the concept sheet the user picked (awning and lit sign over the stairs, B1 plate, folding
+    // The street entrance, after the concept sheet the user picked (a roof over the stairs with the lit sign on it, B1 plate, folding
     // gates, a display case by the door, rusted pipes, a shutter next door, barriers, a pole and its wires). Only the ten-odd metres
     // round the stairwell; the road, the far side and the sky are the exterior pass's. Built by the interior pass under its
     // root (the window cut is there too), so one re-run rebuilds both. Handed-over objects it replaces are hidden by
@@ -18,7 +18,7 @@ namespace BorderRepair.RepairProps.EditorTools
 
         static void StreetEntrance(Transform g)
         {
-            Canopy(Group(g, "Awning and lit sign over the stairs"));
+            Canopy(Group(g, "Covered stair - roof and lit sign"));
             Doorway(Group(g, "Doorway - B1 plate and the second folded gate"));
             DisplayCase(Group(g, "Display case beside the door"));
             StairRailsAsHandedOver();
@@ -49,55 +49,72 @@ namespace BorderRepair.RepairProps.EditorTools
         static Material EntIce => Lit("Ent - icicle ice", new Color(.74f, .82f, .88f, 1), .85f);
 
         // ------------------------------------------------------------------------------------------------ awning
-        // A light steel awning over the foot of the stairs: corrugated sheet on two rafters, falling gently away from the
-        // wall, its front beam on two posts standing on the stair cheeks. The shop's lightbox (the same 义体维修 face the
-        // old one over the stairs had) is on the wall above it, and a fluorescent batten under it lights the steps. The old
-        // lightbox, its icicles and the enamel fascia with its snow (now under the awning) go. (A concrete canopy with the
-        // sign standing on its edge was tried first and read like a floating shelf.)
+        // A covered stair, the way basement shops in snowy towns keep their steps usable: a corrugated-steel roof over the
+        // whole stairwell, from the facade to the stairhead. It falls gently toward the wall (a gutter along the wall), so
+        // the street end is the high one: 2.2 m clear over the sidewalk where people step in. Two pairs of posts stand on
+        // the stair cheeks just outside the guard rails. The shop's lightbox (the same 义体维修 face the old one over the
+        // stairs had) stands on the roof's street end, facing the street; two fluorescent battens under the roof light the
+        // steps. The old lightbox, its icicles and the enamel fascia with its snow (now under the roof) go. (Tried first: a
+        // concrete canopy with the sign on its edge, then a short awning over the foot of the stairs only.)
         static void Canopy(Transform g)
         {
             HideNamed(EntranceArea, "Weathered repair lightbox", "Icicles - lightbox", "Snow on fascia", "Repair shop enamel fascia");
             var steel = EntSteel;
             var sheet = Worn("Ent - awning, corrugated steel", Hex("#4A4F4C"), .35f, .5f);
-            float x0 = -2.75f, x1 = -.3f, cx = (x0 + x1) * .5f, w = x1 - x0, zw = -.05f, zf = -1.7f, yw = 3.48f, yf = 3.2f;
-            float run = zw - zf, drop = yw - yf, len = Mathf.Sqrt(run * run + drop * drop);
-            var rot = Quaternion.Euler(-Mathf.Atan2(drop, run) * Mathf.Rad2Deg, 0, 0);   // the wall end up
+            float x0 = -2.84f, x1 = -.16f, cx = (x0 + x1) * .5f, w = x1 - x0, zw = -.05f, zf = -4.75f, yw = 3.5f, yf = 3.66f;
+            float run = zw - zf, rise = yf - yw, len = Mathf.Sqrt(run * run + rise * rise);
+            float RoofY(float z) => yw + rise * ((zw - z) / run);   // top of the sheet
+            var rot = Quaternion.Euler(Mathf.Atan2(rise, run) * Mathf.Rad2Deg, 0, 0);   // the street end up
             var up = rot * Vector3.up;
             var mid = new Vector3(cx, (yw + yf) * .5f, (zw + zf) * .5f);
-            BBox("Awning sheet", g, mid, new Vector3(w, .03f, len), sheet, rot);
-            for (int i = 0; i < 12; i++)
-                Box("Awning rib", g, mid + up * .025f + Vector3.right * (x0 + .1f + i * (w - .2f) / 11f - cx), new Vector3(.035f, .02f, len), sheet, rot);
-            foreach (float rx in new[] { x0 + .04f, x1 - .04f })
-                BBox("Awning rafter", g, mid - up * .05f + Vector3.right * (rx - cx), new Vector3(.05f, .07f, len), steel, rot);
-            BBox("Awning front beam", g, new Vector3(cx, yf - .07f, zf + .03f), new Vector3(w + .04f, .1f, .06f), steel);
-            BBox("Awning wall ledger", g, new Vector3(cx, yw - .06f, zw - .03f), new Vector3(w, .1f, .06f), steel);
-            foreach (float px in new[] { -2.58f, -.36f })
+            BBox("Roof sheet", g, mid, new Vector3(w, .03f, len), sheet, rot);
+            for (int i = 0; i < 14; i++)
+                Box("Roof rib", g, mid + up * .025f + Vector3.right * (x0 + .1f + i * (w - .2f) / 13f - cx), new Vector3(.035f, .02f, len), sheet, rot);
+            foreach (float rx in new[] { x0 + .1f, x1 - .1f })
+                BBox("Roof rafter", g, mid - up * .055f + Vector3.right * (rx - cx), new Vector3(.06f, .08f, len), steel, rot);
+            BBox("Roof wall ledger", g, new Vector3(cx, yw - .07f, zw - .03f), new Vector3(w, .1f, .06f), steel);
+            BBox("Roof gutter", g, new Vector3(cx, yw - .02f, zw - .12f), new Vector3(w + .04f, .08f, .1f), Worn("Ent - pipe, rusted iron", Hex("#5B3A28"), .3f, .45f));
+            foreach (float pz in new[] { -1.7f, -4.55f })
             {
-                float pz = zf + .04f, ybase = 1.475f, ytop = yf - .12f;
-                BBox("Awning post", g, new Vector3(px, (ybase + ytop) * .5f, pz), new Vector3(.06f, ytop - ybase, .06f), steel);
-                BBox("Awning post base plate", g, new Vector3(px, ybase + .006f, pz), new Vector3(.14f, .012f, .14f), steel);
+                float yb = RoofY(pz) - .1f;
+                BBox("Roof beam", g, new Vector3(cx, yb - .05f, pz), new Vector3(w + .02f, .1f, .07f), steel);
+                foreach (float px in new[] { -2.68f, -.27f })
+                {
+                    const float ybase = 1.475f;
+                    BBox("Roof post", g, new Vector3(px, (ybase + yb - .1f) * .5f, pz), new Vector3(.06f, yb - .1f - ybase, .06f), steel);
+                    BBox("Roof post base plate", g, new Vector3(px, ybase + .006f, pz), new Vector3(.14f, .012f, .14f), steel);
+                }
             }
-            Box("Snow cap", g, mid + up * .05f, new Vector3(w - .08f, .045f, len - .08f), ExistingSnow(), rot);
-            Icicles(g, "Icicles - awning", new Vector3(x0 + .08f, yf - .12f, zf - .005f), new Vector3(x1 - .08f, yf - .12f, zf - .005f), 14, .22f, EntIce, 31);
+            Box("Snow cap", g, mid + up * .05f, new Vector3(w - .08f, .045f, len - .1f), ExistingSnow(), rot);
+            var ice = EntIce;
+            Icicles(g, "Icicles - roof, street end", new Vector3(x0 + .08f, yf - .03f, zf - .01f), new Vector3(x1 - .08f, yf - .03f, zf - .01f), 12, .2f, ice, 31);
+            Icicles(g, "Icicles - roof, west side", new Vector3(x0 - .005f, RoofY(-.5f) - .03f, -.5f), new Vector3(x0 - .005f, RoofY(-4.4f) - .03f, -4.4f), 16, .2f, ice, 33);
+            Icicles(g, "Icicles - roof, east side", new Vector3(x1 + .005f, RoofY(-.5f) - .03f, -.5f), new Vector3(x1 + .005f, RoofY(-4.4f) - .03f, -4.4f), 16, .2f, ice, 35);
 
+            // The lightbox on the street end, on two short legs, facing the street.
             var signTex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/RepairProps/Scenes/Temp_HarbourStudy/repair_lightbox.png");
             var face = Lit("Ent - lit sign face", Color.white, .3f, 0, signTex, new Color(1f, .8f, .58f) * 1.3f, signTex);
-            float sw = 2.0f, sh = .5f, sd = .16f, sy = 3.77f, sz = zw - sd * .5f;
+            float sw = 2.2f, sh = .55f, sd = .2f, sz = zf + .16f, sy = RoofY(sz) + .1f + sh * .5f;
             BBox("Lightbox case", g, new Vector3(cx, sy, sz), new Vector3(sw + .08f, sh + .06f, sd), steel);
-            Decal("Lightbox face", g, new Vector3(cx, sy, zw - sd), Vector3.back, sw, sh, face, .004f);
-            AddLight(g, "Lightbox glow", new Vector3(cx, sy, -.8f), LightType.Point, new Color(1f, .8f, .58f), 1.4f, 3.2f, false);
+            Decal("Lightbox face", g, new Vector3(cx, sy, sz - sd * .5f), Vector3.back, sw, sh, face, .004f);
+            foreach (float fx in new[] { cx - sw * .38f, cx + sw * .38f })
+                BBox("Lightbox leg", g, new Vector3(fx, RoofY(sz) + .05f, sz), new Vector3(.06f, .1f, .06f), steel);
+            Box("Snow cap", g, new Vector3(cx, sy + sh * .5f + .05f, sz), new Vector3(sw + .1f, .04f, sd + .02f), ExistingSnow());
+            AddLight(g, "Lightbox glow", new Vector3(cx, sy, sz - .8f), LightType.Point, new Color(1f, .8f, .58f), 1.4f, 3.2f, false);
 
-            // Under the awning, a metre out from the wall.
-            float by = yw - drop * ((zw + 1f) / run) - .05f;
+            // Two battens under the roof, over the foot and over the middle of the stairs. No shadows (more than five shadow
+            // maps in one view break the additional-light atlas here; see the pass notes). The lower one is aimed down the
+            // stairs; its cone stops about half a metre inside the gate, as far as the light would get through the opening.
             var tube = Lit("Ent - fluorescent tube", Color.white, .5f, 0, null, new Color(1f, .93f, .8f) * 2.2f);
-            BBox("Batten housing", g, new Vector3(cx, by - .025f, -1.0f), new Vector3(1.3f, .05f, .1f), steel);
-            Cyl("Batten tube", g, new Vector3(cx, by - .065f, -1.0f), .014f, 1.2f, tube, Quaternion.Euler(0, 0, 90));
-            // No shadows (more than five shadow maps in one view break the additional-light atlas here; see the pass notes).
-            // Aimed down the stairs; the cone stops about half a metre inside the gate, which is as far as the light would
-            // get through the opening anyway.
-            var l = AddLight(g, "Canopy batten", new Vector3(cx, by - .12f, -1.0f), LightType.Spot, new Color(1f, .9f, .76f), 7f, 6.5f, false);
-            l.transform.rotation = Quaternion.LookRotation(new Vector3(0, -1f, -.5f));
-            l.spotAngle = 110; l.innerSpotAngle = 50;
+            foreach (var (bz, name, aim, intensity) in new[] { (-1.0f, "Canopy batten", new Vector3(0, -1f, -.5f), 7f), (-3.3f, "Canopy batten, upper", new Vector3(0, -1f, .15f), 5f) })
+            {
+                float by = RoofY(bz) - .1f;
+                BBox("Batten housing", g, new Vector3(cx, by - .025f, bz), new Vector3(1.3f, .05f, .1f), steel);
+                Cyl("Batten tube", g, new Vector3(cx, by - .065f, bz), .014f, 1.2f, tube, Quaternion.Euler(0, 0, 90));
+                var l = AddLight(g, name, new Vector3(cx, by - .12f, bz), LightType.Spot, new Color(1f, .9f, .76f), intensity, 6.5f, false);
+                l.transform.rotation = Quaternion.LookRotation(aim);
+                l.spotAngle = 110; l.innerSpotAngle = 50;
+            }
         }
 
         // ------------------------------------------------------------------------------------------------ display case
