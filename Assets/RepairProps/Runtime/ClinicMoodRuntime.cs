@@ -79,6 +79,8 @@ namespace BorderRepair.RepairProps
             Current = this;
             var sceneLights = gameObject.scene.GetRootGameObjects().SelectMany(g => g.GetComponentsInChildren<Light>(true)).ToList();
             bool surgical = sceneLights.Any(l => l.name.StartsWith("BGT_", StringComparison.Ordinal));
+            // In the B1 (the playable district) the room keeps the street's palette: B1Palette.
+            bool b1 = B1Palette.Active;
             foreach (var light in sceneLights)
             {
                 var role = RoleOf(light.name, surgical);
@@ -87,10 +89,10 @@ namespace BorderRepair.RepairProps
                 lights.Add((light, light.color, light.intensity, light.enabled));
                 switch (role)
                 {
-                    case Role.Fluorescent: light.color = FluorescentTeal; light.intensity *= .62f; break;
-                    case Role.AmbientFill: light.color = new Color(.42f, .60f, .74f); light.intensity *= .8f; break;
-                    case Role.Practical: light.color = Zone(light.name); light.intensity *= 1.15f; break;
-                    case Role.PracticalFill: light.color = Zone(light.name); light.intensity *= .7f; break;
+                    case Role.Fluorescent: light.color = b1 ? B1Palette.Tube : FluorescentTeal; light.intensity *= .62f; break;
+                    case Role.AmbientFill: light.color = b1 ? B1Palette.CoolFill : new Color(.42f, .60f, .74f); light.intensity *= .8f; break;
+                    case Role.Practical: light.color = b1 ? B1Palette.Zone(light.name) : Zone(light.name); light.intensity *= b1 ? B1Palette.PracticalScale(light.name) : 1.15f; break;
+                    case Role.PracticalFill: light.color = b1 ? B1Palette.Zone(light.name) : Zone(light.name); light.intensity *= .7f; break;
                     case Role.CloseUpFill: light.color = light.name.StartsWith("InspectionKey", StringComparison.Ordinal) ? NeutralWarm : Color.Lerp(NeutralWarm, Tungsten, .3f);
                         if (light.name.StartsWith("InspectionFill", StringComparison.Ordinal)) light.intensity *= .55f; break;
                     case Role.Surgical: light.color = SurgicalWhite; light.intensity = Mathf.Max(light.intensity, 5.5f); light.range = Mathf.Max(light.range, 3.4f); break;
@@ -100,9 +102,9 @@ namespace BorderRepair.RepairProps
 
             // Cool, dim teal ambient (the room's one temperature), and distance fog of the same family.
             sky = RenderSettings.ambientSkyColor; equator = RenderSettings.ambientEquatorColor; ground = RenderSettings.ambientGroundColor;
-            RenderSettings.ambientSkyColor = new Color(.09f, .15f, .21f);
-            RenderSettings.ambientEquatorColor = new Color(.055f, .09f, .125f);
-            RenderSettings.ambientGroundColor = new Color(.028f, .038f, .05f);
+            RenderSettings.ambientSkyColor = b1 ? B1Palette.AmbientSky : new Color(.09f, .15f, .21f);
+            RenderSettings.ambientEquatorColor = b1 ? B1Palette.AmbientEquator : new Color(.055f, .09f, .125f);
+            RenderSettings.ambientGroundColor = b1 ? B1Palette.AmbientGround : new Color(.028f, .038f, .05f);
             fog = RenderSettings.fog; fogMode = RenderSettings.fogMode; fogColor = RenderSettings.fogColor; fogDensity = RenderSettings.fogDensity;
             RenderSettings.fog = true; RenderSettings.fogMode = FogMode.Exponential;
             RenderSettings.fogColor = new Color(.022f, .045f, .062f); RenderSettings.fogDensity = .12f;

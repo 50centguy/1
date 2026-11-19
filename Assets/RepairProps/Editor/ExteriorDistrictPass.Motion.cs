@@ -225,7 +225,7 @@ namespace BorderRepair.RepairProps.EditorTools
                     {
                         var copy = new Material(h.sharedMaterial);
                         copy.EnableKeyword("_EMISSION");
-                        copy.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
+                        copy.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;   // (None: URP turns _EMISSION off)
                         copy.SetColor("_EmissionColor", new Color(1.5f, 1.32f, 1.05f));
                         glowing = Save("Lamp head - glowing", copy);
                     }

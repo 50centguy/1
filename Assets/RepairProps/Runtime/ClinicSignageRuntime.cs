@@ -26,7 +26,8 @@ namespace BorderRepair.RepairProps
     public sealed class ClinicSignageRuntime : MonoBehaviour
     {
         public const string ScenePath = RepairBenchV2Runtime.ScenePath;
-        static readonly Color Magenta = new Color(1f, .30f, .66f), Amber = new Color(1f, .64f, .22f), Pale = new Color(1f, .88f, .70f);
+        // Per instance: in the B1 the projections are holograms like the street's (B1Palette), holo cyan, not amber.
+        Color Magenta = new Color(1f, .30f, .66f), Amber = new Color(1f, .64f, .22f), Pale = new Color(1f, .88f, .70f);
 
         public static ClinicSignageRuntime Current { get; private set; }
 
@@ -115,10 +116,12 @@ namespace BorderRepair.RepairProps
         {
             kana = RepairPropCyberStyle.SignKana != null ? RepairPropCyberStyle.SignKana : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             mono = RepairPropCyberStyle.Mono != null ? RepairPropCyberStyle.Mono : kana;
+            bool b1 = B1Palette.Active;
+            if (b1) { Amber = B1Palette.HoloCyan; Pale = B1Palette.HoloPale; }
             var shader = Resources.Load<Shader>("BorderRepairCyber/CyberBeam");
             if (shader != null)
             {
-                beamAmber = Keep(new Material(shader) { name = "PJ_BeamAmber" }); beamAmber.SetColor("_Color", new Color(1f, .62f, .24f, .035f));
+                beamAmber = Keep(new Material(shader) { name = "PJ_BeamAmber" }); beamAmber.SetColor("_Color", b1 ? new Color(Amber.r, Amber.g, Amber.b, .03f) : new Color(1f, .62f, .24f, .035f));
                 beamMagenta = Keep(new Material(shader) { name = "PJ_BeamMagenta" }); beamMagenta.SetColor("_Color", new Color(1f, .30f, .66f, .04f));
             }
             var holoShader = Resources.Load<Shader>("BorderRepairCyber/HoloPanel");
@@ -130,7 +133,7 @@ namespace BorderRepair.RepairProps
             var lit = Shader.Find("Universal Render Pipeline/Lit");
             housing = Keep(new Material(lit) { name = "PJ_Housing" }); housing.SetColor("_BaseColor", new Color(.10f, .10f, .11f)); housing.SetFloat("_Smoothness", .3f);
             lens = Keep(new Material(lit) { name = "PJ_Lens" }); lens.SetColor("_BaseColor", Color.black);
-            lens.EnableKeyword("_EMISSION"); lens.SetColor("_EmissionColor", new Color(2.2f, 1.4f, .7f));
+            lens.EnableKeyword("_EMISSION"); lens.SetColor("_EmissionColor", b1 ? B1Palette.HoloCyan * 1.6f : new Color(2.2f, 1.4f, .7f));
 
             var cyber = ClinicCyberRuntime.Current;
             var room = cyber != null ? cyber.RoomKit : null;

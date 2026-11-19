@@ -74,9 +74,12 @@ namespace BorderRepair.RepairProps.EditorTools
                 B1Colliders(holder);
                 Physics.SyncTransforms();
                 WalkMapAndWalls(atmosphere.respawn, holder, joins);
+                ColourScript(holder);
                 SkyProbe(joins);
                 B1Fiddles(holder);
                 FarFill(holder);
+                B1Cyber(holder);
+                GlowFix(holder);
 
                 EditorSceneManager.MarkSceneDirty(scene);
                 EditorSceneManager.SaveScene(scene, PlayableDistrict);
@@ -88,6 +91,9 @@ namespace BorderRepair.RepairProps.EditorTools
             new GameObject("Berth 04 playable - loads the clinic, then the district").AddComponent<Berth04Playable>();
             EditorSceneManager.SaveScene(entry, PlayableEntry);
             AssetDatabase.SaveAssets();
+            var glowOff = AssetDatabase.FindAssets("Glow_ t:Material", new[] { PlayableDir + "/Materials" }).Select(AssetDatabase.GUIDToAssetPath)
+                .Where(p => !File.ReadAllText(p).Contains("- _EMISSION")).ToArray();
+            log.Append("glow check on disk: ").Append(glowOff.Length).Append(" Glow materials without the keyword ").Append(string.Join(", ", glowOff.Select(Path.GetFileNameWithoutExtension))).Append('\n');
             Directory.CreateDirectory(OutDir);
             File.WriteAllText(Path.Combine(OutDir, "playable_report.txt"), log.ToString());
             Debug.Log("[Exterior] playable scene built\n" + log);

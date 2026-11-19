@@ -621,7 +621,9 @@ namespace BorderRepair.RepairProps.EditorTools
                 m.EnableKeyword("_EMISSION");
                 m.SetColor("_EmissionColor", emission.Value);
                 if (emissionTex != null) m.SetTexture("_EmissionMap", emissionTex);
-                m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
+                // URP 17 re-derives _EMISSION from these flags whenever it validates the material (on creation, on
+                // import): None switched the glow off again. Realtime emissive keeps it; the scenes have no realtime GI.
+                m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
             }
             Surface(m, mode);
             return Save(name, m);

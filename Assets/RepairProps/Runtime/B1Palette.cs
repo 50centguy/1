@@ -1,0 +1,86 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
+
+namespace BorderRepair.RepairProps
+{
+    // The B1's palette for the clinic runtimes that light and dress the room at play time (Docs/Art/PALETTE_BR2049_PS2.md,
+    // Docs/Art/INTERIOR_B1_PASS.md section 25). Only while the B1 layout is active; the desktop clinic keeps its own look.
+    //   - Cold grey is the room: the ambient is the street fog's hue at the old brightness, the fill is grey, and every
+    //     fluorescent tube is one tube colour (the district's battens).
+    //   - Amber only where a lamp hangs (counter, gate, bench). The counter's orange-red is amber and half as strong.
+    //   - The robot dock's lamps were service teal against the bench amber next to them: now plain tube white.
+    //   - Holograms holo cyan, screens CRT green, red only as a warning, no magenta. No glowing strips: the surgery ring's
+    //     neon tube goes, its indicator specks stay, dimmed; the curtain loses its glowing cyan rim.
+    public static class B1Palette
+    {
+        public static bool Active => ClinicLayout.Active != null;
+
+        public static readonly Color Tube = new Color(.86f, .95f, .93f);            // #DBF2ED
+        public static readonly Color CoolFill = new Color(.56f, .63f, .67f);
+        public static readonly Color Lamp = new Color(1f, .72f, .42f);              // tungsten: the #E89A3C family as light
+        public static readonly Color Amber = new Color(.91f, .60f, .235f);          // #E89A3C
+        public static readonly Color HoloCyan = new Color(.42f, .88f, .91f);        // #6BE0E8
+        public static readonly Color HoloPale = new Color(.82f, .96f, .97f);
+        public static readonly Color WarnRed = new Color(.79f, .23f, .23f);         // #C93B3B
+        // #3B4B54's hue at the old (blue) ambient's luminance.
+        public static readonly Color AmbientSky = new Color(.112f, .143f, .159f), AmbientEquator = new Color(.074f, .096f, .107f), AmbientGround = new Color(.038f, .047f, .053f);
+
+        public static Color Zone(string light) => light.StartsWith("Dock_", StringComparison.Ordinal) ? Tube : Lamp;
+
+        public static float PracticalScale(string light) =>
+            light.StartsWith("Dock_", StringComparison.Ordinal) ? .8f : light.StartsWith("ClinicTrade", StringComparison.Ordinal) ? .5f : 1.15f;
+
+        // The surgery kit is a fresh instance each run: its renderers take private copies, destroyed with the runtime.
+        public static void QuietSurgeryKit(GameObject kit, List<Object> created)
+        {
+            var copies = new Dictionary<Material, Material>();
+            foreach (var r in kit.GetComponentsInChildren<Renderer>(true))
+            {
+                if (r.name.StartsWith("CY_RingNeon", StringComparison.Ordinal)) { r.enabled = false; continue; }
+                r.sharedMaterials = r.sharedMaterials.Select(m => m == null ? null : Quiet(m, copies, created)).ToArray();
+            }
+        }
+
+        // Scene renderers (the bench): copies too, and the originals go back on destroy.
+        public static void QuietBench(Scene scene, List<(Renderer renderer, Material[] shared)> swapped, List<Object> created)
+        {
+            var copies = new Dictionary<Material, Material>();
+            foreach (var r in scene.GetRootGameObjects().SelectMany(g => g.GetComponentsInChildren<Renderer>(true)))
+            {
+                var shared = r.sharedMaterials;
+                if (!shared.Any(m => m != null && (m.name == "M_BV2_NeonPink" || m.name == "M_BV2_Holo"))) continue;
+                swapped.Add((r, shared));
+                r.sharedMaterials = shared.Select(m => m == null ? null : Quiet(m, copies, created)).ToArray();
+            }
+        }
+
+        static Material Quiet(Material m, Dictionary<Material, Material> copies, List<Object> created)
+        {
+            if (copies.TryGetValue(m, out var have)) return have;
+            Material Copy() { var c = new Material(m) { name = m.name + " (B1 palette)" }; created.Add(c); return c; }
+            Material copy = null;
+            if (m.name.StartsWith("M_Neon_Red", StringComparison.Ordinal)) { copy = Copy(); copy.SetColor("_Color", WarnRed * 1.8f); }
+            else if (m.name.StartsWith("M_Neon_Amber", StringComparison.Ordinal)) { copy = Copy(); copy.SetColor("_Color", Amber * 1.2f); }
+            else if (m.name.StartsWith("M_Curtain", StringComparison.Ordinal))
+            {
+                copy = Copy();
+                copy.SetColor("_Color", new Color(.60f, .70f, .74f, m.GetColor("_Color").a));
+                copy.SetColor("_RimColor", new Color(.62f, .68f, .70f) * .45f);
+            }
+            else if (m.name == "M_BV2_NeonPink") { copy = Copy(); Tint(copy, WarnRed, WarnRed * 1.8f); }
+            else if (m.name == "M_BV2_Holo") { copy = Copy(); Tint(copy, HoloCyan, HoloCyan * 1.5f); }
+            copies[m] = copy ?? m;
+            return copies[m];
+        }
+
+        static void Tint(Material m, Color albedo, Color emission)
+        {
+            foreach (var p in new[] { "_BaseColor", "_Color" }) if (m.HasProperty(p)) m.SetColor(p, albedo);
+            if (m.HasProperty("_EmissionColor")) m.SetColor("_EmissionColor", emission);
+        }
+    }
+}

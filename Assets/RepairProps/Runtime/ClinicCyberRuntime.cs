@@ -70,7 +70,10 @@ namespace BorderRepair.RepairProps
             {
                 if (SurgeryTableV2Runtime.TryBedFrame(gameObject.scene, out var floor, out var head)) SurgeryTableV2Runtime.AlignToBed(SurgeryKit, floor, head);
                 else SurgeryKit.SetActive(false);
+                if (B1Palette.Active) B1Palette.QuietSurgeryKit(SurgeryKit, created);
             }
+            // (floors: the scene renderers whose materials go back on destroy; the bench's swapped ones join them.)
+            if (B1Palette.Active) B1Palette.QuietBench(gameObject.scene, floors, created);
 
             if (RoomKit != null)
             {
