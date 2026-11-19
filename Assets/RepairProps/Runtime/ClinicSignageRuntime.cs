@@ -218,6 +218,8 @@ namespace BorderRepair.RepairProps
                 var p = caption.transform.position;
                 if (zone.Action == ClinicTradeAction.Console)
                 {
+                    // In the B1 the tool rack carries its own enamel sign in the doorway sightline.
+                    if (!wallSigns) continue;
                     // Lower under a lower ceiling (the B1's is at 2.55).
                     float benchY = Mathf.Min(2.50f, ClinicLayout.Ceiling(9f) - .25f);
                     var bench = Sign("PJ_Workbench", ClinicLayout.P(ClinicLayout.Station.Bench, new Vector3(0, benchY, 3.37f)), ClinicLayout.D(ClinicLayout.Station.Bench, Vector3.back), .15f, 1.10f, .34f, Amber, beamAmber, Under(ClinicLayout.P(ClinicLayout.Station.Bench, new Vector3(0, 2.96f, 2.7f))));

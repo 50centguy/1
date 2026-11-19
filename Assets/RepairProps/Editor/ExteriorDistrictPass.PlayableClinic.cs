@@ -290,6 +290,10 @@ namespace BorderRepair.RepairProps.EditorTools
                .Append(", bench yaw ").Append(layout.bench.yaw.ToString("F0")).Append(" +").Append(layout.bench.offset.ToString("F2"))
                .Append(", surgery yaw ").Append(layout.surgery.yaw.ToString("F0")).Append(" +").Append(layout.surgery.offset.ToString("F2"))
                .Append("; own room off: ").Append(off).Append(" renderers, ").Append(lightsOff).Append(" lights\n");
+            // The enamel station markers are fitted to the B1 counter, bench and curtain rail in this layout.
+            var fixtures = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/RepairProps/Art/B1StationFixtures/B1StationFixtures.prefab");
+            if (fixtures == null) throw new InvalidOperationException("Missing B1 station fixtures prefab.");
+            PrefabUtility.InstantiatePrefab(fixtures, scene);
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene, Berth04Playable.PlayableClinicScene);
         }

@@ -11,3 +11,6 @@ User words and real revisions, verbatim and append-only. Write with `jury_state.
 
 ## G-0003 · 2026-11-20T04:09:32+09:00 · kind: goal · source: user-direct
 > 优化一下项目跟美术
+
+## G-0004 · 2026-11-20T04:17:36+09:00 · kind: goal · source: user-direct
+> 继续优化一下地下诊所内部的美术，重点看从街面进门以后，接单柜台、维修台和手术区能不能一眼分清，改完给我看游戏里的实拍对比。
