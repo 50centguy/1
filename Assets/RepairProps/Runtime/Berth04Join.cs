@@ -41,6 +41,9 @@ namespace BorderRepair.RepairProps
 
         Renderer[] districtRenderers;
         readonly HashSet<Renderer> districtHidden = new HashSet<Renderer>();
+        readonly List<Renderer> leakers = new List<Renderer>();
+        readonly HashSet<Renderer> leakHidden = new HashSet<Renderer>();
+        public int LeakingParticleCount => leakers.Count;
         Light[] districtLights;
         bool[] districtLightOn;
 
@@ -109,9 +112,16 @@ namespace BorderRepair.RepairProps
             var inside = Room;
             inside.Expand(.3f);
             var rs = new List<Renderer>();
+            var near = inside; near.Expand(3f);
+            leakers.Clear();
             foreach (var root in district.GetRootGameObjects())
                 foreach (var r in root.GetComponentsInChildren<Renderer>(true))
+                {
+                    if (r.forceRenderingOff) continue;
+                    if (b1 && r is ParticleSystemRenderer && near.Contains(r.transform.position) && !inside.Contains(r.transform.position)
+                        && !UnderSnowfall(r.transform)) { leakers.Add(r); continue; }
                     if (!b1 || !inside.Contains(r.bounds.center)) rs.Add(r);
+                }
             districtRenderers = rs.ToArray();
             var ls = new List<Light>();
             foreach (var root in district.GetRootGameObjects())
@@ -213,6 +223,9 @@ namespace BorderRepair.RepairProps
             // Seen through the B1's display window from the street, the room is drawn whole (it is small).
             bool windowSeen = ClinicLayout.Active != null && !EyeInRoom && GeometryUtility.TestPlanesAABB(cameraPlanes, ClinicLayout.Active.window)
                 && Vector3.Distance(eye, ClinicLayout.Active.window.center) < 40f;
+            // Street particles that drift through the B1's front wall (the service door's vent steam beside the window)
+            // are not drawn from inside.
+            foreach (var r in leakers) if (r != null) Set(r, EyeInRoom, leakHidden);
             if (!Culling)
             {
                 ShowAll(clinicHidden); ShowAll(districtHidden); SetClinicShadows(true);
@@ -305,10 +318,20 @@ namespace BorderRepair.RepairProps
             portal[4] = d;
         }
 
+        // forceRenderingOff is shared with the clinic runtimes, which retire the old bench, bed, counter and shelving with
+        // it: the join only ever releases what it switched off itself, and leaves alone what someone else switched off.
+        // The live snowfall covers street and stairwell; its own exclusion volume keeps it out of the room.
+        static bool UnderSnowfall(Transform t) { for (; t != null; t = t.parent) if (t.name.IndexOf("snowfall", System.StringComparison.OrdinalIgnoreCase) >= 0) return true; return false; }
+
         static void Set(Renderer r, bool hide, HashSet<Renderer> hidden)
         {
-            if (r.forceRenderingOff != hide) r.forceRenderingOff = hide;
-            if (hide) hidden.Add(r); else hidden.Remove(r);
+            if (hide)
+            {
+                if (r.forceRenderingOff) return;
+                r.forceRenderingOff = true;
+                hidden.Add(r);
+            }
+            else if (hidden.Remove(r)) r.forceRenderingOff = false;
         }
 
         static void ShowAll(HashSet<Renderer> hidden)
@@ -335,6 +358,7 @@ namespace BorderRepair.RepairProps
             foreach (var root in clinic.GetRootGameObjects())
                 foreach (var r in root.GetComponentsInChildren<Renderer>(true))
                 {
+                    if (r.forceRenderingOff && !clinicHidden.Contains(r)) continue;   // retired by a runtime
                     clinicRenderers.Add(r);
                     clinicKeep.Add((player != null && r.transform.IsChildOf(player)) || (eye != null && r.transform.IsChildOf(eye)));
                 }

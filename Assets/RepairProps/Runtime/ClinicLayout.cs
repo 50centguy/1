@@ -77,13 +77,25 @@ namespace BorderRepair.RepairProps
                 t.SetPositionAndRotation(p.position, p.rotation);
                 if (t != root && t.gameObject.activeSelf != p.active) t.gameObject.SetActive(p.active);
             }
+            // What the player walks into: the counter (its run and the angled wing, by their own meshes, not one box round
+            // the L), the stool and the racking. On Ignore Raycast, so the pointer still reaches the trays and goods.
             foreach (var r in instance.GetComponentsInChildren<MeshRenderer>(true))
-                if ((r.name == "ZC_Racking" || r.name == "ZC_Counter") && r.GetComponent<Collider>() == null)
+            {
+                if (Array.IndexOf(Solid, r.name) < 0 || r.GetComponentInChildren<Collider>(true) != null) continue;
+                var f = r.GetComponent<MeshFilter>();
+                if (f == null || f.sharedMesh == null) continue;
+                var go = new GameObject(r.name + " - solid") { layer = 2 };
+                go.transform.SetParent(r.transform, false);
+                if (r.name != "ZC_Racking" && (f.sharedMesh.isReadable || Application.isEditor))
+                    go.AddComponent<MeshCollider>().sharedMesh = f.sharedMesh;
+                else
                 {
-                    var box = r.gameObject.AddComponent<BoxCollider>();
-                    var f = r.GetComponent<MeshFilter>();
-                    if (f != null && f.sharedMesh != null) { box.center = f.sharedMesh.bounds.center; box.size = f.sharedMesh.bounds.size; }
+                    var box = go.AddComponent<BoxCollider>();
+                    box.center = f.sharedMesh.bounds.center; box.size = f.sharedMesh.bounds.size;
                 }
+            }
         }
+
+        static readonly string[] Solid = { "ZC_Counter", "ZC_Corner", "ZC_Stool", "ZC_Racking" };
     }
 }

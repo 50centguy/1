@@ -47,6 +47,7 @@ namespace BorderRepair.RepairProps.Cosmetics
         static void Loaded(Scene scene,LoadSceneMode mode)
         {
             if(scene.path!="Assets/RepairProps/Scenes/RepairProps_Clinic.unity" &&
+                scene.path!="Assets/RepairProps/Scenes/Berth04_Playable_Clinic.unity" &&
                 scene.path!="Assets/RepairPropsVR/Scenes/RepairProps_Clinic_VR.unity") return;
             if(scene.GetRootGameObjects().Any(g=>g.GetComponentInChildren<CosmeticController>(true)!=null)) return;
             var obj=new GameObject("Cosmetics_Runtime");SceneManager.MoveGameObjectToScene(obj,scene);

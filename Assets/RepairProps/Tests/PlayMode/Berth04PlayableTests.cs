@@ -160,7 +160,7 @@ namespace BorderRepair.RepairProps.Tests
     }
 
     // The playable Berth 04 scene: the clinic inside the district (Berth04Playable / Berth04Join).
-    public sealed class Berth04PlayableTests
+    public sealed partial class Berth04PlayableTests
     {
         TwoNightState previousRun;
         string previousSave;
@@ -284,6 +284,9 @@ namespace BorderRepair.RepairProps.Tests
             Near(receive.transform.position, new Vector3(.06f, 1.07f, -1.70f), "receiving pad");
 
             var join = Berth04Playable.Current.Join;
+            // The clinic's look comes along: the PS2 pass (and the visor barrel in it) on the player's camera, and the cosmetics.
+            Assert.That(join.Eye.GetComponents<Behaviour>().Any(b => b != null && b.GetType().Name == "RetroPS2CameraEffect" && b.enabled), Is.True, "PS2 filter on the eye");
+            Assert.That(GameObject.Find("Cosmetics_Runtime"), Is.Not.Null, "cosmetics runtime in the clinic copy");
             var walker = join.Walker;
             var cc = walker.GetComponent<CharacterController>();
             walker.PlaceAt(new Vector3(0, .05f, -2.25f), 90);
@@ -293,8 +296,10 @@ namespace BorderRepair.RepairProps.Tests
             {
                 (1.95f, -2.3f, "east end of the counter"), (2.0f, -.35f, "through the staff gate"), (.6f, .1f, "workshop"),
                 (-.55f, .5f, "at the bench"), (-.2f, 1.2f, "before UNIT 07"), (2.0f, -.35f, "back to the staff gate"),
-                (3.3f, -.6f, "waiting side, east"), (3.2f, -.3f, "mouth of the surgery bay"), (3.2f, .8f, "beside the table"),
-                (3.3f, -.6f, "out of the bay"), (.2f, -2.4f, "customer side"),
+                (2.1f, -1.4f, "round the partition"), (3.2f, -1.4f, "front of the surgery bay"), (3.2f, .8f, "west of the table"),
+                (3.2f, -.3f, "foot of the table, west"), (4.45f, .05f, "foot of the table, east"), (4.65f, 1.0f, "east of the table"),
+                (4.45f, .05f, "back to the foot"), (3.2f, -.3f, "foot, west"), (3.2f, -1.4f, "out of the bay"), (1.5f, -2.4f, "waiting side"),
+                (.2f, -2.4f, "customer side"),
             };
             foreach (var (x, z, label) in route) yield return WalkTo(cc, walker, new Vector3(x, 0, z), label, log);
             Assert.That(walker.transform.position.y, Is.LessThan(.3f), "on the B1 floor");

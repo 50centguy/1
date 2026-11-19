@@ -19,6 +19,7 @@ namespace BorderRepair.Art.UnifiedClinic.PS2
         public static readonly string[] DesktopScenePaths =
         {
             "Assets/RepairProps/Scenes/RepairProps_Clinic.unity",
+            "Assets/RepairProps/Scenes/Berth04_Playable_Clinic.unity",   // the clinic's copy inside the Berth 04 district
             "Assets/BorderRepair/Scenes/UnifiedClinic/UnifiedClinic.unity",
         };
 

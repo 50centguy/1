@@ -57,6 +57,7 @@ namespace BorderRepair.RepairProps.EditorTools
                     .Select(c => new DistrictAtmosphere.View { name = c.name, position = c.transform.position, rotation = c.transform.rotation, fov = c.fieldOfView }).ToArray();
                 RemoveCameras(holder);
                 OpenB1(holder);
+                WidenSurgeryBay(holder);
                 var motion = holder.GetComponentInChildren<DistrictMotion>(true);
                 if (motion != null) { motion.origin = PlayableOffset; motion.Evaluate(0); }
                 atmosphere.offset = PlayableOffset;

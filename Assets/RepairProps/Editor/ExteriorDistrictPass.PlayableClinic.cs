@@ -83,29 +83,116 @@ namespace BorderRepair.RepairProps.EditorTools
             return b;
         }
 
-        // The B1's dressing (chairs, heater, cart, cooler ...) mostly has no collider: boxes, as on the street.
+        // The B1's floor-standing dressing (cabinets, cart, cooler, plank stack ...) mostly has no collider. One box per
+        // piece of furniture (the pass's items: the children of its groups), from what is drawn, on Ignore Raycast so the
+        // clinic's pointer still reaches what stands behind. Items already solid somewhere in them are left alone.
+        static readonly string[] NotSolid = { "mat", "puddle", "water in", "streak", "stain", "frost", "glass", "glow", "light", "lamp", "bulb", "batten", "skyline", "rag" };
+
         static void B1Colliders(Transform holder)
         {
-            int added = 0;
+            var pass = holder.GetComponentsInChildren<Transform>(true).First(t => t.name.StartsWith("09 Interior pass", StringComparison.Ordinal));
+            var root = new GameObject("B1 collision (generated)").transform;
+            root.SetParent(holder, false);
+            root.rotation = Quaternion.identity;
             var room = B1Room; room.Expand(-.05f);
-            foreach (var r in holder.GetComponentsInChildren<MeshRenderer>(false))
+            int added = 0;
+            var names = new List<string>();
+            void Item(Transform t, int depth)
             {
-                if (!r.enabled || r.GetComponent<Collider>() != null) continue;
-                var mf = r.GetComponent<MeshFilter>();
-                if (mf == null || mf.sharedMesh == null) continue;
-                if (r.sharedMaterials.Any(m => m == null || UnlitShaders.Contains(m.shader.name) || m.renderQueue >= 2450)) continue;
-                var b = r.bounds;
-                if (!room.Contains(b.center)) continue;
-                var path = HierPath(r.transform);
-                if (path.IndexOf("gate", StringComparison.OrdinalIgnoreCase) >= 0 || path.IndexOf("mat", StringComparison.OrdinalIgnoreCase) >= 0
-                    || path.IndexOf("puddle", StringComparison.OrdinalIgnoreCase) >= 0 || path.IndexOf("water", StringComparison.OrdinalIgnoreCase) >= 0) continue;
+                if (NotSolid.Any(n => t.name.IndexOf(n, StringComparison.OrdinalIgnoreCase) >= 0)) return;
+                var rs = t.GetComponentsInChildren<Renderer>(false).Where(r => r.enabled && !(r is ParticleSystemRenderer)).ToArray();
+                if (rs.Length == 0) return;
+                var b = rs[0].bounds; foreach (var r in rs) b.Encapsulate(r.bounds);
                 float wide = Mathf.Max(b.size.x, b.size.z);
-                if (wide < .06f || wide > 4 || b.size.y < .25f || b.min.y > 1.2f) continue;
-                var box = r.gameObject.AddComponent<BoxCollider>();
-                box.center = mf.sharedMesh.bounds.center; box.size = mf.sharedMesh.bounds.size;
-                added++;
+                if (depth >= 2 && !room.Contains(b.center)) return;
+                // A group, or something too big to be one box: look at its parts.
+                // (The drawn-back curtain hangs from a rail across the whole bay opening: its folds only.)
+                if ((depth < 2 || wide > 2.6f || t.name.StartsWith("Curtain", StringComparison.Ordinal)) && t.childCount > 0) { foreach (Transform c in t) Item(c, depth + 1); return; }
+                if (t.GetComponentsInChildren<Collider>(false).Any(c => c.enabled)) return;
+                if (b.min.y > .3f || b.size.y < .3f || wide < .08f || wide > 2.6f) return;   // floor-standing, knee-high or more
+                var go = new GameObject("Solid - " + t.name) { layer = 2 };
+                go.transform.SetParent(root, false);
+                go.transform.position = b.center;
+                var box = go.AddComponent<BoxCollider>();
+                box.size = new Vector3(b.size.x / root.lossyScale.x, b.size.y / root.lossyScale.y, b.size.z / root.lossyScale.z);
+                added++; names.Add(t.name);
             }
-            log.Append("B1 dressing given a box collider: ").Append(added).Append('\n');
+            Item(pass, 0);
+            log.Append("B1 furniture given a box collider: ").Append(added).Append(" (").Append(string.Join(", ", names)).Append(")\n");
+        }
+
+        // The surgery bay grows 0.95 m south over the waiting side's empty floor: its curtain line, partition and tile
+        // come forward; the notice board that hung there moves south along the waiting wall, the heater clears the
+        // curtain and the instrument cart stands in front of the bed's foot, leaving both its sides free.
+        const float BayGrow = .95f;
+
+        static void WidenSurgeryBay(Transform holder)
+        {
+            var all = holder.GetComponentsInChildren<Transform>(true);
+            Transform Named(string name) => all.FirstOrDefault(t => t.name == name);
+            IEnumerable<Transform> AllNamed(string name) => all.Where(t => t.name == name);
+            var bay = all.First(t => t.name.StartsWith("Surgery bay", StringComparison.Ordinal));
+            float front = BoundsOf(bay).min.z;   // the partition's south end and the curtain line
+            int n = 0;
+
+            // Stretch along world z (keeping the north end) the pieces that run the bay's depth.
+            void Deepen(Transform t)
+            {
+                var b = BoundsOf(t);
+                float f = (b.size.z + BayGrow) / b.size.z;
+                var local = t.InverseTransformDirection(Vector3.forward);
+                int axis = Mathf.Abs(local.x) > Mathf.Abs(local.y) ? (Mathf.Abs(local.x) > Mathf.Abs(local.z) ? 0 : 2) : (Mathf.Abs(local.y) > Mathf.Abs(local.z) ? 1 : 2);
+                var s = t.localScale; s[axis] *= f; t.localScale = s;
+                var nb = BoundsOf(t);
+                t.position += new Vector3(0, 0, b.max.z - nb.max.z);
+                n++;
+            }
+            foreach (var name in new[] { "Surgery privacy partition", "Tile - partition", "Tile edge - partition", "Tile - right wall", "Tile edge - right" })
+                foreach (var t in AllNamed(name)) Deepen(t);
+            var curtain = bay.Cast<Transform>().First(t => t.name.StartsWith("Curtain", StringComparison.Ordinal));
+            curtain.position += new Vector3(0, 0, -BayGrow); n++;
+
+            var heater = Named("Electric radiator");
+            if (heater != null) { heater.position += new Vector3(0, 0, .15f); n++; }
+            var cart = Named("Instrument cart");
+            if (cart != null)
+            {
+                var b = BoundsOf(cart);
+                cart.position += new Vector3(3.62f - b.min.x, 0, front - BayGrow + .12f - b.min.z); n++;
+            }
+
+            // The notice board and its frame: south along the east wall to the first free span above the waiting chairs.
+            var board = new[] { Named("Notice board"), Named("Board frame") }.Where(t => t != null).ToArray();
+            // The care poster goes up into the gap under the leak's damp streak first, which opens a span big enough for the board.
+            var poster = Named("Care poster");
+            var streak = Named("Damp streak under the joint");
+            if (poster != null && streak != null)
+            {
+                float dz = BoundsOf(streak).min.z - .06f - BoundsOf(poster).max.z;
+                poster.position += new Vector3(0, 0, dz); n++;
+                log.Append("  care poster moved ").Append(dz.ToString("F2")).Append(" m\n");
+            }
+            if (board.Length > 0)
+            {
+                var bb = BoundsOf(board[0]); foreach (var t in board) bb.Encapsulate(BoundsOf(t));
+                var others = holder.GetComponentsInChildren<Renderer>(false)
+                    .Where(r => r.enabled && !board.Any(t => r.transform.IsChildOf(t)) && r.bounds.max.x > 4.85f && r.bounds.size.x < .5f
+                                && r.bounds.min.y < bb.max.y && r.bounds.max.y > bb.min.y && r.bounds.size.z < 3
+                                && r.bounds.min.z < bb.max.z && r.bounds.max.z > -3.4f && !(r.bounds.size.x < .04f && r.bounds.size.z > 1.2f)).ToList();
+                foreach (var o in others) log.Append("  (east wall) ").Append(HierPath(o.transform)).Append(' ').Append(o.bounds.min.ToString("F2")).Append("..").Append(o.bounds.max.ToString("F2")).Append('\n');
+                float limit = front - BayGrow - .05f;
+                for (float dz = limit - bb.max.z; bb.min.z + dz > -3.35f; dz -= .05f)
+                {
+                    var moved = new Bounds(bb.center + new Vector3(0, 0, dz), bb.size + new Vector3(0, .06f, .06f));
+                    if (others.Any(o => o.bounds.Intersects(moved))) continue;
+                    foreach (var t in board) t.position += new Vector3(0, 0, dz);
+                    log.Append("  notice board moved ").Append(dz.ToString("F2")).Append(" m south\n");
+                    n++;
+                    break;
+                }
+            }
+            log.Append("surgery bay deepened ").Append(BayGrow.ToString("F2")).Append(" m (front ").Append(front.ToString("F2")).Append(" -> ")
+               .Append((front - BayGrow).ToString("F2")).Append("), ").Append(n).Append(" pieces moved or stretched\n");
         }
 
         static ClinicLayout.Move MoveFrom(Vector3 fromPos, float fromYaw, Vector3 toPos, float toYaw)
@@ -148,7 +235,7 @@ namespace BorderRepair.RepairProps.EditorTools
             // the patient walks round the counter's east end into the surgery bay; UNIT 07 flies out over the workshop.
             layout.npcEntrance = new Vector3(.30f, 0, -3.05f);
             layout.npcApproach = new[] { new Vector3(.22f, 0, -2.55f) };
-            layout.patientIn = new[] { new Vector3(.30f, 0, -3.05f), new Vector3(1.05f, 0, -2.75f), new Vector3(2.25f, 0, -2.15f), new Vector3(3.15f, 0, -1.05f), new Vector3(3.25f, 0, -.25f) };
+            layout.patientIn = new[] { new Vector3(.30f, 0, -3.05f), new Vector3(1.05f, 0, -2.75f), new Vector3(2.25f, 0, -2.15f), new Vector3(3.2f, 0, -1.55f), new Vector3(3.25f, 0, -.25f) };
             layout.dockOut = Map(layout.dock, new Vector3(-2.10f, .95f, 0f));
             layout.westLane = new Vector3(layout.dockOut.x, 1.15f, .9f);
             layout.eastLane = new Vector3(-1.0f, 1.15f, -.25f);
@@ -190,6 +277,8 @@ namespace BorderRepair.RepairProps.EditorTools
             foreach (var t in all.Where(t => t.name.StartsWith("COL_Wall", StringComparison.Ordinal) || t.name.StartsWith("COL_DoorLeaf", StringComparison.Ordinal)))
                 Off(t);
             foreach (var t in Named("COL_Floor", "COL_EastShelves", "COL_LimbShelf", "COL_Lockers", "COL_NECabinet", "COL_NWCabinet", "COL_RedToolChest", "COL_InstrumentCart")) Off(t);
+            // The counter, stool and dock proxies were shaped for the clinic's own room: the zone parts carry their own now.
+            foreach (var t in Named("COL_Counter_Long", "COL_Counter_Angled", "COL_Stool", "COL_Unit07Frame")) Off(t);
             int lightsOff = 0;
             foreach (var t in Named("Ceiling_Fluo", "ClinicFixtureLights"))
                 foreach (var l in t.GetComponentsInChildren<Light>(true)) if (l.enabled) { l.enabled = false; lightsOff++; }
