@@ -85,6 +85,10 @@ namespace BorderRepair.RepairProps
         public Runner[] runners = new Runner[0];
         public Hover[] hovers = new Hover[0];
 
+        // Where the district's origin sits in the world. Paths and the train's run are authored in district space; a
+        // copy of the district moved to meet another scene (the playable clinic) sets this to its offset.
+        public Vector3 origin;
+
         MaterialPropertyBlock block;
 
         void Update()
@@ -105,7 +109,7 @@ namespace BorderRepair.RepairProps
         public void Evaluate(float t)
         {
             block ??= new MaterialPropertyBlock();
-            foreach (var f in flyers) Pose(f, t);
+            foreach (var f in flyers) Pose(f, t, origin);
             foreach (var s in sweeps)
             {
                 if (s.pivot == null) continue;
@@ -114,7 +118,7 @@ namespace BorderRepair.RepairProps
             }
             foreach (var b in blinkers) Blink(b, t);
             foreach (var l in lamps) Flicker(l, t);
-            foreach (var r in runners) Run(r, t);
+            foreach (var r in runners) Run(r, t, origin.z);
             foreach (var h in hovers)
             {
                 if (h.body == null) continue;
@@ -123,7 +127,7 @@ namespace BorderRepair.RepairProps
             }
         }
 
-        static void Pose(Flyer f, float t)
+        static void Pose(Flyer f, float t, Vector3 origin)
         {
             if (f.body == null || f.path.Length < 2) return;
             float local = Mathf.Repeat(t + f.phase, Mathf.Max(f.period, f.travel));
@@ -140,7 +144,7 @@ namespace BorderRepair.RepairProps
             var d0 = p - a; var d1 = b - p;
             float turn = Vector3.SignedAngle(new Vector3(d0.x, 0, d0.z), new Vector3(d1.x, 0, d1.z), Vector3.up);
             float roll = Mathf.Clamp(-turn * 6f, -f.bank, f.bank);
-            f.body.SetPositionAndRotation(p, Quaternion.LookRotation(dir.normalized, Vector3.up) * Quaternion.Euler(0, 0, roll));
+            f.body.SetPositionAndRotation(p + origin, Quaternion.LookRotation(dir.normalized, Vector3.up) * Quaternion.Euler(0, 0, roll));
         }
 
         static Vector3 Spline(Vector3[] pts, float u)
@@ -210,7 +214,7 @@ namespace BorderRepair.RepairProps
             }
         }
 
-        static void Run(Runner r, float t)
+        static void Run(Runner r, float t, float originZ)
         {
             float offset = Mathf.Repeat(r.speed * t, r.length);
             for (int i = 0; i < r.parts.Length; i++)
@@ -220,7 +224,7 @@ namespace BorderRepair.RepairProps
                 float z = r.rest[i] + offset;
                 if (z > r.wrapAt) z -= r.length;
                 var pos = p.position;
-                if (pos.z != z) p.position = new Vector3(pos.x, pos.y, z);
+                if (pos.z != z + originZ) p.position = new Vector3(pos.x, pos.y, z + originZ);
                 var rend = p.GetComponent<Renderer>();
                 bool vis = Mathf.Abs(z) <= r.visibleHalf;
                 if (rend != null && rend.enabled != vis) rend.enabled = vis;

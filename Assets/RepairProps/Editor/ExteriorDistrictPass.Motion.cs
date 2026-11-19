@@ -50,7 +50,8 @@ namespace BorderRepair.RepairProps.EditorTools
         {
             var motion = Object.FindFirstObjectByType<DistrictMotion>();
             if (motion == null) return;
-            var moving = motion.flyers.Select(f => f.body).Concat(motion.hovers.Select(h => h.body)).Concat(motion.runners.SelectMany(r => r.parts)).Where(t => t != null);
+            var moving = motion.flyers.Select(f => f.body).Concat(motion.hovers.Select(h => h.body)).Concat(motion.runners.SelectMany(r => r.parts))
+                .Concat(motion.sweeps.Select(s => s.pivot)).Where(t => t != null);
             int n = 0;
             foreach (var t in moving)
                 foreach (var c in t.GetComponentsInChildren<Transform>(true)) { GameObjectUtility.SetStaticEditorFlags(c.gameObject, 0); n++; }

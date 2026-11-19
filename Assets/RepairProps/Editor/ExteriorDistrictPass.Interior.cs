@@ -75,6 +75,8 @@ namespace BorderRepair.RepairProps.EditorTools
                 DepthTestedText();
                 WindowLampLayers();
                 HandedOverPhotoSurfaces(scene);
+                // Last, so the meshes saved before it keep their numbered files.
+                FarSkyline(Group(root, "Skyline - outer city, arcology, road, glow"));
                 foreach (var r in root.GetComponentsInChildren<Renderer>(true))
                     GameObjectUtility.SetStaticEditorFlags(r.gameObject, StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccluderStatic | StaticEditorFlags.OccludeeStatic);
                 UnpinMovingParts();
