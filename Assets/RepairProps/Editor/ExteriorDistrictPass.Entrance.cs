@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 namespace BorderRepair.RepairProps.EditorTools
 {
     // The street entrance, after the concept sheet the user picked (lit sign on a canopy over the stairs, B1 plate, folding
-    // gates, orange stair rails, rusted pipes, a shutter next door, barriers, a pole and its wires). Only the ten-odd metres
+    // gates, rusted pipes, a shutter next door, barriers, a pole and its wires). Only the ten-odd metres
     // round the stairwell; the road, the far side and the sky are the exterior pass's. Built by the interior pass under its
     // root (the window cut is there too), so one re-run rebuilds both. Handed-over objects it replaces are hidden by
     // name near the entrance (they keep their colliders) and rebuilt here under new names, so the exterior pass never
@@ -20,7 +20,7 @@ namespace BorderRepair.RepairProps.EditorTools
         {
             Canopy(Group(g, "Canopy and lit sign over the stairs"));
             Doorway(Group(g, "Doorway - B1 plate and the second folded gate"));
-            OrangeRails(Group(g, "Stair rails - old orange paint"));
+            StairRailsAsHandedOver();
             KerbPaint(Group(g, "Kerb - hazard paint"));
             FacadePipes(Group(g, "Facade - rusted down pipes"));
             Shutter(Group(g, "Next door - rolling shutter"));
@@ -109,21 +109,16 @@ namespace BorderRepair.RepairProps.EditorTools
         }
 
         // ------------------------------------------------------------------------------------------------ rails
-        // The stair guard, handrails and newels: old orange paint gone dull and rusty, the one warm colour on the steel.
-        static void OrangeRails(Transform g)
+        // The stair rails stay the handed-over ones (an orange repaint was tried and dropped). An earlier run of this pass
+        // hid them and built orange copies; switch them back on so a re-run undoes that.
+        static void StairRailsAsHandedOver()
         {
-            var paint = Worn("Ent - rail, old orange paint", Hex("#A9521F"), .38f, .3f);
             int n = 0;
-            foreach (var r in HideNamed(EntranceArea, "Stair guard upright", "Continuous guard rail", "Lower rail", "Stair handrail",
-                                        "Downhill handrail", "Landing rail", "Stairhead newel", "Upper landing post"))
-            {
-                var t = r.transform;
-                var mesh = r.GetComponent<MeshFilter>().sharedMesh;
-                if (mesh != null && mesh.name == "Cube") BBox(r.name + " - orange paint", g, t.position, t.lossyScale, paint, t.rotation);
-                else MeshObj(r.name + " - orange paint", g, mesh, paint, t.position, t.rotation).transform.localScale = t.lossyScale;
-                n++;
-            }
-            log.Append("orange rails: ").Append(n).Append('\n');
+            foreach (var r in Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None))
+                if (!r.enabled && EntranceArea.Contains(r.transform.position) && new[] { "Stair guard upright", "Continuous guard rail", "Lower rail", "Stair handrail",
+                        "Downhill handrail", "Landing rail", "Stairhead newel", "Upper landing post" }.Contains(r.name))
+                { r.enabled = true; n++; }
+            log.Append("stair rails switched back on: ").Append(n).Append('\n');
         }
 
         // ------------------------------------------------------------------------------------------------ kerb
