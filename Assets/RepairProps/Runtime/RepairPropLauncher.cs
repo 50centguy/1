@@ -60,7 +60,7 @@ namespace BorderRepair.RepairProps
             }
             if (ReturnScenePath != null && scene.name != TwoNightScenes.ClinicMenu && !string.Equals(scene.path, ReturnScenePath, System.StringComparison.OrdinalIgnoreCase))
                 ReturnScenePath = null;   // the player went somewhere else on purpose
-            if (!string.Equals(scene.path, ScenePath, System.StringComparison.OrdinalIgnoreCase)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path)) return;
             if (UnityEngine.XR.XRSettings.isDeviceActive) return;
             var host = new GameObject("SystemLauncher (runtime only)");
             SceneManager.MoveGameObjectToScene(host, scene);

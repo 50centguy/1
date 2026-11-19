@@ -14,6 +14,8 @@ namespace BorderRepair.RepairProps
     public sealed class Berth04Playable : MonoBehaviour
     {
         public const string ClinicScene = "Assets/RepairProps/Scenes/RepairProps_Clinic.unity";
+        /// <summary>The copy of the clinic with its stations moved into the B1 (ExteriorDistrictPass.BuildPlayable).</summary>
+        public const string PlayableClinicScene = RepairBenchV2Runtime.PlayableClinicPath;
         public const string DistrictScene = "Assets/RepairProps/Scenes/Berth04_Playable_District.unity";
 
         /// <summary>The clinic's tutorial starts from an AfterSceneLoad hook that saw this entry scene instead of the
@@ -42,14 +44,14 @@ namespace BorderRepair.RepairProps
 
         IEnumerator Load()
         {
-            yield return LoadScene(ClinicScene, LoadSceneMode.Single);
-            var clinic = SceneManager.GetSceneByPath(ClinicScene);
+            yield return LoadScene(PlayableClinicScene, LoadSceneMode.Single);
+            var clinic = SceneManager.GetSceneByPath(PlayableClinicScene);
             if (StartTutorial && !UnityEngine.XR.XRSettings.isDeviceActive) ClinicTutorialRuntime.Begin();
             yield return LoadScene(DistrictScene, LoadSceneMode.Additive);
             var district = SceneManager.GetSceneByPath(DistrictScene);
             if (!clinic.isLoaded || !district.isLoaded)
             {
-                Debug.LogError("[Berth04] could not load " + (clinic.isLoaded ? DistrictScene : ClinicScene));
+                Debug.LogError("[Berth04] could not load " + (clinic.isLoaded ? DistrictScene : PlayableClinicScene));
                 yield break;
             }
             SceneManager.SetActiveScene(clinic);

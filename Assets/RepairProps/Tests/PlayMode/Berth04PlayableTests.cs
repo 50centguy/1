@@ -26,7 +26,23 @@ namespace BorderRepair.RepairProps.Tests
         public static string OutDir => Path.Combine(Environment.GetEnvironmentVariable("EXTERIOR_OUT") ?? Path.GetTempPath(), "berth04_playable");
 
         // Player standpoints in the clinic frame: feet, yaw, pitch. The first five are in or at the door of the room.
-        public static readonly (string name, Vector3 feet, float yaw, float pitch)[] Standpoints =
+        // The room's standpoints follow the layout: the clinic's own room, or the B1 of the playable (ClinicLayout).
+        public static (string name, Vector3 feet, float yaw, float pitch)[] Standpoints =>
+            BorderRepair.RepairProps.ClinicLayout.Active != null ? B1Standpoints : ClinicStandpoints;
+
+        static readonly (string name, Vector3 feet, float yaw, float pitch)[] B1Standpoints =
+        {
+            ("Player - room, at the counter", new Vector3(.1f, .05f, -.15f), 180, 8),
+            ("Player - room, at the bench", new Vector3(-.4f, .05f, .5f), 270, 12),
+            ("Player - room, toward UNIT 07", new Vector3(0, .05f, .3f), 0, 6),
+            ("Player - room, toward the door", new Vector3(.6f, .05f, 1.4f), 190, 3),
+            ("Player - in the doorway, up the stairs", new Vector3(0, .05f, -3.0f), 180, -18),
+            ("Player - landing, up to the street", new Vector3(.05f, .05f, -5.0f), 180, -22),
+            ("Player - stair top, down to the door", new Vector3(.05f, 1.41f, -8.6f), 0, 22),
+            ("Player - street, the shop front", new Vector3(.05f, 1.25f, -12.5f), 0, 5),
+        };
+
+        static readonly (string name, Vector3 feet, float yaw, float pitch)[] ClinicStandpoints =
         {
             ("Player - room, at the counter", new Vector3(-.6f, .05f, -.4f), 90, 8),
             ("Player - room, at the bench", new Vector3(0, .05f, .9f), 0, 12),
@@ -181,7 +197,7 @@ namespace BorderRepair.RepairProps.Tests
         {
             var cleanup = SceneManager.CreateScene("Berth04Cleanup_" + Guid.NewGuid().ToString("N"));
             SceneManager.SetActiveScene(cleanup);
-            foreach (var path in new[] { Berth04Playable.DistrictScene, Berth04Playable.ClinicScene })
+            foreach (var path in new[] { Berth04Playable.DistrictScene, Berth04Playable.PlayableClinicScene })
             {
                 var s = SceneManager.GetSceneByPath(path);
                 if (s.IsValid() && s.isLoaded) yield return SceneManager.UnloadSceneAsync(s);
@@ -202,7 +218,8 @@ namespace BorderRepair.RepairProps.Tests
             Assert.That(join.Walker, Is.Not.Null);
             Assert.That(GameObject.Find("ClinicClosedDoorCollision"), Is.Null, "the closed-door blocker is off");
             Assert.That(join.DistrictRendererCount, Is.GreaterThan(1000));
-            join.Walker.PlaceAt(new Vector3(0, .05f, 0), 90);
+            // Facing away from the door (and from the B1's display window).
+            join.Walker.PlaceAt(new Vector3(0, .05f, 0), ClinicLayout.Active != null ? 0 : 90);
             yield return null; yield return null;
             join.Evaluate(join.Eye);
             Assert.That(join.EyeInRoom, Is.True);
@@ -246,6 +263,41 @@ namespace BorderRepair.RepairProps.Tests
             Assert.That(walker.transform.position.y, Is.LessThan(.3f), "back on the clinic floor");
             join.Evaluate(join.Eye);
             Assert.That(join.EyeInRoom, Is.True);
+            Berth04Measure.Append("walk.txt", log.ToString());
+        }
+
+        // The stations stand where the B1 pass put the project's assets, and the player gets to each of them on foot.
+        [UnityTest, Timeout(600000)]
+        public IEnumerator B1_StationsStandInTheB1AndThePlayerReachesThem()
+        {
+            Assert.That(ClinicLayout.Active, Is.Not.Null, "the playable's clinic carries the B1 layout");
+            Transform Root(string name) => SceneManager.GetSceneByPath(Berth04Playable.PlayableClinicScene).GetRootGameObjects()
+                .SelectMany(g => g.GetComponentsInChildren<Transform>(true)).First(t => t.name == name);
+            void Near(Vector3 actual, Vector3 expected, string what) =>
+                Assert.That(Vector3.Distance(actual, expected), Is.LessThan(.06f), what + " at " + actual.ToString("F2") + ", the B1 has it at " + expected.ToString("F2"));
+            Near(Root("RepairBenchV2").position, new Vector3(-.95f, .02f, .51f), "bench");
+            Near(Root("TradeCounterV2").position, new Vector3(-.54f, 0, -3.54f), "counter");
+            Near(Root("DockCornerV2").position, new Vector3(-.22f, 0, -.66f), "dock corner");
+            var table = Root("SurgeryTableV2").GetComponentsInChildren<Transform>(true).First(t => t.name.StartsWith("Ref_Origin", StringComparison.Ordinal));
+            Near(new Vector3(table.position.x, 0, table.position.z), new Vector3(3.93f, 0, 1.35f), "surgery table");
+            var receive = Object.FindObjectsByType<ClinicTradeZone>(FindObjectsSortMode.None).First(z => z.Action == ClinicTradeAction.Receive);
+            Near(receive.transform.position, new Vector3(.06f, 1.07f, -1.70f), "receiving pad");
+
+            var join = Berth04Playable.Current.Join;
+            var walker = join.Walker;
+            var cc = walker.GetComponent<CharacterController>();
+            walker.PlaceAt(new Vector3(0, .05f, -2.25f), 90);
+            yield return null;
+            var log = new StringBuilder("B1 walk (clinic frame):\n");
+            var route = new[]
+            {
+                (1.95f, -2.3f, "east end of the counter"), (2.0f, -.35f, "through the staff gate"), (.6f, .1f, "workshop"),
+                (-.55f, .5f, "at the bench"), (-.2f, 1.2f, "before UNIT 07"), (2.0f, -.35f, "back to the staff gate"),
+                (3.3f, -.6f, "waiting side, east"), (3.2f, -.3f, "mouth of the surgery bay"), (3.2f, .8f, "beside the table"),
+                (3.3f, -.6f, "out of the bay"), (.2f, -2.4f, "customer side"),
+            };
+            foreach (var (x, z, label) in route) yield return WalkTo(cc, walker, new Vector3(x, 0, z), label, log);
+            Assert.That(walker.transform.position.y, Is.LessThan(.3f), "on the B1 floor");
             Berth04Measure.Append("walk.txt", log.ToString());
         }
 

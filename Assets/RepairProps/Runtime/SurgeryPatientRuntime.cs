@@ -30,7 +30,8 @@ namespace BorderRepair.RepairProps
         public static SurgeryPatientRuntime Current { get; private set; }
 
         // Room path (floor points) from the east entrance round the instrument cart's west end to the bedside.
-        static readonly Vector3[] InPath = { new Vector3(.30f, 0, -3.05f), new Vector3(.10f, 0, -2.72f), new Vector3(-.78f, 0, -2.20f), new Vector3(-.95f, 0, -1.35f) };
+        static Vector3[] InPath => ClinicLayout.Active != null ? ClinicLayout.Active.patientIn : InPathAuthored;
+        static readonly Vector3[] InPathAuthored = { new Vector3(.30f, 0, -3.05f), new Vector3(.10f, 0, -2.72f), new Vector3(-.78f, 0, -2.20f), new Vector3(-.95f, 0, -1.35f) };
         const float WalkSpeed = .85f;
         // Body (metres; 森田 is 1.74 m): joint offsets in the body's own frame (up +Y, facing +Z).
         const float HipHeight = .92f, Thigh = .44f, Shin = .43f, SpineLen = .10f, ChestLen = .18f, NeckLen = .22f, HeadLen = .10f;
@@ -102,7 +103,7 @@ namespace BorderRepair.RepairProps
 
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!string.Equals(scene.path, ScenePath, StringComparison.OrdinalIgnoreCase)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path)) return;
             if (UnityEngine.XR.XRSettings.isDeviceActive) return;
             var host = new GameObject("SurgeryPatient (runtime only)");
             SceneManager.MoveGameObjectToScene(host, scene);

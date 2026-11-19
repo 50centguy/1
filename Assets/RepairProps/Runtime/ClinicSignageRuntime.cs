@@ -58,7 +58,7 @@ namespace BorderRepair.RepairProps
 
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!string.Equals(scene.path, ScenePath, System.StringComparison.OrdinalIgnoreCase)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path)) return;
             var host = new GameObject("ClinicSignage (runtime only)");
             SceneManager.MoveGameObjectToScene(host, scene);
             host.AddComponent<ClinicSignageRuntime>();
@@ -71,7 +71,7 @@ namespace BorderRepair.RepairProps
         {
             if (!built)
             {
-                bool ready = ClinicCyberRuntime.Current != null && ClinicCyberRuntime.Current.RoomKit != null && ClinicZonesV2Runtime.Current != null && ClinicZonesV2Runtime.Current.Zones != null;
+                bool ready = ClinicCyberRuntime.Current != null && (ClinicCyberRuntime.Current.RoomKit != null || ClinicLayout.Active != null) && ClinicZonesV2Runtime.Current != null && ClinicZonesV2Runtime.Current.Zones != null;
                 if (!ready && Time.unscaledTime - started < 3f) return;
                 Build();
                 built = true;
@@ -142,6 +142,10 @@ namespace BorderRepair.RepairProps
             // Over the south door, on the old neon's dark plate (face +Z, into the room).
             // Lift: the upper pipe loop reaches 186 mm off the wall across the top of this panel (the surface point is 32 mm
             // off it), and the plate sits 12 mm behind the text and sways ~9 mm at its ends.
+            // Another room (the B1) has its own door plate, notices and a ceiling too low over its gate for these.
+            bool wallSigns = ClinicLayout.Active == null || !ClinicLayout.Active.skipWallSigns;
+            if (wallSigns)
+            {
             var door = Sign("PJ_Door", new Vector3(0, 2.58f, -3.368f), Vector3.forward, .18f, 1.56f, .42f, Magenta, beamMagenta, new Vector3(0, 2.96f, -2.55f), .05f);
             Line(door, "義体修理", kana, 170, new Color(1f, .80f, .92f), 0, -6, 1.0f, TextAnchor.UpperCenter);
             // Sizes follow the PS2 pass (288 lines: a virtual pixel is ~12 mm at 3 m): 88 mm gives the kanji ~7 of them and
@@ -171,16 +175,21 @@ namespace BorderRepair.RepairProps
             // The margins beside the column: a drifting scale, and the stacked level bars of the Destiny diagnostic.
             Widget(receive, HoloWidget.Kind.Ruler, 12, -90, 30, 700, new Color(Amber.r, Amber.g, Amber.b, .8f), new Vector4(30, 8, 5, 1));
             Widget(receive, HoloWidget.Kind.Spectrum, 218, -90, 30, 700, new Color(Amber.r, Amber.g, Amber.b, .85f), new Vector4(2, 40, 1.2f, .25f));
+            }
 
             // Price list on a hanging scrim in front of the counter shelving (the old board sat behind the racking).
             var zones = ClinicZonesV2Runtime.Current != null ? ClinicZonesV2Runtime.Current.Zones : null;
             if (zones != null)
                 foreach (var r in zones.GetComponentsInChildren<Renderer>(true)) if (r.name == "ZC_TariffBoard") Hide(r);
-            var scrimAt = new Vector3(2.27f, 2.06f, 0f);
+            const ClinicLayout.Station Counter = ClinicLayout.Station.Counter;
+            // The B1 has its prices on the notice board by the gate, and no headroom over its counter for a scrim.
+            if (wallSigns)
+            {
+            var scrimAt = ClinicLayout.P(Counter, new Vector3(2.27f, 2.06f, 0f));
             Scrim(scrimAt, 1.50f, .58f);
             // Floats further into the room and burns a little hotter than the others to hold against the counter's lamps,
             // with a dimmer plate so that heat goes into the letters and not into the background behind them.
-            var prices = Sign("PJ_PriceList", scrimAt, Vector3.left, .24f, 1.44f, .54f, Amber, beamAmber, new Vector3(1.55f, 2.95f, 0), .03f);
+            var prices = Sign("PJ_PriceList", scrimAt, ClinicLayout.D(Counter, Vector3.left), .24f, 1.44f, .54f, Amber, beamAmber, Under(ClinicLayout.P(Counter, new Vector3(1.55f, 2.95f, 0))), .03f);
             if (panelMaterials.TryGetValue(prices, out var priceMaterial)) priceMaterial.SetFloat(IntensityId, 1.6f);
             Line(prices, "料金表 // PRICE LIST", kana, 64, Amber, 30, -2, .6f, TextAnchor.UpperLeft);
             Line(prices, "No.03", mono, 52, Pale, -30, -12, .3f, TextAnchor.UpperRight);
@@ -196,6 +205,7 @@ namespace BorderRepair.RepairProps
             // diagnostic) and packets along the header rule (amber network graph).
             Widget(prices, HoloWidget.Kind.FlowRule, 30, -97, 1380, 20, new Color(Amber.r, Amber.g, Amber.b, .85f), new Vector4(46, 70, 460));
             Widget(prices, HoloWidget.Kind.RowCursor, 10, -108, 24, rows.Length * rowPitch, Amber, new Vector4(rows.Length, 3));
+            }
 
             // The director's zone captions (one TextMesh per trade zone): renderer off, projected at their zones instead.
             foreach (var zone in FindObjectsByType<ClinicTradeZone>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -208,7 +218,9 @@ namespace BorderRepair.RepairProps
                 var p = caption.transform.position;
                 if (zone.Action == ClinicTradeAction.Console)
                 {
-                    var bench = Sign("PJ_Workbench", new Vector3(0, 2.50f, 3.37f), Vector3.back, .15f, 1.10f, .34f, Amber, beamAmber, new Vector3(0, 2.96f, 2.7f));
+                    // Lower under a lower ceiling (the B1's is at 2.55).
+                    float benchY = Mathf.Min(2.50f, ClinicLayout.Ceiling(9f) - .25f);
+                    var bench = Sign("PJ_Workbench", ClinicLayout.P(ClinicLayout.Station.Bench, new Vector3(0, benchY, 3.37f)), ClinicLayout.D(ClinicLayout.Station.Bench, Vector3.back), .15f, 1.10f, .34f, Amber, beamAmber, Under(ClinicLayout.P(ClinicLayout.Station.Bench, new Vector3(0, 2.96f, 2.7f))));
                     Line(bench, "作業台 // WORKBENCH", kana, 96, Amber, 0, -20, 1f, TextAnchor.UpperCenter);
                     Line(bench, "修理受付中 · OPEN FOR REPAIRS", mono, 36, Pale, 0, -150, 1f, TextAnchor.UpperCenter);
                     // The diagnostic read-out: a scope trace on a drifting graticule (mission-terminal chart) and level bars.
@@ -221,9 +233,9 @@ namespace BorderRepair.RepairProps
                     bool deliver = zone.Action == ClinicTradeAction.Deliver;
                     // Floats in front of the counter skirt (x 1.62, facing the room) under the pad's side of the counter;
                     // the little projector sits tucked under the counter lip, angled down at it.
-                    float z = Mathf.Clamp(p.z, -.9f, .9f);
+                    float z = Mathf.Clamp(ClinicLayout.Active != null ? (zone.Action == ClinicTradeAction.Deliver ? .6f : -.6f) : p.z, -.9f, .9f);
                     string padName = deliver ? "PJ_Pad_Deliver" : "PJ_Pad_Receive";
-                    var pad = Sign(padName, new Vector3(1.598f, .80f, z), Vector3.left, .10f, .40f, .12f, Amber, null, new Vector3(1.585f, .93f, z));
+                    var pad = Sign(padName, ClinicLayout.P(Counter, new Vector3(1.598f, .80f, z)), ClinicLayout.D(Counter, Vector3.left), .10f, .40f, .12f, Amber, null, ClinicLayout.P(Counter, new Vector3(1.585f, .93f, z)));
                     Line(pad, deliver ? "引渡 ▲ SEND OUT" : "受取 ▲ RECEIVE", kana, 64, deliver ? Pale : Amber, 0, -18, 1f, TextAnchor.UpperCenter);
                     // Read up close while handing items over: one calm strip, the two pads running opposite ways.
                     // Sign() returns the "Content" rect, not the sign, so mirror by the sign name we just created.
@@ -263,6 +275,9 @@ namespace BorderRepair.RepairProps
 
         // A hologram: world canvas floating `lift` metres off the surface (1 px = 1 mm), additive glow backing and
         // depth-tested lettering (HoloPanel), and the projector with its beam aimed at it.
+        // A ceiling projector stays just under another room's (lower) ceiling.
+        static Vector3 Under(Vector3 p) => new Vector3(p.x, ClinicLayout.Ceiling(p.y), p.z);
+
         RectTransform Sign(string name, Vector3 surface, Vector3 normal, float lift, float width, float height, Color color, Material beam, Vector3 projector, float plateAlpha = .08f)
         {
             var root = new GameObject(name);
@@ -348,7 +363,8 @@ namespace BorderRepair.RepairProps
             var panel = GameObject.CreatePrimitive(PrimitiveType.Cube);
             Destroy(panel.GetComponent<Collider>());
             panel.name = "PJ_Scrim"; panel.transform.SetParent(transform, false);
-            panel.transform.position = centre; panel.transform.localScale = new Vector3(.008f, height, width);
+            var turn = ClinicLayout.Q(ClinicLayout.Station.Counter);
+            panel.transform.position = centre; panel.transform.rotation = turn; panel.transform.localScale = new Vector3(.008f, height, width);
             var mat = Keep(new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = "PJ_ScrimMat" });
             // Matte: a glossy scrim mirrors a lamp as a hot spot right behind the price rows.
             mat.SetColor("_BaseColor", new Color(.06f, .05f, .05f)); mat.SetFloat("_Smoothness", .12f);
@@ -358,8 +374,9 @@ namespace BorderRepair.RepairProps
                 var wire = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Destroy(wire.GetComponent<Collider>());
                 wire.name = "PJ_ScrimWire"; wire.transform.SetParent(panel.transform.parent, false);
-                float top = 2.98f, bottom = centre.y + height / 2;
-                wire.transform.position = new Vector3(centre.x, (top + bottom) / 2, centre.z + z);
+                float top = ClinicLayout.Ceiling(2.98f), bottom = centre.y + height / 2;
+                var at = centre + turn * new Vector3(0, 0, z);
+                wire.transform.position = new Vector3(at.x, (top + bottom) / 2, at.z);
                 wire.transform.localScale = new Vector3(.004f, top - bottom, .004f);
                 wire.GetComponent<Renderer>().sharedMaterial = housing;
             }

@@ -20,9 +20,14 @@ namespace BorderRepair.RepairProps
         public const string ScenePath = RepairBenchV2Runtime.ScenePath;
         public static readonly string[] Names = { "Kasumi", "Tobi", "Gen", "Rin" };
         static readonly Vector3 StudioOrigin = new Vector3(0, -400, 0);
-        static readonly Vector3 Entrance = new Vector3(.30f, 0, -3.05f);
-        static readonly Vector3[] Approach = { new Vector3(.45f, 0, -2.55f), new Vector3(.77f, 0, -1.75f), new Vector3(1.30f, 0, -1.20f) };
-        static readonly Vector3 ReceiveSpot = new Vector3(1.39f, 0, -.62f), DeliverSpot = new Vector3(1.39f, 0, .56f);
+        static readonly Vector3 EntranceAuthored = new Vector3(.30f, 0, -3.05f);
+        static readonly Vector3[] ApproachAuthored = { new Vector3(.45f, 0, -2.55f), new Vector3(.77f, 0, -1.75f), new Vector3(1.30f, 0, -1.20f) };
+        static readonly Vector3 ReceiveAuthored = new Vector3(1.39f, 0, -.62f), DeliverAuthored = new Vector3(1.39f, 0, .56f);
+        // Another room (the Berth 04 B1) brings its own way in; the spots stay where the counter's pads are.
+        static Vector3 Entrance => ClinicLayout.Active != null ? ClinicLayout.Active.npcEntrance : EntranceAuthored;
+        static Vector3[] Approach => ClinicLayout.Active != null ? ClinicLayout.Active.npcApproach : ApproachAuthored;
+        static Vector3 ReceiveSpot => ClinicLayout.P(ClinicLayout.Station.Counter, ReceiveAuthored);
+        static Vector3 DeliverSpot => ClinicLayout.P(ClinicLayout.Station.Counter, DeliverAuthored);
 
         public static ClinicNpcRuntime Current { get; private set; }
 
@@ -45,7 +50,7 @@ namespace BorderRepair.RepairProps
 
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!string.Equals(scene.path, ScenePath, System.StringComparison.OrdinalIgnoreCase)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path)) return;
             if (UnityEngine.XR.XRSettings.isDeviceActive) return;
             if (Resources.Load<GameObject>("Npcs/NPC_Kasumi") == null) return;
             var host = new GameObject("ClinicNpcs (runtime only)");
@@ -188,14 +193,14 @@ namespace BorderRepair.RepairProps
                 if (leaving != null) Destroy(leaving.gameObject);
                 leaving = customer; customer = null;
                 var back = new List<Vector3>(Approach.Reverse()) { Entrance };
-                leaving.WalkTo(back, Vector3.back);
+                leaving.WalkTo(back, ClinicLayout.D(ClinicLayout.Station.Counter, Vector3.back));
             }
             if (want == null) return;
             customer = Spawn(want, transform);
             if (customer == null) return;
             customer.transform.position = Entrance;
             var route = new List<Vector3>(Approach) { spot };
-            customer.WalkTo(route, Vector3.right);
+            customer.WalkTo(route, ClinicLayout.D(ClinicLayout.Station.Counter, Vector3.right));
         }
 
         void OnDestroy()

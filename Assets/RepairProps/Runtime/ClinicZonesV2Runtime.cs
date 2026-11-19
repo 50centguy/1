@@ -66,7 +66,7 @@ namespace BorderRepair.RepairProps
 
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!string.Equals(scene.path, ScenePath, StringComparison.OrdinalIgnoreCase)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path)) return;
             var host = new GameObject("ClinicZonesV2 (runtime only)");
             SceneManager.MoveGameObjectToScene(host, scene);
             host.AddComponent<ClinicZonesV2Runtime>();
@@ -81,6 +81,7 @@ namespace BorderRepair.RepairProps
             zones.name = PrefabResource;
             SceneManager.MoveGameObjectToScene(zones, gameObject.scene);
             SurgeryTableV2Runtime.AlignToBed(zones, Vector3.zero, Vector3.forward);   // room frame = world
+            ClinicLayout.ApplyZones(zones);   // another room's arrangement (the Berth 04 playable), if any
             var roots = gameObject.scene.GetRootGameObjects();
             var environment = roots.Where(r => r.name.StartsWith("UnifiedClinicEnvironment", StringComparison.Ordinal))
                 .SelectMany(r => r.GetComponentsInChildren<Renderer>(true));

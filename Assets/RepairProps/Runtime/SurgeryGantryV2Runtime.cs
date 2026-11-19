@@ -141,7 +141,7 @@ namespace BorderRepair.RepairProps
 
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!string.Equals(scene.path, SurgeryTableV2Runtime.ScenePath, StringComparison.OrdinalIgnoreCase)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path)) return;
             var host = new GameObject("SurgeryGantryV2 (runtime only)");
             SceneManager.MoveGameObjectToScene(host, scene);
             host.AddComponent<SurgeryGantryV2Runtime>();

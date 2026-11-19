@@ -19,6 +19,11 @@ namespace BorderRepair.RepairProps
     public sealed class RepairBenchV2Runtime : MonoBehaviour
     {
         public const string ScenePath = "Assets/RepairProps/Scenes/RepairProps_Clinic.unity";
+        /// <summary>The Berth 04 playable copy of the clinic (stations moved into the B1); every clinic runtime installs there too.</summary>
+        public const string PlayableClinicPath = "Assets/RepairProps/Scenes/Berth04_Playable_Clinic.unity";
+
+        public static bool IsClinicScene(string path) =>
+            string.Equals(path, ScenePath, StringComparison.OrdinalIgnoreCase) || string.Equals(path, PlayableClinicPath, StringComparison.OrdinalIgnoreCase);
         public const string PrefabResource = "RepairBenchV2";
         // Everything WorkbenchArea still draws: the bench itself, its desk clutter and (wall pass) the pegboard, upper
         // shelf, parts bins and the papers pinned above the bench, all rebuilt in the V2 asset.
@@ -85,7 +90,7 @@ namespace BorderRepair.RepairProps
 
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!string.Equals(scene.path, ScenePath, StringComparison.OrdinalIgnoreCase)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path)) return;
             var host = new GameObject("RepairBenchV2 (runtime only)");
             SceneManager.MoveGameObjectToScene(host, scene);
             host.AddComponent<RepairBenchV2Runtime>();

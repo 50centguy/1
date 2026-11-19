@@ -77,7 +77,7 @@ namespace BorderRepair.RepairProps
 
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!string.Equals(scene.path, ScenePath, System.StringComparison.OrdinalIgnoreCase)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path)) return;
             if (UnityEngine.XR.XRSettings.isDeviceActive) return;
             var host = new GameObject("ClinicCalls (runtime only)");
             SceneManager.MoveGameObjectToScene(host, scene);

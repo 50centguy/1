@@ -39,7 +39,7 @@ namespace BorderRepair.RepairProps
 
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!string.Equals(scene.path, ScenePath, StringComparison.OrdinalIgnoreCase)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path)) return;
             var host = new GameObject("ClinicStorageV2 (runtime only)");
             SceneManager.MoveGameObjectToScene(host, scene);
             host.AddComponent<ClinicStorageV2Runtime>();
@@ -48,6 +48,8 @@ namespace BorderRepair.RepairProps
         void Awake()
         {
             Current = this;
+            // The B1 of the Berth 04 playable has its own shelving and cabinets along its walls.
+            if (ClinicLayout.Active != null && ClinicLayout.Active.skipStorage) return;
             var prefab = Resources.Load<GameObject>(PrefabResource);
             if (prefab == null) { Debug.LogWarning("[ClinicStorageV2] Resources/" + PrefabResource + " missing (Border Repair > Repair Props > Build Clinic Storage V2); keeping the old storage."); return; }
             storage = Instantiate(prefab);

@@ -19,7 +19,9 @@ namespace BorderRepair.RepairProps
     {
         // The door in the clinic's south wall and the room inside the walls (clinic frame).
         public const float DoorZ = -3.5f, DoorHalfWidth = .85f, DoorHeight = 2.45f;
-        static readonly Bounds Room = new Bounds(new Vector3(0, 1.56f, .05f), new Vector3(7.3f, 3.2f, 7.1f));
+        static readonly Bounds ClinicRoom = new Bounds(new Vector3(0, 1.56f, .05f), new Vector3(7.3f, 3.2f, 7.1f));
+        // With the stations moved into the district's B1 (ClinicLayout), the room is the B1's.
+        static Bounds Room => ClinicLayout.Active != null ? ClinicLayout.Active.room : ClinicRoom;
         static readonly Vector3 DoorCentre = new Vector3(0, DoorHeight * .5f, DoorZ);
         static readonly Vector3[] DoorCorners =
         {
@@ -102,13 +104,19 @@ namespace BorderRepair.RepairProps
             }
             RenderSettings.ambientMode = AmbientMode.Trilight;
 
+            // When the room itself is the district's B1, its walls, dressing and lamps are the room: never culled.
+            bool b1 = ClinicLayout.Active != null;
+            var inside = Room;
+            inside.Expand(.3f);
             var rs = new List<Renderer>();
-            foreach (var root in district.GetRootGameObjects()) rs.AddRange(root.GetComponentsInChildren<Renderer>(true));
+            foreach (var root in district.GetRootGameObjects())
+                foreach (var r in root.GetComponentsInChildren<Renderer>(true))
+                    if (!b1 || !inside.Contains(r.bounds.center)) rs.Add(r);
             districtRenderers = rs.ToArray();
             var ls = new List<Light>();
             foreach (var root in district.GetRootGameObjects())
                 foreach (var l in root.GetComponentsInChildren<Light>(true))
-                    if (l.type != LightType.Directional) ls.Add(l);
+                    if (l.type != LightType.Directional && (!b1 || !inside.Contains(l.transform.position))) ls.Add(l);
             districtLights = ls.ToArray();
             districtLightOn = new bool[districtLights.Length];
             for (int i = 0; i < districtLights.Length; i++) districtLightOn[i] = districtLights[i].enabled;
@@ -202,6 +210,9 @@ namespace BorderRepair.RepairProps
             bool atDoor = Mathf.Abs(eye.z - DoorZ) < .3f && Mathf.Abs(eye.x) < DoorHalfWidth + .3f;
             DoorInView = atDoor || (GeometryUtility.TestPlanesAABB(cameraPlanes, door) && Vector3.Distance(eye, DoorCentre) < 60f);
             if (DoorInView && !atDoor) BuildPortal(eye);
+            // Seen through the B1's display window from the street, the room is drawn whole (it is small).
+            bool windowSeen = ClinicLayout.Active != null && !EyeInRoom && GeometryUtility.TestPlanesAABB(cameraPlanes, ClinicLayout.Active.window)
+                && Vector3.Distance(eye, ClinicLayout.Active.window.center) < 40f;
             if (!Culling)
             {
                 ShowAll(clinicHidden); ShowAll(districtHidden); SetClinicShadows(true);
@@ -216,14 +227,16 @@ namespace BorderRepair.RepairProps
                 SetClinicShadows(true);
                 // The room is small and its door, once in view, a wide opening: testing each district renderer against it
                 // costs more (and breaks up the static batches) than drawing the district whole. So all or nothing.
-                if (DoorInView) ShowAll(districtHidden);
+                // The B1 also looks out through its display window.
+                bool open = DoorInView || (ClinicLayout.Active != null && GeometryUtility.TestPlanesAABB(cameraPlanes, ClinicLayout.Active.window));
+                if (open) ShowAll(districtHidden);
                 else if (districtHidden.Count != districtRenderers.Length)
                     foreach (var r in districtRenderers) if (r != null) Set(r, true, districtHidden);
                 for (int i = 0; i < districtLights.Length; i++)
                 {
                     var l = districtLights[i];
                     if (l == null) continue;
-                    bool on = districtLightOn[i] && DoorInView;
+                    bool on = districtLightOn[i] && open;
                     if (l.enabled != on) l.enabled = on;
                 }
             }
@@ -237,10 +250,10 @@ namespace BorderRepair.RepairProps
                 {
                     var r = clinicRenderers[i];
                     if (r == null) continue;
-                    bool show = clinicKeep[i] || atDoor || (DoorInView && GeometryUtility.TestPlanesAABB(portal, r.bounds));
+                    bool show = clinicKeep[i] || atDoor || windowSeen || (DoorInView && GeometryUtility.TestPlanesAABB(portal, r.bounds));
                     Set(r, !show, clinicHidden);
                 }
-                SetClinicShadows(DoorInView);
+                SetClinicShadows(DoorInView || windowSeen);
             }
         }
 

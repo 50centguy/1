@@ -56,7 +56,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 atmosphere.reviewViews = holder.GetComponentsInChildren<Camera>(true).OrderBy(c => c.name)
                     .Select(c => new DistrictAtmosphere.View { name = c.name, position = c.transform.position, rotation = c.transform.rotation, fov = c.fieldOfView }).ToArray();
                 RemoveCameras(holder);
-                ClearClinicRoom(holder);
+                OpenB1(holder);
                 var motion = holder.GetComponentInChildren<DistrictMotion>(true);
                 if (motion != null) { motion.origin = PlayableOffset; motion.Evaluate(0); }
                 atmosphere.offset = PlayableOffset;
@@ -66,10 +66,11 @@ namespace BorderRepair.RepairProps.EditorTools
                 var joins = new GameObject("Joins - ramp, snow exclusion, window backing, sky probe").transform;
                 StairRamp(joins);
                 SnowExclusion(holder);
-                WindowBacking(joins);
+                // (no window backing: the street window looks into the B1 itself now)
                 TrimShadowCasters(holder);
                 Physics.SyncTransforms();
                 StreetColliders(holder);
+                B1Colliders(holder);
                 Physics.SyncTransforms();
                 WalkMapAndWalls(atmosphere.respawn, holder, joins);
                 SkyProbe(joins);
@@ -79,6 +80,7 @@ namespace BorderRepair.RepairProps.EditorTools
             }
             finally { texDir = TexDir; matDir = MatDir; meshDir = MeshDir; }
 
+            BuildPlayableClinic();
             var entry = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             new GameObject("Berth 04 playable - loads the clinic, then the district").AddComponent<Berth04Playable>();
             EditorSceneManager.SaveScene(entry, PlayableEntry);
@@ -181,11 +183,11 @@ namespace BorderRepair.RepairProps.EditorTools
         {
             var ex = holder.GetComponentsInChildren<BoxCollider>(true).FirstOrDefault(c => c.name == "Indoor snow exclusion");
             if (ex == null) { log.Append("snow exclusion: not found\n"); return; }
-            ex.transform.position = new Vector3(0, 1.6f, .05f);
+            ex.transform.position = new Vector3(B1Room.center.x, 1.6f, B1Room.center.z);
             ex.transform.rotation = Quaternion.identity;
             ex.center = Vector3.zero;
-            ex.size = new Vector3(7.6f / ex.transform.lossyScale.x, 3.4f / ex.transform.lossyScale.y, 7.5f / ex.transform.lossyScale.z);
-            log.Append("snow exclusion moved over the clinic room\n");
+            ex.size = new Vector3((B1Room.size.x + .3f) / ex.transform.lossyScale.x, 3.4f / ex.transform.lossyScale.y, (B1Room.size.z + .4f) / ex.transform.lossyScale.z);
+            log.Append("snow exclusion moved over the B1\n");
         }
 
         // The street window (district x 0..2.3) looks into the dead corner beside the clinic's south-east wall.
@@ -232,7 +234,7 @@ namespace BorderRepair.RepairProps.EditorTools
             log.Append("sky reflection probe: ").Append(probe.customBakedTexture != null).Append('\n');
         }
 
-        static bool InClinicZone(Vector3 p) => p.x > -3.8f && p.x < 3.8f && p.z > -3.62f && p.z < 3.8f;
+        static bool InClinicZone(Vector3 p) => p.x > -2.3f && p.x < 5.35f && p.z > -3.62f && p.z < 2.95f;   // the B1
         // The door, the landing and the stairs up to the street: nothing new may stand in the way.
         static readonly Bounds StairCorridor = new Bounds(new Vector3(.05f, 1.3f, -6.5f), new Vector3(1.7f, 3.4f, 6.6f));
 

@@ -37,7 +37,7 @@ namespace BorderRepair.RepairProps
 
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!string.Equals(scene.path, ScenePath, StringComparison.OrdinalIgnoreCase) || UnityEngine.XR.XRSettings.isDeviceActive) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path) || UnityEngine.XR.XRSettings.isDeviceActive) return;
             var host = new GameObject("ClinicCyber (runtime only)");
             SceneManager.MoveGameObjectToScene(host, scene);
             host.AddComponent<ClinicCyberRuntime>();
@@ -61,7 +61,9 @@ namespace BorderRepair.RepairProps
         void Start()
         {
             Current = this;
-            RoomKit = Spawn("CyberRoomKit");
+            // The room kit is dressing for the clinic's own walls; another room (the B1) is dressed already.
+            bool otherRoom = ClinicLayout.Active != null && ClinicLayout.Active.skipRoomKit;
+            RoomKit = otherRoom ? null : Spawn("CyberRoomKit");
             if (RoomKit != null) SurgeryTableV2Runtime.AlignToBed(RoomKit, Vector3.zero, Vector3.forward);   // room frame = world
             SurgeryKit = Spawn("CyberSurgeryKit");
             if (SurgeryKit != null)
@@ -77,7 +79,7 @@ namespace BorderRepair.RepairProps
                 var sign = Find(RoomKit, "CY_SignPlate_Main");
                 if (sign != null) SignLight = AddLight("CY_DoorSignLight", sign.GetComponent<Renderer>().bounds.center + Vector3.forward * .35f, new Color(1f, .22f, .62f), 1.4f, 2.4f);
             }
-            WetFloor();
+            if (!otherRoom) WetFloor();
         }
 
         Light AddLight(string name, Vector3 at, Color color, float intensity, float range)

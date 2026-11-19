@@ -27,7 +27,7 @@ namespace BorderRepair.RepairProps
         { SceneManager.sceneLoaded -= Loaded; SceneManager.sceneLoaded += Loaded; }
         static void Loaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.path != ScenePath || scene.GetRootGameObjects().Any(g => g.GetComponentInChildren<RepairPropEconomyController>(true) != null)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path) || scene.GetRootGameObjects().Any(g => g.GetComponentInChildren<RepairPropEconomyController>(true) != null)) return;
             var root = new GameObject("PartsProcurement_Runtime");
             SceneManager.MoveGameObjectToScene(root, scene);
             root.AddComponent<RepairPropEconomyController>();
@@ -48,7 +48,7 @@ namespace BorderRepair.RepairProps
         }
         public static void TryBind(RepairPropFlow flow)
         {
-            if (!Application.isPlaying || flow.gameObject.scene.path != ScenePath) return;
+            if (!Application.isPlaying || !RepairBenchV2Runtime.IsClinicScene(flow.gameObject.scene.path)) return;
             var controller = FindObjectsByType<RepairPropEconomyController>(FindObjectsSortMode.None)
                 .FirstOrDefault(c => c.gameObject.scene == flow.gameObject.scene);
             if (controller?.State?.supplies == null || flow.Session != controller.Clinic.Station.Session) return;

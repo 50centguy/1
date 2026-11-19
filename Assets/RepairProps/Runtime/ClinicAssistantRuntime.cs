@@ -34,11 +34,24 @@ namespace BorderRepair.RepairProps
         // (z 1.35..1.45) runs between the surgery ring (z <= .9) and the bench clutter (z >= 1.90) with the robot's
         // 1.02 m span sideways; at the counter it hovers north of the pass-through, facing south, clear of customers
         // standing at the pads (z <= .85) and over the counter top (.95).
-        static readonly Vector3 DockOut = new Vector3(-2.10f, .95f, 0f), WestLane = new Vector3(-1.60f, Cruise, 1.35f),
-            EastLane = new Vector3(1.20f, Cruise, 1.35f), CounterLane = new Vector3(1.85f, Cruise, 1.45f),
-            CounterHover = new Vector3(1.85f, 1.00f, 1.35f), BenchLane = new Vector3(.55f, Cruise, 1.40f),
-            BenchHover = new Vector3(.55f, 1.05f, 1.85f);
-        static readonly Vector3 CounterSpot = new Vector3(1.85f, .95f, .92f), BenchSpot = new Vector3(.55f, .92f, 2.50f),
+        static readonly Vector3 DockOutAuthored = new Vector3(-2.10f, .95f, 0f), WestLaneAuthored = new Vector3(-1.60f, Cruise, 1.35f),
+            EastLaneAuthored = new Vector3(1.20f, Cruise, 1.35f), CounterLaneAuthored = new Vector3(1.85f, Cruise, 1.45f),
+            CounterHoverAuthored = new Vector3(1.85f, 1.00f, 1.35f), BenchLaneAuthored = new Vector3(.55f, Cruise, 1.40f),
+            BenchHoverAuthored = new Vector3(.55f, 1.05f, 1.85f);
+        static readonly Vector3 CounterSpotAuthored = new Vector3(1.85f, .95f, .92f), BenchSpotAuthored = new Vector3(.55f, .92f, 2.50f);
+        // Another room (the Berth 04 B1) has its own flight lanes between the dock, the counter and the bench; the spots
+        // ride along with their stations.
+        static ClinicLayout L => ClinicLayout.Active;
+        static Vector3 DockOut => L != null ? L.dockOut : DockOutAuthored;
+        static Vector3 WestLane => L != null ? L.westLane : WestLaneAuthored;
+        static Vector3 EastLane => L != null ? L.eastLane : EastLaneAuthored;
+        static Vector3 CounterLane => L != null ? L.counterLane : CounterLaneAuthored;
+        static Vector3 CounterHover => L != null ? L.counterHover : CounterHoverAuthored;
+        static Vector3 BenchLane => L != null ? L.benchLane : BenchLaneAuthored;
+        static Vector3 BenchHover => L != null ? L.benchHover : BenchHoverAuthored;
+        static Vector3 CounterSpot => ClinicLayout.P(ClinicLayout.Station.Counter, CounterSpotAuthored);
+        static Vector3 BenchSpot => ClinicLayout.P(ClinicLayout.Station.Bench, BenchSpotAuthored);
+        static readonly Vector3
             CrateSize = new Vector3(.22f, .12f, .16f);
 
         public static ClinicAssistantRuntime Current { get; private set; }
@@ -94,7 +107,7 @@ namespace BorderRepair.RepairProps
 
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!string.Equals(scene.path, ScenePath, System.StringComparison.OrdinalIgnoreCase)) return;
+            if (!RepairBenchV2Runtime.IsClinicScene(scene.path)) return;
             if (UnityEngine.XR.XRSettings.isDeviceActive) return;
             var host = new GameObject("ClinicAssistant UNIT07 (runtime only)");
             SceneManager.MoveGameObjectToScene(host, scene);
@@ -324,6 +337,7 @@ namespace BorderRepair.RepairProps
             yield return Blend(v => { if (overlay != null) { overlay.RightWeight = v; overlay.LeftWeight = v; } }, 0, 1, .9f);
             var southRotation = homeRotation * Quaternion.Euler(0, 90, 0);    // face the counter's pass-through (-Z)
             var benchRotation = homeRotation * Quaternion.Euler(0, -90, 0);   // face the bench (+Z)
+            if (L != null) { southRotation = Quaternion.Euler(0, L.counterYaw, 0); benchRotation = Quaternion.Euler(0, L.benchYaw, 0); }
             yield return Fly(homeRotation, homePosition, DockOut, WestLane, EastLane, CounterLane);
             yield return Turn(homeRotation, southRotation, CounterLane);
             yield return Fly(southRotation, CounterLane, CounterHover);
