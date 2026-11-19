@@ -22,6 +22,9 @@ Shader "BorderRepair/Exterior/Beacon"
             #pragma fragment frag
             #pragma multi_compile_fog
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            // DistrictMotion pins this while a clip renders; otherwise the engine clock.
+            float _DistrictTime, _DistrictTimeOn;
+            #define DISTRICT_TIME (_DistrictTimeOn > .5 ? _DistrictTime : _Time.y)
             CBUFFER_START(UnityPerMaterial)
             half4 _Color;
             half _Intensity, _Rate, _Duty, _Floor, _Haze;
@@ -40,7 +43,7 @@ Shader "BorderRepair/Exterior/Beacon"
             }
             half4 frag(V i) : SV_Target
             {
-                half on = _Rate <= 0 ? 1 : step(frac(_Time.y * _Rate + i.phase), _Duty);
+                half on = _Rate <= 0 ? 1 : step(frac(DISTRICT_TIME * _Rate + i.phase), _Duty);
                 half3 c = _Color.rgb * _Intensity * lerp(_Floor, 1, on);
                 if (_Haze >= 0) return half4(lerp(c, unity_FogColor.rgb, saturate(_Haze)), 1);
                 return half4(MixFog(c, i.fog), 1);

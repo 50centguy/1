@@ -68,6 +68,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 StreetWindow(Group(root, "Street window - right of the gate"));
                 StreetEntrance(Group(root, "Street entrance - canopy, sign, rails, kerb"));
                 Neighbours(Group(root, "Neighbours - other shops and street tech"));
+                StreetMotion(Group(root, "Motion - craft, failing lamp, train"));
                 SurgeryBay(Group(root, "Surgery bay - curtain, tile, cart"));
                 WorkshopLife(Group(root, "Workshop - counter back, dock, life"));
                 InteriorServices(Group(root, "Services - retrofitted heating pipe and its leak"));
@@ -76,6 +77,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 HandedOverPhotoSurfaces(scene);
                 foreach (var r in root.GetComponentsInChildren<Renderer>(true))
                     GameObjectUtility.SetStaticEditorFlags(r.gameObject, StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccluderStatic | StaticEditorFlags.OccludeeStatic);
+                UnpinMovingParts();
                 BakeRoomProbe(Group(root, "Reflection - room probe"));
             }
             finally { texDir = TexDir; matDir = MatDir; meshDir = MeshDir; }

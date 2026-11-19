@@ -20,6 +20,9 @@ Shader "BorderRepair/Exterior/LampVolume"
             #pragma fragment frag
             #pragma multi_compile_fog
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            // DistrictMotion pins this while a clip renders; otherwise the engine clock.
+            float _DistrictTime, _DistrictTimeOn;
+            #define DISTRICT_TIME (_DistrictTimeOn > .5 ? _DistrictTime : _Time.y)
             CBUFFER_START(UnityPerMaterial)
             half4 _Color;
             half _Intensity;
@@ -42,7 +45,7 @@ Shader "BorderRepair/Exterior/LampVolume"
                 half edge = saturate(abs(dot(normalize(i.n), v)));
                 edge *= edge;
                 half fall = pow(saturate(1 - i.along), 1.5);
-                half grain = .86 + .14 * sin(i.w.y * 6.0 + _Time.y * 1.1 + i.w.x * 2.3);
+                half grain = .86 + .14 * sin(i.w.y * 6.0 + DISTRICT_TIME * 1.1 + i.w.x * 2.3);
                 half near = saturate(distance(_WorldSpaceCameraPos, i.w) / 2.5);
                 half3 c = _Color.rgb * _Intensity * edge * fall * grain * near;
                 c = MixFogColor(c, half3(0, 0, 0), i.fog);

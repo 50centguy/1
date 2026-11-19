@@ -30,6 +30,9 @@ Shader "BorderRepair/Exterior/Hologram"
             #pragma fragment frag
             #pragma multi_compile_fog
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            // DistrictMotion pins this while a clip renders; otherwise the engine clock.
+            float _DistrictTime, _DistrictTimeOn;
+            #define DISTRICT_TIME (_DistrictTimeOn > .5 ? _DistrictTime : _Time.y)
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
             CBUFFER_START(UnityPerMaterial)
             float4 _MainTex_ST;
@@ -48,12 +51,12 @@ Shader "BorderRepair/Exterior/Hologram"
                 if (_Spin != 0)
                 {
                     float s, c;
-                    sincos(_Time.y * _Spin + o.phase * 6.2832, s, c);
+                    sincos(DISTRICT_TIME * _Spin + o.phase * 6.2832, s, c);
                     float2 r = o.w.xz - origin.xz;
                     o.w.xz = origin.xz + float2(r.x * c - r.y * s, r.x * s + r.y * c);
                 }
-                float glitch = step(.985, frac(_Time.y * .37 + o.phase * 7.1));
-                o.w.x += glitch * .012 * sin(_Time.y * 90 + o.w.y * 40);
+                float glitch = step(.985, frac(DISTRICT_TIME * .37 + o.phase * 7.1));
+                o.w.x += glitch * .012 * sin(DISTRICT_TIME * 90 + o.w.y * 40);
                 o.cs = TransformWorldToHClip(o.w);
                 o.uv = TRANSFORM_TEX(a.uv, _MainTex);
                 o.fog = ComputeFogFactor(o.cs.z);
@@ -62,9 +65,9 @@ Shader "BorderRepair/Exterior/Hologram"
             half4 frag(V i) : SV_Target
             {
                 half a = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv).a;
-                half scan = .7 + .3 * step(.45, frac(i.w.y * _Scan - _Time.y * 1.7));
-                half band = .86 + .14 * sin(i.w.y * 2.5 - _Time.y * 2.2 + i.phase * 6.28);
-                half dip = 1 - _Flicker * step(.9, frac(sin(floor(_Time.y * 11 + i.phase * 50)) * 43758.5453));
+                half scan = .7 + .3 * step(.45, frac(i.w.y * _Scan - DISTRICT_TIME * 1.7));
+                half band = .86 + .14 * sin(i.w.y * 2.5 - DISTRICT_TIME * 2.2 + i.phase * 6.28);
+                half dip = 1 - _Flicker * step(.9, frac(sin(floor(DISTRICT_TIME * 11 + i.phase * 50)) * 43758.5453));
                 half3 c = _Color.rgb * _Intensity * a * scan * band * dip;
                 if (_Haze >= 0) c *= 1 - saturate(_Haze);
                 else c = MixFogColor(c, half3(0, 0, 0), i.fog);
