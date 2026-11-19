@@ -300,3 +300,29 @@
   - 原因：从对街的视线看，屋面会挡住墙上的灯箱。
 - 棚下两根灯管，一根在楼梯下段、一根在中段，都不投影。同一视角仍只有 5 张阴影图。
 - 检查：Apply 连续两次一致；RepairProps 测试 132/132；红像素统计在原来水平。
+
+## 15. 道具和铁件换实拍材质（PS2 做法）
+
+用户要求“再找一些真实材质，就像 PS2 游戏一样”。墙、地、雪在外景第三轮已经是实拍贴图；这一轮把还是纯色或程序生成磨损纹理的金属、木头和混凝土道具也换成实拍。
+
+- **做法**：Poly Haven CC0 照片，缩到 256 px，大部分去色，均值拉到原磨损纹理的亮度，颜色仍由材质色值决定。alpha 通道放粗糙度反算出来的光滑度。不加法线贴图（PS2 做法：一张漫反射贴图）。
+- **按材质名自动挑贴图**（`Worn()` 里的 `WornPhotos`，按顺序匹配，第一个命中的生效），塑料和小件仍用原来生成的磨损纹理：
+
+| 贴图 | Poly Haven 资产 | 匹配的材质名关键字 |
+|---|---|---|
+| `srf_prop_rust` | rusty_metal_02 | rust（锈铁管） |
+| `srf_prop_rust_sheet` | rusty_metal_sheet | corrugated（楼梯雨棚） |
+| `srf_prop_wood` | weathered_planks | wood、pine、plank |
+| `srf_prop_concrete` | concrete_wall_007 | concrete、block（隔离墩、电线杆、混凝土砌块） |
+| `srf_prop_enamel` | blue_metal_plate（去色） | enamel、cabinet（窗下矮柜不再是纯色） |
+| `srf_prop_bare_steel` | metal_plate_02 | galvanised、foil、tin can、brushed、worn steel |
+| `srf_prop_paint_steel` | green_metal_rust（去色） | steel、bars、gate、cage、transformer |
+
+- **交接场景的共享材质**：`M_UC_DarkSteel`、`M_UC_Steel`、`M_UC_Wood`、`M_UC_PaintGreen`、`M_UC_Pipe`。
+  - 在本场景里，这些材质的 613 个渲染器换成同色的照片副本（`PS2 - *`）。
+  - 原材质文件没改。
+- **外景**：
+  - 楼梯扶手等的 `Iron - salt stained`：贴图从生成的 `iron_paint` 换成 `srf_iron`（rusty_metal_02，保留 30% 颜色，色调不变）。
+  - `Dark steel`：加上 `srf_prop_paint_steel`。
+- **贴图位置**：都在 `Temp_ExteriorPass/Textures`，内外两个 pass 都能找到。处理脚本思路同第 8 节，原图没有进仓库。
+- **检查**：ApplyInterior 连续两次一致（含材质引用）；RepairProps 测试 132/132；红像素统计在原来水平。

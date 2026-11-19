@@ -72,6 +72,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 InteriorServices(Group(root, "Services - retrofitted heating pipe and its leak"));
                 DepthTestedText();
                 WindowLampLayers();
+                HandedOverPhotoSurfaces(scene);
                 foreach (var r in root.GetComponentsInChildren<Renderer>(true))
                     GameObjectUtility.SetStaticEditorFlags(r.gameObject, StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccluderStatic | StaticEditorFlags.OccludeeStatic);
                 BakeRoomProbe(Group(root, "Reflection - room probe"));
@@ -490,7 +491,7 @@ namespace BorderRepair.RepairProps.EditorTools
         // box files on it.
         static void LowCabinets(Transform g)
         {
-            var cab = Lit("Int - cabinet, grey enamel steel", Hex("#5E6662"), .42f, .3f);   // plain: the wear blotches read as camouflage on big panels
+            var cab = Worn("Int - cabinet, grey enamel steel", Hex("#5E6662"), .32f, .3f);   // the photographed enamel; the generated wear blotches read as camouflage on big panels
             var top = Lit("Int - worktop, brown laminate", Hex("#4A3F35"), .45f);
             var trim = Worn("Int - worn steel", Hex("#6E7471"), .5f, .7f);
             float d0 = FrontFace, d1 = FrontFace + .45f, dc = (d0 + d1) * .5f, dd = d1 - d0, x0 = WinX0 - .1f, x1 = WinX1 + .1f, ch = .86f;
@@ -643,12 +644,72 @@ namespace BorderRepair.RepairProps.EditorTools
         static void Rod(string name, Transform parent, Vector3 a, Vector3 b, float radius, bool black) =>
             Rod(name, parent, a, b, radius, Worn("Int - black plastic", Hex("#202221"), .4f));
 
-        // Props: the colour over a tiling wear texture (grime blotches, speckle, light scratches) whose alpha drives the
-        // smoothness, so handled and scratched spots shine and grimy ones go dull.
+        // Props: the colour over a tiling surface texture whose alpha drives the smoothness, so handled and scratched spots
+        // shine and grimy ones go dull. Metal, wood and concrete get a photographed surface picked by the material's name
+        // (Poly Haven CC0, 256 px, mostly desaturated so the colour here still sets the tone: the PS2 recipe); everything
+        // else (plastics, small props) keeps the generated wear texture.
+        static readonly (string[] keys, string tex)[] WornPhotos =
+        {
+            (new[] { "rust" }, "srf_prop_rust"),
+            (new[] { "corrugated" }, "srf_prop_rust_sheet"),
+            (new[] { "wood", "pine", "plank" }, "srf_prop_wood"),
+            (new[] { "concrete", "block" }, "srf_prop_concrete"),
+            (new[] { "enamel", "cabinet" }, "srf_prop_enamel"),
+            (new[] { "galvanised", "foil", "tin can", "brushed", "worn steel" }, "srf_prop_bare_steel"),
+            (new[] { "steel", "bars", "gate", "cage", "transformer" }, "srf_prop_paint_steel"),
+        };
+
+        // The handed-over clinic's shared materials (rails, shelving, counter, gate, pipes) carry a generic wear texture.
+        // In this scene their renderers get copies with the same colour and settings over a photographed surface; the
+        // shared material assets themselves are not touched.
+        static readonly (string from, string tex)[] HandedOverPhotos =
+        {
+            ("M_UC_DarkSteel", "srf_prop_paint_steel"),
+            ("M_UC_Steel", "srf_prop_bare_steel"),
+            ("M_UC_Wood", "srf_prop_wood"),
+            ("M_UC_PaintGreen", "srf_prop_paint_steel"),
+            ("M_UC_Pipe", "srf_prop_rust"),
+        };
+
+        static void HandedOverPhotoSurfaces(UnityEngine.SceneManagement.Scene scene)
+        {
+            var swap = new Dictionary<Material, Material>();
+            foreach (var (from, tex) in HandedOverPhotos)
+            {
+                var src = AssetDatabase.LoadAssetAtPath<Material>("Assets/BorderRepair/Art/UnifiedClinic/Materials/" + from + ".mat");
+                var t = Tex(tex);
+                if (src == null || t == null) continue;
+                var m = new Material(src);
+                m.SetTexture("_BaseMap", t);
+                var c = src.GetColor("_BaseColor") * .93f;   // the photos average a little brighter than the old wear texture
+                m.SetColor("_BaseColor", new Color(c.r, c.g, c.b, 1));
+                swap[src] = Save("PS2 - " + from.Substring(5), m);
+            }
+            int n = 0;
+            foreach (var go in scene.GetRootGameObjects())
+                foreach (var r in go.GetComponentsInChildren<Renderer>(true))
+                {
+                    var ms = r.sharedMaterials;
+                    bool changed = false;
+                    for (int i = 0; i < ms.Length; i++)
+                        if (ms[i] != null && swap.TryGetValue(ms[i], out var to)) { ms[i] = to; changed = true; }
+                    if (changed) { r.sharedMaterials = ms; n++; }
+                }
+            log.Append("handed-over renderers moved to photo surfaces: ").Append(n).Append('\n');
+        }
+
+        static Texture2D WornTex(string name)
+        {
+            string n = name.ToLowerInvariant();
+            foreach (var (keys, tex) in WornPhotos)
+                if (keys.Any(n.Contains)) return Tex(tex) ?? Tex("int_wear");
+            return Tex("int_wear");
+        }
+
         static Material Worn(string name, Color c, float smooth, float metal = 0)
         {
             if (mats.TryGetValue(name, out var have)) return have;
-            var m = Lit(name, new Color(c.r * 1.17f, c.g * 1.17f, c.b * 1.17f, 1), Mathf.Min(1, smooth * 1.3f), metal, Tex("int_wear"));
+            var m = Lit(name, new Color(c.r * 1.17f, c.g * 1.17f, c.b * 1.17f, 1), Mathf.Min(1, smooth * 1.3f), metal, WornTex(name));
             m.SetFloat("_SmoothnessTextureChannel", 1);
             m.EnableKeyword("_SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A");
             EditorUtility.SetDirty(m);

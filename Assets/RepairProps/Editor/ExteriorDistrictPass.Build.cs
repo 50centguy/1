@@ -98,7 +98,7 @@ namespace BorderRepair.RepairProps.EditorTools
             // A lit blade sign standing out from the facade between the first-floor windows, over the pipe run: the shop
             // reads from both ends of the street (the lightbox over the stairs faces the stairs and is edge-on from there).
             var blade = Group(g, "Blade sign - 义体修理 B1");
-            var steel = Lit("Dark steel", Hex("#292E30"), .35f, .4f);
+            var steel = Lit("Dark steel", Hex("#292E30") * 1.2f, .35f, .4f, Tex("srf_prop_paint_steel"));   // photographed painted steel (Poly Haven CC0), see the pass notes
             var sign = Lit("Blade sign enamel", Color.white, .25f, 0, Tex("blade_sign"), new Color(.8f, .66f, .46f), Tex("blade_sign"));
             float bx = -3.4f, by = 5.6f, bz = -0.72f;   // between the first-floor windows, above the pipe run
             Box("Blade frame", blade, new Vector3(bx, by, bz), new Vector3(.1f, 1.42f, .62f), steel);

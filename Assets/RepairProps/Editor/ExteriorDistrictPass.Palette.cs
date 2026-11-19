@@ -31,7 +31,7 @@ namespace BorderRepair.RepairProps.EditorTools
             // Walls: scanned weathered concrete (rain streaks, tie holes, grime) and panelled plaster, CC0 from Poly Haven.
             var concrete = SurfaceMat("Concrete - weathered", "srf_wall_grime", 3.2f, 0, ConcreteAlbedo, .85f, .12f, .06f);
             var stucco = SurfaceMat("Concrete - plaster", "srf_wall_plaster", 3.6f, 0, StuccoAlbedo, .85f, .12f, .06f);
-            var iron = SurfaceMat("Iron - salt stained", "iron_paint", 1.1f, 0, ColdRust * 1.1f, .55f, .3f, .2f, normal: null);
+            var iron = SurfaceMat("Iron - salt stained", "srf_iron", 1.1f, 0, ColdRust * 1.1f, .55f, .3f, .2f, normal: null);
             // Ground: snow over the real ground, which shows through where it is trodden, driven over or blown thin.
             var steps = SurfaceMat("Snow - pavement and steps", "srf_wall_plaster", 2.4f, 1, new Color(.3f, .32f, .33f), 0, .22f, .12f,
                                    ground: "srf_wall_plaster", groundColour: new Color(.22f, .23f, .24f), groundScale: 2.4f, cover: .73f);
