@@ -44,6 +44,7 @@ namespace BorderRepair.RepairProps.EditorTools
             ("Int 4 - surgery bay looking back", new Vector3(3.2f, 1.62f, .7f), new Vector3(-2.2f, 1.0f, 5.6f), 62),
             ("Int 5 - dock front", new Vector3(-.4f, 1.62f, 3.2f), new Vector3(-1.7f, .9f, 6.3f), 62),
             ("Int 6 - surgery bay from the curtain", new Vector3(2.15f, 1.62f, 2.45f), new Vector3(2.45f, .8f, 5.6f), 62),
+            ("Int 7 - the display window from the waiting side", new Vector3(2.7f, 1.55f, 3.3f), new Vector3(.9f, 1.55f, .4f), 62),
         };
 
         // ------------------------------------------------------------------------------------------------ apply
@@ -64,10 +65,13 @@ namespace BorderRepair.RepairProps.EditorTools
                 InteriorSurfaces(Group(root, "Surfaces - paint, concrete, tile, floor"));
                 InteriorLight(Group(root, "Light - fixtures"));
                 WaitingCorner(Group(root, "Customer side - entrance and waiting chairs"));
+                StreetWindow(Group(root, "Display window - right of the gate"));
+                StreetEntrance(Group(root, "Street entrance - canopy, sign, rails, kerb"));
                 SurgeryBay(Group(root, "Surgery bay - curtain, tile, cart"));
                 WorkshopLife(Group(root, "Workshop - counter back, dock, life"));
                 InteriorServices(Group(root, "Services - retrofitted heating pipe and its leak"));
                 DepthTestedText();
+                WindowLampLayers();
                 foreach (var r in root.GetComponentsInChildren<Renderer>(true))
                     GameObjectUtility.SetStaticEditorFlags(r.gameObject, StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccluderStatic | StaticEditorFlags.OccludeeStatic);
                 BakeRoomProbe(Group(root, "Reflection - room probe"));
@@ -386,6 +390,203 @@ namespace BorderRepair.RepairProps.EditorTools
             return l;
         }
 
+        // ------------------------------------------------------------------------------------------------ display window
+        // A barred display window right of the gate, where the street can see in. The room is half sunk: the sidewalk
+        // outside is 1.36 m over the floor, so the glass runs from 1.6 m (just over the snow banked against the wall) to
+        // 2.47 m (under the ceiling slab): knee to chest height for someone on the sidewalk. Inside, a display deck at the
+        // sill on a row of cabinets, one plinth and a spot: the place for a repaired unit, empty until the model arrives.
+        // The front wall here is three boxes: the shell's retaining wall (the street face), the street's ground-floor flank
+        // (inside the other two) and the room lining. Each gets the hole by hiding its renderer (it keeps its collider) and
+        // building the four pieces round the hole.
+        const float WinX0 = -.15f, WinX1 = 2.45f, WinY0 = 1.6f, WinY1 = 2.47f;
+        const float DeckZ = .92f;   // the display deck runs from the wall lining to here
+
+        static void StreetWindow(Transform g)
+        {
+            var cut = Group(g, "Wall cut round the window");
+            var centre = new Vector2((WinX0 + WinX1) * .5f, (WinY0 + WinY1) * .5f);
+            // Visible cubes across the hole, plus the two street boxes this pass hid on an earlier run.
+            var hidden = new[] { "Threshold right retaining wall", "Ground floor flank" };
+            var walls = Object.FindObjectsByType<MeshFilter>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+                .Where(f => f.sharedMesh != null && f.sharedMesh.name == "Cube" && f.transform.rotation == Quaternion.identity)
+                .Where(f => f.GetComponent<MeshRenderer>() is MeshRenderer mr && (mr.enabled || hidden.Contains(f.name)))
+                .Where(f =>
+                {
+                    Vector3 c = f.transform.position, sz = f.transform.lossyScale;
+                    return Mathf.Abs(centre.x - c.x) < sz.x * .5f && Mathf.Abs(centre.y - c.y) < sz.y * .5f && c.z - sz.z * .5f < FrontFace && c.z + sz.z * .5f > -.3f;
+                })
+                .Select(f => f.transform).ToList();
+            log.Append("display window cut through: ").Append(string.Join(", ", walls.Select(w => w.name))).Append('\n');
+            foreach (var w in walls)
+                CutHole(w, cut, w.name == "Ground floor flank" ? .02f : 0);   // the flank is hidden inside the others: cut it wider so no faces meet
+            // The street face here had a service door with a latch and vent slots; the window takes its place.
+            var door = Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None)
+                .Where(r => (r.name == "Utility service door" || r.name == "Door latch" || r.name == "Service ventilation slot")
+                            && r.transform.position.x > WinX0 && r.transform.position.x < 2.8f && r.transform.position.z < 0 && r.transform.position.z > -.5f).ToList();
+            foreach (var r in door) r.enabled = false;
+            log.Append("display window hid the service door: ").Append(door.Count).Append(" renderers\n");
+
+            float zg = WallFront, cx = centre.x, cy = centre.y, w0 = WinX1 - WinX0, h0 = WinY1 - WinY0;
+            const float f0 = .05f, fd = .07f, mull = .045f;
+            const int panes = 3;
+            // Frame: painted steel angle, three fixed panes. The glass sits where the street concrete meets the room lining,
+            // so everything outside it is the street's (snow on the sill) and inside it the room's.
+            var frame = Worn("Int - window frame, painted steel", Hex("#4C5A54"), .45f, .3f);
+            BBox("Frame - head", g, new Vector3(cx, WinY1 - f0 * .5f, zg), new Vector3(w0, f0, fd), frame);
+            BBox("Frame - sill", g, new Vector3(cx, WinY0 + f0 * .5f, zg), new Vector3(w0, f0, fd), frame);
+            BBox("Frame - left", g, new Vector3(WinX0 + f0 * .5f, cy, zg), new Vector3(f0, h0 - 2 * f0, fd), frame);
+            BBox("Frame - right", g, new Vector3(WinX1 - f0 * .5f, cy, zg), new Vector3(f0, h0 - 2 * f0, fd), frame);
+
+            // Glass: faint, glossy, reflects the room (preserved specular), seen from both sides. A little frost in the
+            // corners on the room side; the middle stays clear so the street sees the display.
+            var glass = Lit("Int - window glass", new Color(.62f, .7f, .74f, .08f), .95f, 0, null, null, null, Mode.Transparent);
+            glass.SetFloat("_Cull", 0); glass.doubleSidedGI = true;
+            glass.SetFloat("_EnvironmentReflections", 1); glass.DisableKeyword("_ENVIRONMENTREFLECTIONS_OFF");
+            glass.SetFloat("_BlendModePreserveSpecular", 1); glass.SetFloat("_SrcBlend", (float)BlendMode.One); glass.EnableKeyword("_ALPHAPREMULTIPLY_ON");
+            EditorUtility.SetDirty(glass);
+            var frost = Lit("Int - window frost", new Color(1, 1, 1, .6f), .35f, 0, Tex("int_window_frost"), null, null, Mode.Transparent);
+            frost.SetFloat("_Cull", 0); frost.doubleSidedGI = true; EditorUtility.SetDirty(frost);
+            float pw = (w0 - 2 * f0 - (panes - 1) * mull) / panes, ph = h0 - 2 * f0;
+            for (int i = 0; i < panes; i++)
+            {
+                float px = WinX0 + f0 + pw * .5f + i * (pw + mull);
+                if (i > 0) BBox("Frame - mullion", g, new Vector3(px - (pw + mull) * .5f, cy, zg), new Vector3(mull, ph, fd), frame);
+                Decal("Glass - pane " + (i + 1), g, new Vector3(px, cy, zg), Vector3.forward, pw, ph, glass, 0f);
+                Decal("Frost - pane " + (i + 1), g, new Vector3(px, cy, zg), Vector3.forward, pw, ph, frost, .006f);
+            }
+
+            // Outside: a heavy grille set into the reveal, and the snow that settles on the sill against it.
+            var bars = Worn("Int - window bars, old black paint", Hex("#2C2926"), .3f, .5f);
+            float zb = -.17f;
+            const int nb = 15;
+            for (int i = 0; i < nb; i++)
+            {
+                float x = Mathf.Lerp(WinX0 + .09f, WinX1 - .09f, i / (nb - 1f));
+                Rod("Bar " + (i + 1), g, new Vector3(x, WinY0 - .01f, zb), new Vector3(x, WinY1 + .01f, zb), .011f, bars);
+            }
+            foreach (float fy in new[] { WinY0 + .12f, WinY1 - .12f })
+                BBox("Bar - flat", g, new Vector3(cx, fy, zb - .016f), new Vector3(w0 + .02f, .035f, .01f), bars);
+            var snowCap = Object.FindObjectsByType<Renderer>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(r => r.name == "Snow cap");
+            var snow = snowCap != null ? snowCap.sharedMaterial : SnowMaterial();
+            BBox("Snow on the outer sill", g, new Vector3(cx, WinY0 + .025f, -.04f), new Vector3(w0 - .02f, .05f, .3f), snow);
+
+            DisplayDeck(Group(g, "Display - deck, cabinets, plinth"));
+
+            // The street lamp across the road. The wall is half a metre thick, so a steep light only gets a sliver past
+            // the inner sill; at this slope (about 31 degrees) the light over the deck lands on the floor behind the
+            // counter, striped by the bars. The cone covers the window; the light layer keeps it off the facade outside.
+            var toLamp = new Vector3(-.05f, .6f, -1f).normalized;
+            var lamp = AddLight(g, "Street lamp through the window", new Vector3(cx, cy, zg) + toLamp * 2f, LightType.Spot, new Color(.66f, .76f, .95f), 60f, 11f, true);
+            lamp.transform.rotation = Quaternion.LookRotation(-toLamp);
+            lamp.spotAngle = 76; lamp.innerSpotAngle = 40;
+
+            // The display's warm light falling out through the glass onto the snow in front (outside, pointing away from
+            // the room, so nothing inside is in its cone).
+            var glow = AddLight(g, "Display window glow on the snow", new Vector3(cx, 2.35f, -.4f), LightType.Spot, new Color(1f, .78f, .52f), 3f, 4.5f, false);
+            glow.transform.rotation = Quaternion.LookRotation(new Vector3(0, -.75f, -1f));
+            glow.spotAngle = 110; glow.innerSpotAngle = 50;
+            log.Append("display window built\n");
+        }
+
+        // The deck at the sill, on a row of low cabinets with an open shelf of parts bins over them; one plinth with a
+        // turntable, lit by a ceiling spot. The anchor marks where a model goes (facing the street).
+        static void DisplayDeck(Transform g)
+        {
+            var cab = Lit("Int - cabinet, grey enamel steel", Hex("#5E6662"), .42f, .3f);   // plain: the wear blotches read as camouflage on big panels
+            var deck = Lit("Int - display deck, black lino", Hex("#2A2B29"), .5f);
+            var trim = Worn("Int - worn steel", Hex("#6E7471"), .5f, .7f);
+            float d0 = FrontFace, d1 = DeckZ, dc = (d0 + d1) * .5f, dd = d1 - d0, x0 = WinX0 - .05f, x1 = WinX1 + .05f, mid = (x0 + x1) * .5f;
+            BBox("Deck", g, new Vector3(mid, WinY0 - .025f, dc), new Vector3(x1 - x0, .05f, dd), deck);
+            BBox("Deck nosing", g, new Vector3(mid, WinY0 - .04f, d1 + .008f), new Vector3(x1 - x0, .08f, .016f), trim);
+            const int units = 4;
+            float uw = (x1 - x0) / units, ch = .92f;
+            for (int i = 0; i < units; i++)
+            {
+                float ux = x0 + uw * (i + .5f);
+                BBox("Cabinet", g, new Vector3(ux, ch * .5f, dc), new Vector3(uw - .01f, ch, dd), cab);
+                BBox("Cabinet door split", g, new Vector3(ux, ch * .5f + .02f, d1 + .002f), new Vector3(.006f, ch - .1f, .006f), trim);
+                foreach (float hx in new[] { -.05f, .05f })
+                    BBox("Cabinet handle", g, new Vector3(ux + hx, .72f, d1 + .014f), new Vector3(.014f, .1f, .022f), trim);
+            }
+            foreach (float ux in new[] { x0 + .02f, mid, x1 - .02f })
+                BBox("Deck upright", g, new Vector3(ux, (ch + WinY0 - .05f) * .5f, dc), new Vector3(.04f, WinY0 - .05f - ch, dd), cab);
+            var bins = new[] { Worn("Int - parts bin, blue plastic", Hex("#3F5B6E"), .35f), Worn("Int - parts bin, grey plastic", Hex("#6A6D68"), .35f) };
+            var rnd = new System.Random(41);
+            for (float bx = x0 + .22f; bx < x1 - .15f; bx += .33f)
+            {
+                if (Mathf.Abs(bx - mid) < .2f || rnd.NextDouble() < .2) continue;
+                float h = .14f + (float)rnd.NextDouble() * .12f;
+                BBox("Parts bin", g, new Vector3(bx, ch + h * .5f, dc + .03f), new Vector3(.27f, h, dd - .14f), bins[rnd.Next(2)]);
+            }
+
+            float px = mid, pz = dc - .02f;
+            BBox("Plinth", g, new Vector3(px, WinY0 + .06f, pz), new Vector3(.62f, .12f, .44f), Worn("Int - display plinth, dark grey", Hex("#3A3C3B"), .45f));
+            Cyl("Plinth turntable", g, new Vector3(px, WinY0 + .127f, pz), .19f, .014f, trim);
+            var anchor = new GameObject("Display anchor - the repaired unit goes here (model from the user)").transform;
+            anchor.SetParent(g, false);
+            anchor.SetPositionAndRotation(new Vector3(px, WinY0 + .134f, pz), Quaternion.LookRotation(Vector3.back));
+            // The cactus from the old sill, at the end of the deck.
+            Cyl("Tin planter", g, new Vector3(x1 - .2f, WinY0 + .05f, pz), .036f, .1f, Worn("Int - tin can", Hex("#8F918C"), .5f, .6f));
+            Prim(PrimitiveType.Capsule, "Cactus", g, new Vector3(x1 - .2f, WinY0 + .145f, pz), new Vector3(.046f, .065f, .046f), Quaternion.identity, Lit("Int - cactus", Hex("#4E6A46"), .25f));
+
+            var spotAt = new Vector3(px + .15f, CeilingY - .07f, d1 + .35f);
+            var dir = (new Vector3(px, WinY0 + .3f, pz) - spotAt).normalized;
+            Rod("Display spot stem", g, new Vector3(spotAt.x, CeilingY, spotAt.z), spotAt, .008f, black: true);
+            var can = Prim(PrimitiveType.Cylinder, "Display spot can", g, spotAt + dir * .06f, new Vector3(.08f, .06f, .08f), Quaternion.FromToRotation(Vector3.up, dir), Worn("Int - black plastic", Hex("#202221"), .4f), false);
+            // No shadows: with more than five shadow maps in one view the additional-light shadow atlas goes wrong here
+            // (red patches; see INTERIOR_B1_PASS.md). The cone is kept to the plinth so it does not reach under the deck.
+            var spot = AddLight(g, "Display spot", spotAt + dir * .14f, LightType.Spot, new Color(1f, .8f, .58f), 4f, 2.6f, false);
+            spot.transform.rotation = Quaternion.LookRotation(dir);
+            spot.spotAngle = 50; spot.innerSpotAngle = 25;
+        }
+
+        // The window lamp lights only what is inside the glass (rendering layer 7 is added to every renderer in the room), so
+        // it does not spotlight the street facade round the window. Every renderer still casts its shadow, so the wall and
+        // the bars still shape the light.
+        const uint WindowLampLayer = 1u << 7;
+
+        static void WindowLampLayers()
+        {
+            var room = Room;
+            room.Expand(.4f);
+            int n = 0;
+            foreach (var r in Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None))
+            {
+                var c = r.bounds.center;
+                if (!room.Contains(c) || c.z <= WallFront + .001f) continue;
+                r.renderingLayerMask |= WindowLampLayer;
+                n++;
+            }
+            var data = AnyNamed("Street lamp through the window light").GetComponent<Light>().GetUniversalAdditionalLightData();
+            data.customShadowLayers = true;
+            data.shadowRenderingLayers = uint.MaxValue;
+            data.renderingLayers = WindowLampLayer;
+            EditorUtility.SetDirty(data);
+            log.Append("window lamp lights rendering layer 7 only; added to ").Append(n).Append(" renderers in the room\n");
+        }
+
+        static void CutHole(Transform wall, Transform parent, float grow)
+        {
+            var r = wall.GetComponent<MeshRenderer>();
+            Vector3 c = wall.position, sz = wall.lossyScale;
+            float x0 = c.x - sz.x * .5f, x1 = c.x + sz.x * .5f, y0 = c.y - sz.y * .5f, y1 = c.y + sz.y * .5f;
+            float hx0 = WinX0 - grow, hx1 = WinX1 + grow, hy0 = WinY0 - grow, hy1 = WinY1 + grow;
+            void Piece(string side, float a0, float a1, float b0, float b1)
+            {
+                if (a1 - a0 < .001f || b1 - b0 < .001f) return;
+                var piece = Box(wall.name + " - " + side, parent, new Vector3((a0 + a1) * .5f, (b0 + b1) * .5f, c.z), new Vector3(a1 - a0, b1 - b0, sz.z), r.sharedMaterial);
+                var pr = piece.GetComponent<MeshRenderer>();
+                pr.sharedMaterials = r.sharedMaterials; pr.shadowCastingMode = r.shadowCastingMode;
+                piece.layer = wall.gameObject.layer;
+            }
+            Piece("left of the window", x0, hx0, y0, y1);
+            Piece("right of the window", hx1, x1, y0, y1);
+            Piece("under the window", hx0, hx1, y0, hy0);
+            Piece("over the window", hx0, hx1, hy1, y1);
+            if (wall.IsChildOf(parent.root)) Object.DestroyImmediate(wall.gameObject);
+            else r.enabled = false;
+        }
+
         // ------------------------------------------------------------------------------------------------ customer side
         static void WaitingCorner(Transform g)
         {
@@ -441,14 +642,14 @@ namespace BorderRepair.RepairProps.EditorTools
             BBox("Drip tray", water, new Vector3(3.0f, .62f, .5f), new Vector3(.08f, .02f, .2f), black: true);
             Cyl("Paper cups", water, new Vector3(3.2f, .76f, .71f), .035f, .2f, Lit("Int - paper cup", Hex("#D7D2C2"), .2f));
 
-            // Notice board and a clock on the front wall (the clerk faces them from the counter), the care poster over the
-            // chairs.
-            var front = Group(g, "Front wall - notices and clock");
+            // The clock on the front wall right of the display window (the clerk faces it from the counter), the notice board
+            // on the right wall over the radiator, the care poster over the chairs.
+            var front = Group(g, "Walls - notices and clock");
             float fz = FrontFace;
-            BBox("Board frame", front, new Vector3(1.75f, 1.55f, fz + .012f), new Vector3(1.02f, .66f, .024f), Worn("Int - board frame, dark wood", Hex("#3B342B"), .35f));
-            Decal("Notice board", front, new Vector3(1.75f, 1.55f, fz + .025f), Vector3.forward, .96f, .6f, Lit("Int - notice board", Color.white, .2f, 0, Tex("int_notice_board")), 0f);
-            Cyl("Clock body", front, new Vector3(.3f, 2.05f, fz + .025f), .16f, .05f, Worn("Int - clock body", Hex("#2E302E"), .5f), Quaternion.Euler(90, 0, 0));
-            Decal("Clock face", front, new Vector3(.3f, 2.05f, fz + .051f), Vector3.forward, .3f, .3f, Lit("Int - clock face", Color.white, .5f, 0, Tex("int_clock")), 0f);
+            BBox("Board frame", front, new Vector3(WallR - .012f, 1.45f, 3.08f), new Vector3(.024f, .6f, .92f), Worn("Int - board frame, dark wood", Hex("#3B342B"), .35f));
+            Decal("Notice board", front, new Vector3(WallR - .025f, 1.45f, 3.08f), Vector3.left, .86f, .54f, Lit("Int - notice board", Color.white, .2f, 0, Tex("int_notice_board")), 0f);
+            Cyl("Clock body", front, new Vector3(2.75f, 1.95f, fz + .025f), .16f, .05f, Worn("Int - clock body", Hex("#2E302E"), .5f), Quaternion.Euler(90, 0, 0));
+            Decal("Clock face", front, new Vector3(2.75f, 1.95f, fz + .051f), Vector3.forward, .3f, .3f, Lit("Int - clock face", Color.white, .5f, 0, Tex("int_clock")), 0f);
             Decal("Care poster", front, new Vector3(WallR - .005f, 1.45f, 1.45f), Vector3.left, .42f, .63f, Lit("Int - care poster", Color.white, .15f, 0, Tex("int_care_poster")), 0f);
 
             // Inside the gate: a rubber mat with melt water on it, and a bucket of wet umbrellas.
@@ -719,11 +920,32 @@ namespace BorderRepair.RepairProps.EditorTools
                 sb.Append("## probe ").Append(one).Append('\n');
                 foreach (var r in Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None).Where(r => r.bounds.Intersects(box)))
                     sb.Append("  ").Append(PathOf(r.transform, null)).Append(" c=").Append(r.bounds.center.ToString("F2")).Append(" s=").Append(r.bounds.size.ToString("F2"))
-                      .Append(" mat=").Append(r.sharedMaterial ? r.sharedMaterial.name : "none").Append('\n');
+                      .Append(" mat=").Append(r.sharedMaterial ? r.sharedMaterial.name : "none").Append(ProbeMesh(r, box)).Append('\n');
             }
             Directory.CreateDirectory(OutDir);
             File.WriteAllText(Path.Combine(OutDir, "interior.txt"), sb.ToString());
             Debug.Log("[Interior] inspected");
+        }
+
+        // Mesh name, pose and the highest vertex inside the probe box (for big meshes like the settled snow).
+        static string ProbeMesh(Renderer r, Bounds box)
+        {
+            var state = (r.enabled ? "" : " DISABLED") + (r.shadowCastingMode == ShadowCastingMode.On ? "" : " shadows=" + r.shadowCastingMode);
+            var mf = r.GetComponent<MeshFilter>();
+            if (mf == null || mf.sharedMesh == null) return state;
+            var t = r.transform;
+            var sb = new System.Text.StringBuilder(state);
+            sb.Append(" mesh=").Append(mf.sharedMesh.name).Append(" rot=").Append(t.eulerAngles.ToString("F0")).Append(" scale=").Append(t.lossyScale.ToString("F2"));
+            if (!mf.sharedMesh.isReadable) return sb.Append(" (unreadable)").ToString();
+            float top = float.NegativeInfinity; int n = 0;
+            foreach (var v in mf.sharedMesh.vertices)
+            {
+                var w = t.TransformPoint(v);
+                if (!box.Contains(w)) continue;
+                n++; top = Mathf.Max(top, w.y);
+            }
+            if (n > 0) sb.Append(" verts-in-box=").Append(n).Append(" top=").Append(top.ToString("F2"));
+            return sb.ToString();
         }
 
         static Transform GroupKey(Transform t, Transform root)

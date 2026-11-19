@@ -25,7 +25,8 @@ namespace BorderRepair.RepairProps.EditorTools
         static void ApplyPalette()
         {
             RenderSettings.fogColor = FogTeal;
-            log.Append("fog colour -> #3B4B54\n");
+            RenderSettings.fogDensity = .025f;   // a touch more haze than the handed-over .022
+            log.Append("fog colour -> #3B4B54, density .025\n");
 
             // Walls: scanned weathered concrete (rain streaks, tie holes, grime) and panelled plaster, CC0 from Poly Haven.
             var concrete = SurfaceMat("Concrete - weathered", "srf_wall_grime", 3.2f, 0, ConcreteAlbedo, .85f, .12f, .06f);
@@ -40,6 +41,8 @@ namespace BorderRepair.RepairProps.EditorTools
                                    baseTex: AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/RepairProps/Scenes/Temp_HarbourStudy/harbour_water.png"));
             var pack = SurfaceMat("Snow - packed relief", null, 1f, 4, Color.white, 0, .22f, .1f, normal: null,
                                   ground: "srf_asphalt", groundColour: new Color(.14f, .15f, .16f), groundScale: 2.5f, cover: .77f);
+            // Where the street shows through, it is wet: a little more sheen under the lamps than the default .5.
+            foreach (var m in new[] { ground, pack }) { m.SetFloat("_WetSmoothness", .62f); EditorUtility.SetDirty(m); }
             var caps = SnowMaterial();
             var glass = Lit("Glass - night frost", Color.white, .85f, 0, Tex("glass_frost"));
             var swap = new Dictionary<string, Material>
