@@ -9,8 +9,9 @@ namespace BorderRepair.RepairProps
 {
     // The B1's palette for the clinic runtimes that light and dress the room at play time (Docs/Art/PALETTE_BR2049_PS2.md,
     // Docs/Art/INTERIOR_B1_PASS.md section 25). Only while the B1 layout is active; the desktop clinic keeps its own look.
-    //   - Cold grey is the room: the ambient is the street fog's hue at the old brightness, the fill is grey, and every
-    //     fluorescent tube is one tube colour (the district's battens).
+    //   - Neutral grey is the room (second round: the mint tubes and the fog-teal ambient read too cold): the ambient
+    //     is a neutral, faintly warm grey at the old brightness, the fill is grey, and every fluorescent tube is one
+    //     warm-white tube colour (the district's battens).
     //   - Amber only where a lamp hangs (counter, gate, bench). The counter's orange-red is amber and half as strong.
     //   - The robot dock's lamps were service teal against the bench amber next to them: now plain tube white.
     //   - Holograms holo cyan, screens CRT green, red only as a warning, no magenta. No glowing strips: the surgery ring's
@@ -19,15 +20,15 @@ namespace BorderRepair.RepairProps
     {
         public static bool Active => ClinicLayout.Active != null;
 
-        public static readonly Color Tube = new Color(.86f, .95f, .93f);            // #DBF2ED
-        public static readonly Color CoolFill = new Color(.56f, .63f, .67f);
+        public static readonly Color Tube = new Color(1f, .945f, .863f);           // #FFF1DC warm white (mint read too cold)
+        public static readonly Color CoolFill = new Color(.66f, .64f, .60f);        // neutral grey fill
         public static readonly Color Lamp = new Color(1f, .72f, .42f);              // tungsten: the #E89A3C family as light
         public static readonly Color Amber = new Color(.91f, .60f, .235f);          // #E89A3C
         public static readonly Color HoloCyan = new Color(.42f, .88f, .91f);        // #6BE0E8
         public static readonly Color HoloPale = new Color(.82f, .96f, .97f);
         public static readonly Color WarnRed = new Color(.79f, .23f, .23f);         // #C93B3B
-        // #3B4B54's hue at the old (blue) ambient's luminance.
-        public static readonly Color AmbientSky = new Color(.112f, .143f, .159f), AmbientEquator = new Color(.074f, .096f, .107f), AmbientGround = new Color(.038f, .047f, .053f);
+        // A neutral, faintly warm grey at the old (blue) ambient's luminance (the street fog's teal read too cold).
+        public static readonly Color AmbientSky = new Color(.148f, .14f, .126f), AmbientEquator = new Color(.098f, .093f, .084f), AmbientGround = new Color(.05f, .047f, .043f);
 
         public static Color Zone(string light) => light.StartsWith("Dock_", StringComparison.Ordinal) ? Tube : Lamp;
 

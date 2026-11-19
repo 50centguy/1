@@ -109,7 +109,7 @@ namespace BorderRepair.RepairProps
             RenderSettings.fog = true; RenderSettings.fogMode = FogMode.Exponential;
             RenderSettings.fogColor = new Color(.022f, .045f, .062f); RenderSettings.fogDensity = .12f;
 
-            Grade("ClinicMood_RoomGrade", 30, contrast: 18f, saturation: 6f, temperature: -8f, vignette: .26f, bloom: .65f, fringe: .06f);
+            Grade("ClinicMood_RoomGrade", 30, contrast: 18f, saturation: 6f, temperature: b1 ? 3f : -8f, vignette: .26f, bloom: .65f, fringe: .06f);
             Grade("ClinicMood_CloseUpGrade", 31, contrast: 6f, saturation: 2f, temperature: -2f, vignette: .08f, bloom: .3f, fringe: 0f);
 
             // White placeholder world labels -> small, dim amber signs.
