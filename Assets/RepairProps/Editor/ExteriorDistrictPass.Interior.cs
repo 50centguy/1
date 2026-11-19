@@ -67,6 +67,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 WaitingCorner(Group(root, "Customer side - entrance and waiting chairs"));
                 StreetWindow(Group(root, "Street window - right of the gate"));
                 StreetEntrance(Group(root, "Street entrance - canopy, sign, rails, kerb"));
+                Neighbours(Group(root, "Neighbours - other shops and street tech"));
                 SurgeryBay(Group(root, "Surgery bay - curtain, tile, cart"));
                 WorkshopLife(Group(root, "Workshop - counter back, dock, life"));
                 InteriorServices(Group(root, "Services - retrofitted heating pipe and its leak"));
