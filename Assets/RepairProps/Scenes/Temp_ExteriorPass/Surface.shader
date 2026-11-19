@@ -36,6 +36,10 @@ Shader "BorderRepair/Exterior/Surface"
         _WetSmoothness ("Wet ground smoothness", Range(0, 1)) = .5
         _Dado ("Interior: painted dado height (m)", Float) = 1.15
         _FootGrime ("Interior: grime along the wall foot", Range(0, 1)) = .35
+        _GlossVar ("Interior: gloss follows the texture (darker = damper)", Range(0, 1)) = 0
+        _Peel ("Interior: dado paint peeled back to the concrete", Range(0, 1)) = 0
+        _Puddle ("Interior: scattered damp patches on floors", Range(0, 1)) = 0
+        _WetZone ("Interior: wet patch on floors (x, z, radius, amount)", Vector) = (0, 0, 1, 0)
     }
     SubShader
     {
@@ -43,10 +47,10 @@ Shader "BorderRepair/Exterior/Surface"
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         CBUFFER_START(UnityPerMaterial)
-        float4 _BaseMap_ST, _NormalMap_ST, _SnowMap_ST, _SnowNormal_ST, _ThinMap_ST, _GroundMap_ST, _GroundNormal_ST;
+        float4 _BaseMap_ST, _NormalMap_ST, _SnowMap_ST, _SnowNormal_ST, _ThinMap_ST, _GroundMap_ST, _GroundNormal_ST, _WetZone;
         half4 _BaseColor, _SnowColor, _GroundColor;
         float _Scale, _Kind, _SnowScale, _ThinScale, _GroundScale;
-        half _NormalScale, _SnowDetail, _Cover, _TopSnow, _Smoothness, _Specular, _WetSmoothness, _Dado, _FootGrime;
+        half _NormalScale, _SnowDetail, _Cover, _TopSnow, _Smoothness, _Specular, _WetSmoothness, _Dado, _FootGrime, _GlossVar, _Peel, _Puddle;
         CBUFFER_END
         ENDHLSL
 
@@ -66,6 +70,8 @@ Shader "BorderRepair/Exterior/Surface"
             #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
             #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
+            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
             #pragma multi_compile_fog
             #define _SPECULAR_COLOR 1
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -129,19 +135,42 @@ Shader "BorderRepair/Exterior/Surface"
                 }
                 else if (_Kind > 4.5)
                 {
-                    // Interior wall. Faces pointing up or down (sills, the ceiling side) keep the base.
+                    // Interior (walls, floor, ceiling, tile), lit as PBR below so the room's reflection probe shows in it.
+                    // Gloss follows the texture: darker = damper = glossier.
+                    half lum = dot(albedo, half3(.2126, .7152, .0722)) / max(2 * dot(_BaseColor.rgb, half3(.2126, .7152, .0722)), .001);
+                    smooth = saturate(_Smoothness * (1 + _GlossVar * 1.6 * (1 - lum)));
                     half wall = 1 - step(.5, an.y);
                     float y = i.w.y;
-                    float edge = y - _Dado + .012 * (noise2(float2(i.w.x + i.w.z, y) * 9) - .5);
-                    half dado = wall * step(edge, 0);
-                    half3 paint = _GroundColor.rgb * SAMPLE(_GroundMap, uv / _GroundScale).rgb * 2;
-                    float3 nPaint = Perturb(UnpackNormalScale(SAMPLE(_GroundNormal, uv / _GroundScale), 1), T, B, N);
-                    albedo = lerp(albedo, paint, dado);
-                    n = normalize(lerp(n, nPaint, dado));
-                    smooth = lerp(smooth, _WetSmoothness, dado);                           // old gloss paint
-                    albedo *= 1 - .5 * wall * (1 - smoothstep(.0, .022, abs(edge + .024)));  // the painted line on top
+                    if (_Dado > 0)
+                    {
+                        // Smoked-green painted dado with a dark line on top, flaked back to the concrete in places
+                        // (more near the top edge, where chairs and shoulders rub).
+                        float edge = y - _Dado + .012 * (noise2(float2(i.w.x + i.w.z, y) * 9) - .5);
+                        half3 paintTex = SAMPLE(_GroundMap, uv / _GroundScale).rgb;
+                        half pl = dot(paintTex, half3(.2126, .7152, .0722));
+                        half chip = pl + .3 * (noise2(uv * 2.3) - .5) - .12 * smoothstep(-.3, 0, edge);
+                        half peel = _Peel * smoothstep(.36, .31, chip);
+                        half dado = wall * step(edge, 0);
+                        half paintOn = dado * (1 - peel);
+                        half3 paint = _GroundColor.rgb * lerp(1, paintTex * 2, .35);
+                        float3 nPaint = Perturb(UnpackNormalScale(SAMPLE(_GroundNormal, uv / _GroundScale), .6), T, B, N);
+                        albedo = lerp(albedo, paint, paintOn);
+                        albedo *= 1 - .35 * dado * _Peel * saturate(1 - abs(chip - .37) / .025);   // the paint's broken edge
+                        n = normalize(lerp(n, nPaint, paintOn));
+                        smooth = lerp(smooth, _WetSmoothness * (.8 + .4 * pl), paintOn);
+                        albedo *= 1 - .5 * wall * (1 - smoothstep(0, .022, abs(edge + .024)));  // the painted line on top
+                    }
                     half foot = wall * (1 - smoothstep(0, .35, y)) * (.7 + .3 * noise2(float2(i.w.x + i.w.z, y) * 3));
                     albedo *= 1 - _FootGrime * foot;                                         // damp and dust at the foot
+                    smooth = lerp(smooth, .55, .5 * _FootGrime * foot);
+                    // Floors: one wet patch (the entrance) and scattered damp, darker and glossy.
+                    float2 q = i.w.xz;
+                    half zone = _WetZone.w * (1 - smoothstep(_WetZone.z * .35, _WetZone.z, length(q - _WetZone.xy) + .35 * (noise2(q * 2.1) - .5)));
+                    half damp = _Puddle * smoothstep(.6, .75, noise2(q * .8 + 4.1) + .2 * (noise2(q * 4.3) - .5));
+                    half wet = step(.5, N.y) * saturate(max(zone, damp));
+                    albedo *= 1 - .4 * wet;
+                    smooth = lerp(smooth, .9, wet);
+                    n = normalize(lerp(n, N, wet * .85));
                 }
                 else if (_Kind < 2.5 || _Kind > 3.5)
                 {
@@ -209,7 +238,17 @@ Shader "BorderRepair/Exterior/Surface"
                 sd.smoothness = smooth;
                 sd.occlusion = 1;
                 sd.alpha = 1;
-                half4 c = UniversalFragmentBlinnPhong(id, sd);
+                half4 c;
+                if (_Kind > 4.5)
+                {
+                    SurfaceData sp = (SurfaceData)0;
+                    sp.albedo = albedo;
+                    sp.smoothness = smooth;
+                    sp.occlusion = 1;
+                    sp.alpha = 1;
+                    c = UniversalFragmentPBR(id, sp);
+                }
+                else c = UniversalFragmentBlinnPhong(id, sd);
                 c.rgb = MixFog(c.rgb, id.fogCoord);
                 return half4(c.rgb, 1);
             }
@@ -260,6 +299,37 @@ Shader "BorderRepair/Exterior/Surface"
             #pragma fragment df
             float4 dv(float4 p : POSITION) : SV_POSITION { return TransformObjectToHClip(p.xyz); }
             half df() : SV_Target { return 0; }
+            ENDHLSL
+        }
+        Pass
+        {
+            // Normals for the renderer's SSAO; without this pass these surfaces were missing from it.
+            Name "DepthNormals"
+            Tags { "LightMode"="DepthNormals" }
+            ZWrite On Cull Off
+            HLSLPROGRAM
+            #pragma vertex nv
+            #pragma fragment nf
+            #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
+            struct A { float4 p : POSITION; float3 n : NORMAL; };
+            struct V { float4 cs : SV_POSITION; float3 n : TEXCOORD0; };
+            V nv(A a)
+            {
+                V o;
+                o.cs = TransformObjectToHClip(a.p.xyz);
+                o.n = TransformObjectToWorldNormal(a.n);
+                return o;
+            }
+            half4 nf(V i, FRONT_FACE_TYPE face : FRONT_FACE_SEMANTIC) : SV_Target
+            {
+                float3 n = normalize(i.n) * (IS_FRONT_VFACE(face, true, false) ? 1 : -1);
+            #if defined(_GBUFFER_NORMALS_OCT)
+                float2 o = PackNormalOctQuadEncode(n);
+                return half4(PackFloat2To888(saturate(o * .5 + .5)), 0);
+            #else
+                return half4(n, 0);
+            #endif
+            }
             ENDHLSL
         }
     }

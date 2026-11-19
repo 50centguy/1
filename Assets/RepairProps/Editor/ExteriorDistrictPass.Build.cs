@@ -602,7 +602,7 @@ namespace BorderRepair.RepairProps.EditorTools
         }
 
         static Texture2D Tex(string name) =>
-            AssetDatabase.LoadAssetAtPath<Texture2D>(texDir + "/" + name + ".png") ?? AssetDatabase.LoadAssetAtPath<Texture2D>(TexDir + "/" + name + ".png");
+            AssetDatabase.LoadAssetAtPath<Texture2D>(texDir + "/" + name + ".png") ?? AssetDatabase.LoadAssetAtPath<Texture2D>(texDir + "/" + name + ".jpg") ?? AssetDatabase.LoadAssetAtPath<Texture2D>(TexDir + "/" + name + ".png");
 
         enum Mode { Opaque, Cutout, Transparent }
 
