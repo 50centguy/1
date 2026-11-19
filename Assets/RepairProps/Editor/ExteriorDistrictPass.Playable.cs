@@ -75,6 +75,8 @@ namespace BorderRepair.RepairProps.EditorTools
                 Physics.SyncTransforms();
                 WalkMapAndWalls(atmosphere.respawn, holder, joins);
                 SkyProbe(joins);
+                B1Fiddles(holder);
+                FarFill(holder);
 
                 EditorSceneManager.MarkSceneDirty(scene);
                 EditorSceneManager.SaveScene(scene, PlayableDistrict);
@@ -94,7 +96,7 @@ namespace BorderRepair.RepairProps.EditorTools
         static void CaptureAtmosphere(DistrictAtmosphere a)
         {
             a.fog = RenderSettings.fog; a.fogMode = RenderSettings.fogMode; a.fogColour = RenderSettings.fogColor;
-            a.fogDensity = RenderSettings.fogDensity; a.fogStart = RenderSettings.fogStartDistance; a.fogEnd = RenderSettings.fogEndDistance;
+            a.fogDensity = RenderSettings.fogDensity * FogLift; a.fogStart = RenderSettings.fogStartDistance; a.fogEnd = RenderSettings.fogEndDistance;
             if (RenderSettings.ambientMode == AmbientMode.Flat) a.ambientSky = a.ambientEquator = a.ambientGround = RenderSettings.ambientLight;
             else { a.ambientSky = RenderSettings.ambientSkyColor; a.ambientEquator = RenderSettings.ambientEquatorColor; a.ambientGround = RenderSettings.ambientGroundColor; }
             a.skybox = RenderSettings.skybox;

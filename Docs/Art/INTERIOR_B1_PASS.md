@@ -639,3 +639,29 @@
 - **街上的蒸汽**：服务门排气口的蒸汽粒子会穿过前墙飘进屋里，在窗下形成一块半透明的楔形。玩家在屋里时不画这类贴着 B1 的小粒子；大雪有自己的排除体积，不受影响。
 - **测试**：Berth04 7 个加 1 个诊断（显式）全部通过。B1 行走路线加了绕隔断、床两侧和床尾。EditMode 132/132，诊所 PlayMode 8/8。
 - **没做的**：龙门本身挂在天花上，最低到 2.0 m，比玩家（1.72 m）高，没加碰撞；“支架”我理解为器械车和输液架，器械车加了盒子，输液架在床的碰撞范围内。瓷砖墙延长是拉伸的，瓷砖格子会被拉长约 35%。
+
+## 24. Station signs off, far view filled, small things to fiddle with
+
+- **Station signs removed.** The enamel intake / workbench / theatre markers (`B1StationFixtures.prefab`, 04cfab7) are no longer placed in `Berth04_Playable_Clinic`; the clinic's own workbench sign shows again in the B1 (`ClinicSignageRuntime`). The prefab and its materials stay in the repo, unused.
+- **Far view** (`ExteriorDistrictPass.PlayableExtras.FarFill`, playable copy only):
+  - a middle ring of hazed blocks 85-140 m out (142-164 m behind the east road), kept off the arcology and the skyline's clear sightlines, with nothing of the district standing there; one merged unlit mesh (44 blocks);
+  - two mist rings (`BorderRepair/Exterior/MistBand`, fog colour, thinning upward, slow drift) at 70 m and 150 m: one alpha-blended draw each;
+  - district fog density × 1.2 (0.025 → 0.03; still × 0.35 indoors).
+  - `Cost_JoinedScene_DistrictViewsAndPlayerStandpoints` passes unchanged.
+- **Small things in the B1** (`B1Fiddle`, `B1FiddleRuntime`, wired by `PlayableExtras.B1Fiddles`). While walking, aim the crosshair and left-click:
+
+  | Thing | Click |
+  | --- | --- |
+  | Caged bulb inside the gate | Pull the cord: the light goes off/on and the bulb swings. |
+  | Festive bulbs over the counter | Steady → twinkling → off. |
+  | Electric radiator | Off/on, with its pilot lamp and hum. |
+  | Water dispenser | Draw a cup; the bottle gurgles. |
+  | Folded newspaper on the waiting chairs | Lift it and read one of four headlines. |
+  | Thermos on the counter back | The cup comes off and gets tea; click again to put it back. |
+  | Transistor radio (new, on the sill cabinet's worktop) | A song channel → a harbour-talk channel → off. |
+
+  - **Colliders:** each thing has its own box on the Default layer. The director's pick stops on it and does nothing, so no trade action fires through it. The fiddle pick skips the generated Ignore Raycast solids.
+  - **Reach:** the trade reach + 0.35 m.
+  - **Sounds:** synthesised at runtime.
+  - **Moving items:** made non-static in the copy.
+  - **Test:** `B1_SmallThingsCanBeAimedAtAndUsed` stands 0.65 m off each thing, aims, uses it, and checks the effect. It also checks the far fill is present.
