@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace BorderRepair.RepairProps.EditorTools
 {
@@ -26,6 +27,7 @@ namespace BorderRepair.RepairProps.EditorTools
             FibreTrunk(Group(g, "Cyber - fibre trunk over the road"));
             DumpedArm(Group(g, "Cyber - prosthetic arm dumped in the snow"));
             NeighbourCameras(g);
+            JapaneseSigns();
         }
 
         static Material ShopCard(string name, string tex, Color glow) =>
@@ -232,6 +234,26 @@ namespace BorderRepair.RepairProps.EditorTools
             Sphere("Status pip", pivot, o + new Vector3(.1f, .072f, 0), .008f, Beacon("Nb - status pip, dim cyan", HoloCyan, .9f, .25f, .2f));
             Box("Snow drift over it", pivot, o + new Vector3(-.05f, -.03f, .05f), new Vector3(.34f, .05f, .16f), ExistingSnow(), Quaternion.Euler(0, 0, 4));
             pivot.rotation = Quaternion.Euler(0, 28, 0);
+        }
+
+        // The street's signage is Japanese. Our own textures were regenerated in Japanese; the three junction signs from
+        // the map pass (whose textures are not ours) get Japanese copies of their material in this scene, and the
+        // counter label seen through the door reads 受付.
+        static void JapaneseSigns()
+        {
+            int n = 0;
+            foreach (var (obj, tex, glow) in new[] { ("District signage shop", "map_shop_jp", .55f), ("District signage way", "map_way_jp", .45f), ("District signage pier", "map_pier_jp", .3f) })
+            {
+                var t = Tex(tex);
+                if (t == null) continue;
+                var m = Lit("Jp - " + obj, Color.white, .3f, 0, t, new Color(glow, glow * 1.06f, glow * 1.08f), t);
+                foreach (var r in Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Where(r => r.name == obj)) { r.sharedMaterial = m; n++; }
+            }
+            foreach (var tm in Object.FindObjectsByType<TextMesh>(FindObjectsInactive.Include, FindObjectsSortMode.None).Where(t => t.text == "收件" || t.text == "受付"))
+            {
+                tm.text = "受付"; n++;
+            }
+            log.Append("signage switched to Japanese: ").Append(n).Append('\n');
         }
 
         static void NeighbourCameras(Transform g)

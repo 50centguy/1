@@ -92,7 +92,8 @@ namespace BorderRepair.RepairProps.EditorTools
             Icicles(g, "Icicles - roof, east side", new Vector3(x1 + .005f, RoofY(-.5f) - .03f, -.5f), new Vector3(x1 + .005f, RoofY(-4.4f) - .03f, -4.4f), 16, .2f, ice, 35);
 
             // The lightbox on the street end, on two short legs, facing the street.
-            var signTex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/RepairProps/Scenes/Temp_HarbourStudy/repair_lightbox.png");
+            // The street's signage is Japanese: a 義体修理 face in the style of the hand-painted original (which is left as is).
+            var signTex = Tex("ent_lightbox_jp");
             var face = Lit("Ent - lit sign face", Color.white, .3f, 0, signTex, new Color(1f, .8f, .58f) * 1.3f, signTex);
             float sw = 2.2f, sh = .55f, sd = .2f, sz = zf + .16f, sy = RoofY(sz) + .1f + sh * .5f;
             BBox("Lightbox case", g, new Vector3(cx, sy, sz), new Vector3(sw + .08f, sh + .06f, sd), steel);
