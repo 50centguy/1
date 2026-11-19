@@ -19,6 +19,8 @@ namespace BorderRepair.RepairProps.EditorTools
         const string AssetDir = "Assets/RepairProps/Scenes/Temp_ExteriorPass";
         const string TexDir = AssetDir + "/Textures", MatDir = AssetDir + "/Materials", MeshDir = AssetDir + "/Meshes";
         const string PassRoot = "08 Exterior pass - wayfinding, life, snow and light";
+        // Where Tex, Save and SaveMesh read and write; the interior pass points them at Temp_InteriorPass while it runs.
+        static string texDir = TexDir, matDir = MatDir, meshDir = MeshDir;
 
         // Roots of the handed-over exterior (the clinic interior prefabs and the lights/cameras roots stay as they are).
         static readonly string[] ExteriorRoots =
@@ -599,7 +601,8 @@ namespace BorderRepair.RepairProps.EditorTools
             }
         }
 
-        static Texture2D Tex(string name) => AssetDatabase.LoadAssetAtPath<Texture2D>(TexDir + "/" + name + ".png");
+        static Texture2D Tex(string name) =>
+            AssetDatabase.LoadAssetAtPath<Texture2D>(texDir + "/" + name + ".png") ?? AssetDatabase.LoadAssetAtPath<Texture2D>(TexDir + "/" + name + ".png");
 
         enum Mode { Opaque, Cutout, Transparent }
 
@@ -688,7 +691,7 @@ namespace BorderRepair.RepairProps.EditorTools
 
         static Material Save(string name, Material m)
         {
-            var path = MatDir + "/" + Safe(name) + ".mat";
+            var path = matDir + "/" + Safe(name) + ".mat";
             var existing = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (existing != null) { existing.shader = m.shader; EditorUtility.CopySerialized(m, existing); m = existing; }
             else AssetDatabase.CreateAsset(m, path);
@@ -876,7 +879,7 @@ namespace BorderRepair.RepairProps.EditorTools
             mesh.SetVertices(v); mesh.SetTriangles(t, 0);
             if (uv != null) mesh.SetUVs(0, uv);
             mesh.RecalculateNormals(); mesh.RecalculateBounds();
-            AssetDatabase.CreateAsset(mesh, MeshDir + "/" + Safe(name) + "_" + (meshCount++) + ".asset");
+            AssetDatabase.CreateAsset(mesh, meshDir + "/" + Safe(name) + "_" + (meshCount++) + ".asset");
             return mesh;
         }
 

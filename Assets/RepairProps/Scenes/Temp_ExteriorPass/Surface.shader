@@ -5,7 +5,9 @@
 // Feet and tyres thin the snow; the edges are broken by the thin layer's own grain so they fade instead of cutting.
 // Blinn-Phong (Simple Lit) to stay in the PS2 register.
 // _Kind: 0 solid (texture x tint, optional snow on upward faces), 1 trodden pavement and steps, 2 road and quay with
-//        tyre tracks, 3 water, 4 packed-snow relief (vertex colour R = clean snow).
+//        tyre tracks, 3 water, 4 packed-snow relief (vertex colour R = clean snow), 5 interior wall (the B1 clinic):
+//        the base above a painted dado (the ground layer is the paint, _Dado its height over the floor at y 0), a dark
+//        line along the top of the paint and grime along the foot of the wall.
 Shader "BorderRepair/Exterior/Surface"
 {
     Properties
@@ -32,6 +34,8 @@ Shader "BorderRepair/Exterior/Surface"
         _Smoothness ("Smoothness", Range(0, 1)) = .2
         _Specular ("Specular strength", Range(0, 1)) = .15
         _WetSmoothness ("Wet ground smoothness", Range(0, 1)) = .5
+        _Dado ("Interior: painted dado height (m)", Float) = 1.15
+        _FootGrime ("Interior: grime along the wall foot", Range(0, 1)) = .35
     }
     SubShader
     {
@@ -42,7 +46,7 @@ Shader "BorderRepair/Exterior/Surface"
         float4 _BaseMap_ST, _NormalMap_ST, _SnowMap_ST, _SnowNormal_ST, _ThinMap_ST, _GroundMap_ST, _GroundNormal_ST;
         half4 _BaseColor, _SnowColor, _GroundColor;
         float _Scale, _Kind, _SnowScale, _ThinScale, _GroundScale;
-        half _NormalScale, _SnowDetail, _Cover, _TopSnow, _Smoothness, _Specular, _WetSmoothness;
+        half _NormalScale, _SnowDetail, _Cover, _TopSnow, _Smoothness, _Specular, _WetSmoothness, _Dado, _FootGrime;
         CBUFFER_END
         ENDHLSL
 
@@ -122,6 +126,22 @@ Shader "BorderRepair/Exterior/Surface"
                     half s = up * _TopSnow;
                     albedo = lerp(albedo, snow, s);
                     n = normalize(lerp(n, nSnow, s));
+                }
+                else if (_Kind > 4.5)
+                {
+                    // Interior wall. Faces pointing up or down (sills, the ceiling side) keep the base.
+                    half wall = 1 - step(.5, an.y);
+                    float y = i.w.y;
+                    float edge = y - _Dado + .012 * (noise2(float2(i.w.x + i.w.z, y) * 9) - .5);
+                    half dado = wall * step(edge, 0);
+                    half3 paint = _GroundColor.rgb * SAMPLE(_GroundMap, uv / _GroundScale).rgb * 2;
+                    float3 nPaint = Perturb(UnpackNormalScale(SAMPLE(_GroundNormal, uv / _GroundScale), 1), T, B, N);
+                    albedo = lerp(albedo, paint, dado);
+                    n = normalize(lerp(n, nPaint, dado));
+                    smooth = lerp(smooth, _WetSmoothness, dado);                           // old gloss paint
+                    albedo *= 1 - .5 * wall * (1 - smoothstep(.0, .022, abs(edge + .024)));  // the painted line on top
+                    half foot = wall * (1 - smoothstep(0, .35, y)) * (.7 + .3 * noise2(float2(i.w.x + i.w.z, y) * 3));
+                    albedo *= 1 - _FootGrime * foot;                                         // damp and dust at the foot
                 }
                 else if (_Kind < 2.5 || _Kind > 3.5)
                 {
