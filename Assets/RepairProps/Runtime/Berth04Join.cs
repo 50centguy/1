@@ -48,6 +48,8 @@ namespace BorderRepair.RepairProps
         bool[] districtLightOn;
 
         readonly List<Renderer> clinicRenderers = new List<Renderer>();
+        readonly List<GameObject> scanRoots = new List<GameObject>();
+        readonly List<Renderer> scanRenderers = new List<Renderer>();
         readonly List<bool> clinicKeep = new List<bool>();
         readonly HashSet<Renderer> clinicHidden = new HashSet<Renderer>();
         readonly List<(Light light, LightShadows shadows)> clinicShadowLamps = new List<(Light, LightShadows)>();
@@ -355,13 +357,19 @@ namespace BorderRepair.RepairProps
             clinicRenderers.Clear(); clinicKeep.Clear();
             var player = walker != null ? walker.transform : null;
             var eye = cam != null ? cam.transform : null;
-            foreach (var root in clinic.GetRootGameObjects())
-                foreach (var r in root.GetComponentsInChildren<Renderer>(true))
+            clinic.GetRootGameObjects(scanRoots);
+            foreach (var root in scanRoots)
+            {
+                root.GetComponentsInChildren(true, scanRenderers);
+                foreach (var r in scanRenderers)
                 {
                     if (r.forceRenderingOff && !clinicHidden.Contains(r)) continue;   // retired by a runtime
                     clinicRenderers.Add(r);
                     clinicKeep.Add((player != null && r.transform.IsChildOf(player)) || (eye != null && r.transform.IsChildOf(eye)));
                 }
+            }
+            scanRoots.Clear();
+            scanRenderers.Clear();
         }
     }
 }

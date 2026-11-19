@@ -8,3 +8,6 @@ User words and real revisions, verbatim and append-only. Write with `jury_state.
 
 ## G-0002 · 2026-10-22T13:56:19+09:00 · kind: goal · source: user-direct
 > 检查一下Claude的改动 用之前的skill审视一下 维护一下项目
+
+## G-0003 · 2026-11-20T04:09:32+09:00 · kind: goal · source: user-direct
+> 优化一下项目跟美术
