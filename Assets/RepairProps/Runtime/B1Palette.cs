@@ -19,6 +19,9 @@ namespace BorderRepair.RepairProps
     //     neon tube goes, its indicator specks stay, dimmed; the curtain loses its glowing cyan rim.
     public static class B1Palette
     {
+        /// <summary>Lift for the district's grade: the colour wheel pushed toward cold slate #1E2A30 (30, 42, 48) and a small
+        /// offset, so the darkest walls sit at a dim slate instead of black.</summary>
+        public static readonly Vector4 ShadowLift = new Vector4(.985f, 1f, 1.012f, .002f);
         public static bool Active => ClinicLayout.Active != null;
 
         public static readonly Color Tube = new Color(1f, .945f, .863f);           // #FFF1DC warm white (mint read too cold)

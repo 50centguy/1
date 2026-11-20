@@ -216,6 +216,8 @@ namespace BorderRepair.RepairProps
             var eye = view.transform.position;
             EyeInRoom = Room.Contains(eye) && eye.z > DoorZ;
             Apply(Blend(eye), false);
+            // (every frame: the harbour's thicker fog follows the eye, not the blend)
+            if (outdoor != null) RenderSettings.fogDensity = outdoor.fogDensity * Mathf.Lerp(.35f, 1f, OutdoorBlend) * outdoor.FogScaleAt(eye);
 
             GeometryUtility.CalculateFrustumPlanes(view, cameraPlanes);
             var door = new Bounds(DoorCentre, new Vector3(DoorHalfWidth * 2, DoorHeight, .2f));

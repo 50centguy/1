@@ -91,16 +91,18 @@ namespace BorderRepair.RepairProps.EditorTools
             // warm white instead of mint, its fills neutral, and the street lamp through its window stays cold, so the
             // room reads warm against it.
             var tube = Hex("#FFF1DC");
-            L("Batten - workshop light", tube, 4.2f);
-            L("Batten - workshop ceiling halo light", tube, .45f);
-            L("Batten - waiting side light", tube, null);
-            L("Batten - waiting side ceiling halo light", tube, null);
+            // (the front room's ceiling battens about 38% down, so the bench's lamps are the room's focus)
+            L("Batten - workshop light", tube, 2.6f);
+            L("Batten - workshop ceiling halo light", tube, .28f);
+            L("Batten - waiting side light", tube, 1.85f);
+            L("Batten - waiting side ceiling halo light", tube, .22f);
             L("Dim alcove fill", Hex("#FFF3E2"), null);
             L("Cool room bounce", Hex("#B0AAA2"), null);
             L("Low dock fill", Hex("#D8D2C8"), null);
             // The street lamp through the window laid a blue wedge across the B1 brighter than its own lamps: a third
             // as strong, in the sky light's cold grey.
-            L("Street lamp through the window light", Hex("#A8BDC7"), 22f);
+            // The high window: a faint cold cyan night light (half holo cyan #6BE0E8, half fog #3B4B54) from outside.
+            L("Street lamp through the window light", Color.Lerp(HoloCyan, FogTeal, .5f), 13f);
             // Outside the door: the street's cold grey-blue.
             L("Street spill through the gate light", Hex("#A3B4BD"), null);
             L("Stair ambient", Hex("#9EB5C2"), null);
@@ -187,9 +189,9 @@ namespace BorderRepair.RepairProps.EditorTools
             // The convenience store: green shutter teal-grey, blue crates grey-blue, its sign and goods half as loud.
             Recolour("store, green to teal-grey", (r, m) => Under(r, store) && Fam(m, "_BaseColor") == "green", c => SetAlbedo(c, Muted(c.GetColor("_BaseColor"), 165, .14f)));
             Recolour("store, blue to grey-blue", (r, m) => Under(r, store) && Fam(m, "_BaseColor") == "blue", c => SetAlbedo(c, Muted(c.GetColor("_BaseColor"), 205, .3f, .9f)));
-            Recolour("store sign", (r, m) => TexOf(m) == "nb_store_sign", c => { SetTextures(c, PTex("nb_store_sign_muted")); ScaleEmission(c, .85f); });
+            Recolour("store sign", (r, m) => TexOf(m) == "nb_store_sign", c => { SetTextures(c, PTex("nb_store_sign_oldteal")); ScaleEmission(c, .8f); });   // (old, faded teal-green, not new LED green)
             Recolour("store interior", (r, m) => TexOf(m) == "nb_store_interior", c => SetTextures(c, PTex("nb_store_interior_muted")));
-            Recolour("pharmacy cross", (r, m) => Under(r, pharmacy) && TexOf(m) == "nb_pharmacy_cross", c => ScaleEmission(c, .5f));
+            Recolour("pharmacy cross", (r, m) => Under(r, pharmacy) && TexOf(m) == "nb_pharmacy_cross", c => { SetTextures(c, PTex("nb_pharmacy_cross_oldteal")); ScaleEmission(c, .5f); });
             // Fewer lights on the street (the user: too many). The clinic's door is the warm thing to look at, so the
             // street around it quietens: holograms dimmer (the clinic's 24H least, the skyline band a little), the
             // shops' second signs dimmer, and the upper-floor lit windows lower: a third at .45, a third at .2, a third dark; none lit near
@@ -208,7 +210,7 @@ namespace BorderRepair.RepairProps.EditorTools
             Vector3? door = doorBox != null ? doorBox.bounds.center : (Vector3?)null;
             done.Add("clinic lightbox " + (door.HasValue ? door.Value.ToString("F1") : "not found"));
             var windowCopies = new Dictionary<(Material, int), Material>();
-            int kept = 0, dimmed = 0, dark = 0;
+            int kept = 0, dimmed = 0, dark = 0, tv = 0;
             foreach (var r in renderers)
             {
                 if (r.bounds.center.y < 2.6f) continue;
@@ -225,24 +227,51 @@ namespace BorderRepair.RepairProps.EditorTools
                     if (!m.HasProperty("_EmissionColor") || m.GetColor("_EmissionColor").maxColorComponent < .05f || Fam(m, "_EmissionColor") != "amber") continue;
                     var p = r.bounds.center;
                     float h = Mathf.Abs(Mathf.Sin(p.x * 12.9898f + p.y * 78.233f + p.z * 37.719f) * 43758.5453f) % 1f;
-                    int variant = h < .34f ? 0 : h < .67f ? 1 : 2;
+                    int variant = h < .5f ? 2 : h < .58f ? 3 : h < .8f ? 1 : 0;   // half dark, a few a faint cold TV, the rest dim or lit
                     // Above and beside the clinic's door nothing outshines its lightbox: dim or dark only.
                     if (door.HasValue && Mathf.Abs(p.x - door.Value.x) < 7f && Mathf.Abs(p.z - door.Value.z) < 6f && variant == 0) variant = h < .17f ? 1 : 2;
                     
                     if (!windowCopies.TryGetValue((m, variant), out var c))
                     {
                         c = new Material(m);
-                        c.SetColor("_EmissionColor", variant == 0 ? m.GetColor("_EmissionColor") * .45f : variant == 1 ? m.GetColor("_EmissionColor") * .2f : Color.black);
+                        c.SetColor("_EmissionColor", variant == 0 ? m.GetColor("_EmissionColor") * .45f : variant == 1 ? m.GetColor("_EmissionColor") * .2f : variant == 3 ? HoloCyan * .16f : Color.black);
                         if (variant == 2) { c.DisableKeyword("_EMISSION"); c.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack; }
                         else { c.EnableKeyword("_EMISSION"); c.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive; }   // (GlowFix leaves Palette copies alone)
-                        windowCopies[(m, variant)] = c = Save("Palette - window " + (variant == 0 ? "lit" : variant == 1 ? "dimmed" : "dark") + " " + windowCopies.Count, c);
+                        windowCopies[(m, variant)] = c = Save("Palette - window " + (variant == 0 ? "lit" : variant == 1 ? "dimmed" : variant == 3 ? "tv" : "dark") + " " + windowCopies.Count, c);
                     }
                     shared[i] = c; hit = true;
-                    if (variant == 0) kept++; else if (variant == 1) dimmed++; else dark++;
+                    if (variant == 0) kept++; else if (variant == 1) dimmed++; else if (variant == 3) tv++; else dark++;
                 }
                 if (hit) r.sharedMaterials = shared;
             }
-            done.Add("upper windows kept " + kept + ", dimmed " + dimmed + ", dark " + dark);
+            done.Add("upper windows kept " + kept + ", dimmed " + dimmed + ", tv " + tv + ", dark " + dark);
+            // The B1 plates' green (and the shops' green above): an old, faded teal-green instead of new LED green.
+            Recolour("B1 plate, old teal", (r, m) => TexOf(m) == "ent_b1_plate", c => SetTextures(c, PTex("ent_b1_plate_oldteal")));
+            // Snow a little brighter (cold grey-white), apart from the dark concrete and catching the lamps and the door.
+            Recolour("snow brighter", (r, m) => ShaderIs(m, "Surface") && m.HasProperty("_SnowColor"), c => { var k = c.GetColor("_SnowColor") * 1.22f; k.a = 1; c.SetColor("_SnowColor", k); });
+            // The skyline towers sink into the snow haze from the ground up to about half their height.
+            var towers = renderers.Where(r => r.sharedMaterial != null && ShaderIs(r.sharedMaterial, "FarSilhouette")).Select(r => r.bounds.center.y).OrderBy(y => y).ToList();
+            float hazeTop = towers.Count > 0 ? towers[towers.Count / 2] : 40f;
+            Recolour("towers, low haze", (r, m) => ShaderIs(m, "FarSilhouette"), c => { c.SetFloat("_HazeLow", .8f); c.SetFloat("_HazeLowTop", hazeTop); });
+            done.Add("tower haze top " + hazeTop.ToString("F0"));
+            // The harbour's fog thicker than the street's (the cold #3B4B54), from the stairhead out to the quay.
+            var air = holder.GetComponentInChildren<DistrictAtmosphere>(true) ?? Object.FindFirstObjectByType<DistrictAtmosphere>();
+            if (air != null)
+            {
+                air.harbourFog = 1.7f; air.harbourFromX = -12f; air.harbourFullX = -22f;
+                EditorUtility.SetDirty(air);
+                done.Add("harbour fog x" + air.harbourFog + " from x " + air.harbourFromX + " to " + air.harbourFullX + " (fog " + air.fogDensity.ToString("F3") + ", " + ColorUtility.ToHtmlStringRGB(air.fogColour) + ")");
+            }
+            // Green light on the street (the pharmacy's cross washing its tiles, the shop spill): old faded teal-green,
+            // not new LED green.
+            int greens = 0;
+            foreach (var l in lights.Where(l => !B1Room.Contains(l.transform.position)))
+            {
+                Color.RGBToHSV(l.color, out var gh, out var gs, out _);
+                if (gh * 360 < 75 || gh * 360 > 160 || gs < .3f) continue;
+                l.color = Color.Lerp(l.color, Hex("#8FB0A6"), .65f); EditorUtility.SetDirty(l); greens++;
+            }
+            done.Add("green lights to old teal (" + greens + ")");
             log.Append("colour script: ").Append(string.Join(", ", done)).Append('\n');
         }
 

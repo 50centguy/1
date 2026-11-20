@@ -146,5 +146,41 @@ namespace BorderRepair.RepairProps.Tests
             Atmos("in the street");
             Berth04Measure.Append("colour.txt", sb.ToString());
         }
+
+        // Read only: the same views through the player's eye with the clinic's PS2 pass on (as played) and off. Review
+        // captures render offscreen, which the pass skips unless asked; this asks for the length of the test.
+        [UnityTest, Explicit("look-dev captures; run by name"), Timeout(900000)]
+        public IEnumerator Diagnose_PS2Look()
+        {
+            for (int i = 0; i < 30; i++) yield return null;
+            var join = Berth04Playable.Current.Join;
+            var eye = join.Eye;
+            var effect = eye.GetComponents<Behaviour>().FirstOrDefault(b => b != null && b.GetType().Name == "RetroPS2CameraEffect");
+            var flag = effect?.GetType().GetField("IncludeOffscreenCaptures", BindingFlags.Public | BindingFlags.Static);
+            Assert.That(flag, Is.Not.Null, "PS2 pass on the eye");
+            var shots = new List<(string name, Vector3 feet, float yaw, float pitch)>(ColourViewsB1);
+            shots.Add(("detail - counter corner, heater and ashtray", new Vector3(-.5f, .05f, -.05f), 222, 30));
+            shots.Add(("detail - high window from the counter", new Vector3(1.6f, .05f, -1.2f), 155, -12));
+            shots.Add(("detail - street, box by the clinic wall", new Vector3(3.0f, 1.35f, -8.0f), 22, 18));
+            shots.Add(("detail - street, bin and box across the road", new Vector3(-1.2f, 1.35f, -10.6f), 180, 16));
+            foreach (var v in join.Outdoor.reviewViews.Where(v => v.position.y > .5f && v.position.y < 10 && !v.name.StartsWith("Counter") && !v.name.StartsWith("Main Camera")))
+            {
+                var e = v.rotation.eulerAngles;
+                shots.Add(("street - " + v.name, v.position - Vector3.up * 1.55f, e.y, Mathf.DeltaAngle(0, e.x)));
+            }
+            try
+            {
+                foreach (var (name, feet, yaw, pitch) in shots)
+                {
+                    join.Walker.PlaceAt(feet, yaw, pitch);
+                    for (int i = 0; i < 4; i++) yield return null;
+                    flag.SetValue(null, true);
+                    Berth04Measure.Frame(eye, "ps2 on - " + Berth04Measure.Safe(name) + ".jpg");
+                    flag.SetValue(null, false);
+                    Berth04Measure.Frame(eye, "ps2 off - " + Berth04Measure.Safe(name) + ".jpg");
+                }
+            }
+            finally { flag.SetValue(null, false); }
+        }
     }
 }

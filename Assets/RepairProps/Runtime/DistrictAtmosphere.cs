@@ -11,6 +11,10 @@ namespace BorderRepair.RepairProps
         public FogMode fogMode = FogMode.ExponentialSquared;
         public Color fogColour = Color.grey;
         public float fogDensity = .025f, fogStart, fogEnd = 300;
+        /// <summary>Thicker fog toward the harbour: the density is multiplied by up to harbourFog as the eye goes from
+        /// harbourFromX to harbourFullX (world x). 1 = none.</summary>
+        public float harbourFog = 1f, harbourFromX, harbourFullX;
+        public float FogScaleAt(Vector3 eye) => harbourFog == 1f || harbourFromX == harbourFullX ? 1f : Mathf.Lerp(1f, harbourFog, Mathf.InverseLerp(harbourFromX, harbourFullX, eye.x));
         public Color ambientSky = Color.grey, ambientEquator = Color.grey, ambientGround = Color.black;
         public Material skybox;
         public Light sun;

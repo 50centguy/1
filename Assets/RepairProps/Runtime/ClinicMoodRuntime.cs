@@ -34,6 +34,7 @@ namespace BorderRepair.RepairProps
         readonly List<(Light light, Color color, float intensity, bool enabled)> lights = new List<(Light, Color, float, bool)>();
         readonly List<(TextMesh text, Color color, Vector3 scale)> labels = new List<(TextMesh, Color, Vector3)>();
         readonly List<Object> created = new List<Object>();
+        readonly List<(Light light, float angle, float inner, float intensity)> cones = new List<(Light, float, float, float)>();
         readonly Dictionary<string, Role> roles = new Dictionary<string, Role>();
         Color sky, equator, ground, fogColor;
         bool fog;
@@ -100,6 +101,15 @@ namespace BorderRepair.RepairProps
                 }
             }
 
+            // In the B1 the bench lamp is the room's focus (a pool on the work, the rest left to the dim tubes): a tighter,
+            // brighter cone.
+            if (b1)
+                foreach (var light in sceneLights.Where(l => l.name == "BV2_LampLight" && l.type == LightType.Spot))
+                {
+                    cones.Add((light, light.spotAngle, light.innerSpotAngle, light.intensity));
+                    light.spotAngle = 54f; light.innerSpotAngle = 28f; light.intensity *= 1.5f;
+                }
+
             // Cool, dim teal ambient (the room's one temperature), and distance fog of the same family.
             sky = RenderSettings.ambientSkyColor; equator = RenderSettings.ambientEquatorColor; ground = RenderSettings.ambientGroundColor;
             RenderSettings.ambientSkyColor = b1 ? B1Palette.AmbientSky : new Color(.09f, .15f, .21f);
@@ -109,7 +119,10 @@ namespace BorderRepair.RepairProps
             RenderSettings.fog = true; RenderSettings.fogMode = FogMode.Exponential;
             RenderSettings.fogColor = new Color(.022f, .045f, .062f); RenderSettings.fogDensity = .12f;
 
-            Grade("ClinicMood_RoomGrade", 30, contrast: 18f, saturation: 6f, temperature: b1 ? 3f : -8f, vignette: .26f, bloom: .65f, fringe: .06f);
+            // In the district (B1 and street share the global grade) the shadows lift a little toward cold slate #1E2A30, so walls
+            // and far buildings keep their shapes in shadow instead of crushing to black.
+            Grade("ClinicMood_RoomGrade", 30, contrast: 18f, saturation: 6f, temperature: b1 ? 3f : -8f, vignette: .26f, bloom: .65f, fringe: .06f,
+                  lift: b1 ? B1Palette.ShadowLift : (Vector4?)null);
             Grade("ClinicMood_CloseUpGrade", 31, contrast: 6f, saturation: 2f, temperature: -2f, vignette: .08f, bloom: .3f, fringe: 0f);
 
             // White placeholder world labels -> small, dim amber signs.
@@ -126,7 +139,7 @@ namespace BorderRepair.RepairProps
             : name.StartsWith("ClinicTrade", StringComparison.Ordinal) ? HotTrade
             : Tungsten;
 
-        void Grade(string name, int layer, float contrast, float saturation, float temperature, float vignette, float bloom, float fringe)
+        void Grade(string name, int layer, float contrast, float saturation, float temperature, float vignette, float bloom, float fringe, Vector4? lift = null)
         {
             var profile = ScriptableObject.CreateInstance<VolumeProfile>();
             profile.name = name;
@@ -148,6 +161,7 @@ namespace BorderRepair.RepairProps
             glow.scatter.Override(.72f);
             var aberration = profile.Add<ChromaticAberration>(true);
             aberration.intensity.Override(fringe);
+            if (lift.HasValue) profile.Add<LiftGammaGain>(true).lift.Override(lift.Value);
             var go = new GameObject(name) { layer = layer };
             go.transform.SetParent(transform, false);
             var volume = go.AddComponent<Volume>();
@@ -159,6 +173,8 @@ namespace BorderRepair.RepairProps
         {
             foreach (var (light, color, intensity, enabled) in lights)
                 if (light != null) { light.color = color; light.intensity = intensity; light.enabled = enabled; }
+            foreach (var (light, angle, inner, intensity) in cones)
+                if (light != null) { light.spotAngle = angle; light.innerSpotAngle = inner; light.intensity = intensity; }
             foreach (var (text, color, scale) in labels)
                 if (text != null) { text.color = color; text.transform.localScale = scale; }
             RenderSettings.ambientSkyColor = sky; RenderSettings.ambientEquatorColor = equator; RenderSettings.ambientGroundColor = ground;
