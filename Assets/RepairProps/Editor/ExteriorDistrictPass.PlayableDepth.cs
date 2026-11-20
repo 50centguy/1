@@ -124,3 +124,89 @@ namespace BorderRepair.RepairProps.EditorTools
         }
     }
 }
+
+namespace BorderRepair.RepairProps.EditorTools
+{
+    // The dock cranes (section 25.11): read as steel in the snow night instead of black cut-outs. The steelwork's own
+    // copy goes from rust brown to a faded cold industrial blue-grey (#3A474F, lifted for the dim sky light), so the sky light picks
+    // out lit and shadowed faces; the dark ties and bogies come up toward the same grey; thin snow lies on the jibs'
+    // sloped tops too; a dim red obstruction lamp hangs at each jib tip; a cold floodlight high on
+    // the street side lights the members facing it.
+    public static partial class ExteriorDistrictPass
+    {
+        static void CraneDetail(Transform holder)
+        {
+            var cranes = holder.GetComponentsInChildren<Transform>(true).Where(t => t.name.StartsWith("Dock portal crane", StringComparison.Ordinal)).ToArray();
+            var copies = new Dictionary<Material, Material>();
+            int steel = 0, dark = 0, tips = 0;
+            var industrial = Hex("#3A474F");
+            var tipLamp = Beacon("Crane jib tip lamp", AlarmRed, 1.6f, .45f, .4f);
+            foreach (var crane in cranes)
+            {
+                foreach (var r in crane.GetComponentsInChildren<Renderer>(true))
+                {
+                    if (r.name == "Crane obstruction lamp" || r.name == "Cab glazing") continue;
+                    var shared = r.sharedMaterials; bool hit = false;
+                    for (int i = 0; i < shared.Length; i++)
+                    {
+                        var m = shared[i];
+                        if (m == null || !m.HasProperty("_BaseColor")) continue;
+                        bool surface = m.shader != null && m.shader.name.EndsWith("/Surface", StringComparison.Ordinal);
+                        if (!copies.TryGetValue(m, out var c))
+                        {
+                            c = new Material(m);
+                            if (surface)
+                            {
+                                c.SetColor("_BaseColor", industrial * 1.75f);              // #3A474F lifted (dim sky light, thin members)
+                                c.SetFloat("_TopSnow", 1f); c.SetFloat("_SnowSlope", .4f);  // thin snow on the sloped jib tops
+                                c.SetFloat("_Specular", Mathf.Max(c.GetFloat("_Specular"), .25f));
+                            }
+                            else
+                            {
+                                var bc = industrial * 1.4f;
+                                c.SetColor("_BaseColor", bc); if (c.HasProperty("_Color")) c.SetColor("_Color", bc);
+                            }
+                            copies[m] = c = Save("Crane - " + (surface ? "steelwork, cold grey" : "dark steel, lifted") + " " + copies.Count, c);
+                        }
+                        shared[i] = c; hit = true;
+                        if (surface) steel++; else dark++;
+                    }
+                    if (hit) r.sharedMaterials = shared;
+                }
+
+                // Jib tip: the fly jib's vertex farthest out from the crane's slewing centre.
+                var jib = crane.GetComponentsInChildren<MeshFilter>(true).FirstOrDefault(f => f.name == "Fly jib" && f.sharedMesh != null);
+                if (jib == null) continue;
+                var root = crane.position;
+                Vector3 best = Vector3.zero; float far = -1;
+                foreach (var v in jib.sharedMesh.vertices)
+                {
+                    var w = jib.transform.TransformPoint(v);
+                    float d = new Vector2(w.x - root.x, w.z - root.z).magnitude + .2f * w.y;
+                    if (d > far) { far = d; best = w; }
+                }
+                Sphere("Crane jib tip lamp", crane, best + Vector3.down * .25f, .16f, tipLamp);
+                tips++;
+
+                // A cold working floodlight on the crane: from the street the cranes are against the sky
+                // light, so without it every member is one black silhouette.
+                var bounds = crane.GetComponentsInChildren<Renderer>(true).Where(r => r is MeshRenderer).Select(r => r.bounds).Aggregate((x, y) => { x.Encapsulate(y); return x; });
+                var toStreet = new Vector3(-root.x, 0, -5f - root.z).normalized;
+                var flood = new GameObject("Crane floodlight - quay, cold").AddComponent<Light>();
+                flood.transform.SetParent(crane, true);
+                // High in front, above the street's roofs (set far back at mid height it lit a near building's wall),
+                // looking down on the crane: the street-side faces and the snow on the jib tops. Intensity by the
+                // inverse square, about .18 at the crane.
+                var at = bounds.center + toStreet * (bounds.extents.magnitude * .7f + 10f) + Vector3.up * (bounds.extents.y + 12f);
+                float back = Vector3.Distance(at, bounds.center);
+                flood.transform.position = at;
+                flood.transform.LookAt(bounds.center);
+                flood.type = LightType.Spot; flood.color = Hex("#9FB4BE"); flood.intensity = .18f * back * back;
+                flood.range = back + bounds.extents.magnitude * 2f;
+                flood.spotAngle = 48f; flood.innerSpotAngle = 26f; flood.shadows = LightShadows.None;
+            }
+            log.Append("cranes: ").Append(cranes.Length).Append(" cranes, steelwork ").Append(steel).Append(" r cold grey + snow on slopes, dark steel ")
+                .Append(dark).Append(" r lifted, jib tip lamps ").Append(tips).Append('\n');
+        }
+    }
+}

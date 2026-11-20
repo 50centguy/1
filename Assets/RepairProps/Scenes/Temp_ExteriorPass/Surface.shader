@@ -31,6 +31,7 @@ Shader "BorderRepair/Exterior/Surface"
         _GroundScale ("Ground metres per tile", Float) = 2.5
         _Cover ("Snow cover (higher = less ground shows)", Range(0, 1.5)) = .7
         _TopSnow ("Snow on upward faces (solid)", Range(0, 1)) = 0
+        _SnowSlope ("Snow also on steeper faces (solid)", Range(0, .6)) = 0
         _Smoothness ("Smoothness", Range(0, 1)) = .2
         _Specular ("Specular strength", Range(0, 1)) = .15
         _WetSmoothness ("Wet ground smoothness", Range(0, 1)) = .5
@@ -50,7 +51,7 @@ Shader "BorderRepair/Exterior/Surface"
         float4 _BaseMap_ST, _NormalMap_ST, _SnowMap_ST, _SnowNormal_ST, _ThinMap_ST, _GroundMap_ST, _GroundNormal_ST, _WetZone;
         half4 _BaseColor, _SnowColor, _GroundColor;
         float _Scale, _Kind, _SnowScale, _ThinScale, _GroundScale;
-        half _NormalScale, _SnowDetail, _Cover, _TopSnow, _Smoothness, _Specular, _WetSmoothness, _Dado, _FootGrime, _GlossVar, _Peel, _Puddle;
+        half _NormalScale, _SnowDetail, _Cover, _TopSnow, _Smoothness, _Specular, _WetSmoothness, _Dado, _FootGrime, _GlossVar, _Peel, _Puddle, _SnowSlope;
         CBUFFER_END
         ENDHLSL
 
@@ -129,7 +130,7 @@ Shader "BorderRepair/Exterior/Surface"
 
                 if (_Kind < .5)
                 {
-                    half s = up * _TopSnow;
+                    half s = saturate((N.y - .6 + _SnowSlope) / .25) * _TopSnow;
                     albedo = lerp(albedo, snow, s);
                     n = normalize(lerp(n, nSnow, s));
                 }

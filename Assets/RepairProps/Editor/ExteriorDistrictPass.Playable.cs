@@ -81,6 +81,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 B1Cyber(holder);
                 NightDetails(holder);
                 FarDepth(holder);
+                CraneDetail(holder);
                 GlowFix(holder);
 
                 EditorSceneManager.MarkSceneDirty(scene);
