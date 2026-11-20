@@ -9414,295 +9414,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8982760991870708767, guid: 8c4294350e6df9f4795f25d085394b8a, type: 3}
---- !u!1 &879409803
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 879409805}
-  - component: {fileID: 879409804}
-  m_Layer: 0
-  m_Name: Clinic layout - the stations in the Berth 04 B1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &879409804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879409803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17dc04519a30aca46b768780fc64be19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  counter:
-    yaw: -90
-    offset: {x: -0.54356396, y: 0.004, z: -3.5390894}
-  dock:
-    yaw: 90
-    offset: {x: -0.22499979, y: 0.004, z: -0.65999985}
-  bench:
-    yaw: -90
-    offset: {x: 1.3949999, y: 0.02400016, z: 0.50999963}
-  surgery:
-    yaw: 0
-    offset: {x: 4.025, y: 0.004000149, z: 1.55}
-  room:
-    m_Center: {x: 1.53, y: 1.3, z: -0.49}
-    m_Extent: {x: 3.65, y: 1.4, z: 3.25}
-  window:
-    m_Center: {x: 2.67, y: 2.12, z: -3.45}
-    m_Extent: {x: 1.25, y: 0.375, z: 0.15}
-  ceiling: 2.55
-  zones:
-  - path: 
-    position: {x: 1.525, y: 0.004, z: -3.69}
-    rotation: {x: -0, y: -1, z: 0.00000005960465, w: 0}
-    active: 1
-  - path: DockCornerV2
-    position: {x: -0.22499979, y: 0.004, z: -0.65999985}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/Ref_Head.001
-    position: {x: 0.7750002, y: 0.004, z: -0.65999985}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/Ref_Origin.001
-    position: {x: -0.22499979, y: 0.004, z: -0.65999985}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/Ref_Up.001
-    position: {x: -0.22499979, y: 1.004, z: -0.6599996}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Cabinet
-    position: {x: 0.4450003, y: 1.3839997, z: 2.5300007}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_CableTray
-    position: {x: -0.22499979, y: 2.4239998, z: 2.520001}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_ChargeLamp
-    position: {x: 0.4450003, y: 1.4439999, z: 2.4340005}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Clipboard
-    position: {x: -1.0849997, y: 1.2139999, z: 2.6120005}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Conduit
-    position: {x: 0.2750002, y: 0.8039999, z: 2.5700002}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_DripPan
-    position: {x: -0.22499979, y: 0.02399984, z: 2.02}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_ErrLamp
-    position: {x: 0.5350002, y: 1.4439999, z: 2.4340005}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Extinguisher
-    position: {x: -1.0849997, y: 0.6239998, z: 2.5350003}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_FloorMat
-    position: {x: -0.22499979, y: 0.0069998326, z: 2.15}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Lamp
-    position: {x: -0.22499979, y: 1.9339997, z: 2.6000009}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Lamp_Glass
-    position: {x: -0.22499979, y: 1.9339997, z: 2.5650005}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Meters
-    position: {x: 0.4450003, y: 1.5639998, z: 2.4245005}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Plate
-    position: {x: -0.22499979, y: 2.1789997, z: 2.6160007}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Prints
-    position: {x: -0.22499979, y: 1.6039997, z: 2.5700006}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_RunLamp
-    position: {x: 0.35500014, y: 1.4439999, z: 2.4340005}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Seal
-    position: {x: 0.6680002, y: 1.5039998, z: 2.4375005}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Spares
-    position: {x: 0.4450003, y: 1.9039997, z: 2.5400004}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Stencil
-    position: {x: 0.4450003, y: 1.1239997, z: 2.4375005}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: DockCornerV2/ZD_Umbilical
-    position: {x: -0.74499977, y: 1.3239998, z: 2.5500007}
-    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-    active: 1
-  - path: TradeCounterV2
-    position: {x: -0.54356396, y: 0.004, z: -3.5390894}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/Ref_Head
-    position: {x: -1.543564, y: 0.004, z: -3.5390894}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/Ref_Origin
-    position: {x: -0.54356396, y: 0.004, z: -3.5390894}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/Ref_Up
-    position: {x: -0.54356396, y: 1.004, z: -3.5390892}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_CashBox
-    position: {x: -1.1635638, y: 0.95399994, z: -1.3990891}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Cctv
-    position: {x: -1.6435639, y: 2.564, z: -0.15908909}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 0
-  - path: TradeCounterV2/ZC_Cctv_Led
-    position: {x: -1.6435639, y: 2.564, z: -0.15908909}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Corner
-    position: {x: 0.8807001, y: 0.0039999196, z: -1.2148254}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Counter
-    position: {x: -0.54356396, y: 0.45399988, z: -1.6390893}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_CounterTop
-    position: {x: -0.54356396, y: 0.9539999, z: -1.6390891}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Desk
-    position: {x: -0.54356396, y: 0.9539999, z: -1.5890892}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Fan
-    position: {x: -1.4235641, y: 0.95399994, z: -1.4090891}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Fan/ZC_Fan_Head
-    position: {x: -1.4235641, y: 1.1239998, z: -1.4090891}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Fan/ZC_Fan_Head/ZC_Fan_Blades
-    position: {x: -1.4235641, y: 1.1239998, z: -1.4250891}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Keyboard
-    position: {x: -0.54356396, y: 0.95399994, z: -1.7990892}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Printer
-    position: {x: 0.12643611, y: 0.95399994, z: -1.4090891}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Prints
-    position: {x: -0.54356396, y: 1.2039999, z: -0.9390893}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 0
-  - path: TradeCounterV2/ZC_Racking
-    position: {x: 2.3249989, y: 1.0040001, z: 1.2399993}
-    rotation: {x: -0, y: -0.7071068, z: -0.7071068, w: 0}
-    active: 1
-  - path: TradeCounterV2/ZC_ShelfGoods
-    position: {x: 2.3249989, y: 1.0040001, z: 1.2399993}
-    rotation: {x: -0, y: -0.7071068, z: -0.7071068, w: 0}
-    active: 1
-  - path: TradeCounterV2/ZC_StatusPods
-    position: {x: -0.54356396, y: 1.1539999, z: -1.9190894}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Stool
-    position: {x: -0.54356396, y: 0.35399985, z: -1.0190892}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_TagStrings
-    position: {x: -0.54356396, y: 1.0039998, z: -0.5390892}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_TariffBoard
-    position: {x: -0.54356396, y: 2.2639997, z: -0.15408945}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 0
-  - path: TradeCounterV2/ZC_Terminal
-    position: {x: -0.54356396, y: 0.95399994, z: -1.4390893}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Terminal_Glass
-    position: {x: -0.54356396, y: 1.1314999, z: -1.5540891}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Tray_In
-    position: {x: 0.05643606, y: 0.9539998, z: -1.6990892}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  - path: TradeCounterV2/ZC_Tray_Out
-    position: {x: -1.1435639, y: 0.9539999, z: -1.6990892}
-    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
-    active: 1
-  skipStorage: 1
-  skipRoomKit: 1
-  skipWallSigns: 1
-  npcEntrance: {x: 0.3, y: 0, z: -3.05}
-  npcApproach:
-  - {x: 0.22, y: 0, z: -2.55}
-  patientIn:
-  - {x: 0.3, y: 0, z: -3.05}
-  - {x: 1.05, y: 0, z: -2.75}
-  - {x: 2.25, y: 0, z: -2.15}
-  - {x: 3.2, y: 0, z: -1.55}
-  - {x: 3.25, y: 0, z: -0.25}
-  dockOut: {x: -0.2249999, y: 0.954, z: 1.4399998}
-  westLane: {x: -0.2249999, y: 1.15, z: 0.9}
-  eastLane: {x: -1, y: 1.15, z: -0.25}
-  counterLane: {x: -1.72, y: 1.15, z: -1.25}
-  counterHover: {x: -1.72, y: 1, z: -1.6890894}
-  benchLane: {x: -0.004999995, y: 1.1740001, z: 1.0599997}
-  benchHover: {x: -0.45500004, y: 1.0740001, z: 1.0599997}
-  counterYaw: 90
-  benchYaw: 270
---- !u!4 &879409805
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879409803}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &881422858
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10161,6 +9872,295 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8202762107347321563, guid: 91020ff38cae1244cae5290b5e4a37c4, type: 3}
+--- !u!1 &957382104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 957382106}
+  - component: {fileID: 957382105}
+  m_Layer: 0
+  m_Name: Clinic layout - the stations in the Berth 04 B1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &957382105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957382104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17dc04519a30aca46b768780fc64be19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counter:
+    yaw: -90
+    offset: {x: -0.54356396, y: 0.004, z: -3.5390894}
+  dock:
+    yaw: 90
+    offset: {x: -0.22499979, y: 0.004, z: -0.65999985}
+  bench:
+    yaw: -90
+    offset: {x: 1.3949999, y: 0.02400016, z: 0.50999963}
+  surgery:
+    yaw: 0
+    offset: {x: 4.025, y: 0.004000149, z: 1.55}
+  room:
+    m_Center: {x: 1.53, y: 1.3, z: -0.49}
+    m_Extent: {x: 3.65, y: 1.4, z: 3.25}
+  window:
+    m_Center: {x: 2.67, y: 2.12, z: -3.45}
+    m_Extent: {x: 1.25, y: 0.375, z: 0.15}
+  ceiling: 2.55
+  zones:
+  - path: 
+    position: {x: 1.525, y: 0.004, z: -3.69}
+    rotation: {x: -0, y: -1, z: 0.00000005960465, w: 0}
+    active: 1
+  - path: DockCornerV2
+    position: {x: -0.22499979, y: 0.004, z: -0.65999985}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/Ref_Head.001
+    position: {x: 0.7750002, y: 0.004, z: -0.65999985}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/Ref_Origin.001
+    position: {x: -0.22499979, y: 0.004, z: -0.65999985}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/Ref_Up.001
+    position: {x: -0.22499979, y: 1.004, z: -0.6599996}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Cabinet
+    position: {x: 0.4450003, y: 1.3839997, z: 2.5300007}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_CableTray
+    position: {x: -0.22499979, y: 2.4239998, z: 2.520001}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_ChargeLamp
+    position: {x: 0.4450003, y: 1.4439999, z: 2.4340005}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Clipboard
+    position: {x: -1.0849997, y: 1.2139999, z: 2.6120005}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Conduit
+    position: {x: 0.2750002, y: 0.8039999, z: 2.5700002}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_DripPan
+    position: {x: -0.22499979, y: 0.02399984, z: 2.02}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_ErrLamp
+    position: {x: 0.5350002, y: 1.4439999, z: 2.4340005}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Extinguisher
+    position: {x: -1.0849997, y: 0.6239998, z: 2.5350003}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_FloorMat
+    position: {x: -0.22499979, y: 0.0069998326, z: 2.15}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Lamp
+    position: {x: -0.22499979, y: 1.9339997, z: 2.6000009}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Lamp_Glass
+    position: {x: -0.22499979, y: 1.9339997, z: 2.5650005}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Meters
+    position: {x: 0.4450003, y: 1.5639998, z: 2.4245005}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Plate
+    position: {x: -0.22499979, y: 2.1789997, z: 2.6160007}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Prints
+    position: {x: -0.22499979, y: 1.6039997, z: 2.5700006}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_RunLamp
+    position: {x: 0.35500014, y: 1.4439999, z: 2.4340005}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Seal
+    position: {x: 0.6680002, y: 1.5039998, z: 2.4375005}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Spares
+    position: {x: 0.4450003, y: 1.9039997, z: 2.5400004}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Stencil
+    position: {x: 0.4450003, y: 1.1239997, z: 2.4375005}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: DockCornerV2/ZD_Umbilical
+    position: {x: -0.74499977, y: 1.3239998, z: 2.5500007}
+    rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+    active: 1
+  - path: TradeCounterV2
+    position: {x: -0.54356396, y: 0.004, z: -3.5390894}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/Ref_Head
+    position: {x: -1.543564, y: 0.004, z: -3.5390894}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/Ref_Origin
+    position: {x: -0.54356396, y: 0.004, z: -3.5390894}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/Ref_Up
+    position: {x: -0.54356396, y: 1.004, z: -3.5390892}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_CashBox
+    position: {x: -1.1635638, y: 0.95399994, z: -1.3990891}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Cctv
+    position: {x: -1.6435639, y: 2.564, z: -0.15908909}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 0
+  - path: TradeCounterV2/ZC_Cctv_Led
+    position: {x: -1.6435639, y: 2.564, z: -0.15908909}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Corner
+    position: {x: 0.8807001, y: 0.0039999196, z: -1.2148254}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Counter
+    position: {x: -0.54356396, y: 0.45399988, z: -1.6390893}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_CounterTop
+    position: {x: -0.54356396, y: 0.9539999, z: -1.6390891}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Desk
+    position: {x: -0.54356396, y: 0.9539999, z: -1.5890892}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Fan
+    position: {x: -1.4235641, y: 0.95399994, z: -1.4090891}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Fan/ZC_Fan_Head
+    position: {x: -1.4235641, y: 1.1239998, z: -1.4090891}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Fan/ZC_Fan_Head/ZC_Fan_Blades
+    position: {x: -1.4235641, y: 1.1239998, z: -1.4250891}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Keyboard
+    position: {x: -0.54356396, y: 0.95399994, z: -1.7990892}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Printer
+    position: {x: 0.12643611, y: 0.95399994, z: -1.4090891}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Prints
+    position: {x: -0.54356396, y: 1.2039999, z: -0.9390893}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 0
+  - path: TradeCounterV2/ZC_Racking
+    position: {x: 2.3249989, y: 1.0040001, z: 1.2399993}
+    rotation: {x: -0, y: -0.7071068, z: -0.7071068, w: 0}
+    active: 1
+  - path: TradeCounterV2/ZC_ShelfGoods
+    position: {x: 2.3249989, y: 1.0040001, z: 1.2399993}
+    rotation: {x: -0, y: -0.7071068, z: -0.7071068, w: 0}
+    active: 1
+  - path: TradeCounterV2/ZC_StatusPods
+    position: {x: -0.54356396, y: 1.1539999, z: -1.9190894}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Stool
+    position: {x: -0.54356396, y: 0.35399985, z: -1.0190892}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_TagStrings
+    position: {x: -0.54356396, y: 1.0039998, z: -0.5390892}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_TariffBoard
+    position: {x: -0.54356396, y: 2.2639997, z: -0.15408945}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 0
+  - path: TradeCounterV2/ZC_Terminal
+    position: {x: -0.54356396, y: 0.95399994, z: -1.4390893}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Terminal_Glass
+    position: {x: -0.54356396, y: 1.1314999, z: -1.5540891}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Tray_In
+    position: {x: 0.05643606, y: 0.9539998, z: -1.6990892}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  - path: TradeCounterV2/ZC_Tray_Out
+    position: {x: -1.1435639, y: 0.9539999, z: -1.6990892}
+    rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+    active: 1
+  skipStorage: 1
+  skipRoomKit: 1
+  skipWallSigns: 1
+  npcEntrance: {x: 0.3, y: 0, z: -3.05}
+  npcApproach:
+  - {x: 0.22, y: 0, z: -2.55}
+  patientIn:
+  - {x: 0.3, y: 0, z: -3.05}
+  - {x: 1.05, y: 0, z: -2.75}
+  - {x: 2.25, y: 0, z: -2.15}
+  - {x: 3.2, y: 0, z: -1.55}
+  - {x: 3.25, y: 0, z: -0.25}
+  dockOut: {x: -0.2249999, y: 0.954, z: 1.4399998}
+  westLane: {x: -0.2249999, y: 1.15, z: 0.9}
+  eastLane: {x: -1, y: 1.15, z: -0.25}
+  counterLane: {x: -1.72, y: 1.15, z: -1.25}
+  counterHover: {x: -1.72, y: 1, z: -1.6890894}
+  benchLane: {x: -0.004999995, y: 1.1740001, z: 1.0599997}
+  benchHover: {x: -0.45500004, y: 1.0740001, z: 1.0599997}
+  counterYaw: 90
+  benchYaw: 270
+--- !u!4 &957382106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957382104}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &958882234
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -24929,7 +24929,7 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 879409805}
+  - {fileID: 957382106}
   - {fileID: 1691261336}
   - {fileID: 440951742}
   - {fileID: 1170785245}

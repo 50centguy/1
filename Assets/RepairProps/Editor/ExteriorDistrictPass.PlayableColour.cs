@@ -190,6 +190,59 @@ namespace BorderRepair.RepairProps.EditorTools
             Recolour("store sign", (r, m) => TexOf(m) == "nb_store_sign", c => { SetTextures(c, PTex("nb_store_sign_muted")); ScaleEmission(c, .85f); });
             Recolour("store interior", (r, m) => TexOf(m) == "nb_store_interior", c => SetTextures(c, PTex("nb_store_interior_muted")));
             Recolour("pharmacy cross", (r, m) => Under(r, pharmacy) && TexOf(m) == "nb_pharmacy_cross", c => ScaleEmission(c, .5f));
+            // Fewer lights on the street (the user: too many). The clinic's door is the warm thing to look at, so the
+            // street around it quietens: holograms dimmer (the clinic's 24H least, the skyline band a little), the
+            // shops' second signs dimmer, and the upper-floor lit windows lower: a third at .45, a third at .2, a third dark; none lit near
+            // the clinic's lightbox (each glazing renderer is several
+            // windows, so the thirds alone changed little). Ground-floor shop windows
+            // and the clinic's door keep their glow.
+            Recolour("holograms dimmer", (r, m) => ShaderIs(m, "Hologram") && m.HasProperty("_Intensity"), c =>
+            {
+                float k = c.name.Contains("shop hours") ? .8f : c.name.Contains("corporate band") ? .7f : .55f;
+                c.SetFloat("_Intensity", c.GetFloat("_Intensity") * k);
+            });
+            Recolour("noodle blade second", (r, m) => Under(r, noodles) && TexOf(m).StartsWith("nb_blade_noodle", StringComparison.Ordinal), c => ScaleEmission(c, .7f));
+            Recolour("noodle curtain second", (r, m) => Under(r, noodles) && TexOf(m).StartsWith("nb_noren_", StringComparison.Ordinal), c => ScaleEmission(c, .7f));
+            Recolour("pharmacy sign second", (r, m) => Under(r, pharmacy) && TexOf(m) == "nb_pharmacy_sign", c => ScaleEmission(c, .7f));
+            var doorBox = renderers.FirstOrDefault(r => r.name == "Lightbox face" && r.sharedMaterial != null && AssetDatabase.GetAssetPath(r.sharedMaterial).Contains("Ent_-_lit_sign_face"));
+            Vector3? door = doorBox != null ? doorBox.bounds.center : (Vector3?)null;
+            done.Add("clinic lightbox " + (door.HasValue ? door.Value.ToString("F1") : "not found"));
+            var windowCopies = new Dictionary<(Material, int), Material>();
+            int kept = 0, dimmed = 0, dark = 0;
+            foreach (var r in renderers)
+            {
+                if (r.bounds.center.y < 2.6f) continue;
+                var shared = r.sharedMaterials; bool hit = false;
+                for (int i = 0; i < shared.Length; i++)
+                {
+                    var m = shared[i];
+                    if (m == null) continue;
+                    // (by file: these materials' serialized names are empty)
+                    var file = System.IO.Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(m));
+                    // (the clinic block's windows above the door use the entrance pass's dim sconce material: by renderer name)
+                    bool glazing = r.name == "Clouded glazing" || r.name == "End block glazing" || r.name == "Warm glass behind sash";
+                    if (!(file.StartsWith("Window_-_", StringComparison.Ordinal) || glazing) || file.Contains("kitchen")) continue;
+                    if (!m.HasProperty("_EmissionColor") || m.GetColor("_EmissionColor").maxColorComponent < .05f || Fam(m, "_EmissionColor") != "amber") continue;
+                    var p = r.bounds.center;
+                    float h = Mathf.Abs(Mathf.Sin(p.x * 12.9898f + p.y * 78.233f + p.z * 37.719f) * 43758.5453f) % 1f;
+                    int variant = h < .34f ? 0 : h < .67f ? 1 : 2;
+                    // Above and beside the clinic's door nothing outshines its lightbox: dim or dark only.
+                    if (door.HasValue && Mathf.Abs(p.x - door.Value.x) < 7f && Mathf.Abs(p.z - door.Value.z) < 6f && variant == 0) variant = h < .17f ? 1 : 2;
+                    
+                    if (!windowCopies.TryGetValue((m, variant), out var c))
+                    {
+                        c = new Material(m);
+                        c.SetColor("_EmissionColor", variant == 0 ? m.GetColor("_EmissionColor") * .45f : variant == 1 ? m.GetColor("_EmissionColor") * .2f : Color.black);
+                        if (variant == 2) { c.DisableKeyword("_EMISSION"); c.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack; }
+                        else { c.EnableKeyword("_EMISSION"); c.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive; }   // (GlowFix leaves Palette copies alone)
+                        windowCopies[(m, variant)] = c = Save("Palette - window " + (variant == 0 ? "lit" : variant == 1 ? "dimmed" : "dark") + " " + windowCopies.Count, c);
+                    }
+                    shared[i] = c; hit = true;
+                    if (variant == 0) kept++; else if (variant == 1) dimmed++; else dark++;
+                }
+                if (hit) r.sharedMaterials = shared;
+            }
+            done.Add("upper windows kept " + kept + ", dimmed " + dimmed + ", dark " + dark);
             log.Append("colour script: ").Append(string.Join(", ", done)).Append('\n');
         }
 
