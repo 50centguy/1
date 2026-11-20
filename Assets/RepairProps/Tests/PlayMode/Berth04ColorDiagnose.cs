@@ -163,6 +163,13 @@ namespace BorderRepair.RepairProps.Tests
             shots.Add(("detail - high window from the counter", new Vector3(1.6f, .05f, -1.2f), 155, -12));
             shots.Add(("detail - street, box by the clinic wall", new Vector3(3.0f, 1.35f, -8.0f), 22, 18));
             shots.Add(("detail - street, bin and box across the road", new Vector3(-1.2f, 1.35f, -10.6f), 180, 16));
+            shots.Add(("detail - back room door beside UNIT07", new Vector3(1.75f, .05f, -.6f), 8, 8));
+            shots.Add(("detail - back room, inside from the door", new Vector3(1.9f, .05f, 3.05f), 330, 14));
+            shots.Add(("detail - back room, the cot and the bulb", new Vector3(.4f, .05f, 3.2f), 95, 12));
+            shots.Add(("detail - street, clinic side west", new Vector3(-6.5f, 1.35f, -11.8f), 30, 6));
+            shots.Add(("detail - street, clinic side east", new Vector3(9.0f, 1.35f, -11.8f), 25, 6));
+            shots.Add(("detail - street, the pole line", new Vector3(-12f, 1.35f, -12.5f), 82, -12));
+            shots.Add(("detail - harbour, the cranes across the basin", new Vector3(-46f, 1.35f, -7f), 318, -12));
             foreach (var v in join.Outdoor.reviewViews.Where(v => v.position.y > .5f && v.position.y < 10 && !v.name.StartsWith("Counter") && !v.name.StartsWith("Main Camera")))
             {
                 var e = v.rotation.eulerAngles;

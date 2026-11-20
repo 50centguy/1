@@ -58,6 +58,8 @@ namespace BorderRepair.RepairProps.EditorTools
                 RemoveCameras(holder);
                 OpenB1(holder);
                 WidenSurgeryBay(holder);
+                BackRoom(holder);
+                StreetSide(holder);
                 var motion = holder.GetComponentInChildren<DistrictMotion>(true);
                 if (motion != null) { motion.origin = PlayableOffset; motion.Evaluate(0); }
                 atmosphere.offset = PlayableOffset;
@@ -80,6 +82,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 FarFill(holder);
                 B1Cyber(holder);
                 NightDetails(holder);
+                HarbourCranes(holder);
                 FarDepth(holder);
                 CraneDetail(holder);
                 GlowFix(holder);
@@ -195,10 +198,11 @@ namespace BorderRepair.RepairProps.EditorTools
         {
             var ex = holder.GetComponentsInChildren<BoxCollider>(true).FirstOrDefault(c => c.name == "Indoor snow exclusion");
             if (ex == null) { log.Append("snow exclusion: not found\n"); return; }
-            ex.transform.position = new Vector3(B1Room.center.x, 1.6f, B1Room.center.z);
+            var room = PlayableRoom;
+            ex.transform.position = new Vector3(room.center.x, 1.6f, room.center.z);
             ex.transform.rotation = Quaternion.identity;
             ex.center = Vector3.zero;
-            ex.size = new Vector3((B1Room.size.x + .3f) / ex.transform.lossyScale.x, 3.4f / ex.transform.lossyScale.y, (B1Room.size.z + .4f) / ex.transform.lossyScale.z);
+            ex.size = new Vector3((room.size.x + .3f) / ex.transform.lossyScale.x, 3.4f / ex.transform.lossyScale.y, (room.size.z + .4f) / ex.transform.lossyScale.z);
             log.Append("snow exclusion moved over the B1\n");
         }
 

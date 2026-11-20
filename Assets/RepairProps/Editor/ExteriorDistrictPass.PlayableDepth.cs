@@ -136,16 +136,38 @@ namespace BorderRepair.RepairProps.EditorTools
     {
         static void CraneDetail(Transform holder)
         {
-            var cranes = holder.GetComponentsInChildren<Transform>(true).Where(t => t.name.StartsWith("Dock portal crane", StringComparison.Ordinal)).ToArray();
+            var cranes = holder.GetComponentsInChildren<Transform>(false).Where(t => t.name.StartsWith("Dock portal crane", StringComparison.Ordinal)).ToArray();
+            var kinds = holder.GetComponentsInChildren<Transform>(false).Where(t => t.name.StartsWith(CraneKindPrefix, StringComparison.Ordinal)).ToArray();
             var copies = new Dictionary<Material, Material>();
             int steel = 0, dark = 0, tips = 0;
             var industrial = Hex("#3A474F");
             var tipLamp = Beacon("Crane jib tip lamp", AlarmRed, 1.6f, .45f, .4f);
+            // A cold working floodlight on each crane: from the street the cranes are against the sky light, so
+            // without it every member is one black silhouette.
+            void Flood(Transform crane)
+            {
+                var root = crane.position;
+                var bounds = RenderBounds(crane);
+                var toStreet = new Vector3(-root.x, 0, -5f - root.z).normalized;
+                var flood = new GameObject("Crane floodlight - quay, cold").AddComponent<Light>();
+                flood.transform.SetParent(crane, true);
+                // High in front, above the street's roofs (set far back at mid height it lit a near building's wall),
+                // looking down on the crane: the street-side faces and the snow on the jib tops. Intensity by the
+                // inverse square, about .18 at the crane.
+                var at = bounds.center + toStreet * (bounds.extents.magnitude * .7f + 10f) + Vector3.up * (bounds.extents.y + 12f);
+                float back = Vector3.Distance(at, bounds.center);
+                flood.transform.position = at;
+                flood.transform.LookAt(bounds.center);
+                flood.type = LightType.Spot; flood.color = Hex("#9FB4BE"); flood.intensity = .18f * back * back;
+                flood.range = back + bounds.extents.magnitude * 2f;
+                flood.spotAngle = 48f; flood.innerSpotAngle = 26f; flood.shadows = LightShadows.None;
+            }
+
             foreach (var crane in cranes)
             {
                 foreach (var r in crane.GetComponentsInChildren<Renderer>(true))
                 {
-                    if (r.name == "Crane obstruction lamp" || r.name == "Cab glazing") continue;
+                    if (r.name == "Crane obstruction lamp" || r.name == "Cab glazing" || r.transform.parent != null && r.transform.parent.name.StartsWith("Type A additions", StringComparison.Ordinal)) continue;
                     var shared = r.sharedMaterials; bool hit = false;
                     for (int i = 0; i < shared.Length; i++)
                     {
@@ -188,25 +210,11 @@ namespace BorderRepair.RepairProps.EditorTools
                 Sphere("Crane jib tip lamp", crane, best + Vector3.down * .25f, .16f, tipLamp);
                 tips++;
 
-                // A cold working floodlight on the crane: from the street the cranes are against the sky
-                // light, so without it every member is one black silhouette.
-                var bounds = crane.GetComponentsInChildren<Renderer>(true).Where(r => r is MeshRenderer).Select(r => r.bounds).Aggregate((x, y) => { x.Encapsulate(y); return x; });
-                var toStreet = new Vector3(-root.x, 0, -5f - root.z).normalized;
-                var flood = new GameObject("Crane floodlight - quay, cold").AddComponent<Light>();
-                flood.transform.SetParent(crane, true);
-                // High in front, above the street's roofs (set far back at mid height it lit a near building's wall),
-                // looking down on the crane: the street-side faces and the snow on the jib tops. Intensity by the
-                // inverse square, about .18 at the crane.
-                var at = bounds.center + toStreet * (bounds.extents.magnitude * .7f + 10f) + Vector3.up * (bounds.extents.y + 12f);
-                float back = Vector3.Distance(at, bounds.center);
-                flood.transform.position = at;
-                flood.transform.LookAt(bounds.center);
-                flood.type = LightType.Spot; flood.color = Hex("#9FB4BE"); flood.intensity = .18f * back * back;
-                flood.range = back + bounds.extents.magnitude * 2f;
-                flood.spotAngle = 48f; flood.innerSpotAngle = 26f; flood.shadows = LightShadows.None;
+                Flood(crane);
             }
+            foreach (var kind in kinds) Flood(kind);
             log.Append("cranes: ").Append(cranes.Length).Append(" cranes, steelwork ").Append(steel).Append(" r cold grey + snow on slopes, dark steel ")
-                .Append(dark).Append(" r lifted, jib tip lamps ").Append(tips).Append('\n');
+                .Append(dark).Append(" r lifted, jib tip lamps ").Append(tips).Append(", floodlights ").Append(cranes.Length + kinds.Length).Append('\n');
         }
     }
 }

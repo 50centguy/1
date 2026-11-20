@@ -227,7 +227,7 @@ namespace BorderRepair.RepairProps.EditorTools
             layout.bench = MoveFrom(workbench.position, workbench.eulerAngles.y, b1Bench.position, b1Bench.Yaw);
             float bedYaw = Vector3.SignedAngle(bedHead, b1BedHead, Vector3.up);
             layout.surgery = new ClinicLayout.Move { yaw = bedYaw, offset = b1BedFloor - Quaternion.Euler(0, bedYaw, 0) * bedFloor };
-            layout.room = B1Room;
+            layout.room = PlayableRoom;   // the B1 and its back room
             layout.ceiling = 2.55f;
             layout.zones = b1Zones;
 
