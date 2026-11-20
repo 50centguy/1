@@ -217,7 +217,13 @@ namespace BorderRepair.RepairProps
             EyeInRoom = Room.Contains(eye) && eye.z > DoorZ;
             Apply(Blend(eye), false);
             // (every frame: the harbour's thicker fog follows the eye, not the blend)
-            if (outdoor != null) RenderSettings.fogDensity = outdoor.fogDensity * Mathf.Lerp(.35f, 1f, OutdoorBlend) * outdoor.FogScaleAt(eye);
+            if (outdoor != null)
+            {
+                float k = outdoor.FogScaleAt(eye);
+                RenderSettings.fogDensity = outdoor.fogDensity * Mathf.Lerp(.35f, 1f, OutdoorBlend) * k;
+                // (linear fog: thicker means nearer)
+                if (outdoor.fogMode == FogMode.Linear) { RenderSettings.fogStartDistance = outdoor.fogStart / k; RenderSettings.fogEndDistance = outdoor.fogEnd / k; }
+            }
 
             GeometryUtility.CalculateFrustumPlanes(view, cameraPlanes);
             var door = new Bounds(DoorCentre, new Vector3(DoorHalfWidth * 2, DoorHeight, .2f));

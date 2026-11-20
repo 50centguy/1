@@ -865,6 +865,35 @@
 
 新的诊断测试 `Diagnose_PS2Look`（只在点名运行时跑）：把同一组内外景角度和 4 个细节角度各拍一张开 PS2 滤镜、一张关滤镜。其他截图都是离屏渲染，不经过 PS2 滤镜。
 
+### 25.10 远景层次（近 / 中 / 远拉开）
+
+**问题**：近中景和远景（企业巨构黑塔、吊机）的亮度和色调太接近；黑塔顶部和夜空粘在一起。
+
+**定位到的东西**（共享资源都只在 playable 里复制后修改，原件不动）：
+- **雾**：没有单独的 Lighting Settings 资源。外景的雾存在 `Berth04_Playable_District.unity` 里的 `DistrictAtmosphere` 组件上，由 `Berth04Join` 在运行时写进 `RenderSettings`。原来是 Exponential Squared，密度 0.03，颜色 `#3B4B54`，码头一段 ×1.7。
+- **天空盒**：`Scenes/Temp_WinterNight/Harbour evening.mat`，shader 是 `Temp_WinterNight/OvercastSky.shader`，颜色写死在 shader 里。实测天顶约 `#09161C`。
+- **天边的城市辉光**：`Temp_ExteriorPass` 里的 `Horizon glow - city on the cloud`（`HorizonGlow.shader`，叠加混合）。地平线颜色是暖橙 (.42, .27, .16)。
+- **远景窗户发光**：
+  - 远处城区方块：`CityBlock.shader` 的 `_Warm` / `_Neutral` / `_Gain`。
+  - 远处板楼的亮窗贴花：`Distant_windows.mat`。
+  - 巨构黑塔的窗格：`FarSilhouette` 的 `_WindowColor` / `_WindowGain`。
+  - 天际线的琥珀霓虹环：`Ring neon - amber`。
+  - 远处码头仓库门灯：`Shed_door_-_working_light.mat`。
+
+**改了什么**（`ExteriorDistrictPass.PlayableDepth.cs`）：
+1. **雾**：改成 Linear，从 30 m 到 170 m，颜色 `#3B4B54`。近处 30 m 内的街道和店铺完全清晰，中景楼体开始进雾，远景吃进雾里。
+   - 码头那一段的浓雾改成按比例拉近起止距离：1.7 倍时变成 18～100 m。
+   - B1 室内不到 30 m，等于没有雾。
+2. **远景窗户**：
+   - 城区方块的暖光和中性光都换成暗冷青灰 `#55666E`，亮度 ×0.3。
+   - 远处板楼的亮窗贴花压成 `#3E4C54`。
+   - 黑塔窗格亮度 ×0.3，颜色 `#5F7480`。
+   - 远处仓库门灯往 `#2E3A40` 拉 75%。
+   - 天际线琥珀霓虹环关掉，青色环再 ×0.5。
+   - 塔顶和吊机的红色航空灯不动。
+3. **天空**：新建 `Berth04_Playable/Shaders/NightSky.shader`。地平线 `#2A3942`，往上到方向高度 0.32 渐变成 `#0E1519`，保留很淡的云纹（±12%）。天边的城市辉光从暖橙改成冷色：地平线 `#2A3942`、上部 `#141D22`，强度 0.3。
+4. **空气隔断**：新建 `AirVeil.shader`，在天际线中心周围半径 68 m 处（吊机最远 54 m 再往外 14 m）放一圈半透明雾带。颜色 `#3B4B54`，贴地处透明度 0.2，往上按 1.6 次方淡出，高 55 m。近处的不透明物体会挡住它，所以它只叠在吊机后方和远景塔前面。
+
 **资料**：
 - Mirror's Edge 颜色分析：https://www.worldofleveldesign.com/categories/game_environments_design/mirrors-edge-color.php
 - 《银翼杀手 2049》布光：https://www.premiumbeat.com/blog/blade-runner-2049-lighting-cinematography/
