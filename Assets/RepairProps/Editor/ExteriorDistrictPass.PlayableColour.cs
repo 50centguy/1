@@ -86,10 +86,11 @@ namespace BorderRepair.RepairProps.EditorTools
                 }
                 done.Add(name + (n == 1 ? "" : " (" + n + ")"));
             }
-            // Second round (the user: too cold, inside and on the street): the tubes are warm white, not mint; fills and
-            // bounces neutral; the street's lamps sodium-warm; only the sky fill keeps a trace of cool.
+            // The palette's first rule: cold outside, warm inside, one contrast. The street keeps PALETTE_BR2049_PS2.md's
+            // values (fog #3B4B54, cold sky fills, neutral-warm #DCD4C4 street lamps); the B1 is the warm room: its tubes
+            // warm white instead of mint, its fills neutral, and the street lamp through its window stays cold, so the
+            // room reads warm against it.
             var tube = Hex("#FFF1DC");
-            // Inside: one tube colour for both battens.
             L("Batten - workshop light", tube, 4.2f);
             L("Batten - workshop ceiling halo light", tube, .45f);
             L("Batten - waiting side light", tube, null);
@@ -97,19 +98,12 @@ namespace BorderRepair.RepairProps.EditorTools
             L("Dim alcove fill", Hex("#FFF3E2"), null);
             L("Cool room bounce", Hex("#B0AAA2"), null);
             L("Low dock fill", Hex("#D8D2C8"), null);
-            // The street lamp through the window (a third as strong as before): the sodium lamp outside.
-            L("Street lamp through the window light", Hex("#E8C9A0"), 22f);
-            // Outside: lamps sodium-warm, the gate's spill and the stair warm-grey, the sky fill a cool grey.
-            L("Aged sodium street lamp", Hex("#FFC98A"), null);
-            L("Wharf amber pool", Hex("#FFD29A"), null);
-            L("Court wall sconce", Hex("#F2DDBE"), null);
-            L("Store spill light", Hex("#F0F0EA"), null);
-            L("Vending glow", Hex("#E6E8E2"), null);
-            L("Street spill through the gate light", Hex("#C8BBA6"), null);
-            L("Stair ambient", Hex("#B4B2AC"), null);
-            L("Street fill", Hex("#B4B8B8"), null);
-            L("Blue overcast at upper landing", Hex("#AEB4B6"), null);
-            L("Cold overcast sky light", Hex("#B2B6B6"), null);
+            // The street lamp through the window laid a blue wedge across the B1 brighter than its own lamps: a third
+            // as strong, in the sky light's cold grey.
+            L("Street lamp through the window light", Hex("#A8BDC7"), 22f);
+            // Outside the door: the street's cold grey-blue.
+            L("Street spill through the gate light", Hex("#A3B4BD"), null);
+            L("Stair ambient", Hex("#9EB5C2"), null);
             L("Noodle bar spill light", null, 1.5f);
             // The flickering lamps keep their colour in DistrictMotion (it sets the light every frame): follow the lights.
             int synced = 0;
@@ -196,18 +190,6 @@ namespace BorderRepair.RepairProps.EditorTools
             Recolour("store sign", (r, m) => TexOf(m) == "nb_store_sign", c => { SetTextures(c, PTex("nb_store_sign_muted")); ScaleEmission(c, .85f); });
             Recolour("store interior", (r, m) => TexOf(m) == "nb_store_interior", c => SetTextures(c, PTex("nb_store_interior_muted")));
             Recolour("pharmacy cross", (r, m) => Under(r, pharmacy) && TexOf(m) == "nb_pharmacy_cross", c => ScaleEmission(c, .5f));
-            // The lamp cones: sodium-warm like their lamps.
-            Recolour("lamp cones warm", (r, m) => ShaderIs(m, "LampVolume"), c => c.SetColor("_Color", Color.Lerp(c.GetColor("_Color"), Hex("#FFD7A8"), .7f)));
-            // The air: the street's ambient was blue (.31, .35, .40) and the fog teal; both lay over everything, the B1
-            // too through the join. Neutral grey ambient at the same brightness, the fog a grey with only a trace of cool.
-            var air = Object.FindFirstObjectByType<DistrictAtmosphere>();
-            if (air != null)
-            {
-                air.ambientSky = air.ambientEquator = air.ambientGround = new Color(.35f, .345f, .34f);
-                air.fogColour = new Color(.27f, .285f, .29f);
-                EditorUtility.SetDirty(air);
-                done.Add("air neutral (ambient, fog)");
-            }
             log.Append("colour script: ").Append(string.Join(", ", done)).Append('\n');
         }
 

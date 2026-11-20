@@ -9,7 +9,8 @@ namespace BorderRepair.RepairProps
 {
     // The B1's palette for the clinic runtimes that light and dress the room at play time (Docs/Art/PALETTE_BR2049_PS2.md,
     // Docs/Art/INTERIOR_B1_PASS.md section 25). Only while the B1 layout is active; the desktop clinic keeps its own look.
-    //   - Neutral grey is the room (second round: the mint tubes and the fog-teal ambient read too cold): the ambient
+    //   - Cold outside, warm inside (the palette's first rule): the street keeps the cold fog; the room is the warm one
+    //     (second round: the mint tubes and the fog-teal ambient read too cold). The ambient
     //     is a neutral, faintly warm grey at the old brightness, the fill is grey, and every fluorescent tube is one
     //     warm-white tube colour (the district's battens).
     //   - Amber only where a lamp hangs (counter, gate, bench). The counter's orange-red is amber and half as strong.
