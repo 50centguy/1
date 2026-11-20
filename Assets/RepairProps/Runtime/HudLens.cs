@@ -58,19 +58,65 @@ namespace BorderRepair.RepairProps
         Matrix4x4 last;
         Vector2 lastSize;
 
-        void LateUpdate()
+        static readonly List<HudLensWarp> live = new List<HudLensWarp>();
+        static bool hooked;
+        int slot = -1;
+
+        internal static void ResetAll()
         {
-            if (graphic == null || !HudLens.On) return;
-            if (root == null) { var c = graphic.canvas; root = c != null ? c.rootCanvas.transform as RectTransform : null; if (root == null) return; }
-            var m = root.worldToLocalMatrix * transform.localToWorldMatrix;
-            if (m != last || root.rect.size != lastSize) { last = m; lastSize = root.rect.size; graphic.SetVerticesDirty(); }
+            live.Clear();
+            if (hooked) { Canvas.preWillRenderCanvases -= CheckAll; hooked = false; }
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            if (slot < 0) { slot = live.Count; live.Add(this); }
+            if (!hooked) { hooked = true; Canvas.preWillRenderCanvases += CheckAll; }
+        }
+
+        protected override void OnDisable()
+        {
+            if (slot >= 0 && slot < live.Count && live[slot] == this)
+            {
+                var moved = live[live.Count - 1];
+                live[slot] = moved; moved.slot = slot;
+                live.RemoveAt(live.Count - 1);
+            }
+            slot = -1;
+            base.OnDisable();
+        }
+
+        static readonly Dictionary<RectTransform, Vector2> rootSizes = new Dictionary<RectTransform, Vector2>();
+
+        static void CheckAll()
+        {
+            if (!HudLens.On) return;
+            rootSizes.Clear();
+            for (int i = 0; i < live.Count; i++) live[i].Check();
+            // (hasChanged is cleared after everyone looked: a moved parent marks all its children)
+            for (int i = 0; i < live.Count; i++) live[i].cached.hasChanged = false;
+        }
+
+        Transform cached;
+
+        void Check()
+        {
+            if (cached == null) cached = transform;
+            var g = graphic;
+            if (g == null || !g.enabled) return;   // (re-enabling rebuilds it anyway)
+            if (root == null) { var c = g.canvas; root = c != null ? c.rootCanvas.transform as RectTransform : null; if (root == null) return; }
+            if (!rootSizes.TryGetValue(root, out var size)) rootSizes[root] = size = root.rect.size;
+            if (!cached.hasChanged && size == lastSize) return;
+            var m = root.worldToLocalMatrix * cached.localToWorldMatrix;
+            if (m != last || size != lastSize) { last = m; lastSize = size; g.SetVerticesDirty(); }
         }
 
         public override void ModifyMesh(VertexHelper vh)
         {
             if (!IsActive() || !HudLens.On) return;
             var canvas = graphic.canvas;
-            if (canvas == null || canvas.rootCanvas.renderMode == RenderMode.WorldSpace || canvas.rootCanvas.GetComponent<HudLensExempt>() != null) return;
+            if (canvas == null || canvas.rootCanvas.renderMode == RenderMode.WorldSpace || canvas.rootCanvas.TryGetComponent<HudLensExempt>(out _)) return;
             root = canvas.rootCanvas.transform as RectTransform;
             var toRoot = root.worldToLocalMatrix * transform.localToWorldMatrix;
             var toLocal = toRoot.inverse;
@@ -78,7 +124,7 @@ namespace BorderRepair.RepairProps
             if (half.x < 1 || half.y < 1) return;
             stream.Clear(); output.Clear();
             vh.GetUIVertexStream(stream);
-            for (int i = 0; i + 2 < stream.Count; i += 3) Split(stream[i], stream[i + 1], stream[i + 2], toRoot, half, 0);
+            for (int i = 0; i + 2 < stream.Count; i += 3) Split(stream[i], stream[i + 1], stream[i + 2], toRoot, half, 0, 0);
             for (int i = 0; i < output.Count; i++)
             {
                 var v = output[i];
@@ -92,16 +138,29 @@ namespace BorderRepair.RepairProps
             vh.AddUIVertexTriangleStream(output);
         }
 
-        void Split(UIVertex a, UIVertex b, UIVertex c, Matrix4x4 toRoot, Vector2 half, int depth)
+        // Four ways while the triangle is roughly even; a thin one (a line, a rule) is halved across its longest edge, so
+        // it bends along its length without being diced across its width.
+        void Split(UIVertex a, UIVertex b, UIVertex c, Matrix4x4 toRoot, Vector2 half, int depth, int cuts)
         {
             Vector2 pa = Norm(a, toRoot, half), pb = Norm(b, toRoot, half), pc = Norm(c, toRoot, half);
-            float longest = Mathf.Max((pa - pb).magnitude, Mathf.Max((pb - pc).magnitude, (pc - pa).magnitude));
-            if (depth >= 4 || longest <= MaxEdge) { output.Add(a); output.Add(b); output.Add(c); return; }
+            float lab = (pa - pb).magnitude, lbc = (pb - pc).magnitude, lca = (pc - pa).magnitude;
+            float longest = Mathf.Max(lab, Mathf.Max(lbc, lca));
+            // thin: its height over the longest edge is under a quarter of that edge (a sliver, whatever its sides)
+            float twiceArea = Mathf.Abs((pb.x - pa.x) * (pc.y - pa.y) - (pc.x - pa.x) * (pb.y - pa.y));
+            bool thin = twiceArea < longest * longest * .25f;
+            if (longest <= MaxEdge || (thin ? cuts >= 10 : depth >= 4)) { output.Add(a); output.Add(b); output.Add(c); return; }
+            if (thin)
+            {
+                if (lab >= lbc && lab >= lca) { var m = Mid(a, b); Split(a, m, c, toRoot, half, depth, cuts + 1); Split(m, b, c, toRoot, half, depth, cuts + 1); }
+                else if (lbc >= lca) { var m = Mid(b, c); Split(a, b, m, toRoot, half, depth, cuts + 1); Split(a, m, c, toRoot, half, depth, cuts + 1); }
+                else { var m = Mid(c, a); Split(a, b, m, toRoot, half, depth, cuts + 1); Split(m, b, c, toRoot, half, depth, cuts + 1); }
+                return;
+            }
             var ab = Mid(a, b); var bc = Mid(b, c); var ca = Mid(c, a);
-            Split(a, ab, ca, toRoot, half, depth + 1);
-            Split(ab, b, bc, toRoot, half, depth + 1);
-            Split(ca, bc, c, toRoot, half, depth + 1);
-            Split(ab, bc, ca, toRoot, half, depth + 1);
+            Split(a, ab, ca, toRoot, half, depth + 1, cuts);
+            Split(ab, b, bc, toRoot, half, depth + 1, cuts);
+            Split(ca, bc, c, toRoot, half, depth + 1, cuts);
+            Split(ab, bc, ca, toRoot, half, depth + 1, cuts);
         }
 
         static Vector2 Norm(UIVertex v, Matrix4x4 toRoot, Vector2 half)
@@ -139,7 +198,7 @@ namespace BorderRepair.RepairProps
         public int WarpedGraphics => done.Count;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetHooks() { SceneManager.sceneLoaded -= OnSceneLoaded; Current = null; HudLens.Enable(false); }
+        static void ResetHooks() { SceneManager.sceneLoaded -= OnSceneLoaded; Current = null; HudLens.Enable(false); HudLensWarp.ResetAll(); }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Install() => SceneManager.sceneLoaded += OnSceneLoaded;

@@ -147,9 +147,13 @@ namespace BorderRepair.RepairProps
         }
 
         // The robot director and its slice HUD are built only once the robot part of the night starts.
+        float bindAgain;
+
         bool Bind()
         {
             if (view != null) return true;
+            if (Time.unscaledTime < bindAgain) return false;
+            bindAgain = Time.unscaledTime + .5f;
             if (clinic == null) clinic = FindObjectsByType<UnifiedClinicDirector>(FindObjectsSortMode.None).FirstOrDefault(c => c.gameObject.scene == gameObject.scene);
             view = FindObjectsByType<SliceView>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault(v => v.gameObject.scene == gameObject.scene);
             if (view == null || view.GetButton("manual") == null) { view = null; return false; }
@@ -294,10 +298,15 @@ namespace BorderRepair.RepairProps
         // Plain text of one of the slice HUD's labels (its rich-text colour tags dropped).
         string Find(string path, string fallback = "")
         {
-            var text = view.transform.Find(path)?.GetComponent<Text>();
+            if (!labels.TryGetValue(path, out var text) || text == null) labels[path] = text = view.transform.Find(path)?.GetComponent<Text>();
             if (text == null) return fallback;
-            return System.Text.RegularExpressions.Regex.Replace(text.text, "<[^>]+>", "");
+            if (plain.TryGetValue(path, out var known) && ReferenceEquals(known.raw, text.text)) return known.plain;
+            var stripped = System.Text.RegularExpressions.Regex.Replace(text.text, "<[^>]+>", "");
+            plain[path] = (text.text, stripped);
+            return stripped;
         }
+        readonly Dictionary<string, Text> labels = new Dictionary<string, Text>();
+        readonly Dictionary<string, (string raw, string plain)> plain = new Dictionary<string, (string, string)>();
 
         // ------------------------------------------------------------------------------------------------ widgets
         // The same widgets as the bench workspace (RepairPropContextPanel / SurgeryCloseupPanel).

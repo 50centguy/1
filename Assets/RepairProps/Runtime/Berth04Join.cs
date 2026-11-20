@@ -203,10 +203,16 @@ namespace BorderRepair.RepairProps
             }
         }
 
+        int standInFrame = -1;
+
         void BeforeCamera(ScriptableRenderContext context, Camera c)
         {
-            if (c != cam || cam == null) return;
-            Evaluate(cam);
+            if (cam == null || c == null) return;
+            if (c == cam) { Evaluate(cam); return; }
+            // A close-up camera standing in for the eye (on screen, no render texture, the eye off): once a frame.
+            if (cam.isActiveAndEnabled || c.cameraType != CameraType.Game || c.targetTexture != null || standInFrame == Time.frameCount) return;
+            standInFrame = Time.frameCount;
+            Evaluate(c);
         }
 
         /// <summary>Recomputes lighting and culling for a camera (the player's eye before each of its frames; tests pass

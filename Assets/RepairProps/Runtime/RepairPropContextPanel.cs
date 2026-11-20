@@ -336,21 +336,40 @@ namespace BorderRepair.RepairProps
             if(detailToggle.gameObject.activeSelf!=RepairPropWorkspaceLayout.CompactOffered) detailToggle.gameObject.SetActive(RepairPropWorkspaceLayout.CompactOffered);
             detailToggle.GetComponentInChildren<Text>(true).text=compact ? "▼ 显示详细信息":"▲ 收起详细信息";
             if(compact!=builtCompact) {builtCompact=compact;dirty=true;}
-            RefreshHeader(flow);
+            bool due=PanelDue(flow,compact);
+            if(due) RefreshHeader(flow);
             if(appearance) {RefreshFeedback();return;}
             foreach(var pair in tabs) Paint(pair.Value,pair.Key==tab ? Rule:IdleBg,pair.Key==tab ? Ink:Dim);
             var tool=owner.Station.ActiveTool;
             foreach(var pair in tools) Paint(pair.Value,tool==pair.Key ? Accent:ButtonBg,tool==pair.Key ? Color.black:Ink);
             Paint(inspectTool,!tool.HasValue ? Accent:ButtonBg,!tool.HasValue ? Color.black:Ink);
             var selected=flow.Definition.FindNode(owner.SelectedTarget);
-            toolStatus.text=(tool.HasValue ? RepairActionText.Label(tool.Value).Replace(" ",""):"空手")+" → "+(selected!=null ? selected.displayName:"—");
+            if(due) toolStatus.text=(tool.HasValue ? RepairActionText.Label(tool.Value).Replace(" ",""):"空手")+" → "+(selected!=null ? selected.displayName:"—");
             int records=RecordCount(flow);
-            if(dirty || previousTarget!=owner.SelectedTarget || builtTab!=tab || tab==RepairPropWorkspaceTab.Records && records!=builtRecords) Rebuild(records);
-            refreshing=true;
-            TargetPicker.SetValueWithoutNotify(Mathf.Max(0,targets.FindIndex(n=>n.objectName==owner.SelectedTarget)));
-            TargetPicker.RefreshShownValue();refreshing=false;
-            RefreshRows(flow);
+            if(dirty || previousTarget!=owner.SelectedTarget || builtTab!=tab || tab==RepairPropWorkspaceTab.Records && records!=builtRecords) {Rebuild(records);due=true;}
+            if(due)
+            {
+                int pick=0;
+                for(int i=0;i<targets.Count;i++) if(targets[i].objectName==owner.SelectedTarget) {pick=i;break;}
+                refreshing=true;
+                TargetPicker.SetValueWithoutNotify(pick);
+                TargetPicker.RefreshShownValue();refreshing=false;
+                RefreshRows(flow);
+            }
             RefreshFeedback();
+        }
+
+        // What the header, the status line and the rows show changes with a step, the tool in hand, the selection, the
+        // tab, the clock's second and the link meter's beat; other changes are picked up within a quarter second.
+        float panelUntil;
+        (int,int,RepairActionType?,string,bool,bool,int,(bool,RepairPropWorkspaceTab)) panelKey;
+        bool PanelDue(RepairPropFlow flow,bool compact)
+        {
+            var key=(flow.History.Count,Mathf.FloorToInt(owner.Station.Session.ShiftDuration),owner.Station.ActiveTool,owner.SelectedTarget,
+                owner.CanInteract,owner.Gesture!=null && owner.Gesture.AutoRunning,Mathf.FloorToInt(Time.unscaledTime*2.5f),(compact,tab));
+            if(key.Equals(panelKey) && Time.unscaledTime<panelUntil) return false;
+            panelKey=key;panelUntil=Time.unscaledTime+.25f;
+            return true;
         }
 
         void RefreshHeader(RepairPropFlow flow)

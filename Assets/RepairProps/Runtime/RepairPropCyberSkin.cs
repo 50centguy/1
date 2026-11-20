@@ -44,11 +44,18 @@ namespace BorderRepair.RepairProps
             {
                 if (!canvas.isRootCanvas || canvas.renderMode == RenderMode.WorldSpace) continue;
                 // The workspace and the AR layer style themselves.
-                if (canvas.GetComponentInParent<RepairPropContextPanel>(true) != null || canvas.GetComponentInParent<RepairPropArOverlay>(true) != null) continue;
-                if (canvas.GetComponentInParent<SurgeryCloseupPanel>(true) != null || canvas.GetComponentInParent<SurgeryCloseupOverlay>(true) != null) continue;
-                if (canvas.GetComponentInParent<RobotNightWorkspace>(true) != null) continue;
+                if (Under<RepairPropContextPanel>(canvas) || Under<RepairPropArOverlay>(canvas)) continue;
+                if (Under<SurgeryCloseupPanel>(canvas) || Under<SurgeryCloseupOverlay>(canvas)) continue;
+                if (Under<RobotNightWorkspace>(canvas)) continue;
                 Skin(canvas.transform);
             }
+        }
+
+        // (GetComponentInParent's way of saying "none" costs an error string in the editor; this does not.)
+        static bool Under<T>(Component c) where T : Component
+        {
+            for (var t = c.transform; t != null; t = t.parent) if (t.TryGetComponent<T>(out _)) return true;
+            return false;
         }
 
         void Skin(Transform root)
@@ -83,7 +90,7 @@ namespace BorderRepair.RepairProps
                     if (skinned.Add(text.GetInstanceID())) text.font = face;
             foreach (var image in root.GetComponentsInChildren<Image>(true))
             {
-                if (image.name == "Frame" || image.GetComponent<Button>() != null || image.GetComponent<Selectable>() != null) continue;
+                if (image.name == "Frame" || image.TryGetComponent<Selectable>(out _)) continue;   // (a Button is a Selectable)
                 if (!skinned.Add(image.GetInstanceID())) continue;
                 var rect = image.rectTransform.rect;
                 var c = image.color;

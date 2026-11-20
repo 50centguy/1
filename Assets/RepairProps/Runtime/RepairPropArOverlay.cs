@@ -35,6 +35,8 @@ namespace BorderRepair.RepairProps
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetGuide() => GuideHidden = false;
         float tagRight, bandTop;
+        string anaKey, anaLineKey;
+        (int, int, int, int) clockShown = (-1, -1, -1, -1);
         readonly Vector3[] corners = new Vector3[8];
         readonly Vector2[] screen = new Vector2[8];
 
@@ -45,6 +47,7 @@ namespace BorderRepair.RepairProps
         bool pointerOnItem;
         const float DoneSeconds = .6f, TraceSeconds = 1.5f, TraceEvery = 7f, AnalysisSeconds = 3.6f;
         readonly List<Image> tagIcons = new List<Image>();
+        readonly List<(string text, int size, float w, float h)> tagSizes = new List<(string, int, float, float)>();
         Image stepIcon;
         string anaTarget, anaTitle, anaBody, anaIcon;
         Color anaColour;
@@ -146,6 +149,7 @@ namespace BorderRepair.RepairProps
         {
             anaTarget = target; anaTitle = title; anaBody = Wrap(body, 22); anaColour = colour; anaIcon = icon; anaWave = wave;
             anaAt = Time.unscaledTime;
+            anaKey = "ana:" + anaAt; anaLineKey = "analine:" + anaAt;
         }
 
         static string Wrap(string text, int width)
@@ -212,7 +216,7 @@ namespace BorderRepair.RepairProps
                 if (k == 0) sweep = h;
                 if (flip) h = 1 - h;
                 var colour = anaColour; colour.a = .95f - k * .3f;
-                var ring = new[] { 0, a, a | b, b };
+                ring[0] = 0; ring[1] = a; ring[2] = a | b; ring[3] = b;
                 bool visible = true;
                 for (int i = 0; i < 4 && visible; i++)
                 {
@@ -223,7 +227,7 @@ namespace BorderRepair.RepairProps
                 for (int i = 0; i < 4; i++) Line(box2[i], box2[(i + 1) % 4], colour);
             }
             var hold = anaColour; hold.a = .85f * fade;
-            if (TargetBox(anaTarget, 1.06f)) LockBox(camera, scale, hold, .24f, "ana:" + anaAt);
+            if (TargetBox(anaTarget, 1.06f)) LockBox(camera, scale, hold, .24f, anaKey);
             if (!Project(camera, anaTarget, scale, out var rect)) return;
             Gauge(rect, age, fade, sweep);
             if (age < .4f) return;
@@ -236,7 +240,7 @@ namespace BorderRepair.RepairProps
                 tag.anchoredPosition = new Vector2(Mathf.Max(4, rect.xMin - 34 - tag.sizeDelta.x), tag.anchoredPosition.y);
             bool left = tag.anchoredPosition.x < rect.xMin;
             var anchor = tag.anchoredPosition;
-            Leader(new Vector2(left ? rect.xMin : rect.xMax, rect.center.y), new Vector2(left ? anchor.x + tag.sizeDelta.x : anchor.x, anchor.y - 8), ink, "analine:" + anaAt);
+            Leader(new Vector2(left ? rect.xMin : rect.xMax, rect.center.y), new Vector2(left ? anchor.x + tag.sizeDelta.x : anchor.x, anchor.y - 8), ink, anaLineKey);
             if (!anaWave) return;
             // A reading settles: the trace swings wide, then steadies (and stays ragged on a fault).
             float settle = Mathf.Exp(-(age - .4f) * 2.2f);
@@ -265,6 +269,7 @@ namespace BorderRepair.RepairProps
             for (int i = firstWave; i < usedLines; i++) lines[i].transform.SetAsLastSibling();   // above the window's fill
         }
 
+        readonly int[] ring = new int[4];
         const float ScopeHeight = 34;
 
         // Makes room for the scope at the bottom of a read-out window: taller, text pinned to the top, at least 160 wide.
@@ -303,9 +308,10 @@ namespace BorderRepair.RepairProps
         }
 
         // The read-out gives the gist, not the whole log line: the first sentence, cut short.
+        static readonly char[] BriefEnds = { '。', '；', '\n' };
         static string Brief(string body)
         {
-            int end = body.IndexOfAny(new[] { '。', '；', '\n' });
+            int end = body.IndexOfAny(BriefEnds);
             string first = end > 0 ? body.Substring(0, end) : body;
             return first.Length > 20 ? first.Substring(0, 19) + "…" : first;
         }
@@ -345,7 +351,7 @@ namespace BorderRepair.RepairProps
             for (int i = 0; i < order.Count; i++)
             {
                 var prop = order[i];
-                if (prop == null || prop.InHand || !ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var r)) continue;
+                if (prop == null || prop.InHand || !ProjectRenderers(camera, RenderersOf(prop), scale, out var r)) continue;
                 trayShown.Add((i, prop, r));
                 zone = any ? Rect.MinMaxRect(Mathf.Min(zone.xMin, r.xMin), Mathf.Min(zone.yMin, r.yMin), Mathf.Max(zone.xMax, r.xMax), Mathf.Max(zone.yMax, r.yMax)) : r;
                 any = true;
@@ -359,15 +365,15 @@ namespace BorderRepair.RepairProps
                 if (!TrayOpen)
                 {
                     var spot = new Rect(r.center.x - 12, r.yMax + 2, 36, 18);
-                    if (trayRects.Exists(o => o.Overlaps(spot))) continue;   // a louder tag already stands here
+                    if (AnyOverlap(trayRects, spot)) continue;   // a louder tag already stands here
                     // At rest each tool is one small point: its key and pictogram, no box, no leader.
-                    Tag(new Vector2(r.center.x - 12, r.yMax + 2), (i + 1).ToString(), RepairPropCyberStyle.Amber, 12, TextAnchor.LowerLeft, false, VisorIcons.Prop(prop));
+                    Tag(new Vector2(r.center.x - 12, r.yMax + 2), (i < Numbers.Length ? Numbers[i] : (i + 1).ToString()), RepairPropCyberStyle.Amber, 12, TextAnchor.LowerLeft, false, VisorIcons.Prop(prop));
                     continue;
                 }
-                var tag = Tag(new Vector2(r.center.x - 12, r.yMax + 10), (i + 1) + "  " + ShortName(prop), RepairPropCyberStyle.Amber, 11, TextAnchor.LowerLeft, true, VisorIcons.Prop(prop));
+                var tag = Tag(new Vector2(r.center.x - 12, r.yMax + 10), TrayName(i, prop), RepairPropCyberStyle.Amber, 11, TextAnchor.LowerLeft, true, VisorIcons.Prop(prop));
                 // Step up until clear of the labels already placed.
                 var box = new Rect(tag.anchoredPosition, tag.sizeDelta);
-                for (int tries = 0; tries < 6 && trayRects.Exists(o => o.Overlaps(box)); tries++) box.y += tag.sizeDelta.y + 3;
+                for (int tries = 0; tries < 6 && AnyOverlap(trayRects, box); tries++) box.y += tag.sizeDelta.y + 3;
                 tag.anchoredPosition = box.position;
                 trayRects.Add(new Rect(box.x - 3, box.y - 2, box.width + 6, box.height + 4));
                 float x = Mathf.Clamp(r.center.x, box.xMin + 6, box.xMax - 6);
@@ -377,6 +383,14 @@ namespace BorderRepair.RepairProps
         }
         readonly List<(int index, RepairBenchProp prop, Rect rect)> trayShown = new List<(int, RepairBenchProp, Rect)>();
         readonly List<Rect> trayRects = new List<Rect>();
+        static bool AnyOverlap(List<Rect> rects, Rect r) { foreach (var o in rects) if (o.Overlaps(r)) return true; return false; }
+        static readonly string[] Numbers = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16" };
+        readonly Dictionary<RepairBenchProp, (int index, string text)> trayNames = new Dictionary<RepairBenchProp, (int, string)>();
+        string TrayName(int i, RepairBenchProp prop)
+        {
+            if (!trayNames.TryGetValue(prop, out var e) || e.index != i) trayNames[prop] = e = (i, (i + 1) + "  " + ShortName(prop));
+            return e.text;
+        }
 
         // "放大镜（空手检查）" is "放大镜" on a label.
         static string ShortName(RepairBenchProp prop)
@@ -473,7 +487,7 @@ namespace BorderRepair.RepairProps
             TraceTarget = null; TraceToTool = false;
             var takeFirst = TakeProp(next);
             Rect target = default;
-            bool traced = next != null && (takeFirst != null ? ProjectRenderers(camera, takeFirst.GetComponentsInChildren<Renderer>(), scale, out target)
+            bool traced = next != null && (takeFirst != null ? ProjectRenderers(camera, RenderersOf(takeFirst), scale, out target)
                 : Project(camera, next.target, scale, out target));
             if (!ticking && next != null && !cleaningNow && traced)
             {
@@ -499,6 +513,16 @@ namespace BorderRepair.RepairProps
                     }
                 }
             }
+        }
+
+        // The marks' keys ("act:" + part name ...), made once per prefix and name rather than every frame.
+        readonly Dictionary<string, Dictionary<string, string>> keys = new Dictionary<string, Dictionary<string, string>>();
+        string Key(string prefix, string name)
+        {
+            if (!keys.TryGetValue(prefix, out var byName)) keys[prefix] = byName = new Dictionary<string, string>();
+            name ??= "";
+            if (!byName.TryGetValue(name, out var key)) byName[name] = key = prefix + name;
+            return key;
         }
 
         // Seconds since this mark (re)appeared; a mark absent for a quarter second locks on again.
@@ -530,7 +554,7 @@ namespace BorderRepair.RepairProps
         readonly Vector3[] box3 = new Vector3[8];
         readonly Vector2[] box2 = new Vector2[8];
 
-        bool OrientedBox(IEnumerable<MeshFilter> filters, Transform frame, float grow)
+        bool OrientedBox(List<MeshFilter> filters, Transform frame, float grow)
         {
             if (frame == null) return false;
             bool any = false; Vector3 min = default, max = default;
@@ -558,7 +582,12 @@ namespace BorderRepair.RepairProps
             return parked != null && parked.gameObject.activeInHierarchy ? parked : owner.Flow.GetObject(target);
         }
 
-        bool TargetBox(string target, float grow) => OrientedBox(Meshes(target).Select(m => m.filter), Frame(target), grow);
+        bool TargetBox(string target, float grow)
+        {
+            filterList.Clear();
+            foreach (var (filter, _) in Meshes(target)) filterList.Add(filter);
+            return OrientedBox(filterList, Frame(target), grow);
+        }
 
         /// <summary>The pointer tag for the sticker under the pointer, or null.</summary>
         public string LabelHint { get; private set; }
@@ -621,6 +650,23 @@ namespace BorderRepair.RepairProps
             for (int i = usedTags; i < tags.Count; i++) if (tags[i].rect.gameObject.activeSelf) tags[i].rect.gameObject.SetActive(false);
         }
 
+        // Which parts have a command that can run now. Asking the flow is a check of every command, so the answer is
+        // kept until the history or the tool in hand changes, or a quarter second passes.
+        readonly HashSet<string> actionable = new HashSet<string>();
+        int actionableHistory = -1; RepairActionType? actionableTool; float actionableUntil; RepairPropFlow actionableFlow;
+        bool Actionable(RepairPropFlow flow, string target)
+        {
+            var tool = owner.Station.ActiveTool;
+            if (flow != actionableFlow || flow.History.Count != actionableHistory || tool != actionableTool || Time.unscaledTime >= actionableUntil)
+            {
+                actionableFlow = flow; actionableHistory = flow.History.Count; actionableTool = tool; actionableUntil = Time.unscaledTime + .25f;
+                actionable.Clear();
+                foreach (var c in flow.Definition.commands)
+                    if (!actionable.Contains(c.target) && flow.CanExecute(c.id, c.target, c.tool, out _)) actionable.Add(c.target);
+            }
+            return actionable.Contains(target);
+        }
+
         void Draw()
         {
             var flow = owner.Flow;
@@ -652,15 +698,15 @@ namespace BorderRepair.RepairProps
             foreach (var node in d.nodes)
             {
                 if (node.objectName == d.rootObjectName || node.objectName == owner.SelectedTarget || node.objectName == HoveredTarget) continue;
-                if (!RepairPropWorkflowStatus.HasAvailableCommand(flow, node.objectName)) continue;
-                if (TargetBox(node.objectName, 1.04f)) LockBox(camera, scale, RepairPropCyberStyle.HotDim, .22f, "act:" + node.objectName);
+                if (!Actionable(flow, node.objectName)) continue;
+                if (TargetBox(node.objectName, 1.04f)) LockBox(camera, scale, RepairPropCyberStyle.HotDim, .22f, Key("act:", node.objectName));
             }
 
             // Whole item: thin corner frame with the case and phase.
             var phase = RepairPropWorkflowStatus.Phase(flow);
             if (Project(camera, d.rootObjectName, scale, out var itemRect))
             {
-                if (TargetBox(d.rootObjectName, 1.06f)) LockBox(camera, scale, RepairPropCyberStyle.AmberDim, .12f, "item:" + d.rootObjectName);
+                if (TargetBox(d.rootObjectName, 1.06f)) LockBox(camera, scale, RepairPropCyberStyle.AmberDim, .12f, Key("item:", d.rootObjectName));
             }
 
             // Suggested next step: pulsing amber marks on its target, a callout with the command and the tool to use.
@@ -672,13 +718,13 @@ namespace BorderRepair.RepairProps
                 var color = RepairPropCyberStyle.Amber; color.a = later ? .38f : pulse;
                 bool whole = next.target == d.rootObjectName;
                 var box = whole ? Grow(nextRect, 18) : Grow(nextRect, 6);
-                if (TargetBox(next.target, whole ? 1.10f : 1.08f)) LockBox(camera, scale, color, whole ? .14f : .3f, "next:" + next.target);
+                if (TargetBox(next.target, whole ? 1.10f : 1.08f)) LockBox(camera, scale, color, whole ? .14f : .3f, Key("next:", next.target));
                 var tool = owner.Station.ActiveTool;
                 string toolHint = tool == next.tool ? "" : "　[" + RepairActionText.Label(next.tool).Replace(" ", "") + "]";
                 var anchor = new Vector2(box.xMax + 26, box.yMax + 20);
                 if (!later)
                 {
-                    Leader(new Vector2(box.xMax, box.yMax), anchor + new Vector2(0, -6), color, "nextline:" + next.target);
+                    Leader(new Vector2(box.xMax, box.yMax), anchor + new Vector2(0, -6), color, Key("nextline:", next.target));
                     Tag(anchor, "▶ " + next.label, color, 13, TextAnchor.LowerLeft, true, VisorIcons.Command(next));   // where; the header says what and with which tool
                 }
             }
@@ -693,7 +739,7 @@ namespace BorderRepair.RepairProps
                 var from = new Vector2(selRect.xMin, selRect.yMin);
                 // Never under the hint bar: flip above the part instead.
                 if (anchor.y - 40 < bandTop) { anchor.y = selRect.yMax + 52; from.y = selRect.yMax; }
-                Leader(from, anchor + new Vector2(140, -8), RepairPropCyberStyle.Amber, "selline:" + owner.SelectedTarget);
+                Leader(from, anchor + new Vector2(140, -8), RepairPropCyberStyle.Amber, Key("selline:", owner.SelectedTarget));
                 Tag(anchor, "▣ " + (node != null ? node.displayName : owner.SelectedTarget) + "\n" + state, RepairPropCyberStyle.Amber, 12, TextAnchor.UpperLeft, true);
             }
 
@@ -709,7 +755,7 @@ namespace BorderRepair.RepairProps
                 ToolPreview = command != null ? "左键 ▶ " + command.label : "✕ " + why;
                 var color = command != null ? RepairPropCyberStyle.Ok : RepairPropCyberStyle.Bad;
                 var previewIcon = command != null ? VisorIcons.Command(command) : VisorIcons.Get("cross");
-                if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && TargetBox(HoveredTarget, 1.04f)) LockBox(camera, scale, color, .3f, "hover:" + HoveredTarget);
+                if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && TargetBox(HoveredTarget, 1.04f)) LockBox(camera, scale, color, .3f, Key("hover:", HoveredTarget));
                 var node = d.FindNode(toolTarget);
                 // While a reading plays on the item the cursor tag steps aside, so the two read-outs never stack.
                 if (!Analysing)
@@ -717,7 +763,7 @@ namespace BorderRepair.RepairProps
             }
             else if (HoveredTarget != null && HoveredTarget != owner.SelectedTarget && TargetBox(HoveredTarget, 1.04f))
             {
-                LockBox(camera, scale, VisorIcons.Scan, .3f, "hover:" + HoveredTarget);
+                LockBox(camera, scale, VisorIcons.Scan, .3f, Key("hover:", HoveredTarget));
                 var node = d.FindNode(HoveredTarget);
                 Tag(pointer / scale + new Vector2(16, -10), node != null ? node.displayName : HoveredTarget, VisorIcons.Scan, 12, TextAnchor.UpperLeft, true, VisorIcons.Get("loupe"));
             }
@@ -740,8 +786,8 @@ namespace BorderRepair.RepairProps
                 }
 
             // Bench prop under the pointer: corner marks around it (one box) and what a click does.
-            if (HoveredProp != null && OrientedBox(HoveredProp.GetComponentsInChildren<MeshFilter>(), HoveredProp.transform, 1.05f))
-                LockBox(camera, scale, HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.PropColor(HoveredProp) : RepairPropCyberStyle.Hot, .28f, "hoverprop:" + HoveredProp.name);
+            if (HoveredProp != null && OrientedBox(FiltersOf(HoveredProp), HoveredProp.transform, 1.05f))
+                LockBox(camera, scale, HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.PropColor(HoveredProp) : RepairPropCyberStyle.Hot, .28f, Key("hoverprop:", HoveredProp.name));
             if (HoveredProp != null)
                 Tag(pointer / scale + new Vector2(16, -10), HoveredProp.Hint, HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.PropColor(HoveredProp) : RepairPropCyberStyle.Hot, 12, TextAnchor.UpperLeft, true,
                     HoveredProp.Kind == RepairBenchPropKind.Tool ? VisorIcons.Prop(HoveredProp) : null);
@@ -750,7 +796,7 @@ namespace BorderRepair.RepairProps
             trayRects.Clear();
             if (bench != null)
                 foreach (var prop in bench.Props)
-                    if (prop.Kind == RepairBenchPropKind.Tool && prop.Lifted && !prop.InHand && prop != HoveredProp && ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var toolRect))
+                    if (prop.Kind == RepairBenchPropKind.Tool && prop.Lifted && !prop.InHand && prop != HoveredProp && ProjectRenderers(camera, RenderersOf(prop), scale, out var toolRect))
                     {
                         var heldTag = Tag(new Vector2(toolRect.xMin, toolRect.yMax + 8), "手持 · " + ShortName(prop), RepairPropCyberStyle.Dim, 10, TextAnchor.LowerLeft, false, VisorIcons.Prop(prop));
                         trayRects.Add(new Rect(heldTag.anchoredPosition - new Vector2(3, 2), heldTag.sizeDelta + new Vector2(6, 4)));
@@ -761,11 +807,11 @@ namespace BorderRepair.RepairProps
                 foreach (var prop in bench.Props)
                 {
                     if (prop.Kind != RepairBenchPropKind.Terminal || prop == HoveredProp) continue;
-                    if (!ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var termRect)) continue;
+                    if (!ProjectRenderers(camera, RenderersOf(prop), scale, out var termRect)) continue;
                     if (owner.NeedsPurchase)
                     {
                         var buy = RepairPropCyberStyle.Amber; buy.a = pulse;
-                        if (OrientedBox(prop.GetComponentsInChildren<MeshFilter>(), prop.transform, 1.15f)) LockBox(camera, scale, buy, .3f, "buy:" + prop.name);
+                        if (OrientedBox(FiltersOf(prop), prop.transform, 1.15f)) LockBox(camera, scale, buy, .3f, Key("buy:", prop.name));
                         var buyTag = Tag(new Vector2(termRect.xMin, termRect.yMax + 8), "缺件 ▶ 点这台电脑采购", buy, 12, TextAnchor.LowerLeft, true, VisorIcons.Get("chip"));
                         trayRects.Add(new Rect(buyTag.anchoredPosition - new Vector2(3, 2), buyTag.sizeDelta + new Vector2(6, 4)));
                     }
@@ -780,10 +826,10 @@ namespace BorderRepair.RepairProps
                 foreach (var prop in bench.Props)
                 {
                     if (prop.Kind != RepairBenchPropKind.Tool || prop.IsCleaner || prop.IsPainter || prop.Tool != next.tool || prop.InHand) continue;
-                    if (!ProjectRenderers(camera, prop.GetComponentsInChildren<Renderer>(), scale, out var takeRect)) continue;
+                    if (!ProjectRenderers(camera, RenderersOf(prop), scale, out var takeRect)) continue;
                     ToolToTake = prop;
                     var take = VisorIcons.PropColor(prop); take.a = pulse;
-                    if (OrientedBox(prop.GetComponentsInChildren<MeshFilter>(), prop.transform, 1.1f)) LockBox(camera, scale, take, .3f, "take:" + prop.name);
+                    if (OrientedBox(FiltersOf(prop), prop.transform, 1.1f)) LockBox(camera, scale, take, .3f, Key("take:", prop.name));
                     if (prop != HoveredProp) { var takeTag = Tag(new Vector2(takeRect.xMin, takeRect.yMax + 8), "拿这个 ▶ " + prop.Label, take, 12, TextAnchor.LowerLeft, true, VisorIcons.Prop(prop)); trayRects.Add(new Rect(takeTag.anchoredPosition - new Vector2(3, 2), takeTag.sizeDelta + new Vector2(6, 4))); }
                 }
             if (bench != null) TrayLabels(camera, scale, bench);
@@ -794,7 +840,7 @@ namespace BorderRepair.RepairProps
             readout.rectTransform.anchoredPosition = new Vector2(right / 2, size.y - 22);
             readout.rectTransform.sizeDelta = new Vector2(Mathf.Min(right - 80, 820), 40);
             readout.alignment = TextAnchor.UpperCenter;
-            readout.text = "SCAN // " + RepairPropText.Item(d.kind) + "　" + string.Join("　", d.tests.Select(t =>
+            if (readout.enabled) readout.text = "SCAN // " + RepairPropText.Item(d.kind) + "　" + string.Join("　", d.tests.Select(t =>
                 t.label + " [" + RepairPropWorkflowStatus.TestStatusLabel(flow, t, RepairPropWorkflowStatus.TestStatus(flow, t, owner.TestJournal)) + "]"));
 
             // Bottom hint, centred over the free view (left of the panel): the suggested step and its tool when there
@@ -838,8 +884,13 @@ namespace BorderRepair.RepairProps
             Pin(visorId.rectTransform, new Vector2(22, 40), Vector2.zero, new Vector2(360, 16));
             var session = owner.Station.Session;
             var state = BorderRepair.TwoNight.TwoNightRun.Current;
-            clock.text = "N" + (state != null ? Mathf.Max(1, state.night) : 1) + " // T+" + RepairUIView.FormatTime(session.ShiftDuration)
-                + "  CASE " + (session.CaseIndex + 1) + "/" + session.CaseCount;
+            // (rebuilt when a figure in it changes, not every frame)
+            var clockNow = (state != null ? Mathf.Max(1, state.night) : 1, Mathf.FloorToInt(session.ShiftDuration), session.CaseIndex, session.CaseCount);
+            if (clockNow != clockShown)
+            {
+                clockShown = clockNow;
+                clock.text = "N" + clockNow.Item1 + " // T+" + RepairUIView.FormatTime(session.ShiftDuration) + "  CASE " + (session.CaseIndex + 1) + "/" + session.CaseCount;
+            }
             clock.color = new Color(1f, .62f, .16f, Mathf.Repeat(Time.unscaledTime, 1.6f) < 1.1f ? .45f : .25f);
             Pin(clock.rectTransform, new Vector2(22, 22), Vector2.zero, new Vector2(320, 16));
             if (ticker.gameObject.activeSelf) ticker.gameObject.SetActive(false);   // decluttered: the hex column competed with the windows
@@ -864,15 +915,22 @@ namespace BorderRepair.RepairProps
             rect.anchoredPosition = position; rect.sizeDelta = size;
         }
 
+        // GetComponentInParent without the editor's error string when there is none (the pointer is mostly on other things).
+        static T InParent<T>(Transform t) where T : Component
+        {
+            for (; t != null; t = t.parent) if (t.gameObject.activeInHierarchy && t.TryGetComponent<T>(out var c)) return c;
+            return null;
+        }
+
         string Pick(Vector2 point)
         {
             var camera = owner.Station.Inspector.ViewCamera;
             Physics.SyncTransforms();
             if (Physics.Raycast(camera.ScreenPointToRay(point), out var hit, 10, ~0, QueryTriggerInteraction.Ignore))
             {
-                var parked = hit.transform.GetComponentInParent<RepairPropParkedPart>();
+                var parked = InParent<RepairPropParkedPart>(hit.transform);
                 if (parked != null && parked.Owner == owner.Flow) return parked.Target;
-                HoveredProp = hit.transform.GetComponentInParent<RepairBenchProp>();
+                HoveredProp = InParent<RepairBenchProp>(hit.transform);
                 if (HoveredProp != null) return null;
             }
             bool hitItem = false;
@@ -883,20 +941,40 @@ namespace BorderRepair.RepairProps
         }
 
         // Renderers that currently show a node: its parked proxy when it lies on the bench, else the item's own meshes.
-        IEnumerable<(MeshFilter filter, Renderer renderer)> Meshes(string target)
+        // (Filled into one shared list that the caller reads straight away: the overlay draws every frame and should
+        // leave no garbage behind.)
+        readonly List<(MeshFilter filter, Renderer renderer)> meshList = new List<(MeshFilter, Renderer)>();
+        readonly List<MeshFilter> meshFilters = new List<MeshFilter>();
+        readonly List<MeshFilter> filterList = new List<MeshFilter>();
+        readonly List<Renderer> rendererList = new List<Renderer>();
+
+        List<(MeshFilter filter, Renderer renderer)> Meshes(string target)
         {
+            meshList.Clear();
             var parked = owner.BenchPresentation != null ? owner.BenchPresentation.ParkedVisual(target) : null;
             Transform source = parked != null && parked.gameObject.activeInHierarchy ? parked : owner.Flow.GetObject(target);
-            if (source == null) yield break;
+            if (source == null) return meshList;
             var attachments = parked == source ? null : Attachments(target);
-            foreach (var filter in source.GetComponentsInChildren<MeshFilter>())
+            source.GetComponentsInChildren(meshFilters);
+            foreach (var filter in meshFilters)
             {
-                var renderer = filter.GetComponent<Renderer>();
+                filter.TryGetComponent<Renderer>(out var renderer);
                 if (filter.sharedMesh == null || renderer == null || !renderer.enabled || !renderer.gameObject.activeInHierarchy) continue;
-                if (attachments != null && attachments.Exists(a => a != source && filter.transform.IsChildOf(a))) continue;
-                yield return (filter, renderer);
+                if (attachments != null && UnderAttachment(attachments, source, filter.transform)) continue;
+                meshList.Add((filter, renderer));
             }
+            meshFilters.Clear();
+            return meshList;
         }
+
+        static bool UnderAttachment(List<Transform> attachments, Transform source, Transform t)
+        {
+            foreach (var a in attachments) if (a != source && t.IsChildOf(a)) return true;
+            return false;
+        }
+
+        List<Renderer> RenderersOf(Component c) { c.GetComponentsInChildren(rendererList); return rendererList; }
+        List<MeshFilter> FiltersOf(Component c) { c.GetComponentsInChildren(filterList); return filterList; }
 
         // Sub-parts that only show in some state (a test lead hanging out while the item is on the fixture): they belong to
         // their own box, not to the parent's, or the parent's frame stretches out over empty bench.
@@ -956,7 +1034,7 @@ namespace BorderRepair.RepairProps
             return any;
         }
 
-        bool ProjectRenderers(Camera camera, Renderer[] renderers, float scale, out Rect rect)
+        bool ProjectRenderers(Camera camera, List<Renderer> renderers, float scale, out Rect rect)
         {
             bool any = false; Vector2 min = default, max = default;
             foreach (var renderer in renderers)
@@ -1003,12 +1081,14 @@ namespace BorderRepair.RepairProps
         void Brackets(Rect r, Color color, float arm)
         {
             arm = Mathf.Min(arm, Mathf.Max(3, Mathf.Min(r.width, r.height) * Bracket * 2));
-            foreach (var (c, dx, dy) in new[] { (new Vector2(r.xMin, r.yMin), 1, 1), (new Vector2(r.xMax, r.yMin), -1, 1),
-                (new Vector2(r.xMin, r.yMax), 1, -1), (new Vector2(r.xMax, r.yMax), -1, -1) })
-            {
-                Line(c, c + new Vector2(dx * arm, 0), color);
-                Line(c, c + new Vector2(0, dy * arm), color);
-            }
+            Corner(new Vector2(r.xMin, r.yMin), 1, 1, arm, color); Corner(new Vector2(r.xMax, r.yMin), -1, 1, arm, color);
+            Corner(new Vector2(r.xMin, r.yMax), 1, -1, arm, color); Corner(new Vector2(r.xMax, r.yMax), -1, -1, arm, color);
+        }
+
+        void Corner(Vector2 c, float dx, float dy, float arm, Color color)
+        {
+            Line(c, c + new Vector2(dx * arm, 0), color);
+            Line(c, c + new Vector2(0, dy * arm), color);
         }
 
         void Line(Vector2 a, Vector2 b, Color color)
@@ -1059,6 +1139,7 @@ namespace BorderRepair.RepairProps
                 picture.anchoredPosition = new Vector2(6, -4); picture.sizeDelta = new Vector2(12, 12);
                 var pictureImage = picture.gameObject.AddComponent<Image>(); pictureImage.raycastTarget = false;
                 tagIcons.Add(pictureImage);
+                tagSizes.Add((null, 0, 0, 0));
             }
             var tagIcon = tagIcons[usedTags];
             usedTags++;
@@ -1067,7 +1148,10 @@ namespace BorderRepair.RepairProps
             if (icon != null) { tagIcon.sprite = icon; tagIcon.color = color; }
             tag.text.rectTransform.offsetMin = new Vector2(icon != null ? 23 : 7, 3);
             tag.text.text = text; tag.text.fontSize = size; tag.text.color = color; tag.text.alignment = TextAnchor.MiddleLeft;
-            float width = tag.text.preferredWidth + (icon != null ? 30 : 14), height = Mathf.Max(tag.text.preferredHeight + 6, icon != null ? 20 : 0);
+            var measured = tagSizes[usedTags - 1];
+            if (!ReferenceEquals(measured.text, text) && measured.text != text || measured.size != size)
+                tagSizes[usedTags - 1] = measured = (text, size, tag.text.preferredWidth, tag.text.preferredHeight);
+            float width = measured.w + (icon != null ? 30 : 14), height = Mathf.Max(measured.h + 6, icon != null ? 20 : 0);
             tag.rect.pivot = anchor == TextAnchor.UpperLeft ? new Vector2(0, 1) : new Vector2(0, 0);
             var area = root.rect.size;
             float maxX = Mathf.Min(area.x, tagRight > 0 ? tagRight : area.x) - width - 4;
