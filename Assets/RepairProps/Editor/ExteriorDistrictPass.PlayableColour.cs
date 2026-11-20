@@ -258,7 +258,7 @@ namespace BorderRepair.RepairProps.EditorTools
             var air = holder.GetComponentInChildren<DistrictAtmosphere>(true) ?? Object.FindFirstObjectByType<DistrictAtmosphere>();
             if (air != null)
             {
-                air.harbourFog = 1.3f; air.harbourFromX = -12f; air.harbourFullX = -22f;
+                air.harbourFog = 1.7f; air.harbourFromX = -12f; air.harbourFullX = -22f;
                 EditorUtility.SetDirty(air);
                 done.Add("harbour fog x" + air.harbourFog + " from x " + air.harbourFromX + " to " + air.harbourFullX + " (fog " + air.fogDensity.ToString("F3") + ", " + ColorUtility.ToHtmlStringRGB(air.fogColour) + ")");
             }

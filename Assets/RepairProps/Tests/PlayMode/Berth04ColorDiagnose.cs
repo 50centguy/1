@@ -170,6 +170,9 @@ namespace BorderRepair.RepairProps.Tests
             shots.Add(("detail - street, clinic side east", new Vector3(9.0f, 1.35f, -11.8f), 25, 6));
             shots.Add(("detail - street, the pole line", new Vector3(-12f, 1.35f, -12.5f), 82, -12));
             shots.Add(("detail - harbour, the cranes across the basin", new Vector3(-46f, 1.35f, -7f), 318, -12));
+            shots.Add(("detail - street, the clinic block rising", new Vector3(2.0f, 1.35f, -13.6f), 0, -32));
+            shots.Add(("detail - street, the infill west of the clinic", new Vector3(-6.0f, 1.35f, -12.5f), 312, -8));
+            shots.Add(("detail - street, the east end, north side", new Vector3(12.0f, 1.35f, -12.5f), 48, -8));
             foreach (var v in join.Outdoor.reviewViews.Where(v => v.position.y > .5f && v.position.y < 10 && !v.name.StartsWith("Counter") && !v.name.StartsWith("Main Camera")))
             {
                 var e = v.rotation.eulerAngles;

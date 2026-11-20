@@ -60,6 +60,7 @@ namespace BorderRepair.RepairProps.EditorTools
                 WidenSurgeryBay(holder);
                 BackRoom(holder);
                 StreetSide(holder);
+                StreetWall(holder);
                 var motion = holder.GetComponentInChildren<DistrictMotion>(true);
                 if (motion != null) { motion.origin = PlayableOffset; motion.Evaluate(0); }
                 atmosphere.offset = PlayableOffset;
@@ -82,10 +83,10 @@ namespace BorderRepair.RepairProps.EditorTools
                 FarFill(holder);
                 B1Cyber(holder);
                 NightDetails(holder);
-                HarbourCranes(holder);
                 FarDepth(holder);
                 CraneDetail(holder);
                 GlowFix(holder);
+                SmallerRedLamps(holder);
 
                 EditorSceneManager.MarkSceneDirty(scene);
                 EditorSceneManager.SaveScene(scene, PlayableDistrict);
